@@ -1,0 +1,80 @@
+﻿-- 2019-05-23 
+SELECT * FROM com.obj_codifier;
+DELETE FROM com.obj_codifier;
+--- SELECT * FROM com_codifier.com_f_obj_codifier_s_sys ();	
+-- -------------------------------------------------------------------------------
+--  SELECT * FROM com_codifier.obj_p_codifier_i ( NULL, NULL, NULL, NULL );
+--  NOTICE:  (60000,"",obj_p_codifier_i,"","","","",60000,"","","PL/pgSQL function obj_p_codifier_i(t_str60,t_str60,t_str250,t_guid,t_code1,t_timestamp,t_timestamp) line 22 at RAISE")
+--  'Все параметры являются обязательными, NULL значения запрещены. Ошибка произошла в функции: "obj_p_codifier_i".'
+-- ---------- 2019-05-22
+--  SELECT * FROM com_codifier.obj_p_codifier_i ( NULL, 'C_XX', 'XX_NAME', NEWID() );
+--  'Необработанная ошибка: код = 42P01, текст = relation "com_codifier.obj_codifier_codif_id_seq" does not exist
+--	Контекст: PL/pgSQL function obj_p_codifier_i(t_str60,t_str60,t_str250,t_guid,t_code1,t_timestamp,t_timestamp) line 54 at assignment'
+--  2|'Создание экземпляра кодификатора выполнено успешно'
+-- select * from com.obj_codifier; -- '86d457b0-dabc-4080-bdaf-97e19f07e3c8'
+--
+-- SELECT * FROM com_codifier.obj_p_codifier_i ( NULL, 'C_XX', 'XX_NAME', '86d457b0-dabc-4080-bdaf-97e19f07e3c8');
+--
+-- -1|'Нарушено ограничение уникальности: дублируется «Код записи»
+-- 	Детали: Key (codif_code)=(C_XX) already exists.
+-- 	Контекст: SQL statement "INSERT INTO com.obj_codifier (  
+--                  parent_codif_id
+--                 ,small_code
+--                 ,codif_code
+--                 ,codif_name
+--                  --
+--                 ,date_from    
+--                 ,date_to      
+--                 ,codif_uuid   
+-- 				,id_log
+--          )
+--          VALUES
+--               (  _parent_codif_id
+--                 ,p_scode  
+--                 ,_code 
+--                 ,_name 
+--                  --
+--                 ,p_date_from    
+--                
+--                 ,p_date_to      
+--                 ,p_codif_uuid   
+-- 				,NULL
+--               )"
+-- PL/pgSQL function obj_p_codifier_i(t_str60,t_str60,t_str250,t_guid,t_code1,t_timestamp,t_timestamp) line 31 at SQL statement'
+-- -----------------------------------------------------------------------------------------------------------------------------
+-- NOTICE:  (23505,com,obj_p_codifier_i,obj_codifier
+--                ,ak1_obj_codifier
+--                ,""  -- column name
+--                ,"", -- pg_data_type
+--                "duplicate key value violates unique constraint ""ak1_obj_codifier"""
+--                ,"Key (codif_code)=(C_XX) already exists."
+--                ,"","SQL statement ""INSERT INTO com.obj_codifier (  
+--                  parent_codif_id
+--                 ,small_code
+--                 ,codif_code
+--                 ,codif_name
+--                  --
+--                 ,date_from    
+--                 ,date_to      
+--                 ,codif_uuid   
+-- 				,id_log
+--          )
+--          VALUES
+--               (  _parent_codif_id
+--                 ,p_scode  
+--                 ,_code 
+--                 ,_name 
+--                  --
+--                 ,p_date_from    
+--                 ,p_date_to      
+--                 ,p_codif_uuid   
+-- 				,NULL
+--               )""
+-- PL/pgSQL function obj_p_codifier_i(t_str60,t_str60,t_str250,t_guid,t_code1,t_timestamp,t_timestamp) line 31 at SQL statement")
+-- Total query runtime: 43 msec
+-- 1 строка получена.
+-- 
+
+-- -1|'Все параметры являются обязательными, NULL значения запрещены
+-- 	Контекст: PL/pgSQL function obj_p_codifier_i(t_str60,t_str60,t_str250,t_guid,t_code1,t_timestamp,t_timestamp) line 22 at RAISE'
+	

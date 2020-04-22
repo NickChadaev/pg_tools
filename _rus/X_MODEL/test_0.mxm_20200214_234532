@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?><Model version="5.0">
+    <Configuration>
+        <Property name="dialect" value="PostgresDialect"/>
+        <Property name="ALIAS" value="db_k"/>
+        <Property name="DRIVER" value="org.postgresql.Driver"/>
+        <Property name="PASSWORD" value=""/>
+        <Property name="PROMPTFORPASSWORD" value="false"/>
+        <Property name="URL" value="jdbc:postgresql://192.168.56.101:5432/db_k"/>
+        <Property name="USER" value="postgres"/>
+    </Configuration>
+    <CustomTypes/>
+    <Domains>
+        <Domain datatype="bigint" fraction="" id="a2aafbf7-56c4-4e5d-a4a9-40841db5b18a" name="public.id_t" nullable="true" scale="10" size="">
+            <Comment>Идентификатор</Comment>
+        </Domain>
+        <Domain datatype="inet" fraction="" id="7005005c-2d01-4d09-b734-8563d98bb6e3" name="public.ip_t" nullable="true" scale="10" size="">
+            <Comment>IP адрес</Comment>
+        </Domain>
+        <Domain datatype="smallint" fraction="" id="fc9d25e5-6e69-4326-a533-b7eaf3217868" name="public.small_t" nullable="true" scale="10" size="">
+            <Comment>Короткое целое</Comment>
+        </Domain>
+        <Domain datatype="integer" fraction="" id="243b7058-ad72-4510-b2af-79c921092450" name="public.t_int" nullable="true" scale="10" size="">
+            <Comment>Целое</Comment>
+        </Domain>
+        <Domain datatype="bigint" fraction="" id="c20b4e40-46c1-4fc5-9fde-df499c79a9c7" name="public.longint_t" nullable="true" scale="10" size="">
+            <Comment>Длинное целое</Comment>
+        </Domain>
+        <Domain datatype="bytea" fraction="" id="db7f741f-84c7-4102-b6fd-eb9d7db28f0a" name="public.t_blob" nullable="true" scale="10" size="">
+            <Comment>Нестуктурированная бинарная информация</Comment>
+        </Domain>
+        <Domain datatype="boolean" fraction="" id="60a7f1b6-27b9-4dc2-a8c0-f7c7e525e02f" name="public.t_boolean" nullable="true" scale="10" size="">
+            <Comment>Логическое</Comment>
+        </Domain>
+        <Domain datatype="character" fraction="" id="1a07e1b7-e80d-470d-be33-a87f21ea65f3" name="public.t_code1" nullable="true" scale="10" size="1">
+            <Comment>Код размерностью 1 символ</Comment>
+        </Domain>
+        <Domain datatype="character" fraction="" id="8340fd6c-6a6e-410c-bc8e-40793fbc5afc" name="public.t_code2" nullable="true" scale="10" size="2">
+            <Comment>Код размерностью 2 символа</Comment>
+        </Domain>
+        <Domain datatype="character" fraction="" id="f87b9537-4779-4998-90d3-2b3631e3fa72" name="public.t_code5" nullable="true" scale="10" size="5">
+            <Comment>Код размерностью 5 символов</Comment>
+        </Domain>
+        <Domain datatype="uuid" fraction="" id="03d88ec2-fda1-4ecf-aec7-c8e2674806f2" name="public.t_guid" nullable="true" scale="10" size="">
+            <Comment>UUID</Comment>
+        </Domain>
+        <Domain datatype="character varying" fraction="" id="ca4774fb-3286-4e7d-b535-12f6f8e6becd" name="public.t_str1024" nullable="true" scale="10" size="1024">
+            <Comment>Строка 1024 символов</Comment>
+        </Domain>
+        <Domain datatype="character varying" fraction="" id="29b2ad6a-62ef-4da5-ba11-6bd09bf1a8f6" name="public.t_str2048" nullable="true" scale="10" size="2048">
+            <Comment>Строка размерностью 2048 символов</Comment>
+        </Domain>
+    </Domains>
+    <Tables/>
+    <Relations/>
+    <Views/>
+    <Subjectareas/>
+    <Comments/>
+</Model>

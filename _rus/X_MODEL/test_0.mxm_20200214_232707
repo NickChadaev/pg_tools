@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?><Model version="5.0">
+    <Configuration>
+        <Property name="dialect" value="PostgresDialect"/>
+        <Property name="ALIAS" value="db_k"/>
+        <Property name="DRIVER" value="org.postgresql.Driver"/>
+        <Property name="PASSWORD" value=""/>
+        <Property name="PROMPTFORPASSWORD" value="false"/>
+        <Property name="URL" value="jdbc:postgresql://192.168.56.101:5432/db_k"/>
+        <Property name="USER" value="postgres"/>
+    </Configuration>
+    <CustomTypes/>
+    <Domains>
+        <Domain datatype="bigint" fraction="" id="a2aafbf7-56c4-4e5d-a4a9-40841db5b18a" name="public.id_t" nullable="true" scale="10" size=""/>
+    </Domains>
+    <Tables/>
+    <Relations/>
+    <Views/>
+    <Subjectareas/>
+    <Comments/>
+</Model>

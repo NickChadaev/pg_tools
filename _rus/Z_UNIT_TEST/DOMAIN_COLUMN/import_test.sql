@@ -1,0 +1,335 @@
+﻿-- ----------------------
+--  2019-07-12
+-- ----------------------
+SELECT utl.f_debug_on();
+SELECT * FROM plpgsql_check_function_tb ('com_exchange.com_p_nso_domain_column_import_xml (public.t_filename, public.t_text)');
+-- 'com_exchange.com_p_nso_domain_column_import_xml'|43|'SQL statement'|'42P01'|'relation "_tbl_xml" does not exist'|''|''|'error'|13|'INSERT INTO _tbl_xml(data) VALUES (p_xml::xml)'|''
+
+SELECT * FROM plpgsql_show_dependency_tb ('com_exchange.com_p_nso_domain_column_import_xml (public.t_filename, public.t_text)');
+--------------------------------------------------------------------------------------------------------------------------------
+-- 'FUNCTION'|18118|'com'      |'com_p_com_log_i' |'(t_code1,t_text)'
+-- 'FUNCTION'|18160|'com_error'|'f_error_handling'|'(exception_type_t,t_sysname)'
+-- 'FUNCTION'|18041|'public'   |'xpath_table'     |'(text,text,text,text,text)'
+-- 'FUNCTION'|18207|'utl'      |'f_debug_status'  |'()'
+-------------------------
+select * from pg_settings where (name ~* 'shared');
+--- 'shared_preload_libraries'|'plpgsql,plpgsql_check'|''|'Client Connection Defaults / Shared Library Preloading'  !!!
+
+SELECT * FROM com_exchange.com_p_nso_domain_column_import_xml ('/tmp/com_nso_domain_column_APP_NODE_2018-03-02-11-58-45.xml');
+----
+-- NOTICE:  table "_tbl_xml" does not exist, skipping
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, COPY _tbl_xml(data) FROM '/tmp/com_nso_domain_column_APP_NODE_2018-03-02-11-58-45.xml' ENCODING 'UTF8'
+-- NOTICE:  table "_tbl_nso_object" does not exist, skipping
+-- NOTICE:  <com_p_nso_domain_column_import_xml> EXISTS nso_object NSO_ROOT (T)
+-- NOTICE:  <com_p_nso_domain_column_import_xml> EXISTS nso_object NSO_SPR (T)
+-- NOTICE:  <com_p_nso_domain_column_import_xml> EXISTS nso_object NSO_CLASS (T)
+-- NOTICE:  <com_p_nso_domain_column_import_xml> EXISTS nso_object SPR_LOCAL (T)
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object CL_RF (T) of "(NSO_CLASS,C_NSO_NODE,CL_RF,"Общероссийские классификаторы",d2e87126-b0bf-4809-8df5-d72d48b983b9,t,"2015-10-12 14:02:07","9999-12-31 00:00:00",T)"
+-- ERROR:  returned record type does not match expected record type
+-- ПОДРОБНОСТИ:  Returned type text does not match expected type character varying(2048) in column 2.
+-- КОНТЕКСТ:  PL/pgSQL function com_p_nso_domain_column_import_xml(t_filename,t_text) while casting return value to function's return type
+-- 
+-- ********** Ошибка **********
+-- 
+-- ERROR: returned record type does not match expected record type
+-- SQL-состояние: 42804
+-- ----------------------------------------------------------------
+-- (NSO_CLASS,C_NSO_NODE,CL_RF,"Общероссийские классификаторы",d2e87126-b0bf-4809-8df5-d72d48b983b9,t,"2015-10-12 14:02:07","9999-12-31 00:00:00",T)"
+-- SELECT * FROM nso_struct.nso_p_object_i (   -- Было пропущено plpgsql_check
+--                        'NSO_CLASS'
+--                       ,'C_NSO_NODE'
+--                       ,'CL_RF'
+--                       ,'Общероссийские классификаторы'
+--                       ,'d2e87126-b0bf-4809-8df5-d72d48b983b9'
+--                       ,true
+--                );
+--
+SELECT * FROM com.com_f_com_log_s ();
+SELECT * FROM nso.nso_f_nso_log_s ();
+
+-- NOTICE:  table "_tbl_xml" does not exist, skipping
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, COPY _tbl_xml(data) FROM '/tmp/com_nso_domain_column_APP_NODE_2018-03-02-11-58-45.xml' ENCODING 'UTF8'
+-- NOTICE:  table "_tbl_nso_object" does not exist, skipping
+-- NOTICE:  <com_p_nso_domain_column_import_xml> EXISTS nso_object NSO_ROOT (T)
+-- NOTICE:  <com_p_nso_domain_column_import_xml> EXISTS nso_object NSO_SPR (T)
+-- NOTICE:  <com_p_nso_domain_column_import_xml> EXISTS nso_object NSO_CLASS (T)
+-- NOTICE:  <com_p_nso_domain_column_import_xml> EXISTS nso_object SPR_LOCAL (T)
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object CL_RF (T) of "(NSO_CLASS,C_NSO_NODE,CL_RF,"Общероссийские классификаторы",d2e87126-b0bf-4809-8df5-d72d48b983b9,t,"2015-10-12 14:02:07","9999-12-31 00:00:00",T)"
+-- NOTICE:  <nso_p_nso_log_i> 1, Создан НСО: "CL_RF - CL_RF"
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object Создание НСО выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object CL_ENTERPR (T) of "(NSO_CLASS,C_NSO_NODE,CL_ENTERPR,"Ведомственные классификаторы",b40988a7-153a-4907-8b8d-3fb67de33ac4,t,"2015-10-12 14:02:07","9999-12-31 00:00:00",T)"
+-- NOTICE:  <nso_p_nso_log_i> 1, Создан НСО: "CL_ENTERPR - CL_ENTERPR"
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object Создание НСО выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object CL_LOCAL (T) of "(NSO_CLASS,C_NSO_NODE,CL_LOCAL,"Локальные классификаторы",a4e3ad5f-33a0-497e-9237-3cc8745fca5e,t,"2015-10-12 14:02:07","9999-12-31 00:00:00",T)"
+-- NOTICE:  <nso_p_nso_log_i> 1, Создан НСО: "CL_LOCAL - CL_LOCAL"
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object Создание НСО выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object SPR_CONTEXT_LIST (R) of "(SPR_LOCAL,C_NSO_SPR,SPR_CONTEXT_LIST,"Перечень контекстов",fe9d2501-e2b4-4b77-8c73-645005504ee6,f,"2017-10-09 14:42:15","9999-12-31 00:00:00",R)"
+-- NOTICE:  <nso_p_nso_log_i> 0, Создан НСО: "SPR_CONTEXT_LIST - SPR_CONTEXT_LIST"
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object Создание НСО выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object SPR_DIVISION (R) of "(SPR_LOCAL,C_NSO_SPR,SPR_DIVISION,"Справочник подразделений",006829bb-8bba-4999-b993-f9b506ebb18e,f,"2017-11-29 15:51:20","9999-12-31 00:00:00",R)"
+-- NOTICE:  <nso_p_nso_log_i> 0, Создан НСО: "SPR_DIVISION - SPR_DIVISION"
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object Создание НСО выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object SPR_EX_ENTERPRISE (R) of "(SPR_LOCAL,C_NSO_SPR,SPR_EX_ENTERPRISE,"Справочник предприятий",941eec0c-0c34-434f-bd93-dc75e9d8d3e6,f,"2017-11-29 15:51:20","9999-12-31 00:00:00",R)"
+-- NOTICE:  <nso_p_nso_log_i> 0, Создан НСО: "SPR_EX_ENTERPRISE - SPR_EX_ENTERPRISE"
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object Создание НСО выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object CL_OKV (R) of "(CL_RF,C_NSO_CLASS,CL_OKV,"Общероссийский классификатор валют",47f5eadf-99c1-4a18-bdfd-d6c8131073a3,f,"2016-05-17 17:33:10","9999-12-31 00:00:00",R)"
+-- NOTICE:  <nso_p_nso_log_i> 0, Создан НСО: "CL_OKV - CL_OKV"
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object Создание НСО выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object SPR_POSITION (R) of "(SPR_LOCAL,C_NSO_SPR,SPR_POSITION,"Справочник должностей",101add4b-8db7-47ed-9ee2-98cc5edb91fb,f,"2017-11-29 15:51:20","9999-12-31 00:00:00",R)"
+-- NOTICE:  <nso_p_nso_log_i> 0, Создан НСО: "SPR_POSITION - SPR_POSITION"
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object Создание НСО выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object SPR_ACCOUNT (R) of "(CL_ENTERPR,C_NSO_SPR,SPR_ACCOUNT,"Бюджетная классификация РФ",106e4ce3-cf16-4449-a744-0e8d6749cf24,f,"2017-11-09 16:12:44","9999-12-31 00:00:00",R)"
+-- NOTICE:  <nso_p_nso_log_i> 0, Создан НСО: "SPR_ACCOUNT - SPR_ACCOUNT"
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object Создание НСО выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object SPR_ACTION (R) of "(SPR_LOCAL,C_NSO_SPR,SPR_ACTION,"Перечень выполняемых действий",217a3c88-b28e-4453-92b7-ad8618faf3d2,f,"2017-10-09 14:42:16","9999-12-31 00:00:00",R)"
+-- NOTICE:  <nso_p_nso_log_i> 0, Создан НСО: "SPR_ACTION - SPR_ACTION"
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object Создание НСО выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object SPR_CSMSO (R) of "(CL_ENTERPR,C_NSO_CLASS,SPR_CSMSO,"КОСГУ (бюджет)",afb228d8-6712-4d63-bdad-ccc21bb60c5f,f,"2017-09-20 13:31:27","9999-12-31 00:00:00",R)"
+-- NOTICE:  <nso_p_nso_log_i> 0, Создан НСО: "SPR_CSMSO - SPR_CSMSO"
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object Создание НСО выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object SPR_EMPLOYE (R) of "(SPR_LOCAL,C_NSO_SPR,SPR_EMPLOYE,"Справочник сотрудников",25769ec2-5c6b-4ed9-a8ca-bd0a81edf643,f,"2017-11-29 15:51:20","9999-12-31 00:00:00",R)"
+-- NOTICE:  <nso_p_nso_log_i> 0, Создан НСО: "SPR_EMPLOYE - SPR_EMPLOYE"
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object Создание НСО выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object SPR_GOAL (R) of "(SPR_LOCAL,C_NSO_SPR,SPR_GOAL,"Перечень целей (Процедура)",4730b598-e696-4b93-9019-fb6664feb891,f,"2017-10-17 16:37:39","9999-12-31 00:00:00",R)"
+-- NOTICE:  <nso_p_nso_log_i> 0, Создан НСО: "SPR_GOAL - SPR_GOAL"
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object Создание НСО выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object SPR_MATCH_LC_STATUS (R) of "(SPR_LOCAL,C_NSO_SPR,SPR_MATCH_LC_STATUS,"Перечень состояний процесса согласования",da993221-2503-4b05-83aa-c55861343178,f,"2017-11-09 16:12:55","9999-12-31 00:00:00",R)"
+-- NOTICE:  <nso_p_nso_log_i> 0, Создан НСО: "SPR_MATCH_LC_STATUS - SPR_MATCH_LC_STATUS"
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object Создание НСО выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object SPR_OBJECT_STATUS (R) of "(SPR_LOCAL,C_NSO_SPR,SPR_OBJECT_STATUS,"Состояния жизненного цикла Объекта",a2be55ff-c71c-4879-96b0-a5c1323bd8dd,f,"2016-02-15 13:59:38","9999-12-31 00:00:00",R)"
+-- NOTICE:  <nso_p_nso_log_i> 0, Создан НСО: "SPR_OBJECT_STATUS - SPR_OBJECT_STATUS"
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object Создание НСО выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object SPR_PAYMENT_DIRECTION (R) of "(SPR_LOCAL,C_NSO_SPR,SPR_PAYMENT_DIRECTION,"Назначение платежа",def4ffd4-ed4e-416f-bfe9-6fdb2a5ddb42,f,"2017-10-09 14:01:48","9999-12-31 00:00:00",R)"
+-- NOTICE:  <nso_p_nso_log_i> 0, Создан НСО: "SPR_PAYMENT_DIRECTION - SPR_PAYMENT_DIRECTION"
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object Создание НСО выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object SPR_PTK (R) of "(SPR_LOCAL,C_NSO_SPR,SPR_PTK,"Перечень Программно-Технических Комплексов",c55571d6-a212-40bd-9f9a-0369ddc100b7,f,"2015-10-12 14:02:48","9999-12-31 00:00:00",R)"
+-- NOTICE:  <nso_p_nso_log_i> 0, Создан НСО: "SPR_PTK - SPR_PTK"
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object Создание НСО выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object THC_RANGE (R) of "(CL_LOCAL,C_NSO_CLASS,THC_RANGE,"Технический справочник для ранжирования данных",b8295a38-562f-4eac-9815-77e5a23608ed,f,"2015-10-12 14:02:12","9999-12-31 00:00:00",R)"
+-- NOTICE:  <nso_p_nso_log_i> 0, Создан НСО: "THC_RANGE - THC_RANGE"
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object Создание НСО выполнено успешно
+-- NOTICE:  table "_tbl_nso_domain_column" does not exist, skipping
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, 1) IMPORT APP_NODE
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, 4) UPDATE DOMAIN_NODE
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, 4.1) UPDATE (,C_DOMEN_NODE,DOMAIN_NODE,"Корневой элемент списка атрибутов",3cbe8729-1430-405f-8c3e-fe63d6d4a41b,,"2017-09-20 13:31:27","9999-12-31 00:00:00",f,U)
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 4.2) UPDATE _result = (22,"Успешно выполнено полное обновление атрибута.")
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Успешно выполнено полное обновление атрибута.
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, 4) UPDATE APP_NODE
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, 4.1) UPDATE (DOMAIN_NODE,C_DOMEN_NODE,APP_NODE,"Прикладные атрибуты",bf27e2d4-2188-4f01-b69b-53babe869d8b,,"2017-09-20 13:31:27","9999-12-31 00:00:00",f,U)
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 4.2) UPDATE _result = (24,"Успешно выполнено полное обновление атрибута.")
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Успешно выполнено полное обновление атрибута.
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_BIT4
+-- 
+-- 
+-- ERROR:  returned record type does not match expected record type
+-- ПОДРОБНОСТИ:  Returned type text does not match expected type character varying(2048) in column 2.
+-- КОНТЕКСТ:  PL/pgSQL function com_p_nso_domain_column_import_xml(t_filename,t_text) while casting return value to function's return type
+-- ********** Ошибка **********
+-- 
+-- ERROR: returned record type does not match expected record type
+-- SQL-состояние: 42804
+-- Подробности: Returned type text does not match expected type character varying(2048) in column 2.
+-- Контекст: PL/pgSQL function com_p_nso_domain_column_import_xml(t_filename,t_text) while casting return value to function's return type
+------------------------------------------------------------------------------------------------------------------------------------------
+-- NOTICE:  table "_tbl_xml" does not exist, skipping
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, COPY _tbl_xml(data) FROM '/tmp/com_nso_domain_column_APP_NODE_2018-03-02-11-58-45.xml' ENCODING 'UTF8'
+-- NOTICE:  table "_tbl_nso_object" does not exist, skipping
+-- NOTICE:  <com_p_nso_domain_column_import_xml> EXISTS nso_object NSO_ROOT (T)
+-- NOTICE:  <com_p_nso_domain_column_import_xml> EXISTS nso_object NSO_SPR (T)
+-- NOTICE:  <com_p_nso_domain_column_import_xml> EXISTS nso_object NSO_CLASS (T)
+-- NOTICE:  <com_p_nso_domain_column_import_xml> EXISTS nso_object SPR_LOCAL (T)
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object CL_RF (T) of "(NSO_CLASS,C_NSO_NODE,CL_RF,"Общероссийские классификаторы",d2e87126-b0bf-4809-8df5-d72d48b983b9,t,"2015-10-12 14:02:07","9999-12-31 00:00:00",T)"
+-- NOTICE:  <nso_p_nso_log_i> 1, Создан НСО: "CL_RF - CL_RF"
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object Создание НСО выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object CL_ENTERPR (T) of "(NSO_CLASS,C_NSO_NODE,CL_ENTERPR,"Ведомственные классификаторы",b40988a7-153a-4907-8b8d-3fb67de33ac4,t,"2015-10-12 14:02:07","9999-12-31 00:00:00",T)"
+-- NOTICE:  <nso_p_nso_log_i> 1, Создан НСО: "CL_ENTERPR - CL_ENTERPR"
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object Создание НСО выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object CL_LOCAL (T) of "(NSO_CLASS,C_NSO_NODE,CL_LOCAL,"Локальные классификаторы",a4e3ad5f-33a0-497e-9237-3cc8745fca5e,t,"2015-10-12 14:02:07","9999-12-31 00:00:00",T)"
+-- NOTICE:  <nso_p_nso_log_i> 1, Создан НСО: "CL_LOCAL - CL_LOCAL"
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object Создание НСО выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object SPR_CONTEXT_LIST (R) of "(SPR_LOCAL,C_NSO_SPR,SPR_CONTEXT_LIST,"Перечень контекстов",fe9d2501-e2b4-4b77-8c73-645005504ee6,f,"2017-10-09 14:42:15","9999-12-31 00:00:00",R)"
+-- NOTICE:  <nso_p_nso_log_i> 0, Создан НСО: "SPR_CONTEXT_LIST - SPR_CONTEXT_LIST"
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object Создание НСО выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object SPR_DIVISION (R) of "(SPR_LOCAL,C_NSO_SPR,SPR_DIVISION,"Справочник подразделений",006829bb-8bba-4999-b993-f9b506ebb18e,f,"2017-11-29 15:51:20","9999-12-31 00:00:00",R)"
+-- NOTICE:  <nso_p_nso_log_i> 0, Создан НСО: "SPR_DIVISION - SPR_DIVISION"
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object Создание НСО выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object SPR_EX_ENTERPRISE (R) of "(SPR_LOCAL,C_NSO_SPR,SPR_EX_ENTERPRISE,"Справочник предприятий",941eec0c-0c34-434f-bd93-dc75e9d8d3e6,f,"2017-11-29 15:51:20","9999-12-31 00:00:00",R)"
+-- NOTICE:  <nso_p_nso_log_i> 0, Создан НСО: "SPR_EX_ENTERPRISE - SPR_EX_ENTERPRISE"
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object Создание НСО выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object CL_OKV (R) of "(CL_RF,C_NSO_CLASS,CL_OKV,"Общероссийский классификатор валют",47f5eadf-99c1-4a18-bdfd-d6c8131073a3,f,"2016-05-17 17:33:10","9999-12-31 00:00:00",R)"
+-- NOTICE:  <nso_p_nso_log_i> 0, Создан НСО: "CL_OKV - CL_OKV"
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object Создание НСО выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object SPR_POSITION (R) of "(SPR_LOCAL,C_NSO_SPR,SPR_POSITION,"Справочник должностей",101add4b-8db7-47ed-9ee2-98cc5edb91fb,f,"2017-11-29 15:51:20","9999-12-31 00:00:00",R)"
+-- NOTICE:  <nso_p_nso_log_i> 0, Создан НСО: "SPR_POSITION - SPR_POSITION"
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object Создание НСО выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object SPR_ACCOUNT (R) of "(CL_ENTERPR,C_NSO_SPR,SPR_ACCOUNT,"Бюджетная классификация РФ",106e4ce3-cf16-4449-a744-0e8d6749cf24,f,"2017-11-09 16:12:44","9999-12-31 00:00:00",R)"
+-- NOTICE:  <nso_p_nso_log_i> 0, Создан НСО: "SPR_ACCOUNT - SPR_ACCOUNT"
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object Создание НСО выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object SPR_ACTION (R) of "(SPR_LOCAL,C_NSO_SPR,SPR_ACTION,"Перечень выполняемых действий",217a3c88-b28e-4453-92b7-ad8618faf3d2,f,"2017-10-09 14:42:16","9999-12-31 00:00:00",R)"
+-- NOTICE:  <nso_p_nso_log_i> 0, Создан НСО: "SPR_ACTION - SPR_ACTION"
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object Создание НСО выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object SPR_CSMSO (R) of "(CL_ENTERPR,C_NSO_CLASS,SPR_CSMSO,"КОСГУ (бюджет)",afb228d8-6712-4d63-bdad-ccc21bb60c5f,f,"2017-09-20 13:31:27","9999-12-31 00:00:00",R)"
+-- NOTICE:  <nso_p_nso_log_i> 0, Создан НСО: "SPR_CSMSO - SPR_CSMSO"
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object Создание НСО выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object SPR_EMPLOYE (R) of "(SPR_LOCAL,C_NSO_SPR,SPR_EMPLOYE,"Справочник сотрудников",25769ec2-5c6b-4ed9-a8ca-bd0a81edf643,f,"2017-11-29 15:51:20","9999-12-31 00:00:00",R)"
+-- NOTICE:  <nso_p_nso_log_i> 0, Создан НСО: "SPR_EMPLOYE - SPR_EMPLOYE"
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object Создание НСО выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object SPR_GOAL (R) of "(SPR_LOCAL,C_NSO_SPR,SPR_GOAL,"Перечень целей (Процедура)",4730b598-e696-4b93-9019-fb6664feb891,f,"2017-10-17 16:37:39","9999-12-31 00:00:00",R)"
+-- NOTICE:  <nso_p_nso_log_i> 0, Создан НСО: "SPR_GOAL - SPR_GOAL"
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object Создание НСО выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object SPR_MATCH_LC_STATUS (R) of "(SPR_LOCAL,C_NSO_SPR,SPR_MATCH_LC_STATUS,"Перечень состояний процесса согласования",da993221-2503-4b05-83aa-c55861343178,f,"2017-11-09 16:12:55","9999-12-31 00:00:00",R)"
+-- NOTICE:  <nso_p_nso_log_i> 0, Создан НСО: "SPR_MATCH_LC_STATUS - SPR_MATCH_LC_STATUS"
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object Создание НСО выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object SPR_OBJECT_STATUS (R) of "(SPR_LOCAL,C_NSO_SPR,SPR_OBJECT_STATUS,"Состояния жизненного цикла Объекта",a2be55ff-c71c-4879-96b0-a5c1323bd8dd,f,"2016-02-15 13:59:38","9999-12-31 00:00:00",R)"
+-- NOTICE:  <nso_p_nso_log_i> 0, Создан НСО: "SPR_OBJECT_STATUS - SPR_OBJECT_STATUS"
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object Создание НСО выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object SPR_PAYMENT_DIRECTION (R) of "(SPR_LOCAL,C_NSO_SPR,SPR_PAYMENT_DIRECTION,"Назначение платежа",def4ffd4-ed4e-416f-bfe9-6fdb2a5ddb42,f,"2017-10-09 14:01:48","9999-12-31 00:00:00",R)"
+-- NOTICE:  <nso_p_nso_log_i> 0, Создан НСО: "SPR_PAYMENT_DIRECTION - SPR_PAYMENT_DIRECTION"
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object Создание НСО выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object SPR_PTK (R) of "(SPR_LOCAL,C_NSO_SPR,SPR_PTK,"Перечень Программно-Технических Комплексов",c55571d6-a212-40bd-9f9a-0369ddc100b7,f,"2015-10-12 14:02:48","9999-12-31 00:00:00",R)"
+-- NOTICE:  <nso_p_nso_log_i> 0, Создан НСО: "SPR_PTK - SPR_PTK"
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object Создание НСО выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object THC_RANGE (R) of "(CL_LOCAL,C_NSO_CLASS,THC_RANGE,"Технический справочник для ранжирования данных",b8295a38-562f-4eac-9815-77e5a23608ed,f,"2015-10-12 14:02:12","9999-12-31 00:00:00",R)"
+-- NOTICE:  <nso_p_nso_log_i> 0, Создан НСО: "THC_RANGE - THC_RANGE"
+-- NOTICE:  <com_p_nso_domain_column_import_xml> INSERT nso_object Создание НСО выполнено успешно
+-- NOTICE:  table "_tbl_nso_domain_column" does not exist, skipping
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, 4) UPDATE DOMAIN_NODE
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, 4.1) UPDATE (,C_DOMEN_NODE,DOMAIN_NODE,"Корневой элемент списка атрибутов",3cbe8729-1430-405f-8c3e-fe63d6d4a41b,,"2017-09-20 13:31:27","9999-12-31 00:00:00",f,U)
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 4.2) UPDATE _result = (22,"Успешно выполнено полное обновление атрибута.")
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Успешно выполнено полное обновление атрибута.
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, 4) UPDATE APP_NODE
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, 4.1) UPDATE (DOMAIN_NODE,C_DOMEN_NODE,APP_NODE,"Прикладные атрибуты",bf27e2d4-2188-4f01-b69b-53babe869d8b,,"2017-09-20 13:31:27","9999-12-31 00:00:00",f,U)
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 4.2) UPDATE _result = (24,"Успешно выполнено полное обновление атрибута.")
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Успешно выполнено полное обновление атрибута.
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_BIT4
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_BIT8
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_BLOB
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_BOOLEAN
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_CODE
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_CODE1
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_CODE2
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_CODE5
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_DATE
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_DECIMAL
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_DESCRIPTION
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_FIELDNAME
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_FLOAT
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_ID
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_INT
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_INTERVAL
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_IP
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_JSON
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_MONEY
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_NAME
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_NMB
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_SMALL_INT
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_SPR_ACTION
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_SPR_GOAL
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_SPR_MATCH_LC_STATUS
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_SPR_PAYMENT_DIRECTION
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_STR1024
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_STR20
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_STR2048
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_SYSNAME
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_TEXT
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_TIMESTAMP
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_TIMESTAMPZ
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_UUID
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_XML
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, 4) UPDATE IND_APP_NODE
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, 4.1) UPDATE (APP_NODE,C_DOMEN_NODE,IND_APP_NODE,"Прикладные атрибуты схемы IND",637a1331-12aa-4c46-bb5a-47d746a4ea22,,"2017-09-20 13:31:27","9999-12-31 00:00:00",f,U)
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 4.2) UPDATE _result = (28,"Успешно выполнено полное обновление атрибута.")
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Успешно выполнено полное обновление атрибута.
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, 4) UPDATE NSO_APP_NODE
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, 4.1) UPDATE (APP_NODE,C_DOMEN_NODE,NSO_APP_NODE,"Прикладные атрибуты схемы NSO",e03b2083-550b-4def-ac29-3c4013d9dcdb,,"2017-09-20 13:31:27","9999-12-31 00:00:00",f,U)
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 4.2) UPDATE _result = (27,"Успешно выполнено полное обновление атрибута.")
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Успешно выполнено полное обновление атрибута.
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_ADDR_F
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_ADDR_P
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_ADDR_U
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_CONTEXT
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_DIV
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_EXN
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_FNAME
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_INN_UL
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_KPP
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_NMBT
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_OKPO
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_OKV
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_PHONE
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_PNAME
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_POS
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_SNAME
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_SPR_ACCOUNT
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_SPR_CSMSO
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_SPR_EMPLOYE
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_SPR_OBJECT_STATUS
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_SPR_PTK
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- NOTICE:  <com_p_nso_domain_column_import_xml> 5) INSERT FC_THC_RANGE
+-- NOTICE:  <com_p_nso_domain_column_import_xml>, Создание атрибута выполнено успешно
+-- 
+-- Total query runtime: 1.9 secs
+-- 1 строка получена.
+-- 
+SELECT * FROM com_exchange.com_p_nso_domain_column_import_xml ('/tmp/com_nso_domain_column_APP_NODE_2018-03-02-11-58-45.xml');
+----------------------------------------------------
+
+SELECT * FROM com.com_f_com_log_s ();
+SELECT * FROM nso.nso_f_nso_log_s (); -- ????
+SELECT * FROM nso_structure.nso_f_object_s_sys();

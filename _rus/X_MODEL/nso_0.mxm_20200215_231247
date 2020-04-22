@@ -1,0 +1,937 @@
+<?xml version="1.0" encoding="UTF-8"?><Model version="5.0">
+    <Configuration>
+        <Property name="dialect" value="PostgresDialect"/>
+        <Property name="ALIAS" value="db_k"/>
+        <Property name="DRIVER" value="org.postgresql.Driver"/>
+        <Property name="PASSWORD" value=""/>
+        <Property name="PROMPTFORPASSWORD" value="false"/>
+        <Property name="URL" value="jdbc:postgresql://192.168.56.101:5432/db_k"/>
+        <Property name="USER" value="postgres"/>
+    </Configuration>
+    <CustomTypes/>
+    <Domains>
+        <Domain datatype="bigint" fraction="" id="a2aafbf7-56c4-4e5d-a4a9-40841db5b18a" name="id_t" nullable="true" scale="10" size="">
+            <Comment>Идентификатор</Comment>
+        </Domain>
+        <Domain datatype="inet" fraction="" id="7005005c-2d01-4d09-b734-8563d98bb6e3" name="ip_t" nullable="true" scale="10" size="">
+            <Comment>IP адрес</Comment>
+        </Domain>
+        <Domain datatype="smallint" fraction="" id="fc9d25e5-6e69-4326-a533-b7eaf3217868" name="small_t" nullable="true" scale="10" size="">
+            <Comment>Короткое целое</Comment>
+        </Domain>
+        <Domain datatype="integer" fraction="" id="243b7058-ad72-4510-b2af-79c921092450" name="t_int" nullable="true" scale="10" size="">
+            <Comment>Целое</Comment>
+        </Domain>
+        <Domain datatype="bigint" fraction="" id="c20b4e40-46c1-4fc5-9fde-df499c79a9c7" name="longint_t" nullable="true" scale="10" size="">
+            <Comment>Длинное целое</Comment>
+        </Domain>
+        <Domain datatype="bytea" fraction="" id="db7f741f-84c7-4102-b6fd-eb9d7db28f0a" name="t_blob" nullable="true" scale="10" size="">
+            <Comment>Нестуктурированная бинарная информация</Comment>
+        </Domain>
+        <Domain datatype="boolean" fraction="" id="60a7f1b6-27b9-4dc2-a8c0-f7c7e525e02f" name="t_boolean" nullable="true" scale="10" size="">
+            <Comment>Логическое</Comment>
+        </Domain>
+        <Domain datatype="character" fraction="" id="1a07e1b7-e80d-470d-be33-a87f21ea65f3" name="t_code1" nullable="true" scale="10" size="1">
+            <Comment>Код размерностью 1 символ</Comment>
+        </Domain>
+        <Domain datatype="character" fraction="" id="8340fd6c-6a6e-410c-bc8e-40793fbc5afc" name="t_code2" nullable="true" scale="10" size="2">
+            <Comment>Код размерностью 2 символа</Comment>
+        </Domain>
+        <Domain datatype="character" fraction="" id="f87b9537-4779-4998-90d3-2b3631e3fa72" name="t_code5" nullable="true" scale="10" size="5">
+            <Comment>Код размерностью 5 символов</Comment>
+        </Domain>
+        <Domain datatype="uuid" fraction="" id="03d88ec2-fda1-4ecf-aec7-c8e2674806f2" name="t_guid" nullable="true" scale="10" size="">
+            <Comment>UUID</Comment>
+        </Domain>
+        <Domain datatype="character varying" fraction="" id="ca4774fb-3286-4e7d-b535-12f6f8e6becd" name="t_str1024" nullable="true" scale="10" size="1024">
+            <Comment>Строка 1024 символов</Comment>
+        </Domain>
+        <Domain datatype="character varying" fraction="" id="29b2ad6a-62ef-4da5-ba11-6bd09bf1a8f6" name="t_str2048" nullable="true" scale="10" size="2048">
+            <Comment>Строка размерностью 2048 символов</Comment>
+        </Domain>
+        <Domain datatype="character varying" fraction="" id="c12a7a46-cc0d-4d4e-b9ca-71b9d888ae3f" name="t_str250" nullable="true" scale="10" size="250">
+            <Comment>Строка 250 символов</Comment>
+        </Domain>
+        <Domain datatype="character varying" fraction="" id="e4a29085-34c9-4a28-8434-1a2bdd9bea54" name="t_str60" nullable="true" scale="10" size="60">
+            <Comment>Строка 60 символов</Comment>
+        </Domain>
+        <Domain datatype="timestamp" fraction="" id="e0cd4d49-e07a-4ddb-b572-a9c729a9e31f" name="t_timestamp" nullable="true" scale="10" size="">
+            <Comment>Дата время без часового пояса</Comment>
+        </Domain>
+        <Domain datatype="xml" fraction="" id="c9fb8ec8-ff37-485b-a3fc-ede1e5d718f6" name="xml_t" nullable="true" scale="10" size="">
+            <Comment>XML</Comment>
+        </Domain>
+        <Domain datatype="oid" fraction="" id="5238a469-ec11-420c-b417-fba572492ca4" name="t_oid" nullable="true" scale="10" size="">
+            <Comment>Системный идентификатор</Comment>
+        </Domain>
+        <Domain datatype="character varying" fraction="" id="30a2c81d-322b-4724-825e-32d4eea49b57" name="t_sysname" nullable="true" scale="10" size="120">
+            <Comment>Имя таблицы</Comment>
+        </Domain>
+        <Domain datatype="character varying" fraction="" id="ad41a0fa-0f68-411e-a7ea-5ec625b24ffe" name="t_fieldname" nullable="true" scale="10" size="120">
+            <Comment>Имя поля базы данных</Comment>
+        </Domain>
+        <Domain datatype="character varying" fraction="" id="bd663b23-680b-478f-a7e7-7859d2cd0bea" name="t_fullname" nullable="true" scale="10" size="1024">
+            <Comment>Полное наименование</Comment>
+        </Domain>
+        <Domain datatype="bigint[]" fraction="" id="54c3797d-49c6-42b7-96e1-3562b884c563" name="t_arr_id" nullable="true" scale="10" size="">
+            <Comment>Массив идентификаторов</Comment>
+        </Domain>
+        <Domain datatype="character varying[]" fraction="" id="6e7b9b37-e377-4bef-a44d-cf5148fb16cd" name="t_arr_code" nullable="true" scale="10" size="60">
+            <Comment>Массив кодов</Comment>
+        </Domain>
+        <Domain datatype="character varying" fraction="" id="4fa159de-0e47-411f-92c4-282bee682d83" name="t_code6" nullable="true" scale="10" size="6">
+            <Comment>Код размерностью 6 символов</Comment>
+        </Domain>
+        <Domain datatype="character varying" fraction="" id="f10e7bcf-75de-4dfd-9c41-492920c25200" name="t_str100" nullable="true" scale="10" size="100">
+            <Comment>Строка 100 символов</Comment>
+        </Domain>
+        <Domain datatype="text" fraction="" id="45794cea-8c33-4869-b0b5-1cdcda63e0ff" name="t_description" nullable="true" scale="10" size="">
+            <Comment>Расширенное полное наименование</Comment>
+        </Domain>
+        <Domain datatype="character" fraction="" id="4a44c005-5510-451f-bd85-864be5532b2f" name="t_inn_ul" nullable="true" scale="10" size="10">
+            <Comment>ИНН юридического лица</Comment>
+        </Domain>
+        <Domain datatype="character" fraction="" id="8db85a76-9dd5-4068-b662-7394c44acb6b" name="t_inn_pp" nullable="true" scale="10" size="12">
+            <Comment>ИНН физического лица</Comment>
+        </Domain>
+        <Domain datatype="numeric" fraction="2" id="3bf7daf7-22c9-4787-951d-fc44c92853f0" name="t_money" nullable="true" scale="10" size="15">
+            <Comment>Денежная единица</Comment>
+        </Domain>
+        <Domain datatype="character" fraction="" id="aabffc0f-9dad-4343-b353-903512642948" name="t_kpp" nullable="true" scale="10" size="9">
+            <Comment>КПП</Comment>
+        </Domain>
+        <Domain datatype="character" fraction="" id="78b84d99-039d-4a96-9aed-e04e76950e79" name="t_phone_nmb" nullable="true" scale="10" size="10">
+            <Comment>Номер телефона</Comment>
+        </Domain>
+        <Domain datatype="date" fraction="" id="ae80f34d-6365-49ba-be7a-860a19acef68" name="t_date" nullable="true" scale="10" size="">
+            <Comment>Дата</Comment>
+        </Domain>
+        <Domain datatype="character varying" fraction="" id="6edfdf7f-5c92-4f96-a445-3427d465a9c5" name="t_shortname" nullable="true" scale="10" size="100">
+            <Comment>Краткое наименование</Comment>
+        </Domain>
+        <Domain datatype="character varying" fraction="" id="5f41a60b-8fac-4304-8558-8adbec6a1179" name="t_str20" nullable="true" scale="10" size="20">
+            <Comment>Строка 20 символов</Comment>
+        </Domain>
+        <Domain datatype="character varying" fraction="" id="cade3a94-fbee-4d9a-b6d2-4c35a663dba0" name="t_str4096" nullable="true" scale="10" size="4096">
+            <Comment>Строка 4096 символов</Comment>
+        </Domain>
+        <Domain datatype="time with time zone" fraction="" id="b9dd01f9-70a7-44bd-82a2-3303d8cc35bf" name="t_timestampz" nullable="true" scale="10" size="">
+            <Comment>Дата время с часовым поясом</Comment>
+        </Domain>
+        <Domain datatype="character varying[]" fraction="" id="8caf9214-8ef7-45ae-9ae8-13bf03c738d8" name="t_arr_values" nullable="true" scale="10" size="2048">
+            <Comment>Массив значений</Comment>
+        </Domain>
+        <Domain datatype="text" fraction="" id="5412f803-73a0-45d1-8d64-273934183e1d" name="t_text" nullable="true" scale="10" size="">
+            <Comment>Текст не лимитированной длины.</Comment>
+        </Domain>
+        <Domain datatype="numeric" fraction="6" id="f9883ded-f113-4f4f-a690-bc890c5c78e8" name="t_decimal" nullable="true" scale="10" size="17">
+            <Comment>Десятичное число</Comment>
+        </Domain>
+        <Domain datatype="json" fraction="" id="3dcab9b3-593b-490e-8ad3-33b5ad2c0dc4" name="t_json" nullable="true" scale="10" size="">
+            <Comment>Тип JSON (Java Script Objects Notation)</Comment>
+        </Domain>
+        <Domain datatype="interval" fraction="" id="70d5cfd4-52f5-4e5a-92fd-19154e414948" name="t_interval" nullable="true" scale="10" size="">
+            <Comment>Интервал</Comment>
+        </Domain>
+        <Domain datatype="smallint[]" fraction="" id="3b2de3e4-b5ac-466f-b4a5-77b31f272216" name="t_arr_nmb" nullable="true" scale="10" size="">
+            <Comment>Массив коротких целых</Comment>
+        </Domain>
+        <Domain datatype="text[]" fraction="" id="118935cd-a2e8-4964-822a-097d0e3799fd" name="t_arr_text" nullable="true" scale="10" size="">
+            <Comment>Массив текстов не лимитированной длины.</Comment>
+        </Domain>
+        <Domain datatype="boolean[]" fraction="" id="af08c10e-926a-4064-9f40-0666471e74cc" name="t_arr_boolean" nullable="true" scale="10" size="">
+            <Comment>Массив логических значений</Comment>
+        </Domain>
+        <Domain datatype="character varying" fraction="" id="763a0e40-d7ca-4822-b169-da7dfa2b0009" name="t_filename" nullable="true" scale="10" size="1024">
+            <Comment>Имя внешнего файла</Comment>
+        </Domain>
+        <Domain datatype="uuid[]" fraction="" id="7fb00c4e-a1f8-4adf-b56d-cdc0abfdc9ce" name="t_arr_guid" nullable="true" scale="10" size="">
+            <Comment>Массив UUID</Comment>
+        </Domain>
+        <Domain datatype="character[]" fraction="" id="a2057abb-f355-409f-8c52-0867fa112a18" name="t_arr_code1" nullable="true" scale="10" size="1">
+            <Comment>Массив CHAR(1) K</Comment>
+        </Domain>
+        <Domain datatype="bit varying" fraction="" id="bf4190ba-db3d-46f1-8b15-d79ea77b434f" name="t_bit4" nullable="true" scale="10" size="4">
+            <Comment>4-х битовая строка</Comment>
+        </Domain>
+        <Domain datatype="bit varying" fraction="" id="8d5d5dc7-1e47-4cf2-802e-228a6e449066" name="t_bit8" nullable="true" scale="10" size="8">
+            <Comment>8-ми битовая строка</Comment>
+        </Domain>
+        <Domain datatype="bit varying" fraction="" id="10bd66c7-ec2d-4d76-a2f6-f010d21f76fe" name="t_bit16" nullable="true" scale="10" size="16">
+            <Comment>16-ти битовая строка</Comment>
+        </Domain>
+    </Domains>
+    <Tables>
+        <Table id="0efcba79-ba89-414a-94cc-ef4fc7d5e2a3" name="nso_key_hist" schema="">
+            <Property name="LOCATION" value="20:20"/>
+            <Comment>История ключевой колонки</Comment>
+            <Attribute datatype="id_t" defaultvalue="nextval('nso_key_key_id_seq'::regclass)" extra="" fraction="0" id="3a45316e-ba81-4cb0-9142-d910d7fa373f" name="key_id" nullable="false" scale="10" size="19"/>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="424efad1-78db-4595-a1f4-ac8026c3b7aa" name="nso_id" nullable="false" scale="10" size="19"/>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="5abab014-5823-496b-9969-379f0d43f7b8" name="key_type_id" nullable="false" scale="10" size="19"/>
+            <Attribute datatype="t_code1" defaultvalue="" extra="" fraction="0" id="a525e7eb-2322-4d02-a39b-47c2a4bc0dcc" name="key_small_code" nullable="false" scale="10" size="5"/>
+            <Attribute datatype="t_str60" defaultvalue="" extra="" fraction="0" id="39ab588f-1159-4623-b4a0-5ea8f1b5cefc" name="key_code" nullable="false" scale="10" size="64"/>
+            <Attribute datatype="t_boolean" defaultvalue="true" extra="" fraction="0" id="345ffc92-cb2e-4f9c-a9b6-d6bfd8f3c3ba" name="on_off" nullable="false" scale="10" size="1"/>
+            <Attribute datatype="t_timestamp" defaultvalue="(now())::t_timestamp" extra="" fraction="6" id="c69c0403-9599-418a-922b-f9583048548b" name="date_from" nullable="false" scale="10" size="0"/>
+            <Attribute datatype="t_timestamp" defaultvalue="('9999-12-31 00:00:00'::timestamp without time zone)::t_timestamp" extra="" fraction="6" id="abf80896-2a27-4c8b-a885-2f9fb1f56862" name="date_to" nullable="false" scale="10" size="0"/>
+            <Attribute datatype="id_t" defaultvalue="0" extra="" fraction="0" id="26a788be-6d41-4c3d-b263-e6b129584320" name="log_id" nullable="false" scale="10" size="19"/>
+            <Attribute datatype="id_t" defaultvalue="nextval('all_history_id_seq'::regclass)" extra="" fraction="0" id="0f87f266-e3ab-426c-97ef-c1f85bb08fd8" name="key_hist_id" nullable="false" scale="10" size="19">
+                <Comment>Идентификатор истории ключевой колонки</Comment>
+            </Attribute>
+            <Index id="5562a427-52b6-40e5-a263-dd0eabbb0bba" indextype="PRIMARYKEY" name="pk_nso_key_hist">
+                <Indexattribute attributerefid="0f87f266-e3ab-426c-97ef-c1f85bb08fd8" id="3c39ecc2-868d-4b73-862d-115f7a204bcd"/>
+            </Index>
+        </Table>
+        <Table id="fd618930-f03d-4ab7-918b-37f52a86d9e6" name="nso_log" schema="">
+            <Property name="LOCATION" value="1046:1613"/>
+            <Comment>Журнал учёта изменений, схема НСО</Comment>
+            <Attribute datatype="id_t" defaultvalue="nextval('all_history_id_seq'::regclass)" extra="" fraction="0" id="9a7a2e49-125b-47fd-bcc0-1ba546480cf4" name="id_log" nullable="false" scale="10" size="19"/>
+            <Attribute datatype="t_str250" defaultvalue="" extra="" fraction="0" id="3ff3ed71-8f22-4bfb-8c36-62b25c7424db" name="user_name" nullable="false" scale="10" size="254"/>
+            <Attribute datatype="t_str250" defaultvalue="" extra="" fraction="0" id="7cc53503-eb11-4632-a7b8-32fa9640851c" name="host_name" nullable="true" scale="10" size="254"/>
+            <Attribute datatype="t_code1" defaultvalue="" extra="" fraction="0" id="88e8150e-b126-4b66-95ce-8c89c550352f" name="impact_type" nullable="false" scale="10" size="5"/>
+            <Attribute datatype="t_timestamp" defaultvalue="" extra="" fraction="6" id="af71423c-590b-4230-9481-22fd3d5ac5a2" name="impact_date" nullable="false" scale="10" size="0"/>
+            <Attribute datatype="t_text" defaultvalue="" extra="" fraction="0" id="305f0e48-fcf6-4d56-9e91-db26706edf40" name="impact_descr" nullable="false" scale="10" size="2147483647"/>
+            <Attribute datatype="t_sysname" defaultvalue="" extra="" fraction="0" id="55f51c7b-9b01-4e4c-9b27-03ad539ae356" name="schema_name" nullable="false" scale="10" size="124"/>
+            <Index id="a9b8bea0-f336-483f-b852-de3ef133ba40" indextype="PRIMARYKEY" name="pk_nso_log">
+                <Indexattribute attributerefid="9a7a2e49-125b-47fd-bcc0-1ba546480cf4" id="52aef265-5317-4175-bfa2-8caf32b7ebb3"/>
+            </Index>
+        </Table>
+        <Table id="52c43392-e386-424a-a30b-ae285a79132c" name="nso_key_attr" schema="">
+            <Property name="LOCATION" value="550:20"/>
+            <Comment>Элемент ключа</Comment>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="f05b28bb-c67a-4768-972a-4cb886d90d7b" name="key_id" nullable="false" scale="10" size="19">
+                <Comment>Идентификатор ключевого атрибута</Comment>
+            </Attribute>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="2cfa2b36-81e1-4628-8419-190464fb5f6f" name="col_id" nullable="false" scale="10" size="19">
+                <Comment>Идентификатор колонки</Comment>
+            </Attribute>
+            <Attribute datatype="small_t" defaultvalue="0" extra="" fraction="0" id="924be2fd-4d8c-4f98-b93e-2913f4efd1ab" name="column_nm" nullable="false" scale="10" size="5">
+                <Comment>Номер колонки</Comment>
+            </Attribute>
+            <Attribute datatype="t_timestamp" defaultvalue="(now())::t_timestamp" extra="" fraction="6" id="cc0c052c-c0b5-486a-a065-18ddba8c8036" name="date_from" nullable="false" scale="10" size="0">
+                <Comment>Дата начала актуальности</Comment>
+            </Attribute>
+            <Attribute datatype="t_timestamp" defaultvalue="('9999-12-31 00:00:00'::timestamp without time zone)::t_timestamp" extra="" fraction="6" id="0bb7bb85-bd7c-470b-82ab-c9f536b15820" name="date_to" nullable="false" scale="10" size="0">
+                <Comment>Дата конца актуальности</Comment>
+            </Attribute>
+            <Attribute datatype="id_t" defaultvalue="0" extra="" fraction="0" id="f152f60e-8f85-408e-a29b-40be1cc08666" name="log_id" nullable="false" scale="10" size="19">
+                <Comment>Идентификатор журнала</Comment>
+            </Attribute>
+            <Index id="e8f4800c-7023-4c85-aaf9-6270a0c748ba" indextype="PRIMARYKEY" name="pk_nso_key_attr">
+                <Indexattribute attributerefid="f05b28bb-c67a-4768-972a-4cb886d90d7b" id="f0205383-f9d8-48c8-b431-71b30a342a84"/>
+                <Indexattribute attributerefid="2cfa2b36-81e1-4628-8419-190464fb5f6f" id="5a696f17-4369-4339-a2f2-0afb734b6ffa"/>
+            </Index>
+        </Table>
+        <Table id="03f55050-2ea3-4a7f-ae7b-787bd56ca54a" name="nso_key_attr_hist" schema="">
+            <Property name="LOCATION" value="807:20"/>
+            <Comment>История элемента ключевой колонки</Comment>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="0aa672e9-d632-4dcf-99d7-14654accdeaa" name="key_id" nullable="false" scale="10" size="19"/>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="73d2332f-6498-4856-b9f3-d289fee404d9" name="col_id" nullable="false" scale="10" size="19"/>
+            <Attribute datatype="small_t" defaultvalue="0" extra="" fraction="0" id="1976ddff-a011-4206-b4fd-b1beca090da1" name="column_nm" nullable="false" scale="10" size="5"/>
+            <Attribute datatype="t_timestamp" defaultvalue="(now())::t_timestamp" extra="" fraction="6" id="8168f9b4-87f9-4a21-8bd2-b56abf84579c" name="date_from" nullable="false" scale="10" size="0"/>
+            <Attribute datatype="t_timestamp" defaultvalue="('9999-12-31 00:00:00'::timestamp without time zone)::t_timestamp" extra="" fraction="6" id="8ef06e44-d4c5-491f-9ae4-9f777c944606" name="date_to" nullable="false" scale="10" size="0"/>
+            <Attribute datatype="id_t" defaultvalue="0" extra="" fraction="0" id="8f33c1e1-2764-4679-9af2-a889a7e7ff93" name="log_id" nullable="false" scale="10" size="19"/>
+            <Attribute datatype="id_t" defaultvalue="nextval('all_history_id_seq'::regclass)" extra="" fraction="0" id="572e034a-74eb-4ef2-90d1-e2a18d638334" name="key_attr_hist_id" nullable="false" scale="10" size="19">
+                <Comment>Идентификатор истории</Comment>
+            </Attribute>
+            <Index id="3266f60e-5847-4648-929a-e83874bdfb26" indextype="PRIMARYKEY" name="pk_nso_key_attr_hist">
+                <Indexattribute attributerefid="572e034a-74eb-4ef2-90d1-e2a18d638334" id="af1cbdd9-66ac-46a4-b360-14ad459a5dec"/>
+            </Index>
+        </Table>
+        <Table id="f1e56c1b-46fb-4e21-ab75-cbfd9ddfb96b" name="nso_abs_0" schema="">
+            <Property name="LOCATION" value="1172:0"/>
+            <Comment>Значение абсолютное, секция №0</Comment>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="4d31ec24-e051-491b-b3d2-d62a7016497e" name="rec_id" nullable="false" scale="10" size="19"/>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="a3817ca1-fbf7-4e31-ab50-24d4c00bb698" name="col_id" nullable="false" scale="10" size="19"/>
+            <Attribute datatype="t_code1" defaultvalue="" extra="" fraction="0" id="dbd65121-f9fe-4c1f-a4e2-967079d378e6" name="s_type_code" nullable="false" scale="10" size="5"/>
+            <Attribute datatype="t_code1" defaultvalue="'0'::bpchar" extra="" fraction="0" id="76e1ccbe-d82e-4c09-bd18-70a9cb4be293" name="s_key_code" nullable="false" scale="10" size="5"/>
+            <Attribute datatype="smallint" defaultvalue="0" extra="" fraction="0" id="b4e5d557-e417-4013-8b1f-708ba7107e32" name="section_number" nullable="false" scale="10" size="5"/>
+            <Attribute datatype="t_boolean" defaultvalue="true" extra="" fraction="0" id="a6bcfee3-e239-4201-a349-8daf5be8d77d" name="is_actual" nullable="false" scale="10" size="1"/>
+            <Attribute datatype="id_t" defaultvalue="0" extra="" fraction="0" id="f544d4f5-7522-4dbe-8f06-32d7562f86b9" name="log_id" nullable="false" scale="10" size="19"/>
+            <Attribute datatype="t_text" defaultvalue="" extra="" fraction="0" id="b7d6eb2d-93be-4bbb-bac9-304fa7eea9ce" name="val_cell_abs" nullable="true" scale="10" size="2147483647"/>
+            <Index id="88581317-70cb-46e7-9e48-4491f7592c45" indextype="PRIMARYKEY" name="pk_nso_abs_0">
+                <Indexattribute attributerefid="b4e5d557-e417-4013-8b1f-708ba7107e32" id="157ce600-07ec-4970-96c6-e7cbe94a41d2"/>
+                <Indexattribute attributerefid="4d31ec24-e051-491b-b3d2-d62a7016497e" id="92713cef-a99f-418c-ba55-0d642f180edb"/>
+                <Indexattribute attributerefid="a3817ca1-fbf7-4e31-ab50-24d4c00bb698" id="ed735be9-058f-493c-b391-b385f238a4b3"/>
+            </Index>
+            <Index id="2e84d973-43f2-48d3-aa47-01668a946914" indextype="NONUNIQUE" name="ie_a_nso_abs_0">
+                <Indexattribute attributerefid="b7d6eb2d-93be-4bbb-bac9-304fa7eea9ce" id="2a75c188-8a6d-45f5-91b7-5b2cd703002f"/>
+            </Index>
+            <Index id="64cae8e6-830a-47c5-ae43-24ff6388d74b" indextype="NONUNIQUE" name="ie_b_nso_abs_0">
+                <Indexattribute attributerefid="b7d6eb2d-93be-4bbb-bac9-304fa7eea9ce" id="6dc8ac78-dd26-4f00-a5fc-e395044fc9b5"/>
+            </Index>
+            <Index id="643c5c07-9474-4861-bb51-fb5814997c1b" indextype="NONUNIQUE" name="ie_c_nso_abs_0">
+                <Indexattribute attributerefid="b7d6eb2d-93be-4bbb-bac9-304fa7eea9ce" id="884ea97d-643a-4e80-bf7a-d79afcd61bd8"/>
+            </Index>
+            <Index id="76ad9f66-9962-4ccb-9b15-aa845fae5f39" indextype="NONUNIQUE" name="ie_d_nso_abs_0">
+                <Indexattribute attributerefid="b7d6eb2d-93be-4bbb-bac9-304fa7eea9ce" id="48dc4ddf-e280-440e-9ecd-7ac146181809"/>
+            </Index>
+            <Index id="6e2ab5a8-f777-4e66-b9fd-4cde60d6710e" indextype="NONUNIQUE" name="ie_e_nso_abs_0">
+                <Indexattribute attributerefid="b7d6eb2d-93be-4bbb-bac9-304fa7eea9ce" id="4fbcd711-df1b-47a1-9c84-7def15a3780a"/>
+            </Index>
+            <Index id="a3fc8db1-91b7-4040-8ab3-4e5b0e5e90d5" indextype="NONUNIQUE" name="ie_g_nso_abs_0">
+                <Indexattribute attributerefid="b7d6eb2d-93be-4bbb-bac9-304fa7eea9ce" id="6ea86bd1-d3b1-4e15-be61-e577c2a3d6da"/>
+            </Index>
+        </Table>
+        <Table id="8719866d-95b9-4a5f-bd65-3b4165a89f1f" name="nso_column_head" schema="">
+            <Property name="LOCATION" value="319:746"/>
+            <Comment>Колонка НСО</Comment>
+            <Attribute datatype="id_t" defaultvalue="nextval('nso_column_head_col_id_seq'::regclass)" extra="" fraction="0" id="20886cdd-c7b3-4f12-813e-65a241c42642" name="col_id" nullable="false" scale="10" size="19">
+                <Comment>Идентификатор колонки</Comment>
+            </Attribute>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="38bd18eb-5845-4626-a772-63e1242ae4fa" name="parent_col_id" nullable="true" scale="10" size="19">
+                <Comment>Идентификатор родительской колонки</Comment>
+            </Attribute>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="ff8e8d5d-4133-47c5-93a6-ba5aace12fbf" name="attr_id" nullable="false" scale="10" size="19">
+                <Comment>Идентификатор атрибута</Comment>
+            </Attribute>
+            <Attribute datatype="t_code1" defaultvalue="" extra="" fraction="0" id="b36764aa-6e6f-47e5-a1fe-82ff193fc916" name="attr_scode" nullable="false" scale="10" size="5">
+                <Comment>Краткий код типа атрибута</Comment>
+            </Attribute>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="708a04d4-e8c8-4965-b982-5e97d851bd20" name="nso_id" nullable="false" scale="10" size="19">
+                <Comment>Идентификатор НСО</Comment>
+            </Attribute>
+            <Attribute datatype="t_str60" defaultvalue="" extra="" fraction="0" id="5acabf9a-de64-4e13-a172-c36642e4b3c5" name="col_code" nullable="false" scale="10" size="64">
+                <Comment>Код колонки</Comment>
+            </Attribute>
+            <Attribute datatype="t_str250" defaultvalue="" extra="" fraction="0" id="6a964667-449e-4803-99f0-7b9eaf2783db" name="col_name" nullable="false" scale="10" size="254">
+                <Comment>Имя колонки</Comment>
+            </Attribute>
+            <Attribute datatype="small_t" defaultvalue="0" extra="" fraction="0" id="d5edbc00-3610-489b-9939-1d1cba19a32c" name="number_col" nullable="false" scale="10" size="5">
+                <Comment>Номер колонки</Comment>
+            </Attribute>
+            <Attribute datatype="t_boolean" defaultvalue="false" extra="" fraction="0" id="6d926ff8-d418-4223-b88e-1d4ec398f41d" name="mandatory" nullable="false" scale="10" size="1">
+                <Comment>Обязательность заполнения</Comment>
+            </Attribute>
+            <Attribute datatype="t_timestamp" defaultvalue="(now())::t_timestamp" extra="" fraction="6" id="10155d63-6744-4d2d-b542-363fecc8fa3a" name="date_from" nullable="false" scale="10" size="0">
+                <Comment>Дата начала актуальности</Comment>
+            </Attribute>
+            <Attribute datatype="t_timestamp" defaultvalue="('9999-12-31 00:00:00'::timestamp without time zone)::t_timestamp" extra="" fraction="6" id="945f0959-acf4-4147-b6f9-ecf26d325b13" name="date_to" nullable="false" scale="10" size="0">
+                <Comment>Дата конца актуальности</Comment>
+            </Attribute>
+            <Attribute datatype="id_t" defaultvalue="0" extra="" fraction="0" id="6cc3c36e-754d-4a90-868d-d42b4cf25783" name="log_id" nullable="false" scale="10" size="19">
+                <Comment>Идентификатор журнала</Comment>
+            </Attribute>
+            <Index id="ab83c7a4-80b7-4629-971e-48ac0d6a1e2a" indextype="PRIMARYKEY" name="pk_nso_column_head">
+                <Indexattribute attributerefid="20886cdd-c7b3-4f12-813e-65a241c42642" id="ccf2a748-ed70-4aa2-8338-23e5e3c6fd72"/>
+            </Index>
+            <Index id="fb2db1e4-dc8a-483e-a429-ec54f8eb9361" indextype="UNIQUE" name="ak1_nso_column_head">
+                <Indexattribute attributerefid="708a04d4-e8c8-4965-b982-5e97d851bd20" id="edd8bfee-14d4-4bc9-9ffe-4cee0429efd8"/>
+                <Indexattribute attributerefid="5acabf9a-de64-4e13-a172-c36642e4b3c5" id="19c5d686-1e9d-421e-83b7-ee52eb650d87"/>
+            </Index>
+            <Index id="ab2ce2a3-b660-4bbf-95be-45e0615081cf" indextype="NONUNIQUE" name="ie2_nso_column_head">
+                <Indexattribute attributerefid="6a964667-449e-4803-99f0-7b9eaf2783db" id="195e2cec-3cd3-4e2a-8525-6f97a07a5cb8"/>
+            </Index>
+        </Table>
+        <Table id="f39e3853-9864-4dc0-beb6-e6ab73021a56" name="nso_section" schema="">
+            <Property name="LOCATION" value="1513:921"/>
+            <Comment>Описание секций, необходимо для созданий секций в NSO_ABS, NSO_BLOB</Comment>
+            <Attribute datatype="smallint" defaultvalue="nextval('section_number_seq'::regclass)" extra="" fraction="0" id="db58e62a-9003-4f82-a158-7110fcc96876" name="section_number" nullable="false" scale="10" size="5">
+                <Comment>Номер секции</Comment>
+            </Attribute>
+            <Attribute datatype="t_boolean" defaultvalue="true" extra="" fraction="0" id="e1eacc79-160e-462e-9c38-0d24ea2740fc" name="crt_on_nso_abs" nullable="false" scale="10" size="1">
+                <Comment>Создать секцию для NSO_ABS</Comment>
+            </Attribute>
+            <Attribute datatype="t_boolean" defaultvalue="false" extra="" fraction="0" id="404c5725-36e0-4081-8a75-ca454efcbc76" name="crt_on_nso_blob" nullable="false" scale="10" size="1">
+                <Comment>Создать секцию для NSO_BLOB</Comment>
+            </Attribute>
+            <Attribute datatype="t_timestamp" defaultvalue="(now())::t_timestamp" extra="" fraction="6" id="f10c57f9-1ce4-4ae5-b264-8267650de0d3" name="date_from" nullable="false" scale="10" size="0">
+                <Comment>Дата начала актуальности</Comment>
+            </Attribute>
+            <Attribute datatype="t_timestamp" defaultvalue="('9999-12-31 00:00:00'::timestamp without time zone)::t_timestamp" extra="" fraction="6" id="2003af3e-9721-4cc5-a1a8-5bd5fc0bc864" name="date_to" nullable="false" scale="10" size="0">
+                <Comment>Дата конца актуальности</Comment>
+            </Attribute>
+            <Attribute datatype="t_text" defaultvalue="" extra="" fraction="0" id="0b5a0447-e560-48a7-a34b-cc89fbaf699c" name="section_descr" nullable="true" scale="10" size="2147483647">
+                <Comment>Описание секции</Comment>
+            </Attribute>
+            <Attribute datatype="t_text" defaultvalue="" extra="" fraction="0" id="ad9f8fe0-9b85-47e5-9dec-8598c89e62e3" name="crt_table_1" nullable="true" scale="10" size="2147483647">
+                <Comment>Текст CREATE TABLE PARTITION OF nso.nso_abs</Comment>
+            </Attribute>
+            <Attribute datatype="t_text" defaultvalue="" extra="" fraction="0" id="f11ee159-c89f-4183-8d34-c1be33730c13" name="crt_table_2" nullable="true" scale="10" size="2147483647">
+                <Comment>Текст CREATE TABLE PARTITION OF nso.nso_blob</Comment>
+            </Attribute>
+            <Attribute datatype="t_text" defaultvalue="" extra="" fraction="0" id="2bf356af-55f8-4c5f-83aa-d69a826d5639" name="crt_trigger_1" nullable="true" scale="10" size="2147483647">
+                <Comment>Текст триггера для PARTITION OF nso.nso_abs</Comment>
+            </Attribute>
+            <Attribute datatype="t_text" defaultvalue="" extra="" fraction="0" id="07e0f1f0-86be-4433-bf93-264fb4dc266b" name="crt_trigger_2" nullable="true" scale="10" size="2147483647">
+                <Comment>Текст триггера для PARTITION OF nso.nso_blob</Comment>
+            </Attribute>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="92924d26-6938-4317-b5b9-b895bd6d73e6" name="log_id" nullable="true" scale="10" size="19">
+                <Comment>Идентификатор журнала</Comment>
+            </Attribute>
+            <Index id="73fcd54e-7eeb-42b2-a770-b76f91659798" indextype="PRIMARYKEY" name="pk_nso_section">
+                <Indexattribute attributerefid="db58e62a-9003-4f82-a158-7110fcc96876" id="2874e323-e1e8-482d-a304-ef82c82c57b7"/>
+            </Index>
+        </Table>
+        <Table id="a27d6d09-dde8-4c11-85b5-f40a5c844dc7" name="nso_key" schema="">
+            <Property name="LOCATION" value="1863:20"/>
+            <Comment>Ключ</Comment>
+            <Attribute datatype="id_t" defaultvalue="nextval('nso_key_key_id_seq'::regclass)" extra="" fraction="0" id="9384c7ed-b876-4dc3-9b9f-d2e0bafe978d" name="key_id" nullable="false" scale="10" size="19">
+                <Comment>Идентификатор ключевого атрибута</Comment>
+            </Attribute>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="5083e90e-ae65-4b88-a835-0fb31f9a3d29" name="nso_id" nullable="false" scale="10" size="19">
+                <Comment>Идентификатор НСО</Comment>
+            </Attribute>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="03d0dabc-4857-4297-98b2-5d52fe78383d" name="key_type_id" nullable="false" scale="10" size="19">
+                <Comment>Идентификатор типа ключа</Comment>
+            </Attribute>
+            <Attribute datatype="t_code1" defaultvalue="" extra="" fraction="0" id="8b82fabd-6cc4-417b-ad24-93cee54b2fb6" name="key_small_code" nullable="false" scale="10" size="5">
+                <Comment>Краткий код типа ключа</Comment>
+            </Attribute>
+            <Attribute datatype="t_str60" defaultvalue="" extra="" fraction="0" id="8b61d467-db7e-47b1-84c5-46f8bd05839f" name="key_code" nullable="false" scale="10" size="64">
+                <Comment>Актуальный код ключа</Comment>
+            </Attribute>
+            <Attribute datatype="t_boolean" defaultvalue="true" extra="" fraction="0" id="12b1de1e-bc80-4b50-8d0a-dd225b6037f6" name="on_off" nullable="false" scale="10" size="1">
+                <Comment>Состояние</Comment>
+            </Attribute>
+            <Attribute datatype="t_timestamp" defaultvalue="(now())::t_timestamp" extra="" fraction="6" id="146f9671-1596-4d65-a177-8350a9ff8689" name="date_from" nullable="false" scale="10" size="0">
+                <Comment>Дата начала периода актуальности</Comment>
+            </Attribute>
+            <Attribute datatype="t_timestamp" defaultvalue="('9999-12-31 00:00:00'::timestamp without time zone)::t_timestamp" extra="" fraction="6" id="f31947ed-e7e8-4f4f-957a-42b9c6338aba" name="date_to" nullable="false" scale="10" size="0">
+                <Comment>Дата завершения периода актуальности</Comment>
+            </Attribute>
+            <Attribute datatype="id_t" defaultvalue="0" extra="" fraction="0" id="5b3af04c-121e-4ea3-88b3-2463148cf055" name="log_id" nullable="false" scale="10" size="19">
+                <Comment>Идентификатор журнала</Comment>
+            </Attribute>
+            <Index id="60dfba3f-3115-404a-8685-b3d801b5e47c" indextype="PRIMARYKEY" name="pk_nso_key">
+                <Indexattribute attributerefid="9384c7ed-b876-4dc3-9b9f-d2e0bafe978d" id="b080a4c9-5316-4069-a6b7-efa00b7a6738"/>
+            </Index>
+            <Index id="6d9e62ca-bd7d-4480-9b23-4acc57df1ce0" indextype="UNIQUE" name="ak1_nso_key">
+                <Indexattribute attributerefid="8b61d467-db7e-47b1-84c5-46f8bd05839f" id="782d4345-aa5c-4c8d-babe-8e75572be996"/>
+            </Index>
+        </Table>
+        <Table id="a1d46cce-750a-44e2-87f3-c4cb6bb9ed82" name="nso_ref" schema="">
+            <Property name="LOCATION" value="107:1803"/>
+            <Comment>Значение ссылочное</Comment>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="4817c64c-981f-41c6-8aa0-ed6b22ecd227" name="rec_id" nullable="false" scale="10" size="19">
+                <Comment>ID записи</Comment>
+            </Attribute>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="cb7e6698-33fa-40cb-a59f-43d30b221ec7" name="col_id" nullable="false" scale="10" size="19">
+                <Comment>ID колонки</Comment>
+            </Attribute>
+            <Attribute datatype="t_boolean" defaultvalue="true" extra="" fraction="0" id="97d4522e-ebba-4b17-a1ad-c6c9a2f04881" name="is_actual" nullable="false" scale="10" size="1">
+                <Comment>Признак актуальности</Comment>
+            </Attribute>
+            <Attribute datatype="id_t" defaultvalue="0" extra="" fraction="0" id="8c8b1ea0-a45f-4c6a-9843-578f99c06a8c" name="log_id" nullable="false" scale="10" size="19">
+                <Comment>Идентификатор журнала</Comment>
+            </Attribute>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="09f5f363-1c80-4dad-b910-d8581318e518" name="ref_rec_id" nullable="true" scale="10" size="19">
+                <Comment>Значение ссылка</Comment>
+            </Attribute>
+            <Index id="d4484f3f-9038-4a1d-b4be-670c307d69fe" indextype="PRIMARYKEY" name="pk_nso_ref">
+                <Indexattribute attributerefid="4817c64c-981f-41c6-8aa0-ed6b22ecd227" id="554c9886-3afa-4b9d-9552-625bf4a760b2"/>
+                <Indexattribute attributerefid="cb7e6698-33fa-40cb-a59f-43d30b221ec7" id="8cf9cd06-342e-473f-8983-a99df94fa570"/>
+            </Index>
+        </Table>
+        <Table id="f35bef70-eb20-458a-884b-d36e5ac8bf62" name="nso_abs" schema="">
+            <Property name="LOCATION" value="323:1784"/>
+            <Comment>Значение абсолютное</Comment>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="83e56a26-3ee5-4d04-82ef-aafe47be7fe2" name="rec_id" nullable="false" scale="10" size="19">
+                <Comment>ID  записи</Comment>
+            </Attribute>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="8838173c-134c-4c09-b4cc-b7fa46de2c93" name="col_id" nullable="false" scale="10" size="19">
+                <Comment>ID колонки</Comment>
+            </Attribute>
+            <Attribute datatype="t_code1" defaultvalue="" extra="" fraction="0" id="94752fad-cba7-4bf3-b09f-8f2f6c3f2fcf" name="s_type_code" nullable="false" scale="10" size="5">
+                <Comment>Код типа</Comment>
+            </Attribute>
+            <Attribute datatype="t_code1" defaultvalue="'0'::bpchar" extra="" fraction="0" id="3494d085-ac71-40c1-acb5-f6cabf839a12" name="s_key_code" nullable="false" scale="10" size="5">
+                <Comment>Код ключа</Comment>
+            </Attribute>
+            <Attribute datatype="smallint" defaultvalue="0" extra="" fraction="0" id="8a09990d-3f89-4284-ac66-cb1764ca64fa" name="section_number" nullable="false" scale="10" size="5">
+                <Comment>Номер секции</Comment>
+            </Attribute>
+            <Attribute datatype="t_boolean" defaultvalue="true" extra="" fraction="0" id="11a9a5a7-280d-4471-aab0-58e1bcdce667" name="is_actual" nullable="false" scale="10" size="1">
+                <Comment>Признак актуальности</Comment>
+            </Attribute>
+            <Attribute datatype="id_t" defaultvalue="0" extra="" fraction="0" id="f8f3ab8a-f763-4b61-b4ae-8e1235527ec7" name="log_id" nullable="false" scale="10" size="19">
+                <Comment>Идентификатор журнала</Comment>
+            </Attribute>
+            <Attribute datatype="t_text" defaultvalue="" extra="" fraction="0" id="f71b7ef9-af9c-4c0d-9c0e-7a7109975a71" name="val_cell_abs" nullable="true" scale="10" size="2147483647">
+                <Comment>Значение</Comment>
+            </Attribute>
+        </Table>
+        <Table id="d4b29345-e1a8-4284-8fd4-1b5ebe616772" name="nso_abs_hist" schema="">
+            <Property name="LOCATION" value="1466:94"/>
+            <Comment>История абсолютного значения</Comment>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="30eacb2a-60e1-44ee-b075-c529fce5feaa" name="rec_id" nullable="false" scale="10" size="19">
+                <Comment>ID  записи</Comment>
+            </Attribute>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="0a88beea-e907-4485-b075-4ca94796c22b" name="col_id" nullable="false" scale="10" size="19">
+                <Comment>ID колонки</Comment>
+            </Attribute>
+            <Attribute datatype="t_code1" defaultvalue="" extra="" fraction="0" id="4f560fd0-a8e0-4682-8d57-4edf1975454c" name="s_type_code" nullable="false" scale="10" size="5">
+                <Comment>Код типа</Comment>
+            </Attribute>
+            <Attribute datatype="t_code1" defaultvalue="" extra="" fraction="0" id="57843c35-915d-4568-a7d0-4f671b710d08" name="s_key_code" nullable="false" scale="10" size="5">
+                <Comment>Код ключа</Comment>
+            </Attribute>
+            <Attribute datatype="smallint" defaultvalue="" extra="" fraction="0" id="92fbcba0-2921-4604-8183-98b31034b20b" name="section_number" nullable="false" scale="10" size="5">
+                <Comment>Номер секции</Comment>
+            </Attribute>
+            <Attribute datatype="t_boolean" defaultvalue="" extra="" fraction="0" id="bba0d3a3-7994-46b2-89db-51ea59eb14bd" name="is_actual" nullable="false" scale="10" size="1">
+                <Comment>Признак актуальности</Comment>
+            </Attribute>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="666f4d9a-6e03-4416-a02d-291b177eeedd" name="log_id" nullable="false" scale="10" size="19">
+                <Comment>Идентификатор журнала</Comment>
+            </Attribute>
+            <Attribute datatype="t_text" defaultvalue="" extra="" fraction="0" id="e7a59d6d-bdd5-410f-acd1-b73bdb468564" name="val_cell_abs" nullable="true" scale="10" size="2147483647">
+                <Comment>Значение</Comment>
+            </Attribute>
+            <Attribute datatype="id_t" defaultvalue="nextval('all_history_id_seq'::regclass)" extra="" fraction="0" id="79f7f461-2cd5-47a4-836f-c4bb73433aed" name="abs_hist_id" nullable="false" scale="10" size="19">
+                <Comment>Идентификатор истории ячейки</Comment>
+            </Attribute>
+            <Index id="59675f7a-9e9e-4542-81c9-f8523ec3d0c8" indextype="PRIMARYKEY" name="pk_nso_abs_hist">
+                <Indexattribute attributerefid="79f7f461-2cd5-47a4-836f-c4bb73433aed" id="c046eec1-2b6b-494c-87b7-57a4d8eb4fd6"/>
+            </Index>
+        </Table>
+        <Table id="bcb6b0c3-c2fe-4e06-8bae-91348c1a350e" name="nso_record_unique" schema="">
+            <Property name="LOCATION" value="2064:269"/>
+            <Comment>НСО Запись Уникальность</Comment>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="d6d6e40c-0622-4db4-a4dd-14521a508b87" name="rec_id" nullable="false" scale="10" size="19">
+                <Comment>Идентификатор  записи</Comment>
+            </Attribute>
+            <Attribute datatype="t_code1" defaultvalue="" extra="" fraction="0" id="3b6c304b-e9aa-493e-a3e6-252db074a617" name="scode" nullable="false" scale="10" size="5">
+                <Comment>Краткий код</Comment>
+            </Attribute>
+            <Attribute datatype="t_boolean" defaultvalue="false" extra="" fraction="0" id="d552230c-c2ea-477e-b0d7-53d3851f62fc" name="unique_check" nullable="false" scale="10" size="1">
+                <Comment>Признак контроля уникальности</Comment>
+            </Attribute>
+            <Index id="a41ead80-638c-492f-a867-68f0ce1bd66a" indextype="PRIMARYKEY" name="pk_nso_record_unique">
+                <Indexattribute attributerefid="d6d6e40c-0622-4db4-a4dd-14521a508b87" id="50117720-022b-46e4-a427-ff76b2f6030f"/>
+                <Indexattribute attributerefid="3b6c304b-e9aa-493e-a3e6-252db074a617" id="7f66d597-1b30-4697-853c-5e0439f70ffc"/>
+            </Index>
+            <Index id="64025254-49ad-4f8d-99a7-c942550845fd" indextype="UNIQUE" name="ak1_nso_record_unique">
+                <Indexattribute attributerefid="3b6c304b-e9aa-493e-a3e6-252db074a617" id="ebe6c575-efd0-474b-950b-61ccc631a7e6"/>
+                <Indexattribute attributerefid="d552230c-c2ea-477e-b0d7-53d3851f62fc" id="d3131b3a-1aa6-4763-b4d9-a8fdb8052fd9"/>
+                <Indexattribute expression="nso_f_nso_record_unique_sign_idx(rec_id, scode)" id="60b2bc31-03e3-45a6-9c68-4476ee41f294"/>
+            </Index>
+        </Table>
+        <Table id="a2877630-5f70-4b29-8058-62bd1560f066" name="nso_blob_0" schema="">
+            <Property name="LOCATION" value="2514:89"/>
+            <Comment>Значение большое, секция №0</Comment>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="fe6d215f-f06e-437e-98ba-b19a8b46693f" name="rec_id" nullable="false" scale="10" size="19"/>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="c4e1d994-a004-49ac-8170-ac39b674f305" name="col_id" nullable="false" scale="10" size="19"/>
+            <Attribute datatype="t_boolean" defaultvalue="true" extra="" fraction="0" id="56fc74a3-8e7e-4b40-b0fb-eb401f89e8c4" name="is_actual" nullable="false" scale="10" size="1"/>
+            <Attribute datatype="id_t" defaultvalue="0" extra="" fraction="0" id="b69c5967-c15b-47aa-9f66-65deeb80fbcc" name="log_id" nullable="false" scale="10" size="19"/>
+            <Attribute datatype="t_code1" defaultvalue="'0'::bpchar" extra="" fraction="0" id="d87c190a-2dc6-4b42-a4be-d159138383d5" name="s_type_code" nullable="false" scale="10" size="5"/>
+            <Attribute datatype="smallint" defaultvalue="0" extra="" fraction="0" id="a0bbaf95-7aa6-4469-823a-4abdbf2bfc6c" name="section_number" nullable="false" scale="10" size="5"/>
+            <Attribute datatype="t_str100" defaultvalue="" extra="" fraction="0" id="c7c6a139-0281-409c-b496-5347817b012a" name="val_cel_hash" nullable="true" scale="10" size="104"/>
+            <Attribute datatype="t_fullname" defaultvalue="" extra="" fraction="0" id="e65a84d8-6905-45ec-b815-80e2b24d6ecd" name="val_cel_data_name" nullable="true" scale="10" size="1028"/>
+            <Attribute datatype="t_blob" defaultvalue="" extra="" fraction="0" id="11587fda-896e-4357-ac58-b154ae52a1c6" name="val_cell_blob" nullable="true" scale="10" size="2147483647"/>
+            <Index id="6b7bd6db-0f94-41cc-8c24-df0c2d130ea3" indextype="PRIMARYKEY" name="pk_nso_blob_0">
+                <Indexattribute attributerefid="a0bbaf95-7aa6-4469-823a-4abdbf2bfc6c" id="132b448a-94ec-43a9-9c97-ce714d60ef41"/>
+                <Indexattribute attributerefid="fe6d215f-f06e-437e-98ba-b19a8b46693f" id="665e73af-82a9-491d-aa4f-5acd3089b138"/>
+                <Indexattribute attributerefid="c4e1d994-a004-49ac-8170-ac39b674f305" id="ea97fa26-2c38-4881-ae79-146b29f39532"/>
+            </Index>
+        </Table>
+        <Table id="c4da0529-4576-4e25-bfb9-26a3ae0a068c" name="nso_object" schema="">
+            <Property name="LOCATION" value="1061:823"/>
+            <Comment>Нормативно-справочный объект</Comment>
+            <Attribute datatype="id_t" defaultvalue="nextval('nso_object_nso_id_seq'::regclass)" extra="" fraction="0" id="e3a8a225-f765-4995-a17b-a61813769e31" name="nso_id" nullable="false" scale="10" size="19">
+                <Comment>Идентификатор НСО</Comment>
+            </Attribute>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="179ab982-69e2-4ebc-b8a0-61ddc1180758" name="parent_nso_id" nullable="true" scale="10" size="19">
+                <Comment>Идентификатор родительского НСО</Comment>
+            </Attribute>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="3da4e4d1-0763-4fc2-8509-378a6a36665b" name="nso_type_id" nullable="false" scale="10" size="19">
+                <Comment>Тип НСО</Comment>
+            </Attribute>
+            <Attribute datatype="t_guid" defaultvalue="" extra="" fraction="0" id="66a2be06-5769-40f8-b019-6c4cbb8b9938" name="nso_uuid" nullable="false" scale="10" size="2147483647">
+                <Comment>UUID НСО</Comment>
+            </Attribute>
+            <Attribute datatype="t_timestamp" defaultvalue="(CURRENT_TIMESTAMP)::t_timestamp" extra="" fraction="6" id="2ff6fd71-fb4a-47de-801c-1e9ed1e8ff91" name="date_create" nullable="false" scale="10" size="0">
+                <Comment>Дата создания-обновления</Comment>
+            </Attribute>
+            <Attribute datatype="small_t" defaultvalue="0" extra="" fraction="0" id="615c6ddf-2ebb-409a-8122-96ec10bbee12" name="nso_release" nullable="false" scale="10" size="5">
+                <Comment>Версия НСО</Comment>
+            </Attribute>
+            <Attribute datatype="t_boolean" defaultvalue="false" extra="" fraction="0" id="aeb9cc15-f60b-4e1d-b7df-8a5a22664df3" name="active_sign" nullable="false" scale="10" size="1">
+                <Comment>Признак активного НСО</Comment>
+            </Attribute>
+            <Attribute datatype="t_boolean" defaultvalue="false" extra="" fraction="0" id="0004b741-d602-4b10-9825-e02ff6621a07" name="is_group_nso" nullable="false" scale="10" size="1">
+                <Comment>Признак узлового НСО</Comment>
+            </Attribute>
+            <Attribute datatype="t_boolean" defaultvalue="false" extra="" fraction="0" id="02d1ac68-d00b-42eb-a3d1-754fe3dd7d0b" name="is_intra_op" nullable="false" scale="10" size="1">
+                <Comment>Признак интраоперабельности</Comment>
+            </Attribute>
+            <Attribute datatype="t_boolean" defaultvalue="false" extra="" fraction="0" id="d254c4ac-1b85-44a6-af46-e7d1624b7d9a" name="is_m_view" nullable="false" scale="10" size="1">
+                <Comment>Признак материализованного представления</Comment>
+            </Attribute>
+            <Attribute datatype="t_boolean" defaultvalue="false" extra="" fraction="0" id="13464682-05df-436b-8da6-a65744a14468" name="unique_check" nullable="false" scale="10" size="1">
+                <Comment>Признак контроля уникальности</Comment>
+            </Attribute>
+            <Attribute datatype="t_str60" defaultvalue="" extra="" fraction="0" id="743315b5-632f-48cb-9b07-e26b95016e57" name="nso_code" nullable="false" scale="10" size="64">
+                <Comment>Код НСО</Comment>
+            </Attribute>
+            <Attribute datatype="t_str250" defaultvalue="" extra="" fraction="0" id="1ae33f87-a42c-4272-8fcd-df671565ae89" name="nso_name" nullable="false" scale="10" size="254">
+                <Comment>Наименование НСО</Comment>
+            </Attribute>
+            <Attribute datatype="t_text" defaultvalue="" extra="" fraction="0" id="21ce3e74-931f-4fc9-9c6f-375f9b2976b9" name="nso_select" nullable="true" scale="10" size="2147483647">
+                <Comment>Текст запроса SELECT</Comment>
+            </Attribute>
+            <Attribute datatype="smallint" defaultvalue="0" extra="" fraction="0" id="d2f169c1-af54-486d-b3aa-c31b861b9e37" name="section_number" nullable="false" scale="10" size="5">
+                <Comment>Номер секции</Comment>
+            </Attribute>
+            <Attribute datatype="t_timestamp" defaultvalue="(CURRENT_TIMESTAMP)::t_timestamp" extra="" fraction="6" id="a1c693c2-9600-48aa-bdc8-4cc02c92c876" name="date_from" nullable="false" scale="10" size="0">
+                <Comment>Дата начала актуальности</Comment>
+            </Attribute>
+            <Attribute datatype="t_timestamp" defaultvalue="('9999-12-31 00:00:00'::timestamp without time zone)::t_timestamp" extra="" fraction="6" id="90276c8f-5a4d-4be9-b7ea-06364e6a0f3f" name="date_to" nullable="false" scale="10" size="0">
+                <Comment>Дата конца актуальности</Comment>
+            </Attribute>
+            <Attribute datatype="id_t" defaultvalue="0" extra="" fraction="0" id="b1f9b24a-0eff-4797-92c5-765ed724cbbb" name="id_log" nullable="false" scale="10" size="19">
+                <Comment>Идентификатор журнала</Comment>
+            </Attribute>
+            <Index id="a80c0042-60eb-4c16-a683-d3f6bec26eb5" indextype="PRIMARYKEY" name="pk_nso_object">
+                <Indexattribute attributerefid="e3a8a225-f765-4995-a17b-a61813769e31" id="cff3b18f-45b8-44c7-acd8-5ebb9c865e74"/>
+            </Index>
+            <Index id="a28b533a-a735-4815-a733-c033f806df07" indextype="UNIQUE" name="ak1_nso_object">
+                <Indexattribute attributerefid="743315b5-632f-48cb-9b07-e26b95016e57" id="56ee064a-ec34-4244-a51f-c31a20c5127a"/>
+            </Index>
+            <Index id="839ebbc0-4cea-44b1-ad9a-3729649d4f8d" indextype="UNIQUE" name="ak2_nso_object">
+                <Indexattribute attributerefid="1ae33f87-a42c-4272-8fcd-df671565ae89" id="18aeb31b-8e2e-4910-9194-8705b2e5caa1"/>
+            </Index>
+            <Index id="a7676915-d9a6-43f0-a7d5-94aa3e84b5fb" indextype="UNIQUE" name="ak3_nso_object">
+                <Indexattribute attributerefid="66a2be06-5769-40f8-b019-6c4cbb8b9938" id="364caa53-b896-4a98-9c45-c73e16c97d76"/>
+            </Index>
+            <Index id="d448f2d7-6dcd-4f51-8ef1-5d0477066a4d" indextype="NONUNIQUE" name="ie1_nso_object">
+                <Indexattribute attributerefid="a1c693c2-9600-48aa-bdc8-4cc02c92c876" id="ae96ac00-9d12-4d56-9943-42658036469f"/>
+            </Index>
+        </Table>
+        <Table id="c61f5ed1-bf8c-4ab7-a963-1cda62d5270d" name="nso_ref_hist" schema="">
+            <Property name="LOCATION" value="1696:271"/>
+            <Comment>История изменений значения-ссылки</Comment>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="d89dfd95-1663-46ff-ad64-1ceca61a27e5" name="rec_id" nullable="false" scale="10" size="19"/>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="03816c95-7b0d-4c6c-9b9a-b7e1d37dcb4a" name="col_id" nullable="false" scale="10" size="19"/>
+            <Attribute datatype="t_boolean" defaultvalue="true" extra="" fraction="0" id="f74e542b-eb0c-4e53-acdf-9f2f8878beb0" name="is_actual" nullable="false" scale="10" size="1"/>
+            <Attribute datatype="id_t" defaultvalue="0" extra="" fraction="0" id="75f8e9e7-c92b-48f8-a470-ff918bc85eca" name="log_id" nullable="false" scale="10" size="19"/>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="8a59deb2-e8d6-450b-b606-0d61dea69028" name="ref_rec_id" nullable="true" scale="10" size="19"/>
+            <Attribute datatype="id_t" defaultvalue="nextval('all_history_id_seq'::regclass)" extra="" fraction="0" id="49f275e0-47e2-464b-b65c-92ff2388f005" name="ref_hist_id" nullable="false" scale="10" size="19">
+                <Comment>Идентификатор истории ячейки</Comment>
+            </Attribute>
+            <Index id="5984bca7-4423-4792-bf2b-9cbc81be4e4e" indextype="PRIMARYKEY" name="pk_nso_ref_hist">
+                <Indexattribute attributerefid="49f275e0-47e2-464b-b65c-92ff2388f005" id="f02e2364-1d3c-4e04-a951-a8563c72b9be"/>
+            </Index>
+        </Table>
+        <Table id="b6768166-9eef-4451-80b4-61cdb8bf0954" name="nso_object_hist" schema="">
+            <Property name="LOCATION" value="1513:1234"/>
+            <Comment>История объекта</Comment>
+            <Attribute datatype="id_t" defaultvalue="nextval('nso_object_nso_id_seq'::regclass)" extra="" fraction="0" id="2fbbadfc-e2b8-48f2-8e36-8585d7322cee" name="nso_id" nullable="false" scale="10" size="19"/>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="2ca28276-0a16-4b25-a247-33897f5eabfa" name="parent_nso_id" nullable="true" scale="10" size="19"/>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="6354eef3-db65-449f-9084-4b6ff46c0542" name="nso_type_id" nullable="false" scale="10" size="19"/>
+            <Attribute datatype="t_guid" defaultvalue="" extra="" fraction="0" id="07b0a58d-3545-407c-b3c4-1b8672331e21" name="nso_uuid" nullable="false" scale="10" size="2147483647"/>
+            <Attribute datatype="t_timestamp" defaultvalue="(CURRENT_TIMESTAMP)::t_timestamp" extra="" fraction="6" id="6545950c-1e69-4a57-9b9b-921ca709450d" name="date_create" nullable="false" scale="10" size="0"/>
+            <Attribute datatype="small_t" defaultvalue="0" extra="" fraction="0" id="df30f323-70c2-4a74-9673-ba409bc874f8" name="nso_release" nullable="false" scale="10" size="5"/>
+            <Attribute datatype="t_boolean" defaultvalue="false" extra="" fraction="0" id="2904898b-ef43-47c4-b710-30ee05ee7b01" name="active_sign" nullable="false" scale="10" size="1"/>
+            <Attribute datatype="t_boolean" defaultvalue="false" extra="" fraction="0" id="2259893d-562a-41ba-9f48-d9b8ee6525a4" name="is_group_nso" nullable="false" scale="10" size="1"/>
+            <Attribute datatype="t_boolean" defaultvalue="false" extra="" fraction="0" id="1bfd0dd5-aebf-43d6-971b-f038016f77b4" name="is_intra_op" nullable="false" scale="10" size="1"/>
+            <Attribute datatype="t_boolean" defaultvalue="false" extra="" fraction="0" id="b8e494e5-0a8d-4610-a21f-beba1ff4691e" name="is_m_view" nullable="false" scale="10" size="1"/>
+            <Attribute datatype="t_boolean" defaultvalue="false" extra="" fraction="0" id="9c651464-8ff4-4cda-91b9-b4655f6610cb" name="unique_check" nullable="false" scale="10" size="1"/>
+            <Attribute datatype="t_str60" defaultvalue="" extra="" fraction="0" id="fac54b23-5267-46c7-8414-cdb14ebbb48c" name="nso_code" nullable="false" scale="10" size="64"/>
+            <Attribute datatype="t_str250" defaultvalue="" extra="" fraction="0" id="a85552d2-9051-4d35-b88b-6f0b3cd4dfc7" name="nso_name" nullable="false" scale="10" size="254"/>
+            <Attribute datatype="t_text" defaultvalue="" extra="" fraction="0" id="c1ff1caa-f248-4c6e-a2f3-5c1e3ff1ad62" name="nso_select" nullable="true" scale="10" size="2147483647"/>
+            <Attribute datatype="smallint" defaultvalue="0" extra="" fraction="0" id="eb47276a-8003-47ce-99f8-ed342d654f28" name="section_number" nullable="false" scale="10" size="5"/>
+            <Attribute datatype="t_timestamp" defaultvalue="(CURRENT_TIMESTAMP)::t_timestamp" extra="" fraction="6" id="e1c892ed-85d4-4ee0-a977-6b2cdee8fbe3" name="date_from" nullable="false" scale="10" size="0"/>
+            <Attribute datatype="t_timestamp" defaultvalue="('9999-12-31 00:00:00'::timestamp without time zone)::t_timestamp" extra="" fraction="6" id="91d18dad-d4c4-4515-9ccc-ba951977f2ad" name="date_to" nullable="false" scale="10" size="0"/>
+            <Attribute datatype="id_t" defaultvalue="0" extra="" fraction="0" id="2fb10863-b5f9-463c-9cf8-427165b4d934" name="id_log" nullable="false" scale="10" size="19"/>
+            <Attribute datatype="id_t" defaultvalue="nextval('all_history_id_seq'::regclass)" extra="" fraction="0" id="dee981ca-621e-4041-ae2b-022c305c1862" name="obj_hist_id" nullable="false" scale="10" size="19">
+                <Comment>Идентификатор историии НСO</Comment>
+            </Attribute>
+            <Index id="8ccb6efb-1ed3-47ab-9a90-8ad6df00b26e" indextype="PRIMARYKEY" name="pk_nso_object_hist">
+                <Indexattribute attributerefid="dee981ca-621e-4041-ae2b-022c305c1862" id="db7f498a-c311-4936-a44b-d3663fe0f9c3"/>
+            </Index>
+        </Table>
+        <Table id="9d90a6b1-e9a2-457a-bd92-a09a6d922384" name="nso_blob_hist" schema="">
+            <Property name="LOCATION" value="0:1401"/>
+            <Comment>История изменений большого значения</Comment>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="c3e200ec-008a-4ae8-b798-5d08bffa2ed8" name="rec_id" nullable="false" scale="10" size="19"/>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="a39de25d-a949-4ccc-95fb-79653f98905d" name="col_id" nullable="false" scale="10" size="19"/>
+            <Attribute datatype="t_boolean" defaultvalue="" extra="" fraction="0" id="4e455b08-593b-4be7-9483-c7b189149e86" name="is_actual" nullable="false" scale="10" size="1"/>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="a6549ecd-82ad-46e7-9146-de864f11fc55" name="log_id" nullable="false" scale="10" size="19"/>
+            <Attribute datatype="t_code1" defaultvalue="" extra="" fraction="0" id="ee438a2c-3730-47bb-9324-2578292f9d1c" name="s_type_code" nullable="false" scale="10" size="5"/>
+            <Attribute datatype="smallint" defaultvalue="" extra="" fraction="0" id="1c949da7-ed41-414f-9db4-3d789229c30a" name="section_number" nullable="false" scale="10" size="5"/>
+            <Attribute datatype="t_str100" defaultvalue="" extra="" fraction="0" id="d0864778-c9ab-4a84-bc84-fc284e93a549" name="val_cel_hash" nullable="true" scale="10" size="104"/>
+            <Attribute datatype="t_fullname" defaultvalue="" extra="" fraction="0" id="851bab27-d9a5-4015-b985-d0c4543b52d0" name="val_cel_data_name" nullable="true" scale="10" size="1028"/>
+            <Attribute datatype="t_blob" defaultvalue="" extra="" fraction="0" id="092e9ae6-f3e8-42a9-ab09-5adefbf86679" name="val_cell_blob" nullable="true" scale="10" size="2147483647"/>
+            <Attribute datatype="id_t" defaultvalue="nextval('all_history_id_seq'::regclass)" extra="" fraction="0" id="9d5e18e6-1fb0-4ab4-a98e-88e7f55fd76f" name="blob_hist_id" nullable="false" scale="10" size="19"/>
+            <Index id="64b86afb-0134-4516-a351-e8fb8e5f565c" indextype="PRIMARYKEY" name="pk_nso_blob_hist">
+                <Indexattribute attributerefid="9d5e18e6-1fb0-4ab4-a98e-88e7f55fd76f" id="a929ac23-c61e-4bd9-9e9e-2e2696ae8dea"/>
+            </Index>
+        </Table>
+        <Table id="809afd83-708a-4fad-86d0-1ca175f25fe5" name="nso_column_head_hist" schema="">
+            <Property name="LOCATION" value="50:958"/>
+            <Comment>История колонки</Comment>
+            <Attribute datatype="id_t" defaultvalue="nextval('nso_column_head_col_id_seq'::regclass)" extra="" fraction="0" id="bb334cda-79a3-46b4-a579-e3b78e3eaac6" name="col_id" nullable="false" scale="10" size="19"/>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="b72a4a75-3150-4f45-a3be-0b05142c4c4b" name="parent_col_id" nullable="true" scale="10" size="19"/>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="625ea718-90db-4aeb-9c66-de1e305a9b3d" name="attr_id" nullable="false" scale="10" size="19"/>
+            <Attribute datatype="t_code1" defaultvalue="" extra="" fraction="0" id="70097740-b3ec-4456-a0bc-2bb8d1e7cafa" name="attr_scode" nullable="false" scale="10" size="5"/>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="cedae153-1018-4c3f-bfff-52863681d540" name="nso_id" nullable="false" scale="10" size="19"/>
+            <Attribute datatype="t_str60" defaultvalue="" extra="" fraction="0" id="e86038fe-ecab-420f-90e1-e4804c61226d" name="col_code" nullable="false" scale="10" size="64"/>
+            <Attribute datatype="t_str250" defaultvalue="" extra="" fraction="0" id="22fd49b4-3618-470e-a8c2-d942c2ab5d3c" name="col_name" nullable="false" scale="10" size="254"/>
+            <Attribute datatype="small_t" defaultvalue="0" extra="" fraction="0" id="43b0940d-9b21-4a2c-bbb9-119528dd6e42" name="number_col" nullable="false" scale="10" size="5"/>
+            <Attribute datatype="t_boolean" defaultvalue="false" extra="" fraction="0" id="90c02297-b8ca-490f-a78d-de528e20cf81" name="mandatory" nullable="false" scale="10" size="1"/>
+            <Attribute datatype="t_timestamp" defaultvalue="(now())::t_timestamp" extra="" fraction="6" id="5bf0647b-fc3f-4415-87d7-65d255012c41" name="date_from" nullable="false" scale="10" size="0"/>
+            <Attribute datatype="t_timestamp" defaultvalue="('9999-12-31 00:00:00'::timestamp without time zone)::t_timestamp" extra="" fraction="6" id="e086e4d9-164b-4043-81c8-2fc7134e2024" name="date_to" nullable="false" scale="10" size="0"/>
+            <Attribute datatype="id_t" defaultvalue="0" extra="" fraction="0" id="6d0ad236-ea5b-4295-bfc5-f2c418ac8374" name="log_id" nullable="false" scale="10" size="19"/>
+            <Attribute datatype="id_t" defaultvalue="nextval('all_history_id_seq'::regclass)" extra="" fraction="0" id="56c72d62-720b-4042-bff8-f94152e6b4e1" name="col_hist_id" nullable="false" scale="10" size="19">
+                <Comment>Идентификатор истории колонки</Comment>
+            </Attribute>
+            <Index id="50bf56d0-5347-45c8-bc20-ec3dd29d3f61" indextype="PRIMARYKEY" name="pk_nso_column_head_hist">
+                <Indexattribute attributerefid="56c72d62-720b-4042-bff8-f94152e6b4e1" id="9c0db7e0-6d74-4240-94b0-32a063ecaeed"/>
+            </Index>
+        </Table>
+        <Table id="f6abadb5-75f4-462b-be2f-256f6b18edaa" name="nso_record" schema="">
+            <Property name="LOCATION" value="607:1294"/>
+            <Comment>НСО Запись</Comment>
+            <Attribute datatype="id_t" defaultvalue="nextval('nso_record_rec_id_seq'::regclass)" extra="" fraction="0" id="ad6e6659-af83-4e5e-8dcd-f240edf73317" name="rec_id" nullable="false" scale="10" size="19">
+                <Comment>Идентификатор  записи</Comment>
+            </Attribute>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="e995db0e-900b-4b11-a340-5976548f2933" name="parent_rec_id" nullable="true" scale="10" size="19">
+                <Comment>Идентификатор родительской  записи</Comment>
+            </Attribute>
+            <Attribute datatype="t_guid" defaultvalue="" extra="" fraction="0" id="2e3e3da8-ab9c-43d8-8aca-f491f396af62" name="rec_uuid" nullable="false" scale="10" size="2147483647">
+                <Comment>UUID записи</Comment>
+            </Attribute>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="103b67a4-4a4c-4989-8346-a1b5a9fce7b8" name="nso_id" nullable="false" scale="10" size="19">
+                <Comment>Идентификатор НСО</Comment>
+            </Attribute>
+            <Attribute datatype="t_boolean" defaultvalue="true" extra="" fraction="0" id="d257e391-2726-4354-b04f-51e242a02115" name="actual" nullable="false" scale="10" size="1">
+                <Comment>Актуальность записи</Comment>
+            </Attribute>
+            <Attribute datatype="smallint" defaultvalue="0" extra="" fraction="0" id="6d5ed63b-2f6b-4a96-979c-1c1c8070d90b" name="section_number" nullable="false" scale="10" size="5">
+                <Comment>Номер секции</Comment>
+            </Attribute>
+            <Attribute datatype="t_timestamp" defaultvalue="(CURRENT_TIMESTAMP)::t_timestamp" extra="" fraction="6" id="1c0dd430-a5e5-4844-9443-06f7fb7c971c" name="date_from" nullable="false" scale="10" size="0">
+                <Comment>Дата начала актуальности</Comment>
+            </Attribute>
+            <Attribute datatype="t_timestamp" defaultvalue="('9999-12-31 00:00:00'::timestamp without time zone)::t_timestamp" extra="" fraction="6" id="3ed4df18-fc92-4029-a48b-ff1a67862f89" name="date_to" nullable="false" scale="10" size="0">
+                <Comment>Дата конца актуальности</Comment>
+            </Attribute>
+            <Attribute datatype="id_t" defaultvalue="0" extra="" fraction="0" id="b00be98e-8caf-4299-a7b6-0540cf78faba" name="log_id" nullable="false" scale="10" size="19">
+                <Comment>Идентификатор журнала</Comment>
+            </Attribute>
+            <Index id="a2243277-494b-463a-ba97-5f613e066231" indextype="PRIMARYKEY" name="pk_nso_record">
+                <Indexattribute attributerefid="ad6e6659-af83-4e5e-8dcd-f240edf73317" id="09d66474-388e-4764-9518-b0b33ef314b2"/>
+            </Index>
+            <Index id="4902b73b-fa01-48c4-a462-355fb142761e" indextype="UNIQUE" name="ak1_nso_record">
+                <Indexattribute attributerefid="2e3e3da8-ab9c-43d8-8aca-f491f396af62" id="63115a4a-b19e-4b4b-b330-f5788892125a"/>
+            </Index>
+            <Index id="64410440-a880-4b0f-8b95-7c74755e433b" indextype="NONUNIQUE" name="ie1_nso_record">
+                <Indexattribute attributerefid="1c0dd430-a5e5-4844-9443-06f7fb7c971c" id="04fd9f6e-6047-4030-aa36-01ddfeb221c2"/>
+            </Index>
+            <Index id="fff0a2bb-2923-4a5b-8d22-e1a2d32e7fbc" indextype="NONUNIQUE" name="ie2_nso_record">
+                <Indexattribute attributerefid="103b67a4-4a4c-4989-8346-a1b5a9fce7b8" id="c445362a-3995-4292-aba2-0bfc505a2f92"/>
+            </Index>
+        </Table>
+        <Table id="e75defcb-33bc-4eaa-b384-193bc72d48d2" name="nso_record_hist" schema="">
+            <Property name="LOCATION" value="662:1551"/>
+            <Comment>История изменений записей НСО</Comment>
+            <Attribute datatype="id_t" defaultvalue="nextval('nso_record_rec_id_seq'::regclass)" extra="" fraction="0" id="8d639e44-5b04-4e84-9575-6aed88c54c85" name="rec_id" nullable="false" scale="10" size="19"/>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="e95f43e9-b603-473c-8416-bdea259b07ee" name="parent_rec_id" nullable="true" scale="10" size="19"/>
+            <Attribute datatype="t_guid" defaultvalue="" extra="" fraction="0" id="b8215f78-5d4f-49ff-93d6-776265bd6d2b" name="rec_uuid" nullable="false" scale="10" size="2147483647"/>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="eb1bdde9-c58c-4456-8ef0-59b01ec51cb1" name="nso_id" nullable="false" scale="10" size="19"/>
+            <Attribute datatype="t_boolean" defaultvalue="true" extra="" fraction="0" id="98ebe0e3-f23d-4e28-8192-efdb90a152c5" name="actual" nullable="false" scale="10" size="1"/>
+            <Attribute datatype="smallint" defaultvalue="0" extra="" fraction="0" id="8bfa8207-2009-4f5a-9b70-69adc8d0631a" name="section_number" nullable="false" scale="10" size="5"/>
+            <Attribute datatype="t_timestamp" defaultvalue="(CURRENT_TIMESTAMP)::t_timestamp" extra="" fraction="6" id="315ff1de-cad8-4f56-b767-688ed2a8b1f2" name="date_from" nullable="false" scale="10" size="0"/>
+            <Attribute datatype="t_timestamp" defaultvalue="('9999-12-31 00:00:00'::timestamp without time zone)::t_timestamp" extra="" fraction="6" id="586de370-73bd-4a10-b5b0-dfb2f77e6dd7" name="date_to" nullable="false" scale="10" size="0"/>
+            <Attribute datatype="id_t" defaultvalue="0" extra="" fraction="0" id="9b5076c7-148e-4051-a911-fb487ad90aac" name="log_id" nullable="false" scale="10" size="19"/>
+            <Attribute datatype="id_t" defaultvalue="nextval('all_history_id_seq'::regclass)" extra="" fraction="0" id="35a1a978-190d-4f4e-b38b-5c2f6049a623" name="rec_hist" nullable="false" scale="10" size="19">
+                <Comment>Идентификатор историии записи</Comment>
+            </Attribute>
+            <Index id="237961c1-c60a-4189-89b3-3ce7a0f2d9c0" indextype="PRIMARYKEY" name="pk_nso_record_hist">
+                <Indexattribute attributerefid="35a1a978-190d-4f4e-b38b-5c2f6049a623" id="973e0180-1cca-4cb5-b986-f6aef3e5101b"/>
+            </Index>
+        </Table>
+        <Table id="ec57ef88-d371-4822-a963-bdcd1014cce9" name="nso_blob" schema="">
+            <Property name="LOCATION" value="107:1586"/>
+            <Comment>Значение большое</Comment>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="08cca703-2b41-4e09-8e8e-1809cd00930f" name="rec_id" nullable="false" scale="10" size="19">
+                <Comment>ID записи</Comment>
+            </Attribute>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="b81b8864-dd33-4e45-8ade-7c8786e51f8f" name="col_id" nullable="false" scale="10" size="19">
+                <Comment>ID колонки</Comment>
+            </Attribute>
+            <Attribute datatype="t_boolean" defaultvalue="true" extra="" fraction="0" id="342c9704-c668-48c8-afba-e2b63b6f4d95" name="is_actual" nullable="false" scale="10" size="1">
+                <Comment>Признак актуальности</Comment>
+            </Attribute>
+            <Attribute datatype="id_t" defaultvalue="0" extra="" fraction="0" id="7154c331-29e5-4d87-b493-4c7f70933d91" name="log_id" nullable="false" scale="10" size="19">
+                <Comment>Идентификатор журнала</Comment>
+            </Attribute>
+            <Attribute datatype="t_code1" defaultvalue="'0'::bpchar" extra="" fraction="0" id="55d98b5d-5b35-4df4-b532-7a57d0d2363e" name="s_type_code" nullable="false" scale="10" size="5">
+                <Comment>Тип электронной копии</Comment>
+            </Attribute>
+            <Attribute datatype="smallint" defaultvalue="0" extra="" fraction="0" id="7c08588c-2e98-461c-9cac-620ab2db161b" name="section_number" nullable="false" scale="10" size="5">
+                <Comment>Номер секции</Comment>
+            </Attribute>
+            <Attribute datatype="t_str100" defaultvalue="" extra="" fraction="0" id="a5bf5f6d-584c-4daa-a606-d53ed73fc5e9" name="val_cel_hash" nullable="true" scale="10" size="104">
+                <Comment>MD5 контрольная сумма (для проверки целостности данных)</Comment>
+            </Attribute>
+            <Attribute datatype="t_fullname" defaultvalue="" extra="" fraction="0" id="76b48f3d-0417-4374-9081-2e109591f850" name="val_cel_data_name" nullable="true" scale="10" size="1028">
+                <Comment>Имя файла</Comment>
+            </Attribute>
+            <Attribute datatype="t_blob" defaultvalue="" extra="" fraction="0" id="b08319c4-07aa-437c-82cc-94c5a1510068" name="val_cell_blob" nullable="true" scale="10" size="2147483647">
+                <Comment>Значение</Comment>
+            </Attribute>
+        </Table>
+        <Table id="14d45822-0845-4b8c-b536-fccbbfb89287" name="obj_codifier" schema="">
+            <Property name="LOCATION" value="787:423"/>
+            <Comment>Определяет наиболее фундаментальные свойства сущностей БД, к таким свойствам относятся: тип объекта, тип данных, константы</Comment>
+            <Attribute datatype="id_t" defaultvalue="nextval('obj_codifier_codif_id_seq'::regclass)" extra="" fraction="0" id="d8ed1a18-4bc2-4cae-a14f-0e8e3d21e18b" name="codif_id" nullable="false" scale="10" size="19">
+                <Comment>Идентификатор экземпляра</Comment>
+            </Attribute>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="97f97169-e146-49d8-8265-9a1363de3ddf" name="parent_codif_id" nullable="true" scale="10" size="19">
+                <Comment>Идентификатор родителя</Comment>
+            </Attribute>
+            <Attribute datatype="t_code1" defaultvalue="" extra="" fraction="0" id="ef4d6fd4-73c5-4f71-b0c9-b7f32c639c01" name="small_code" nullable="false" scale="10" size="5">
+                <Comment>Краткий код</Comment>
+            </Attribute>
+            <Attribute datatype="t_str60" defaultvalue="" extra="" fraction="0" id="873d9661-34f7-4590-bf5a-1092e8c3de91" name="codif_code" nullable="false" scale="10" size="64">
+                <Comment>Код</Comment>
+            </Attribute>
+            <Attribute datatype="t_str250" defaultvalue="" extra="" fraction="0" id="ecdec38e-28a8-4794-aef2-5980b26e5065" name="codif_name" nullable="false" scale="10" size="254">
+                <Comment>Наименование</Comment>
+            </Attribute>
+            <Attribute datatype="t_timestamp" defaultvalue="(now())::t_timestamp" extra="" fraction="6" id="ff0e4ff4-8678-4fe4-9696-e089b67939e3" name="create_date" nullable="false" scale="10" size="0">
+                <Comment>Дата создания</Comment>
+            </Attribute>
+            <Attribute datatype="t_timestamp" defaultvalue="(now())::t_timestamp" extra="" fraction="6" id="f5514cdc-5ed1-480c-a170-2879854f4062" name="date_from" nullable="false" scale="10" size="0">
+                <Comment>Дата начала актуальности</Comment>
+            </Attribute>
+            <Attribute datatype="t_timestamp" defaultvalue="('9999-12-31 00:00:00'::timestamp without time zone)::t_timestamp" extra="" fraction="6" id="bb4daab6-fce9-409c-b3bf-8eee7b02759e" name="date_to" nullable="false" scale="10" size="0">
+                <Comment>Дата конца актуальности</Comment>
+            </Attribute>
+            <Attribute datatype="t_guid" defaultvalue="" extra="" fraction="0" id="6c35748f-b76e-496c-9d66-bd8edc8c4d6f" name="codif_uuid" nullable="false" scale="10" size="2147483647">
+                <Comment>UUID</Comment>
+            </Attribute>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="bd1959d6-5bed-4b90-bfa0-ef6697fc01ab" name="id_log" nullable="true" scale="10" size="19">
+                <Comment>Идентификатор журнала</Comment>
+            </Attribute>
+            <Index id="c13606fe-a370-48af-805a-b5c7c53a85c1" indextype="PRIMARYKEY" name="pk_obj_codifier">
+                <Indexattribute attributerefid="d8ed1a18-4bc2-4cae-a14f-0e8e3d21e18b" id="5aa3894e-987a-429a-aa9c-7c7f9602c27b"/>
+            </Index>
+            <Index id="35acee50-081f-4c35-90bc-118427b4be4d" indextype="UNIQUE" name="ak1_obj_codifier">
+                <Indexattribute attributerefid="873d9661-34f7-4590-bf5a-1092e8c3de91" id="e4ce5360-3f01-4983-a0bc-834d9e1a912b"/>
+            </Index>
+            <Index id="d70bf8dc-7d56-492e-9502-bdb226d6528f" indextype="UNIQUE" name="ak2_obj_codifier">
+                <Indexattribute attributerefid="ecdec38e-28a8-4794-aef2-5980b26e5065" id="3f908c84-8e8c-4dcb-b269-8c2fb6043f0f"/>
+                <Indexattribute attributerefid="97f97169-e146-49d8-8265-9a1363de3ddf" id="cc768bd8-b73b-400b-9d52-017211830815"/>
+            </Index>
+            <Index id="01630e75-32da-4ade-a4d2-7644bad815e9" indextype="UNIQUE" name="ak3_obj_codifier">
+                <Indexattribute attributerefid="ef4d6fd4-73c5-4f71-b0c9-b7f32c639c01" id="ac863b2b-914a-4ee7-b59d-1fa484643472"/>
+            </Index>
+            <Index id="5696e0ba-2c44-45ef-9d81-71086df540dc" indextype="UNIQUE" name="ak4_obj_codifier">
+                <Indexattribute attributerefid="6c35748f-b76e-496c-9d66-bd8edc8c4d6f" id="46fbb4a7-4793-4321-956f-f7d63f79be33"/>
+            </Index>
+        </Table>
+        <Table id="024baac8-8aab-4943-9385-0f128f8cef58" name="nso_domain_column" schema="">
+            <Property name="LOCATION" value="243:235"/>
+            <Comment>Домен колонки</Comment>
+            <Attribute datatype="id_t" defaultvalue="nextval('nso_domain_column_attr_id_seq'::regclass)" extra="" fraction="0" id="0d06ce01-1ed1-4cc3-8ae1-11ed95689ba7" name="attr_id" nullable="false" scale="10" size="19">
+                <Comment>Идентификатор атрибута</Comment>
+            </Attribute>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="8930e102-cb06-4195-ab07-92ee8ef72dda" name="parent_attr_id" nullable="true" scale="10" size="19">
+                <Comment>Идентификатор родительского атрибута</Comment>
+            </Attribute>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="951f418d-0b86-4e91-9818-c0907094d5da" name="attr_type_id" nullable="false" scale="10" size="19">
+                <Comment>Тип атрибута</Comment>
+            </Attribute>
+            <Attribute datatype="t_code1" defaultvalue="" extra="" fraction="0" id="00ca8de1-5b70-48c6-b8cf-2f88462ddb8d" name="small_code" nullable="false" scale="10" size="5">
+                <Comment>Краткий код типа атрибута</Comment>
+            </Attribute>
+            <Attribute datatype="t_guid" defaultvalue="" extra="" fraction="0" id="e1bdac45-3fd3-412b-9069-60683cd0f5c4" name="attr_uuid" nullable="false" scale="10" size="2147483647">
+                <Comment>UUID атрибута</Comment>
+            </Attribute>
+            <Attribute datatype="t_timestamp" defaultvalue="(CURRENT_TIMESTAMP)::timestamp(0) without time zone" extra="" fraction="6" id="1530d046-e43c-414c-8d97-4d042f4f3b2d" name="attr_create_date" nullable="false" scale="10" size="0">
+                <Comment>Дата создания</Comment>
+            </Attribute>
+            <Attribute datatype="t_boolean" defaultvalue="false" extra="" fraction="0" id="5c7b0201-e576-4cd3-a2ad-474723148412" name="is_intra_op" nullable="false" scale="10" size="1">
+                <Comment>Признак итраоперабельности</Comment>
+            </Attribute>
+            <Attribute datatype="t_str60" defaultvalue="" extra="" fraction="0" id="1872e8dd-4a9e-41b5-8d89-0b6c6f6ae138" name="attr_code" nullable="false" scale="10" size="64">
+                <Comment>Код атрибута</Comment>
+            </Attribute>
+            <Attribute datatype="t_str250" defaultvalue="" extra="" fraction="0" id="9c6b278a-9619-44c9-9c5d-ddbb0cc4a632" name="attr_name" nullable="false" scale="10" size="254">
+                <Comment>Наименование атрибута</Comment>
+            </Attribute>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="a43f0c7c-9097-4f38-a98c-095b92289ef5" name="domain_nso_id" nullable="true" scale="10" size="19">
+                <Comment>Идентификатор НСО домена</Comment>
+            </Attribute>
+            <Attribute datatype="t_str60" defaultvalue="" extra="" fraction="0" id="2d2a34ab-b0d3-49d9-8028-7763e543ead1" name="domain_nso_code" nullable="true" scale="10" size="64">
+                <Comment>Код НСО домена</Comment>
+            </Attribute>
+            <Attribute datatype="t_timestamp" defaultvalue="(CURRENT_TIMESTAMP)::t_timestamp" extra="" fraction="6" id="79155cf6-92af-4e5b-997e-7e646fe53f3c" name="date_from" nullable="false" scale="10" size="0">
+                <Comment>Дата начала актуальности</Comment>
+            </Attribute>
+            <Attribute datatype="t_timestamp" defaultvalue="('9999-12-31 00:00:00'::timestamp without time zone)::t_timestamp" extra="" fraction="6" id="f5c1b844-0947-41c9-a93a-fdf398748c2b" name="date_to" nullable="false" scale="10" size="0">
+                <Comment>Дата конца актуальности</Comment>
+            </Attribute>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="dc2ed6d9-50b8-49a6-b9a2-868e29b4c2b7" name="id_log" nullable="true" scale="10" size="19">
+                <Comment>Идентификатор журнала</Comment>
+            </Attribute>
+            <Index id="43f47785-62fb-448b-9f3a-628505eb4a16" indextype="PRIMARYKEY" name="pk_nso_domain_column">
+                <Indexattribute attributerefid="0d06ce01-1ed1-4cc3-8ae1-11ed95689ba7" id="29ea9251-7320-478d-af22-b011c0c534d3"/>
+            </Index>
+            <Index id="225d2f9d-412d-4b3d-a305-9752ad1f0a2d" indextype="UNIQUE" name="ak1_nso_domain_column">
+                <Indexattribute attributerefid="1872e8dd-4a9e-41b5-8d89-0b6c6f6ae138" id="d5328670-6a45-4dbe-84ee-beca45470f99"/>
+            </Index>
+            <Index id="e0b4d58a-ae3d-4aa6-967d-b186b96fc233" indextype="UNIQUE" name="ak2_nso_domain_column">
+                <Indexattribute attributerefid="9c6b278a-9619-44c9-9c5d-ddbb0cc4a632" id="8c36e92e-d503-4beb-918a-96348e6be961"/>
+            </Index>
+            <Index id="50c22cd9-a01f-4582-ae8e-ad261311eb96" indextype="UNIQUE" name="ak3_nso_domain_column">
+                <Indexattribute attributerefid="e1bdac45-3fd3-412b-9069-60683cd0f5c4" id="678dadc1-4281-4588-9ce4-d9d0fbac5b60"/>
+            </Index>
+            <Index id="996d7936-9579-4e37-be11-bc601cdb0a46" indextype="NONUNIQUE" name="ie1_nso_domain_column">
+                <Indexattribute attributerefid="79155cf6-92af-4e5b-997e-7e646fe53f3c" id="c6eaf390-2a3c-43d6-a22f-387293209472"/>
+            </Index>
+        </Table>
+    </Tables>
+    <Relations>
+        <Relation exportingtablerefid="f39e3853-9864-4dc0-beb6-e6ab73021a56" id="ce9ba55a-e402-4125-ac97-84a3cbfc9339" importingtablerefid="c4da0529-4576-4e25-bfb9-26a3ae0a068c" name="fk_nso_section_has_nso_object" ondelete="NOTHING" onupdate="NOTHING">
+            <Mapping exportingexpressionrefid="2874e323-e1e8-482d-a304-ef82c82c57b7" importingattributerefid="d2f169c1-af54-486d-b3aa-c31b861b9e37"/>
+        </Relation>
+        <Relation exportingtablerefid="c4da0529-4576-4e25-bfb9-26a3ae0a068c" id="bcd074b2-5f48-4873-96e6-b3bac12fa95c" importingtablerefid="c4da0529-4576-4e25-bfb9-26a3ae0a068c" name="k_nso_object_grouping_nso_object" ondelete="NOTHING" onupdate="NOTHING">
+            <Mapping exportingexpressionrefid="cff3b18f-45b8-44c7-acd8-5ebb9c865e74" importingattributerefid="179ab982-69e2-4ebc-b8a0-61ddc1180758"/>
+        </Relation>
+        <Relation exportingtablerefid="14d45822-0845-4b8c-b536-fccbbfb89287" id="4d04c8c8-eccd-42d2-be17-e4b275d776c2" importingtablerefid="14d45822-0845-4b8c-b536-fccbbfb89287" name="fk_obj_codifier_grouping_obj_codifier" ondelete="RESTRICT" onupdate="RESTRICT">
+            <Mapping exportingexpressionrefid="5aa3894e-987a-429a-aa9c-7c7f9602c27b" importingattributerefid="97f97169-e146-49d8-8265-9a1363de3ddf"/>
+        </Relation>
+        <Relation exportingtablerefid="14d45822-0845-4b8c-b536-fccbbfb89287" id="b3d8815e-e261-4567-9673-dc51bd94a8d3" importingtablerefid="c4da0529-4576-4e25-bfb9-26a3ae0a068c" name="fk_obj_codifier_typify_nso_object" ondelete="NOTHING" onupdate="NOTHING">
+            <Mapping exportingexpressionrefid="5aa3894e-987a-429a-aa9c-7c7f9602c27b" importingattributerefid="3da4e4d1-0763-4fc2-8509-378a6a36665b"/>
+        </Relation>
+        <Relation exportingtablerefid="c4da0529-4576-4e25-bfb9-26a3ae0a068c" id="84a8cb7e-d67c-41c5-bc9b-362b1a4a36ef" importingtablerefid="f6abadb5-75f4-462b-be2f-256f6b18edaa" name="fk_nso_object_contains_nso_records" ondelete="NOTHING" onupdate="NOTHING">
+            <Mapping exportingexpressionrefid="cff3b18f-45b8-44c7-acd8-5ebb9c865e74" importingattributerefid="103b67a4-4a4c-4989-8346-a1b5a9fce7b8"/>
+        </Relation>
+        <Relation exportingtablerefid="f6abadb5-75f4-462b-be2f-256f6b18edaa" id="cdef8866-f9e4-4afa-badd-6279b4dbdc37" importingtablerefid="f6abadb5-75f4-462b-be2f-256f6b18edaa" name="fk_nso_rec_groups_nso_rec" ondelete="NOTHING" onupdate="NOTHING">
+            <Mapping exportingexpressionrefid="09d66474-388e-4764-9518-b0b33ef314b2" importingattributerefid="e995db0e-900b-4b11-a340-5976548f2933"/>
+        </Relation>
+        <Relation exportingtablerefid="fd618930-f03d-4ab7-918b-37f52a86d9e6" id="9a9296f5-0f72-41ab-83dd-6d11b9af00b0" importingtablerefid="c4da0529-4576-4e25-bfb9-26a3ae0a068c" name="fk_nso_log_idents_nso_obj" ondelete="NOTHING" onupdate="NOTHING">
+            <Mapping exportingexpressionrefid="52aef265-5317-4175-bfa2-8caf32b7ebb3" importingattributerefid="b1f9b24a-0eff-4797-92c5-765ed724cbbb"/>
+        </Relation>
+        <Relation exportingtablerefid="fd618930-f03d-4ab7-918b-37f52a86d9e6" id="88edb4e8-65af-4836-b2d0-cb08eb653f9e" importingtablerefid="f6abadb5-75f4-462b-be2f-256f6b18edaa" name="fk_nso_log_idents_nso_rec" ondelete="NOTHING" onupdate="NOTHING">
+            <Mapping exportingexpressionrefid="52aef265-5317-4175-bfa2-8caf32b7ebb3" importingattributerefid="b00be98e-8caf-4299-a7b6-0540cf78faba"/>
+        </Relation>
+        <Relation exportingtablerefid="fd618930-f03d-4ab7-918b-37f52a86d9e6" id="ffcc9db7-9464-452a-8e0e-c16f54f1d9e7" importingtablerefid="f39e3853-9864-4dc0-beb6-e6ab73021a56" name="fk_nso_log_idents_nso_section" ondelete="NOTHING" onupdate="NOTHING">
+            <Mapping exportingexpressionrefid="52aef265-5317-4175-bfa2-8caf32b7ebb3" importingattributerefid="92924d26-6938-4317-b5b9-b895bd6d73e6"/>
+        </Relation>
+        <Relation exportingtablerefid="8719866d-95b9-4a5f-bd65-3b4165a89f1f" id="8d356c99-6f5f-473f-8d49-68d6f4812a3a" importingtablerefid="8719866d-95b9-4a5f-bd65-3b4165a89f1f" name="fk_nso_column_headre_is_parent" ondelete="NOTHING" onupdate="NOTHING">
+            <Mapping exportingexpressionrefid="ccf2a748-ed70-4aa2-8338-23e5e3c6fd72" importingattributerefid="38bd18eb-5845-4626-a772-63e1242ae4fa"/>
+        </Relation>
+        <Relation exportingtablerefid="c4da0529-4576-4e25-bfb9-26a3ae0a068c" id="4d5d60aa-5bf5-42b9-b1ec-07228272cc2d" importingtablerefid="8719866d-95b9-4a5f-bd65-3b4165a89f1f" name="fk_nso_object_has_nso_column_head" ondelete="NOTHING" onupdate="NOTHING">
+            <Mapping exportingexpressionrefid="cff3b18f-45b8-44c7-acd8-5ebb9c865e74" importingattributerefid="708a04d4-e8c8-4965-b982-5e97d851bd20"/>
+        </Relation>
+        <Relation exportingtablerefid="024baac8-8aab-4943-9385-0f128f8cef58" id="521379f7-ca70-4fdd-9f3c-9871777e2a45" importingtablerefid="024baac8-8aab-4943-9385-0f128f8cef58" name="fk_nso_domain_column_grouping_nso_domain_column" ondelete="RESTRICT" onupdate="RESTRICT">
+            <Mapping exportingexpressionrefid="29ea9251-7320-478d-af22-b011c0c534d3" importingattributerefid="8930e102-cb06-4195-ab07-92ee8ef72dda"/>
+        </Relation>
+        <Relation exportingtablerefid="14d45822-0845-4b8c-b536-fccbbfb89287" id="a863b854-ea7a-435f-bc8a-1b7ceaf097fa" importingtablerefid="024baac8-8aab-4943-9385-0f128f8cef58" name="fk_obj_codifier_typify_nso_domain_column" ondelete="RESTRICT" onupdate="RESTRICT">
+            <Mapping exportingexpressionrefid="5aa3894e-987a-429a-aa9c-7c7f9602c27b" importingattributerefid="951f418d-0b86-4e91-9818-c0907094d5da"/>
+        </Relation>
+        <Relation exportingtablerefid="024baac8-8aab-4943-9385-0f128f8cef58" id="7de5428b-7223-43e9-8e70-60f5ee9afbf4" importingtablerefid="8719866d-95b9-4a5f-bd65-3b4165a89f1f" name="fk_nso_domain_column_define_nso_column_head" ondelete="NOTHING" onupdate="NOTHING">
+            <Mapping exportingexpressionrefid="29ea9251-7320-478d-af22-b011c0c534d3" importingattributerefid="ff8e8d5d-4133-47c5-93a6-ba5aace12fbf"/>
+        </Relation>
+        <Relation exportingtablerefid="fd618930-f03d-4ab7-918b-37f52a86d9e6" id="c5837f84-5adb-4be1-b813-9154056a0a76" importingtablerefid="8719866d-95b9-4a5f-bd65-3b4165a89f1f" name="fk_nso_log_idents_nso_column_head" ondelete="NOTHING" onupdate="NOTHING">
+            <Mapping exportingexpressionrefid="52aef265-5317-4175-bfa2-8caf32b7ebb3" importingattributerefid="6cc3c36e-754d-4a90-868d-d42b4cf25783"/>
+        </Relation>
+    </Relations>
+    <Views/>
+    <Subjectareas/>
+    <Comments/>
+</Model>

@@ -1,0 +1,140 @@
+-- ------------------------------------------
+--   2020-04-02 Что делаем ?? Ставим "pgtap"
+-- ------------------------------------------
+
+Переменные окружения. 
+
+    $PGDATABASE
+    $PGHOST
+    $PGPORT
+    $PGUSER
+
+#>find / -print | grep pgtap.sql
+/usr/pgsql-12/share/extension/pgtap.sql
+/usr/pgsql-12/share/extension/uninstall_pgtap.sql
+
+---------------------------------------------------------------------------------------------------
+#>l /usr/pgsql-12/share/extension/pgtap*
+-rw-r--r--. 1 root root    731 дек  4 21:13 /usr/pgsql-12/share/extension/pgtap--0.90.0--0.91.0.sql
+-rw-r--r--. 1 root root  54374 дек  4 21:13 /usr/pgsql-12/share/extension/pgtap--0.91.0--0.92.0.sql
+-rw-r--r--. 1 root root  20921 дек  4 21:13 /usr/pgsql-12/share/extension/pgtap--0.92.0--0.93.0.sql
+-rw-r--r--. 1 root root   5504 дек  4 21:13 /usr/pgsql-12/share/extension/pgtap--0.93.0--0.94.0.sql
+-rw-r--r--. 1 root root  20962 дек  4 21:13 /usr/pgsql-12/share/extension/pgtap--0.94.0--0.95.0.sql
+-rw-r--r--. 1 root root  13901 дек  4 21:13 /usr/pgsql-12/share/extension/pgtap--0.95.0--0.96.0.sql
+-rw-r--r--. 1 root root  12129 дек  4 21:13 /usr/pgsql-12/share/extension/pgtap--0.96.0--0.97.0.sql
+-rw-r--r--. 1 root root  13940 дек  4 21:13 /usr/pgsql-12/share/extension/pgtap--0.97.0--0.98.0.sql
+-rw-r--r--. 1 root root   6373 дек  4 21:13 /usr/pgsql-12/share/extension/pgtap--0.98.0--0.99.0.sql
+-rw-r--r--. 1 root root  25471 дек  4 21:13 /usr/pgsql-12/share/extension/pgtap--0.99.0--1.0.0.sql
+-rw-r--r--. 1 root root   5919 дек  4 21:13 /usr/pgsql-12/share/extension/pgtap--1.0.0--1.1.0.sql
+-rw-r--r--. 1 root root 344265 дек  4 21:13 /usr/pgsql-12/share/extension/pgtap--1.1.0.sql
+-rw-r--r--. 1 root root    176 дек  4 21:13 /usr/pgsql-12/share/extension/pgtap.control
+-rw-r--r--. 1 root root 117243 дек  4 21:13 /usr/pgsql-12/share/extension/pgtap-core--1.1.0.sql
+-rw-r--r--. 1 root root 117243 дек  4 21:13 /usr/pgsql-12/share/extension/pgtap-core.sql
+-rw-r--r--. 1 root root 214014 дек  4 21:13 /usr/pgsql-12/share/extension/pgtap-schema--1.1.0.sql
+-rw-r--r--. 1 root root 214014 дек  4 21:13 /usr/pgsql-12/share/extension/pgtap-schema.sql
+-rw-r--r--. 1 root root 344265 дек  4 21:13 /usr/pgsql-12/share/extension/pgtap.sql
+-rw-r--r--. 1 root root  47343 дек  4 21:13 /usr/pgsql-12/share/extension/pgtap--unpackaged--0.91.0.sql
+-------------------------------------------------------------------------------------------------------
+
+SELECT pg_version();
+SELECT current_setting('server_version_num')::integer;
+SHOW search_path;
+ALTER DATABASE db_k SET search_path=', pgtap, pgq, public, com, com_codifier, com_domain
+      , com_object, com_relation, com_error, nso, nso_structure, nso_data, nso_exchange
+      , ind, ind_structure, ind_data, ind_exchange, auth, auth_serv_obj, auth_apr, auth_exchange
+      , uio, utl, db_info, pg_catalog'
+--
+-- -----------------------------------------------------
+--
+$>psql -d db_k -Xf test_0.sql -U postgres 2 > t01.err
+1..2
+ok 1 - Тест "DC::insert_test пройден"
+# Looks like you planned 2 tests but ran 1
+$>
+
+
+--------------------------------------------------------
+
+SELECT pg_version();
+SELECT current_setting('server_version_num')::integer;
+
+% psql -d try -Xf test.sql
+1..1
+ok 1 - My test passed, w00t!
+
+-------------------------------------------------------
+$>psql -d db_k -Xf test_0.sql -U postgres 2>test_0_out.txt
+1..2
+ok 1 - Тест "DC::insert_test пройден"
+# Looks like you planned 2 tests but ran 1
+$>
+--
+--  pg_prove !!!!!!!!!!
+--
+$>pg_prove -d db_k -U postgres test_0.sql 2> test_0_out.txt
+test_0.sql .. ok   
+All tests successful.
+Files=1, Tests=2,  1 wallclock secs ( 0.02 usr +  0.01 sys =  0.03 CPU)
+Result: PASS
+$>
+
+$>
+--
+-- ===============================================================================================
+--
+>pg_prove --help
+Usage:
+      pg_prove tests/
+      pg_prove --dbname template1 test*.sql
+      pg_prove -d testdb --runtests
+
+Options:
+     -b   --psql-bin PSQL        Location of the psql client.
+     -d,  --dbname DBNAME        Database to which to connect.
+     -U,  --username USERNAME    User with which to connect.
+     -h,  --host HOST            Host to which to connect.
+     -p,  --port PORT            Port to which to connect.
+     -P,  --pset OPTION=VALUE    Set psql key/value printing option.
+     -S,  --set VAR=VALUE        Set variables for psql session.
+     -R   --runtests             Run xUnit test using runtests().
+     -s,  --schema SCHEMA        Schema in which to find xUnit tests.
+     -x,  --match REGEX          Regular expression to find xUnit tests.
+
+          --ext                  Set the extension for tests (default .pg)
+     -r,  --recurse              Recursively descend into directories.
+          --ignore-exit          Ignore exit status from test scripts.
+          --trap                 Trap Ctrl-C and print summary on interrupt.
+          --harness              Define test harness to use.
+     -j,  --jobs N               Run N test jobs in parallel (try 9.)
+          --rc RCFILE            Process options from rcfile
+          --norc                 Don't process default .proverc
+          --state OPTION=VALUE   Set persistent state options.
+
+     -v,  --verbose              Print all test lines.
+     -f,  --failures             Show failed tests.
+     -o,  --comments             Show comments and diagnostics.
+          --directives           Only show results with TODO or SKIP directives.
+     -q,  --quiet                Suppress some test output while running tests.
+     -Q,  --QUIET                Only print summary results.
+          --parse                Show full list of TAP parse errors, if any.
+          --normalize            Normalize TAP output in verbose output
+     -D   --dry                  Dry run. Show test that would have run.
+          --merge                Merge test scripts' STDERR and STDOUT.
+     -t   --timer                Print elapsed time after each test.
+     -c,  --color                Colored test output (default).
+          --nocolor              Do not color test output.
+          --shuffle              Run the tests in random order.
+          --reverse              Run the tests in reverse order.
+     -a,  --archive FILENAME     Store the resulting TAP in an archive file.
+          --formatter            Result formatter to use.
+          --count                Show X/Y test count when not verbose (default)
+          --nocount              Disable the X/Y test count.
+
+     -H,  --help                 Print a usage statement and exit.
+     -?,                         Print a usage statement and exit.
+     -m,  --man                  Print the complete documentation and exit.
+     -V,  --version              Print the version number and exit.
+
+$>
+
+

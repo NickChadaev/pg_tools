@@ -1,0 +1,12 @@
+CREATE DOMAIN public.ip_t inet;
+CREATE DOMAIN public.small_t smallint;
+CREATE DOMAIN public.t_int integer;
+CREATE DOMAIN public.longint_t bigint;
+CREATE DOMAIN public.t_blob bytea;
+CREATE DOMAIN public.t_boolean boolean;
+CREATE DOMAIN public.t_code1 character(1);
+CREATE DOMAIN public.t_code2 character(2);
+CREATE DOMAIN public.t_code5 character(5);
+CREATE DOMAIN public.t_guid uuid;
+CREATE DOMAIN public.t_str1024 character varying(1024);
+CREATE DOMAIN public.t_str2048 character varying(2048);

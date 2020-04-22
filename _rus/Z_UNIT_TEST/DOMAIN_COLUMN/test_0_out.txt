@@ -1,0 +1,12 @@
+psql:insert_test.sql:58: ЗАМЕЧАНИЕ:  Этап 1: Выбор типа атрибута, (исходные значения): arr_code = "{C_DOMEN_NODE,SMALL_T,T_INT,LONGINT_T,T_FLOAT,T_BOOLEAN,T_CODE1,T_CODE2,T_CODE5,T_STR20,T_STR60,T_STR250,T_STR1024,T_STR2048,T_DESCRIPTION,T_TIMESTAMP,T_TIMESTAMPZ,T_DATE,IP_T,XML_T,T_GUID,T_SYSNAME,T_FIELDNAME,T_MONEY,T_INN_UL,T_KPP,T_PHONE_NMB,T_REF,T_TEXT,T_INN_PP,T_DECIMAL,T_BLOB,T_JSON,ID_T,T_INTERVAL,T_BIT4,T_BIT8}"
+psql:insert_test.sql:58: ЗАМЕЧАНИЕ:  Этап 1: Выбор типа атрибута, (выбрано): attr_type_code = "T_DECIMAL", _parent_attr_code = "IND_APP_NODE"
+psql:insert_test.sql:58: ЗАМЕЧАНИЕ:  Этап 2: Родитель: (7,3,IND_APP_NODE,"Прикладные атрибуты схемы IND",7,C_DOMEN_NODE,"Узловой Атрибут",,0,,,637a1331-12aa-4c46-bb5a-47d746a4ea22,"2019-07-15 04:57:18",f,"2019-07-15 04:57:18","9999-12-31 00:00:00",{7},1,"Прикладные атрибуты схемы IND",,,,1648)
+psql:insert_test.sql:58: ЗАМЕЧАНИЕ:  Этап 3: Проверка кода функции "com_domain.nso_p_domain_column_i": ()
+psql:insert_test.sql:58: ЗАМЕЧАНИЕ:  Этап 4: Проверка зависимостей в коде функции "com_domain.nso_p_domain_column_i": (FUNCTION,17051,com_codifier,com_f_obj_codifier_s,"(t_str60,t_str60)")
+psql:insert_test.sql:58: ЗАМЕЧАНИЕ:  Этап 4: Проверка зависимостей в коде функции "com_domain.nso_p_domain_column_i": (FUNCTION,17082,com_error,f_error_handling,"(exception_type_t,t_arr_text)")
+psql:insert_test.sql:58: ЗАМЕЧАНИЕ:  Этап 4: Проверка зависимостей в коде функции "com_domain.nso_p_domain_column_i": (FUNCTION,17179,utl,com_f_empty_string_to_null,"(t_text)")
+psql:insert_test.sql:58: ЗАМЕЧАНИЕ:  Этап 4: Проверка зависимостей в коде функции "com_domain.nso_p_domain_column_i": (RELATION,17248,com,nso_domain_column,)
+psql:insert_test.sql:58: ЗАМЕЧАНИЕ:  Этап 4: Проверка зависимостей в коде функции "com_domain.nso_p_domain_column_i": (RELATION,17273,com,obj_codifier,)
+psql:insert_test.sql:58: ЗАМЕЧАНИЕ:  Этап 4: Проверка зависимостей в коде функции "com_domain.nso_p_domain_column_i": (RELATION,18456,nso,nso_object,)
+psql:insert_test.sql:58: ЗАМЕЧАНИЕ:  Этап 5: Выполнение: (100,"Создание атрибута выполнено успешно")
+psql:insert_test.sql:58: ЗАМЕЧАНИЕ:  Этап 6: Результат: (100,7,I_CODE_4204.5392447291615,ИМЯ_1101.5647597796274,306,T_DECIMAL,"Десятичное число",17,6,numeric,N,0789066b-8f2f-49cd-a087-898bfa5ab776,"2020-04-02 13:08:54",f,"2020-04-02 13:08:54","9999-12-31 00:00:00",{100},1,ИМЯ_1101.5647597796274,,,,1843)

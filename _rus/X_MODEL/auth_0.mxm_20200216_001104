@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?><Model version="5.0">
+    <Configuration>
+        <Property name="dialect" value="PostgresDialect"/>
+        <Property name="ALIAS" value="db_k"/>
+        <Property name="DRIVER" value="org.postgresql.Driver"/>
+        <Property name="PASSWORD" value=""/>
+        <Property name="PROMPTFORPASSWORD" value="false"/>
+        <Property name="URL" value="jdbc:postgresql://192.168.56.101:5432/db_k"/>
+        <Property name="USER" value="postgres"/>
+    </Configuration>
+    <CustomTypes/>
+    <Domains>
+        <Domain datatype="bigint" fraction="" id="a2aafbf7-56c4-4e5d-a4a9-40841db5b18a" name="id_t" nullable="true" scale="10" size="">
+            <Comment>Идентификатор</Comment>
+        </Domain>
+        <Domain datatype="inet" fraction="" id="7005005c-2d01-4d09-b734-8563d98bb6e3" name="ip_t" nullable="true" scale="10" size="">
+            <Comment>IP адрес</Comment>
+        </Domain>
+        <Domain datatype="smallint" fraction="" id="fc9d25e5-6e69-4326-a533-b7eaf3217868" name="small_t" nullable="true" scale="10" size="">
+            <Comment>Короткое целое</Comment>
+        </Domain>
+        <Domain datatype="integer" fraction="" id="243b7058-ad72-4510-b2af-79c921092450" name="t_int" nullable="true" scale="10" size="">
+            <Comment>Целое</Comment>
+        </Domain>
+        <Domain datatype="bigint" fraction="" id="c20b4e40-46c1-4fc5-9fde-df499c79a9c7" name="longint_t" nullable="true" scale="10" size="">
+            <Comment>Длинное целое</Comment>
+        </Domain>
+        <Domain datatype="bytea" fraction="" id="db7f741f-84c7-4102-b6fd-eb9d7db28f0a" name="t_blob" nullable="true" scale="10" size="">
+            <Comment>Нестуктурированная бинарная информация</Comment>
+        </Domain>
+        <Domain datatype="boolean" fraction="" id="60a7f1b6-27b9-4dc2-a8c0-f7c7e525e02f" name="t_boolean" nullable="true" scale="10" size="">
+            <Comment>Логическое</Comment>
+        </Domain>
+        <Domain datatype="character" fraction="" id="1a07e1b7-e80d-470d-be33-a87f21ea65f3" name="t_code1" nullable="true" scale="10" size="1">
+            <Comment>Код размерностью 1 символ</Comment>
+        </Domain>
+        <Domain datatype="character" fraction="" id="8340fd6c-6a6e-410c-bc8e-40793fbc5afc" name="t_code2" nullable="true" scale="10" size="2">
+            <Comment>Код размерностью 2 символа</Comment>
+        </Domain>
+        <Domain datatype="character" fraction="" id="f87b9537-4779-4998-90d3-2b3631e3fa72" name="t_code5" nullable="true" scale="10" size="5">
+            <Comment>Код размерностью 5 символов</Comment>
+        </Domain>
+        <Domain datatype="uuid" fraction="" id="03d88ec2-fda1-4ecf-aec7-c8e2674806f2" name="t_guid" nullable="true" scale="10" size="">
+            <Comment>UUID</Comment>
+        </Domain>
+        <Domain datatype="character varying" fraction="" id="ca4774fb-3286-4e7d-b535-12f6f8e6becd" name="t_str1024" nullable="true" scale="10" size="1024">
+            <Comment>Строка 1024 символов</Comment>
+        </Domain>
+        <Domain datatype="character varying" fraction="" id="29b2ad6a-62ef-4da5-ba11-6bd09bf1a8f6" name="t_str2048" nullable="true" scale="10" size="2048">
+            <Comment>Строка размерностью 2048 символов</Comment>
+        </Domain>
+        <Domain datatype="character varying" fraction="" id="c12a7a46-cc0d-4d4e-b9ca-71b9d888ae3f" name="t_str250" nullable="true" scale="10" size="250">
+            <Comment>Строка 250 символов</Comment>
+        </Domain>
+        <Domain datatype="character varying" fraction="" id="e4a29085-34c9-4a28-8434-1a2bdd9bea54" name="t_str60" nullable="true" scale="10" size="60">
+            <Comment>Строка 60 символов</Comment>
+        </Domain>
+        <Domain datatype="timestamp" fraction="" id="e0cd4d49-e07a-4ddb-b572-a9c729a9e31f" name="t_timestamp" nullable="true" scale="10" size="">
+            <Comment>Дата время без часового пояса</Comment>
+        </Domain>
+        <Domain datatype="xml" fraction="" id="c9fb8ec8-ff37-485b-a3fc-ede1e5d718f6" name="xml_t" nullable="true" scale="10" size="">
+            <Comment>XML</Comment>
+        </Domain>
+        <Domain datatype="oid" fraction="" id="5238a469-ec11-420c-b417-fba572492ca4" name="t_oid" nullable="true" scale="10" size="">
+            <Comment>Системный идентификатор</Comment>
+        </Domain>
+        <Domain datatype="character varying" fraction="" id="30a2c81d-322b-4724-825e-32d4eea49b57" name="t_sysname" nullable="true" scale="10" size="120">
+            <Comment>Имя таблицы</Comment>
+        </Domain>
+        <Domain datatype="character varying" fraction="" id="ad41a0fa-0f68-411e-a7ea-5ec625b24ffe" name="t_fieldname" nullable="true" scale="10" size="120">
+            <Comment>Имя поля базы данных</Comment>
+        </Domain>
+        <Domain datatype="character varying" fraction="" id="bd663b23-680b-478f-a7e7-7859d2cd0bea" name="t_fullname" nullable="true" scale="10" size="1024">
+            <Comment>Полное наименование</Comment>
+        </Domain>
+        <Domain datatype="bigint[]" fraction="" id="54c3797d-49c6-42b7-96e1-3562b884c563" name="t_arr_id" nullable="true" scale="10" size="">
+            <Comment>Массив идентификаторов</Comment>
+        </Domain>
+        <Domain datatype="character varying[]" fraction="" id="6e7b9b37-e377-4bef-a44d-cf5148fb16cd" name="t_arr_code" nullable="true" scale="10" size="60">
+            <Comment>Массив кодов</Comment>
+        </Domain>
+        <Domain datatype="character varying" fraction="" id="4fa159de-0e47-411f-92c4-282bee682d83" name="t_code6" nullable="true" scale="10" size="6">
+            <Comment>Код размерностью 6 символов</Comment>
+        </Domain>
+        <Domain datatype="character varying" fraction="" id="f10e7bcf-75de-4dfd-9c41-492920c25200" name="t_str100" nullable="true" scale="10" size="100">
+            <Comment>Строка 100 символов</Comment>
+        </Domain>
+        <Domain datatype="text" fraction="" id="45794cea-8c33-4869-b0b5-1cdcda63e0ff" name="t_description" nullable="true" scale="10" size="">
+            <Comment>Расширенное полное наименование</Comment>
+        </Domain>
+        <Domain datatype="character" fraction="" id="4a44c005-5510-451f-bd85-864be5532b2f" name="t_inn_ul" nullable="true" scale="10" size="10">
+            <Comment>ИНН юридического лица</Comment>
+        </Domain>
+        <Domain datatype="character" fraction="" id="8db85a76-9dd5-4068-b662-7394c44acb6b" name="t_inn_pp" nullable="true" scale="10" size="12">
+            <Comment>ИНН физического лица</Comment>
+        </Domain>
+        <Domain datatype="numeric" fraction="2" id="3bf7daf7-22c9-4787-951d-fc44c92853f0" name="t_money" nullable="true" scale="10" size="15">
+            <Comment>Денежная единица</Comment>
+        </Domain>
+        <Domain datatype="character" fraction="" id="aabffc0f-9dad-4343-b353-903512642948" name="t_kpp" nullable="true" scale="10" size="9">
+            <Comment>КПП</Comment>
+        </Domain>
+        <Domain datatype="character" fraction="" id="78b84d99-039d-4a96-9aed-e04e76950e79" name="t_phone_nmb" nullable="true" scale="10" size="10">
+            <Comment>Номер телефона</Comment>
+        </Domain>
+        <Domain datatype="date" fraction="" id="ae80f34d-6365-49ba-be7a-860a19acef68" name="t_date" nullable="true" scale="10" size="">
+            <Comment>Дата</Comment>
+        </Domain>
+        <Domain datatype="character varying" fraction="" id="6edfdf7f-5c92-4f96-a445-3427d465a9c5" name="t_shortname" nullable="true" scale="10" size="100">
+            <Comment>Краткое наименование</Comment>
+        </Domain>
+        <Domain datatype="character varying" fraction="" id="5f41a60b-8fac-4304-8558-8adbec6a1179" name="t_str20" nullable="true" scale="10" size="20">
+            <Comment>Строка 20 символов</Comment>
+        </Domain>
+        <Domain datatype="character varying" fraction="" id="cade3a94-fbee-4d9a-b6d2-4c35a663dba0" name="t_str4096" nullable="true" scale="10" size="4096">
+            <Comment>Строка 4096 символов</Comment>
+        </Domain>
+        <Domain datatype="time with time zone" fraction="" id="b9dd01f9-70a7-44bd-82a2-3303d8cc35bf" name="t_timestampz" nullable="true" scale="10" size="">
+            <Comment>Дата время с часовым поясом</Comment>
+        </Domain>
+        <Domain datatype="character varying[]" fraction="" id="8caf9214-8ef7-45ae-9ae8-13bf03c738d8" name="t_arr_values" nullable="true" scale="10" size="2048">
+            <Comment>Массив значений</Comment>
+        </Domain>
+        <Domain datatype="text" fraction="" id="5412f803-73a0-45d1-8d64-273934183e1d" name="t_text" nullable="true" scale="10" size="">
+            <Comment>Текст не лимитированной длины.</Comment>
+        </Domain>
+        <Domain datatype="numeric" fraction="6" id="f9883ded-f113-4f4f-a690-bc890c5c78e8" name="t_decimal" nullable="true" scale="10" size="17">
+            <Comment>Десятичное число</Comment>
+        </Domain>
+        <Domain datatype="json" fraction="" id="3dcab9b3-593b-490e-8ad3-33b5ad2c0dc4" name="t_json" nullable="true" scale="10" size="">
+            <Comment>Тип JSON (Java Script Objects Notation)</Comment>
+        </Domain>
+        <Domain datatype="interval" fraction="" id="70d5cfd4-52f5-4e5a-92fd-19154e414948" name="t_interval" nullable="true" scale="10" size="">
+            <Comment>Интервал</Comment>
+        </Domain>
+        <Domain datatype="smallint[]" fraction="" id="3b2de3e4-b5ac-466f-b4a5-77b31f272216" name="t_arr_nmb" nullable="true" scale="10" size="">
+            <Comment>Массив коротких целых</Comment>
+        </Domain>
+        <Domain datatype="text[]" fraction="" id="118935cd-a2e8-4964-822a-097d0e3799fd" name="t_arr_text" nullable="true" scale="10" size="">
+            <Comment>Массив текстов не лимитированной длины.</Comment>
+        </Domain>
+        <Domain datatype="boolean[]" fraction="" id="af08c10e-926a-4064-9f40-0666471e74cc" name="t_arr_boolean" nullable="true" scale="10" size="">
+            <Comment>Массив логических значений</Comment>
+        </Domain>
+        <Domain datatype="character varying" fraction="" id="763a0e40-d7ca-4822-b169-da7dfa2b0009" name="t_filename" nullable="true" scale="10" size="1024">
+            <Comment>Имя внешнего файла</Comment>
+        </Domain>
+        <Domain datatype="uuid[]" fraction="" id="7fb00c4e-a1f8-4adf-b56d-cdc0abfdc9ce" name="t_arr_guid" nullable="true" scale="10" size="">
+            <Comment>Массив UUID</Comment>
+        </Domain>
+        <Domain datatype="character[]" fraction="" id="a2057abb-f355-409f-8c52-0867fa112a18" name="t_arr_code1" nullable="true" scale="10" size="1">
+            <Comment>Массив CHAR(1) K</Comment>
+        </Domain>
+        <Domain datatype="bit varying" fraction="" id="bf4190ba-db3d-46f1-8b15-d79ea77b434f" name="t_bit4" nullable="true" scale="10" size="4">
+            <Comment>4-х битовая строка</Comment>
+        </Domain>
+        <Domain datatype="bit varying" fraction="" id="8d5d5dc7-1e47-4cf2-802e-228a6e449066" name="t_bit8" nullable="true" scale="10" size="8">
+            <Comment>8-ми битовая строка</Comment>
+        </Domain>
+        <Domain datatype="bit varying" fraction="" id="10bd66c7-ec2d-4d76-a2f6-f010d21f76fe" name="t_bit16" nullable="true" scale="10" size="16">
+            <Comment>16-ти битовая строка</Comment>
+        </Domain>
+    </Domains>
+    <Tables>
+        <Table id="6b5c6472-381f-443f-95dc-8ca5489bf746" name="ind_indicator" schema="">
+            <Property name="LOCATION" value="66:211"/>
+            <Comment>Постоянная часть показателя</Comment>
+            <Attribute datatype="id_t" defaultvalue="nextval('ind_indicator_ind_id_seq'::regclass)" extra="" fraction="0" id="8c4d8610-07f8-427b-85b4-e293689717ba" name="ind_id" nullable="false" scale="10" size="19">
+                <Comment>Идентификатор показателя</Comment>
+            </Attribute>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="ef4a06f2-8c35-4609-9474-6069c7d6688d" name="parent_ind_id" nullable="true" scale="10" size="19">
+                <Comment>Идентификатор родительского показателя</Comment>
+            </Attribute>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="25539a0c-d6a0-4a05-9af7-6847e19541f8" name="ind_type_id" nullable="false" scale="10" size="19">
+                <Comment>Тип показателя</Comment>
+            </Attribute>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="bb14b32a-1295-4c06-931c-c18dc0b93c0e" name="subject_id" nullable="true" scale="10" size="19">
+                <Comment>Идентификатор субъекта - Воздействующая сущность</Comment>
+            </Attribute>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="586e62d0-576d-4e3b-9251-2ada5e8912d0" name="object_id" nullable="false" scale="10" size="19">
+                <Comment>Идентификатор объекта - Сущность Испытывает воздействие</Comment>
+            </Attribute>
+            <Attribute datatype="t_timestamp" defaultvalue="(now())::timestamp(0) without time zone" extra="" fraction="6" id="92e2eefc-d640-4e31-9dfb-947aa9566e03" name="date_system_write" nullable="false" scale="10" size="0">
+                <Comment>Время записи в систему</Comment>
+            </Attribute>
+            <Index id="3e24e861-c60e-478f-9e69-1f770cea2733" indextype="PRIMARYKEY" name="pk_ind_indicator">
+                <Indexattribute attributerefid="8c4d8610-07f8-427b-85b4-e293689717ba" id="aa743115-b17e-41f8-9308-502de1f09aed"/>
+            </Index>
+            <Index id="9d606060-8ead-43aa-b3c0-2c2da28c42b1" indextype="NONUNIQUE" name="ie1_ind_indicator">
+                <Indexattribute attributerefid="586e62d0-576d-4e3b-9251-2ada5e8912d0" id="b2bf02d5-deca-4066-82e5-93ebc543c605"/>
+                <Indexattribute attributerefid="8c4d8610-07f8-427b-85b4-e293689717ba" id="c1c5aa5c-0559-4474-8640-69a4acb69185"/>
+            </Index>
+            <Index id="0b501330-95d7-408a-b651-41f601f08ca0" indextype="NONUNIQUE" name="ie2_ind_indicator">
+                <Indexattribute attributerefid="586e62d0-576d-4e3b-9251-2ada5e8912d0" id="4eba015d-c2fe-460e-8301-02ffe20be849"/>
+                <Indexattribute attributerefid="bb14b32a-1295-4c06-931c-c18dc0b93c0e" id="6cc5a187-b48a-4ed9-ae81-9ff51ba4b6bd"/>
+                <Indexattribute attributerefid="25539a0c-d6a0-4a05-9af7-6847e19541f8" id="0bd563a3-0a4e-491f-b95a-18a651260b37"/>
+            </Index>
+        </Table>
+        <Table id="aa8f753e-2f38-4fd4-8486-e5fcc3bea364" name="ind_type_header" schema="">
+            <Property name="LOCATION" value="430:45"/>
+            <Comment>Каждый типа показателя имеет уникальный заголовок.</Comment>
+            <Attribute datatype="id_t" defaultvalue="nextval('ind_type_header_column_id_seq'::regclass)" extra="" fraction="0" id="a2d4f641-6c08-4f24-bba5-174faaadbade" name="column_id" nullable="false" scale="10" size="19">
+                <Comment>Идентификатор столбца</Comment>
+            </Attribute>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="1f4ad388-cbce-4937-8dee-bac70e41ba30" name="parent_column_id" nullable="true" scale="10" size="19">
+                <Comment>Идентификатор родительского столбца</Comment>
+            </Attribute>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="0703e361-e8a9-4810-80d6-ff69ca94f413" name="ind_type_id" nullable="false" scale="10" size="19">
+                <Comment>Идентификатор типа показателя</Comment>
+            </Attribute>
+            <Attribute datatype="t_str60" defaultvalue="" extra="" fraction="0" id="078e96e0-ff2e-41f4-8c99-31ddeb91f0e7" name="ind_type_code" nullable="false" scale="10" size="64">
+                <Comment>Код типа типа показателя</Comment>
+            </Attribute>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="a9039bd0-d2bf-4b81-b5dd-316e25e3134a" name="attr_id" nullable="false" scale="10" size="19">
+                <Comment>Идентификатор атрибута</Comment>
+            </Attribute>
+            <Attribute datatype="t_str60" defaultvalue="" extra="" fraction="0" id="1d3d503a-01a6-4e57-b720-b444b9d46598" name="column_code" nullable="false" scale="10" size="64">
+                <Comment>Код колонки</Comment>
+            </Attribute>
+            <Attribute datatype="small_t" defaultvalue="" extra="" fraction="0" id="71cb8f35-df07-4937-9b4a-38bc82fa1ca5" name="col_nmb" nullable="false" scale="10" size="5">
+                <Comment>Номер колонки П/П</Comment>
+            </Attribute>
+            <Attribute datatype="t_str250" defaultvalue="" extra="" fraction="0" id="e0451b60-b2ca-435e-9efa-3b0da8f4f38c" name="column_name" nullable="false" scale="10" size="254">
+                <Comment>Наименование колонки</Comment>
+            </Attribute>
+            <Attribute datatype="t_code1" defaultvalue="" extra="" fraction="0" id="9544640f-856c-4787-9c05-017ad682f75a" name="column_scode" nullable="false" scale="10" size="5">
+                <Comment>Краткий код типа колонки</Comment>
+            </Attribute>
+            <Attribute datatype="id_t" defaultvalue="" extra="" fraction="0" id="05130e8b-780f-4d42-8c5f-a28da8f92a27" name="unit_measure_id" nullable="true" scale="10" size="19">
+                <Comment>Единица измерения колонки</Comment>
+            </Attribute>
+            <Attribute datatype="t_timestamp" defaultvalue="(now())::timestamp(0) without time zone" extra="" fraction="6" id="5c3118f0-1357-4d59-af94-aa04528c121c" name="date_from" nullable="false" scale="10" size="0">
+                <Comment>Дата актуальности</Comment>
+            </Attribute>
+            <Attribute datatype="t_timestamp" defaultvalue="'9999-12-31 00:00:00'::timestamp(0) without time zone" extra="" fraction="6" id="e284f7e5-52ea-4c0e-8ece-13b404a329e4" name="date_to" nullable="false" scale="10" size="0">
+                <Comment>Дата конца актуальности</Comment>
+            </Attribute>
+            <Attribute datatype="t_arr_id" defaultvalue="" extra="" fraction="0" id="2560c5ae-b135-4001-adfc-e728f86b086e" name="column_structure" nullable="true" scale="10" size="19">
+                <Comment>Стуктура колонки</Comment>
+            </Attribute>
+            <Attribute datatype="t_description" defaultvalue="" extra="" fraction="0" id="639e82d1-804b-4591-877b-f3b045ed8245" name="ind_select" nullable="true" scale="10" size="2147483647">
+                <Comment>Текст запроса SELECT</Comment>
+            </Attribute>
+            <Index id="ef9a082e-f8c1-4ddd-9c7a-dcf6bf26ff4f" indextype="PRIMARYKEY" name="pk_ind_type_header">
+                <Indexattribute attributerefid="a2d4f641-6c08-4f24-bba5-174faaadbade" id="9f696d82-f4f8-4f38-a153-fc9cfc004f59"/>
+            </Index>
+            <Index id="23d62057-cd08-4051-8c68-f5fb892144b4" indextype="UNIQUE" name="ak1_ind_type_header">
+                <Indexattribute attributerefid="a9039bd0-d2bf-4b81-b5dd-316e25e3134a" id="b1b46dd1-4069-419c-9746-89011c19ca41"/>
+                <Indexattribute attributerefid="1d3d503a-01a6-4e57-b720-b444b9d46598" id="41fe8e7a-5a4b-4023-8c5d-770b6c557601"/>
+                <Indexattribute attributerefid="0703e361-e8a9-4810-80d6-ff69ca94f413" id="3241b09f-7d13-48f4-be26-4e70f9e688a3"/>
+            </Index>
+            <Index id="b2fc8dc6-15c9-491e-80ae-961f0ddf66db" indextype="NONUNIQUE" name="ie1_ind_type_header">
+                <Indexattribute attributerefid="078e96e0-ff2e-41f4-8c99-31ddeb91f0e7" id="3d75da1b-c6eb-472e-86b9-32770269b6ce"/>
+            </Index>
+        </Table>
+    </Tables>
+    <Relations/>
+    <Views/>
+    <Subjectareas/>
+    <Comments/>
+</Model>

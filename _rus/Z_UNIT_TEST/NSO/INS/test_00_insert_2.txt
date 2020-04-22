@@ -1,0 +1,169 @@
+psql:INS/insert_test.sql:69: ЗАМЕЧАНИЕ:  Этап 1: Выбор кодов: arr_parent_code = "{NSO_ROOT,NSO_NORM,NSO_TTH,NSO_CLASS,NSO_DIC,NSO_UDF,NSO_SPR,SPR_LOCAL}", parent_attr_code = "SPR_LOCAL", nso_type_code = "C_NSO_SPR"
+psql:INS/insert_test.sql:69: ЗАМЕЧАНИЕ:  Этап 2: Исходные значения, родитель: (8,SPR_LOCAL,7,NSO_SPR,"Локальные справочники","2020-04-07 15:48:16",6,C_NSO_NODE,"Узловой НСО",0,fd52a781-0f5c-464b-9458-8372bdf9cc7e,f,t,f,f,f,0,"2020-04-07 15:48:16","9999-12-31 00:00:00",{8},1,"Локальные справочники")
+psql:INS/insert_test.sql:69: ЗАМЕЧАНИЕ:  Этап 3: Проверка кода функции: ()
+psql:INS/insert_test.sql:69: ЗАМЕЧАНИЕ:  Этап 4: Проверка зависимостей в коде функции: (FUNCTION,17049,com_codifier,com_f_obj_codifier_get_id,"(t_str60)")
+psql:INS/insert_test.sql:69: ЗАМЕЧАНИЕ:  Этап 4: Проверка зависимостей в коде функции: (FUNCTION,17067,com_domain,com_f_domain_get_id,"(t_str60)")
+psql:INS/insert_test.sql:69: ЗАМЕЧАНИЕ:  Этап 4: Проверка зависимостей в коде функции: (FUNCTION,17082,com_error,f_error_handling,"(exception_type_t,t_arr_text)")
+psql:INS/insert_test.sql:69: ЗАМЕЧАНИЕ:  Этап 4: Проверка зависимостей в коде функции: (FUNCTION,17125,nso,nso_p_nso_log_i,"(t_code1,t_text)")
+psql:INS/insert_test.sql:69: ЗАМЕЧАНИЕ:  Этап 4: Проверка зависимостей в коде функции: (FUNCTION,17179,utl,com_f_empty_string_to_null,"(t_text)")
+psql:INS/insert_test.sql:69: ЗАМЕЧАНИЕ:  Этап 4: Проверка зависимостей в коде функции: (FUNCTION,17186,utl,f_debug_status,"()")
+psql:INS/insert_test.sql:69: ЗАМЕЧАНИЕ:  Этап 4: Проверка зависимостей в коде функции: (RELATION,17248,com,nso_domain_column,)
+psql:INS/insert_test.sql:69: ЗАМЕЧАНИЕ:  Этап 4: Проверка зависимостей в коде функции: (RELATION,17273,com,obj_codifier,)
+psql:INS/insert_test.sql:69: ЗАМЕЧАНИЕ:  Этап 4: Проверка зависимостей в коде функции: (RELATION,18503,nso,nso_column_head,)
+psql:INS/insert_test.sql:69: ЗАМЕЧАНИЕ:  Этап 4: Проверка зависимостей в коде функции: (RELATION,18456,nso,nso_object,)
+psql:INS/insert_test.sql:69: ЗАМЕЧАНИЕ:  <nso_p_object_i>, parent_nso_id = "8", nso_type_id = "158", nso_code = "N_CODE_8145.86767259815", nso_name = "ИМЯ_5158.778038790786", nso_uuid = "31c0ca1e-01b2-4002-9ff8-d6543da386f9", date_create = "2011-01-01 00:00:00", date_from = "2011-01-01 00:00:00", date_to = "9999-12-31 00:00:00", p_is_group_nso = "f"
+psql:INS/insert_test.sql:69: ЗАМЕЧАНИЕ:  <nso_p_nso_log_i> 0, Создан НСО: "N_CODE_8145.86767259815 - ИМЯ_5158.778038790786"
+psql:INS/insert_test.sql:69: ЗАМЕЧАНИЕ:  Этап 5: Выполнение: (17,"Создание НСО выполнено успешно")
+psql:INS/insert_test.sql:69: ЗАМЕЧАНИЕ:  Этап 6: Результат: (17,N_CODE_8145.86767259815,8,SPR_LOCAL,ИМЯ_5158.778038790786,"2011-01-01 00:00:00",158,C_NSO_SPR,Справочник,0,31c0ca1e-01b2-4002-9ff8-d6543da386f9,t,f,f,f,f,0,"2011-01-01 00:00:00","9999-12-31 00:00:00",{17},1,ИМЯ_5158.778038790786)
+psql:INS/insert_test.sql:69: ЗАМЕЧАНИЕ:  --
+psql:INS/insert_test.sql:69: ЗАМЕЧАНИЕ:  *********
+psql:INS/insert_test.sql:69: ЗАМЕЧАНИЕ:  --
+psql:INS/insert_test_column_header.sql:78: ЗАМЕЧАНИЕ:  Этап 1: Выбор НСО, размера оглавления: nso_code = "N_CODE_8145.86767259815", head_len = "2"
+psql:INS/insert_test_column_header.sql:78: ЗАМЕЧАНИЕ:  Этап 2: Исходные значения: (41,,0,123,D_N_CODE_8145.86767259815,"Заголовок - ИМЯ_5158.778038790786",7,U,C_DOMEN_NODE,"Узловой Атрибут",f,,,,,,,,0)
+psql:INS/insert_test_column_header.sql:78: ЗАМЕЧАНИЕ:  Этап 3: Проверка кода функции: ()
+psql:INS/insert_test_column_header.sql:78: ЗАМЕЧАНИЕ:  Этап 4: Проверка зависимостей в коде функции: (FUNCTION,17070,com_domain,nso_f_domain_column_s,"(t_str60)")
+psql:INS/insert_test_column_header.sql:78: ЗАМЕЧАНИЕ:  Этап 4: Проверка зависимостей в коде функции: (FUNCTION,17082,com_error,f_error_handling,"(exception_type_t,t_arr_text)")
+psql:INS/insert_test_column_header.sql:78: ЗАМЕЧАНИЕ:  Этап 4: Проверка зависимостей в коде функции: (FUNCTION,17125,nso,nso_p_nso_log_i,"(t_code1,t_text)")
+psql:INS/insert_test_column_header.sql:78: ЗАМЕЧАНИЕ:  Этап 4: Проверка зависимостей в коде функции: (FUNCTION,17144,nso_structure,nso_f_select_c,"(t_str60)")
+psql:INS/insert_test_column_header.sql:78: ЗАМЕЧАНИЕ:  Этап 4: Проверка зависимостей в коде функции: (FUNCTION,17179,utl,com_f_empty_string_to_null,"(t_text)")
+psql:INS/insert_test_column_header.sql:78: ЗАМЕЧАНИЕ:  Этап 4: Проверка зависимостей в коде функции: (FUNCTION,17186,utl,f_debug_status,"()")
+psql:INS/insert_test_column_header.sql:78: ЗАМЕЧАНИЕ:  Этап 4: Проверка зависимостей в коде функции: (RELATION,17248,com,nso_domain_column,)
+psql:INS/insert_test_column_header.sql:78: ЗАМЕЧАНИЕ:  Этап 4: Проверка зависимостей в коде функции: (RELATION,18622,nso,nso_abs,)
+psql:INS/insert_test_column_header.sql:78: ЗАМЕЧАНИЕ:  Этап 4: Проверка зависимостей в коде функции: (RELATION,18652,nso,nso_blob,)
+psql:INS/insert_test_column_header.sql:78: ЗАМЕЧАНИЕ:  Этап 4: Проверка зависимостей в коде функции: (RELATION,18503,nso,nso_column_head,)
+psql:INS/insert_test_column_header.sql:78: ЗАМЕЧАНИЕ:  Этап 4: Проверка зависимостей в коде функции: (RELATION,18456,nso,nso_object,)
+psql:INS/insert_test_column_header.sql:78: ЗАМЕЧАНИЕ:  Этап 4: Проверка зависимостей в коде функции: (RELATION,18586,nso,nso_record,)
+psql:INS/insert_test_column_header.sql:78: ЗАМЕЧАНИЕ:  Этап 4: Проверка зависимостей в коде функции: (RELATION,18682,nso,nso_ref,)
+psql:INS/insert_test_column_header.sql:78: ЗАМЕЧАНИЕ:  <nso_p_nso_log_i> 9, Создан заголовок НСО: "N_CODE_8145.86767259815"
+psql:INS/insert_test_column_header.sql:78: ЗАМЕЧАНИЕ:  <nso_p_column_head_i>, N_CODE_8145.86767259815, D_N_CODE_8145.86767259815, FC_ADDR_P, t, f, C, A_CODE_1943.0316050703311, ИМЯ_9542.689339386605
+psql:INS/insert_test_column_header.sql:78: ЗАМЕЧАНИЕ:  Этап 5: Выполнение: (42,"Создание элемента заголовка НСО выполнено успешно")
+psql:INS/insert_test_column_header.sql:78: ЗАМЕЧАНИЕ:  <nso_p_nso_log_i> 9, Создан заголовок НСО: "N_CODE_8145.86767259815"
+psql:INS/insert_test_column_header.sql:78: ЗАМЕЧАНИЕ:  <nso_p_column_head_i>, N_CODE_8145.86767259815, D_N_CODE_8145.86767259815, FC_FIELDNAME, t, t, M, A_CODE_7542.779546602425, ИМЯ_4692.970184313481
+psql:INS/insert_test_column_header.sql:78: ЗАМЕЧАНИЕ:  <nso_structure.nso_f_select_c>, WITH rr ( rec_id, parent_rec_id, rec_uuid, date_from, n_col, ref_id, n_value )
+    AS ( WITH dt (nso_id, rec_id, parent_rec_id, rec_uuid, date_from, section_sign, col_id, ns_col)
+   		  AS (
+   		     SELECT o.nso_id, r.rec_id, r.parent_rec_id, r.rec_uuid, r.date_from, r.section_sign
+   		           ,h.col_id, h.number_col
+   			   FROM ONLY nso.nso_object o 
+   			      JOIN ONLY nso.nso_column_head h ON (o.nso_id = h.nso_id) AND (h.number_col > 0)
+   			      JOIN ONLY nso.nso_record r ON (o.nso_id = r.nso_id)
+   			   WHERE(o.nso_code = 'N_CODE_8145.86767259815')
+   			) 
+   		     SELECT dt.rec_id
+   		          , dt.parent_rec_id
+                     , dt.rec_uuid
+                     , dt.date_from
+   		          , dt.ns_col
+   		          , NULL::id_t AS ref_id
+   		          , a.val_cell_abs::t_text AS ns_value
+   		     FROM dt
+   		     JOIN nso.nso_abs a ON ((a.rec_id = dt.rec_id) AND (a.col_id = dt.col_id) AND
+   		                                 (a.section_sign = dt.section_sign)
+   		                                ) 
+   		UNION
+   		     SELECT dt.rec_id
+   		          , dt.parent_rec_id
+   		          , dt.rec_uuid
+                  , dt.date_from
+   		          , dt.ns_col
+   		          , r.ref_rec_id::id_t
+   		          , nso.nso_f_record_def_val (r.ref_rec_id )::t_text AS ns_value
+   		     FROM dt
+   		     JOIN ONLY nso.nso_ref r ON (r.rec_id = dt.rec_id)	AND (r.col_id = dt.col_id)
+           UNION
+   	         SELECT dt.rec_id
+   	              , dt.parent_rec_id
+   	              , dt.rec_uuid
+                     , dt.date_from
+   	              , dt.ns_col
+   	              , NULL::id_t
+   	              , CAST (
+   	                    CASE           
+   	                        WHEN b.s_type_code = 'н' THEN 'JPG'
+   	                        WHEN b.s_type_code = 'п' THEN 'PNG'
+   	                        WHEN b.s_type_code = 'т' THEN 'BMP'
+   	                        WHEN b.s_type_code = 'у' THEN 'PDF'
+   	                        WHEN b.s_type_code = 'ф' THEN 'GIF'
+   	                        WHEN b.s_type_code = 'х' THEN 'TIFF'
+   	                        WHEN b.s_type_code = 'ц' THEN 'DOC'
+   	                        WHEN b.s_type_code = 'ч' THEN 'XLS'
+   	                        WHEN b.s_type_code = 'ш' THEN 'PPT'
+   	                        WHEN b.s_type_code = 'щ' THEN 'ODT'
+   	                        WHEN b.s_type_code = 'ъ' THEN 'ODP'
+   	                        WHEN b.s_type_code = 'ы' THEN 'ODS'
+   	                        WHEN b.s_type_code = 'ь' THEN 'ODG'
+   	                        WHEN b.s_type_code = 'э' THEN 'DOCX'
+   	                        WHEN b.s_type_code = 'ю' THEN 'XLSX'
+   	                        WHEN b.s_type_code = 'я' THEN 'PPTX'
+   	                        WHEN b.s_type_code = 'ё' THEN 'TXT'
+   	                    END || ' | ' || b.val_cel_data_name
+   	                        || ' (' || pg_size_pretty ( octet_length ( b.val_cell_blob )::bigint ) || ')'
+   	                AS t_text ) AS n_value
+   	         FROM dt
+   	         JOIN nso.nso_blob b ON ((b.rec_id = dt.rec_id) AND (b.col_id = dt.col_id) AND
+   	                                      (b.section_sign = dt.section_sign)
+   	                                     ) 
+            ) SELECT rr.rec_id, rr.parent_rec_id, CAST(MAX(CASE rr.n_col WHEN 1 THEN utl.com_f_empty_string_to_null(rr.n_value) ELSE NULL END) AS t_str1024) AS a_code_1943_0316050703311
+, CAST(MAX(CASE rr.n_col WHEN 2 THEN utl.com_f_empty_string_to_null(rr.n_value) ELSE NULL END) AS t_fieldname) AS a_code_7542_779546602425
+
+, rr.rec_uuid, rr.date_from FROM rr GROUP BY rr.rec_id, rr.parent_rec_id, rr.rec_uuid, rr.date_from
+psql:INS/insert_test_column_header.sql:78: ЗАМЕЧАНИЕ:  <nso_p_nso_log_i> 4, Обновление данных объекта: N_CODE_8145.86767259815
+psql:INS/insert_test_column_header.sql:78: ЗАМЕЧАНИЕ:  Этап 5: Выполнение: (43,"Создание элемента заголовка НСО выполнено успешно")
+psql:INS/insert_test_column_header.sql:78: ЗАМЕЧАНИЕ:  Этап 6: Результат: (41,,0,123,D_N_CODE_8145.86767259815,"Заголовок - ИМЯ_5158.778038790786",7,U,C_DOMEN_NODE,"Узловой Атрибут",f,,,,,,,,0)
+psql:INS/insert_test_column_header.sql:78: ЗАМЕЧАНИЕ:  Этап 6: Результат: (42,41,1,59,A_CODE_1943.0316050703311,ИМЯ_9542.689339386605,288,C,T_STR1024,"Строка размерностью 1024 символов",t,,,,,,,,1)
+psql:INS/insert_test_column_header.sql:78: ЗАМЕЧАНИЕ:  Этап 6: Результат: (43,41,2,34,A_CODE_7542.779546602425,ИМЯ_4692.970184313481,298,M,T_FIELDNAME,"Имя поля базы данных",t,,,,,,,,1)
+psql:INS/insert_test_column_header.sql:78: ЗАМЕЧАНИЕ:  --
+psql:INS/insert_test_column_header.sql:78: ЗАМЕЧАНИЕ:  *********
+psql:INS/insert_test_column_header.sql:78: ЗАМЕЧАНИЕ:  --
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  Этап 1: Проверка кода функции: ()
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  Этап 2: Проверка зависимостей в коде функции: (FUNCTION,17054,com_codifier,com_f_obj_codifier_s_sys,"(t_str60)")
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  Этап 2: Проверка зависимостей в коде функции: (FUNCTION,17082,com_error,f_error_handling,"(exception_type_t,t_arr_text)")
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  Этап 2: Проверка зависимостей в коде функции: (FUNCTION,17125,nso,nso_p_nso_log_i,"(t_code1,t_text)")
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  Этап 2: Проверка зависимостей в коде функции: (FUNCTION,17139,nso_structure,nso_f_object_get_id,"(t_str60)")
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  Этап 2: Проверка зависимостей в коде функции: (FUNCTION,17179,utl,com_f_empty_string_to_null,"(t_text)")
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  Этап 2: Проверка зависимостей в коде функции: (FUNCTION,17186,utl,f_debug_status,"()")
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  Этап 2: Проверка зависимостей в коде функции: (RELATION,18622,nso,nso_abs,)
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  Этап 2: Проверка зависимостей в коде функции: (RELATION,18503,nso,nso_column_head,)
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  Этап 2: Проверка зависимостей в коде функции: (RELATION,18537,nso,nso_key,)
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  Этап 2: Проверка зависимостей в коде функции: (RELATION,18551,nso,nso_key_attr,)
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  Этап 3: Выбор НСО: nso_code = "N_CODE_5015.6228804410575", _head_len = "24", key_len = "3"
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  <com.com_f_obj_codifier_s_sys> {"{tree_d,ASC}"}
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  <com.com_f_obj_codifier_s_sys> {0,0,0,0,0,0,0,1,0,0,0}
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  <com.com_f_obj_codifier_s_sys> {8}
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  <nso_p_key_i>, N_CODE_5015.6228804410575, DEFKEY, {A_CODE_4488.360422296651,A_CODE_7934.058153368575,A_CODE_9205.587399651058}
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  <nso_p_nso_log_i> C, Создан ключ: "K_N_CODE_5015.6228804410575_DEFKEY"
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  Этап 4: Выполнение: (4,"Выполнено успешно")
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  Этап 5: Второй ключ: nso_code = "N_CODE_5015.6228804410575",  head_len = "21", key_len = "3"
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  <com.com_f_obj_codifier_s_sys> {"{tree_d,ASC}"}
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  <com.com_f_obj_codifier_s_sys> {0,0,0,0,0,0,0,1,0,0,0}
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  <com.com_f_obj_codifier_s_sys> {8}
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  <nso_p_key_i>, N_CODE_5015.6228804410575, FKKEY, {A_CODE_8646.0745387868,A_CODE_1834.1991484888354,A_CODE_8771.554703307878}
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  <nso_p_nso_log_i> C, Создан ключ: "K_N_CODE_5015.6228804410575_FKKEY"
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  Этап 6: Выполнение: (5,"Выполнено успешно")
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  Этап 7: Результат: (4,,0,119,D_N_CODE_5015.6228804410575,"Заголовок - ИМЯ_4228.0413884953205",7,U,C_DOMEN_NODE,"Узловой Атрибут",f,,,,,,,,0)
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  Этап 7: Результат: (18,4,1,39,A_CODE_1115.559573238869,ИМЯ_2907.6064930032076,294,I,IP_T,"IP адрес",t,,,,,,,,1)
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  Этап 7: Результат: (19,4,2,79,A_CODE_7934.058153368575,ИМЯ_9079.068662750273,303,T,T_REF,"Атрибут-ссылка на НСО",t,4,t,2,317,g,DEFKEY,"Значение по умолчанию",1)
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  Этап 7: Результат: (20,4,3,63,A_CODE_8526.28659308074,ИМЯ_3336.155593347492,303,T,T_REF,"Атрибут-ссылка на НСО",t,,,,,,,,1)
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  Этап 7: Результат: (21,4,4,72,A_CODE_6244.449818637428,ИМЯ_1470.811295766268,303,T,T_REF,"Атрибут-ссылка на НСО",t,,,,,,,,1)
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  Этап 7: Результат: (22,4,5,37,A_CODE_2477.208839694356,ИМЯ_5236.2397131993175,278,2,T_INT,Целое,t,,,,,,,,1)
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  Этап 7: Результат: (23,4,6,49,A_CODE_9205.587399651058,ИМЯ_1747.317725329225,288,C,T_STR1024,"Строка размерностью 1024 символов",t,4,t,3,317,g,DEFKEY,"Значение по умолчанию",1)
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  Этап 7: Результат: (24,4,7,61,A_CODE_279.86355033100097,ИМЯ_1466.6828875650494,303,T,T_REF,"Атрибут-ссылка на НСО",t,,,,,,,,1)
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  Этап 7: Результат: (25,4,8,61,A_CODE_9519.309481949385,ИМЯ_3540.790845439474,303,T,T_REF,"Атрибут-ссылка на НСО",t,,,,,,,,1)
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  Этап 7: Результат: (26,4,9,69,A_CODE_2344.991998685515,ИМЯ_2989.0510255142644,303,T,T_REF,"Атрибут-ссылка на НСО",t,,,,,,,,1)
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  Этап 7: Результат: (27,4,10,28,A_CODE_3087.1729309018647,ИМЯ_7853.7993575710625,282,6,T_CODE1,"Код размерностью 1 символ",t,,,,,,,,1)
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  Этап 7: Результат: (28,4,11,48,A_CODE_5470.013523371406,ИМЯ_6500.647536079391,303,T,T_REF,"Атрибут-ссылка на НСО",t,,,,,,,,1)
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  Этап 7: Результат: (29,4,12,23,A_CODE_8771.554703307878,ИМЯ_6617.580473694246,392,j,T_BIT4,"4-х битовая строка",t,5,t,3,316,f,FKKEY,"Ссылочный ключ",1)
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  Этап 7: Результат: (30,4,13,64,A_CODE_8165.069903172366,ИМЯ_4079.7056891686266,289,D,T_STR2048,"Строка размерностью 2048 символов",t,,,,,,,,1)
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  Этап 7: Результат: (31,4,14,32,A_CODE_4288.982156878554,ИМЯ_7420.148483635813,306,И,T_DECIMAL,"Десятичное число",t,,,,,,,,1)
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  Этап 7: Результат: (32,4,15,49,A_CODE_5166.971630115356,ИМЯ_5223.556378077809,288,C,T_STR1024,"Строка размерностью 1024 символов",t,,,,,,,,1)
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  Этап 7: Результат: (33,4,16,71,A_CODE_3987.4008084474253,ИМЯ_3569.956035807493,287,B,T_STR250,"Строка 250 символов",t,,,,,,,,1)
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  Этап 7: Результат: (34,4,17,24,A_CODE_9614.211245998235,ИМЯ_5586.328368966313,393,-,T_BIT8,"8-ми битовая строка",t,,,,,,,,1)
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  Этап 7: Результат: (35,4,18,34,A_CODE_8646.0745387868,ИМЯ_4729.220703227384,298,M,T_FIELDNAME,"Имя поля базы данных",t,5,t,1,316,f,FKKEY,"Ссылочный ключ",1)
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  Этап 7: Результат: (36,4,19,45,A_CODE_4488.360422296651,ИМЯ_3075.6021794876533,303,T,T_REF,"Атрибут-ссылка на НСО",t,4,t,1,317,g,DEFKEY,"Значение по умолчанию",1)
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  Этап 7: Результат: (37,4,20,36,A_CODE_2507.0246822314957,ИМЯ_14.620225402879328,309,Ф,ID_T,"Идентификатор (Long Integer)",t,,,,,,,,1)
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  Этап 7: Результат: (38,4,21,74,A_CODE_1834.1991484888354,ИМЯ_3789.199413017279,303,T,T_REF,"Атрибут-ссылка на НСО",t,5,t,2,316,f,FKKEY,"Ссылочный ключ",1)
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  Этап 7: Результат: (39,4,22,29,A_CODE_4926.637970319412,ИМЯ_5447.867933794868,283,7,T_CODE2,"Код размерностью 2 символа",t,,,,,,,,1)
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  Этап 7: Результат: (40,4,23,39,A_CODE_8722.05760194582,ИМЯ_1603.3010109388001,294,I,IP_T,"IP адрес",t,,,,,,,,1)
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  --
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  *********
+psql:INS/insert_test_key_1.sql:168: ЗАМЕЧАНИЕ:  --

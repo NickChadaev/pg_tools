@@ -1,0 +1,435 @@
+'proc_oid'|'nsp_name'|'proc_name'|'plpgsql_check_function'
+16734|'com_codifier'|'com_f_obj_codifier_s_sys'|'warning:42804:31:SQL statement:target type is different type than source type'
+16734|'com_codifier'|'com_f_obj_codifier_s_sys'|'Detail: cast "text[]" value to "t_arr_nmb" type'
+16734|'com_codifier'|'com_f_obj_codifier_s_sys'|'Hint: The input expression type does not have an assignment cast to the target type.'
+16736|'com_codifier'|'com_f_obj_codifier_s_sys'|'warning:42804:33:SQL statement:target type is different type than source type'
+16736|'com_codifier'|'com_f_obj_codifier_s_sys'|'Detail: cast "text[]" value to "t_arr_nmb" type'
+16736|'com_codifier'|'com_f_obj_codifier_s_sys'|'Hint: The input expression type does not have an assignment cast to the target type.'
+17691|'com_codifier'|'obj_p_codifier_i'|'warning extra:00000:18:DECLARE:never read variable "c_mess01"'
+16748|'com_error'|'com_f_value_check'|'warning:42804:299:assignment:target type is different type than source type'
+16748|'com_error'|'com_f_value_check'|'Detail: cast "t_bit4" value to "t_decimal" type'
+16748|'com_error'|'com_f_value_check'|'Hint: There are no possible explicit coercion between those types, possibly bug!'
+16748|'com_error'|'com_f_value_check'|'Context: at assignment to variable "_test_t_decimal" declared on line 100'
+16748|'com_error'|'com_f_value_check'|'warning:42804:303:assignment:target type is different type than source type'
+16748|'com_error'|'com_f_value_check'|'Detail: cast "t_bit8" value to "t_decimal" type'
+16748|'com_error'|'com_f_value_check'|'Hint: There are no possible explicit coercion between those types, possibly bug!'
+16748|'com_error'|'com_f_value_check'|'Context: at assignment to variable "_test_t_decimal" declared on line 100'
+16748|'com_error'|'com_f_value_check'|'warning:00000:87:DECLARE:unused variable "_test_t_date"'
+16748|'com_error'|'com_f_value_check'|'warning:00000:101:DECLARE:unused variable "_test_id_t"'
+16748|'com_error'|'com_f_value_check'|'warning extra:00000:71:DECLARE:never read variable "_test_small_t"'
+16748|'com_error'|'com_f_value_check'|'warning extra:00000:72:DECLARE:never read variable "_test_t_int"'
+16748|'com_error'|'com_f_value_check'|'warning extra:00000:73:DECLARE:never read variable "_test_longint_t"'
+16748|'com_error'|'com_f_value_check'|'warning extra:00000:75:DECLARE:never read variable "_test_t_boolean"'
+16748|'com_error'|'com_f_value_check'|'warning extra:00000:76:DECLARE:never read variable "_test_t_code1"'
+16748|'com_error'|'com_f_value_check'|'warning extra:00000:77:DECLARE:never read variable "_test_t_code2"'
+16748|'com_error'|'com_f_value_check'|'warning extra:00000:78:DECLARE:never read variable "_test_t_code5"'
+16748|'com_error'|'com_f_value_check'|'warning extra:00000:79:DECLARE:never read variable "_test_t_str20"'
+16748|'com_error'|'com_f_value_check'|'warning extra:00000:80:DECLARE:never read variable "_test_t_str60"'
+16748|'com_error'|'com_f_value_check'|'warning extra:00000:81:DECLARE:never read variable "_test_t_str250"'
+16748|'com_error'|'com_f_value_check'|'warning extra:00000:83:DECLARE:never read variable "_test_t_str1024"'
+16748|'com_error'|'com_f_value_check'|'warning extra:00000:84:DECLARE:never read variable "_test_t_str2048"'
+16748|'com_error'|'com_f_value_check'|'warning extra:00000:85:DECLARE:never read variable "_test_t_timestamp"'
+16748|'com_error'|'com_f_value_check'|'warning extra:00000:86:DECLARE:never read variable "_test_t_timestampz"'
+16748|'com_error'|'com_f_value_check'|'warning extra:00000:88:DECLARE:never read variable "_test_ip_t"'
+16748|'com_error'|'com_f_value_check'|'warning extra:00000:89:DECLARE:never read variable "_test_xml_t"'
+16748|'com_error'|'com_f_value_check'|'warning extra:00000:90:DECLARE:never read variable "_test_t_guid"'
+16748|'com_error'|'com_f_value_check'|'warning extra:00000:91:DECLARE:never read variable "_test_t_sysname"'
+16748|'com_error'|'com_f_value_check'|'warning extra:00000:92:DECLARE:never read variable "_test_t_fieldname"'
+16748|'com_error'|'com_f_value_check'|'warning extra:00000:93:DECLARE:never read variable "_test_t_money"'
+16748|'com_error'|'com_f_value_check'|'warning extra:00000:94:DECLARE:never read variable "_test_t_inn_ul"'
+16748|'com_error'|'com_f_value_check'|'warning extra:00000:95:DECLARE:never read variable "_test_t_kpp"'
+16748|'com_error'|'com_f_value_check'|'warning extra:00000:96:DECLARE:never read variable "_test_t_phone_nmb"'
+16748|'com_error'|'com_f_value_check'|'warning extra:00000:99:DECLARE:never read variable "_test_t_inn_pp"'
+16748|'com_error'|'com_f_value_check'|'warning extra:00000:100:DECLARE:never read variable "_test_t_decimal"'
+16748|'com_error'|'com_f_value_check'|'warning extra:00000:104:DECLARE:never read variable "_test_hstore"'
+16748|'com_error'|'com_f_value_check'|'warning extra:00000:105:DECLARE:never read variable "_test_text"'
+16748|'com_error'|'com_f_value_check'|'warning extra:00000:111:DECLARE:never read variable "cnull"'
+16752|'com_error'|'f_error_handling'|'warning extra:00000:34:DECLARE:never read variable "c_emp"'
+16752|'com_error'|'f_error_handling'|'warning extra:00000:40:DECLARE:never read variable "ch_dtab"'
+16752|'com_error'|'f_error_handling'|'warning extra:00000:48:DECLARE:never read variable "_qty"'
+16752|'com_error'|'f_error_handling'|'warning extra:00000:parameter "$3" is never read'
+16750|'com_error'|'f_error_handling'|'warning extra:00000:34:DECLARE:never read variable "c_mes001"'
+16750|'com_error'|'f_error_handling'|'warning extra:00000:35:DECLARE:never read variable "c_mes002"'
+16750|'com_error'|'f_error_handling'|'warning extra:00000:56:DECLARE:never read variable "ch_dtab"'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'error:42P01:47:SQL statement:relation "_tbl_obj_codifier" does not exist'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'Query: INSERT INTO _tbl_obj_codifier'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'--                 ^'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'             WITH RECURSIVE complete AS ('
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                 WITH format AS ('
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                     WITH RECURSIVE branch AS ('
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                         WITH section AS ('
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                             WITH history AS ('
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                  SELECT'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                      parent_codif_id'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                     ,codif_id'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'           '
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                     ,codif_uuid'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                     --parent_uuid'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                     ,codif_code'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                     ,codif_name'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                     ,small_code'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                     ,date_from'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                     ,date_to'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                      -- history'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                     ,tableoid = ''com.obj_codifier''::regclass::oid AS opr'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                     ,row_number() OVER ('
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                              PARTITION BY codif_id'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                              ORDER BY date_from ASC, date_to ASC, id_log ASC, tableoid DESC'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                      ) AS num'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                     ,count(*) OVER ( PARTITION BY codif_id ) AS cnt'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                  FROM com.obj_codifier'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                               ) -- history'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                               '
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                 SELECT DISTINCT ON (codif_id)'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                         pre.parent_codif_id AS previous_parent_id'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                        ,cur.parent_codif_id'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                        ,cur.codif_id'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                        ,cur.codif_uuid'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                        --parent_uuid'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                        ,cur.codif_code'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                        ,cur.codif_name'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                        ,cur.small_code'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                        ,cur.date_from'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                        ,cur.date_to'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                        ,CASE'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                                 WHEN'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                                         cur.num = cur.cnt'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                                     AND cur.opr = FALSE'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                                 THEN ''D'''
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                                 WHEN cur.num = 1'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                                 THEN ''I'''
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                                 ELSE ''U'''
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                         END AS impact'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                 FROM history cur'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                 LEFT JOIN history pre'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                 ON'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                         pre.codif_id = cur.codif_id'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                     AND pre.num = cur.num - 1'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                 WHERE'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                         cur.date_from <= p_date_to'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                     AND p_date_from <= cur.date_to'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                 ORDER BY'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                         cur.codif_id, cur.num DESC'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                         ) -- section'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                         SELECT'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                 previous_parent_id'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                ,parent_codif_id'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                ,codif_id'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'           '
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                ,codif_uuid'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                --parent_uuid'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                ,codif_code'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                ,codif_name'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                ,small_code'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                ,date_from'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                ,date_to'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'           '
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                ,impact'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                ,''N'' AS role'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                         FROM section'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                         WHERE codif_id = p_codif_id'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'           '
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                         UNION'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'           '
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                         SELECT'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                 sec.previous_parent_id'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                ,sec.parent_codif_id'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                ,sec.codif_id'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'           '
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                ,sec.codif_uuid'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                --parent_uuid'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                ,sec.codif_code'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                ,sec.codif_name'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                ,sec.small_code'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                ,sec.date_from'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                ,sec.date_to'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'           '
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                ,sec.impact'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                ,CASE'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                         WHEN'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                                 sec.codif_id = bra.parent_codif_id'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                             AND ('
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                                         bra.role = ''N'''
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                                      OR bra.role = ''P'''
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                                 )'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                         THEN ''P'''
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                         WHEN'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                                 sec.codif_id = bra.parent_codif_id'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                             AND ('
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                                         bra.role = ''PC'''
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                                      OR bra.role = ''PPC'''
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                                 )'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                         THEN ''PPC'''
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                         WHEN'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                                 sec.parent_codif_id != bra.codif_id'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                             AND sec.previous_parent_id = bra.codif_id'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                         THEN ''PC'''
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                         ELSE ''C'''
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                 END AS role'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                         FROM '
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                 branch bra'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                ,section sec'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                         WHERE'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                 ('
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                         sec.codif_id = bra.parent_codif_id'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                     AND bra.role != ''C'''
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                 )'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                              OR ('
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                         ('
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                                 sec.parent_codif_id = bra.codif_id'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                              OR sec.previous_parent_id = bra.codif_id'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                         )'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                     AND ('
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                                 bra.role = ''N'''
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                              OR bra.role = ''C'''
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                         )'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                 )'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                     ) -- branch'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                     SELECT DISTINCT ON(cur.codif_id)'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                             cur.codif_uuid'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                            ,par.codif_uuid AS parent_uuid'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                            ,cur.codif_code'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                            ,cur.codif_name'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                            ,cur.small_code'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                            ,cur.date_from'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                            ,cur.date_to'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                             '
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                            ,CASE'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                     WHEN'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                             cur.role = ''N'''
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                          OR cur.role = ''C'''
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                     THEN cur.impact'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                     ELSE ''T'''
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                             END AS impact'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                     FROM branch cur'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                     LEFT JOIN branch par'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                     ON par.codif_id = cur.parent_codif_id'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                     ORDER BY'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                             cur.codif_id'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                            ,cur.role ASC'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                 ) -- format'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                 SELECT'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                         codif_uuid'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                        ,parent_uuid'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                        ,codif_code'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                        ,codif_name'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                        ,small_code'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                        ,date_from'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                        ,date_to'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                        ,impact'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                 FROM format'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                 WHERE'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                         p_date_from = p_date_to'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                      OR ('
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                 p_date_from != p_date_to'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                             AND ('
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                         p_date_from <= date_from'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                      OR date_to <= p_date_to'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                 )'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                         )'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                         '
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                 UNION'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'           '
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                 SELECT'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                         frm.codif_uuid'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                        ,frm.parent_uuid'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                        ,frm.codif_code'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                        ,frm.codif_name'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                        ,frm.small_code'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                        ,frm.date_from'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                        ,frm.date_to'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                         '
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                        ,frm.impact'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                 FROM'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                         complete com'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                        ,format frm'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                 WHERE frm.codif_uuid = com.parent_uuid'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'             ) -- complete'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'             SELECT'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                     codif_uuid'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                    ,parent_uuid'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                    ,codif_code'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                    ,codif_name'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                    ,small_code'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                    ,date_from'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                    ,date_to'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                     '
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'                    ,impact'
+17349|'com_exchange'|'com_f_obj_codifier_export_xml'|'             FROM complete'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'error:42P01:51:SQL statement:relation "_tbl_obj_codifier" does not exist'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'Query: INSERT INTO _tbl_obj_codifier'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'--                 ^'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'              WITH RECURSIVE complete AS ('
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                  WITH format AS ('
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                     WITH RECURSIVE branch AS ('
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                         WITH section AS ('
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                            WITH history AS ('
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                SELECT'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                    parent_codif_id'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                   ,codif_id'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'              '
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                   ,codif_uuid'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                   --parent_uuid'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                   ,codif_code'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                   ,codif_name'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                   ,small_code'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                   ,date_from'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                   ,date_to'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                    '
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                    -- history'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                   ,tableoid = ''com.obj_codifier''::regclass::oid AS opr'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                   ,row_number() OVER ( PARTITION BY codif_id'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                                        ORDER BY'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                                                date_from ASC'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                                               ,date_to   ASC'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                                               ,id_log    ASC'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                                               ,tableoid  DESC'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                    ) AS num'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                   ,count(*) OVER ( PARTITION BY codif_id'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                    ) AS cnt'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                FROM com.obj_codifier'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                            ) -- history'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                SELECT DISTINCT ON (codif_id)'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                     pre.parent_codif_id AS previous_parent_id'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                    ,cur.parent_codif_id'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                    ,cur.codif_id'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                    ,cur.codif_uuid'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                    --parent_uuid'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                    ,cur.codif_code'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                    ,cur.codif_name'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                    ,cur.small_code'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                    ,cur.date_from'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                    ,cur.date_to'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                    ,CASE'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                         WHEN (cur.num = cur.cnt) AND (cur.opr = FALSE)'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                             THEN ''D'''
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                         WHEN cur.num = 1'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                             THEN ''I'''
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                         ELSE ''U'''
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                     END AS impact'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                 FROM history cur'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                   LEFT JOIN history pre ON (pre.codif_id = cur.codif_id) AND (pre.num = cur.num - 1)'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                 WHERE  (cur.date_from <= p_date_to) AND (p_date_from <= cur.date_to)'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                 ORDER BY'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                         cur.codif_id, cur.num DESC'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                         ) -- section'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                           SELECT'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                 previous_parent_id'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                ,parent_codif_id'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                ,codif_id'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                ,codif_uuid'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                --parent_uuid'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                ,codif_code'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                ,codif_name'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                ,small_code'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                ,date_from'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                ,date_to'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                ,impact'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                ,''N'' AS role'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                         FROM section WHERE (codif_code = _codif_code)'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'              '
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                         UNION'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'              '
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                         SELECT'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                             sec.previous_parent_id'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                            ,sec.parent_codif_id'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                            ,sec.codif_id'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                            ,sec.codif_uuid'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                            --parent_uuid'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                            ,sec.codif_code'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                            ,sec.codif_name'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                            ,sec.small_code'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                            ,sec.date_from'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                            ,sec.date_to'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                            ,sec.impact'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                            ,CASE'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                  WHEN (sec.codif_id = bra.parent_codif_id)'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                        AND (bra.role = ''N'' OR bra.role = ''P'')'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                   THEN ''P'''
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                   '
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                  WHEN (sec.codif_id = bra.parent_codif_id)'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                       AND (bra.role = ''PC'' OR bra.role = ''PPC'')'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                   THEN ''PPC'''
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                   '
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                  WHEN (sec.parent_codif_id != bra.codif_id)'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                       AND (sec.previous_parent_id = bra.codif_id)'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                   THEN ''PC'''
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                   '
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                  ELSE ''C'''
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                             END AS role'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                         FROM '
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                 branch bra, section sec'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                         WHERE'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                              ((sec.codif_id = bra.parent_codif_id) AND (bra.role != ''C''))'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                 OR '
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                              (((sec.parent_codif_id = bra.codif_id) OR (sec.previous_parent_id = bra.codif_id))'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                     AND '
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                                ((bra.role = ''N'') OR (bra.role = ''C''))'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                              )'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                     ) -- branch'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                     --'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                     SELECT DISTINCT ON (cur.codif_id)'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                         cur.codif_uuid'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                        ,par.codif_uuid AS parent_uuid'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                        ,cur.codif_code'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                        ,cur.codif_name'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                        ,cur.small_code'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                        ,cur.date_from'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                        ,cur.date_to'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                        ,CASE'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                              WHEN (cur.role = ''N'') OR (cur.role = ''C'')'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                              THEN cur.impact'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                              ELSE ''T'''
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                         END AS impact'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                     FROM branch cur'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                      LEFT JOIN branch par ON (par.codif_id = cur.parent_codif_id)'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                     ORDER BY cur.codif_id, cur.role ASC'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                  ) -- format'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                  SELECT'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                          codif_uuid'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                         ,parent_uuid'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                         ,codif_code'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                         ,codif_name'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                         ,small_code'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                         ,date_from'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                         ,date_to'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'              '
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                         ,impact'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                  FROM format'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                  WHERE '
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                        (p_date_from = p_date_to) '
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                            OR '
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                        ((p_date_from != p_date_to)'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                              AND '
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                         ((p_date_from <= date_from) OR (date_to <= p_date_to))'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                        )'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                          '
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                  UNION'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'              '
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                  SELECT'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                          frm.codif_uuid'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                         ,frm.parent_uuid'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                         ,frm.codif_code'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                         ,frm.codif_name'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                         ,frm.small_code'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                         ,frm.date_from'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                         ,frm.date_to'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                         ,frm.impact'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                  FROM'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                        complete com, format frm'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                  WHERE (frm.codif_uuid = com.parent_uuid)'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'              ) -- complete'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'              SELECT'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                    codif_uuid'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                   ,parent_uuid'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                   ,codif_code'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                   ,codif_name'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                   ,small_code'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                   ,date_from'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                   ,date_to'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'                   ,impact'
+16756|'com_exchange'|'com_f_obj_codifier_export_xml'|'              FROM complete'
+16758|'com_exchange'|'com_p_obj_codifier_import_xml'|'error:42P01:46:SQL statement:relation "_tbl_xml" does not exist'
+16758|'com_exchange'|'com_p_obj_codifier_import_xml'|'Query: INSERT INTO _tbl_xml(data) VALUES (p_xml::xml)'
+16758|'com_exchange'|'com_p_obj_codifier_import_xml'|'--                 ^'
+16787|'utl'|'auth_f_get_user_attr_s'|'error:0A000:could not determine actual argument type for polymorphic function "auth_f_get_user_attr_s"'

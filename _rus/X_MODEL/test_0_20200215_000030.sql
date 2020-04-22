@@ -1,0 +1,15 @@
+CREATE DOMAIN public.t_timestampz time with time zone;
+CREATE DOMAIN public.t_arr_values character varying[](2048);
+CREATE DOMAIN public.t_text text;
+CREATE DOMAIN public.t_decimal numeric(17, 6);
+CREATE DOMAIN public.t_json json;
+CREATE DOMAIN public.t_interval interval;
+CREATE DOMAIN public.t_arr_nmb smallint[];
+CREATE DOMAIN public.t_arr_text text[];
+CREATE DOMAIN public.t_arr_boolean boolean[];
+CREATE DOMAIN public.t_filename character varying(1024);
+CREATE DOMAIN public.t_arr_guid uuid[];
+CREATE DOMAIN public.t_arr_code1 character[](1);
+CREATE DOMAIN public.t_bit4 bit varying(4);
+CREATE DOMAIN public.t_bit8 bit varying(8);
+CREATE DOMAIN public.t_bit16 bit varying(16);

@@ -1,0 +1,13 @@
+﻿SELECT * FROM nso_structure.nso_f_object_s_sys() WHERE (date_create = '2011-01-01'::public.t_timestamp);
+--------------------------------------------------------------------------------------------------------
+-- 'N_CODE_2708.56954157352'
+-- 'N_CODE_8749.95611142367'
+-- 'N_CODE_2010.83455700427'
+-- 'N_CODE_2244.96691022068_ХРЕНЬ_++'
+-- 'N_CODE_9197.47962616384'
+-- 'N_CODE_259.176990948617'
+-- 'N_CODE_365.252592600882_ХРЕНЬ_++9784.85577274114'
+-- 'N_CODE_1707.80570246279'
+--
+SELECT * FROM nso_structure.nso_f_column_head_nso_s ('N_CODE_2010.83455700427') WHERE (number_col > 0);
+SELECT col_id FROM nso_structure.nso_f_column_head_nso_s ('N_CODE_2010.83455700427') WHERE (number_col > 0);

@@ -1,0 +1,31 @@
+db_k=# SELECT pgunit.testrunner(NULL);
+ЗАМЕЧАНИЕ:  PGUnit 2008-11-09 by Dmitry Koterov.
+ЗАМЕЧАНИЕ:  
+ЗАМЕЧАНИЕ:  pgunit.test_assert_same
+ЗАМЕЧАНИЕ:    - OK setUp (6 ms)
+ЗАМЕЧАНИЕ:    - OK matchedValues (3 ms)
+ЗАМЕЧАНИЕ:    - OK mismatchedValues (2 ms)
+ЗАМЕЧАНИЕ:  pgunit.test_exec
+ЗАМЕЧАНИЕ:    - OK setUp (6 ms)
+ЗАМЕЧАНИЕ:    - OK executed (4 ms)
+ЗАМЕЧАНИЕ:  pgunit.test_runtest
+ЗАМЕЧАНИЕ:    - OK setUp (64 ms)
+ЗАМЕЧАНИЕ:    - OK executed (7 ms)
+ЗАМЕЧАНИЕ:    - OK exception hook (3 ms)
+ЗАМЕЧАНИЕ:  pgunit.test_sample
+ЗАМЕЧАНИЕ:    - OK setUp (3 ms)
+ЗАМЕЧАНИЕ:    - OK first test: insert is okay (1 ms)
+ЗАМЕЧАНИЕ:    - OK second test: effect of previous function is not visible here (1 ms)
+ЗАМЕЧАНИЕ:    - OK first test: you may use DECLARE in tests (5 ms)
+ЗАМЕЧАНИЕ:  pgunit.test_wildcard_match
+ЗАМЕЧАНИЕ:    - OK setUp (0 ms)
+ЗАМЕЧАНИЕ:    - OK one value (1 ms)
+ЗАМЕЧАНИЕ:    - OK two values (1 ms)
+ЗАМЕЧАНИЕ:    - OK no matches (1 ms)
+ЗАМЕЧАНИЕ:  
+ЗАМЕЧАНИЕ:  Time: 00:00:00
+ЗАМЕЧАНИЕ:  
+ЗАМЕЧАНИЕ:  OK (11 tests)
+ testrunner 
+------------
+          0

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project X1">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+    <target name="create_run_jar">
+        <jar destfile="C:/Chadaev/tmp/2013_01_27_1/X1.jar" filesetmanifest="mergewithoutmain">
+            <manifest>
+                <attribute name="Main-Class" value="ws.kazak.xpg.main.XPg"/>
+                <attribute name="Class-Path" value="."/>
+            </manifest>
+            <fileset dir="C:/Chadaev/work_space3aX1/X1/bin"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Chadaev/work_space3aX1/X1/lib/icons.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Chadaev/work_space3aX1/X1/lib/postgresql.jar"/>
+        </jar>
+    </target>
+</project>

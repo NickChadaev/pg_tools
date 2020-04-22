@@ -1,0 +1,2121 @@
+﻿2009-06-16: First review of XPg
+-----------
+
+2009-06-17: 
+-----------
+          SELECT tablename FROM pg_tables 
+            WHERE tablename !~ '^pg_' AND tablename !~ '^pga_' AND 
+                  tablename !~ '^sql_' 
+          ORDER BY tablename ;
+  
+Need to separate the tables and views by scheme,
+    exclude: "information_schema", "pg_catalog"
+
+--------------------------------------------------------------------------    
+SELECT schemaname, tablename FROM pg_tables WHERE schemaname !~ '^pg_' AND 
+       schemaname <> 'information_schema' 
+    ORDER BY schemaname, tablename ;
+--
+SELECT schemaname, viewname FROM pg_views WHERE schemaname !~ '^pg_' AND 
+       schemaname <> 'information_schema' 
+    ORDER BY schemaname, viewname ;
+------------------------------------------------------------------------------------------------
+SELECT n.nspname AS schemaname, c.relname AS tablename, pg_get_userbyid(c.relowner) AS tableowner, 
+       c.relhasindex AS hasindexes, c.relhasrules AS hasrules, c.reltriggers > 0 AS hastriggers
+   FROM pg_class c
+   LEFT JOIN pg_namespace n ON n.oid = c.relnamespace
+  WHERE c.relkind = 'r'::"char";
+---
+SELECT n.nspname AS schemaname, c.relname AS viewname, pg_get_userbyid(c.relowner) AS viewowner, 
+       c.relhasindex AS hasindexes, c.relhasrules AS hasrules, c.reltriggers > 0 AS hastriggers
+   FROM pg_class c
+   LEFT JOIN pg_namespace n ON n.oid = c.relnamespace
+  WHERE c.relkind = 'v'::"char";
+---------------------------------------------------------
+Each scheme will have typical POSTGRESQL objects:
+   - domains,
+   - functions,
+   - sequencies,
+   + tables,
+   - triggers,
+   + views
+   
+Now each scheme will have two lists:
+    - table names with comments
+    - view names with comments.
+       
+2009-06-18: 
+-----------
+Dedugging  XPg.NConnect() 
+Need to create new stucture ( Vectors )
+   
+Выполнение: "SELECT c2.relname FROM pg_class c, pg_class c2, pg_index i WHERE c.relname='ps_nsh' AND c.oid = i.indrelid AND i.indexrelid=c2.oid ORDER BY c2.relname"
+Выполнение: "SELECT c2.relname FROM pg_class c, pg_class c2, pg_index i WHERE c.relname='ps_nsh' AND c.oid = i.indrelid AND i.indexrelid=c2.oid ORDER BY c2.relname"
+Выполнение: "SELECT c2.relname FROM pg_class c, pg_class c2, pg_index i WHERE c.relname='ps_nsh' AND c.oid = i.indrelid AND i.indexrelid=c2.oid ORDER BY c2.relname"
+Выполнение: "SELECT pg_index.indexrelid, pg_index.indisunique, pg_index.indisprimary FROM pg_index WHERE pg_class.relname='pk_ps_nsh' AND pg_class.oid = pg_index.indexrelid;"
+Выполнение: "SELECT pg_attribute.attname FROM pg_attribute WHERE pg_attribute.attrelid =560672"
+Выполнение: "SELECT pg_index.indexrelid, pg_index.indisunique, pg_index.indisprimary FROM pg_index WHERE pg_class.relname='pk_ps_nsh' AND pg_class.oid = pg_index.indexrelid;"
+Выполнение: "SELECT pg_attribute.attname FROM pg_attribute WHERE pg_attribute.attrelid =560672"
+
+
+2009-07-02: 
+----------- 
+  I  continue  a works on XPG, a new tree of objects of base. 
+  
+  SELECT tablename FROM pg_tables WHERE tablename !~ '^pg_' AND tablename !~ '^pga_' AND tablename !~ '^sql_' ORDER BY tablename");
+  вместо него 
+  
+  SELECT DISTINCT schemaname FROM pg_tables WHERE schemaname !~ '^pg_' AND schemaname <> 'information_schema' ORDER BY schemaname ;
+--
+ 
+The event processor on node of type "BASE" has the own METHOD of creation of lists 
+of objects of base!!!
+
+2009-07-03
+----------
+   There is the draft of the new tree. It hase 4 levels. There are:
+     Level 0 - a host.
+     Level 1 - a database ( one or more ).
+     Level 2 - the scheme ( one or more ).
+     Level 3 - Various types objects of the scheme (while only two types: TABLES, VIEW).  
+     Level 4 - the list of objects, ( They are leaves ).
+ 
+   Somehow crookedly and I have changed not thinking the type of the Bookmarks
+   from ( Queries ) to 1 ( Records ). Then it is necessary to correct.
+   
+   Further, the refactoring od written code, since level 4 and upwards. I work only with 
+   procedures of the mouse events processing. 
+      Level 4 - a leaf choice, then correct filling of first two bookmarks of 
+                the main folder.
+      Level 3 - making of the list names of objects ( tables or views).     
+      Level 2 - the current scheme then we build all lists of all objects ( tables and views).
+      Level 1 - for current database and all schemes - rebuild all lists of all objects.
+      Level 0 - for a host is rebuild all lists.
+      
+   Reorganisation is carried out at any condition of the node status ( opened, closed ). 
+   I am not able to define yet the condition of the node status.
+   
+   Further to allocate the general parts of a code and the general variables, to 
+   correlate they with a content of method Nconnect().
+   
+   Descriptors XSD are represented in two kinds:
+      As scheme contents _xsd
+      As the new virtual scheme (level 2), containing the list of descriptors 
+      (a name, uuid, the description)
+      Further properties and the methods, two elements (level 3), 
+      the list of properties and methods, level 4.      
+
+2009-07-04
+----------
+   Event processing "Click by the left button on given item". Display of data 
+   on the chosen part of the screen form ( main folder). Properties and data 
+   of the chosen item are always displayed.
+     Level 4 - properties of columns of the TABLE or VIEW ( bookmark #0 ),
+               data ( bookmark #1 ).
+     Level 3 - The list of names of tables (VIEW) with comments ( bookmark #1 ).
+                Bookmark #0 have to be off.
+     Level 2 - Do nothing, The first and second bookmarks have to be off.
+     Level 1 - The list of all schema names with comments.
+     Level 0 - The list of all base names with comments.
+
+2009-07-05
+----------
+   The first stage. Showing of structure and data should be realised 
+   for level 4 only. For highest levels first two bookmark of main folder 
+   have to be switching off. It is real, and that XPG will possible install.
+   The bookmark #0 should be renamed: "Table"-> "Structure".
+   
+2009-07-06
+----------
+Classs Pgconnection method: Table getSpecStrucTable ()
+The general SQL query is:
+
+SELECT a.attname, t.typname, a.attlen, a.attnotnull, a.atttypmod, a.atthasdef,  a.attnum
+       FROM pg_class c, pg_attribute a, pg_type t WHERE c.relname='" + Tname + 
+            "' AND a.attnum > 0 AND a.attrelid = c.oid AND a. atttypid = t.oid ORDER BY a.attnum"               
+
+For example:       
+  SELECT a.attname, t.typname, a.attlen, a.attnotnull, a.atttypmod, a.atthasdef,  a.attnum
+       FROM pg_class c, pg_attribute a, pg_type t WHERE c.relname='kl_position' 
+        AND a.attnum > 0 AND a.attrelid = c.oid AND a. atttypid = t.oid ORDER BY a.attnum
+  ;
+--
+SELECT "oid",* FROM "v_ts" ORDER BY oid; There is source of errors, because
+view hasn't any oids. Review Records class.
+
+2009-07-10
+----------
+General revision of events processing of the database structure tree.                 
+I will disable all active bookmarks on level #3. Done.       
+
+2009-07-13
+----------
+
+Документ должен состоять из трёх частей. В первой описывается структура и назначение трёх основных представлений:
+v_xrd, v_xrd_p, v_xrd_m. Описатель информационного ресурса, свойства и методы соответственно. Впереди описания должны 
+быть краткая формулировка целей данной работы и соглашение от терминах.
+Основой второй части будет рисунок показывающий место каталога информационных ресурсов в базе данных. Основные части 
+рисунка: а) Каталоги  PostgreSQl, ANSI (схема pg_catalog, схема information_chema ), схема public, схема _xsd, схема 
+service. Текст второй части должен дополнять рисунок, делать его понятным. 
+Третья часть описывает графический клиент Postgres'a программу XPG. Краткое описание существующей версии, история её 
+создания, существующие функциональные компоненты, необходимые доработки и создание новых компонент. Мотивация, основные
+этапы ( но очень кратко ).
+К документу прилагается книга MS Excel x_xrd в которой показано состояние каталога на 01.07.2009. Дополнить методы опи-
+сателя ИР №8, это единственный удалённый ресурс. Необъяснимые проблемы с представлениями, именно эта строка, описатель 
+ресурса №8, не показывается в двух из трёх представлений. Альтернативы ?
+
+Часть первая - был написан документ ( версия 0 ) о трёх представлениях.
+Часть вторая - нет ничего.
+Часть третья - техническая записка.
+   
+ 2009-07-15
+-----------
+Документ сделан.
+Обновление icons.jar: $jar uvf icons.jar icons\55*.png
+Но "большой" jar не собрался.
+
+2009-08-05
+----------
+Список таблиц с комментариями:
+    SELECT c.relname AS table_name, d.description AS comment FROM pg_class c 
+          LEFT OUTER JOIN pg_description d ON ( c.relfilenode = d.objoid )
+    WHERE ( c.relname like 'kl_%' ) AND ( c.relkind = 'r' ) AND ( d.objsubid = 0 );
+
+Получить список баз данных с комментариями  - пока остаётся проблемой.
+
+Задача Игоря.
+
+[
+  [Классификатор  Административные Территории Стран Мира , 329b0459-ad5f-4074-a025-1cc0933f8f4b, ir.rdbms.kl_adm_ter], 
+  [Классификатор  Азимутальные Направления , 5361c0dd-1eda-4bf0-87bf-b62d9a5fe0ec, ir.rdbms.kl_az_napr], 
+  [Классификатор "Цели Получения Документов", 962dd10c-e425-45ea-b15e-687ae0917bfe, ir.rdbms.KL_CP], 
+  [Классификатор Документов, 22e02d80-c56a-4a44-8625-971bffb9f95e, ir.rdbms.kl_dok], 
+  [Классификатор "Единицы Измерений", 296a88c3-1963-4a13-a386-5d16aa8aac21, ir.rdbms.kl_ED_IZM], 
+  [Классификатор 'Группы Учета Оп', 125d9ef3-580b-49b1-ad17-fb9142f4fd70, ir.rdbms.kl_gro], 
+  [Классификатор Икао, 4323b8eb-a9cf-4244-ba81-85d0781ea2e5, ir.rdbms.kl_ikao], 
+  [Классификатор 'Конкретные Образцы Вооружения И Военной Техники', 78f15558-93e4-4fdc-806f-e615d3a6db8c, ir.rdbms.kl_kovt], 
+  [Классификатор  Города И Населенные Пункты , 6b5d6e16-3cec-4927-bbb6-4f9bcad6b7dc, ir.rdbms.kl_np], 
+  [Классификатор Подтем, b269af80-3fa2-4313-bcc4-f77cf519eb99, ir.rdbms.kl_podtema], 
+  [Классификатор 'Признаки Оценки Достоверности', 699711b0-5418-11de-8f76-002354bb241b, ir.rdbms.kl_PRIZDOST], 
+  [Классификатор  Признаки Разведывательной Информации , 515e7ccf-4c13-11de-84ab-002354bb241b, ir.rdbms.KL_PRIZN_RI], 
+  [Классификатор 'Рода Войск', 88129900-5b13-11de-9db7-002354bb241b, ir.rdbms.kl_rodv], 
+  [Классификатор "Состояние Документа", 2cedb06e-18a1-485e-8473-3ee8ab0a173b, ir.rdbms.KL_SOST_DOK], 
+  [Классификатор 'Состояние Объектов Учета', 78f855ed-96b8-4c48-a4e4-a97fc4a08a38, ir.rdbms.kl_sost_ob], 
+  [Классификатор  Страны Мира , 47f7e429-4252-43c3-954e-f4a7450869a4, ir.rdbms.kl_str], 
+  [Классификатор Тем, 0b46820f-5b13-11de-8659-002354bb241b, ir.rdbms.kl_tema], 
+  [Классификатор 'Типы Формирований Вс', 3313ea3b-58ed-4ece-b393-2028155dcb6c, ir.rdbms.kl_tfrm], 
+  ['Типы Подчиненности Воинских Формирований'  (Св) . Требуется Ввести., ed2a2dc0-655a-11de-a07b-002354bb241b, ir.rdbms.kl_tip_podch_vf], 
+  [Классификатор 'Типы Вооружения И Военной Техники', 86256499-070b-4f6e-9879-8be9cc635c67, ir.rdbms.kl_tovt], 
+  [Классификатор 'Типы Объектов Оотвд', 735b5d3c-b63b-40b9-a878-31fe0a2dcd38, ir.rdbms.kl_tpo_ootvd], 
+  [Классификатор 'Уровни Вф', 9555b1b4-80d4-40c1-8056-74b1b609492c, ir.rdbms.kl_uvf], 
+  [Классификатор 'Виды Вооруженных Сил', eae0012f-75bd-48dc-ac8b-7a2cb6927abb, ir.rdbms.kl_vdvs], 
+  [Классификатор Военно-Географическое Деление, a33ceebe-e51e-4684-871c-86383b4f6255, ir.rdbms.kl_VGD], 
+  [Классификатор  Виды Разведки , ed3acf8f-655a-11de-921d-002354bb241b, ir.rdbms.kl_vid_r], 
+  [Классификатор Задач Рэр, 70251de5-339e-449c-ace7-8e2b2c2429a2, ir.rdbms.kl_zadachi_rer]
+]
+
+[Классификатор  Страны Мира , 47f7e429-4252-43c3-954e-f4a7450869a4, ir.rdbms.kl_str]
+[
+  [Код Страны, int32 , 4, 0, KOD_STR], 
+  [Аббревиатура Страны, text  , 4, 0, ABBR_STR], 
+  [Полное Наименование, text  , 100, 0, PNAME], 
+  [Краткое Наименование, text  , 100, 0, KNAME]
+]
+
+Шаблон
+
+[
+  [<?xml version="1.0" encoding="utf-8"?> <resources_metainfo_table> <resource name="@@{COMMENT}" uuid="@@{UUID}" text="@@{XRD_NAME}"> @T{FIELDS} </resource> </resources_metainfo_table> ]
+]
+
+[
+  [<field name="@F{COMMENT}" data_type="@F{TYPE}" width="@F{WIDTH}" offset="@F{OFFSET}" text="@F{NAME}"/>]
+]
+
+2009-08-20
+----------
+  Обновление каталога:
+    - 
+  Список из базы:
+  SELECT schemaname, tablename FROM pg_tables WHERE schemaname !~ '^pg_' AND 
+         schemaname <> 'information_schema' AND schemaname = 'PUBLIC'  
+     ORDER BY schemaname, tablename ;
+
+  Этот список таблиц должен быть в PGconnection и вызываться методом ( часто встречается ).
+  
+  Список имен из каталога
+       SELECT table_name FROM v_xrd ORDER BY table_name;
+  
+  Аргумент  <имя таблицы>
+     Нет в списке:
+        перегружаю каталог
+        создаю новую строку в XS_DESCR, uuid ищется либо в специальной таблице, либо класс ( найти ).
+        xtd_name, table_name, uuid, status. 
+                Хэш таблица для преобразования типов базы в типы ДС
+     
+       Формирование списка свойств
+       Формирование  списка методов ( учитывается тип полей и наличие ключевого поля )
+     Есть в списке:
+        каталог не перегружается
+        строка в XS_DESCR обновляется, xrd_name и запоминается её id )
+        Список свойств формируется
+        Список методов формируется
+        
+        Далее обновление строк в таблице свойств и таблице методов
+
+2009-12-08        
+----------
+
+TASKS: CFG-file has to be separated for X1 and X2 projects, tuning of size main frame's size, 
+       main frame header, StartDate setting.
+
+Classes: + BuildConfigFile
+         + ConfigFileReaDER
+         + Path
+         + XPg
+         
+Interface: + File_const 
+
+Template for main frame's header is:
+    X1 [<user_name>@<hostname>] <db-name> [<db-comment>] 
+    for example:
+          X1 [root@10.10.2.21] ibd2 [Условно реальная информация, состояние на 08.12.2009]
+               
+I must change next methods of XPg class:
+  - getStringFromVector
+  + SaveLog
+  + DateClassic          
+            
+New local methods are:
+  + getUHome       
+         
+Now I start to modificate Class ConnectionDialog, it has to proper methods to access to CFG-file
+Done, export it to X2-project
+      RussianGlossary - to X2-project too.                 
+
+Need to search in class Query some method, which prodides access to quiery section of 
+CONFIG catalog.
+   
+Class RussianGlossary was changed 08-12-2009
+Interface Sql_main was changed too.
+-----------------------------------
+
+Temporary solution,\
+There is into PGSQL version 8.3 table PG_SHDESCRIPTION, it
+contatin description of DB, but the old version of PGSQL 7.4.1
+contains ALL DESCRIPTION into PG_DESCRIPTION table.
+Where do I search some information about version of PGSQL ???
+
+XPg
+private method getUHome deleted. !!
+There is new class UHome in package Utilities. !!!
+
+2009-12-10
+----------
+  Back review of X2, separating of CFG files is continued.
+  
+2009-12-25
+---------- 
+        Визуальный компонент для просмотра и редактирования содержимого таблицы БД,
+        Создаётся на основе класса Records. Назначение - просмотр, редактирование (
+        добавление ) записей, экспорт/импорт, генератор отчётов с WEB-brouser.  
+  
+  Что делаем? 
+      - анализ существующей структуры класса Records, проект X1.                            
+      - выделяю "узкие места"
+      - новый класс в Х2.
+      - обратный перенос в Х1
+      
+  Где используем в Х2 ?  
+     1 - Меню, пункт "Классификаторы", подпункты: "Классификатор АСУ", "Классификатор
+                     типов документов", "Классификатор документов".
+     
+     2 - Панель инструментов, три соответствующие кнопки.
+     
+     3 - Закладка "Классификаторы". Три соответствующие подзакладки ( не очень здорово,
+         съедаю и без того скудные ресурсы для размещения визуальных элементов.
+         
+     4 - Контекстное меню на левом дереве, работает ТОЛЬКо на уровне 1, база данных,
+         название меню то-же, название подпунктов то-же самое.
+         
+    Анализ кода выполняю на последней версии проекта X1.
+    
+  Что может быть источником  ошибок ? 
+        - Например непонимание того, как будет взаимодействовать родительский 
+          Frame, с только, что созданным экземпляром класса.                                     
+        
+        - Масштабность и хаотичность класса Records
+        
+  Отладка выполняется на специальной версии проекта Х1.
+  
+  Временные затраты:
+  
+   8 часов - анализ кода старого класса X2 и построение простейшей диаграммы.
+   8 часов - новый код
+  16 часов - отладка и тюнинг на тестовой версии Х1 ( актуальной версии Х2 ).                                    
+  
+  По самым скромным подсчётам - 32 часа ( 8 рабочих дней ). 
+  
+  Пакет Records содержит следующие классы:
+  ----------------------------------------
+    1 -  AdvancedFilter    - Содержит ошибки, связанные с использованием OID
+    2 -  CustomizeFilter   - Настройка фильтра, содержит OID1
+    3 -  DisplayControl    - Сразу не определишь назначение. :( 
+    4 -  DropTableRecord   - Проверить в работе
+    5 -  InsertData        - Проверить в работе                  
+
+    -----------------------------------------------------------------------------------
+    6 -  Records           - главный класс в пакете. ( MyTableModel, CheckBoxListener ) 
+    ----------------------------------------------------------------------------------- 
+
+    7 -  TextDadaInput     - Ввод данных типа TEXT
+    8 -  UpdateRecord      - Обновление одной строки, вызывается из контекстного меню.
+    9 -  UpdateTable       - Обновление таблицы, диалог, сохранять данные                                                     
+   10 -  UpdateWhere       - Условия для обновления строки. Необходимо сохранять 
+                             состояние chech boxes и значения аргументов.                       
+   -------------------------------------------------------------------------------------    
+         
+ События на кнопоках INSERT, UPDATE - вызов формы в новом фрейме, эти формы будут 
+ разниться впроектах X1, X2. 
+ 
+ 
+ Кнопка DELETE остаётся. 
+
+ 2009-01-09
+ ----------
+   1. Class Records
+     
+    *1 1.1 Вложенный класс MyTableModel 
+           1.1.0 Конструктор:  public MyTableModel ( Object[][] xdata, String[] colN ) 
+
+        1.1.3 public String getColumnName (int col )                     - Имя столбца
+        -- Не используется
+        1.1.4 public int getRowCount ()                                  - Количество строк
+        
+        1.1.5 public int getColumnCount ()                               - Количество столбцов
+        1.1.6 public Object getValueAt ( int row, int col )              - Получить величину
+        
+        -- Ниже, неиспользуемые методы.
+        1.1.7 public boolean isCellEditable(int row, int col)            - Редактируемая ячейка  ( всегда false )
+        1.1.8 public void setValueAt ( Object value, int row, int col )  - Установить величину на 
+
+        1.2 Вложенный класс CheckBoxListener, используется в методе Filter
+             
+             1.2.1 public void itemStateChanged ( ItemEvent e ) - Изменилось состояние объекта.
+        
+    -----
+    
++1@) 1.0 Конструктор: public Records ( JFrame xframe, Language glossary, JTextArea log )
+        
+        Управление кнопками Browser'a.
+        
+          +1.0.1 MouseListener mouseLB  = new MouseAdapter()  - Левая кнопка
+          +1.0.2 MouseListener mouseLQL = new MouseAdapter()  - Левая кнопка
+          +1.0.3 MouseListener mouseLQR = new MouseAdapter()  - Правая кнопка  
+          +1.0.4 MouseListener mouseLF  = new MouseAdapter() { 
+     
+    1.1  public void actionPerformed ( java.awt.event.ActionEvent e ) - Обработчик событий
+    
+    1.2  public void activeBox ( boolean state ) - Установка "Включен/Выключен" для 
+                                              rectangle,  rectangle2,  advanced.
+    
+    1.3  public void activeInterface ( boolean value ) - Установка активности интерфейса
+    
+    1.4  public void activeToolBar_1 ( boolean value ) - Управление активностью панели 
+                                                    инструментов, часть №1
+
+    1.5  public void activeToolBar_2 ( boolean value ) - Управление активностью панели 
+                                                    инструментов, часть №2
+
+    1.6  public void addTextLogMonitor ( String msg ) - Вывод в экранную LOG область.
+    
+    1.7  BuildSQLRecords ( String table, TableHeader headT, Vector data ) - Построитель SQL
+                                             записи, только INSERT, модификация в июле.
+
+    1.8  public int Count ( String TableN, PGConnection konn, String sql, boolean log ) -
+                                           количество строк в таблице.
+
+ *2 1.9  public void CreateToolBar() - Создать панель инструментов.
+    
+    1.10 public void dropRecords ()  - Удалить запись, использует OID.
+    
+    1.11 public void Filter()  - Метод фильтрации данных ( Advanced ).
+         MouseListener mouseListener = new MouseAdapter() 
+	                   public void mousePressed ( MouseEvent e )  - Обработчик.
+	                   
+    1.12 public void focusGained(FocusEvent e)  - фокус схвачен.
+    1.13 public void focusLost(FocusEvent e)    - фокус потерян.
+    
+    1.14 public int getNumRegs() - количество записей в таблице.
+    
+    1.15 public int getPagesNumber (int rIM) - количество страниц.
+       ( Количество строк на странице - константа ).
+       
+    1.16 public String[] getRecordOid () - получить OID записи.
+    
+    1.17 public int getTypeCode ( String typeStr ) - получить код типа столбца,
+      где:  1 - char, text, date
+            2 - int, numeric       
+            3 - boolean,
+            4 - прочее.
+            
+#3) 1.18 public void insertRecords()  - Вставить запись.            
+     
+    1.19 public boolean isNum ( String word ) - Проверка, поле содержит цифровые символы,
+                                           либо нет.
+
+    1.20 public void keyPressed(KeyEvent e) - обработчик нажатой клавиши.
+    
+        if (keySelected.equals("Insert"))  - выполняет обновление записи ???? :(
+
+    1.21 public void keyReleased(KeyEvent e) - ?? пусто
+    
+    1.22 public void keyTyped(KeyEvent e) - ?? пусто
+    
+    1.23 public void pieDatos() - ??? Вызывает Filter.
+    
+    1.24 public void printFile ( PrintStream xfile, Vector registers, 
+                            Vector FieldNames, String Separator ) - Печатаем, что ???
+                            
+    1.25 public String refreshAfterDrop ( String result)  - Обновление после удаления.
+                        содержит обращение к "updateUI ()"; 
+       "updateUI ()" определён в JComponent.
+       
+    1.26 public void refreshTable () - ??? 
+    
+    1.27 public void setDBComponentType ( int p_type ) - установка Типа отображаемого объекта 
+     базы, ( TABLE or VIEW ).
+     
+    1.28 public void setLabel ( String dbName, String table, String owner, String descr ) - Установка
+        метки.
+        
+    1.29 public void setOrder () - выбор поля для упорядочения записей, изменился в июле,
+                             был OID, стал первый столбец в таблице ( то-же не здорово ).
+    
+    1.30 public void setRecordFilter( String TableN, String DBName ) - Устанока фильтра, 
+           убран OID в июле. Используется Hash table.
+           
+    1.31 public void setRow1( boolean state) - ??????   
+    1.32 public void setRow2( boolean state) - ??????
+    
+    1.33 public void setStatistics ( int cPage, int nP, int iMin, int iMax ) - установка панели со 
+                                                          статистикой.
+                                                          
+2#) 1.34 public void showQueryResult ( Vector rowData, Vector columnNames ) - показать результат
+                                                                         запроса.
+         Один из основных методов, работает при перелистывании. 
+                                                                         
+1#) 1.35 public boolean updateTable ( PGConnection conn, String TableN, Table structT ) -
+                                        обновление таблицы.
+         Один из основных методов, в частности работает при выборе папки.
+                       
+    1.36 public void updatingRecords() - обновление записей.
+    
+                       --------------------------------------------------------
+    
+    Снова включить экранирование имён.
+    
+  2010-01-10 
+  ----------
+           1)   Старт, конструктор просмотрен.
+           2)   Выбор таблицы.     
+                        
+                Sql_main.java изменён. 
+  
+           3) кнопка ">" mouseLQR
+           4) кнопка ">>" queryF
+           5) "INSERT" - метод insertRecords()
+                  
+                  Локализовать и подумать о том, как использовать комментарии вместо имён полей
+                            
+ План рефакторинга:                 
+                  
+1@) 1.0 Конструктор: public Records ( JFrame xframe, Language glossary, JTextArea log )
+        
+        Управление кнопками Browser'a.
+        
+          1.0.1 MouseListener mouseLB  = new MouseAdapter()  - Левая кнопка
+          1.0.2 MouseListener mouseLQL = new MouseAdapter()  - Левая кнопка
+          1.0.3 MouseListener mouseLQR = new MouseAdapter()  - Правая кнопка  
+          1.0.4 MouseListener mouseLF  = new MouseAdapter() { 
+--                                                                                                                                     
+1#) 1.35 public boolean updateTable ( PGConnection conn, String TableN, Table structT ) -
+                                        обновление таблицы.
+         Один из основных методов, в частности работает при выборе папки.
+--               
+2#) 1.34 public void showQueryResult ( Vector rowData, Vector columnNames ) - показать результат
+                                                                         запроса.
+         Один из основных методов, работает при перелистывании. 
+
+---------------------------------------                                               
+Создание нового интерфейса:
+    Records_consts.java
+По возможности убрать общие куски кода:
+---------------------------------------                                               
+
+----------------------------------------------------------------------
+Локализовать и "причесать" INSERT ( общий для X1 и X2 ).
+
+UPDATE должен сохранять состояние экранной формы при повторном вызове.
+Для X2 нужно писать новую форму ????
+----------------------------------------------------------------------
+
+Удалить строку, практически имеем только визуальный конструктор условия WHERE
+
+
+2010/01/11 
+----------
+
+Классификаторы и визуальные формы:
+----------------------------------
+
+Классификаторы:
+---------------
+/*==============================================================*/
+/* Table: KL_DOK                                                */
+/*==============================================================*/
+create table KL_DOK (
+KOD_ASU              CHAR(2)              not null,  -- List_box1 строится по KT_ASU,     ( KOD_ASU )
+KOD_VID_DOK          CHAR(1)              not null,  -- List_box2 строится по KT_VID_DOK, ( KOD_VID_DOK )
+KOD_DOK_ASU          CHAR(12)             not null,  -- Редактируемое поле, уникальное значение.
+--
+PNAME                VARCHAR(80)          null,      -- Редактируемое поле
+SNAME                VARCHAR(28)          null       -- Редактируемое поле
+);
+
+comment on table KL_DOK is 'Классификатор документов';
+
+comment on column KL_DOK.KOD_ASU     is 'Код АСУ';
+comment on column KL_DOK.KOD_VID_DOK is 'Код вида документа';
+comment on column KL_DOK.KOD_DOK_ASU is 'Код документа в соответствующей АСУ';
+--
+comment on column KL_DOK.PNAME       is 'Полное наименование';
+comment on column KL_DOK.SNAME       is 'Сокращенное наименование';
+
+alter table KL_DOK add constraint PK_KL_DOK primary key ( KOD_ASU, KOD_VID_DOK, KOD_DOK_ASU );
+
+------------------     
+alter table KL_DOK    -- List_box2
+   add constraint FK_KL_DOK_REF_KT_VID_D foreign key (KOD_VID_DOK)
+      references KT_VID_DOK (KOD_VID_DOK)
+      on delete restrict on update restrict;
+
+alter table KL_DOK    -- List_box1
+   add constraint FK_KL_DOK_REF_KT_ASU foreign key (KOD_ASU)
+      references KT_ASU (KOD_ASU)
+      on delete restrict on update restrict;
+    
+-----------------------------------------------------------------    
+
+/*==============================================================*/
+/* Table: KT_VID_DOK                                            */
+/*==============================================================*/
+create table KT_VID_DOK (
+KOD_VID_DOK          CHAR(1)              not null, -- Редактируемое поле, уникальное значение.
+PNAME                VARCHAR(80)          null,     -- Редактируемое поле
+SNAME                VARCHAR(28)          null      -- Редактируемое поле
+);
+
+comment on table KT_VID_DOK is
+'КТ «Виды документов»';
+
+comment on column KT_VID_DOK.KOD_VID_DOK is
+'Код  вида документа';
+
+comment on column KT_VID_DOK.PNAME is
+'Полное наименование';
+
+comment on column KT_VID_DOK.SNAME is
+'Сокращенное наименование';
+
+alter table KT_VID_DOK
+   add constraint PK_KT_VID_DOK primary key (KOD_VID_DOK);
+
+----------------------------------------------------------
+
+/*==============================================================*/
+/* Table: KT_ASU                                                */
+/*==============================================================*/
+create table KT_ASU (
+KOD_ASU              CHAR(2)              not null, -- Редактируемое поле, уникальное значение.
+PNAME                VARCHAR(80)          null,     -- Редактируемое поле
+SNAME                VARCHAR(28)          null      -- Редактируемое поле
+);
+
+comment on table KT_ASU is
+'КТ «Наименования АСУ»';
+
+comment on column KT_ASU.KOD_ASU is
+'Код  АСУ';
+
+comment on column KT_ASU.PNAME is
+'Полное наименование';
+
+comment on column KT_ASU.SNAME is
+'Сокращенное наименование';
+
+alter table KT_ASU
+   add constraint PK_KT_ASU primary key (KOD_ASU);
+
+
+Визуальные формы:
+-----------------
+
+     - Простой элемент
+     - Составной элемент
+     - Шаблон документа
+     
+12/01/2010 
+----------
+    Создание интерфейса Records_consts.java
+    
+          +1.0.1 mouseLB  - Сделано
+          +1.0.2 mouseLQL - 
+          +1.0.3 mouseLQR -   
+          +1.0.4 mouseLF  - 
+     
+    Сделана примитивная компоновка.
+    
+    Переносить класс в проект X2 ??
+    
+01/02/2010
+----------
+   Выбор диалога и сохранение пути.
+   1 - глобальная переменнная хранящая последний использованный путь.
+       устанавливается в поле X2 ( интерфейс ). 
+   2 - В начале создаём дополнительный каталог x1_unload
+   3 - последний использованный путь  - как аргумент при создании объекта FileChooser.
+       забрать его из поля.
+       
+   Не реализовано, пока.
+   
+04-03-2010  
+----------       
+   На март месяц, необходимо сделать:
+      
+   1 - поиск ошибки в генераторе XRD файлов, исходная таблица SDO_FILE_DOC,
+      
+   2 - импорт XRD файлов, диалог, подготовка к импорту класса сделанного Ольгой,
+      
+   3 - исправить ошибку № 33 от 16.12.2009, ""OpenSUSE, «любимые  запросы» не сохраняются, 
+       неправильно определяется путь к каталогу с отчётами."" То-же будет на МСВС,
+      
+   4 - имплантация класса Records и обновление пакета UTILITIES, части класса RussianGlossary 
+       из проекта X2.   
+        
+       Приоритеты (1, 2) далее 4, 3
+       
+07-03-2010
+----------
+  Импорт XRD.
+     Внешние данные:
+        Каталог с XRD-файлами, файловая система, "данные1"
+        Схема _XSD,                              "данные2"
+        Каталог Postgres,                        "данные3"
+        Значимые атрибуты: uuid, xrd_name, table_name.
+           
+      + 1) "данные1".table_name NOT IN "данные3".table_name ( нет таблицы в базе ),      
+           неактуальные "данные1", отметка в LOG.
+        
+      + 2) "данные1".table_name == "данные3".table_name  and
+           "данные1".table_name NOT IN "данные2".table_name ( нет ничего в схеме _XSD ).
+           Выполняется сценарий импорта.
+           
+        3) "данные1".table_name == "данные3".table_name  and
+           "данные1".table_name == "данные2".table_name.
+           Выполняется сценарий обновления.
+           Дополнительные условия:  
+               "данные1".uuid == "данные2".uuid and
+               "данные1".xrd_name == "данные2".xrd_name
+           при несоблюдении дополнительных условий данные игнорируются,
+           делается запись в LOG.
+           
+       Активные элементы интерфейса:
+         - Выбор каталога,
+         - Кнопка подтвержения операции,
+         - Кнопка отмены операции.
+         
+       Запрос к базе.    
+
+15-04-2010
+----------            
+  Получить список имён XRD-файлов из выбранного каталога.
+  Для каждого файла выполняется разбор.
+  Создать класс-коллекцию.
+
+21-04-2010
+----------            
+  Работает, замечания:
+    + нет признака ключа в свойствах
+    + экранировать "'" в методах.
+ 
+22-04-2010
+----------            
+  Проверка состояния базы( представление v_xrd ):
+        
+        - <имя таблицы>, получаем uuid
+        - uuid, получаем <имя таблицы>
+        - имя таблицы из системного каталога. 
+    
+  Далее сравнение исходных и полученных данных.
+  
+  План тестирования:
+    - добавление корректных данных в пустой каталог,
+    - добавление некорректных данных в пустой каталог,
+    - обновление корректными данными непустого каталога,
+    - обновление некорректными данными непустого каталога.
+    
+  Ревизия всех остальных реализаций ( функционалов ) от xsd_1 до xsd_4
+    
+    /*********
+	 *  List table names which were absent in XSD catalog 
+	 */
+	public Vector getTableList_1 () 
+	
+   /*******************************************************************/
+    boolean getDataSet_1 ( String p_tables_list ) { 
+		   // #0 for relation between vectors, #1, #2  #3 contain data
+    	   // #0 - table_name, #1 - comment, #2 - uuid, #3 - xrd name 
+		   boolean l_res = true;
+		   
+		   this.l_str = this.S_XSD_1_0 + this.S_XSD_1_1 + p_tables_list + this.S_THE_END ; 
+		   this.result_1  = this.conn.TableQuery ( l_str );
+		   addTextLogMonitor ( idiom.getWord ( "EXEC" ) + l_str + "\"" );
+
+		   this.len_ds_1 = this.result_1.size ();
+		   if ( this.len_ds_1 == 0 ) l_res = false ;      
+		   
+		   return l_res; 
+	   }
+  Дополнительно необходим метод получающий этот самый this.result_1
+  
+   /**
+    *   Get uuid using table_name
+    * @param p_table_name
+    * @return
+    */
+  	public String getUUID_u (  String p_table_name  ) { 
+    	
+		String s_uuid = "" ;     	
+
+    	l_str = S_UUID_S_0 + p_table_name + S_UUID_S_1 ;
+ 	    addTextLogMonitor ( idiom.getWord ( "EXEC" ) + l_str + "\"" );
+
+    	s_uuid = repl_0 ( this.conn.TableQuery ( l_str ).elementAt(0).toString() );
+    	return s_uuid ;
+  
+ Сразу после старта процедуры импорта получаем вектор с именами таблиц, которые отсутствуют 
+ в каталоге _XSD. Далее он используется при определении принадлежности/валидности таблицы.
+ 
+ Получение uuid по имени есть, обратной функции нет.
+ 
+23-04-2010
+----------            
+  Ушло три часа на ревизию хранимых процедур - черепашью темпы. :(
+  Отлаживать Xsd_5 на старом наборе. Новая версия _xsd.f_upd_mtd()
+  ( с добавлением пропущенных строк ) остаётся на "потом".  
+
+  Добавить для таблицы описывающей методы индекс подобный приведённому ниже:
+    CREATE UNIQUE INDEX ind_xs_mtd_id_mtd ON _xsd.xs_method ( id_xsd, type_mtd );
+  
+  + Реализовать сообщение о завершении процесса:
+     + добавлено,
+     + обновлено,
+     + дефектные.
+  
+  - Скрипт создающий пустой каталог XRD. 
+  
+  Далее комплексная отладка, 
+            -  выгрузить всё
+            +  очистить 
+                   - начинаем с  пустого каталога
+            -  загрузить всё
+            +- выгрузить всё, сравнить результат
+            
+            +  Ошибка 19/50, какой статус импортированный дескрипторов, и как устанавливать видимость 
+            -  столбцов ?.
+             
+ 26-04-2010
+-----------               
+Отладка.
+    1 - Импортируемые XRD-файлы, для тех таблиц, у которых ранее отсутствовало XRD-описание 
+        структуры, должны иметь статус 2 ( активный ), столбец status должен иметь значение 1.
+        Уточнение:
+          + Статус XRD-файла выбирается в интерфейсе. 
+          + Передаётся в хранимую процедуру "f_ins_descr". 
+          + Модификация хранимой процедуры. Две одноимённые функции с разными сигнатурами.
+            Смотри: Xsd_0.do_prepareDataIns();
+                    Xsd_2.do_prepareDataIns();
+                    Xsd_DisolayControl.do_prepareDataIns(); 
+                    Xsd_4.makeOk(); 
+                    Xsd_5.makeOk();
+          
+    2 + Статус видимости столбцов из всех импортируемых XRD-дескрипторов устанавливается равным 1. 
+
+    3 - Все функции работающие с _XSD каталогом должны проверять состояние таблиц:
+              xs_columns, xs_key_column_usage, xs_referential_constraints.
+        Работа с пустыми таблицами запрещена. 
+        Должен быть предоставлена возможность выбора:
+           - перегрузить каталог,
+           - прекратить выполнение приложения.
+    ---------------------------------------------------------------------------------    
+ + Ошибка:     Исправить во всех классах пакета _xsd.
+ ----------
+     	Была выбрана база "ibdx" отличная от принятой по умолчанию "ibdy". 
+     	Установка базы не выполняется, импорт выполнился в базу по умолчанию ( "ibdy" ).
+    	В сообщения, выводимого в LOG-файл указать имя базы.
+                      
+27-04-2010
+-----------               
+    + Что происходит при выполнении этого метода: 
+		    Xsd_0.setStatus ( String p_table_name, String p_st );   ???	
+    + Понятно что, отсутствие мозгов в голове.		    
+
+      Какой смысл в обновлении ( внешнем ) каталога ИР, если эти обновления не актуальны и 
+      аннулируются при очередном просмотре ИР ?
+      
+      Если совсем отключить ON LINE обновление во всех функциях, кроме обноления ( синхронизации )
+      каталога ИР ?
+        
+      И зачем xs_t_status ??
+      
+      Резюме:
+      -------    
+      + При обновлении статус дескриптора устанавливается в интерфейсе, статус столбцов - всегда 1
+        видимо то, что поступает из внешнего окружения.
+      
+        Обновление _XSD каталога и обновление внутреннего каталога - разные процедуры.
+      
+      _XSD каталог обновляется только в следующих ситуациях:
+            + импорт,
+            + обновление/синхронизация ( внутреннее ),
+            + добавление столбца в таблицу,
+            - пересоздание таблицы ( подумать, как это сделать ),
+           
+       Показываю XRD-файл  
+       Xsd_DisplayControl - осталость модифицировать метод  s_res = base_m.setVectrSt ( xs_t_status ) ;    
+           
+28-04-2010
+-----------
+       + Добавить кнопку "Синхронизация"   в Xsd_Display.
+       + Xsd_DisplayControl кнопка "Принять", её назначение. Удалить.  
+
+29-04-2010
+----------
+         + Отладка на полном объеме
+         + Уполз на Xsd_1.
+          
+30-04-2010
+----------
+          + Необходимо устанавливать текущую базу в Xsd_1, Xsd_3.
+            Остался Xsd_4, 
+            Комплескно проверит всё, ещё раз, включая выгрузку, синхронизацию,
+            сравнение результатов.
+            
+04-05-2010
+----------
+            + Поиск ошибки 57, Xsd_2.
+            + Отладка Xsd_4 ( возможна доработка функционала ).
+            
+            SET search_path = _xsd, pg_catalog;
+            CREATE UNIQUE INDEX ind_xs_descr_tbale_name ON xs_descr ( table_name );
+                        
+05-05-2010
+----------
+            Xsd_DisplayControl 
+              + опять перестало работать отображение добавленного столбца ( столбца добавленного из 
+                интерфейса ). Понятно почему.
+                 + Добавление столбца, отметка в лог файле о выполненной операции. 
+                   -? Обновление каталога
+             
+                Очень нечетко определённая функциональность класса.
+             
+06-05-2010
+----------
+            + Неправильно работает парсер, смотри план тестирования от 23-04-2010, пункт "загрузить всё", 
+              "выгрузить всё". В дескрипторах написанных "от руки" SQL-выражение разделено "\n" что не 
+              здорово, потому, что берётся только первая часть выражения. Нужно брать всё до ";"
+              Реализовано: "}" - first delimiter, "{" - second delimiter.                      
+
+            + Не работает создание ресурсов в пакетном режиме. ( Помещилось наверное ).
+                         
+            Общее замечание: 
+                не могут быть импортированы файловые, административные и вспомогательные ресурсы,
+                т.е те объекты для которых нет соответствующей таблицы. 
+                Вместе с водой выплёскивается ребёнок.
+                
+            Недоделки:
+            ----------
+               Обновление, выбор устанавливаемого статуса: "Активный", "Неактивный", "Удалённый".
+               Импорт, опциональный режим, отключающий проверку наличия "теневой" таблицы.
+               Контекстное меню на главном дереве, не работает опция XML-экспорт. 
+               Добавить XRD-экспорт.
+           
+            Класс Quieries: экспорт результат запроса в текстовый файл типа CSV, выводятся только две строки.     
+                                 
+            Функции и хранимые процедуры: файл  f_upd.sql
+            Необходима ревизия и два скрипта: 
+               1 - дополнения структуры таблицы XS_DESCR ( индекс ),
+               2 - дополнения и изменения для функций и хранимых процедур.
+                                       
+25-09-2011 -------------------------------------------------------------------------------------------------------------
+----------
+           Возвращаюсь к проекту X1. Необходим инструмент для работы с базой данных
+           классификаторов. Назначение:
+           	- Стандартные операции с базой данных: создать базу, схему, таблицу, представление,
+           	  выполнить SQL запрос.
+           	- Операции с плоскими таблицами: создать новую запись, отредатировать существующую, удалить
+           	  выбранную, выполнить групповое обновление, выполнить групповое удаление. 
+           	- Операции с иерархическими организованными таблицами:
+           		- выбор столбцов, необходимых для организации иерархии, таких как правило два: текущий id и id родителя,
+           		- отображение иерахии
+           		- добавление, удаленение элементов (листьев и узлов). 
+           
+           Что можно использовать ?
+           Модификация пакета:
+           	+ Убрать из главного меню лишние пункты,
+           	+- Исключить из проекта пакет _xsd    19-12-2011 Остался только в контекстном всплывающем меню.
+           	+ Протестировать главное меню на предмет правильного включения/выключения элементов
+           	  возникающем при установке/разрыве соединения с базой. 
+           	
+           	- Создать класс-конструктор схем
+           	    - Прочитать список доступных баз данных, текущая база.
+           	    - в ней создать схему с комментарием.  
+           	
+           	
+           	+- Модифицировать класс-конструктор создающий таблицы.
+           	- Создать класс-конструктор создающий представления.
+           	- Класс Record - продолжаю рефакторинг, начатый зимой-весной 2010 года.
+           		- добавляю метод редактирования текущей строки
+           		- до конца реализую методы группового обновления, группового удаленияы.
+           		- отчёт, вывод на WEB-browser.
+           	- Дерево объектов базы должно отображать свойства элементов базы.
+           	- SQL интерпретатор должен выполнять запросы, групповые запросы. Каждый результат на отдельной
+           	  вкладке.
+           	- В LOG должна записываться внятная информация.  
+           	- "Горячие" клавиши на большинство кнопок.
+           	
+ 16-10-2011
+-----------           	
+           	Модификация классака CreateTable:
+           		+ Убираю SQL-выражения в тексте, заменяю на константы.
+           		- Отладка: 
+           			+ сброс значений при выключении полей
+           			- текстовые значения по умолчанию
+           			- DATA, DATATIME и TIMESTAMP значения по умолчанию,
+           		    + Почему после выполненного наследования необходимо вводить хотя бы один
+           		      столбец ??? Потому, что ты балбес.
+           		+ данные типа UUID      
+           		+ Комментарий
+           		+ схема
+           		+ ревизия размеров
+           		+- Класс наследование, 
+           				- ревизия кода
+           				+ ревизия размера экранной формы.
+
+ 19-10-2011           				
+ ----------
+            Если в разных схемах ( DIC, PUBLIC ) существуют таблицы с одинаковыми именами ( MA_ABS_POSITION ) то задваивается количество 
+            объектов в дереве базы и задваивается количество столбцов в выбранной таблице.
+            Понятно что:
+            	+- Ревизия метода NConnect() класс Xpg.
+            	-- Ревизия класса Structure ( какой метод - не помню ).
+           				
+30-10-2011  Ревизия методов в классе PGConnection, модифицируются медоды, связанные с получением
+----------  свойств таблицы, подсчётом количества таблиц, выделением прав на таблицу. Это связано 
+            с тем, что одна таблица ( один объект базы, если быть точнее ) может присутствовать
+            в различных схемах.
+            Класс:
+            	+ getSpecStrucTable
+            	+ getTablesStructure 
+            	+ getOwner
+            	- getTablePermissions - требует дополнительного тестирования.
+            	+ getIndexTable 
+            	- getForeignKeys
+            	- etNumTables - необходим параметр "имя схемы".
+            	- getTablesNames
+            	- getIndexFields
+            	+ getComment   мой метод, 2009 год.
+           	     
+             		                                   
+ 13-11-2011  +- Класс XPg, добавлена переменная класса String ActiveSchema.
+ ----------    определяется в методе Nconnect и при позиционировании на
+               имени таблицы в дереве объектов.
+             
+             + Пакет menu, класс CreateTable, временно использована схема PUBLIC.   
+             
+             - Класс DumpDB необходимо заменить обращением к утилите  Pg_dump.
+             
+             - DumpTable - аналогично.
+             
+             - Класс Records метод refreshTable () временно использую PUBLIC
+               Очевидно имя схемы необходимо выбрать при выборе таблицы на 
+               дереве объектов, затем передать в экземпляр класса при его 
+               создании.                        
+                    - updateTable там-же.  
+                      получилось так: connReg.getOwner ( TableN, structT.schema )
+                      
+             - Structures getSpecStrucTable ( ... "public");    
+                    - myTableModel, setValueAt ()
+
+ 14-11-2011  Остаётся две проблемы: 
+  ----------  + Задваивание имён индексов.
+              + Комментарии к таблицам НЕ ВОСПРОИЗВОДЯТСЯ на закладке "Структура".
+            
+             Успешно прошли тесты:
+                + добавление столбца и последующее адекватное воспроизведение структуры.
+                + Смена владельца таблицы, последующее воспроизведение имени владельца.
+              
+              
+ 03-12-2011  + Задваивание имён индексов ликвидировано. Комментарии воспроизводятся.
+ ----------     Непонятно:
+                   - почему никогда не становится активной закладка "Индекс/Внешний" ("Структура") ?
+                   - почему закрыта кнопка "Детали" ? Она всегда неактивна.
+                     Эти два пункта с "налёту" не взялись. Придётся разбираться отдельно.
+                2.5 часа     
+              + createTableSQL - модифицировать и в класс Utils                                
+              - процедуру выбора имени взять из пакетов -xsd x  
+              
+              + общие методы в Util
+               
+09-12-2011    Часть общих методов свалена в статический класс getStr.
+----------    + Визуальный конструктор таблиц (CreateTable). Список схем.
+
+11-12-2011    + CreateTable разваливается на конструкторе.
+----------    Завершена ревизия конструктора. Что делаем далее и возникающие по ходу дела
+              вопросы:
+              + 1) Что имели в виду авторы под ограничением на таблицу ?
+                   Кнопку выключаю, ревизия вызываемого метода.
+                
+              + 2) Что авторы имели ввиду под проверкой ?
+                   Выключаю функциональность.
+                   На эту панель комментарий к таблице.
+                
+              + 3) Панель "Поле - Свойства". После атрибута "Длина" добавляю комментарий 
+                   к столбцу.
+                
+               + 4) Разобраться что такое список полей справа.
+                
+               - 5) Наследование, ревизия метода.
+                
+              +- 6) Смена значений по умолчанию.  При отправке поля вправо и при смене базы/схемы.
+                
+              +- 7) Обработка событий, смена текущей базы и схемы.
+                
+               - 8) Проверка на столбец ??? Уже непонятно что имел ввиду неделю тому назад.
+                
+               - 9) Дополнительная опция - текст скрипта, создающего таблицу. Просмотр,
+                   редактирование, выгрузка.
+                   
+12-12-2011   На будущее :) Регистры букв различаются !!! ::)) Копировать проект вместе с метаинформацией ECLIPSE.
+----------   Рефакторинг ( совместный ) обоих классов: Recors и Queries.
+             Диаграммы классов и методов:
+                   а) - существующие
+                   б) - проектируемые с набором общих классов.
+             Продолжать использовать статические классы.
+                                
+14-12-2011  При создании новой строки можно использовать список ссылок : 
+----------          таблица - ключевое значение наименование
+	                это даёт явным образом строить структуру внутри таблицы.
+	        все настройки визуального интерфейса, определённые в классе 
+	        RECORDS сохраняются во глобальной хэш таблице, это на время соединения 
+	        с базой данных. При разрыве соединения хэш таблица очищается.
+            Ключ таблицы имя редактируемой таблицы, значения - вектор.
+            Кроме того выделить в отдельный класс панель из класса 
+            CreateTable. Это всё относится к к обоим классам RECORDS, QUERIES.
+
+18-12-2011  + Информация к размышлению.
+----------
+Выполнение: "CREATE TABLE "x3" (  "f1" int2 PRIMARY KEY, "f2" varchar(50) UNIQUE DEFAULT Константа, "f3" uuid ) ;"
+Выполнение: "CREATE TABLE "x3" (  "f1" int2 PRIMARY KEY, "f2" varchar(50) UNIQUE, "f3" uuid ) ;"
+Выполнение: "COMMENT ON TABLE x3 IS 'третья тестовая таблица';"
+Выполнение: "COMMENT ON COLUMN x3.f1 IS 'null';"
+Выполнение: "COMMENT ON COLUMN x3.f2 IS 'null';"
+Выполнение: "COMMENT ON COLUMN x3.f3 IS 'null';"
+Результат: OK
+Выполнение: "CREATE TABLE "x3" (  "f1" int2 PRIMARY KEY, "f2" varchar(50) UNIQUE, "f3" uuid ) ;"            
+------------------------------------------------------------------------------------------------
+
+19-12-2011 Последовательность реинжиниринга:
+----------	+- обработка событий и создание текста таблицы.
+		 	- переделка класса "Наследование". 
+		    На нижнюю панель добавляются кнопки View и Constraint. 
+		    Активность кнопок на нижней панели:
+		    	- исходное состояние - активна кнопка "Нет",
+		    	- определено имя таблицы и комментарий к ней - то-же самое,
+		    	- определено хотя бы одно имя - видны все копки.
+		    	- сменилась база данных и схема - всё возвращается в исходное состояние.
+            Кнопка "просмотреть" - получаем SQL-скрипт из внутренней структуры.
+            Внутри средства просмотра - обратный парсинг SQL скрипта во внутреннюю структуру.
+            						  - необходим SQL-help
+            Класс Constraint позволяет создать дополнительные фитчи типа
+            	WITH (OIDS=FALSE)
+            	ALTER TABLE ......
+            	это требует SQL парсера внутри класса Constarint.
+            			    	
+            В LOG выводится строка ( по завершению работы конструктора ):
+               "Визуальный конструктор таблиц начал свою работу"
+            По успешному завершению работы: 
+               "Таблица ... успешно создана".
+               
+04-01-2012 Вперёд. ActionPerformed, запоминание параметров.
+----------
+
+Схема public:
+Выполнение: "CREATE TABLE "x3" (  "xx1" int2 PRIMARY KEY, "xx3" varchar(30) UNIQUE, "xx4" uuid ) ;"
+Выполнение: "COMMENT ON TABLE x3 IS 'Тестовая таблица №3';"
+Выполнение: "COMMENT ON COLUMN x3.xx1 IS 'Первое поле';"
+Выполнение: "COMMENT ON COLUMN x3.xx3 IS 'Второе поле';"
+Выполнение: "COMMENT ON COLUMN x3.xx4 IS 'Третье поле';"
+Результат: OK
+
+1. + Передавать имя схемы в конструктор класса, как значение по умолчанию.
+    + 1.1 Курсор стоит на имени таблицы принадлежащей схеме, отличной от PUBLIC. При этом программа 
+          разваливается. В остальных случаях позиционирования курсора на дереве элементов базы,
+          по умолчанию принимается схема PUBLIC. 
+
+        + Враньё очевидно зарыто в обработке событий мыши. 
+
+2. -Схема nub:
+Выполнение: "CREATE TABLE "x3" (  "xx1" int8 DEFAULT 1, "xx2" timestamp NOT NULL, "xxт4" serial NOT NULL PRIMARY KEY ) ;"
+Имя таблицы не содержит имени схемы.      		    	
+		    	
+3. - Движение по правой панели, список полей. Воспроизведение их параметров.
+      + 3.1 Обновили поле - очистить левую панель.		
+      + 3.2 Отладить переключение баз данных. Схемы !!
+      
+07-01-2012  Значения по умолчанию. Для типов TIME, DATE, DATETIME - возможность ввода имени
+----------                         функций ( current () и т.п. ),
+                                   Для типа UUID вызов генератора.
+                                   Решение взять из класса Records, проверить как это решено в классе
+                                   Structures. Аналогичное решение в класс Structures 
+                                   ( добавление новой записи ).
+            Добаить точность представления десятичной величины в CreateTable. Смотри решение в классе
+            Structures.
+            
++ Информация к размышлению:
+ Выполнение: 
+   "CREATE TABLE "dic.x" (  "xx1" int2 PRIMARY KEY, "xx2" varchar(23), "dd3" int8 DEFAULT 3455656 ) ;"
+   Имя таблицы вместе со схемой защищается двойными кавычками. :):)
+Выполнение: "COMMENT ON TABLE dic.x IS 'Тестовая таблица';"                                  
+            	 	
+Работает вот это:
+CREATE TABLE dic.x (  "xx1" int2 PRIMARY KEY, "xx2" varchar(23), "dd3" int8 DEFAULT 3455656 ) ;
+
+Проверить удаление таблицы в контекстном меню, схема DIC.
+
+Выполнение: "CREATE TABLE dic."x1" (  "xx1" int4 PRIMARY KEY, "xx2" varchar(20), "xx3" int8 DEFAULT 3456789 ) ;"
+Выполнение: "COMMENT ON TABLE dic."x1" IS 'Тестовая таблица';"
+Выполнение: "COMMENT ON COLUMN dic."x1".xx1 IS 'Первое поле';"
+Выполнение: "COMMENT ON COLUMN dic."x1".xx2 IS 'Втрок поле';"
+Выполнение: "COMMENT ON COLUMN dic."x1".xx3 IS 'Третье поле';"
+Результат: OK
+	
+02-02-2012  +Переключение баз,корректный выбор схем и таблиц.  
+----------            	 	
+03-02-2012  - У интерфейсе удаления таблиц, так-же необходимо указывать имя схемы.
+----------
+ - Величины по умолчанию
+ + Наследование 
+ - Ограничения
+ +- Сообещения о начале работы и об её успешном завершении.
+ 
+06-02-2012
+-----------
+Глупостей тьма.
+ 
+Визуальный конструктор таблиц начал свою работу.
+Выполнение: "CREATE TABLE xxx4 (  "ww" int2 ) ;"
+Выполнение: "COMMENT ON TABLE xxx4 IS 'eee';"
+Выполнение: "COMMENT ON COLUMN xxx4.ww IS ''';"
+Завершено выполнение визуального конструктора таблиц.
+ 
+10-02-2012
+----------
+  - При клике правой кнопкой мыши по узлу уровня 0 ( Хост ) разваливается
+    приложение. 
+  
+  + Создание таблиц на пустой базе.
+  
+11-02-2012  PGConnection - переделка метода GetTableList. Густаво использовал
+----------  имя владельца таблицы. Я нигде не использую это.
+
+           public String[] getTablesNames ( boolean justPrp ) этот метод требует 
+           пересмотра. Используется в Main  и  Structure.
+           
+           Как бы не пришлось пересматривать все методы создающие объектов.
+           Права: читать, разбираться.
+           
+12-02-2012    + El constructor visual ha comenzado el trabajo.
+-----------   + El constructor visual ha acabado el trabajo.
+              + La tabla es creada
+              
+13-02-2012  + Список типов данных должен быть унифицирован, это метод класса из пакета
+----------       Utilities.
+            Классы:
+               + CreateTable,
+               + Structures.xxx (InsertField)
+                 Records.zzz (InsRec) тип берётся из структуры TableHeader.  
+
+Визуальный конструктор таблиц начал свою работу.
+
+ Выполнение: "CREATE TABLE x4 (  "f1" serial PRIMARY KEY, "f2" varchar(300), "f3" uuid DEFAULT f_get_uuid_py ) ;"
+ Выполнение: "CREATE TABLE x4 (  "f1" serial PRIMARY KEY, "f2" varchar(300), "f3" uuid DEFAULT f_get_uuid_py() ) ;"
+ Выполнение: "CREATE TABLE x4 (  "f1" serial PRIMARY KEY, "f2" varchar(300), "f3" uuid DEFAULT f_gen_uuid_py() ) ;"
+
+Завершено выполнение визуального конструктора таблиц.   
+
+16-02-2012  Обдумана конценция использования типов данных СУБД в проекте.
+----------  + Каждый тип это константа класса из пакета Utilities.
+            + Массив образуется перечнем констант.
+         
+         +- Класс CreateRecord, добавить атрибут "Точность" ( только для полей типа DECIMAL ).
+         + Класс InsTableField - рефакторинг, убираем "смысловые дубли".   
+         - Классы CreateRecord, InsTableField:
+            + Данные типа SERIAL не обладают возможностью установки начальных значений.
+            + Начальные значения всегда явно приводятся к типу поля. Используем CAST либо
+               ::.
+             - Список функций. Встроенные и пользовательские функции размещённые в текущей
+               схеме и доступные текущему пользователю.
+            +- функциональная кнопка. NoVisible и InActive  в начальном состоянии и становится
+               активной для типов DATE, TIME, DATETIME, UUID, CHAR и VARCHAR ( два последних
+               под вопросом ).
+            + Данные типа BOOLEAN - значения по умолчанию из  CombBox.
+                             
+         - Класс Records
+             - В том случае, если поле обладает признаком NOT NULL и имеет определённое 
+               ранее значение по умолчанию ( константу либо функцию ), то в процессе ввода
+               данных контроль заполнения поля не выполняется.
+             - Для полей типа SERIAL ввод в поле не выполняется.
+             - Функциональная кнопка:
+                 - для полей имеющих ограничение FOREING KEY развёртывается список значений
+                   ( фильтры и т.п. )
+                 - Рефакторинг классов Records и QUERIES однако.
+             - Почему не отображаются данные типа UUID
+             - Горизонтальное масштабирование.
+                             
+20-02-2012  + Унификация констант, определённых в интерфейсе Sql_menu.
+----------
+
+22-02-2012  + Класс InsTableField - ввод величины по умолчанию включается при помощи 
+----------                         check box. Check box, поле, combo box, кнопка
+                                   размещены на одной дополнительной панели four_1
+                                   обладающей свойством горизонтальной компоновки.
+                                   Выравнивание при компоновкею !!!   
+
+25-02-2012 + Пока плохо с панелью four_1. Неясны правила компоновки. Материал не усвоен. 
+---------- 
+
+28-02-2012  +- Ревизия списка типов данных, поддерживаемых движком базы ( версия 8.3.7 )
+----------     Тип данных, встроенная проверка синтаксиса, ограничения и встроенные функции.
+            
+            float  - double precision
+            real   - real
+            float4 - real
+            float8 - double precision
+            
+            тип money исключён из списка
+            
+            char (n)  varcchar(n) - значение по умолчанию приводить так ::char(n),  ::varchar(n)
+            типы char и varchar   - длина не указывается.
+            5 месяцев работы над текущей версией.
+            
+            Класс Structure - как отображаются типы данных ???????
+
+01-03-2012  Тип bytea - начальные значения задавать можно, но необходимо экранировать их.
+----------   E'\\ ... '
+Константы для данных типа "время".
+
+epoch	    date, timestamp	        1970-01-01 00:00:00+00 (Unix system time zero)
+infinity	timestamp	            later than all other time stamps
+-infinity	timestamp	            earlier than all other time stamps
+now	        date, time, timestamp	current transaction's start time
+today	    date, timestamp	        midnight today
+tomorrow	date, timestamp	        midnight tomorrow
+yesterday	date, timestamp	        midnight yesterday
+allballs	time  00:00:00.00 UTC
+
+В качестве начальных значений их необходимо заключить в "'"  и явно выполнить приведение типа при 
+помощи "::".
+
++Метод validType - менять
+
+04-03-2012  Геометрические типы экранируются "''".
+----------  inet, cidr, macaddr так-же.
+           
+           В классе Records должны корректно отображаться значения всех типов, поддерживаемых при в рамках проекта.
+           
+05-03-2012  +Обзор типов данных выполнен. Немного в стороне остались такие типы, как TSVECTOR, XML.
+----------  Структуры и массивы пройдены поверхностно.
+            Пока так: базовые типы перечисленные  в классе ChkType. Информация о типах и данные, им соотвествующие
+            должны корректно отображаться в классах Structures, Records, Queries.
+            +При добавлении столбца в таблицу, при создании таблицы и при вводе данных необходимо выполнить следующие 
+             действия: 
+                   +  Проанализировать правильность введённой строки ( имя функции либо константа ). Это либо
+                      значение по умолчанию, либо значение поля.
+                   +  Дополнить строку разделителями,
+                   +  Выполнить приведение.
+                   +  Запомнить
+            Два варианта решения:
+            	- создать родительский класс, реализующий первые три вышеперечисленные действия,
+            	- дополнить класс ChkType новыми методами.              
+            
+            Второе решение прощё, но это процедурный подход, первое не так очевидно.
+            
+11-03-2012  Не реализован список функций. Если при задании начального значения явно указывается операция
+----------  приведения к типу, то никаких проверок и дополнений не выполняется. Ответственность за это
+            ложится на источник вводимых данных.   
+            
+            Таблица yy5 из oltp8 public становится важным источником тестовых данных.
+
+------------------------------------------------------------------------------------------------
+ 
+29-06-2012  Трёхлетний юбилей работы с X1 (XPg). Самоучитель игры на JAVA и неплохое средство для
+----------  поддержания мозгов в актуальном состоянии.
+            Задачи, "набежавшие" в ходе работы над документом MapOfClasses, только то, что
+            касается класса PGConnection:
+               +1 Ревизия видимости переменных.
+               +2 Убрать отдельный метод преобразования вектора в строку.
+               +3 Реализовать метод возвращающий список схем, доступных в выбранном соединении.
+               +4 Реализовать по новой метод, возвращающий список таблиц, доступных в выбранном 
+                  соединении.  Вектор таблиц, поздно спохватился, ведь можно возвращать
+                  массив строк.
+               +5 Реализовать метод, возвращающий список представлений, доступных в выбранном соединении
+               +-6 Разобраться ещё раз в использовании структур, хранящих информацию о таблицах.
+               +7 Всё, что используется в Sql_main, перенести в PGConnection.
+               +8 Закончить модификацию класса CreateTable.
+              
+Далее, перечисляю то, что не закончено по другим классам, 
+но в данный момент представляется важным:
+( 30-10-2011 )  Ревизия методов в классе PGConnection, модифицируются медоды, 
+                связанные с получением свойств таблицы, подсчётом количества таблиц, 
+                выделением прав на таблицу. Это связано с тем, что одна таблица 
+                ( один объект базы, если быть точнее ) может присутствовать
+                 в различных схемах.
+            Классы:
+               ++ getSpecStrucTable
+               ++ getTablesStructure 
+            	+ getOwner
+            	- getTablePermissions - требует дополнительного тестирования.
+            	+ getIndexTable 
+            	- getForeignKeys
+            	- etNumTables - необходим параметр "имя схемы".
+            	- getTablesNames
+            	- getIndexFields
+            	+ getComment   мой метод, 2009 год.
+ 
+ (16-02-2012)- Класс Records, в том случае, если поле обладает признаком NOT NULL и 
+               имеет определённое ранее значение по умолчанию ( константу либо 
+               функцию ), то в процессе ввода данных контроль заполнения поля не 
+               выполняется.
+             - Для полей типа SERIAL ввод в поле не выполняется.
+             - Функциональная кнопка:
+                 - для полей имеющих ограничение FOREING KEY развёртывается список 
+                   значений с фильтрами и т.п. 
+             - Почему не отображаются данные типа UUID
+             - Горизонтальное масштабирование.
+Для весёлой жизни хватит.
+
+05-07-2012   Доделываю класс CreateTable. Весёлая жизнь is going on.
+----------   + 1) Добавить поле "Точность", добавить после длины.
+                  Это поле активируется только для данных типа  DECIMAL, NUMERIC.
+                  В этом поле допустимы только цифровые символы.
+             + 2) Для полей типа DECIMAL, NUMERIC активировать их длину !!
+             + 3) Охренеть, нет обобщённой обработки типов !! Смотри класс
+                  InsertTableField. В этом классе всё по старому.
+             + 4) Значения для полей типа BOOLEAN должны браться из COMBOBOX.
+                    
+14-07-2012  Модифицировать класс Structure. Увидеть как будут работать 
+----------  изменённые методы getSpecStrucTable (),  getTablesStructure()
+            их класса PGConnection. 
+            
+19-07-2012  ОК, сделано. Долизываю CreateTable
+----------     
+
+24-07-2012  Долизал. Думаем Штирлиц.
+----------          
+Выполнение: "CREATE TABLE test2 (  
+                         "f1" serial NOT NULL  PRIMARY KEY
+                       , "f2" varchar NOT NULL  DEFAULT 'фффффффф'::varchar REFERENCES "test" ( "f3" )
+                       , "f3" varbit NOT NULL  DEFAULT B'101001011000'::varbit
+                       , "f4" date NOT NULL  DEFAULT '2012-07-24'::date 
+ ) ;"
+Результат: there is no unique constraint matching given keys for referenced table "test"
+
+Выполнение: "CREATE TABLE test2 (  
+                      "f1" serial NOT NULL  PRIMARY KEY
+                    , "f2" varchar NOT NULL  DEFAULT 'фффффффф'::varchar
+                    , "f3" varbit NOT NULL  DEFAULT B'101001011000'::varbit
+                    , "f4" date NOT NULL  DEFAULT '2012-07-24'::date 
+) ;"
+Выполнение: "COMMENT ON TABLE test2 IS 'Вторая тестовая таблица';"
+Выполнение: "COMMENT ON COLUMN test2.f1 IS 'Первое поле';"
+Выполнение: "COMMENT ON COLUMN test2.f2 IS 'Второе поле';"
+Выполнение: "COMMENT ON COLUMN test2.f3 IS 'Третье поле';"
+Выполнение: "COMMENT ON COLUMN test2.f4 IS 'Четвёртое поле';"
+Результат: OK. Таблица создана.
+-------------------------------
+Визуальный конструктор таблиц начал свою работу.
+
+Выполнение: "CREATE TABLE test3 (  "xf1" numeric(23,4)
+                                 , "xf2" char(20) NOT NULL  DEFAULT 'БРАТИОМАХИЯ'::char
+                                 , "xf3" bool NOT NULL 
+                                 , "xf4" varbit(1200) NOT NULL  DEFAULT B'1010101101011'::varbit 
+) ;"
+Выполнение: "COMMENT ON TABLE test3 IS 'Третья тестовая таблица';"
+Выполнение: "COMMENT ON COLUMN test3.xf1 IS 'Первое поле';"
+Выполнение: "COMMENT ON COLUMN test3.xf2 IS 'Второе поле';"
+Выполнение: "COMMENT ON COLUMN test3.xf3 IS 'Третье поле';"
+Выполнение: "COMMENT ON COLUMN test3.xf4 IS 'Четвёртое поле';"
+Результат: OK. Таблица создана.
+
+Попробуем InsertTableField.
+Выполнение: "Добавить поле"
+Выполнение: "ALTER TABLE "test3" ADD COLUMN "xf5" varchar(500)"
+OK
+Выполнение: "ALTER TABLE "test3"ALTER COLUMN "xf5" SET  DEFAULT 'Война мышей и лягушек'::varchar(500)"
+OK
+Выполнение: "COMMENT ON COLUMN "test3"."xf5" IS 'Пятое поле'"
+OK                
+-----------------------------------------------
+изуальный конструктор таблиц начал свою работу.
+
+Выполнение: "CREATE TABLE testp (  "pf1" serial NOT NULL  PRIMARY KEY  )  INHERITS  ( "test" ) ;"
+Выполнение: "COMMENT ON TABLE testp IS 'Наследование';"
+Выполнение: "COMMENT ON COLUMN testp.pf1 IS 'Первое поле';"
+Результат: OK. Таблица создана.
+-----------------------------------------------
+Визуальный конструктор таблиц начал свою работу.
+
+Выполнение: "CREATE TABLE testp2 (  "pp1" bigserial NOT NULL  )  INHERITS  ( "test", "test3" ) ;"
+Результат: inherited column "xf5" has a type conflict
+Выполнение: "CREATE TABLE testp2 (  "pp1" bigserial NOT NULL  )  INHERITS  ( "test", "test2" ) ;"
+Результат: inherited column "f2" has a type conflict
+Выполнение: "CREATE TABLE testp2 (  "pp1" bigserial NOT NULL  )  INHERITS  ( "test2", "test3" ) ;"
+Выполнение: "COMMENT ON TABLE testp2 IS 'Второе ннаследование';"
+Выполнение: "COMMENT ON COLUMN testp2.pp1 IS 'Поле';"
+Результат: OK. Таблица создана.
+
+Завершено выполнение визуального конструктора таблиц.
+
+2012-07-26  Ревизия CreateTable завершена, что далее ??
+----------  Класс Records:
+             1) Ревизия метода InsertData - он должен учитывать величину по умолчанию 
+                имеющуюся у вводимого поля и не требовать ввода в это поле. 
+
+!!!!!!!         Ввод в поле должен быть затребовать только в одно случае:
+                   Имеется спецификация NOTT NULL и нет значения по умолчанию
+                  ,это не поле с автоинкрементом, это не поле логического типа.  
+
+             2) Корректное отображение всех типов данных.
+             3) Горизонтальное масштабирование.
+
+Смотри записи от 16-02-2012
+---------------------------
+            - Класс Records
+             - В том случае, если поле обладает признаком NOT NULL и имеет определённое 
+               ранее значение по умолчанию ( константу либо функцию ), то в процессе ввода
+               данных контроль заполнения поля не выполняется.
+             - Для полей типа SERIAL ввод в поле не выполняется.
+             - Функциональная кнопка:
+                 - для полей имеющих ограничение FOREING KEY развёртывается список значений
+                   ( фильтры и т.п. )
+                 - Рефакторинг классов Records и QUERIES однако.
+             - Почему не отображаются данные типа UUID
+             - Горизонтальное масштабирование.
+---------------------------
+Пакет MENU (либо MISC)  
+            - сюда класс с  методом строящий строку с SQL-образом таблицы.
+            - далее класс наследник имеющий фукцию выбора текстового файла для
+              выгрузки данных.
+            - далее класс наследник имеющий визуальный интерфейс с возможностью
+              групповой обработки таблиц.
+            - Шрифты в контекстном меню !!
+---------------------------
+Новый пакет Options
+            - Класс строящий древовидную структуру.
+            - Продумать как сделать весь пакет расширяемым. 
+
+2012-07-27 - Пакет "Options". Каждый класс пакета "Опции" должен строиться на основе              
+----------   классов из пакетов utilities, misc, idiom, db.
+             Каждая опция имеет  имя и запоминается в текстовом файле, 
+             подобно "горячим/любимым запросам. Т.е. необходим специальный функционал,
+             предназначеннный для управления опциями.
+             В папке ( для Windows ) 
+             C:\Document and Settings\<user name>\Local Settings\Temp
+             Должна появиться ещё одна папка "x1_options" т.е.
+                x1_logs
+                x1_quieries
+                x1_reports
+                x1_options
+             В ней перечисляются имена опций, эти пункты служат для построения меню.
+             
+          +- Дерево объектов в главном меню. Сейчас имеются следующие пункты:
+             + Таблицы
+             + Представления.
+               Добавить следующие элементы:
+              -------------------
+              Функции
+              Домены
+              Агрегаты
+              Последовательности
+              Типы
+              Составные типы
+              Перечисления
+              Операторы
+              Триггеры
+              Правила
+              -------------------
+			+ Tables
+			+ Views
+				Functions
+				Domains
+				Agregates
+				Sequences
+				Types
+				Composite types
+				Enum types
+				Operators
+				Triggers
+				Rules
+             --------------------- 
+              + Las tablas
+			  + Las vistas // representaciones
+              Las funciones
+              Los dominios
+              Los agregatos
+              Las consecuencias
+              Los tipos
+              Los tipos componentes
+              Las enumeraciones
+              Los operadores
+              Los basculadores
+              Las reglas
+              ----------------------------------------------
+              Исправить единственное число на множественное.
+              ----------------------------------------------              
+           - Добавить к панель виджета Structures, после функции "Добавить поле", 
+             класс InsertTableField дополнительные функции ( создаются новые классы ):
+                 "Редактировать поле"   -  EditTableField
+                 "Удалить поле"         -  DropTableField  
+                 "Переименовать поле"   -  RenameTableField
+                 "Описать поле"         -  DescrTableField
+             Это в пакет Structures.
+             Эти возможности доступны только при правильном позиционировании курсора на сетке.
+             ( setEnabled ( true ) - для кнопок )
+               
+             Вопросы:
+             	- Что такое агрегат ? Функция с переменными ?
+             	- Тип               ? 
+                - Композитный тип   ? Структура 
+                - Оператор          ? Замаскированный вызов функции
+                - Правило           ?    
+                
+2012-07-29 - Данные типа MONEY всегда должны быть представлены в виде тестовой строки 
+----------   заключённой в кавычки. Дробная часть от целой отделяется запятой, но это 
+             будет зависеть от настрое локали. Может быть использована функция COALESE.
+                                           
+2012-07-30   if ((isNotNull) && (categType != 12) && (lenDefV == 0)) 
+----------       ls = " *"; 
+                     else ls = S_SPACES_2 ;
+              
+             Тихая е ..  с классом InsertData 
+            + Это предикат
+            - Далее ревизия обработки событий.
+                                     
+2012-07-31  - Формирование правильных выражений для значений в операторе INSERT
+----------  - Команду INSERT выполнять внутри класса, при возникновении ошибки
+              виджет остаётся видимым.
+                     
+2012-08-11  - Класс getCreateObjSQL. Отказываемся от него и создаём класс getCreateTableStr
+----------    Входной параметр в конструкторе объект типа Table. Единственный публичный
+              метод getSQLstr - возвращает SQL выражение, соответствующее таблице,
+              описанной в объекте типа Table. Новый класс должен быть создан в пакете 
+              MENU, для кодирования SQL конструкций необходимо использовать константы из
+              интерфейса Sql_menu. 
+              
+              Смотри текст класса getCreateObjSQL
+              	      
+              // Attention !!! Commented clause must be INSTEAD tmp.getType  Nick 2012-08-11
+    	      // String typeF = tmp.getOptions().getDbType()
+    	      String typeF = tmp.getType();                                    
+
+              Обязательно для использования tmp.getOptions().getDbType(), полученная
+              текстовая строка, описывающая тип поля содержит необходимые модификаторы
+              описывающую длину и точность. Например varchar (23) либо numeric (10,2)
+              Следующая часть кода должна быть удалена:
+              
+              	 if ("char".equals(tmp.getType())  || "varchar".equals(tmp.getType())) {
+
+    	          int longStr = tmp.getOptions().getCharLong();
+
+    	          if (longStr>0)
+    	              typeF = tmp.getType() + "(" + tmp.getOptions().getCharLong() + ")";
+    	          else
+    	              typeF = tmp.getType();
+    	          }       
+                
+              Пример SQL-выражения, возвращаемого методом getSQLstr
+              -----------------------------------------------------
+              -- drop table rk_100500;
+              create table rk_100500 (
+                  CODE varchar(50)  primary key
+                 ,NAME varchar (300)
+              ); 
+ 
+              comment on table rk_100500 is 'ОКП - Общероссийский классификатор продукции. 2010-03-24';
+ 
+              comment on column rk_100500.CODE is 'Код';
+              comment on column rk_100500.NAME is 'Наименование';
+              ------------------------------------------------------             
+                           
+              Этапы реализации:
+                1 - структура без спецификаций  первичных и внешних ключей и без 
+                    описания индексов сопутствующих рассматриваемой таблице. 
+                2 - ключи и индексы, разбраться в методах класса PGConnection.
+
+28-10-2012  Возвращаюсь к InsertData
+----------  Смотри записи от 2012-07-31:  "Формирование правильных выражений для значений
+              в операторе INSERT Команду INSERT выполнять внутри класса, при возникновении ошибки
+              виджет остаётся видимым."
+           
+            Формируем правильные выражения: сформировали, например: 
+            INSERT INTO dic.x1 ( "f2","f3","f4","f5","f6","f7") 
+               VALUES ('aaa'::varchar
+                      ,1111::integer
+                      ,'bbbbbbb'::char(36)
+                      ,'ccccccccccc'::varchar(300)
+                      ,222222::integer
+                      ,'2010-11-03'::date
+                      ); 
+               
+            Подготовить тестовые структуры,
+               T1 - таблица со всеми типами данных
+               Т2,   - " - и с величинами по умолчанию
+               Т3    - со всеми типами и со спецификациями NOT NULL
+               Т4    - с величинами по умолчанию и спецификациями NOT NULL
+               
+            Кусочек T1 и замечания в визуальному конструктору:
+               +1 - Сбрасывать однажды установленное поле NOT NULL ( полагаем, что по умолчанию
+                    всегда NULL )
+               -2 - Позиционировать COMBOBOX "Types" на последнем выбранном типе.
+
+                CREATE TABLE "t1" (  "f1" smallint
+                    , "f2" integer
+                    , "f3" bigint
+                    , "f4" decimal(10,2)
+                    , "f5" numeric(11,1)
+                    , "f6" real
+                    , "f7" float4
+                    , "f8" float8
+                    , "f9" float8
+                    , "f10" double precision
+                    , "f11" serial NOT NULL  PRIMARY KEY 
+                    , "f12" bigserial NOT NULL 
+                    , "f13" varchar(344) NOT NULL -- Не сбрасывается однажды установленное поле NOT NULL
+                    , "f15" char(11) NOT NULL 
+                    , "f16" text NOT NULL 
+                    , "f17" name NOT NULL 
+                    , "f18" bytea NOT NULL 
+                    , "f19" time NOT NULL 
+                    , "f20" timetz NOT NULL 
+                    , "f21" timestamp NOT NULL 
+                    , "f22" timestamptz NOT NULL 
+                    , "f23" interval NOT NULL 
+                    , "f24" date NOT NULL 
+                    , "f25" bool NOT NULL  
+) ;
+COMMENT ON TABLE "t1" IS 'Тестовая таблица';
+COMMENT ON COLUMN "t1".f1 IS 'Первое поле';
+COMMENT ON COLUMN "t1".f2 IS 'второе поле';
+COMMENT ON COLUMN "t1".f3 IS 'третье поле';
+COMMENT ON COLUMN "t1".f4 IS 'dec';
+COMMENT ON COLUMN "t1".f5 IS 'num';
+COMMENT ON COLUMN "t1".f6 IS '';
+COMMENT ON COLUMN "t1".f7 IS '';
+COMMENT ON COLUMN "t1".f8 IS '';
+COMMENT ON COLUMN "t1".f9 IS 'float8';
+COMMENT ON COLUMN "t1".f10 IS '';
+COMMENT ON COLUMN "t1".f11 IS 'serial';
+COMMENT ON COLUMN "t1".f12 IS '';
+COMMENT ON COLUMN "t1".f13 IS '';
+COMMENT ON COLUMN "t1".f15 IS '';
+COMMENT ON COLUMN "t1".f16 IS '';
+COMMENT ON COLUMN "t1".f17 IS 'name';
+COMMENT ON COLUMN "t1".f18 IS 'blobq';
+COMMENT ON COLUMN "t1".f19 IS '';
+COMMENT ON COLUMN "t1".f20 IS '';
+COMMENT ON COLUMN "t1".f21 IS '';
+COMMENT ON COLUMN "t1".f22 IS '';
+COMMENT ON COLUMN "t1".f23 IS '';
+COMMENT ON COLUMN "t1".f24 IS '';
+COMMENT ON COLUMN "t1".f25 IS '';
+-- Результат: OK. Таблица создана.
+                    
+Замечания и ошибки:
+
++-1 - Почему поле типа BYTEA должно содержать только цифровые символы ??
+     Два внешних представления для поля типа BYTEA
+     Два различных редактора для полей типа TXT и BLOB
+     
++-2 - Проверка условия "Поле NOT NULL должно быть обязательно заполнено", 
+      После того, как сообщение об ошибке выведено на экран, правильно 
+      позиционировать курсор.
+
++3 - Что делать с кавычками '  внутри текстовых поле ?
+
++Список должен формироваться только из тех полей, у которых есть данные.
+ Это условие было нарушено при переоформлении метода.
+ Пропускаться могут только поля имеющие специфкацию DEFAULT.
+
+"INSERT INTO t2 ("f11","f2","f3","f4","f5","f6","f7","f8","f9""f10") 
+VALUES (,,,,,,,'asd''''sdf''123'::varchar(133),);"
+
+Результат: ERROR: syntax error at or near ","
+
+2012-11-04 - t11 - f1 serial                      
+----------         f2 varchar (100) not NULL DEFAULT 'asdf' default is     
+                   f3 char (90) NOT NULL                    default isnt
+ВНИМАНИЕ !!! Вновь добавленная таблице отображается слева в дереве, но её свойства 
+             не отображаются на закладке Structure.
+------------------------------------------------------------------------------------
+Далее протестировать операцию ввода остальных типов.
+
+2012-11-11
+Пока остановились на отладке ввода.
+Новая цель - класс QUERIES. 
+  Рефакторинг класса:
+    - Как работает SQL интепретатор ?
+   	- SQL интерпретатор должен выполнять запросы, групповые запросы. Каждый результат на отдельной
+       	  вкладке.
+    - Необходимо создать абстрактный класс, который должен стать основой для browser'а,
+      с помощью которого просматриваем результаты.+                            
+Попутно + дерево объектов в левой части главного виджета.
+---------------------------------------------------------
+          +- Дерево объектов в главном меню. Сейчас имеются следующие пункты:
+             + Таблицы
+             + Представления.
+               Добавить следующие элементы:
+              -------------------
+              Функции
+              Домены
+              Агрегаты
+              Последовательности
+              Типы
+              Составные типы
+              Перечисления
+              Операторы
+              Триггеры
+              Правила
+              -------------------
+			+ Tables
+			+ Views
+				Functions
+				Domains
+				Agregates
+				Sequences
+				Types
+				Composite types
+				Enum types
+				Operators
+				Triggers
+				Rules
+             --------------------- 
+              + Las tablas
+			  + Las vistas // representaciones
+              Las funciones
+              Los dominios
+              Los agregatos
+              Las consecuencias
+              Los tipos
+              Los tipos componentes
+              Las enumeraciones
+              Los operadores
+              Los basculadores
+              Las reglas                 
+
+- Появление метода getStr.getStringFromVector_1 ( dbNames, m, -1)
+связано с тем, что в проекте существуют три структуры хранящие строки в 
+векторах:
+[<строка1>, <строка2>...<строкаN>]                      
+[[<строка1>], [<строка2>]...[<строкаN>]]
+[[<строка11>, <строка12> ..<строка13>], [], [], ...]
+Это было сразу не понято - результат налицо, по крайней мере 3 часа бился головой об стенку.
+                   
+Появление метода getStr.getStringFromVector_1 ( <Имя вектора>, <индекс элемента>, <индекс внутри элемента>)
+Индекс внутри элемента может принимать значения:
+-1, 0, 1 ...
+Где -1    означает, что это элементом вектора является строка
+     0    означает, что элементом вектора является вектор состоящий из одной строки.
+     1 .. элементом вектора является вектор состоящий в свою очередь из одной и более строк.
+--------------------------------
+Получилось некоторое подобие правильного дерева в левой части виджета.
+Разворачивать список всех объектов в левой части и по ходу тестировать
+getStrFromVector
+      
+14-11-2012 +- Текст искажается при загрузке запроса в окно
+----------
+name=test
+value=SELECT * FROM dic.rubr_group;JUMP-LINE
+run=false
+
+S
+CT * FRO
+ dic.rubr_group;
+
++- Почему возникает ошибка при первоначальной загрузке "горячего запроса" ??
+- Потом попробовать на сложных запросах.
+
+2012-11-15  Этапы доработки HQ:
+----------          +- Убрать сообщение об ошибке, которое появляется в процессе загрузки
+                      и выполнения запроса.
+
+                    - Правильное масштабирование всех активных элементов в виджете,
+                      Растягиваем виджет - все визуальные элементы внутри него должны увеличивать свои размеры.
+
+                    +- Почему искажается текст запроса после загрузки, запрос написан в традиционной нотации, т.е.
+                      большими и маленькими буквами.
+      
+                  
+                    - Запрос должен быть связан с базой данных. Новый ключ db=<имя базы|*>
+                      соответственно должен быть дополнительный CHECK-BOX.
+
+                    - Текст запроса ломает "нечто", убирающее из него все "служебные" символы.
+                  
+ 2013-01-08 Расковыриваем старую болячку в классе CreateTable: создание списка схем,  
+ ----------  квадратные скобки в около каждого имени были вызваны: ".....
+ - Появление метода getStr.getStringFromVector_1 ( dbNames, m, -1)  
+   связано с тем, что в проекте существуют три структуры хранящие строки в 
+   векторах:
+    [<строка1>, <строка2>...<строкаN>]                      
+    [[<строка1>], [<строка2>]...[<строкаN>]]
+    [[<строка11>, <строка12> ..<строка13>], [], [], ...]
+    Это было сразу не понято - результат налицо, по крайней мере 3 часа 
+    бился головой об стенку.
+......"   
+            Болячка исправлена так-же в классе DropDB.   
+    HotQueries вызывается из меню, либо из класса Queries? в него необходимо передавать 
+    имя текущей базы. "Любимый запрос" может быть привязан к базе, но может быть доступен
+    для всех баз, по умолчанию он привязан к базе. В визуальном интерфейсе можно отключить CheckBox,
+    тогда запрос становится доступным для всех баз.
+    На этапе выполнения конструктора, необходимо фильтровать запросы и выбирать только
+    доступные для текущей базы.
+    
+    Ввожу свойство "База данных" в HotQueries. Зачем "|" в запросах ?
+    Никогда не задавался таким вопросом ??
+    Вот зачем:
+    
+    Файл 003 содержащий:
+    
+    name=join
+    value=select a.*, b.* from dic.rubr_pos a, dic.rubr_group b where ( a.id_c = b.id_c );|select * from dic.rubr_group;
+    run=false
+    
+    Превращается в:
+    
+    select a.*, b.* from dic.rubr_pos a, dic.rubr_group b where ( a.id_c = b.id_c );
+    select * from dic.rubr_group;
+    
+    и потом разваливает приложение в момент загрузки запроса                                                        
+
+ 2013-01-27 Файл 003 привязан к базе t83  
+ ----------   
+    name=join
+    value=select a.*, b.* from dic.rubr_pos a, dic.rubr_group b where ( a.id_c = b.id_c );|select * from dic.rubr_group;
+    run=false
+    dbname=t83
+    
+    001 - ко всем
+    name=env
+	value=set search_path=dic,pg_catalog;select * from rubr_env;|
+	run=false
+	dbname=*
+
+    002 - к OLTP9
+    name=test
+    value=SELECT id_ind, id_rep FROM nub.ind_indicator;|
+    run=false
+    dbname=oltp9
+
+    004 ( big ) к t83 ( проверка на сохранение сложной структуры запроса )
+    
+    005 ко всем
+    name=test1
+	value=SELECT * FROM x1;|
+	run=false
+	dbname=*
+	
+	000 ко всем
+	name=pos
+	value=select * from dic.rubr_pos;|
+	run=false
+	dbname=*
+	
+	Загрузка и отбор запросов начал работать.
+	Далее:
+	  +-1 ) рефакторинг виджета HQ: масштабирование, первоначально задуманного
+	         списка баз не будет, check_box "Для всех" .
+		    .
+		2 ) отладка специального режима "создать запрос".
+		
+	    3 ) после того, как запрос создан путём вызова пункта меню - необходимо
+	        переключится на третью закладку.
+	        
+ 2013-06-01 В раздумьях над судьбами проекта, он никому не нужен, кроме тебя  
+ ---------- самого. Один раз он тебя выручил очень сильно. Выручит и ещё несколько
+            раз, не бросай его. Можно спокойно переименовать его в X1, дата начала
+            проекта - 2009-06-16. Перейти к новой структуре: ru.nick_ch.x1.
+            Сохранить многоязычность, далее Query, про ходу дела вычищать мусор из 
+            главного класса. Редактор для иерахически организованых данных.  
+            ----------------------------------------------------------------
+            	      Новый заголовок:
+/**
+ * This software is free according GNU GENERAL PUBLIC LICENSE and
+ * based on the XPg project, developed by KAZAK Solutions. 
+ * Research and Development Group of Free Software, 
+ * Santiago de Cali Republic of Colombia 2001.
+ * Author:
+ *          Gustavo GonzАlez <xtingray@kazak.com.co>.                   
+ * ----------------------------------------------------------------------------
+ * Now this software is developing for modern version of PostgreSQL.
+ * Author: 
+ *          Nick Chadaev <nick_ch58@list.ru>. Moscow, Russia. Single developer.
+ *          New stage of developing had been started at 2009-06-16. 
+ * ----------------------------------------------------------------------------
+ *  CLASS   @version 1.0   
+ *  History:
+ *           
+ */
+	        	    
+2013-05-08  Только в этих методах использованыф все типы объектов базы.
+----------
+           activeNodeSCH_2  - перестраивает ветку идущую от схемы	
+           createDBTree_34	- создаёт ветку идущую от схемы     
+		    
+2013-06-09  Отложил "Горячие запросы". Два Класса Records и Queries. Один
+----------  просмотр одной и той-же таблицы даёт разные резултаты. 
+            Залачи:
+            		+ Перейти на новый JDBC
+            		-+ Поставить самую последнюю версию PostgeSQL
+            		-+ Проанализировать работу Record и Queries. 
+            		    Только в одном режиме - просмотр таблицы.
+            		    Как реально выполняется запрос и как готовятся
+            		    данные для экспорта ?
+            		- Спроектировать интерфейс и реализовать
+            		  Browser с минимальной функциональностью:
+            		    - получил данные, 
+            		    - просмотрел их ( двигаюсь вперёд - назад с 
+            		      помощью кнопок и клавиш ) 		
+	                    - экспортировал в файл
+	                    - экспортировал в отчёт ( запуск WEB-browsera )
+	                      не выполняется, для него только готовятся данные.
+	                    - управление видимостью столбцов. Запоминаются
+	                      в конфигурационных файлах, формат: 
+	                      host.db.schema.table.column={ON,OFF}
+	                    - Каждый набор отображается в своём Виджете.  
+	        Всё. Далее два несчастных класса: Queris и Records наследуют его,
+	        первый расширяет функциональность, добавляя интепретатор запросов,
+	        второй - панель управления записями.
+
+2013-06-16 set search_path=dic,pg_catalog;select * from rubr_env;
+----------
+Это как ? Первое работает, но второе - нет.
+           url = "jdbc:postgresql://" + DBdata.getHost() + port + "/" + DBdata.getDatabase() + "?ssl";
+	  //   url = "jdbc:postgresql-9.2-1002.jdbc4://" + DBdata.getHost() + port + "/" + DBdata.getDatabase() + "?ssl";
+	        
+--
+Старые записи от 2009-12-08 
+--
+There is into PGSQL version 8.3 table PG_SHDESCRIPTION, it
+contatins description of DB, but the old version of PGSQL 7.4.1
+contains ALL DESCRIPTION into PG_DESCRIPTION table.
+Where do I search some information about version of PGSQL ???
+
+Сделано.
+
+2013-06-30 Создаю класс ShowResultSet - примитив, который должен отображать результаты.
+---------- Отображение Выполняется при помощи перелистывания и фильрации. Он должен быть 
+ использован в классах: Records, InsertRecords (для отображения родительских таблиц ) и в классе
+ Queries. Будет находится в пакете Misc.
+  
+ 2013-07-07 Дальнейшее создание класса ShowResultSet.  Класс создаётся наобум и композицию визульного
+ ----------   интерфейса, похоже пропущена. Это нужно вынести к конструктор.
+              JPanel - это визуальный класс, имеющий метод UpdateUI. 
+              Количество строк на странице то-же должно быть параметризуемой величиной.
+
+  2013-07-20  Переход на кодировку UTF-8, давно пора
+  ----------
+                              
+  2014-10-22 Создан пакет x1.misc.resultset
+  ----------
+  Сюда перетаскиваю всю "дребедень" из Records.
+  1. AdvancedFilter 
+  2. DropTable_Record
+  3. UpdateWhere
+  4. UpdateRecord
+  5. UpdateTable
+  6. TextDataInput
+  7. CustomuzeFilter
+  
+  Проект собрался и заработал. Сформулировать требования на модификацию Record.
+  
+  Прислал Антон, спасибо ему.
+  ---
+  viewPane = new JScrollPane();
+        viewPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        
+        JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+        
+        splitPane.setBottomComponent(viewPane);
+
+        Dimension minimumSize = new Dimension(1800, 600);
+        viewPane.setMinimumSize(minimumSize);
+        
+        splitPane.setDividerLocation(300);
+        splitPane.setPreferredSize(new Dimension(1800, 900));
+  ---
+  JTable classTable = new JTable(data.readData(connectionData), data.readHeader(connectionData)[1]);
+        
+        for(int i = 0; i < classTable.getColumnCount(); i++) {
+            TableColumn column = classTable.getColumnModel().getColumn(i);
+            int prefWidth =
+            Math.round(
+                (float) classTable.getTableHeader().getFontMetrics(
+                    classTable.getTableHeader().getFont()).getStringBounds(classTable.getTableHeader().getTable().getColumnName(i),
+                    classTable.getTableHeader().getGraphics()
+                ).getWidth()
+            );
+        column.setPreferredWidth(prefWidth + 50);
+        }
+        
+        classTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        viewPane.setViewportView(classTable);
+  
+---------------------------------------------------------------
+2014-10-22 (2013-06-09, очень актуально)  Два Класса Records и Queries. Один
+-----------------------  просмотр одной и той-же таблицы даёт разные результаты. 
+            Залачи:
+            		+ Проанализировать работу Record и Queries. 
+            		    Только в одном режиме - просмотр таблицы.
+            		    Как реально выполняется запрос и как готовятся  данные для экспорта ?
+            		- Спроектировать интерфейс и реализовать  Browser с минимальной функциональностью:
+            		    - получил данные, 
+            		    - просмотрел их ( двигаюсь вперёд - назад с помощью кнопок и клавиш ) 		
+	                    - экспортировал в файл
+	                    - экспортировал в отчёт ( запуск WEB-browsera )
+	                      не выполняется, для него только готовятся данные.
+	                    - управление видимостью столбцов. Запоминаются в конфигурационных файлах, формат: host.db.schema.table.column={ON,OFF}
+	                    - Каждый набор отображается в своём Виджете.  
+	        Всё. Далее два несчастных класса: Queris и Records наследуют его,
+	        
+	        первый расширяет функциональность, добавляя интепретатор запросов,
+	        второй - панель управления записями.
+-------------------------------------------------------------------------------
+Опции:
+      1) Отобразить         - управление колонками                   Оставляем.       т.е вместо кнопки "ОПЦИИ"  используем "ОТОБРАЗИТЬ"
+      2) Расширенный фильтр - по сути это конструктор SQL-запросов.  Пока исключаем. 
+      3) Настройка фильра   - констуктор запросов                    Пока исключаем.
+      
+      1) - управление видимостью столбцов. Запоминаются в конфигурационных файлах, формат: host.db.schema.table.column={ON,OFF}
+      -------------------------------------------------------------------------------------------------------------------------- 
+

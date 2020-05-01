@@ -1,10 +1,10 @@
-﻿-- ----------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------
 --  2015-10-22 Nick  Добавлены воздействия D и E --
 --  2016-12-02 Nick  Добавлены события, связанные с конфигурацией ПТК
 --  2017-02-08 Nick  Новое событие "Q - Обновление объекта с изменением его уровня секретности"
 -- ---------------------------------------------------------------------------------------------- 
-ALTER TABLE com.com_log DROP CONSTRAINT IF EXISTS chk_com_log_impact_type;
-ALTER TABLE com.com_log ADD CONSTRAINT chk_com_log_impact_type 
+ALTER TABLE com.com_log_1 DROP CONSTRAINT IF EXISTS chk_com_log_impact_type;
+ALTER TABLE com.com_log_1 ADD CONSTRAINT chk_com_log_impact_type 
             CHECK ( 
                        impact_type = '0' -- создание записи в кодификаторе
                     OR impact_type = '1' -- удаление записи в кодификаторе

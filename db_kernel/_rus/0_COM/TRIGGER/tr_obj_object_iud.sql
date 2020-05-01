@@ -25,6 +25,8 @@ $$
 --    2017-12-10 Nick  введён атрибут - "дата деактивации объекта".
 --    2018-02-06 Nick  Первая установка владельца объекта. В контексте COALESCE запрещены функции работающие с 
 --                     наборами данных.
+-- -------------------------------------------------------------------------------------------------------------
+--    2020-05-01 Nick Новоя ядро. Изменился атрибутный состав "obj_object"
 -- ============================================================================================================= 
  DECLARE 
         rsp_main           public.result_t; 
@@ -36,13 +38,15 @@ $$
                                          '", Уровень секретности: "' || nso.nso_f_record_def_val (NEW.object_secret_id) ||
                                          '", Тип: "' || ( SELECT c.codif_name FROM ONLY com.obj_codifier c WHERE ( c.codif_id = NEW.object_type_id )) || '"'
        ); 
-		NEW.object_create_date = CURRENT_TIMESTAMP::TIMESTAMP(0) WITHOUT TIME ZONE;
-		NEW.object_mod_date = NULL;    -- Gregory 2017-06-25
-      NEW.object_deact_date := NULL; -- Nick 2017-12-10
-      -- Nick 2018-02-21 Первая установка
-      NEW.object_owner_id := auth.auth_f_default_owner_get_id();
-      _object_owner1_id := ((nso.nso_f_record_s (NEW.object_owner_id)).mas_val [8]::public.t_guid);
-      NEW.object_owner1_id := COALESCE (com.com_f_global_get ('X_OWNER1')::public.t_guid, _object_owner1_id); 
+		NEW.object_create_date = now()::public.t_timestamp; -- !! Nick 2020-05-01
+		NEW.object_mod_date   := NULL;    -- Gregory 2017-06-25
+        NEW.object_deact_date := NULL; -- Nick 2017-12-10
+        -- Nick 2018-02-21 Первая установка
+        NEW.object_owner_id := auth.auth_f_default_owner_get_id();
+        --
+        -- !!! 2020-05-01 Nick
+        --        _object_owner1_id := ((nso.nso_f_record_s (NEW.object_owner_id)).mas_val [8]::public.t_guid);
+        NEW.object_owner1_id := COALESCE (com.com_f_global_get ('X_OWNER1')::public.t_guid, _object_owner1_id); 
       -- Nick 2018-02-21 Первая установка
       RETURN NEW;
      
@@ -62,7 +66,7 @@ $$
            );
       END IF;
 
-		NEW.object_mod_date = CURRENT_TIMESTAMP::TIMESTAMP(0) WITHOUT TIME ZONE;  -- Был date_to  Nick 2015-07-31
+	  NEW.object_mod_date = now()::public.t_timestamp; -- !! Nick 2020-05-01
       NEW.object_deact_date := NULL; -- Nick 2017-12-10
       OLD.object_deact_date := NULL; -- Nick 2017-12-10
       --
@@ -71,6 +75,7 @@ $$
                                        ,parent_object_id
                                        ,object_type_id
                                        ,object_stype_id   -- Nick 2017-06-15
+                                       ,object_short_name -- 2020-05-01 Nick
                                        ,object_uuid
                                        ,object_create_date
                                        ,object_mod_date
@@ -84,6 +89,7 @@ $$
                              ,OLD.parent_object_id    
                              ,OLD.object_type_id
                              ,OLD.object_stype_id -- Nick  2017-06-15
+                             ,OLD.object_short_name -- 2020-05-01 Nick
                              ,OLD.object_uuid         
                              ,OLD.object_create_date  
                              ,OLD.object_mod_date     
@@ -107,6 +113,7 @@ $$
                        ,parent_object_id
                        ,object_type_id
                        ,object_stype_id
+                       ,object_short_name -- 2020-05-01 Nick
                        ,object_uuid
                        ,object_create_date
                        ,object_mod_date
@@ -120,6 +127,7 @@ $$
                           ,OLD.parent_object_id
                           ,OLD.object_type_id
                           ,OLD.object_stype_id
+                          ,OLD.object_short_name -- 2020-05-01 Nick
                           ,OLD.object_uuid
                           ,OLD.object_create_date
                           ,OLD.object_mod_date
@@ -137,7 +145,7 @@ $$
 LANGUAGE plpgsql 
 SECURITY DEFINER; -- Nick 2016-02-26
 
-COMMENT ON FUNCTION com.tr_obj_object_iud() IS '8440/283: Обработка событий INSERT, UPDATE, DELETE в реестре объектов, история в com.obj_object_hist';
+COMMENT ON FUNCTION com.tr_obj_object_iud() IS '318: Обработка событий INSERT, UPDATE, DELETE в реестре объектов, история в com.obj_object_hist';
 
 -- Применение триггера
 CREATE TRIGGER tr_obj_object_iud

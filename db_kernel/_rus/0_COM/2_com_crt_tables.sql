@@ -56,60 +56,56 @@
 /* --------------------------------------------------------------------------------- */
 /*  2019-05-20 Nick Имя схемы в LOG таблицах стало типа t_sysname                    */
 /*  2020-04-07 Nick Не забывать про установку имени схемы (по умолчанию) в LOG-табл. */
+/* ----------------------------------------------------------------------------------*/
+/* Nick 2020-04-30 Журнал и obj_object - секционируются.                             */
+/*           Журнал - декларативное секционирование,                                 */
+/*           obj_object - секционирование наследованием.                             */
 /*===================================================================================*/
 SET search_path=com, public, pg_catalog;
 
-DROP SEQUENCE IF EXISTS com.com_log_id_log_seq CASCADE; -- Nick 2018-02-02
-CREATE SEQUENCE com.com_log_id_log_seq INCREMENT 1 START 1;   
+-- DROP SEQUENCE IF EXISTS com.com_log_id_log_seq CASCADE; -- Nick 2018-02-02
+-- CREATE SEQUENCE com.com_log_id_log_seq INCREMENT 1 START 1;   
 
 DROP SEQUENCE IF EXISTS com.all_history_id_seq CASCADE;     -- Nick 2016-11-01
 CREATE SEQUENCE com.all_history_id_seq INCREMENT 1 START 1;   
-
-DROP TABLE IF EXISTS com.all_log CASCADE;
-/*==============================================================*/
-/* Table: all_log                                               */
-/*==============================================================*/
-CREATE TABLE com.all_log (
+--
+-- 2020-04-30 Nick
+--
+DROP TABLE IF EXISTS com.all_log_1 CASCADE; 
+CREATE TABLE com.all_log_1 (
+   schema_name     public.t_sysname    NOT NULL,
    id_log          public.id_t	       NOT NULL  DEFAULT nextval('com.all_history_id_seq'::regclass), -- Общий счётчик
-   user_name       public.t_str250     NOT NULL,
-   host_name       public.t_str250     ,
    impact_type     public.t_code1      NOT NULL,
    impact_date     public.t_timestamp  NOT NULL,
-   impact_descr    public.t_text       NOT NULL,  -- Nick 2017-01-25
-   schema_name     public.t_sysname    NOT NULL   -- Nick 2019-05-20
-   ); 
+   impact_descr    public.t_text       NOT NULL,   -- Nick 2017-01-25
+   user_name       public.t_str250     NOT NULL,
+   host_name       public.t_str250       
+ ) PARTITION BY LIST (schema_name);
 --
-COMMENT ON TABLE all_log IS 'Журнал учёта изменений';
+ALTER TABLE com.all_log_1 ADD CONSTRAINT pk_all_log_1 
+           PRIMARY KEY (schema_name, impact_date, impact_type, id_log);
+ --
+COMMENT ON TABLE com.all_log_1 IS 'Журнал регистрации операций и ошибок';
 
-COMMENT ON COLUMN all_log.id_log       IS 'Идентификатор журнала';
-COMMENT ON COLUMN all_log.user_name    IS 'Имя пользователя';
-COMMENT ON COLUMN all_log.host_name    IS 'Имя хоста';
-COMMENT ON COLUMN all_log.impact_type  IS 'Тип воздействия';
-COMMENT ON COLUMN all_log.impact_date  IS 'Дата воздействия';
-COMMENT ON COLUMN all_log.impact_descr IS 'Описание воздействия';
-COMMENT ON COLUMN all_log.schema_name  IS 'Схема';
-
-ALTER TABLE all_log ADD CONSTRAINT pk_all_log PRIMARY KEY (id_log);
-
-CREATE INDEX ie1_all_log ON com.all_log ( schema_name, impact_date, impact_type );
-CREATE INDEX ie2_all_log ON com.all_log ( user_name );
-
-DROP TABLE IF EXISTS com_log CASCADE;
-/*==============================================================*/
-/* Table: com_log                                               */
-/*==============================================================*/
-CREATE TABLE com_log (
- --  schema_name public.t_code6 DEFAULT 'COM'::character varyingL -- ???  Не забыть
-) INHERITS (com.all_log);
-
-COMMENT ON TABLE com_log IS 'Журнал учёта изменений, общая схема';
+COMMENT ON COLUMN com.all_log_1.schema_name  IS 'Схема';
+COMMENT ON COLUMN com.all_log_1.id_log       IS 'Идентификатор журнала';
+COMMENT ON COLUMN com.all_log_1.impact_type  IS 'Тип воздействия';
+COMMENT ON COLUMN com.all_log_1.impact_date  IS 'Дата воздействия';
+COMMENT ON COLUMN com.all_log_1.impact_descr IS 'Описание воздействия';
+COMMENT ON COLUMN com.all_log_1.user_name    IS 'Имя пользователя';
+COMMENT ON COLUMN com.all_log_1.host_name    IS 'Имя хоста';
 --
-ALTER TABLE com.com_log
-	ADD CONSTRAINT pk_com_log PRIMARY KEY (id_log);
+-- ALTER TABLE com.all_log_1 ADD CONSTRAINT ak1_all_log_1 UNIQUE (id_log);
+CREATE INDEX ie2_all_log_1 ON com.all_log_1 ( user_name );
+--   
+CREATE TABLE com.com_log_1 PARTITION OF com.all_log_1 
+    FOR VALUES IN ( 'com', 'com_codifier', 'com_domain', 'com_error', 'com_exchange'
+                  , 'com_object', 'com_relation'
+  )  PARTITION BY RANGE (impact_date);  
 --
-ALTER TABLE com.com_log ALTER COLUMN schema_name SET DEFAULT 'COM'; -- Nick 2020-04-07
-
-CREATE INDEX ie2_com_log ON com.com_log USING btree (user_name, impact_date, impact_type);
+COMMENT ON TABLE com.com_log_1 IS 'Схема COM. Журнал регистрации операций и ошибок';
+--
+-- 2020-04-30 Nick
 --
 DROP TABLE IF EXISTS com.com_obj_nso_relation CASCADE;
 /*==============================================================*/
@@ -362,18 +358,73 @@ CREATE INDEX ie2_obj_object ON  com.obj_object ( object_owner1_id );
 CREATE INDEX ie3_obj_object ON com.obj_object ( object_type_id );
 CREATE INDEX ie4_obj_object ON com.obj_object ( object_create_date, object_mod_date, object_read_date );
 --
-DROP TABLE IF EXISTS obj_object_hist CASCADE;
+DROP TABLE IF EXISTS com.obj_object_hist CASCADE;
 /*==============================================================*/
 /* Table: obj_object_hist                                       */
 /*==============================================================*/
-CREATE TABLE obj_object_hist (
-   object_hist_id    public.id_t  NOT NULL DEFAULT nextval ('com.all_history_id_seq'::regclass) 
+CREATE TABLE com.obj_object_hist (
+   object_id            public.id_t         NOT NULL,
+   parent_object_id     public.id_t         NULL,
+   object_type_id       public.id_t         NOT NULL,
+   object_stype_id      public.id_t             NULL,  -- 2015-11-16 Nick
+   object_short_name    public.t_str60          NULL,
+   object_uuid          public.t_guid       NOT NULL,
+   object_create_date   public.t_timestamp  NOT NULL ,
+   object_mod_date      public.t_timestamp  NULL,
+   object_read_date     public.t_timestamp  NULL,
+   object_deact_date    public.t_timestamp  NULL,    -- Nick 2017-12-10
+   object_secret_id     public.id_t         NOT NULL,
+   object_owner_id      public.id_t         NULL,    -- Nick 2017-02-18
+   object_owner1_id     public.t_guid       NULL,    -- Nick 2017-11-16/2017-12-18
+   id_log               public.id_t         NULL
+);
+
+COMMENT ON TABLE com.obj_object_hist IS 'Обобщённое описание объекта. История';
+
+COMMENT ON COLUMN com.obj_object_hist.object_id          IS 'Идентификатор объекта';
+COMMENT ON COLUMN com.obj_object_hist.parent_object_id   IS 'Идентификатор родительского объекта';
+COMMENT ON COLUMN com.obj_object_hist.object_type_id     IS 'Идентификатор типа объекта';
+COMMENT ON COLUMN com.obj_object_hist.object_stype_id    IS 'Идентификатор типа объекта-потомка (подтип)';
+COMMENT ON COLUMN com.obj_object_hist.object_short_name  IS 'Краткое наименование объекта';
+COMMENT ON COLUMN com.obj_object_hist.object_uuid        IS 'UUID объекта';
+COMMENT ON COLUMN com.obj_object_hist.object_create_date IS 'Дата создания';
+COMMENT ON COLUMN com.obj_object_hist.object_mod_date    IS 'Дата последнего изменения';
+COMMENT ON COLUMN com.obj_object_hist.object_read_date   IS 'Дата последнего просмотра';
+COMMENT ON COLUMN com.obj_object_hist.object_deact_date  IS 'Дата деактивации объекта';
+COMMENT ON COLUMN com.obj_object_hist.object_owner_id    IS 'Создатель/Модификатор объекта';
+COMMENT ON COLUMN com.obj_object_hist.object_owner1_id   IS 'Организация-Владелец';
+COMMENT ON COLUMN com.obj_object_hist.object_secret_id   IS 'Гриф секретности';
+COMMENT ON COLUMN com.obj_object_hist.id_log             IS 'Идентификатор журнала';
+
+ALTER TABLE com.obj_object_hist ADD CONSTRAINT pk_obj_object_hist PRIMARY KEY (object_id);
+
+/*==============================================================*/
+/* Index: ak1_obj_object                                         */
+/*==============================================================*/
+CREATE UNIQUE INDEX ak1_obj_object_hist ON com.obj_object_hist (object_uuid);
+-- 2017-02-23 Nick
+/*==============================================================*/
+/* Index: ie1_obj_object                                        */
+/*==============================================================*/
+CREATE INDEX ie1_obj_object_hist ON  com.obj_object_hist (object_owner_id);
+CREATE INDEX ie2_obj_object_hist ON  com.obj_object_hist (object_owner1_id);
+--
+--  2017-12-01 Nick Дополнительные индексы.
+--  
+CREATE INDEX ie3_obj_object_hist ON com.obj_object_hist ( object_type_id );
+CREATE INDEX ie4_obj_object_hist ON com.obj_object_hist ( object_create_date, object_mod_date, object_read_date );
+--
+-- 2020-04-30 Секционирование наследованиением (заготовки)
+--
+CREATE TABLE com.obj_object_0 (
 )inherits (obj_object);
 
-COMMENT ON TABLE obj_object_hist IS 'История изменений объекта';
+COMMENT ON TABLE com.obj_object_0 IS 'Обобщённое описание объекта. Секция №0';
+--
+CREATE TABLE com.obj_object_1 (
+)inherits (obj_object);
 
-COMMENT ON COLUMN obj_object_hist.object_hist_id IS 'Идентификатор истории объекта';
-COMMENT ON COLUMN obj_object_hist.id_log         IS 'Идентификатор журнала';
+COMMENT ON TABLE com.obj_object_1 IS 'Обобщённое описание объекта. Секция №1';
 --
 -- ==========================================================================
 -- Author:	SVETA

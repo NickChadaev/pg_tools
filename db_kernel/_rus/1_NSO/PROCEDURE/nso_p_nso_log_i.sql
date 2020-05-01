@@ -36,12 +36,15 @@ CREATE OR REPLACE FUNCTION nso.nso_p_nso_log_i(
       -- 2017-01-24 Nick "p_impact_descr"  t_text                                                                       --
       -- -------------------------------------------------------------------------------------------------------------- --
       -- 2018-06-28 Nick Отладочный вывод входных параметров.                                                           --
+      -- -------------------------------------------------------------------------------------------------------------- --
+      -- 2020-05-01 Nick Добавлена константа "c_SOCKET_NAME".  Похоже на то, что функция врёт.                          --
       -- ============================================================================================================== -- 
     DECLARE
        _tx_id              public.id_t;
        _log_id             public.id_t;
        c_SEQ_NAME_NSO_LOG  public.t_sysname = 'com.all_history_id_seq';
        с_HOST              public.t_sysname = 'host';
+       c_SOCKET_NAME       public.t_str250  := '/var/run/postgresql';
        
     BEGIN
       -- Nick 2018-06-28
@@ -69,17 +72,20 @@ CREATE OR REPLACE FUNCTION nso.nso_p_nso_log_i(
       SELECT log_id INTO _log_id FROM session_nso_log WHERE tx_id = _tx_id;
       IF _log_id IS NULL
       THEN
-          INSERT INTO nso.nso_log (user_name, host_name, impact_type, impact_date, impact_descr) 
+          INSERT INTO com.all_log_1 (schema_name, user_name, host_name, impact_type, impact_date, impact_descr) 
             VALUES
               (
-       	   	     SESSION_USER::public.t_str250  		 -- user_name  -- Nick 2016-1107
-                ,utl.auth_f_get_user_attr_s ( SESSION_USER::public.t_sysname
-                                            , с_HOST::public.t_sysname
-                                            , inet_client_addr ()
-                 )::public.t_str250 --  
-                ,p_impact_type					  -- impact_type
-                ,now()::public.t_timestamp -- impact_date
-                ,btrim (p_impact_descr)					  -- impact_descr
+                 'nso'::public.t_sysname -- !! Значений по умолчанию нет
+       	   	    ,SESSION_USER::public.t_str250  		 -- user_name  -- Nick 2016-1107
+                 --
+         		,COALESCE (utl.auth_f_get_user_attr_s ( SESSION_USER::public.t_sysname
+         		                             ,с_HOST::public.t_sysname
+         		                             , inet_client_addr ()
+    			)::public.t_str250 , c_SOCKET_NAME)::public.t_str250         -- host_name  inet_client_addr()
+                 --
+                ,p_impact_type				-- impact_type
+                ,now()::public.t_timestamp  -- impact_date
+                ,btrim (p_impact_descr)		 -- impact_descr
         	);
             _log_id = CURRVAL(c_SEQ_NAME_NSO_LOG);
             INSERT INTO session_nso_log VALUES(_tx_id, _log_id);
@@ -90,7 +96,7 @@ CREATE OR REPLACE FUNCTION nso.nso_p_nso_log_i(
   $$
 LANGUAGE plpgsql 
 SECURITY DEFINER;
-COMMENT ON FUNCTION nso.nso_p_nso_log_i(public.t_code1,public.t_text ) IS '150: Создание записи в журнале учёта изменений 
+COMMENT ON FUNCTION nso.nso_p_nso_log_i(public.t_code1,public.t_text ) IS '318: Создание записи в журнале учёта изменений 
 	Входные параметры:
 		1) p_impact_type  t_code1,  -- Тип воздействия
 		2) p_impact_descr t_text    -- Описание воздействия

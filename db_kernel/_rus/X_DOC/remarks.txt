@@ -1,0 +1,323 @@
+2019-05-15
+----------
+    +-  1) Минимальное заполнение таблиц сообщений.
+           6000x - общие
+           61xxx - COM
+           62xxx - NSO
+           63xxx - IND
+           64xxx - AUTH
+           65xxx - UTL
+           
+    +-  2) Для системных сообщений функция Романа, пока только COM.
+    +-  3) Функции из DB_INFO (prj_gen).
+    +-  4) Минимальная автоматизация сборки/тестирования.
+      
+2019-05-22
+----------
+     +- Триггеры для obj_codifier 
+     +- Logging
+     +- Универсальная функция обрабатывающая ошибки без parsing сообщений.
+     +- obj_codifier - нет больше в параметрах date_from, date_to.
+     -- протестировать на FK. (2019-05-31, вводим в работу две функции "D").
+
+2019-05-23
+----------
+     +- Почему не заполняется hostname в Log
+     +- Функции отображения кодификатора и log.
+     +- Индексация LOG
+     
+2019-05-24
+----------
+     +- Отладочные функции в UTL 
+     --
+
+2019-05-28
+----------
+     +- ERROR:  unrecognized configuration parameter "utl.x_debug"
+        Как лечить ??  Предустановкой параметра ??
+        utl.f_debug_on() -- ??
+     
+        ALTER DATABASE db_k SET utl.x_debug = false;
+     
+2019-05-29
+----------
+     NSO - обязательное секционирование "nso_abs". Секция "0" существует всегда,
+     остальные создаются по мере необходимости.
+     
+     Общая история - "nso_abs_hist", это не наследуемая таблица.
+     
+     Номер секции - атрибут NSO_OBJECT, значение по умолчанию - 0.
+     
+     Т.е общая секция и отдельные секции с большими блоками данных.
+     
+     Как быть с "nso_blob" ??
+     
+     Выбор аппарата секционирования, выбор стратегии секционнирования.
+     
+     +- Пока "nso_abs_hist", это не наследуемая таблица.
+     
+2019-05-31
+----------
+     
+     +- Протестировать удаление на FK. Вводим в работу две функции "D". 
+     
+2019-06-02
+----------
+     +- Сообщения  61xxx - COM, Использование format.
+
+2019-06-10
+-----------
+     +- Пост-установочный скрипт (4_alt_db.sql)
+     
+     
+     ALTER DATABASE db_k SET search_path = public, com, com_codifier, com_domain, com_object, com_relation, com_error
+                                     ,nso, nso_structure, nso_data, nso_exchange
+                                     ,ind, ind_structure, ind_data, ind_exchange
+                                     ,auth, auth_serv_obj, auth_apr, auth_exchange, uio, utl, db_info, pg_catalog; 
+     ALTER DATABASE db_k SET utl.x_debug = false                                 
+                                     
+     +- SELECT * FROM com_codifier.com_f_obj_codifier_s ( 'C_CODIF_ROOT' ); 
+        Работает
+
+        
+2019-06-14   error_handling_t  обрабатывает ошибки класса SQLSTATE '22*' Учесть.
+----------
+             +- com_f_value_check
+             +- error_handling_t
+             
+2019-06-18  Дополнить таблицу системных/объектовых ошибок, сообщениями об ошибках класса SQLSTATE '22*'. 
+----------  Сообщения SQLSTATE '6009x' - для ошибок контроля типов, "sys" и "obj" дополняют друг друга.
+
+2019-06-23  Запросы из экспорта кодификатора - проработать. Как вычисляется атрибут "impact" в XML-файле ?
+----------
+
+
+2019-06-26   +- postgresql.conf, track_function - включить.
+----------   +- Проверить все установленные функции, скрипт.             
+             -- Пассивный режим включить.
+
+             
+ SELECT p.oid, p.proname, plpgsql_check_function(p.oid)
+     FROM pg_catalog.pg_namespace n
+      JOIN pg_catalog.pg_proc p ON pronamespace = n.oid
+      JOIN pg_catalog.pg_language l ON p.prolang = l.oid
+ WHERE l.lanname = 'plpgsql' AND p.prorettype <> 2279;
+
+2019-06-27  PLPGSQL_CHECK  Контроль за неиспользуемостью переменной работает. 
+----------
+     Например: 
+        DECLARE
+           _qty  public.t_int;
+           
+        BEGIN
+                    SELECT message_out, qty 
+                        INTO _str_out, _qty 
+                                  FROM com.obj_errors e  WHERE (e.err_code = p_exception.state);
+                                  
+         И всё - далее _qty не используется.  Т.е она объявляется и ей присваивается значение.
+         Но далее она не используется.
+         ------------------------
+         CREATE OR REPLACE FUNCTION com_error.f_error_handling (	
+                      p_exception      public.exception_type_t -- Диагностика			         
+                     ,p_user_type      public.t_sysname   -- наименование пользовательского типа 
+                     ,p_err_func_name  public.t_sysname   -- название функции
+)                       
+   -- 3-й параметр не используется нигде.
+         
+ error:0A000:could not determine actual argument type for polymorphic function "auth_f_get_user_attr_s"
+ В функции:
+ 
+ СREATE OR REPLACE FUNCTION utl.auth_f_get_user_attr_s (
+            IN  p_user_name     public.t_sysname,   --  Имя пользователя
+            IN  p_attr_name     public.t_sysname,   --  Наименование атрибута
+            IN  p_attr_val_def  anyelement,         --  Значение по умолчанию (для динамического определения
+                                                    --  типа возвращаемого значения
+                                                    --  и подстановки дефолтного значения
+                                                    --  в случае если атрибут не заведен)
+            OUT p_attr_value   anyelement           --  Значение атрибута (Выходной параметр)
+)
+   Фактический  тип не определяется, не удалось определить фактический тип.
+         
+2019-06-28  PLPGSQL_CHECK доказывает свою полезность . 
+----------
+
+2019-07-03  AUTH +- функции отображающие реальные права. Протестировать на валидность, свободный вариант.
+----------
+
+2019-07-09  Импорт домена колонок.  Декларативное секционирование "nso_data.nso_abs". 
+----------   Дополнительный атрибут "nso_strct.nso_object.section_number". Вместо признака
+             актуальности ??
+  
+             Отдельная сущность "nso_data_section", 
+                   "section_number"  <->  "section_sign".  
+             
+             Функционал на базе этой сущности обеспечивает создание секций, удаление,
+             создание PK, индексов, триггерных функций.
+             
+             "nso_data.nso_record" получает дополнительный атрибут "section_sign".
+             "nso_data.nso_abs" получает дополнительный атрибут "section_sign".
+             
+             Все функции отображения пересматриваются и в выражении участвует "section_sign".
+             
+             Секция №0 сушествуетт всегда, остальные по мере необходимости.
+             
+             Секционируется и "nso_data.nso_blob", может сильно тормозить запросы.
+
+             
+2019-07-12  +- Импорт домена колонок. Объекты НСО, для которых есь ссылки.  Вместо имени КОД. !!!!
+----------     THIS IS BUG !!!!  Решено, это bug внесён мною. Некорректный COPY-PAST.  
+
+2019-07-13  -- Очистка history и LOGS 
+----------  +- Восстановить в I-функциях "date_from", "date_to".
+
+2019-07-14  -- Восстановлено, остались Unit-test для I-функций кодификатора, и импорт, кодификатор и
+----------     домен.. "-1|'Некорректный родитель  "  -- Это откуда вылезло.
+                       	Детали: Key (parent_codif_id)=(2) is not present in table "obj_codifier".
+               НЕИНФОРМАТИВНОЕ СООБЩЕНИЕ !!  ФУНКЦИИ РОМАНА.
+               
+2019-07-15  -- NSO triggers.  date_from ,-> date_create. Исправить.
+----------
+
+           0) Выполнить модификацию следующего функционала: 
+              -------------------------------------------
+              Функции
+           -- ------------------------------------
+           +-  1)  nso.nso_p_object_i ()   -- T
+           +-  2)  nso.nso_p_object_u ()   Две функции +"u" и +"uc"   Написать Unit-test. !!!
+                    
+                      +- nso.nso_f_select_c(nso_code), 
+                          +- nso_structure.nso_f_column_head_s ()
+                      +- nso.nso_p_view_c, 
+                          +- auth.auth_f_role_s()
+                          +- nso.nso_f_record_get_uuid ()
+                          +- db_info.f_show_tbv_descr ()
+           +-  3)  nso.nso_p_object_d () + удаление домена колонки. 2 функции.
+           -- --------------------------------------
+           +-- 4)  nso_structure.nso_p_column_head_i ()
+           +-  5)  nso_structure.nso_p_column_head_u ()   +- Написать Unit-test. !!!  Ошибка в LOG пишется запись только о первом обновлении оглавления. 
+           +-- 6)  nso_structure.nso_p_column_head_d ()   +- Написать Unit-test. !!!
+           -- --------------------------------------                                  КЛЮЧ, МАССИВЫ, СМОТРИ ФУНКЦИЮ
+           +-  7)  nso_structure.nso_p_key_i ()    -- Написать Unit-test. !!!
+           --  8)  nso_structure.nso_p_key_u ()    -- Написать Unit-test. !!!
+           --  9)  nso_structure.nso_p_key_d ()    -- Написать Unit-test. !!!
+           -- ----------------------------------------------------------------------------
+           +- 10)  nso_structure.nso_p_object_put_j ()       -- Как тестировать ??   
+           -- ----------------------------------------------------------------------------
+           -- 11)  nso_data.nso_p_record_i () -- Старый вариант с массивом. + новые варианты.
+           -- 12)  nso_data.nso_p_record_u ()
+           -- 13)  nso_data.nso_p_record_d ()
+           -- -----------------------------------------
+           +- 14)  nso_data.nso_p_object_unique_check_on ()  -- Как тестировать ??
+           -- ----------------------------------------
+           
+              Триггеры:
+           -- -----------------------------------
+           +-   tr_nso_abs_ud.sql      Прототипы
+           +-   tr_nso_blob_ud.sql      -- "" --
+           
+           +-  1) tr_nso_object_ud.sql
+
+           +-  2) tr_nso_column_head_ud.sql
+           +-  3) tr_nso_key_attr_ud.sql
+           +-  4) tr_nso_key_ud.sql
+
+           +-  5) tr_nso_record_ud.sql
+           +-  6) tr_nso_ref_ud.sql
+           
+          1) Импортировать структуру. Изменить номера секций в выбранных НС-объектах.
+                   Создание таблиц-секций, создание триггеров обеспечивает DO-block.
+                   Потом на его основе, создаётся дополнительный функционал.
+                   
+          2) Импортировать данные. Всё падает в начальную секцию. Потом вспомогательными
+             DO-blocks "растаскиваем" данные по нужным таблицам-секциям.
+                   
+          3) Модификация функций отображения, экспорта, конструктора представлений.
+          
+          4) Отказываемся от вспомогательных DO-blocks
+          
+          
+2019-08-13 -- nso_structure.nso_p_column_head_u (). Создать test_case, работающий на основе заполненной базы.          
+----------      Протестировать блок изменения данных.    
+
+2019-12-31 -- Продолжаю работу над "db_k", цель "ALT", "CentOS", защищённая среда
+----------    nso_structure.nso_p_key_i/u/d () -- Unit-test.
+
+2020-01-01 -- Функции Романа. "com.com_p_sys_errors_pk_u()", "com.com_p_sys_errors_fk_u()"
+----------       Обновление таблицы системных сообщений. 
+                 Как её делать, ведь завязаны на "auth.auth_server_object".
+                   +- "com.com_p_sys_errors_pk_u()"
+                   +- "com.com_p_sys_errors_ak_u()"
+                   
+2020-01-02 -- Функции Романа. FIX, смотрим определения пропущенных "constraints "в скриптах.
+----------
+SELECT * FROM com.sys_errors WHERE ( message_out IS NULL) ORDER BY sch_name, constr_name;;
+----------------------------------------------------------------------------------------------
+-- 78|'23514'|''|'com'|'chk_com_log_impact_type'                   |'i'|'com_log'
+-- 76|'23514'|''|'com'|'chk_sys_errors_operation_iud'              |'i'|'sys_errors'
+-- --
+-- 48|'23503'|''|'com'|'fk_nso_object_can_define_nso_domain_column'|'i'|'nso_domain_column'
+-- 54|'23503'|''|'com'|'fk_nso_record_defines_object_secret_level' |'i'|'obj_object'
+-- 55|'23503'|''|'com'|'fk_nso_record_is_owner_obj_object'         |'i'|'obj_object'
+-- 69|'23503'|''|'com'|'fk_obj_codifier_can_defines_object_stype'  |'d'|'obj_codifier'
+-- 59|'23503'|''|'com'|'fk_obj_codifier_can_defines_object_stype'  |'i'|'obj_object'
+-- 56|'23503'|''|'com'|'fk_obj_codifier_defines_object_type'       |'i'|'obj_object'
+-- 71|'23503'|''|'com'|'fk_obj_codifier_defines_object_type'       |'d'|'obj_codifier'
+-- ------------------------------------------------------------------------------------
+-- 77|'23514'|''|'nso'|'chk_nso_log_impact_type'                   |'i'|'nso_log'
+-- -
+-- 73|'23503'|''|'nso'|'fk_nso_object_can_define_nso_domain_column'|'d'|'nso_object'
+-- 75|'23503'|''|'nso'|'fk_nso_record_defines_object_secret_level' |'d'|'nso_record'
+-- 74|'23503'|''|'nso'|'fk_nso_record_is_owner_obj_object'         |'d'|'nso_record' 
+
+2020-01-16  Секционирование NSO_ABS - primary key constraints are not supported on partitioned tables
+----------
+
+2020-02-11   -- Пропала "com.f_hstore_key_mod()"
+----------
+
+2020-02-14    -- Функции, работающие с данными.
+----------    
+               -- nso_data.nso_p_record_d.sql     
+               -- nso_data.nso_p_record_d_c.sql
+               -- nso_data.nso_p_record_i.sql
+               -- nso_data.nso_p_record_i2.sql
+               -- nso_data.nso_p_record_u.sql
+               +- nso_data.nso_p_record_u2.sql
+               
+               
+2020-02-15  Ревизия схемы хранения и построение ER-моделей основных схем.
+----------        
+                COM -
+                NSO
+                IND
+
+2020-04-07 - nso_object, все тесты заново при помощи pg_tap.
+----------   Далее: - заголовок и маркеры.
+                    - комплексная функция.
+                    - данные.
+                    
+2020-04-14 - !! Ошибка, создание заголовка, необъявленная переменная.
+---------
+
+2020-04-15 - Выборочный контроль сформированных тестами структур НСО.
+----------
+
+2020-04-27  LOG секционирование.  Решение есть.
+----------
+            Далее:
+                  +- Contraints в таблицах убираем.
+                  +- all_log и детей - то-же (триггер не забыть).
+                   - Функции создающие записи в LOG - проверить.
+                  +- Функции отображающие LOG - модифицировать
+                   - Триггеры проверить ещё раз (Unit - Тесты: INSERT, UPDATE, DELETE).
+                          Сначала COM: codif, domain_column, object
+                               Смотри текст триггерной функции для "obj_object".
+                          Потом NSO: - вранье в концепции ??        
+                  +- Общее представление разделяется на два: операции и ошибки.
+                   
+            Секционируется obj_object - по диапазону дат. НЕТ, БУДЕТ НАСЛЕДОВАНИЕ.
+            
+            Перед созданием структуры в NSO создавать функцию из "nso_data".
+            
+2020-05-01  Функции семейства "nso_record_s" ??  
+----------

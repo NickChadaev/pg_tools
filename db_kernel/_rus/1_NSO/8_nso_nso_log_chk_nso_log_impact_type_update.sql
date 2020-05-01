@@ -1,4 +1,4 @@
-﻿/* ==================================================================== */
+/* ==================================================================== */
 /* DBMS name:      PostgreSQL 8                                         */
 /* Created on:     10.02.2015 18:25:11                                  */
 /* -------------------------------------------------------------------- */
@@ -24,8 +24,8 @@
 
 SET search_path=nso,com,public,pg_catalog;
 
-ALTER TABLE nso.nso_log DROP CONSTRAINT IF EXISTS chk_nso_log_impact_type; 
-ALTER TABLE nso.nso_log 
+ALTER TABLE nso.nso_log_1 DROP CONSTRAINT IF EXISTS chk_nso_log_impact_type; 
+ALTER TABLE nso.nso_log_1 
   ADD  CONSTRAINT chk_nso_log_impact_type 
       CHECK ( impact_type = '0'  --  создание НСО                                                                                                                       
            OR impact_type = '1'  --  активация НСО.                                                                                                                    

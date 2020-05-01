@@ -1,4 +1,4 @@
-﻿/*============================================================================*/
+/*============================================================================*/
 /* DBMS name:      PostgreSQL 8                                               */
 /* Created on:     10.02.2015 18:25:11                                        */
 /*    2015-03-21 Появился частичный индекс на кратком коде                    */
@@ -20,17 +20,26 @@
 /* Nick 2015-11-16  Добавлен атрибут "Объект-домен".                          */ 
 /* Nick 2015-11-16  Добавлен атрибуты: "Объект-домен", "Тип объекта-потомка". */
 /* ---------------------------------------------------------------------------*/
-/* Nick 2019-05-21  Nick Новое ядро.                                          */
+/* Nick 2019-05-21 Новое ядро.                                                */
+/* Nick 2020-04-30 Журнал и obj_object - секционируются.                      */
+/*    Журнал - декларативное секционирование,                                 */
+/*    obj_object - секционирование наследованием.                             */
 /*============================================================================*/
                                                    
 SET search_path=com, public, pg_catalog;
 
-ALTER TABLE com.com_log ALTER COLUMN schema_name SET DEFAULT 'com'; -- 2019-07-11
+-- ALTER TABLE com.com_log ALTER COLUMN schema_name SET DEFAULT 'com'; -- 2019-07-11
+ALTER TABLE com.com_log_1 ALTER COLUMN schema_name SET DEFAULT 'com'; -- 2020-04-30
 
-ALTER TABLE com.nso_domain_column
-   ADD CONSTRAINT fk_nso_domain_column_can_have_com_log FOREIGN KEY (id_log)
-      REFERENCES com.com_log (id_log)
-      ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- ALTER TABLE com.nso_domain_column
+--    ADD CONSTRAINT fk_nso_domain_column_can_have_com_log FOREIGN KEY (id_log)
+--       REFERENCES com.com_log (id_log)
+--       ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- Nick 2020-04-29  !!!!!!!!1
+-- ALTER TABLE com.nso_domain_column
+--    ADD CONSTRAINT fk_nso_domain_column_can_have_com_log_1 FOREIGN KEY (id_log)
+--       REFERENCES com.all_log_1 (id_log)
+--       ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 ALTER TABLE com.nso_domain_column
    ADD CONSTRAINT fk_nso_domain_column_grouping_nso_domain_column FOREIGN KEY (parent_attr_id)
@@ -53,26 +62,37 @@ ALTER TABLE com.nso_domain_column
    ADD CONSTRAINT fk_obj_codifier_typify_nso_domain_column FOREIGN KEY (attr_type_id)
       REFERENCES com.obj_codifier (codif_id)
       ON DELETE RESTRICT ON UPDATE RESTRICT;
-
-ALTER TABLE com.nso_domain_column_hist
-   ADD CONSTRAINT fk_nso_domain_column_hist_hase_com_log FOREIGN KEY (id_log)
-      REFERENCES com.com_log (id_log)
-      ON DELETE RESTRICT ON UPDATE RESTRICT;
-
-ALTER TABLE com.obj_codifier
-   ADD CONSTRAINT fk_obj_codifier_can_has_com_log FOREIGN KEY (id_log)
-      REFERENCES com.com_log (id_log)
-      ON DELETE RESTRICT ON UPDATE RESTRICT;
-
+--
+-- 2020-04-30 Убираем ограничения
+-- ALTER TABLE com.nso_domain_column_hist
+--    ADD CONSTRAINT fk_nso_domain_column_hist_hase_com_log FOREIGN KEY (id_log)
+--       REFERENCES com.com_log (id_log)
+--       ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- ---------------------------------------------
+-- ALTER TABLE com.nso_domain_column_hist DROP CONSTRAINT fk_nso_domain_column_hist_hase_com_log;
+--
+-- ALTER TABLE com.obj_codifier
+--    ADD CONSTRAINT fk_obj_codifier_can_has_com_log FOREIGN KEY (id_log)
+--       REFERENCES com.com_log (id_log)
+--       ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- 
+-- ALTER TABLE com.obj_codifier DROP CONSTRAINT fk_obj_codifier_can_has_com_log;
+-- ------------------------------------------
 ALTER TABLE com.obj_codifier
    ADD CONSTRAINT fk_obj_codifier_grouping_obj_codifier FOREIGN KEY (parent_codif_id)
       REFERENCES com.obj_codifier (codif_id)
       ON DELETE RESTRICT ON UPDATE RESTRICT;
-
-ALTER TABLE com.obj_codifier_hist
-   ADD CONSTRAINT fk_obj_codifier_hist_has_com_log FOREIGN KEY (id_log)
-      REFERENCES com.com_log (id_log)
-      ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- --------------------------------
+-- 2020-04-30 Убираю ограничения      
+-- --------------------------------
+-- ALTER TABLE com.obj_codifier_hist
+--    ADD CONSTRAINT fk_obj_codifier_hist_has_com_log FOREIGN KEY (id_log)
+--       REFERENCES com.com_log (id_log)
+--       ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- --
+-- ALTER TABLE com.obj_codifier_hist DROP CONSTRAINT fk_obj_codifier_hist_has_com_log;
+-- ---------------------------------------------------------------------------------
+--
 --
 ALTER TABLE com.obj_object
    ADD CONSTRAINT fk_nso_record_defines_object_secret_level FOREIGN KEY (object_secret_id)
@@ -88,11 +108,15 @@ ALTER TABLE com.obj_object
    ADD CONSTRAINT fk_obj_codifier_defines_object_type FOREIGN KEY (object_type_id)
       REFERENCES com.obj_codifier (codif_id)
       ON DELETE RESTRICT ON UPDATE RESTRICT;
-
-ALTER TABLE com.obj_object
-   ADD CONSTRAINT fk_obj_object_can_have_com_log FOREIGN KEY (id_log)
-      REFERENCES com.com_log (id_log)
-      ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- -------------------------------
+--  2020-04-30 Убираю ограничения
+-- -------------------------------
+-- ALTER TABLE com.obj_object
+--    ADD CONSTRAINT fk_obj_object_can_have_com_log FOREIGN KEY (id_log)
+--       REFERENCES com.com_log (id_log)
+--       ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- --
+-- ALTER TABLE com.obj_object DROP CONSTRAINT fk_obj_object_can_have_com_log;
 
 ALTER TABLE com.obj_object
    ADD CONSTRAINT fk_obj_object_grouping FOREIGN KEY (parent_object_id)
@@ -100,14 +124,17 @@ ALTER TABLE com.obj_object
       ON DELETE RESTRICT ON UPDATE RESTRICT;
 -- Nick 2015-11-16
 ALTER TABLE com.obj_object
-   ADD CONSTRAINT fk_obj_codifier_can_defines_object_stype FOREIGN KEY ()
+   ADD CONSTRAINT fk_obj_codifier_can_defines_object_stype FOREIGN KEY (object_stype_id)
       REFERENCES com.obj_codifier (codif_id)
       ON DELETE RESTRICT ON UPDATE RESTRICT;
---  Nick 2015-11-16
-ALTER TABLE com.obj_object_hist
-   ADD CONSTRAINT fk_obj_object_hist_hase_com_log FOREIGN KEY (id_log)
-      REFERENCES com.com_log (id_log)
-      ON DELETE RESTRICT ON UPDATE RESTRICT;
+--  --------------------------------
+--  Nick 2015-11-16/2020-04-30
+--      Убираю связи между объектами.
+-- ----------------------------------------
+--  ALTER TABLE com.obj_object_hist
+--     ADD CONSTRAINT fk_obj_object_hist_hase_com_log FOREIGN KEY (id_log)
+--        REFERENCES com.com_log (id_log)
+--        ON DELETE RESTRICT ON UPDATE RESTRICT;
 -- -------------------------------------------------------------------------------------
 --    2020-02-15  Связи между объектами.
 -- -------------------------------------
@@ -125,12 +152,15 @@ ALTER TABLE com.com_obj_nso_relation
    ADD CONSTRAINT fk_obj_codifier_defines_type_obj_nso_relation FOREIGN KEY (perm_type_id)
       REFERENCES com.obj_codifier (codif_id)
       ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- ----------------------------------------
+--  2020-04-30 Drop constraints. Nick.
 --
-ALTER TABLE com.com_obj_nso_relation
-   ADD CONSTRAINT fk_com_obj_nso_relation_hase_com_log FOREIGN KEY (id_log)
-      REFERENCES com.com_log (id_log)
-      ON DELETE RESTRICT ON UPDATE RESTRICT;
---
+-- ALTER TABLE com.com_obj_nso_relation
+--    ADD CONSTRAINT fk_com_obj_nso_relation_hase_com_log FOREIGN KEY (id_log)
+--       REFERENCES com.com_log (id_log)
+--            ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- --------------------------------------------------
+-- ALTER TABLE com.com_obj_nso_relation DROP CONSTRAINT fk_com_obj_nso_relation_hase_com_log;
 -- ---------------------------------------------------------------------------------------
 --
 ALTER TABLE com.exn_obj_relation
@@ -148,8 +178,13 @@ ALTER TABLE com.exn_obj_relation
       REFERENCES com.obj_codifier (codif_id)
       ON DELETE RESTRICT ON UPDATE RESTRICT;
 --
-ALTER TABLE com.exn_obj_relation
-   ADD CONSTRAINT fk_exn_obj_relation_hase_com_log FOREIGN KEY (id_log)
-      REFERENCES com.com_log (id_log)
-      ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- ----------------------------------------
+--  2020-04-30 Drop constraints. Nick.
+-- ----------------------------------------
+-- ALTER TABLE com.exn_obj_relation
+--    ADD CONSTRAINT fk_exn_obj_relation_hase_com_log FOREIGN KEY (id_log)
+--       REFERENCES com.com_log (id_log)
+--       ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- ALTER TABLE com.exn_obj_relation DROP CONSTRAINT fk_exn_obj_relation_hase_com_log;
+-- ----------------------------------------------------------------------------------
 --

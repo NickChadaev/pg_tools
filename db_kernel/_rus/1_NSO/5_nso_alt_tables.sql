@@ -2,11 +2,14 @@
 /* DBMS name:      PostgreSQL 8                                 */
 /* Created on:     10.02.2015 18:25:11                          */
 /*            2015-05-29  NSO_DOMAIN_COLUMN  в схему COM        */
+/* -------------------------------------------------------------*/
+/* 2020-04-30 Журнал секционирется, отмена декларативных        */ 
+/*                                                 ограничений  */
 /*==============================================================*/
 
 SET search_path=nso,com,public,pg_catalog;
 
-ALTER TABLE nso.nso_log  ALTER COLUMN schema_name SET DEFAULT 'nso'; --2019-07-11
+ALTER TABLE nso.nso_log_1  ALTER COLUMN schema_name SET DEFAULT 'nso'; --2019-07-11
 --
 -- foreign key constraints are not supported on partitioned tables
 --  Исходно ставим "foreign key constraints" на секцию 0
@@ -21,10 +24,10 @@ ALTER TABLE nso.nso_abs_0
       REFERENCES nso.nso_record (rec_id)
       ON DELETE RESTRICT ON UPDATE RESTRICT;
 
-ALTER TABLE nso.nso_abs_0
-   ADD CONSTRAINT fk_nso_log_idents_nso_abs_0 FOREIGN KEY (log_id)
-      REFERENCES nso.nso_log (id_log)
-      ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- ALTER TABLE nso.nso_abs_0
+--    ADD CONSTRAINT fk_nso_log_idents_nso_abs_0 FOREIGN KEY (log_id)
+--       REFERENCES nso.nso_log (id_log)
+--       ON DELETE RESTRICT ON UPDATE RESTRICT;
 --      
 --    
 --
@@ -38,10 +41,10 @@ ALTER TABLE nso.nso_blob_0
       REFERENCES nso.nso_record (rec_id)
       ON DELETE RESTRICT ON UPDATE RESTRICT;
       
-ALTER TABLE nso.nso_blob_0
-   ADD CONSTRAINT fk_nso_log_idents_nso_blob_0 FOREIGN KEY (log_id)
-      REFERENCES nso.nso_log (id_log)
-      ON DELETE RESTRICT ON UPDATE RESTRICT;  
+-- ALTER TABLE nso.nso_blob_0
+--    ADD CONSTRAINT fk_nso_log_idents_nso_blob_0 FOREIGN KEY (log_id)
+--       REFERENCES nso.nso_log (id_log)
+--       ON DELETE RESTRICT ON UPDATE RESTRICT;  
 --      
 --      
 --      
@@ -55,10 +58,10 @@ ALTER TABLE nso.nso_ref
       REFERENCES nso.nso_record (rec_id)
       ON DELETE RESTRICT ON UPDATE RESTRICT;
       
-ALTER TABLE nso.nso_ref
-   ADD CONSTRAINT fk_nso_log_idents_nso_ref FOREIGN KEY (log_id)
-      REFERENCES nso.nso_log (id_log)
-      ON DELETE RESTRICT ON UPDATE RESTRICT;       
+-- ALTER TABLE nso.nso_ref
+--    ADD CONSTRAINT fk_nso_log_idents_nso_ref FOREIGN KEY (log_id)
+--       REFERENCES nso.nso_log (id_log)
+--       ON DELETE RESTRICT ON UPDATE RESTRICT;       
 ---
 -- -------------------------------------------------------------------------      
 --      
@@ -77,10 +80,10 @@ ALTER TABLE nso.nso_column_head
       REFERENCES nso.nso_object (nso_id)
       ON DELETE RESTRICT ON UPDATE RESTRICT;
 --
-ALTER TABLE nso.nso_column_head
-    ADD CONSTRAINT fk_nso_log_idents_nso_column_head FOREIGN KEY (log_id)
-       REFERENCES nso.nso_log (id_log)
-       ON DELETE RESTRICT ON UPDATE RESTRICT;      
+-- ALTER TABLE nso.nso_column_head
+--     ADD CONSTRAINT fk_nso_log_idents_nso_column_head FOREIGN KEY (log_id)
+--        REFERENCES nso.nso_log (id_log)
+--        ON DELETE RESTRICT ON UPDATE RESTRICT;      
 --      
       
 ALTER TABLE nso.nso_key
@@ -93,10 +96,10 @@ ALTER TABLE nso.nso_key
       REFERENCES com.obj_codifier (codif_id)
       ON DELETE RESTRICT ON UPDATE RESTRICT;
 
-ALTER TABLE nso.nso_key
-   ADD CONSTRAINT fk_nso_log_idents_nso_key FOREIGN KEY (log_id)
-      REFERENCES nso.nso_log (id_log)
-      ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- ALTER TABLE nso.nso_key
+--    ADD CONSTRAINT fk_nso_log_idents_nso_key FOREIGN KEY (log_id)
+--       REFERENCES nso.nso_log (id_log)
+--       ON DELETE RESTRICT ON UPDATE RESTRICT;
 --      
 --      
 ALTER TABLE nso.nso_key_attr
@@ -109,10 +112,10 @@ ALTER TABLE nso.nso_key_attr
       REFERENCES nso.nso_key (key_id)
       ON DELETE RESTRICT ON UPDATE RESTRICT;
       
-ALTER TABLE nso.nso_key_attr
-   ADD CONSTRAINT fk_nso_log_idents_nso_key_attr FOREIGN KEY (log_id)
-      REFERENCES nso.nso_log (id_log)
-      ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- ALTER TABLE nso.nso_key_attr
+--    ADD CONSTRAINT fk_nso_log_idents_nso_key_attr FOREIGN KEY (log_id)
+--       REFERENCES nso.nso_log (id_log)
+--       ON DELETE RESTRICT ON UPDATE RESTRICT;
       
 --
 -- 2019-07-11
@@ -144,22 +147,20 @@ ALTER TABLE nso.nso_record
 --
 -- -----------------------------------------------------------------------------
 --
-ALTER TABLE com.com_log ALTER COLUMN schema_name SET DEFAULT 'nso'; -- 2019-07-
---
-ALTER TABLE nso.nso_object
-   ADD CONSTRAINT fk_nso_log_idents_nso_obj FOREIGN KEY (id_log)
-      REFERENCES nso.nso_log (id_log)
-      ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- ALTER TABLE nso.nso_object
+--    ADD CONSTRAINT fk_nso_log_idents_nso_obj FOREIGN KEY (id_log)
+--       REFERENCES nso.nso_log (id_log)
+--       ON DELETE RESTRICT ON UPDATE RESTRICT;
 
-ALTER TABLE nso.nso_record
-    ADD CONSTRAINT fk_nso_log_idents_nso_rec FOREIGN KEY (log_id)
-       REFERENCES nso.nso_log (id_log)
-       ON DELETE RESTRICT ON UPDATE RESTRICT;
-       
-ALTER TABLE nso.nso_section
-    ADD CONSTRAINT fk_nso_log_idents_nso_section FOREIGN KEY (log_id)
-       REFERENCES nso.nso_log (id_log)
-       ON DELETE RESTRICT ON UPDATE RESTRICT;
+-- ALTER TABLE nso.nso_record
+--     ADD CONSTRAINT fk_nso_log_idents_nso_rec FOREIGN KEY (log_id)
+--        REFERENCES nso.nso_log (id_log)
+--        ON DELETE RESTRICT ON UPDATE RESTRICT;
+--        
+-- ALTER TABLE nso.nso_section
+--     ADD CONSTRAINT fk_nso_log_idents_nso_section FOREIGN KEY (log_id)
+--        REFERENCES nso.nso_log (id_log)
+--        ON DELETE RESTRICT ON UPDATE RESTRICT;
        
 ------------------------------------------------------------------
 -- Из унаследованных таблиц

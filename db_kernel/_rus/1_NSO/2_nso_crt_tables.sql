@@ -54,7 +54,9 @@
 /*             section_number имеет нативный тип "int2"                                               */
 /* -------------------------------------------------------------------------------------------------- */
 /*  2020-04-07 Nick Не забывать про установку имени схемы (по умолчанию) в LOG-таблицах.              */
-/*=================================================================================================== */
+/* ---------------------------------------------------------------------------------------------------*/
+/* Nick 2020-04-30     Журнал - декларативное секционирование,                                        */
+/*====================================================================================================*/
 SET search_path=nso,com,public,pg_catalog;
 
 DROP SEQUENCE IF EXISTS nso.nso_object_nso_id_seq CASCADE;
@@ -589,19 +591,20 @@ ALTER TABLE nso_ref_hist
    ADD CONSTRAINT pk_nso_ref_hist PRIMARY KEY (ref_hist_id);
 --
 /*==============================================================*/
-/* Table: nso_log                                               */
+/* Table: nso_log_1                                             */
 /*==============================================================*/
-DROP TABLE IF EXISTS nso_log CASCADE;
-
-CREATE TABLE nso_log (  -- 2018-01-29 Nick нет собственных атрибутов.
-) inherits (com.all_log);
-
-COMMENT ON TABLE nso_log IS 'Журнал учёта изменений, схема НСО';
-
-ALTER TABLE nso.nso_log
-	ADD CONSTRAINT pk_nso_log PRIMARY KEY (id_log);
+-- 
+-- Nick 2020-04-30
+--
+DROP TABLE IF EXISTS nso_log_1 CASCADE;
+CREATE TABLE nso.nso_log_1 PARTITION OF com.all_log_1 
+    FOR VALUES IN ( 'nso', 'nso_data', 'nso_exchange', 'nso_structure')  
+            PARTITION BY RANGE (impact_date);  
+COMMENT ON TABLE nso.nso_log_1 IS 'Схема NSO. Журнал регистрации операций и ошибок';            
 	
-ALTER TABLE nso.nso_log ALTER COLUMN schema_name SET DEFAULT 'NSO'; -- Nick 2020-0407	
+ALTER TABLE nso.nso_log_1 ALTER COLUMN schema_name SET DEFAULT 'NSO'; -- Nick 2020-0407	
+-- 
+-- Nick 2020-04-30
 --
 DROP SEQUENCE IF EXISTS nso.section_number_seq CASCADE;
 CREATE SEQUENCE nso.section_number_seq AS int2 INCREMENT 1 START 1;

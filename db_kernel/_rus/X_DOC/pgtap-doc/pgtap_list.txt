@@ -1,0 +1,56 @@
+/var/lib/dpkg/info/pgtap.list
+/var/lib/dpkg/info/pgtap-doc.list
+/var/lib/dpkg/info/libtap-parser-sourcehandler-pgtap-perl.md5sums
+/var/lib/dpkg/info/libtap-parser-sourcehandler-pgtap-perl.list
+/var/lib/dpkg/info/postgresql-10-pgtap.list
+/var/lib/dpkg/info/postgresql-10-pgtap.md5sums
+/var/lib/dpkg/info/pgtap-doc.md5sums
+/var/lib/dpkg/info/pgtap.md5sums
+/var/cache/apt/archives/pgtap-doc_0.97.0-3ubuntu1_all.deb
+/var/cache/apt/archives/postgresql-10-pgtap_0.97.0-3ubuntu1_all.deb
+/var/cache/apt/archives/pgtap_0.97.0-3ubuntu1_all.deb
+/var/cache/apt/archives/libtap-parser-sourcehandler-pgtap-perl_3.33-2_all.deb
+/usr/share/doc/libtap-parser-sourcehandler-pgtap-perl
+/usr/share/doc/libtap-parser-sourcehandler-pgtap-perl/changelog.Debian.gz
+/usr/share/doc/libtap-parser-sourcehandler-pgtap-perl/copyright
+/usr/share/doc/libtap-parser-sourcehandler-pgtap-perl/README
+/usr/share/doc/libtap-parser-sourcehandler-pgtap-perl/README.Debian
+/usr/share/doc/postgresql-10-pgtap
+/usr/share/doc/postgresql-10-pgtap/changelog.Debian.gz
+/usr/share/doc/postgresql-10-pgtap/copyright
+/usr/share/doc/pgtap
+/usr/share/doc/pgtap/changelog.Debian.gz
+/usr/share/doc/pgtap/copyright
+/usr/share/doc/pgtap-doc
+/usr/share/doc/pgtap-doc/pgtap.html
+/usr/share/doc/pgtap-doc/changelog.Debian.gz
+/usr/share/doc/pgtap-doc/copyright
+/usr/share/doc-base/pgtap-doc
+/usr/share/postgresql/10/extension/pgtap--0.92.0--0.93.0.sql
+/usr/share/postgresql/10/extension/pgtap-schema--0.97.0.sql
+/usr/share/postgresql/10/extension/pgtap--0.90.0--0.91.0.sql
+/usr/share/postgresql/10/extension/pgtap--0.95.0--0.96.0.sql
+/usr/share/postgresql/10/extension/pgtap--0.93.0--0.94.0.sql
+/usr/share/postgresql/10/extension/pgtap-core--0.97.0.sql
+/usr/share/postgresql/10/extension/pgtap--0.98.0--0.99.0.sql
+/usr/share/postgresql/10/extension/pgtap--0.91.0--0.92.0.sql
+/usr/share/postgresql/10/extension/pgtap--0.97.0.sql
+/usr/share/postgresql/10/extension/pgtap.control
+/usr/share/postgresql/10/extension/pgtap--unpackaged--0.91.0.sql
+/usr/share/postgresql/10/extension/pgtap--0.96.0--0.97.0.sql
+/usr/share/postgresql/10/extension/pgtap--0.94.0--0.95.0.sql
+/tmp/pgtap-doc
+/tmp/pgtap-doc/pgtap.html
+/tmp/pgtap-doc/changelog.Debian.gz
+/tmp/pgtap-doc/copyright
+--
+--
+--#>apt-cache search postgresql-pgtap
+libtap-parser-sourcehandler-pgtap-perl - Unit testing tools for pgTAP
+postgresql-10-pgtap - Unit testing framework extension for PostgreSQL 10
+postgresql-11-pgtap - Unit testing framework extension for PostgreSQL 11
+postgresql-12-pgtap - Unit testing framework extension for PostgreSQL 12
+postgresql-9.3-pgtap - Unit testing framework extension for PostgreSQL 9.3
+postgresql-9.4-pgtap - Unit testing framework extension for PostgreSQL 9.4
+postgresql-9.5-pgtap - Unit testing framework extension for PostgreSQL 9.5
+postgresql-9.6-pgtap - Unit testing framework extension for PostgreSQL 9

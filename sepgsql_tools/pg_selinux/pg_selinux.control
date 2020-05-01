@@ -1,0 +1,9 @@
+#
+#  pg_selinux.  Control file.
+#     2020-03-15  Nick
+#
+comment = 'The SEPGSQL extentions for SELinux'
+default_version = '0.1'
+relocatable = false
+superuser = true
+schema = pg_catalog

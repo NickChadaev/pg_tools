@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- 
 # PROJ: DataBase, service function.
-# FILE: load_main.py
-# AUTH: Nick (nick_ch58@list.ru)
+# FILE: load_main500.py
+# AUTH: NickChadaev (nick-ch58@yandex.ru)
 # DESC: Load data into database, unload data from database
 #       The simplest version, it uses PSQL/PG_DUMP
 # HIST: 2009-04-21 - created
@@ -18,18 +18,50 @@
 #                    текущих даты/времени и синхронизации времён клиента и сервера.     
 #       2016-12-06 - The port parameter is added
 #       2018-02-03 - ((string.strip (l_words [1])))  was added 
+# ----------------------------------------------------------------------------------------------------------
+#       2019-04-19 - Rebuild base classes:  first for psql, second for psycopg2.
+#                    ---------------------------------------------------------------------------------------
+#              Modes "2" и "3" are deactivated. Next step is: 
+#                                           "2" - loading into DB the XML/JSON-files,
+#                                           "3" - Deferred loading, the "pgq" will be used.
+#              Mode "4" was added: - Unload from DB the XML/JSON-structure.                                         
+#              Mode "5" was added too: - Deferred unloading the XML/JSON-structures.
+#              Next, there was removed the rest classes for hell. Deprecated and useless.
+#              
+#              The batch-file "stage*.txt". Modes 2-5, field №1 "File Name" will be references to 
+#              the file "1*.conf". In this file there is the key-value pairs, separated "=>". 
+#              "hstore" structure. After the loading into "load_main500.py", it trasnformed into
+#              dictionary.
+#
+#              Structure of "1*.conf" file:
+#
+#                  data_file  => "<absolute or relative file path>"
+#                  function   => "<db-function name>"
+#                  param_list => "<list of function parameters>"
+#      ----------------------------------------------------------------
+#      Next, there are the example of processing of the file "1*.conf":
+#          
+#   fr_x2 = fd_l (p_host_ip, p_port, l_db_name, p_user_name, p_std_out, p_std_err)  -- Constructor
+#   fr_x2.load (l_f_name, l_param_list, l_data_inp)                                 -- Loading XML/JSON
+#   #
+#   fr_x3 = fd_l (p_host_ip, p_port, l_db_name, p_user_name, p_std_out, p_std_err)  -- Constructor
+#   fr_x3.load (l_f_name, l_param_list, l_data_inp)                                 -- Deffered loading XML/JSON
+#   #
+#   fr_x4 = fd_u (p_host_ip, p_port, l_db_name, p_user_name, p_std_out, p_std_err)  -- Constructor
+#   fr_x4.unload (l_f_name, l_param_list, l_data_out)                               -- Unloading XML/JSON
+#   #
+#   fr_x5 = fd_u (p_host_ip, p_port, l_db_name, p_user_name, p_std_out, p_std_err)  -- Constructor
+#   fr_x5.unload (l_f_name, l_param_list, l_data_out)                               -- Deferred unloading JSON-структуры
+# -----------------------------------------------------------------------------------------------------------------------
 
 import sys
 import os
 import string
 import datetime
-import load_mainS
 
-import psycopg2    # 2014-06-16 Nick    Исключено обращение к pscycopg
+import psycopg2    
 
-from load_mainS_tr import *
-
-VERSION_STR = "  Version 2.1.2 Build 2019-01-16"
+VERSION_STR = "  Version 3.0.0 Build 2019-05-19"
 
 GET_DT = "SELECT now()::TIMESTAMP without time zone FROM current_timestamp;"
 
@@ -48,18 +80,15 @@ bLOG_NAME = "process.log"
 bCOMMENT_SIGN = "#"
 bDELIMITER_SIGN = ";"
 
-# -----------------------------------
+# ---------------------------------------------------------------------
 DIRECT_SQL_COMMAND              = "0"
 SEQUENCE_OF_SIMPLE_SQL_COMMANDS = "1"
-DELETE_LOAD_COUNT               = "2"
-CALL_STORED_PROC                = "3"
-UNLOAD_FROM_DATABASE            = "A"
-UNLOAD_FROM_DATABASE_T          = "B"
-DATABASE_DUMP                   = "C"
-COPY_FROM_LOCAL_TO_REMOTE       = "D"
-COPY_FROM_REMOTE_TO_LOCAL       = "E"
-SCHEMA_DUMP                     = "F"
-# -----------------------------------
+LOAD_XJ                         = "2"    # Nick 2018-07-17/2019-05-19
+DEF_LOAD_XJ                     = "3"
+UNLOAD_XJ                       = "4"    # Nick 2018-07-17/2019-05-19
+DEF_UNLOAD_XJ                   = "5"    # Nick 2018-07-17/2019-05-19
+#
+# ---------------------------------------------------------------------
 SPACE_0 = " "
 # -----------------------------------
 
@@ -70,22 +99,16 @@ class fd_log:
     """
       The text-log file class
     """
-    def __init__ ( self, p_gui, p_host_ip, p_port, p_db_name, p_user_name ):  
+    def __init__ ( self, p_host_ip, p_port, p_db_name, p_user_name ):  
 
-        self.isGui = p_gui
         #---------------------------------------------------------
-        #  Синхронизировали время сервера и время клиентской части
+        #  Synchronized server and client time
         #
         rc = -1  
-        l_s = "host = " + str ( p_host_ip ) + " port = " + str ( p_port ) + " dbname = " + str ( p_db_name ) + " user = " + str ( p_user_name )
-
-        # Nick 2017-05-30 
-        # self.date_time = datetime.datetime.now()
-        # self.delta_dt = self.date_time - self.date_time
-        # Nick 2017-05-30 
+        self.l_s = "host = " + str ( p_host_ip ) + " port = " + str ( p_port ) + " dbname = " + str ( p_db_name ) + " user = " + str ( p_user_name )
 
         try:
-             conn = psycopg2.connect(l_s)
+             conn = psycopg2.connect(self.l_s)
              cur = conn.cursor()
              cur.execute(GET_DT)
          
@@ -103,7 +126,7 @@ class fd_log:
         #----------------------------------------------------------
     def get_datetime ( self ):
         #
-        # Вычисляю текущее время сервера. 2014-06-16
+        # Compute real server time. 2014-06-16
         #
         return ( datetime.datetime.now () + self.delta_dt )  
 
@@ -119,16 +142,10 @@ class fd_log:
         self.s_delimiter = "--------------------------------------------------------" + '\n'
 
         try:
-            if self.isGui :  # Nick 2010-04-09
-                 self.fd = codecs.open ( self.log_name, "a", INPUT_CP )
-            else:
-                 self.fd = open ( self.log_name, "a" )
+            self.fd = open ( self.log_name, "a" )
 
         except IOError, ex:
-            if self.isGui :
-                self.ex_append ( LOG_NOT_OPENED_0 + p_log_name + LOG_NOT_OPENED_1 )
-            else:
-                print LOG_NOT_OPENED_0 + p_log_name + LOG_NOT_OPENED_1
+            print LOG_NOT_OPENED_0 + p_log_name + LOG_NOT_OPENED_1
 
             sys.exit (1)
 
@@ -144,7 +161,7 @@ class fd_log:
         self.conv_dt ()
         #
         self.fd.write ( self.s_d + SPACE_0 + self.s_t + SPACE_0 + self.log_comment + '\n' )
-        self.fd.write ( self.list_params + '\n' );
+        self.fd.write ( self.list_params + '\n' )
         self.fd.write ( self.s_delimiter )
 
     def write_log ( self, p_str ):
@@ -152,11 +169,7 @@ class fd_log:
         self.date_time = self.get_datetime() # 2014-06-16
         self.conv_dt ()
         #
-        if self.isGui : # Nick 2010-02-05
-		self.ex_append ( POINTS + p_str )
-                self.show ()
-        else:
-		print POINTS + p_str
+        print POINTS + p_str
 
         self.fd.write ( "[" + self.s_t + "] ... " + p_str  + '\n' )
 
@@ -177,7 +190,7 @@ class fd_log:
 
 class fd_0:
     """
-      The base class
+      The base class, for the psql utility.
     """
 
     def __init__ ( self, p_mode, p_host, p_port, p_db_name, p_user_name, p_out_name, p_err_name ):
@@ -222,182 +235,85 @@ class fd_0:
 
       return rc
 
-class fd_1 (fd_0):
 
+class fd_l:
+    """
+        Loading JSON/XML-structures. The main logic is in the DB-functions.
+
+    """
     def __init__ ( self, p_host, p_port, p_db_name, p_user_name, p_out_name, p_err_name ):
-
-      self.host       = p_host
-      self.port       = p_port
-      self.db_name    = " " + p_db_name + " "
-      self.user_name  = p_user_name
-      self.table_name = ""
-      self.file_name  = ""
-      self.out_name   = p_out_name
-      self.err_name   = p_err_name
-      #---------------------------
-      self.l_1 = "pg_dump -D -a -v -h "
-      self.l_2 = " -U "
-      self.l_3 = " -t "
-      self.l_4 = " -f "
-      self.l_9 = " -p " # Nick 2016-12-06 
-      self.l_4_out = " 1>> "
-      self.l_5_err = " 2>> "
-      #---------------------------
-      self.l_arg = ""
-
-    def f_create ( self, p_table_name, p_file_name ):
-
-        self.table_name = p_table_name
-        self.file_name = p_file_name
-        #
-        self.l_arg = self.l_1 + self.host + self.l_9 + self.port + self.l_2 + self.user_name + self.l_3
-        self.l_arg = self.l_arg + self.table_name + self.l_4 + self.file_name + self.db_name
-        self.l_arg = self.l_arg + self.l_4_out + self.out_name + self.l_5_err + self.err_name
-
-class fd_2 (fd_0):
-
-    def __init__ ( self, p_host, p_port, p_db_name, p_user_name, p_out_name, p_err_name ):
-
+        """
+           Constructor, establishe the db-connection.
+        """
         self.host       = p_host
         self.port       = p_port   # Nick 2016-12-06
-        self.db_name    = " " + p_db_name + " "
+        self.db_name    = p_db_name
         self.user_name  = p_user_name
-        self.file_name  = ""
         self.out_name   = p_out_name
         self.err_name   = p_err_name
         #---------------------------
-        self.l_1   = "pg_dump -v -D -h "
-        self.l_2 = " -U "
-        self.l_4 = " -f "
-        self.l_9 = " -p "
-        self.l_4_out = " 1>> "
-        self.l_5_err = " 2>> "
+
         #---------------------------
         self.l_arg = ""
 
+    def load_conf (p_conf_file_name):
+        """
+           load Conf-file
+        """
+        return 0
+ 
     def f_create ( self, p_file_name ):
-
+        """
+            Preparation of the executables
+        """
         self.file_name = p_file_name
         #
         self.l_arg = self.l_1 + self.host + +self.l_9 + self.port + self.l_2 + self.user_name
         self.l_arg = self.l_arg + self.l_4 + self.file_name + self.db_name
         self.l_arg = self.l_arg + self.l_4_out + self.out_name + self.l_5_err + self.err_name
 
-class fd_3 (fd_0):
-    # From local to remote
+    def f_run (self):
+        """
+          Perform the loading
+        """
 
-    def __init__ ( self, p_host, p_target_name, p_user_name, p_out_name, p_err_name ):
-
-        self.source_name = ""
-        self.out_name    = p_out_name
-        self.err_name    = p_err_name
-        #---------------------------
-        self.l_1 = "scp -r -v "
-        self.l_2 = " " + p_user_name + "@" + p_host + ":" + p_target_name
-        self.l_4_out = " 1>> "
-        self.l_5_err = " 2>> "
-        #---------------------------
-        self.l_arg = ""
-
-    def f_create ( self, p_source_name ):
-
-        #
-        self.l_arg = self.l_1 + p_source_name + self.l_2
-        self.l_arg = self.l_arg + self.l_4_out + self.out_name + self.l_5_err + self.err_name
-
-class fd_4 (fd_0):
-    # From remote to local
-
-    def __init__ ( self, p_host, p_source_name, p_user_name, p_out_name, p_err_name ): # p_target_name
-
-        self.source_name = p_source_name
-        self.out_name    = p_out_name
-        self.err_name    = p_err_name
-        #---------------------------
-        self.l_1 = "scp -r -v "
-        self.l_2 = p_user_name + "@" + p_host + ":" + self.source_name
-        self.l_4_out = " 1>> "
-        self.l_5_err = " 2>> "
-        #---------------------------
-        self.l_arg = ""
-
-    def f_create ( self, p_target_name ): # p_source_name
-        #
-        self.l_arg = self.l_1 + self.l_2 + " " + p_target_name
-        self.l_arg = self.l_arg + self.l_4_out + self.out_name + self.l_5_err + self.err_name
-
-# Nick 2010/01/25  schema dump, 'create schema' command was presented.
-class fd_5 (fd_0):
-
-    def __init__ ( self, p_host, p_port, p_db_name, p_user_name, p_out_name, p_err_name ):
-
-      self.host        = p_host
-      self.port        = p_port
-      self.db_name     = " " + p_db_name + " "
-      self.user_name   = p_user_name
-      self.schema_name = ""
-      self.file_name   = ""
-      self.out_name    = p_out_name
-      self.err_name    = p_err_name
-      #---------------------------
-      self.l_1 = "pg_dump -D -v -h "
-      self.l_2 = " -U "
-      self.l_3 = " -n "
-      self.l_4 = " -f "
-      self.l_9 = " -p "   # Nick 2016-12-06
-      self.l_4_out = " 1>> "
-      self.l_5_err = " 2>> "
-      #---------------------------
-      self.l_arg = ""
-
-    def f_create ( self, p_schema_name, p_file_name ):
-
-        self.schema_name = p_schema_name
-        self.file_name = p_file_name
-        #
-        self.l_arg = self.l_1 + self.host + self.l_9 + self.port + self.l_2 + self.user_name + self.l_3
-        self.l_arg = self.l_arg + self.schema_name + self.l_4 + self.file_name + self.db_name
-        self.l_arg = self.l_arg + self.l_4_out + self.out_name + self.l_5_err + self.err_name
-#
-# main class Nick 2010-03-31
-#    2014-06-16 Добавляю три параметра:
-#           - IP хоста
-#           - имя базы
-#           - имя пользователя
+class fd_u (fd_l):
+    """
+      The fd_l class is overridden, now it is forming and unloading XML / JSON structures.
+        All the logic in the DB functions layer of the database.
+    """
+    def f_save_local (self):
+        """ 
+           Savinf the unloading data.
+        """ 
+        return 0
 
 class make_load ( fd_log ):
- 
- def __init__ ( self, p_gui, p_host_ip, p_port, p_db_name, p_user_name ):
+ """
+    main class Nick 2010-03-31
+        2014-06-16 Three parameters was added:
+            - IP nost
+            - DB-name
+            - user name
+ """
+ def __init__ ( self, p_host_ip, p_port, p_db_name, p_user_name ):
 
-    self.isGui = p_gui
-    fd_log.__init__ ( self, p_gui, p_host_ip, p_port, p_db_name, p_user_name )
-
-    self.tf = Trans_f ( INPUT_CP, BASE_CP ) # Nick 2010-04-09
+    fd_log.__init__ ( self, p_host_ip, p_port, p_db_name, p_user_name )
 
  #
  # Nick 2010-04-05 -------------------------------------------------------------------------------------------
- #                    1          2         3          4            5          6            7          8          9
- def to_do ( self, p_host_ip, p_port, p_db_name, p_user_name, p_batch_name,  p_std_out, p_std_err, p_comments, p_tmp ):
+ #                    1          2         3          4            5          6            7          8      
+ def to_do ( self, p_host_ip, p_port, p_db_name, p_user_name, p_batch_name,  p_std_out, p_std_err, p_comments):
 
     try:
-        if not ( self.isGui ): # Nick 2010-04-13
-                fd = open ( p_batch_name, "r" )
+        fd = open ( p_batch_name, "r" )
 
     except IOError, ex:
-        if ( self.isGui ): # Nick 2010-02-05
-            self.ex_append ( SCRIPT_NOT_OPENED_0 + p_batch_name + SCRIPT_NOT_OPENED_1 )
-        else:
-            print SCRIPT_NOT_OPENED_0 + p_batch_name + SCRIPT_NOT_OPENED_1
-
+        print SCRIPT_NOT_OPENED_0 + p_batch_name + SCRIPT_NOT_OPENED_1
         return 1
 
-    if self.isGui :
-        self.ex_append ( SPACE_0 )
-        self.c_list = self.tf.tr_in ( p_batch_name, p_tmp )
-    else:
-        self.c_list = fd.readlines ()
-        fd.close ()
-        # print SPACE_0  Nick 2014-06-16
+    self.c_list = fd.readlines ()
+    fd.close ()
 
     s_lp = str ( p_host_ip ) + SPACE_0 + str ( p_port ) + SPACE_0 + str ( p_db_name ) + SPACE_0 + str ( p_user_name )
     s_lp = s_lp + SPACE_0 + str ( p_batch_name ) + SPACE_0 + str ( p_std_out ) + SPACE_0 + str ( p_std_err )
@@ -406,7 +322,6 @@ class make_load ( fd_log ):
     self.write_log_first ()
 
     rc = 0
-    tr_f = load_mainS.tr_file ()
 
     for ce_list in self.c_list:
       if ce_list [0] <> bCOMMENT_SIGN:
@@ -421,7 +336,7 @@ class make_load ( fd_log ):
 
             #----------------------------------------------------------------------------
             if l_words [0] == DIRECT_SQL_COMMAND:  # Direct SQL-command
-                fr_0 = fd_0( 0, p_host_ip, p_port, l_db_name, p_user_name, p_std_out, p_std_err)
+                fr_0 = fd_0 ( 0, p_host_ip, p_port, l_db_name, p_user_name, p_std_out, p_std_err)
 
                 fr_0.f_create ((string.strip (l_words [1])))  # Nick 2018-02-03
                 rc = fr_0.f_run()
@@ -432,7 +347,7 @@ class make_load ( fd_log ):
 
             #------------------------------------------------------------------------------
             if l_words [0] == SEQUENCE_OF_SIMPLE_SQL_COMMANDS:  # Sequence of simple SQL-commands
-                fr_1 = fd_0( 1, p_host_ip, p_port, l_db_name, p_user_name, p_std_out, p_std_err)
+                fr_1 = fd_0 ( 1, p_host_ip, p_port, l_db_name, p_user_name, p_std_out, p_std_err)
 
                 fr_1.f_create ((string.strip (l_words [1])))  # Nick 2018-02-03
                 rc = fr_1.f_run()
@@ -442,160 +357,82 @@ class make_load ( fd_log ):
                    break
 
             #----------------------------------------------------------------------------
-            if l_words [0] == DELETE_LOAD_COUNT:  # The DELETE/LOAD/COUNT sequence of SQL-commands file
-                ls_nm = tr_f.f_parse_name( l_words[1] )
-                fr_20 = fd_0( 0, p_host_ip, p_port, l_db_name, p_user_name, p_std_out, p_std_err)
-                fr_21 = fd_0( 1, p_host_ip, p_port, l_db_name, p_user_name, p_std_out, p_std_err)
+            # -- Nick 2018-07-17/2019-05-19 
+            #
+            if l_words [0] == LOAD_XJ:  # Load from XML/JSON-structure
+                 fr_l_xj = fd_l( p_host_ip, p_port, l_db_name, p_user_name, p_std_out, p_std_err)
+                 
+                 rc = fr_l_xj.load_conf ((string.strip (l_words [1])))
+                 if rc <> 0:     #  Fatal error, break process. It isn't possible load conf file.
+                    self.write_log_err ( rc, fr_l_xj.l_arg )
+                    break
+             
+                 # Loading
+                 fr_l_xj.f_create ()  # Prepare execute string 
+                 rc = fr_l_xj.f_run() # Do it
+                 if rc <> 0:     #  Fatal error, break process
+                    self.write_log_err ( rc, fr_l_xj.l_arg )
+                    break
 
-                #delete                             command
-                fr_20.f_create( "DELETE FROM " + ls_nm )
-                rc = fr_20.f_run()
+            ##----------------------------------------------------------------------------
+            if l_words [0] == DEF_LOAD_XJ:  # Deferred loading
+                 fr_l_def_xj = fd_l ( p_host_ip, p_port, l_db_name, p_user_name, p_std_out, p_std_err)
 
-                if rc <> 0:     #  Fatal error, break process
-                   self.write_log_err ( rc, fr_20.l_arg )
-                   break
-
-                #load
-                fr_21.f_create ((string.strip (l_words [1])))  # Nick 2018-02-03 
-                rc = fr_21.f_run()
-
-                if rc <> 0:     #  Fatal error, break process
-                   self.write_log_err ( rc, fr_21.l_arg )
-                   break
-
-                #count                               COMMAND
-                fr_20.f_create( "SELECT count(*) AS LOADED_"+string.replace (ls_nm, ".","_")+" FROM "+ls_nm+" " )
-                rc = fr_20.f_run()
-
-                if rc <> 0:     #  Fatal error, break process
-                   self.write_log_err ( rc, fr_20.l_arg )
-                   break
-
-            #----------------------------------------------------------------------------
-            if l_words [0] == CALL_STORED_PROC:  # The Call Stored Prod
-               ls_nm = tr_f.f_parse_name( l_words[1] )
-               fr_30 = fd_0( 0, p_host_ip, p_port, l_db_name, p_user_name, p_std_out, p_std_err)
-               fr_31 = fd_0( 1, p_host_ip, p_port, l_db_name, p_user_name, p_std_out, p_std_err)
-
-               # delete x                             command
-               fr_30.f_create( "DELETE FROM service.x_" + ls_nm )
-               rc = fr_30.f_run()
-
-               if rc <> 0:     #  Fatal error, break process
-                  self.write_log_err ( rc, fr_30.l_arg )
-                  break
-
-               # load   x
-               fr_31.f_create(l_words[1])
-               rc = fr_31.f_run()
-
-               if rc <> 0:     #  Fatal error, break process
-                  self.write_log_err ( rc, fr_31.l_arg )
-                  break
-
-               # count  x                             COMMAND
-               ls_cmd="SELECT count(*) AS LOADED_" + ls_nm + " FROM service.x_" + ls_nm + " "
-               fr_30.f_create( ls_cmd )
-               rc = fr_30.f_run()
-
-               if rc <> 0:     #  Fatal error, break process
-                  self.write_log_err ( rc, fr_30.l_arg )
-                  break
-
-               # call  x to pub                       COMMAND--
-               fr_30.f_create( "SELECT service.f_load_" + ls_nm + " () " )
-               rc = fr_30.f_run()
-
-               if rc <> 0:     #  Fatal error, break process
-                  self.write_log_err ( rc, fr_30.l_arg )
-                  break
-
-               # count  pub                          COMMAND
-               ls_cmd = "SELECT count(*) AS TRANS_" + ls_nm + " FROM " + ls_nm + " "
-               fr_30.f_create( ls_cmd )
-               rc = fr_30.f_run()
-
-               if rc <> 0:     #  Fatal error, break process
-                  self.write_log_err ( rc, fr_30.l_arg )
-                  break
-
-               # delete x                             command
-               fr_30.f_create( "DELETE FROM service.x_" + ls_nm )
-               rc = fr_30.f_run()
-
-               if rc <> 0:     #  Fatal error, break process
-                  self.write_log_err ( rc, fr_30.l_arg )
-                  break
+                 rc = fr_l_def_xj.load_conf ((string.strip (l_words [1])))
+                 if rc <> 0:     #  Fatal error, break process. It isn't possible load conf file.
+                    self.write_log_err ( rc, fr_l_def_xj.l_arg )
+                    break
+             
+                 # Loading
+                 fr_l_def_xj.f_create ()  # Prepare execute string 
+                 rc = fr_l_def_xj.f_run() # Do it
+                 if rc <> 0:     #  Fatal error, break process
+                    self.write_log_err ( rc, fr_l_def_xj.l_arg )
+                    break
 
             #----------------------------------------------------------------------------
-            if l_words [0] == UNLOAD_FROM_DATABASE:  # Unload from database
-               ls_nm = tr_f.f_parse_name ( l_words[1] )
-               fu_A = fd_1 ( p_host_ip, p_port, l_db_name, p_user_name, p_std_out, p_std_err)
-               fu_A.f_create ( ls_nm, l_words[1] )
-               rc = fu_A.f_run ()
+            if l_words [0] == UNLOAD_XJ:  # Create XML, Unload it, save to local file system.
+                 fr_un_xj = fd_u ( p_host_ip, p_port, l_db_name, p_user_name, p_std_out, p_std_err)
 
-               if rc <> 0:     #  Fatal error, break process
-                   self.write_log_err ( rc, fu_A.l_arg )
-                   break
-
-               tr_f.tr_one ( l_words [0], l_words[1] )
-
+                 rc = fr_un_xj.load_conf ((string.strip (l_words [1])))
+                 if rc <> 0:     #  Fatal error, break process. It isn't possible load conf file.
+                    self.write_log_err ( rc, fr_un_xj.l_arg )
+                    break
+             
+                 # UnLoad XML
+                 fr_un_xj.f_create ()  # Prepare execute string 
+                 rc = fr_un_xj.f_run() # Do it
+             
+                 if rc <> 0:     #  Fatal error, break process
+                    self.write_log_err ( rc, fr_un_xj.l_arg )
+                    break
+                
+                 rc = fr_un_xj.f_save_local() # Do it
+                 if rc <> 0:     #  Fatal error, break process
+                    self.write_log_err ( rc, fr_un_xj.l_arg )
+                    break
+                
             #----------------------------------------------------------------------------
-            if l_words [0] == UNLOAD_FROM_DATABASE_T:  # Unload from database
-               ls_nm = tr_f.f_parse_name ( l_words[1] )
-               fu_B = fd_1 ( p_host_ip, p_port, l_db_name, p_user_name, p_std_out, p_std_err)
-               fu_B.f_create ( ls_nm, l_words[1] )
-               rc = fu_B.f_run ()
+            if l_words [0] == DEF_UNLOAD_XJ:  # Unload_from JSON
 
-               if rc <> 0:     #  Fatal error, break process
-                   self.write_log_err ( rc, fu_B.l_arg )
-                   break
+                 fr_def_u_js = fd_u ( p_host_ip, p_port, l_db_name, p_user_name, p_std_out, p_std_err)
 
-               tr_f.tr_one ( l_words [0], l_words[1] )
-
-            #----------------------------------------------------------------------------
-            if l_words [0] == DATABASE_DUMP:  # Database dump
-               fu_C = fd_2 ( p_host_ip, p_port, l_db_name, p_user_name, p_std_out, p_std_err)
-               fu_C.f_create ( l_words [1] )
-               rc = fu_C.f_run ()
-
-               if rc <> 0:          # Fatal error, break process
-                   self.write_log_err ( rc, fu_C.l_arg )
-                   break
-
-            #----------------------------------------------------------------------------
-            if l_words [0] == COPY_FROM_LOCAL_TO_REMOTE:  # Copy files from local to remote
-               fu_D = fd_3 ( p_host_ip, l_db_name, p_user_name, p_std_out, p_std_err )
-               fu_D.f_create ( l_words [1] )
-               rc = fu_D.f_run ()
-
-               if rc <> 0:          # Fatal error, break process
-                   self.write_log_err ( rc, fu_D.l_arg )
-                   break
-
-            #----------------------------------------------------------------------------
-            if l_words [0] == COPY_FROM_REMOTE_TO_LOCAL:  # Copy files from remote to local
-               fu_E = fd_4 ( p_host_ip, l_words [1], p_user_name, p_std_out, p_std_err ) # l_db_name
-               fu_E.f_create ( l_db_name ) # l_words [1]
-               rc = fu_E.f_run ()
-
-               if rc <> 0:          # Fatal error, break process
-                   self.write_log_err ( rc, fu_E.l_arg )
-                   break
-
-            # Nick 2010-01-25
-            #----------------------------------------------------------------------------
-            if l_words [0] == SCHEMA_DUMP:  # Schema dump
-               ls_nm = tr_f.f_parse_name ( l_words[1] )
-               fu_F = fd_5 ( p_host_ip, p_port, l_db_name, p_user_name, p_std_out, p_std_err)
-               fu_F.f_create ( ls_nm, l_words[1] )
-               rc = fu_F.f_run ()
-
-               if rc <> 0:     #  Fatal error, break process
-                   self.write_log_err ( rc, fu_F.l_arg )
-                   break
-               # tr_f.tr_one ( l_words [0], l_words[1] )
-
+                 rc = fr_def_u_js.load_conf ((string.strip (l_words [1])))
+                 if rc <> 0:     #  Fatal error, break process. It isn't possible load conf file.
+                    self.write_log_err ( rc, fr_def_u_js.l_arg )
+                    break
+             
+                 # UnLoad XML
+                 fr_def_u_js.f_create ()  # Prepare execute string 
+                 rc = fr_def_u_js.f_run() # Do it
+                 if rc <> 0:     #  Fatal error, break process
+                    self.write_log_err ( rc, fr_def_u_js.l_arg )
+                    break
+                
+                 rc = fr_def_u_js.f_save_local() # Do it
+                 if rc <> 0:     #  Fatal error, break process
+                    self.write_log_err ( rc, fr_def_u_js.l_arg )
+                    break
 
     self.close_log ()
     return rc
@@ -608,8 +445,8 @@ if __name__ == '__main__':
              Load data into database.
              The simplest version, it uses PSQL
         """
-#                  1       2           3             4            5                  6             7          8
-        sa = " <Host_IP> <Port> <DB_name|Target> <User_name> <Batch_file_name> <Stdout_name> <Strerr_name> <Comment>"
+#                  1       2        3          4            5               6             7             8
+        sa = " <Host_IP> <Port> <DB_name> <User_name> <Batch_file_name> <Stdout_name> <Strerr_name> <Path>"
         if ( len( sys.argv ) - 1 ) < 8:
             print VERSION_STR 
             print "  Usage: " + str ( sys.argv [0] ) + sa
@@ -617,8 +454,8 @@ if __name__ == '__main__':
 #
 # Nick 2010-04-05 -----------------------------------------------------------------------------------------------------
 #
-        ml = make_load ( False, sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4] )
-        rc = ml.to_do  ( sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], sys.argv[7], sys.argv[8], None )
+        ml = make_load ( sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4] )
+        rc = ml.to_do  ( sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], sys.argv[7], sys.argv[8] )
         sys.exit ( rc )
 
 #---------------------------------------

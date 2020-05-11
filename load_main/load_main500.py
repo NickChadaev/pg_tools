@@ -14,8 +14,7 @@
 #       2010-01-25 - New feature DUMP SCHEMA ( mode 'F' ) was added
 #       2010-02-03 - New procedure make_load was added
 #       2010-04-05 - Rebuild classes
-#       2014-06-16 - Используется библиотека pscopg2, используем её для получения
-#                    текущих даты/времени и синхронизации времён клиента и сервера.     
+#       2014-06-16 - The pscopg2 library is used to synchronization of client and server times.
 #       2016-12-06 - The port parameter is added
 #       2018-02-03 - ((string.strip (l_words [1])))  was added 
 # ----------------------------------------------------------------------------------------------------------
@@ -53,6 +52,7 @@
 #   fr_x5 = fd_u (p_host_ip, p_port, l_db_name, p_user_name, p_std_out, p_std_err)  -- Constructor
 #   fr_x5.unload (l_f_name, l_param_list, l_data_out)                               -- Deferred unloading JSON-структуры
 # -----------------------------------------------------------------------------------------------------------------------
+#       2020-05-10 - The eighth parameter became the path to the project repository (The point of build DB)
 
 import sys
 import os
@@ -61,7 +61,7 @@ import datetime
 
 import psycopg2    
 
-VERSION_STR = "  Version 3.0.0 Build 2019-05-19"
+VERSION_STR = "  Version 3.0.1 Build 2020-05-11"
 
 GET_DT = "SELECT now()::TIMESTAMP without time zone FROM current_timestamp;"
 
@@ -94,6 +94,8 @@ SPACE_0 = " "
 
 INPUT_CP = 'koi8_r'
 BASE_CP = 'utf8'
+
+PATH_DELIMITER = '/'  # Nick 2020-05-11
 
 class fd_log:
     """
@@ -303,7 +305,7 @@ class make_load ( fd_log ):
  #
  # Nick 2010-04-05 -------------------------------------------------------------------------------------------
  #                    1          2         3          4            5          6            7          8      
- def to_do ( self, p_host_ip, p_port, p_db_name, p_user_name, p_batch_name,  p_std_out, p_std_err, p_comments):
+ def to_do ( self, p_host_ip, p_port, p_db_name, p_user_name, p_batch_name,  p_std_out, p_std_err, p_path):
 
     try:
         fd = open ( p_batch_name, "r" )
@@ -315,10 +317,12 @@ class make_load ( fd_log ):
     self.c_list = fd.readlines ()
     fd.close ()
 
+    self.path = string.strip (p_path) + PATH_DELIMITER
+
     s_lp = str ( p_host_ip ) + SPACE_0 + str ( p_port ) + SPACE_0 + str ( p_db_name ) + SPACE_0 + str ( p_user_name )
     s_lp = s_lp + SPACE_0 + str ( p_batch_name ) + SPACE_0 + str ( p_std_out ) + SPACE_0 + str ( p_std_err )
 
-    self.open_log ( bLOG_NAME, p_comments, s_lp )
+    self.open_log ( bLOG_NAME, self.path, s_lp )
     self.write_log_first ()
 
     rc = 0
@@ -349,7 +353,7 @@ class make_load ( fd_log ):
             if l_words [0] == SEQUENCE_OF_SIMPLE_SQL_COMMANDS:  # Sequence of simple SQL-commands
                 fr_1 = fd_0 ( 1, p_host_ip, p_port, l_db_name, p_user_name, p_std_out, p_std_err)
 
-                fr_1.f_create ((string.strip (l_words [1])))  # Nick 2018-02-03
+                fr_1.f_create (self.path + (string.strip (l_words [1])))  # Nick 2018-02-03
                 rc = fr_1.f_run()
 
                 if rc <> 0:     #  Fatal error, break process

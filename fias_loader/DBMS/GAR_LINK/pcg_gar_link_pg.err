@@ -1,0 +1,21 @@
+psql:../1_FUNC/GAR_LINK/f_server_crt.sql:67: ЗАМЕЧАНИЕ:  (RELATION,13385,information_schema,foreign_servers,)
+psql:../1_FUNC/GAR_LINK/f_server_crt.sql:67: ЗАМЕЧАНИЕ:  (RELATION,13378,information_schema,_pg_foreign_servers,)
+psql:../1_FUNC/GAR_LINK/f_server_crt.sql:67: ЗАМЕЧАНИЕ:  (RELATION,1260,pg_catalog,pg_authid,)
+psql:../1_FUNC/GAR_LINK/f_server_crt.sql:67: ЗАМЕЧАНИЕ:  (RELATION,2328,pg_catalog,pg_foreign_data_wrapper,)
+psql:../1_FUNC/GAR_LINK/f_server_crt.sql:67: ЗАМЕЧАНИЕ:  (RELATION,1417,pg_catalog,pg_foreign_server,)
+psql:../1_FUNC/GAR_LINK/f_server_drp.sql:30: ЗАМЕЧАНИЕ:  (RELATION,1698759,gar_link,foreign_servers,)
+psql:../1_FUNC/GAR_LINK/f_schema_import.sql:1: ЗАМЕЧАНИЕ:  функция gar_link.f_active_fserver_set(text,text,text,text) не существует, пропускается
+psql:../1_FUNC/GAR_LINK/f_schema_import.sql:140: ЗАМЕЧАНИЕ:  error:22005:40:блок операторов:переменная "host" объявлена как CONSTANT
+psql:../1_FUNC/GAR_LINK/f_schema_import.sql:140: ЗАМЕЧАНИЕ:  Context: during statement block local variable "host" initialization on line 10
+psql:../1_FUNC/GAR_LINK/f_conn_set.sql:1: ЗАМЕЧАНИЕ:  функция gar_link.f_conn_set(text,text) не существует, пропускается
+psql:../1_FUNC/GAR_LINK/f_conn_set.sql:53: ЗАМЕЧАНИЕ:  (FUNCTION,1698251,gar_link,dblink_connect,"(text,text)")
+psql:../1_FUNC/GAR_LINK/f_conn_set.sql:53: ЗАМЕЧАНИЕ:  (FUNCTION,1698288,gar_link,dblink_get_connections,"()")
+psql:../1_FUNC/GAR_LINK/f_conn_set.sql:53: ЗАМЕЧАНИЕ:  (RELATION,1698759,gar_link,foreign_servers,)
+psql:../1_FUNC/GAR_LINK/UNNSI/p_adr_objects_idx.sql:157: ЗАМЕЧАНИЕ:  (FUNCTION,1698268,gar_link,dblink,"(text,text)")
+psql:../1_FUNC/GAR_LINK/UNNSI/p_adr_house_idx_set_uniq.sql:83: ЗАМЕЧАНИЕ:  (FUNCTION,1698268,gar_link,dblink,"(text,text)")
+psql:../1_FUNC/GAR_LINK/UNNSI/p_adr_house_idx.sql:168: ЗАМЕЧАНИЕ:  (FUNCTION,1698268,gar_link,dblink,"(text,text)")
+psql:../1_FUNC/GAR_LINK/UNNSI/p_adr_street_idx_set_uniq.sql:82: ЗАМЕЧАНИЕ:  (FUNCTION,1698268,gar_link,dblink,"(text,text)")
+psql:../1_FUNC/GAR_LINK/UNNSI/p_adr_street_idx.sql:1: ЗАМЕЧАНИЕ:  процедура gar_link.p_adr_street_idx(text,text,pg_catalog.bool,pg_catalog.bool) не существует, пропускается
+psql:../1_FUNC/GAR_LINK/UNNSI/p_adr_street_idx.sql:162: ЗАМЕЧАНИЕ:  (FUNCTION,1698268,gar_link,dblink,"(text,text)")
+psql:../1_FUNC/GAR_LINK/UNNSI/p_adr_area_idx.sql:1: ЗАМЕЧАНИЕ:  процедура gar_link.p_adr_area_idx(text,text,pg_catalog.bool) не существует, пропускается
+psql:../1_FUNC/GAR_LINK/UNNSI/p_adr_area_idx.sql:160: ЗАМЕЧАНИЕ:  (FUNCTION,1698268,gar_link,dblink,"(text,text)")

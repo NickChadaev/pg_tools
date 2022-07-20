@@ -11,11 +11,6 @@
 #-------------------------------------------------------------------------------
 # Type action is: 0 - Direct performing SQL-command
 #                 1 - Perform SQL-command from SQL-file
-#                 2 - Direct loading into DB
-#                 3 - Deferred loading into DB
-#                 4 - Direct unloading from DB
-#                 5 - Defrred unloading from DB
-#                 X - Message for user (The fields ##1,2 - are empty )
 #-------------------------------------------------------------------------------
 # For example: 
 #       0;DROP DATABASE IF EXISTS db_k2;;Remove old DB; 
@@ -26,16 +21,21 @@
 #-------------------------------------------------------------------------------
 X;;;Start process;
 
-1;5_FIAS_LOADER/DBMS/Scripts/createFdw.sql;; -- createFdw.sql;                             #++
-1;5_FIAS_LOADER/DBMS/Scripts/createTablesGarFias.sql;; -- createTablesGarFias.sql;
-1;5_FIAS_LOADER/DBMS/Scripts/CreateTablesGarVersion.sql;; -- CreateTablesGarVersion.sql;   #  !!!
-1;5_FIAS_LOADER/DBMS/Scripts/CreateTableGarTmp.sql;; -- CreateTableGarTmp.sql;
-1;5_FIAS_LOADER/DBMS/Scripts/CreateTableGarTmpHist.sql;; -- CreateTableGarTmpHist.sql;
-1;5_FIAS_LOADER/DBMS/Scripts/CreateTableGarLink.sql;; -- CreateTableGarLink;               #++
-1;5_FIAS_LOADER/DBMS/Scripts/CreateTypesGarTmp.sql;; -- CreateTypesGarTmp.sql;
-### 1;5_FIAS_LOADER/DBMS/Scripts/AltTablesGarFias.sql;; -- AltTablesGarFias.sql;
-
+1;createSchemas.sql;; -- createSchemas.sql;
+1;CreateExtensions.sql;; -- CreateExtensions.sql;
+1;createFdw.sql;; -- createFdw.sql;
+#
+1;GAR_FIAS/createTablesGarFias.sql;; -- createTablesGarFias.sql;
+1;GAR_VERSION/CreateTablesGarVersion.sql;; -- CreateTablesGarVersion.sql;    
+1;GAR_LINK/CreateTableGarLink.sql;; -- CreateTableGarLink;                
+1;GAR_TMP/CreateTableGarTmp.sql;; -- CreateTableGarTmp.sql;
+1;GAR_TMP/CreateTableGarTmpHist.sql;; -- CreateTableGarTmpHist.sql;
+1;GAR_TMP/CreateTypesGarTmp.sql;; -- CreateTypesGarTmp.sql;
+#
 X;;;Stop process;
 #-------------------------------------------------------------------------------
+
+
+
 
 

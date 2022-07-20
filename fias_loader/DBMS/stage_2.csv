@@ -1,0 +1,47 @@
+#-------------------------------------------------------------------------------
+# 2009-04-21/2020-05-10 Nick (nick-ch58@yandex.ru).
+#-------------------------------------------------------------------------------
+# The structure of bathc-file. It consists:
+#    0 - Type action 
+#    1 - SQL-command/The SQL-file name/The <1*.conf> file name
+#    2 - DB name 
+#    3 - The text of message
+#    The DB-name may be ommited. But if it is present, the it 
+#    cancels the name specified in the parameter list.
+#-------------------------------------------------------------------------------
+# Type action is: 0 - Direct performing SQL-command
+#                 1 - Perform SQL-command from SQL-file
+#                 2 - Direct loading into DB
+#                 3 - Deferred loading into DB
+#                 4 - Direct unloading from DB
+#                 5 - Defrred unloading from DB
+#                 X - Message for user (The fields ##1,2 - are empty )
+#-------------------------------------------------------------------------------
+# For example: 
+#       0;DROP DATABASE IF EXISTS db_k2;;Remove old DB; 
+#       1;1_crt_domain.sql;db_k2;Creating domains; 
+#       X;;;Schema COM; 
+#       1;0_COM/2_com_crt_tables.sql;;-- Creating the base tables; 
+#       1;0_COM/4_com_crt_errors.sql;;-- Creating the tables for errors;
+#-------------------------------------------------------------------------------
+X;;;Start process;
+## 1;5_FIAS_LOADER/DBMS/Scripts/ReCreateSchemas.sql;; -- Пересоздание функциональных схем;
+1;1_FUNC/etg_check_func.sql;; -- etg_check_func.sql;
+1;1_FUNC/f_check_uuid_1.sql;; -- f_check_uuid_1.sql;
+1;1_FUNC/4_plpgsql_complex_check_3.sql;; -- public.plpgsql_show_dependency_tb_1;
+#
+1;E_DB_INFO/v_pg_locks.sql;; -- v_pg_locks.sql;
+#
+1;5_FIAS_LOADER/DBMS/Packages/pcg_gar_version_pg.sql;; -- pcg_gar_version_pg.sql;
+1;5_FIAS_LOADER/DBMS/Packages/pcg_load_gar_fias_pg.sql;; -- pcg_load_gar_fias_pg.sql;
+1;5_FIAS_LOADER/DBMS/Packages/pcg_gar_tmp_pg.sql;; -- pcg_gar_tmp_pg.sql;
+1;5_FIAS_LOADER/DBMS/Packages/pcg_gar_link_pg.sql;; -- pcg_gar_link_pg.sql;
+#
+0;SELECT gar_link.f_schema_import ('unnsi_m9l','unnsi','unnsi','Эталон от 2022-06-20');; -- gar_link.f_schema_import;
+0;SELECT gar_link.f_server_is();; -- gar_link.f_server_is();        
+0;SELECT * FROM gar_link.v_servers_active;; -- v_servers_active;
+#
+X;;;Stop process;
+#-------------------------------------------------------------------------------
+
+

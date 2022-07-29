@@ -1,7 +1,6 @@
-psql:../1_FUNC/GAR_FIAS/PCG/f_addr_obj_update_parent.sql:45: ЗАМЕЧАНИЕ:  (FUNCTION,2104975,gar_fias_pcg_load,f_adr_area_show_data,"(uuid)")
-psql:../1_FUNC/GAR_FIAS/PCG/f_addr_obj_update_parent.sql:45: ЗАМЕЧАНИЕ:  (RELATION,1714919,gar_fias,as_addr_obj,)
-psql:../1_FUNC/GAR_FIAS/PCG/f_addr_obj_update_parent.sql:45: ЗАМЕЧАНИЕ:  (RELATION,1714950,gar_fias,as_adm_hierarchy,)
-psql:../1_FUNC/GAR_FIAS/PCG/f_adr_area_get_twins.sql:1: ЗАМЕЧАНИЕ:  функция gar_fias_pcg_load.f_addr_obj_get_twins(pg_catalog.varchar) не существует, пропускается
+psql:../1_FUNC/GAR_FIAS/PCG/f_addr_obj_update_parent.sql:45: ЗАМЕЧАНИЕ:  (FUNCTION,72076,gar_fias_pcg_load,f_adr_area_show_data,"(uuid)")
+psql:../1_FUNC/GAR_FIAS/PCG/f_addr_obj_update_parent.sql:45: ЗАМЕЧАНИЕ:  (RELATION,34250,gar_fias,as_addr_obj,)
+psql:../1_FUNC/GAR_FIAS/PCG/f_addr_obj_update_parent.sql:45: ЗАМЕЧАНИЕ:  (RELATION,34281,gar_fias,as_adm_hierarchy,)
 psql:../1_FUNC/GAR_FIAS/PCG/del_gar_all.sql:1: ЗАМЕЧАНИЕ:  функция gar_fias_pcg_load.del_gar_addr_obj(pg_catalog.int8) не существует, пропускается
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_addr_obj.sql:102: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_addr_obj.id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_addr_obj.sql:102: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_addr_obj.object_id%TYPE преобразована в тип bigint
@@ -18,8 +17,8 @@ psql:../1_FUNC/GAR_FIAS/PCG/save_gar_addr_obj.sql:102: ЗАМЕЧАНИЕ:  сс
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_addr_obj.sql:102: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_addr_obj.end_date%TYPE преобразована в тип date
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_addr_obj.sql:102: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_addr_obj.is_actual%TYPE преобразована в тип boolean
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_addr_obj.sql:102: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_addr_obj.is_active%TYPE преобразована в тип boolean
-psql:../1_FUNC/GAR_FIAS/PCG/save_gar_addr_obj.sql:102: ЗАМЕЧАНИЕ:  (RELATION,1714919,gar_fias,as_addr_obj,)
-psql:../1_FUNC/GAR_FIAS/PCG/save_gar_addr_obj.sql:102: ЗАМЕЧАНИЕ:  (RELATION,1714937,gar_fias,as_addr_obj_type,)
+psql:../1_FUNC/GAR_FIAS/PCG/save_gar_addr_obj.sql:102: ЗАМЕЧАНИЕ:  (RELATION,34250,gar_fias,as_addr_obj,)
+psql:../1_FUNC/GAR_FIAS/PCG/save_gar_addr_obj.sql:102: ЗАМЕЧАНИЕ:  (RELATION,34268,gar_fias,as_addr_obj_type,)
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_normative_docs.sql:66: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_normative_docs.ndoc_id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_normative_docs.sql:66: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_normative_docs.doc_name%TYPE преобразована в тип character varying
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_normative_docs.sql:66: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_normative_docs.doc_date%TYPE преобразована в тип date
@@ -31,7 +30,7 @@ psql:../1_FUNC/GAR_FIAS/PCG/save_gar_normative_docs.sql:66: ЗАМЕЧАНИЕ: 
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_normative_docs.sql:66: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_normative_docs.acc_date%TYPE преобразована в тип date
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_normative_docs.sql:66: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_normative_docs.reg_num%TYPE преобразована в тип character varying
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_normative_docs.sql:66: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_normative_docs.reg_date%TYPE преобразована в тип date
-psql:../1_FUNC/GAR_FIAS/PCG/save_gar_normative_docs.sql:66: ЗАМЕЧАНИЕ:  (RELATION,1715011,gar_fias,as_normative_docs,)
+psql:../1_FUNC/GAR_FIAS/PCG/save_gar_normative_docs.sql:66: ЗАМЕЧАНИЕ:  (RELATION,34342,gar_fias,as_normative_docs,)
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_apartments.sql:80: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_apartments.id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_apartments.sql:80: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_apartments.object_id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_apartments.sql:80: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_apartments.object_guid%TYPE преобразована в тип uuid
@@ -46,7 +45,7 @@ psql:../1_FUNC/GAR_FIAS/PCG/save_gar_apartments.sql:80: ЗАМЕЧАНИЕ:  с�
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_apartments.sql:80: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_apartments.end_date%TYPE преобразована в тип date
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_apartments.sql:80: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_apartments.is_actual%TYPE преобразована в тип boolean
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_apartments.sql:80: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_apartments.is_active%TYPE преобразована в тип boolean
-psql:../1_FUNC/GAR_FIAS/PCG/save_gar_apartments.sql:80: ЗАМЕЧАНИЕ:  (RELATION,1714955,gar_fias,as_apartments,)
+psql:../1_FUNC/GAR_FIAS/PCG/save_gar_apartments.sql:80: ЗАМЕЧАНИЕ:  (RELATION,34286,gar_fias,as_apartments,)
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_adm_hierarchy.sql:88: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_adm_hierarchy.id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_adm_hierarchy.sql:88: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_adm_hierarchy.object_id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_adm_hierarchy.sql:88: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_adm_hierarchy.parent_obj_id%TYPE преобразована в тип bigint
@@ -63,7 +62,7 @@ psql:../1_FUNC/GAR_FIAS/PCG/save_gar_adm_hierarchy.sql:88: ЗАМЕЧАНИЕ:  
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_adm_hierarchy.sql:88: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_adm_hierarchy.start_date%TYPE преобразована в тип date
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_adm_hierarchy.sql:88: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_adm_hierarchy.end_date%TYPE преобразована в тип date
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_adm_hierarchy.sql:88: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_adm_hierarchy.is_active%TYPE преобразована в тип boolean
-psql:../1_FUNC/GAR_FIAS/PCG/save_gar_adm_hierarchy.sql:88: ЗАМЕЧАНИЕ:  (RELATION,1714950,gar_fias,as_adm_hierarchy,)
+psql:../1_FUNC/GAR_FIAS/PCG/save_gar_adm_hierarchy.sql:88: ЗАМЕЧАНИЕ:  (RELATION,34281,gar_fias,as_adm_hierarchy,)
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_room_type.sql:1: ЗАМЕЧАНИЕ:  процедура gar_fias_pcg_load.save_room_type(pg_catalog.int8,pg_catalog.varchar,pg_catalog.varchar,date,date,date,pg_catalog.bool) не существует, пропускается
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_room_type.sql:57: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_room_type.type_id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_room_type.sql:57: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_room_type.type_name%TYPE преобразована в тип character varying
@@ -73,7 +72,7 @@ psql:../1_FUNC/GAR_FIAS/PCG/save_gar_room_type.sql:57: ЗАМЕЧАНИЕ:  сс
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_room_type.sql:57: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_room_type.start_date%TYPE преобразована в тип date
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_room_type.sql:57: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_room_type.end_date%TYPE преобразована в тип date
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_room_type.sql:57: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_room_type.is_active%TYPE преобразована в тип boolean
-psql:../1_FUNC/GAR_FIAS/PCG/save_gar_room_type.sql:57: ЗАМЕЧАНИЕ:  (RELATION,1715071,gar_fias,as_room_type,)
+psql:../1_FUNC/GAR_FIAS/PCG/save_gar_room_type.sql:57: ЗАМЕЧАНИЕ:  (RELATION,34402,gar_fias,as_room_type,)
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_rooms.sql:81: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_rooms.id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_rooms.sql:81: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_rooms.object_id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_rooms.sql:81: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_rooms.object_guid%TYPE преобразована в тип uuid
@@ -88,7 +87,7 @@ psql:../1_FUNC/GAR_FIAS/PCG/save_gar_rooms.sql:81: ЗАМЕЧАНИЕ:  ссыл
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_rooms.sql:81: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_rooms.end_date%TYPE преобразована в тип date
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_rooms.sql:81: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_rooms.is_actual%TYPE преобразована в тип boolean
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_rooms.sql:81: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_rooms.is_active%TYPE преобразована в тип boolean
-psql:../1_FUNC/GAR_FIAS/PCG/save_gar_rooms.sql:81: ЗАМЕЧАНИЕ:  (RELATION,1715058,gar_fias,as_rooms,)
+psql:../1_FUNC/GAR_FIAS/PCG/save_gar_rooms.sql:81: ЗАМЕЧАНИЕ:  (RELATION,34389,gar_fias,as_rooms,)
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_rooms_params.sql:58: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_rooms_params.id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_rooms_params.sql:58: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_rooms_params.object_id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_rooms_params.sql:58: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_rooms_params.change_id%TYPE преобразована в тип bigint
@@ -98,15 +97,15 @@ psql:../1_FUNC/GAR_FIAS/PCG/save_gar_rooms_params.sql:58: ЗАМЕЧАНИЕ:  �
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_rooms_params.sql:58: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_rooms_params.update_date%TYPE преобразована в тип date
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_rooms_params.sql:58: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_rooms_params.start_date%TYPE преобразована в тип date
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_rooms_params.sql:58: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_rooms_params.end_date%TYPE преобразована в тип date
-psql:../1_FUNC/GAR_FIAS/PCG/save_gar_rooms_params.sql:58: ЗАМЕЧАНИЕ:  (RELATION,1715063,gar_fias,as_rooms_params,)
+psql:../1_FUNC/GAR_FIAS/PCG/save_gar_rooms_params.sql:58: ЗАМЕЧАНИЕ:  (RELATION,34394,gar_fias,as_rooms_params,)
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_norm_docs_kinds.sql:31: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_norm_docs_kinds.doc_kind_id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_norm_docs_kinds.sql:31: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_norm_docs_kinds.doc_name%TYPE преобразована в тип character varying
-psql:../1_FUNC/GAR_FIAS/PCG/save_gar_norm_docs_kinds.sql:31: ЗАМЕЧАНИЕ:  (RELATION,1715019,gar_fias,as_norm_docs_kinds,)
+psql:../1_FUNC/GAR_FIAS/PCG/save_gar_norm_docs_kinds.sql:31: ЗАМЕЧАНИЕ:  (RELATION,34350,gar_fias,as_norm_docs_kinds,)
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_norm_docs_types.sql:39: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_norm_docs_types.doc_type_id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_norm_docs_types.sql:39: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_norm_docs_types.doc_name%TYPE преобразована в тип character varying
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_norm_docs_types.sql:39: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_norm_docs_types.start_date%TYPE преобразована в тип date
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_norm_docs_types.sql:39: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_norm_docs_types.end_date%TYPE преобразована в тип date
-psql:../1_FUNC/GAR_FIAS/PCG/save_gar_norm_docs_types.sql:39: ЗАМЕЧАНИЕ:  (RELATION,1715027,gar_fias,as_norm_docs_types,)
+psql:../1_FUNC/GAR_FIAS/PCG/save_gar_norm_docs_types.sql:39: ЗАМЕЧАНИЕ:  (RELATION,34358,gar_fias,as_norm_docs_types,)
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_param_type.sql:50: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_param_type.type_id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_param_type.sql:50: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_param_type.type_name%TYPE преобразована в тип character varying
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_param_type.sql:50: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_param_type.type_desc%TYPE преобразована в тип character varying
@@ -115,7 +114,7 @@ psql:../1_FUNC/GAR_FIAS/PCG/save_gar_param_type.sql:50: ЗАМЕЧАНИЕ:  с�
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_param_type.sql:50: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_param_type.update_date%TYPE преобразована в тип date
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_param_type.sql:50: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_param_type.start_date%TYPE преобразована в тип date
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_param_type.sql:50: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_param_type.end_date%TYPE преобразована в тип date
-psql:../1_FUNC/GAR_FIAS/PCG/save_gar_param_type.sql:50: ЗАМЕЧАНИЕ:  (RELATION,1715045,gar_fias,as_param_type,)
+psql:../1_FUNC/GAR_FIAS/PCG/save_gar_param_type.sql:50: ЗАМЕЧАНИЕ:  (RELATION,34376,gar_fias,as_param_type,)
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_houses_params.sql:58: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_houses_params.id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_houses_params.sql:58: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_houses_params.object_id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_houses_params.sql:58: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_houses_params.change_id%TYPE преобразована в тип bigint
@@ -125,7 +124,7 @@ psql:../1_FUNC/GAR_FIAS/PCG/save_gar_houses_params.sql:58: ЗАМЕЧАНИЕ:  
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_houses_params.sql:58: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_houses_params.update_date%TYPE преобразована в тип date
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_houses_params.sql:58: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_houses_params.start_date%TYPE преобразована в тип date
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_houses_params.sql:58: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_houses_params.end_date%TYPE преобразована в тип date
-psql:../1_FUNC/GAR_FIAS/PCG/save_gar_houses_params.sql:58: ЗАМЕЧАНИЕ:  (RELATION,1714993,gar_fias,as_houses_params,)
+psql:../1_FUNC/GAR_FIAS/PCG/save_gar_houses_params.sql:58: ЗАМЕЧАНИЕ:  (RELATION,34324,gar_fias,as_houses_params,)
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_carplaces_params.sql:58: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_carplaces_params.id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_carplaces_params.sql:58: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_carplaces_params.object_id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_carplaces_params.sql:58: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_carplaces_params.change_id%TYPE преобразована в тип bigint
@@ -135,7 +134,7 @@ psql:../1_FUNC/GAR_FIAS/PCG/save_gar_carplaces_params.sql:58: ЗАМЕЧАНИЕ
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_carplaces_params.sql:58: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_carplaces_params.update_date%TYPE преобразована в тип date
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_carplaces_params.sql:58: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_carplaces_params.start_date%TYPE преобразована в тип date
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_carplaces_params.sql:58: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_carplaces_params.end_date%TYPE преобразована в тип date
-psql:../1_FUNC/GAR_FIAS/PCG/save_gar_carplaces_params.sql:58: ЗАМЕЧАНИЕ:  (RELATION,1714978,gar_fias,as_carplaces_params,)
+psql:../1_FUNC/GAR_FIAS/PCG/save_gar_carplaces_params.sql:58: ЗАМЕЧАНИЕ:  (RELATION,34309,gar_fias,as_carplaces_params,)
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_carplaces.sql:76: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_carplaces.id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_carplaces.sql:76: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_carplaces.object_id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_carplaces.sql:76: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_carplaces.object_guid%TYPE преобразована в тип uuid
@@ -149,7 +148,7 @@ psql:../1_FUNC/GAR_FIAS/PCG/save_gar_carplaces.sql:76: ЗАМЕЧАНИЕ:  сс
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_carplaces.sql:76: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_carplaces.end_date%TYPE преобразована в тип date
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_carplaces.sql:76: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_carplaces.is_actual%TYPE преобразована в тип boolean
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_carplaces.sql:76: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_carplaces.is_active%TYPE преобразована в тип boolean
-psql:../1_FUNC/GAR_FIAS/PCG/save_gar_carplaces.sql:76: ЗАМЕЧАНИЕ:  (RELATION,1714973,gar_fias,as_carplaces,)
+psql:../1_FUNC/GAR_FIAS/PCG/save_gar_carplaces.sql:76: ЗАМЕЧАНИЕ:  (RELATION,34304,gar_fias,as_carplaces,)
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_apartments_params.sql:58: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_apartments_params.id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_apartments_params.sql:58: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_apartments_params.object_id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_apartments_params.sql:58: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_apartments_params.change_id%TYPE преобразована в тип bigint
@@ -159,7 +158,7 @@ psql:../1_FUNC/GAR_FIAS/PCG/save_gar_apartments_params.sql:58: ЗАМЕЧАНИ�
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_apartments_params.sql:58: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_apartments_params.update_date%TYPE преобразована в тип date
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_apartments_params.sql:58: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_apartments_params.start_date%TYPE преобразована в тип date
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_apartments_params.sql:58: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_apartments_params.end_date%TYPE преобразована в тип date
-psql:../1_FUNC/GAR_FIAS/PCG/save_gar_apartments_params.sql:58: ЗАМЕЧАНИЕ:  (RELATION,1714960,gar_fias,as_apartments_params,)
+psql:../1_FUNC/GAR_FIAS/PCG/save_gar_apartments_params.sql:58: ЗАМЕЧАНИЕ:  (RELATION,34291,gar_fias,as_apartments_params,)
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_apartment_type.sql:52: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_apartment_type.apart_type_id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_apartment_type.sql:52: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_apartment_type.type_name%TYPE преобразована в тип character varying
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_apartment_type.sql:52: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_apartment_type.type_shortname%TYPE преобразована в тип character varying
@@ -168,7 +167,7 @@ psql:../1_FUNC/GAR_FIAS/PCG/save_gar_apartment_type.sql:52: ЗАМЕЧАНИЕ: 
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_apartment_type.sql:52: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_apartment_type.update_date%TYPE преобразована в тип date
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_apartment_type.sql:52: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_apartment_type.start_date%TYPE преобразована в тип date
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_apartment_type.sql:52: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_apartment_type.end_date%TYPE преобразована в тип date
-psql:../1_FUNC/GAR_FIAS/PCG/save_gar_apartment_type.sql:52: ЗАМЕЧАНИЕ:  (RELATION,1714968,gar_fias,as_apartment_type,)
+psql:../1_FUNC/GAR_FIAS/PCG/save_gar_apartment_type.sql:52: ЗАМЕЧАНИЕ:  (RELATION,34299,gar_fias,as_apartment_type,)
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_house_type.sql:51: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_house_type.house_type_id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_house_type.sql:51: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_house_type.type_name%TYPE преобразована в тип character varying
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_house_type.sql:51: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_house_type.type_shortname%TYPE преобразована в тип character varying
@@ -177,12 +176,12 @@ psql:../1_FUNC/GAR_FIAS/PCG/save_gar_house_type.sql:51: ЗАМЕЧАНИЕ:  с�
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_house_type.sql:51: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_house_type.update_date%TYPE преобразована в тип date
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_house_type.sql:51: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_house_type.start_date%TYPE преобразована в тип date
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_house_type.sql:51: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_house_type.end_date%TYPE преобразована в тип date
-psql:../1_FUNC/GAR_FIAS/PCG/save_gar_house_type.sql:51: ЗАМЕЧАНИЕ:  (RELATION,1715001,gar_fias,as_house_type,)
+psql:../1_FUNC/GAR_FIAS/PCG/save_gar_house_type.sql:51: ЗАМЕЧАНИЕ:  (RELATION,34332,gar_fias,as_house_type,)
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_addr_obj_division.sql:38: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_addr_obj_division.id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_addr_obj_division.sql:38: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_addr_obj_division.parent_id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_addr_obj_division.sql:38: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_addr_obj_division.child_id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_addr_obj_division.sql:38: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_addr_obj_division.change_id%TYPE преобразована в тип bigint
-psql:../1_FUNC/GAR_FIAS/PCG/save_gar_addr_obj_division.sql:38: ЗАМЕЧАНИЕ:  (RELATION,1714924,gar_fias,as_addr_obj_division,)
+psql:../1_FUNC/GAR_FIAS/PCG/save_gar_addr_obj_division.sql:38: ЗАМЕЧАНИЕ:  (RELATION,34255,gar_fias,as_addr_obj_division,)
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_steads_params.sql:61: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_steads_params.id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_steads_params.sql:61: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_steads_params.object_id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_steads_params.sql:61: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_steads_params.change_id%TYPE преобразована в тип bigint
@@ -192,7 +191,7 @@ psql:../1_FUNC/GAR_FIAS/PCG/save_gar_steads_params.sql:61: ЗАМЕЧАНИЕ:  
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_steads_params.sql:61: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_steads_params.update_date%TYPE преобразована в тип date
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_steads_params.sql:61: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_steads_params.start_date%TYPE преобразована в тип date
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_steads_params.sql:61: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_steads_params.end_date%TYPE преобразована в тип date
-psql:../1_FUNC/GAR_FIAS/PCG/save_gar_steads_params.sql:61: ЗАМЕЧАНИЕ:  (RELATION,1715081,gar_fias,as_steads_params,)
+psql:../1_FUNC/GAR_FIAS/PCG/save_gar_steads_params.sql:61: ЗАМЕЧАНИЕ:  (RELATION,34412,gar_fias,as_steads_params,)
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_steads.sql:73: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_steads.id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_steads.sql:73: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_steads.object_id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_steads.sql:73: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_steads.object_guid%TYPE преобразована в тип uuid
@@ -206,7 +205,7 @@ psql:../1_FUNC/GAR_FIAS/PCG/save_gar_steads.sql:73: ЗАМЕЧАНИЕ:  ссы�
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_steads.sql:73: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_steads.end_date%TYPE преобразована в тип date
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_steads.sql:73: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_steads.is_actual%TYPE преобразована в тип boolean
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_steads.sql:73: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_steads.is_active%TYPE преобразована в тип boolean
-psql:../1_FUNC/GAR_FIAS/PCG/save_gar_steads.sql:73: ЗАМЕЧАНИЕ:  (RELATION,1715076,gar_fias,as_steads,)
+psql:../1_FUNC/GAR_FIAS/PCG/save_gar_steads.sql:73: ЗАМЕЧАНИЕ:  (RELATION,34407,gar_fias,as_steads,)
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_reestr_objects.sql:49: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_reestr_objects.object_id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_reestr_objects.sql:49: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_reestr_objects.object_guid%TYPE преобразована в тип uuid
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_reestr_objects.sql:49: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_reestr_objects.change_id%TYPE преобразована в тип bigint
@@ -214,7 +213,7 @@ psql:../1_FUNC/GAR_FIAS/PCG/save_gar_reestr_objects.sql:49: ЗАМЕЧАНИЕ: 
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_reestr_objects.sql:49: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_reestr_objects.level_id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_reestr_objects.sql:49: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_reestr_objects.create_date%TYPE преобразована в тип date
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_reestr_objects.sql:49: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_reestr_objects.update_date%TYPE преобразована в тип date
-psql:../1_FUNC/GAR_FIAS/PCG/save_gar_reestr_objects.sql:49: ЗАМЕЧАНИЕ:  (RELATION,1715053,gar_fias,as_reestr_objects,)
+psql:../1_FUNC/GAR_FIAS/PCG/save_gar_reestr_objects.sql:49: ЗАМЕЧАНИЕ:  (RELATION,34384,gar_fias,as_reestr_objects,)
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_operation_type.sql:52: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_operation_type.oper_type_id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_operation_type.sql:52: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_operation_type.oper_type_name%TYPE преобразована в тип character varying
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_operation_type.sql:52: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_operation_type.short_name%TYPE преобразована в тип character varying
@@ -223,7 +222,7 @@ psql:../1_FUNC/GAR_FIAS/PCG/save_gar_operation_type.sql:52: ЗАМЕЧАНИЕ: 
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_operation_type.sql:52: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_operation_type.start_date%TYPE преобразована в тип date
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_operation_type.sql:52: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_operation_type.end_date%TYPE преобразована в тип date
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_operation_type.sql:52: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_operation_type.is_active%TYPE преобразована в тип boolean
-psql:../1_FUNC/GAR_FIAS/PCG/save_gar_operation_type.sql:52: ЗАМЕЧАНИЕ:  (RELATION,1715040,gar_fias,as_operation_type,)
+psql:../1_FUNC/GAR_FIAS/PCG/save_gar_operation_type.sql:52: ЗАМЕЧАНИЕ:  (RELATION,34371,gar_fias,as_operation_type,)
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_object_level.sql:53: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_object_level.level_id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_object_level.sql:53: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_object_level.level_name%TYPE преобразована в тип character varying
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_object_level.sql:53: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_object_level.short_name%TYPE преобразована в тип character varying
@@ -231,7 +230,7 @@ psql:../1_FUNC/GAR_FIAS/PCG/save_gar_object_level.sql:53: ЗАМЕЧАНИЕ:  �
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_object_level.sql:53: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_object_level.start_date%TYPE преобразована в тип date
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_object_level.sql:53: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_object_level.end_date%TYPE преобразована в тип date
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_object_level.sql:53: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_object_level.is_active%TYPE преобразована в тип boolean
-psql:../1_FUNC/GAR_FIAS/PCG/save_gar_object_level.sql:53: ЗАМЕЧАНИЕ:  (RELATION,1715035,gar_fias,as_object_level,)
+psql:../1_FUNC/GAR_FIAS/PCG/save_gar_object_level.sql:53: ЗАМЕЧАНИЕ:  (RELATION,34366,gar_fias,as_object_level,)
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_mun_hierarchy.sql:68: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_mun_hierarchy.id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_mun_hierarchy.sql:68: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_mun_hierarchy.object_id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_mun_hierarchy.sql:68: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_mun_hierarchy.parent_obj_id%TYPE преобразована в тип bigint
@@ -243,7 +242,7 @@ psql:../1_FUNC/GAR_FIAS/PCG/save_gar_mun_hierarchy.sql:68: ЗАМЕЧАНИЕ:  
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_mun_hierarchy.sql:68: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_mun_hierarchy.start_date%TYPE преобразована в тип date
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_mun_hierarchy.sql:68: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_mun_hierarchy.end_date%TYPE преобразована в тип date
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_mun_hierarchy.sql:68: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_mun_hierarchy.is_active%TYPE преобразована в тип boolean
-psql:../1_FUNC/GAR_FIAS/PCG/save_gar_mun_hierarchy.sql:68: ЗАМЕЧАНИЕ:  (RELATION,1715006,gar_fias,as_mun_hierarchy,)
+psql:../1_FUNC/GAR_FIAS/PCG/save_gar_mun_hierarchy.sql:68: ЗАМЕЧАНИЕ:  (RELATION,34337,gar_fias,as_mun_hierarchy,)
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_houses.sql:97: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_houses.id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_houses.sql:97: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_houses.object_id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_houses.sql:97: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_houses.object_guid%TYPE преобразована в тип uuid
@@ -262,14 +261,14 @@ psql:../1_FUNC/GAR_FIAS/PCG/save_gar_houses.sql:97: ЗАМЕЧАНИЕ:  ссы�
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_houses.sql:97: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_houses.end_date%TYPE преобразована в тип date
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_houses.sql:97: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_houses.is_actual%TYPE преобразована в тип boolean
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_houses.sql:97: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_houses.is_active%TYPE преобразована в тип boolean
-psql:../1_FUNC/GAR_FIAS/PCG/save_gar_houses.sql:97: ЗАМЕЧАНИЕ:  (RELATION,1714988,gar_fias,as_houses,)
+psql:../1_FUNC/GAR_FIAS/PCG/save_gar_houses.sql:97: ЗАМЕЧАНИЕ:  (RELATION,34319,gar_fias,as_houses,)
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_change_history.sql:47: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_change_history.change_id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_change_history.sql:47: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_change_history.object_id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_change_history.sql:47: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_change_history.adr_object_uuid%TYPE преобразована в тип uuid
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_change_history.sql:47: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_change_history.oper_type_id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_change_history.sql:47: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_change_history.ndoc_id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_change_history.sql:47: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_change_history.change_date%TYPE преобразована в тип date
-psql:../1_FUNC/GAR_FIAS/PCG/save_gar_change_history.sql:47: ЗАМЕЧАНИЕ:  (RELATION,1714983,gar_fias,as_change_history,)
+psql:../1_FUNC/GAR_FIAS/PCG/save_gar_change_history.sql:47: ЗАМЕЧАНИЕ:  (RELATION,34314,gar_fias,as_change_history,)
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_add_house_type.sql:52: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_add_house_type.add_type_id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_add_house_type.sql:52: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_add_house_type.type_name%TYPE преобразована в тип character varying
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_add_house_type.sql:52: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_add_house_type.type_shortname%TYPE преобразована в тип character varying
@@ -278,7 +277,7 @@ psql:../1_FUNC/GAR_FIAS/PCG/save_gar_add_house_type.sql:52: ЗАМЕЧАНИЕ: 
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_add_house_type.sql:52: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_add_house_type.start_date%TYPE преобразована в тип date
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_add_house_type.sql:52: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_add_house_type.end_date%TYPE преобразована в тип date
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_add_house_type.sql:52: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_add_house_type.is_active%TYPE преобразована в тип boolean
-psql:../1_FUNC/GAR_FIAS/PCG/save_gar_add_house_type.sql:52: ЗАМЕЧАНИЕ:  (RELATION,1714945,gar_fias,as_add_house_type,)
+psql:../1_FUNC/GAR_FIAS/PCG/save_gar_add_house_type.sql:52: ЗАМЕЧАНИЕ:  (RELATION,34276,gar_fias,as_add_house_type,)
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_addr_obj_type.sql:63: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_addr_obj_type.id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_addr_obj_type.sql:63: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_addr_obj_type.type_level%TYPE преобразована в тип character varying
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_addr_obj_type.sql:63: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_addr_obj_type.type_name%TYPE преобразована в тип character varying
@@ -288,7 +287,7 @@ psql:../1_FUNC/GAR_FIAS/PCG/save_gar_addr_obj_type.sql:63: ЗАМЕЧАНИЕ:  
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_addr_obj_type.sql:63: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_addr_obj_type.start_date%TYPE преобразована в тип date
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_addr_obj_type.sql:63: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_addr_obj_type.end_date%TYPE преобразована в тип date
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_addr_obj_type.sql:63: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_addr_obj_type.is_active%TYPE преобразована в тип boolean
-psql:../1_FUNC/GAR_FIAS/PCG/save_gar_addr_obj_type.sql:63: ЗАМЕЧАНИЕ:  (RELATION,1714937,gar_fias,as_addr_obj_type,)
+psql:../1_FUNC/GAR_FIAS/PCG/save_gar_addr_obj_type.sql:63: ЗАМЕЧАНИЕ:  (RELATION,34268,gar_fias,as_addr_obj_type,)
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_addr_obj_params.sql:62: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_addr_obj_params.id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_addr_obj_params.sql:62: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_addr_obj_params.object_id%TYPE преобразована в тип bigint
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_addr_obj_params.sql:62: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_addr_obj_params.change_id%TYPE преобразована в тип bigint
@@ -298,4 +297,4 @@ psql:../1_FUNC/GAR_FIAS/PCG/save_gar_addr_obj_params.sql:62: ЗАМЕЧАНИЕ:
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_addr_obj_params.sql:62: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_addr_obj_params.update_date%TYPE преобразована в тип date
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_addr_obj_params.sql:62: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_addr_obj_params.start_date%TYPE преобразована в тип date
 psql:../1_FUNC/GAR_FIAS/PCG/save_gar_addr_obj_params.sql:62: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_addr_obj_params.end_date%TYPE преобразована в тип date
-psql:../1_FUNC/GAR_FIAS/PCG/save_gar_addr_obj_params.sql:62: ЗАМЕЧАНИЕ:  (RELATION,1714929,gar_fias,as_addr_obj_params,)
+psql:../1_FUNC/GAR_FIAS/PCG/save_gar_addr_obj_params.sql:62: ЗАМЕЧАНИЕ:  (RELATION,34260,gar_fias,as_addr_obj_params,)

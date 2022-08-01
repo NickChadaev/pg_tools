@@ -1,0 +1,113 @@
+#-------------------------------------------------------------------------------
+# 2009-04-21/2020-05-10 Nick (nick-ch58@yandex.ru).
+#-------------------------------------------------------------------------------
+# The structure of bathc-file. It consists:
+#    0 - Type action 
+#    1 - SQL-command/The SQL-file name/The <1*.conf> file name
+#    2 - DB name 
+#    3 - The text of message
+#    The DB-name may be ommited. But if it is present, the it 
+#    cancels the name specified in the parameter list.
+#-------------------------------------------------------------------------------
+# Type action is: 0 - Direct performing SQL-command
+#                 1 - Perform SQL-command from SQL-file
+#                 2 - Direct loading into DB
+#                 3 - Deferred loading into DB
+#                 4 - Direct unloading from DB
+#                 5 - Defrred unloading from DB
+#                 X - Message for user (The fields ##1,2 - are empty )
+#-------------------------------------------------------------------------------
+# For example: 
+#       0;DROP DATABASE IF EXISTS db_k2;;Remove old DB; 
+#       1;1_crt_domain.sql;db_k2;Creating domains; 
+#       X;;;Schema COM; 
+#       1;0_COM/2_com_crt_tables.sql;;-- Creating the base tables; 
+#       1;0_COM/4_com_crt_errors.sql;;-- Creating the tables for errors;
+#-------------------------------------------------------------------------------
+X;;;Start process, Сборка процессингового пакета;
+#
+5;version.sql;;-- Версия 1638/2022-07-28;
+#
+5;FUNCTION/f_xxx_ob_seq_crt.sql  ;;-- f_xxx_ob_seq_crt.sql  ;
+5;FUNCTION/f_xxx_replace_char.sql;;-- f_xxx_replace_char.sql;
+#
+5;PROCEDURE/p_adr_area_type_set.sql  ;;-- p_adr_area_type_set.sql  ;
+5;PROCEDURE/p_adr_street_type_set.sql;;-- p_adr_street_type_set.sql;
+5;PROCEDURE/p_adr_house_type_set.sql ;;-- p_adr_house_type_set.sql ;
+#
+5;FUNCTION/f_xxx_adr_area_type_show_data.sql  ;;-- f_xxx_adr_area_type_show_data.sql  ;
+5;FUNCTION/f_xxx_adr_area_type_set.sql        ;;-- f_xxx_adr_area_type_set.sql        ;
+5;FUNCTION/f_xxx_adr_street_type_show_data.sql;;-- f_xxx_adr_street_type_show_data.sql;
+5;FUNCTION/f_xxx_street_type_set.sql          ;;-- f_xxx_street_type_set.sql          ;
+5;FUNCTION/f_xxx_house_type_show_data.sql     ;;-- f_xxx_house_type_show_data.sql     ;
+5;FUNCTION/f_xxx_house_type_set.sql           ;;-- f_xxx_house_type_set.sql           ;
+5;FUNCTION/f_xxx_adr_house_show_data.sql      ;;-- f_xxx_adr_house_show_data.sql      ;
+5;FUNCTION/f_xxx_adr_house_set_data.sql       ;;-- f_xxx_adr_house_set_data.sql       ;
+#
+5;FUNCTION/f_xxx_obj_fias_0.sql       ;;-- f_xxx_obj_fias_0.sql;
+5;FUNCTION/f_xxx_obj_fias_1.sql       ;;-- f_xxx_obj_fias_1.sql;
+5;FUNCTION/f_xxx_obj_fias_2.sql       ;;-- f_xxx_obj_fias_2.sql;
+5;FUNCTION/f_xxx_obj_fias_set_data.sql;;-- f_xxx_obj_fias_set_data.sql;
+#
+5;FUNCTION/f_adr_area_get.sql    ;;-- f_adr_area_get.sql    ;
+5;FUNCTION/f_adr_area_get_m.sql  ;;-- f_adr_area_get_m.sql  ;
+5;FUNCTION/f_adr_area_get_id.sql ;;-- f_adr_area_get_id.sql ;
+#
+5;FUNCTION/f_adr_street_get.sql   ;;-- f_adr_street_get.sql  ;
+5;FUNCTION/f_adr_street_get_m.sql ;;-- f_adr_street_get_m.sql;
+5;FUNCTION/f_adr_street_get_id.sql;;-- f_adr_street_get_id.sql;
+#
+5;FUNCTION/f_adr_house_get.sql   ;;-- f_adr_house_get.sql   ;
+5;FUNCTION/f_adr_house_get_m.sql ;;-- f_adr_house_get_m.sql ;
+5;FUNCTION/f_adr_house_get_id.sql;;-- f_adr_house_get_id.sql;
+#
+5;FUNCTION/f_adr_object_get.sql  ;;-- f_adr_object_get.sql  ;
+5;FUNCTION/f_adr_object_get_m.sql;;-- f_adr_object_get_m.sql;
+#
+5;PROCEDURE/p_alt_tbl.sql         ;;-- p_alt_tbl.sql         ;
+5;PROCEDURE/p_clear_tbl.sql       ;;-- p_clear_tbl.sql       ;
+5;PROCEDURE/p_gar_fias_crt_idx.sql;;-- p_gar_fias_crt_idx.sql;
+#
+5;PROCEDURE/p_adr_street_del_twins.sql  ;;-- p_adr_street_del_twins.sql  ; 
+5;PROCEDURE/p_adr_street_check_twins.sql;;-- p_adr_street_check_twins.sql;
+#
+5;FUNCTION/fp_adr_house_del_twins_0.sql;;-- fp_adr_house_del_twins_0.sql;
+5;FUNCTION/fp_adr_house_del_twins_1.sql;;-- fp_adr_house_del_twins_1.sql;
+5;FUNCTION/fp_adr_house_del_twins_2.sql;;-- fp_adr_house_del_twins_2.sql;
+#
+5;PROCEDURE/p_adr_house_check_twins_1.sql;;-- p_adr_house_check_twins_1.sql;
+5;PROCEDURE/p_adr_house_check_twins_2.sql;;-- p_adr_house_check_twins_2.sql;
+#
+5;PROCEDURE/p_adr_house_del_twins.sql;;-- p_adr_house_del_twins.sql УСТАРЕЛО, нужно для: "p_adr_house_ins", "fp_adr_house_upd"; 
+#
+5;FUNCTION/f_adr_house_unload_get_data.sql ;;-- f_adr_house_unload_get_data.sql ;
+5;FUNCTION/f_adr_object_unload_get_data.sql;;-- f_adr_object_unload_get_data.sql;
+#
+5;PROCEDURE/p_adr_area_ins.sql     ;;-- p_adr_area_ins.sql     ;
+5;PROCEDURE/p_adr_area_upd.sql     ;;-- p_adr_area_upd.sql     ;
+5;PROCEDURE/p_adr_street_ins.sql   ;;-- p_adr_street_ins.sql   ;
+5;PROCEDURE/p_adr_street_upd.sql   ;;-- p_adr_street_upd.sql   ;
+5;PROCEDURE/p_adr_house_ins.sql    ;;-- p_adr_house_ins.sql    ;
+5;FUNCTION/fp_adr_house_upd.sql   ;;-- fp_adr_house_upd.sql   ;
+5;PROCEDURE/p_adr_house_unload.sql ;;-- p_adr_house_unload.sql ;
+5;PROCEDURE/p_adr_house_upload.sql ;;-- p_adr_house_upload.sql ;
+5;PROCEDURE/p_adr_object_ins.sql   ;;-- p_adr_object_ins.sql   ;
+5;PROCEDURE/p_adr_object_upd.sql   ;;-- p_adr_object_upd.sql   ;
+5;PROCEDURE/p_adr_object_unload.sql;;-- p_adr_object_unload.sql;
+5;PROCEDURE/p_adr_object_upload.sql;;-- p_adr_object_upload.sql;
+#
+5;FUNCTION/f_adr_area_ins.sql          ;;-- f_adr_area_ins.sql          ;
+5;FUNCTION/f_adr_area_upd.sql          ;;-- f_adr_area_upd.sql          ;
+5;FUNCTION/f_adr_street_ins.sql        ;;-- f_adr_street_ins.sql        ;
+5;FUNCTION/f_adr_street_upd.sql        ;;-- f_adr_street_upd.sql        ;
+5;FUNCTION/f_adr_house_ins.sql         ;;-- f_adr_house_ins.sql         ;
+5;FUNCTION/f_adr_house_upd.sql         ;;-- f_adr_house_upd.sql         ;
+5;FUNCTION/f_show_params_value_data.sql;;-- f_show_params_value_data.sql;
+5;FUNCTION/f_set_params_value_data.sql ;;-- f_set_params_value_data.sql ;
+5;FUNCTION/f_xxx_adr_area_show_data.sql;;-- f_xxx_adr_area_show_data.sql;
+5;FUNCTION/f_xxx_adr_area_set_data.sql ;;-- f_xxx_adr_area_set_data.sql ;
+#
+X;;;Stop process;
+#-------------------------------------------------------------------------------
+#  Пример вызова
+# load_mainGar.py 127.0.0.1 5434 xxx_test postgres stage_2_tmp_build.csv ../ '2021-09-27'

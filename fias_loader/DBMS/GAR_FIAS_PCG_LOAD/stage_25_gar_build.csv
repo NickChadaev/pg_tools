@@ -1,0 +1,71 @@
+#-------------------------------------------------------------------------------
+# 2009-04-21/2020-05-10 Nick (nick-ch58@yandex.ru).
+#-------------------------------------------------------------------------------
+# The structure of bathc-file. It consists:
+#    0 - Type action 
+#    1 - SQL-command/The SQL-file name/The <1*.conf> file name
+#    2 - DB name 
+#    3 - The text of message
+#    The DB-name may be ommited. But if it is present, the it 
+#    cancels the name specified in the parameter list.
+#-------------------------------------------------------------------------------
+# Type action is: 0 - Direct performing SQL-command
+#                 1 - Perform SQL-command from SQL-file
+#                 2 - Direct loading into DB
+#                 3 - Deferred loading into DB
+#                 4 - Direct unloading from DB
+#                 5 - Defrred unloading from DB
+#                 X - Message for user (The fields ##1,2 - are empty )
+#-------------------------------------------------------------------------------
+# For example: 
+#       0;DROP DATABASE IF EXISTS db_k2;;Remove old DB; 
+#       1;1_crt_domain.sql;db_k2;Creating domains; 
+#       X;;;Schema COM; 
+#       1;0_COM/2_com_crt_tables.sql;;-- Creating the base tables; 
+#       1;0_COM/4_com_crt_errors.sql;;-- Creating the tables for errors;
+#-------------------------------------------------------------------------------
+X;;;Start process, Сборка gar-пакета;
+#
+5;version.sql;;-- Версия 1562/2022-07-12;
+#
+5;FUNCTION/f_addr_obj_update_parent.sql;;-- f_addr_obj_update_parent.sql;
+5;FUNCTION/f_adr_area_show_data.sql    ;;-- f_adr_area_show_data.sql    ;
+5;FUNCTION/f_addr_obj_get_parents.sql  ;;-- f_addr_obj_get_parents.sql  ;
+5;FUNCTION/f_adr_area_get_twins.sql    ;;-- f_adr_area_get_twins.sql;
+#
+5;PROCEDURE/p_alt_tbl.sql  ;;-- p_alt_tbl.sql  ;
+5;PROCEDURE/del_gar_all.sql;;-- del_gar_all.sql;
+#
+5;PROCEDURE/save_gar_addr_obj.sql         ;;-- save_gar_addr_obj.sql         ;
+5;PROCEDURE/save_gar_normative_docs.sql   ;;-- save_gar_normative_docs.sql   ;
+5;PROCEDURE/save_gar_apartments.sql       ;;-- save_gar_apartments.sql       ;
+5;PROCEDURE/save_gar_adm_hierarchy.sql    ;;-- save_gar_adm_hierarchy.sql    ;
+5;PROCEDURE/save_gar_room_type.sql        ;;-- save_gar_room_type.sql        ;
+5;PROCEDURE/save_gar_rooms.sql            ;;-- save_gar_rooms.sql            ;
+5;PROCEDURE/save_gar_rooms_params.sql     ;;-- save_gar_rooms_params.sql     ;
+5;PROCEDURE/save_gar_norm_docs_kinds.sql  ;;-- save_gar_norm_docs_kinds.sql  ;
+5;PROCEDURE/save_gar_norm_docs_types.sql  ;;-- save_gar_norm_docs_types.sql  ;
+5;PROCEDURE/save_gar_param_type.sql       ;;-- save_gar_param_type.sql       ;
+5;PROCEDURE/save_gar_houses_params.sql    ;;-- save_gar_houses_params.sql    ;
+5;PROCEDURE/save_gar_carplaces_params.sql ;;-- save_gar_carplaces_params.sql ;
+5;PROCEDURE/save_gar_carplaces.sql        ;;-- save_gar_carplaces.sql        ;
+5;PROCEDURE/save_gar_apartments_params.sql;;-- save_gar_apartments_params.sql;
+5;PROCEDURE/save_gar_apartment_type.sql   ;;-- save_gar_apartment_type.sql   ;
+5;PROCEDURE/save_gar_house_type.sql       ;;-- save_gar_house_type.sql       ;
+5;PROCEDURE/save_gar_addr_obj_division.sql;;-- save_gar_addr_obj_division.sql;
+5;PROCEDURE/save_gar_steads_params.sql    ;;-- save_gar_steads_params.sql    ;
+5;PROCEDURE/save_gar_steads.sql           ;;-- save_gar_steads.sql           ;
+5;PROCEDURE/save_gar_reestr_objects.sql   ;;-- save_gar_reestr_objects.sql   ;
+5;PROCEDURE/save_gar_operation_type.sql   ;;-- save_gar_operation_type.sql   ;
+5;PROCEDURE/save_gar_object_level.sql     ;;-- save_gar_object_level.sql     ;
+5;PROCEDURE/save_gar_mun_hierarchy.sql    ;;-- save_gar_mun_hierarchy.sql    ;
+5;PROCEDURE/save_gar_houses.sql           ;;-- save_gar_houses.sql           ;
+5;PROCEDURE/save_gar_change_history.sql   ;;-- save_gar_change_history.sql   ;
+5;PROCEDURE/save_gar_add_house_type.sql   ;;-- save_gar_add_house_type.sql   ;
+5;PROCEDURE/save_gar_addr_obj_type.sql    ;;-- save_gar_addr_obj_type.sql    ;
+5;PROCEDURE/save_gar_addr_obj_params.sql  ;;-- save_gar_addr_obj_params.sql  ;
+#
+X;;;Stop process;
+#-------------------------------------------------------------------------------
+#  Пример вызова
+# load_mainGar.py 127.0.0.1 5434 xxx_test postgres stage_2_gar_build.csv ../ '2021-09-27'

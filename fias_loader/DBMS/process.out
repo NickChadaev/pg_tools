@@ -1,0 +1,17 @@
+ f_schema_import 
+-----------------
+              10
+(1 строка)
+
+ f_server_is 
+-------------
+ unnsi_m9l
+(1 строка)
+
+ node_id | fserver_name |     host     |  dbname  | port | db_conn_name | local_sch_name |        date_create         
+---------+--------------+--------------+----------+------+--------------+----------------+----------------------------
+       1 | unnsi_dev    | 10.196.35.11 | ccrm_dev | 5432 | c_ccrm_dev   | unnsi          | 2022-07-21 14:44:01.04732
+       3 | unnsi_m2l    | 127.0.0.1    | unnsi_m2 | 5434 | c_unnsi_m2l  | unnsi          | 2022-07-21 14:44:01.04732
+      10 | unnsi_m9l    | 127.0.0.1    | unnsi_m9 | 5434 | c_unnsi_m9   | unnsi          | 2022-07-21 14:56:24.379584
+(3 строки)
+

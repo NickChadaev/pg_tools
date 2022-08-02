@@ -1,0 +1,38 @@
+#-------------------------------------------------------------------------------
+# 2009-04-21/2020-05-10 Nick (nick-ch58@yandex.ru).
+#-------------------------------------------------------------------------------
+# The structure of bathc-file. It consists:
+#    0 - Type action 
+#    1 - SQL-command/The SQL-file name/The <1*.conf> file name
+#    2 - DB name 
+#    3 - The text of message
+#    The DB-name may be ommited. But if it is present, the it 
+#    cancels the name specified in the parameter list.
+#-------------------------------------------------------------------------------
+# Type action is: 0 - Direct performing SQL-command
+#                 1 - Perform SQL-command from SQL-file
+#                 2 - Direct loading into DB
+#                 3 - Deferred loading into DB
+#                 4 - Direct unloading from DB
+#                 5 - Defrred unloading from DB
+#                 X - Message for user (The fields ##1,2 - are empty )
+#-------------------------------------------------------------------------------
+# For example: 
+#       0;DROP DATABASE IF EXISTS db_k2;;Remove old DB; 
+#       1;1_crt_domain.sql;db_k2;Creating domains; 
+#       X;;;Schema COM; 
+#       1;0_COM/2_com_crt_tables.sql;;-- Creating the base tables; 
+#       1;0_COM/4_com_crt_errors.sql;;-- Creating the tables for errors;
+#-------------------------------------------------------------------------------
+X;;;Start process, Сборка ver-пакета;
+#
+5;version.sql;;-- Версия 322/2021-11-30;
+#
+5;FUNCTION/set_gar_dt_create.sql       ;;-- set_gar_dt_create.sql       ;
+5;FUNCTION/save_gar_files_by_region.sql;;-- save_gar_files_by_region.sql;
+5;FUNCTION/save_gar_version.sql        ;;-- save_gar_version.sql        ;
+#
+X;;;Stop process;
+#-------------------------------------------------------------------------------
+#  Пример вызова
+# load_mainGar.py 127.0.0.1 5434 xxx_test postgres stage_2_ver_build.csv ../ '2021-09-27'

@@ -1,0 +1,52 @@
+#-------------------------------------------------------------------------------
+# 2009-04-21/2020-05-10 Nick (nick-ch58@yandex.ru).
+#-------------------------------------------------------------------------------
+# The structure of bathc-file. It consists:
+#    0 - Type action 
+#    1 - SQL-command/The SQL-file name/The <1*.conf> file name
+#    2 - DB name 
+#    3 - The text of message
+#    The DB-name may be ommited. But if it is present, the it 
+#    cancels the name specified in the parameter list.
+#-------------------------------------------------------------------------------
+# Type action is: 0 - Direct performing SQL-command
+#                 1 - Perform SQL-command from SQL-file
+#                 2 - Direct loading into DB
+#                 3 - Deferred loading into DB
+#                 4 - Direct unloading from DB
+#                 5 - Defrred unloading from DB
+#                 X - Message for user (The fields ##1,2 - are empty )
+#-------------------------------------------------------------------------------
+# For example: 
+#       0;DROP DATABASE IF EXISTS db_k2;;Remove old DB; 
+#       1;1_crt_domain.sql;db_k2;Creating domains; 
+#       X;;;Schema COM; 
+#       1;0_COM/2_com_crt_tables.sql;;-- Creating the base tables; 
+#       1;0_COM/4_com_crt_errors.sql;;-- Creating the tables for errors;
+#-------------------------------------------------------------------------------
+X;;;Start process, Сборка коммуникационного пакета;
+#
+5;version.sql;;-- Версия 1226/2022-05-23;
+#
+5;FUNCTION/f_server_crt.sql;;-- f_server_crt.sql;
+5;FUNCTION/f_server_drp.sql   ;;-- f_server_drp.sql;
+5;FUNCTION/f_schema_import.sql;;-- f_schema_import.sql;  
+5;FUNCTION/f_conn_set.sql     ;;-- f_conn_set.sql;
+5;FUNCTION/f_active_set.sql   ;;-- f_active_set.sql;
+5;FUNCTION/f_server_is.sql    ;;-- f_server_is.sql;
+5;VIEW/fserver_view.sql;;-- fserver_view.sql;
+#
+5;PROCEDURE/p_adr_objects_idx.sql;;-- p_adr_objects_idx.sql;
+#
+5;PROCEDURE/p_adr_house_idx_set_uniq.sql;;-- p_adr_house_idx_set_uniq.sql;
+5;PROCEDURE/p_adr_house_idx.sql;;-- p_adr_house_idx.sql;
+#
+5;PROCEDURE/p_adr_street_idx_set_uniq.sql;;-- p_adr_street_idx_set_uniq.sql;
+5;PROCEDURE/p_adr_street_idx.sql;;-- p_adr_street_idx.sql;
+#
+5;PROCEDURE/p_adr_area_idx.sql;;-- p_adr_area_idx.sql;
+#
+X;;;Stop process;
+#-------------------------------------------------------------------------------
+#  Пример вызова
+# load_mainGar.py 127.0.0.1 5434 xxx_test postgres stage_2_link_build.csv ../ '2021-09-27'

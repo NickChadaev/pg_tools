@@ -1,0 +1,21 @@
+psql:./FUNCTION/set_gar_dt_create.sql:1: ЗАМЕЧАНИЕ:  функция gar_version_pcg_support.set_gar_dt_create(pg_catalog.int8,pg_catalog.timestamp) не существует, пропускается
+psql:./FUNCTION/set_gar_dt_create.sql:35: ЗАМЕЧАНИЕ:  ссылка на тип gar_version.garfias_version.nm_garfias_version%TYPE преобразована в тип date
+psql:./FUNCTION/set_gar_dt_create.sql:35: ЗАМЕЧАНИЕ:  ссылка на тип gar_version.garfias_version.dt_create%TYPE преобразована в тип timestamp without time zone
+psql:./FUNCTION/set_gar_dt_create.sql:35: ЗАМЕЧАНИЕ:  ссылка на тип gar_version.garfias_version.id_garfias_version%TYPE преобразована в тип bigint
+psql:./FUNCTION/set_gar_dt_create.sql:35: ЗАМЕЧАНИЕ:  (RELATION,1820414,gar_version,garfias_version,)
+psql:./FUNCTION/save_gar_files_by_region.sql:1: ЗАМЕЧАНИЕ:  функция gar_version_pcg_support.save_gar_files_by_region(pg_catalog.int8,pg_catalog.int4,text) не существует, пропускается
+psql:./FUNCTION/save_gar_files_by_region.sql:51: ЗАМЕЧАНИЕ:  ссылка на тип gar_version.garfias_version.nm_garfias_version%TYPE преобразована в тип date
+psql:./FUNCTION/save_gar_files_by_region.sql:51: ЗАМЕЧАНИЕ:  ссылка на тип gar_version.garfias_files_by_region.id_region%TYPE преобразована в тип integer
+psql:./FUNCTION/save_gar_files_by_region.sql:51: ЗАМЕЧАНИЕ:  ссылка на тип gar_version.garfias_files_by_region.file_path%TYPE преобразована в тип text
+psql:./FUNCTION/save_gar_files_by_region.sql:51: ЗАМЕЧАНИЕ:  ссылка на тип gar_version.garfias_files_by_region.id_file_version%TYPE преобразована в тип bigint
+psql:./FUNCTION/save_gar_files_by_region.sql:51: ЗАМЕЧАНИЕ:  (RELATION,1820430,gar_version,garfias_files_by_region,)
+psql:./FUNCTION/save_gar_files_by_region.sql:51: ЗАМЕЧАНИЕ:  (RELATION,1820414,gar_version,garfias_version,)
+psql:./FUNCTION/save_gar_version.sql:1: ЗАМЕЧАНИЕ:  функция gar_version_pcg_support.save_gar_version(date,pg_catalog.bool,pg_catalog.timestamp,pg_catalog.timestamp,text,text) не существует, пропускается
+psql:./FUNCTION/save_gar_version.sql:61: ЗАМЕЧАНИЕ:  ссылка на тип gar_version.garfias_version.nm_garfias_version%TYPE преобразована в тип date
+psql:./FUNCTION/save_gar_version.sql:61: ЗАМЕЧАНИЕ:  ссылка на тип gar_version.garfias_version.kd_download_type%TYPE преобразована в тип boolean
+psql:./FUNCTION/save_gar_version.sql:61: ЗАМЕЧАНИЕ:  ссылка на тип gar_version.garfias_version.dt_download%TYPE преобразована в тип timestamp without time zone
+psql:./FUNCTION/save_gar_version.sql:61: ЗАМЕЧАНИЕ:  ссылка на тип gar_version.garfias_version.arc_path%TYPE преобразована в тип text
+psql:./FUNCTION/save_gar_version.sql:61: ЗАМЕЧАНИЕ:  ссылка на тип gar_version.garfias_version.dt_create%TYPE преобразована в тип timestamp without time zone
+psql:./FUNCTION/save_gar_version.sql:61: ЗАМЕЧАНИЕ:  ссылка на тип gar_version.garfias_version.id_user%TYPE преобразована в тип text
+psql:./FUNCTION/save_gar_version.sql:61: ЗАМЕЧАНИЕ:  ссылка на тип gar_version.garfias_version.id_garfias_version%TYPE преобразована в тип bigint
+psql:./FUNCTION/save_gar_version.sql:61: ЗАМЕЧАНИЕ:  (RELATION,1820414,gar_version,garfias_version,)

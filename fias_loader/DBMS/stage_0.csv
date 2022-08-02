@@ -1,0 +1,5 @@
+#------------------------------------------------------------------------
+X;;;Start process;
+0;DROP DATABASE IF EXISTS test_15;; -- Remove old DB;
+1;createDb_15.sql;; -- DB creating;
+X;;;Stop process;

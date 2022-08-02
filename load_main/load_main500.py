@@ -52,26 +52,43 @@
 #   fr_x5 = fd_u (p_host_ip, p_port, l_db_name, p_user_name, p_std_out, p_std_err)  -- Constructor
 #   fr_x5.unload (l_f_name, l_param_list, l_data_out)                               -- Deferred unloading JSON-структуры
 # -----------------------------------------------------------------------------------------------------------------------
-#       2020-05-10 - The eighth parameter became the path to the project repository (The point of build DB)
+#   2020-05-10 - The eighth parameter became the path to the project repository (The point of build DB)
+# -----------------------------------------------------------------------------------------------------------------------
+#   2020-05-31 - The  "2" - loading into DB the XML/JSON-files. It uses psql. 
+# -----------------------------------------------------------------------------------------------------------------------
 
 import sys
 import os
 import string
 import datetime
-
 import psycopg2    
 
-VERSION_STR = "  Version 3.0.1 Build 2020-05-11"
+from xml.dom.minidom import parse  # 2020-05-31
+
+VERSION_STR = "  Version 3.0.3 Build 2020-07-28"
 
 GET_DT = "SELECT now()::TIMESTAMP without time zone FROM current_timestamp;"
 
 SCRIPT_NOT_OPENED_0 = "... Sript file not opened: '"
 SCRIPT_NOT_OPENED_1 = "'."
 
+# 2020-05-31
+CONF_NOT_OPENED_0 = "... XML-conf file not opened: '"  
+CONF_NOT_OPENED_1 = "'."
+
+TAG1 = "xml_file"
+TAG2 = "steps"
+XXX0 = "#text"
+
+DATA_NOT_OPENED_0 = "... DATA file not opened: '"  
+DATA_NOT_OPENED_1 = "'."
+# 2020-05-31
+
 LOG_NOT_OPENED_0 = "... Log file not opened: '"
 LOG_NOT_OPENED_1 = "'."
 
 POINTS = " ... "
+S_DELIM = "$"     # Nick 2020-06-01
 
 #------------------------
 bLOG_NAME = "process.log"
@@ -83,7 +100,7 @@ bDELIMITER_SIGN = ";"
 # ---------------------------------------------------------------------
 DIRECT_SQL_COMMAND              = "0"
 SEQUENCE_OF_SIMPLE_SQL_COMMANDS = "1"
-LOAD_XJ                         = "2"    # Nick 2018-07-17/2019-05-19
+LOAD_XJ                         = "2"    # Nick 2018-07-17/2019-05-19/2020-05-31
 DEF_LOAD_XJ                     = "3"
 UNLOAD_XJ                       = "4"    # Nick 2018-07-17/2019-05-19
 DEF_UNLOAD_XJ                   = "5"    # Nick 2018-07-17/2019-05-19
@@ -237,36 +254,59 @@ class fd_0:
 
       return rc
 
-
-class fd_l:
+class fd_l (fd_0):
     """
         Loading JSON/XML-structures. The main logic is in the DB-functions.
 
     """
     def __init__ ( self, p_host, p_port, p_db_name, p_user_name, p_out_name, p_err_name ):
         """
-           Constructor, establishe the db-connection.
+           Constructor for loader.
         """
-        self.host       = p_host
-        self.port       = p_port   # Nick 2016-12-06
-        self.db_name    = p_db_name
-        self.user_name  = p_user_name
-        self.out_name   = p_out_name
-        self.err_name   = p_err_name
-        #---------------------------
-
-        #---------------------------
-        self.l_arg = ""
-
-    def load_conf (p_conf_file_name):
+        
+        fd_0.__init__ (self, 0, p_host, p_port, p_db_name, p_user_name, p_out_name, p_err_name )
+        
+        self.l_2_pref_cmd = ""
+        # self.cmd_list = []
+        self.cmd_list = ""    # 2020-06-01
+        
+    def load_conf ( self, p_conf_file_name ):
         """
            load Conf-file
         """
+        try:
+            self.doc_1 = parse(p_conf_file_name)  # DOM-model was built
+    
+        except IOError, ex:
+            print CONF_NOT_OPENED_0 + p_conf_file_name + CONF_NOT_OPENED_1
+            return 1
+        
+        self.doc_1.normalize()
+        
+        # First step - open the data file
+        xfile = self.doc_1.getElementsByTagName(TAG1)[0]  # "xml_file"
+        xfname = xfile.childNodes[0].nodeValue
+        try:
+            self.fd = open ( xfname, "r" )
+    
+        except IOError, ex:
+            print DATA_NOT_OPENED_0 + xfname + DATA_NOT_OPENED_1
+            return 1
+    
+        nodeArray=self.doc_1.getElementsByTagName(TAG2)[0] # "steps"
+        childList=nodeArray.childNodes
+        for child in childList:
+            if child.nodeName <> XXX0:
+                # self.cmd_list.append(child.childNodes[0].nodeValue) # Nick 2020-06-1
+                self.cmd_list = self.cmd_list + child.childNodes[0].nodeValue + S_DELIM
+         #
+        
         return 0
- 
+     
     def f_create ( self, p_file_name ):
         """
             Preparation of the executables
+            use case:  "copy.py <dta_file> <args_str> | psql -h <hn> -U <un> <db>
         """
         self.file_name = p_file_name
         #
@@ -361,28 +401,28 @@ class make_load ( fd_log ):
                    break
 
             #----------------------------------------------------------------------------
-            # -- Nick 2018-07-17/2019-05-19 
+            # -- Nick 2018-07-17/2019-05-19/2020-05-31 
             #
             if l_words [0] == LOAD_XJ:  # Load from XML/JSON-structure
                  fr_l_xj = fd_l( p_host_ip, p_port, l_db_name, p_user_name, p_std_out, p_std_err)
                  
-                 rc = fr_l_xj.load_conf ((string.strip (l_words [1])))
+                 rc = fr_l_xj.load_conf (self.path + (string.strip (l_words [1])))        # Nick 2020-07-28
                  if rc <> 0:     #  Fatal error, break process. It isn't possible load conf file.
                     self.write_log_err ( rc, fr_l_xj.l_arg )
                     break
              
-                 # Loading
-                 fr_l_xj.f_create ()  # Prepare execute string 
-                 rc = fr_l_xj.f_run() # Do it
-                 if rc <> 0:     #  Fatal error, break process
-                    self.write_log_err ( rc, fr_l_xj.l_arg )
-                    break
+                 # Loading   Переопределить
+                 # fr_l_xj.f_create ()  # Prepare execute string 
+                 # rc = fr_l_xj.f_run() # Do it
+                 # if rc <> 0:     #  Fatal error, break process
+                 #    self.write_log_err ( rc, fr_l_xj.l_arg )
+                 #    break
 
             ##----------------------------------------------------------------------------
             if l_words [0] == DEF_LOAD_XJ:  # Deferred loading
                  fr_l_def_xj = fd_l ( p_host_ip, p_port, l_db_name, p_user_name, p_std_out, p_std_err)
 
-                 rc = fr_l_def_xj.load_conf ((string.strip (l_words [1])))
+                 rc = fr_l_def_xj.load_conf (self.path + (string.strip (l_words [1])))    # Nick 2020-07-28
                  if rc <> 0:     #  Fatal error, break process. It isn't possible load conf file.
                     self.write_log_err ( rc, fr_l_def_xj.l_arg )
                     break

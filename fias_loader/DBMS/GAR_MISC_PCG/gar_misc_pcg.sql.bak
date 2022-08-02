@@ -1,15 +1,5 @@
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
---
--- Версия пакета. Дата общей сборки, либо максимальная дата обновления.
---
-CREATE OR REPLACE VIEW gar_link.version
- AS
- SELECT '$Revision:322$ modified $RevDate:2021-11-30$'::text AS version; 
-
--- SELECT * FROM gar_link.version;
-
--- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DROP EVENT TRIGGER IF EXISTS etg_check CASCADE;
 CREATE OR REPLACE FUNCTION public.etg_check_func() RETURNS event_trigger
 AS 

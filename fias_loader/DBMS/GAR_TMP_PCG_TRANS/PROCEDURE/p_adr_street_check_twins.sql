@@ -70,8 +70,10 @@ $$
                     ,p_schema_hist_name := p_schema_hist_name
            );
         END LOOP;
-        
+       
+        RAISE NOTICE 'Streets (ak1). Bounds: % - %', (_z[1][1]), (_z[1][2]);
        _i := _i + 1;
+       
        EXIT WHEN (_i > _arr_len);
      END LOOP;
   END;

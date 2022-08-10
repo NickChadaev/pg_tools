@@ -5,7 +5,7 @@
 --
 CREATE OR REPLACE VIEW gar_tmp_pcg_trans.version
  AS
- SELECT '$Revision:1652$ modified $RevDate:2022-08-10$'::text AS version; 
+ SELECT '$Revision:1638$ modified $RevDate:2022-07-28$'::text AS version; 
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_obj_seq_crt (text, bigint);
@@ -3481,10 +3481,8 @@ $$
                     ,p_schema_hist_name := p_schema_hist_name
            );
         END LOOP;
-       
-        RAISE NOTICE 'Streets (ak1). Bounds: % - %', (_z[1][1]), (_z[1][2]);
+        
        _i := _i + 1;
-       
        EXIT WHEN (_i > _arr_len);
      END LOOP;
   END;

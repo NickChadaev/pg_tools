@@ -1,0 +1,126 @@
+#
+#  2022-03-11. Stage_3. Новая реализация, только управление процессами, вызовы функций 
+#                       в коде "stage_3_proc.py"
+#
+control_params:
+    stage_3_0: True
+    stage_3_1: False
+    stage_3_2: False
+    stage_3_3: False    
+    #
+    mogrify_3_0: False
+    mogrify_3_1: False
+    mogrify_3_2: False
+    mogrify_3_3: False    
+    
+global_params:
+    g_region_id: 01   # Карелия    
+    g_fserver_nmb: 10   
+    g_adr_area_sch: unnsi
+    g_adr_street_sch: unnsi
+    g_adr_house_sch: unnsi
+    g_adr_house_sch_l: gar_tmp   
+#  
+# stage_3_0
+#
+gar_tmp_set_logged:
+    descr: Установка признака LOGGED/UNLOGGED у таблиц в схеме gar_tmp
+    params:                       
+        p_skip: True
+        p_sw: True      # False - unlogged
+# 
+gar_fias_crt_idx:   
+    descr: Создание рабочих индексов в схеме gar_fias. False - удаление, True - создание.
+    params:                       
+        p_skip: True            
+        p_sw: True
+#    
+gar_tmp_clear_tbl:   
+    descr: Очистка данных во временной схеме. True - вычищаем всё.
+    params:                       
+        p_skip: True
+        p_sw: True    
+#    
+gar_tmp_switch_indexies:   
+    descr: Смена индексного покрытия в целевых таблицах
+    params:                       
+        p_skip: False                                 
+        p_skip_adr_object: True  
+        params_street:
+            p_uniq_sw: False
+        params_house:
+            p_uniq_sw: False
+        params_objects:
+            p_uniq_x2: True
+#  
+# stage_3_1
+#
+unload_data:
+    descr: Загрузка регионального фрагмента из таблицы ADR_HOUSE
+    params:
+        p_skip: False
+        p_skip_adr_object: True             
+# 
+seq_settings:
+    descr: Установка последовательностей
+    params:
+        p_skip: False
+        p_seq_name: gar_tmp.obj_seq 
+        p_seq_hist_name: gar_tmp.obj_hist_seq   
+        p_init_value: 100000000                
+#
+# stage_3_2
+#
+dict_upgrading:
+    descr: Актуализация справочников
+    dict_params:
+        p_schema_etalon: unnsi      # Схема с эталонными справочниками.
+        p_schemas: ['unnsi']        # Список обновляемых схем (Здесь может быть эталон).
+        p_op_type: [1,2]            # Список выполняемых операций.     
+        # "p_date" - Не ИСПОЛЬЗОВАТЬ СЕЙЧАС.!!!
+        p_date: DATE(current_date)  # Дата на которую формируется выборка из "gar_fias".
+        #             
+        params:   
+           descr_1: Промежуточный справочник типов адресных пространств 
+           p_skip_1: False   
+           p_stop_list_1: ['внутригородскаятерриториявнутригородскоемуниципальноеобразованиегородафедеральногозначения', 'внутригородскаятерриториявнутригородскоемуници', 'федеральнаятерритория']
+           #                  
+           descr_2: Промежуточный справочник типов улиц
+           p_skip_2: False             
+           p_stop_list_2: []
+           #                  
+           descr_3: Промежуточный справочник типов домовладений
+           p_skip_3: False  
+           p_stop_list_3: ['гараж', 'шахта']
+           # 
+#
+# stage_3_3
+#           
+data_aggregation:
+    descr: Агрегация данных
+    agg_params:   
+           p_skip_agg: False                  
+           p_descr_agg: Агрегация параметров
+           p_param_list: [5,6,7,8,10,11]
+    #             
+    agg_adr_area:
+           p_skip_adr_area: False
+           p_descr_adr_area: Агрегация адресных пространств
+           params_aa:
+                  # "p_date" - Не ИСПОЛЬЗОВАТЬ СЕЙЧАС.!!!           
+                  p_date:  DATE(current_date)  # Дата, на которую выбираются данные НЕТ
+                  p_obj_level: 10              # Уровень объекта
+                  p_oper_type_ids: Null        # ARRAY [1,2,3,5]       # Типы операций.                     НЕТ                                 
+    #
+    agg_adr_house:
+           p_skip_adr_house: False
+           p_descr_adr_house: Агрегация домовладений
+           params_ah:
+                  # "p_date" - Не ИСПОЛЬЗОВАТЬ СЕЙЧАС.!!!           
+                  p_date:  DATE(current_date)  # Дата, на которую выбираются данные НЕТ
+                  p_parent_obj: Null           # Родительский объект                НЕТ
+    #
+    obj_fias:
+           p_skip_obj_fias: False
+           p_switch_house_sch: True   #  True - Локальная схема, False - Отдалённая 
+           p_descr_obj_fias:  Заполнение управляющей таблицы "gar_tmp.xxx_obj_fias"

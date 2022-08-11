@@ -22,7 +22,8 @@ from MainProcess import fd_log as FdLog
 # 2022-05-11
 import load_mainStage3 as Stage3
 import load_mainStage4 as Stage4
-# 2022-06-28
+import load_mainStage6 as Stage6
+# 2022-08-11
 
 import GarFias.r_scan_dir as ScanDir
 # ------------------------------------------------------
@@ -91,7 +92,7 @@ bAS_ROOMS_PARAMS      = "ASROOMSPARAMS"
 bAS_STEADS            = "ASSTEADS"
 bAS_STEADS_PARAMS     = "ASSTEADSPARAMS"
 
-VERSION_STR = "  Version 0.4.0 Build 2022-06-28"
+VERSION_STR = "  Version 0.5.0 Build 2022-08-11"
 
 GET_DT = "SELECT now()::TIMESTAMP without time zone FROM current_timestamp;"
 
@@ -119,7 +120,7 @@ LOAD_XML                       = "2"
 STAGE_3_YAML                   = "3"        #  2022-05-06
 STAGE_4_YAML                   = "4"        #  2022-05-06
 SEQUENCE_SQL_COMMANDS_WITH_LOG = "5"   
-_RESERVED3_                    = "6" 
+STAGE_6_YAML                   = "6"        #  2022-08-11 
 _RESERVED4_                    = "7" 
 MESSAGE                        = "X"
 
@@ -449,7 +450,39 @@ class make_load ( fd_log_s ):
                     if rc <> 0:     #  Fatal error, break process
                         # self.write_log_err ( rc, fr_0.l_arg )
                         break
-           
+ 
+            #----------------------------------------------------------------------------
+            if l_words [0] == STAGE_6_YAML:  # Processing stage_6.yaml
+                
+                self.write_log ((l_words [3]).decode (bCP))                        
+ 
+                mm6 = Stage6.make_main (p_host_ip, p_port, l_db_name, p_user_name, \
+                    string.strip (l_words [1]), p_path) 
+ 
+                mm6.set_file_log (self.fd)  # Уже открыт
+                ## mm4.set_date_time (self.date_time, self.delta_dt)
+
+                #------------------------------------------------------------
+                if mm6.stage_6_0_on: 
+                    rc = mm6.stage_6_0 ( mm6.mogrify_6_0 )
+                    if rc <> 0:     #  Fatal error, break process
+                        break
+                 
+                if mm6.stage_6_1_on: 
+                    rc = mm6.stage_6_1 ( mm6.mogrify_6_1 )
+                    if rc <> 0:     #  Fatal error, break process
+                        break
+                
+                if mm6.stage_6_2_on: 
+                    rc = mm6.stage_6_2 ( mm6.mogrify_6_2 )
+                    if rc <> 0:     #  Fatal error, break process
+                        break
+                
+                if mm6.stage_6_3_on: 
+                    rc = mm6.stage_6_3 ( mm6.mogrify_6_3 ) 
+                    if rc <> 0:     #  Fatal error, break process
+                        break
+ 
             #----------------------------------------------------------------------------
             if l_words [0] == LOAD_XML:  # Parse and Load XML
                  list_names = self.load_list_names (l_words [1]) # 2021-11-28  

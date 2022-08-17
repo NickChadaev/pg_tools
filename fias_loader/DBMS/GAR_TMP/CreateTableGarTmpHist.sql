@@ -118,3 +118,10 @@ CREATE INDEX IF NOT EXISTS ie3_adr_street_hist ON gar_tmp.adr_street_hist USING 
 -- ---------------------------------------------------------
 -- SELECT * FROM  gar_tmp.adr_street_hist WHERE (id_region = 27);
 
+--
+-- 2022-08-12  Отмена наследования.
+--
+ALTER TABLE gar_tmp.adr_area_hist NO INHERIT gar_tmp.adr_area;
+ALTER TABLE gar_tmp.adr_house_hist NO INHERIT gar_tmp.adr_house;
+ALTER TABLE gar_tmp.adr_objects_hist NO INHERIT gar_tmp.adr_objects;
+ALTER TABLE gar_tmp.adr_street_hist NO INHERIT gar_tmp.adr_street;

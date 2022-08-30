@@ -3,23 +3,34 @@
 #                       в коде "stage_3_proc.py"
 #
 control_params:
-    stage_3_0: True
+    stage_3_9: True
+    stage_3_0: False
     stage_3_1: False
     stage_3_2: False
     stage_3_3: False    
     #
+    mogrify_3_9: False
     mogrify_3_0: False
     mogrify_3_1: False
     mogrify_3_2: False
     mogrify_3_3: False    
     
 global_params:
-    g_region_id: 01   # Карелия    
-    g_fserver_nmb: 10   
+    g_region_id: 21   # Чечня  
+    g_fserver_nmb: 11   
     g_adr_area_sch: unnsi
     g_adr_street_sch: unnsi
     g_adr_house_sch: unnsi
     g_adr_house_sch_l: gar_tmp   
+#  
+# stage_3_9
+#
+gar_fias_set_gap:
+    descr: Заполнение таблицы с ошибочными данными (в основном дубли)
+    params_adr_area:                       
+        p_skip: False
+    params_adr_house:                       
+        p_skip: False
 #  
 # stage_3_0
 #

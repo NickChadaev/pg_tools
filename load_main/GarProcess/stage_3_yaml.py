@@ -14,7 +14,7 @@ import yaml
 from yaml.loader import SafeLoader
 
 PATH_DELIMITER = '/'  
-VERSION_STR = "  Version 0.0.2 Build 2022-05-11"
+VERSION_STR = "  Version 0.0.2 Build 2022-08-30"
 
 YAML_NOT_OPENED_0 = "... YAML file not opened: '"
 YAML_NOT_OPENED_1 = "'."
@@ -53,11 +53,13 @@ class yaml_patterns ():
         #
         # --------------------------------------------------------------
         #
+        self.stage_3_9_on = stage_3 ['control_params'] ['stage_3_9']          
         self.stage_3_0_on = stage_3 ['control_params'] ['stage_3_0']  
         self.stage_3_1_on = stage_3 ['control_params'] ['stage_3_1']  
         self.stage_3_2_on = stage_3 ['control_params'] ['stage_3_2']  
         self.stage_3_3_on = stage_3 ['control_params'] ['stage_3_3']  
         #
+        self.mogrify_3_9 = stage_3 ['control_params'] ['mogrify_3_9']
         self.mogrify_3_0 = stage_3 ['control_params'] ['mogrify_3_0']
         self.mogrify_3_1 = stage_3 ['control_params'] ['mogrify_3_1']
         self.mogrify_3_2 = stage_3 ['control_params'] ['mogrify_3_2']
@@ -70,6 +72,10 @@ class yaml_patterns ():
         self.g_adr_street_sch  = stage_3 ['global_params'] ['g_adr_street_sch']      
         self.g_adr_house_sch   = stage_3 ['global_params'] ['g_adr_house_sch']      
         self.g_adr_house_sch_l = stage_3 ['global_params'] ['g_adr_house_sch_l']    
+        #
+        self.gar_fias_set_gap_descr = stage_3 ['gar_fias_set_gap']['descr']  
+        self.gar_fias_set_gap_adr_area_skip = stage_3 ['gar_fias_set_gap']['params_adr_area']['p_skip']
+        self.gar_fias_set_gap_adr_house_skip = stage_3 ['gar_fias_set_gap']['params_adr_house']['p_skip']
         #
         self.gt_stl_descr = stage_3 ['gar_tmp_set_logged'] ['descr']
         self.gt_stl_skip  = stage_3 ['gar_tmp_set_logged'] ['params'] ['p_skip']
@@ -181,6 +187,14 @@ if __name__ == '__main__':
 #
         yp = yaml_patterns (sys.argv[1], sys.argv[2])
         print yp.region_id
+        
+        # stage_3_9
+        print yp.stage_3_9_on
+        print yp.mogrify_3_9
+        
+        print yp.gar_fias_set_gap_descr 
+        print yp.gar_fias_set_gap_adr_area_skip 
+        print yp.gar_fias_set_gap_adr_house_skip 
         
         sys.exit (0)
 

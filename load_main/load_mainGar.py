@@ -92,7 +92,7 @@ bAS_ROOMS_PARAMS      = "ASROOMSPARAMS"
 bAS_STEADS            = "ASSTEADS"
 bAS_STEADS_PARAMS     = "ASSTEADSPARAMS"
 
-VERSION_STR = "  Version 0.5.0 Build 2022-08-11"
+VERSION_STR = "  Version 0.5.1 Build 2022-08-30"
 
 GET_DT = "SELECT now()::TIMESTAMP without time zone FROM current_timestamp;"
 
@@ -373,11 +373,19 @@ class make_load ( fd_log_s ):
                 self.write_log ((l_words [3]).decode (bCP))  # 2021-11-28                     
  
                 mm3 = Stage3.make_main (p_host_ip, p_port, l_db_name, p_user_name, \
-                    string.strip (l_words [1]), p_path, p_id_region, p_fserver_nmb, p_schemas) 
- 
+                    string.strip (l_words [1]), p_path, p_id_region, p_fserver_nmb, \
+                        p_schemas, self.version) 
+      
                 mm3.set_file_log (self.fd)  # Уже открыт
                 ## mm3.set_date_time (self.date_time, self.delta_dt)
 
+                # 2022-08-30
+                if mm3.stage_3_9_on: 
+                    rc = mm3.stage_3_9 ( mm3.mogrify_3_9 )
+                    if rc <> 0:     #  Fatal error, break process
+                        # self.write_log_err ( rc, fr_0.l_arg )
+                        break
+                    
                 if mm3.stage_3_0_on: 
                     rc = mm3.stage_3_0 ( mm3.mogrify_3_0 )
                     if rc <> 0:     #  Fatal error, break process

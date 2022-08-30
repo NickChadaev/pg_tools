@@ -13,7 +13,7 @@ import string
 import datetime
 import psycopg2    
 
-VERSION_STR_0 = "  Version 0.1.0 Build 2022-08-19"
+VERSION_STR_0 = "  Version 0.1.1 Build 2022-08-30"
 VERSION_STR_1 = "  ------------------------------"
 
         #  1              2        3          4         5           6             7            8
@@ -87,7 +87,7 @@ class m_ftable ():
         
         self.ftable_name = "unnsi.adr_{0}_{1:02d}"
         
-        self.ftable_body = """CREATE FOREIGN TABLE {0} (
+        self.ftable_body = """CREATE FOREIGN TABLE IF NOT EXISTS {0} (
 ) INHERITS ({1}) SERVER {2} OPTIONS (schema_name '{3}', table_name '{4}');
 COMMENT ON FOREIGN TABLE {0} IS '{5:02d} -- {6}';
 --

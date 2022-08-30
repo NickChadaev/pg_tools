@@ -4,7 +4,6 @@
 DO
   $$
    BEGIN
-       DROP TYPE gar_fias.gap_adr_area_t CASCADE;
        CREATE TYPE gar_fias.gap_adr_area_t AS (
                     id_addr_obj      bigint  
                    ,id_addr_parent   bigint 

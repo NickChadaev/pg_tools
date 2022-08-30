@@ -28,8 +28,9 @@ X;;;Start process, Сборка gar-пакета;
 #
 5;version.sql;;-- Версия 1708/2022-08-30;
 #
-5;FUNCTION/f_addr_obj_update_parent.sql;;-- f_addr_obj_update_parent.sql;
 5;FUNCTION/f_adr_area_show_data.sql    ;;-- f_adr_area_show_data.sql    ;
+5;FUNCTION/f_addr_obj_update_parent.sql;;-- f_addr_obj_update_parent.sql;
+5;FUNCTION/f_adr_area_set_data.sql     ;;-- f_adr_area_set_data.sql;
 5;FUNCTION/f_addr_obj_get_parents.sql  ;;-- f_addr_obj_get_parents.sql  ;
 5;FUNCTION/f_adr_area_get_twins.sql    ;;-- f_adr_area_get_twins.sql;
 #

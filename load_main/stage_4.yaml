@@ -1,0 +1,96 @@
+#
+#  2022-03-11/2022-06-09
+#
+control_params:
+    stage_4_1: False
+    stage_4_2: False
+    stage_4_3: True
+    stage_4_4: True
+    stage_4_5: False
+    stage_4_6: False
+    #
+    mogrify_4_1: False
+    mogrify_4_2: False
+    mogrify_4_3: False
+    mogrify_4_4: False
+    mogrify_4_5: False
+    mogrify_4_6: False
+    
+global_params:
+    g_history_sch: gar_tmp    
+
+adr_area:
+    #  
+    # stage_4_1
+    #
+    op_ins:
+        p_descr: Адресные регионы, дополнение
+        params:                       
+            p_schema_data: unnsi   # Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
+            p_schema_etl: unnsi    # Схема эталон, обычно локальный сервер, копия p_schema_data
+            p_sw_hist: TRUE        # Создаётся историческая запись.
+            p_check_query: SELECT * FROM gar_tmp.adr_area_hist WHERE (id_region = 0) AND (date_create >= (now() - INTERVAL '1 DAY')) ORDER BY date_create
+    #  
+    # stage_4_2
+    #    
+    op_upd:                  
+        p_descr: Адресные регионы, обновление
+        params:                       
+            p_schema_data: unnsi   #  Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
+            p_schema_etl: unnsi    #  Схема эталон, обычно локальный сервер, копия p_schema_data
+            p_sw_hist: TRUE        #  Создаётся историческая запись.
+            p_check_query: SELECT * FROM gar_tmp.adr_area_hist WHERE (id_region = 0) AND (date_create >= (now() - INTERVAL '1 DAY')) ORDER BY date_create
+#            
+adr_street:
+    #  
+    # stage_4_3
+    #
+    op_ins:  
+        p_descr: Элемент улично-дорожной сети, дополнение    
+        params:                       
+            p_schema_data: unnsi   # Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
+            p_schema_etl: unnsi    # Схема эталон, обычно локальный сервер, копия p_schema_data 
+            p_sw_hist: TRUE        # Создаётся историческая запись
+            p_check_query: SELECT * FROM gar_tmp.adr_street_hist WHERE (id_region = 0) AND (date_create >= (now() - INTERVAL '1 DAY')) ORDER BY date_create
+    # 
+    #  
+    # stage_4_4
+    #    
+    op_upd:
+        p_descr: Элемент улично-дорожной сети, обновление         
+        params:                       
+            p_schema_data: unnsi   # Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
+            p_schema_etl: unnsi    # Схема эталон, обычно локальный сервер, копия p_schema_data
+            p_schema_hist: gar_tmp # Схема для хранения исторических данных 
+            p_sw_hist: TRUE        # Создаётся историческая запись                
+            p_sw_twin: FALSE       # Обязательное выявление дубликатов
+            p_check_query: SELECT * FROM gar_tmp.adr_street_hist WHERE (id_region = 0) AND (date_create >= (now() - INTERVAL '1 DAY')) ORDER BY date_create
+# 
+adr_house:
+    #  
+    # stage_4_5
+    #    
+    op_ins:   
+        p_descr: Здания (сооружения), дополнение 
+        params:                       
+            p_schema_data: gar_tmp # Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
+            p_schema_etl: unnsi    # Схема эталон, обычно локальный сервер, копия p_schema_data
+            p_sw: FALSE            # Включить дополнение/обновление adr_objects
+            p_sw_twin: FALSE       # Включается поиск двойников        
+            p_check_query: SELECT * FROM gar_tmp.adr_house_hist WHERE (id_region = 0) AND (date_create >= (now() - INTERVAL '1 DAY')) ORDER BY date_create  
+    #  
+    # stage_4_6
+    #    
+    op_upd:   
+        p_descr: Здания (сооружения), обновление         
+        params:          
+            p_schema_data: gar_tmp # Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
+            p_schema_etl: unnsi    # Схема эталон, обычно локальный сервер, копия p_schema_data
+            p_sw_hist: TRUE         # Создаётся историческая запись.  
+            p_sw_twin: FALSE       # Обязательное выявление дубликатов
+            p_del: FALSE           # Убираю дубли при обработки EXCEPTION 
+            p_sw: FALSE            # Включить дополнение/обновление adr_objects
+            p_check_query: SELECT * FROM gar_tmp.adr_house_hist WHERE (id_region = 0) AND (date_create >= (now() - INTERVAL '1 DAY')) ORDER BY date_create     
+
+# p_check_query: SELECT * FROM gar_tmp.adr_house_hist WHERE (id_region = 0) AND (date_create >= (now() - INTERVAL '1 DAY')) ORDER BY date_create     
+                

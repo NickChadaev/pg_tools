@@ -1,0 +1,81 @@
+#
+#  2022-05-19. Stage_6. Новая реализация, только управление процессами, вызовы функций 
+#                       в коде "stage_6_proc.py"
+#
+control_params:
+    stage_6_0: True
+    stage_6_1: True
+    stage_6_2: True
+    stage_6_3: True
+    #
+    mogrify_6_0: True
+    mogrify_6_1: True
+    mogrify_6_2: True
+    mogrify_6_3: True
+    
+global_params:
+#    g_regions: [1,3,40,52]    # Все регионы, если не заданы явно: [1,3,40,52]  None
+    g_regions: None    # Все регионы, если не заданы явно: [1,3,40,52]  None
+    g_fserver_nmb: 12   
+    g_adr_area_sch: unnsi
+    g_adr_street_sch: unnsi
+    g_adr_house_sch: unnsi
+    g_history_sch: gar_tmp
+#  
+# stage_6_0
+#
+gar_drop_load_indexies:                                      
+    descr: Смена индексного покрытия в целевых таблицах. Удаление загрузочных.
+    params_area:
+        p_skip: False
+    params_street:
+        p_skip: False
+    params_house:
+        p_skip: False
+    param_objects:
+         p_skip: False
+#
+gar_create_work_indexies:                                      
+    descr: Смена индексного покрытия в целевых таблицах. Создание эксплуатационных.
+    params_area:
+        p_skip: False
+    params_street:
+        p_skip: False
+        p_uniq_sw: False  # False - Неуникальный индекс, в конце необходимо пересоздать
+    params_house:
+        p_skip: False
+        p_uniq_sw: False  # False - Неуникальный индекс, в конце необходимо пересоздать      
+    param_objects:
+         p_skip: True
+#  
+# stage_6_1
+#
+adr_street_check_twins:
+    descr: Поиск дублей, таблица ADR_STREET
+    params:
+        p_bound_date: DATE('2022-01-01') 
+        p_init_value: 100000000 
+    cquery: SELECT * FROM gar_tmp.adr_street_hist WHERE (id_region = -1) AND ( date_create >= now() - INTERVAL '1 DAY');    
+#      
+# stage_6_2
+#
+adr_house_check_twins:
+    descr: Поиск дублей, таблица ADR_HOUSE
+    params:
+        p_skip_1: False  # По регионам, используя список регионов (g_regions + p_init_value)
+        p_skip_2: False  # Вычищает всё, что осталось.
+        p_bound_date: DATE('2022-01-01') 
+        p_init_value: 100000000  
+    cquery: SELECT * FROM gar_tmp.adr_house_hist WHERE (id_region = -1) AND ( date_create >= now() - INTERVAL '1 DAY');    
+#  
+# stage_6_3
+#
+gar_crt_unique_indexies:                                      
+    descr: Смена индексного покрытия (Создание УНИКАЛЬНЫХ эксплуатационных).
+    params:                       
+        params_street:
+            p_skip: False      
+            p_uniq_sw: True   # Уникальный индекс, создаётся после контроля двойников.
+        params_house:
+            p_skip: False
+            p_uniq_sw: True   # Уникальный индекс, создаётся после контроля двойников.

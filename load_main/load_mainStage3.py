@@ -14,7 +14,7 @@ from GarProcess import stage_3_yaml as Yaml3
 from MainProcess import fd_0 as Fd0
 from MainProcess import fd_log as FdLog
 
-VERSION_STR = "  Version 0.0.1 Build 2022-05-11"
+VERSION_STR = "  Version 0.0.2 Build 2022-08-30"
 
 CONN_ABORTED = "... Connection aborted: "
 OP_ABORTED = "... Operation aborted: "
@@ -62,7 +62,7 @@ class make_main (Proc3.proc_patterns, Yaml3.yaml_patterns, Fd0.fd_0, fd_log_z):
  """
 
  def __init__(self, p_host_ip, p_port, p_db_name, p_user_name, p_yaml_file, p_path\
-     ,p_id_region = None, p_fserver_nmb = None, p_fschemas = None):
+     ,p_id_region = None, p_fserver_nmb = None, p_fschemas = None, p_date = None):
      
      Proc3.proc_patterns.__init__(self)
      Yaml3.yaml_patterns.__init__(self, p_path, p_yaml_file, p_fserver_nmb, p_fschemas, p_id_region)
@@ -83,6 +83,9 @@ class make_main (Proc3.proc_patterns, Yaml3.yaml_patterns, Fd0.fd_0, fd_log_z):
          print OUT_NOT_OPENED_0 + bOUT_NAME + OUT_NOT_OPENED_1
          sys.exit (1)
      # 2022-05-11
+     
+     self.date = p_date
+     # 2022-08-30
      
      #------------------------------------------------------------
  
@@ -113,7 +116,24 @@ class make_main (Proc3.proc_patterns, Yaml3.yaml_patterns, Fd0.fd_0, fd_log_z):
          sys.exit (rc)     
          
      return rc           
- 
+
+ def stage_3_9 ( self, p_MOGRIFY ): 
+    """
+     Дефектные данные
+    """
+    self.MOGRIFY = p_MOGRIFY
+    rc = 0
+    
+    # Адресные регионы
+    if not self.gar_fias_set_gap_adr_area_skip:     
+        rc = self.stage_3 (self.gar_fias_set_adr_data.format (self.g_adr_area_sch,\
+            self.region_id, self.date), self.gar_fias_set_gap_descr)
+    
+    # Дома
+    #if not self.gar_fias_set_gap_adr_house_skip:  
+                    
+    return rc
+
  def stage_3_0 ( self, p_MOGRIFY ): 
     """
      Подготовка таблиц, очистка данных и смена индексного покрытия 
@@ -302,22 +322,25 @@ if __name__ == '__main__':
         """
              Main entrypoint for the class
         """
-#                  1       2        3          4            5             6        7         
-        sa = " <Host_IP> <Port> <DB_name> <User_name> <YAML_file_name> <Path> <Id_region>"
-        if ( len( sys.argv ) - 1 ) < 7:
+#                  1       2        3          4            5             6        7        8    
+        sa = " <Host_IP> <Port> <DB_name> <User_name> <YAML_file_name> <Path> <Id_region> <Дата>"
+        if ( len( sys.argv ) - 1 ) < 8:
             print VERSION_STR 
             print "  Usage: " + str ( sys.argv [0] ) + sa
             sys.exit( 1 )
 #
         mm = make_main (sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]\
-            ,sys.argv[5], sys.argv[6], sys.argv[7])  
-
+            ,sys.argv[5], sys.argv[6], p_id_region = sys.argv[7], p_date = sys.argv[8])  
+        
         s_lp = str (sys.argv[1]) + SPACE_0 + str (sys.argv[2]) + SPACE_0\
             + str (sys.argv[3]) + SPACE_0
         s_lp = s_lp + str (sys.argv[4]) + SPACE_0 + str (sys.argv[5]) 
      
         mm.open_log (bLOG_NAME, sys.argv[6], s_lp)
         mm.write_log_first ()
+
+        if mm.stage_3_9_on: 
+            rc = mm.stage_3_9 ( mm.mogrify_3_9 )
  
         if mm.stage_3_0_on: 
             rc = mm.stage_3_0 ( mm.mogrify_3_0 )

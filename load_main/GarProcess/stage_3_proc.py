@@ -9,7 +9,7 @@
 import sys
 ## import string
 
-VERSION_STR = "  Version 0.0.1 Build 2022-05-06"
+VERSION_STR = "  Version 0.0.2 Build 2022-08-30"
 
 class proc_patterns ():
     """
@@ -17,6 +17,12 @@ class proc_patterns ():
     """
     def __init__ (self):
         
+        # Заполнените таблицы с дефектными данными.
+        self.gar_fias_set_adr_data = """SELECT gar_fias_pcg_load.f_adr_area_set_data (
+              p_fias_guid := (gar_tmp_pcg_trans.f_adr_area_get('{0}',{1})).nm_fias_guid::uuid
+             ,p_date      := '{2}'::date
+             ,p_descr     := (gar_tmp_pcg_trans.f_adr_area_get('{0}',{1})).nm_area_full::text);"""     
+             
         # Установка признака LOGGED/UNLOGGED у таблиц в схеме gar_tmp
         self.gar_tmp_p_alt_tbl = "CALL gar_tmp_pcg_trans.p_alt_tbl (p_all := {0}::boolean);"
         #

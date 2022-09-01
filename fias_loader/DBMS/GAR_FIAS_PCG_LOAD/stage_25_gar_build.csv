@@ -26,12 +26,14 @@
 #-------------------------------------------------------------------------------
 X;;;Start process, Сборка gar-пакета;
 #
-5;version.sql;;-- Версия 1562/2022-07-12;
+5;version.sql;;-- Версия 1708/2022-08-30;
 #
+5;FUNCTION/f_adr_area_show_data.sql    ;;-- f_adr_area_show_data.sql;
 5;FUNCTION/f_addr_obj_update_parent.sql;;-- f_addr_obj_update_parent.sql;
-5;FUNCTION/f_adr_area_show_data.sql    ;;-- f_adr_area_show_data.sql    ;
-5;FUNCTION/f_addr_obj_get_parents.sql  ;;-- f_addr_obj_get_parents.sql  ;
+5;FUNCTION/f_adr_area_set_data.sql     ;;-- f_adr_area_set_data.sql;
+5;FUNCTION/f_addr_obj_get_parents.sql  ;;-- f_addr_obj_get_parents.sql;
 5;FUNCTION/f_adr_area_get_twins.sql    ;;-- f_adr_area_get_twins.sql;
+5;FUNCTION/f_addr_obj_update_children.sql;;-- f_addr_obj_update_children.sql;
 #
 5;PROCEDURE/p_alt_tbl.sql  ;;-- p_alt_tbl.sql  ;
 5;PROCEDURE/del_gar_all.sql;;-- del_gar_all.sql;

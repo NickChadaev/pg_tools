@@ -4,20 +4,13 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_adr_area_show_data (
       ,p_date          date     = current_date
       ,p_obj_level     bigint   = 10
 )
-    RETURNS SETOF gar_tmp.xxx_adr_area
+    RETURNS SETOF gar_fias.gap_adr_area_t
     STABLE
     LANGUAGE sql
  AS
   $$
     -- ---------------------------------------------------------------------------------------
-    --  2022-07-07 Nick 
-    --   Функция строит иерархию зависимых объектов таблицы-прототипа "gar_tmp.xxx_adr_area"
-    --   2021-12-20 - Могут быть несколько активных записей с различными UUID, описывающих
-    --   один и тот-же адресный объект. Выбираю самую свежую (по максимальному ID изменения).
-    -- ---------------------------------------------------------------------------------------
-    --   p_date        date    -- Дата на которую формируется выборка    
-    --   p_obj_level   bigint  -- Предельный уровень адресных объектов в иерархии.
-    --   p_fias_guid   uuid    -- Необходимые типы операций  
+    --  2022-08-29 Nick 
     -- ---------------------------------------------------------------------------------------
     WITH RECURSIVE aa1 (
                          id_addr_obj       
@@ -33,7 +26,7 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_adr_area_show_data (
                         ,obj_level
                         ,level_name
                         --
-                        ,region_code  -- 2021-12-01
+                        ,region_code  
                         ,area_code    
                         ,city_code    
                         ,place_code   
@@ -49,9 +42,13 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_adr_area_show_data (
                         ,start_date 
                         ,end_date    
                         --
-                        ,tree_d            
-                        ,level_d
+                        ,id_lead           		   
+                        ,tree_d           
+                        ,level_d                                      
                         ,cicle_d  
+                        
+                        
+                        
      ) AS (
         SELECT
            a.object_id
@@ -83,6 +80,7 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_adr_area_show_data (
           ,a.start_date 
           ,a.end_date              
           --
+          ,NULL AS id_lead
           ,CAST (ARRAY [a.object_id] AS bigint []) 
           ,1
           ,FALSE
@@ -142,7 +140,9 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_adr_area_show_data (
           --
           ,a.start_date 
           ,a.end_date              
-          --	       
+          --
+          ,NULL AS id_lead
+          
           ,CAST (aa1.tree_d || a.object_id AS bigint [])
           ,(aa1.level_d + 1) t
           ,a.object_id = ANY (aa1.tree_d)   
@@ -201,10 +201,9 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_adr_area_show_data (
                ,start_date 
                ,end_date    
                --
+               ,id_lead
                ,tree_d            
                ,level_d
-               --
-               ,rn
       )
        AS (
             SELECT  
@@ -237,17 +236,17 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_adr_area_show_data (
                    ,aa1.start_date 
                    ,aa1.end_date              
                     --               
+                   ,lead (aa1.id_addr_obj) 
+                       OVER (PARTITION BY aa1.id_addr_parent -- count (1) 
+                                         ,aa1.addr_obj_type-- _id  
+                                         ,UPPER(aa1.nm_addr_obj) 
+                             ORDER BY aa1.change_id   
+                    ) AS id_lead
+                    --
                    ,aa1.tree_d            
                    ,aa1.level_d
-
-                   ,row_number() OVER (PARTITION BY aa1.id_addr_parent
-                                                   ,aa1.addr_obj_type_id  
-								                   ,UPPER(aa1.nm_addr_obj) 
-								       ORDER BY aa1.change_id DESC, aa1.prev_id DESC
-                    ) AS rn
                   
             FROM aa1 
-                         ORDER BY aa1.tree_d
           )
            SELECT
                     bb1.id_addr_obj       
@@ -257,7 +256,16 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_adr_area_show_data (
                    ,bb1.parent_fias_guid 
                    --   
                    ,bb1.nm_addr_obj    
-                   ,bb1.addr_obj_type_id   
+                   ,COALESCE (bb1.addr_obj_type_id,
+                     (SELECT z.id FROM gar_fias.as_addr_obj_type z 
+                            WHERE (z.type_shortname = bb1.addr_obj_type) 
+--                                    AND     2022-08-17 В справочниках GAR может быть
+--                                 (z.end_date > p_date)  несколько активных записей.
+                                    AND 
+                                 (z.type_level::bigint = bb1.obj_level)            
+                      )
+                    ) AS addr_obj_type_id 
+                    
                    ,bb1.addr_obj_type               
                    --
                    ,bb1.obj_level
@@ -270,21 +278,27 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_adr_area_show_data (
                    ,bb1.plan_code    
                    ,bb1.street_code    
                     --             --
+                   ,bb1.change_id
+                   ,bb1.prev_id
+                   --             --
                    ,bb1.oper_type_id
                    ,bb1.oper_type_name		 
                     --
                    ,bb1.start_date 
                    ,bb1.end_date              
                     --               
+                   ,bb1.id_lead
                    ,bb1.tree_d            
-                   ,bb1.level_d           
-           FROM bb1 WHERE ( bb1.rn = 1) ORDER BY bb1.tree_d;  -- LIMIT 10; -- 6033 -- 2021-10-19  -- 6093
+                   ,bb1.level_d 
+                   
+           FROM bb1  
+            ORDER BY bb1.id_addr_parent, bb1.addr_obj_type, bb1.nm_addr_obj;
   $$;
  
 ALTER FUNCTION gar_fias_pcg_load.f_adr_area_show_data (uuid, date, bigint) OWNER TO postgres;  
 
 COMMENT ON FUNCTION gar_fias_pcg_load.f_adr_area_show_data (uuid, date, bigint) 
-IS 'Отображение исходных данных в формате "gar_tmp.xxx_adr_area"';
+IS 'Отображение исходных данных в формате "gar_fias.gap_adr_area_t"';
 ----------------------------------------------------------------------------------
 -- USE CASE:
 -- SELECT * FROM gar_fias_pcg_load.f_adr_area_show_data (p_fias_guid := '80a6adb4-a120-4f45-9a50-646ee565d37a'::uuid); -- 69598

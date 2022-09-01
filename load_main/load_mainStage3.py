@@ -131,7 +131,9 @@ class make_main (Proc3.proc_patterns, Yaml3.yaml_patterns, Fd0.fd_0, fd_log_z):
     
     # Дома
     #if not self.gar_fias_set_gap_adr_house_skip:  
- 
+                    
+    return rc
+
  def stage_3_0 ( self, p_MOGRIFY ): 
     """
      Подготовка таблиц, очистка данных и смена индексного покрытия 

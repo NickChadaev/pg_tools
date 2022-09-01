@@ -1,7 +1,7 @@
-psql:./FUNCTION/f_addr_obj_update_parent.sql:45: ЗАМЕЧАНИЕ:  (FUNCTION,341676,gar_fias_pcg_load,f_adr_area_show_data,"(uuid)")
+psql:./FUNCTION/f_addr_obj_update_parent.sql:45: ЗАМЕЧАНИЕ:  (FUNCTION,344463,gar_fias_pcg_load,f_adr_area_show_data,"(uuid)")
 psql:./FUNCTION/f_addr_obj_update_parent.sql:45: ЗАМЕЧАНИЕ:  (RELATION,44036,gar_fias,as_addr_obj,)
 psql:./FUNCTION/f_addr_obj_update_parent.sql:45: ЗАМЕЧАНИЕ:  (RELATION,44067,gar_fias,as_adm_hierarchy,)
-psql:./FUNCTION/f_adr_area_set_data.sql:168: ЗАМЕЧАНИЕ:  (FUNCTION,344378,gar_fias_pcg_load,f_adr_area_show_data,"(uuid)")
+psql:./FUNCTION/f_adr_area_set_data.sql:168: ЗАМЕЧАНИЕ:  (FUNCTION,344463,gar_fias_pcg_load,f_adr_area_show_data,"(uuid)")
 psql:./FUNCTION/f_adr_area_set_data.sql:168: ЗАМЕЧАНИЕ:  (RELATION,341666,gar_fias,gap_adr_area,)
 psql:./PROCEDURE/del_gar_all.sql:1: ЗАМЕЧАНИЕ:  функция gar_fias_pcg_load.del_gar_addr_obj(pg_catalog.int8) не существует, пропускается
 psql:./PROCEDURE/save_gar_addr_obj.sql:102: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_addr_obj.id%TYPE преобразована в тип bigint

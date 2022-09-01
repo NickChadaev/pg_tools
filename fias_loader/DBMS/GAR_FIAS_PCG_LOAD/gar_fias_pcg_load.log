@@ -1,42 +1,43 @@
-2022-08-30 13:13:54 ./
-127.0.0.1 5435 unsi_test_23 postgres stage_25_gar_build.csv 
+2022-09-01 17:08:17 ./
+127.0.0.1 5433 unsi_test_23 postgres stage_25_gar_build.csv 
 --------------------------------------------------------
-[13:13:54] ... Start process, Сборка gar-пакета
-[13:13:54] ... -- Версия 1708/2022-08-30
-[13:13:54] ... -- f_adr_area_show_data.sql    
-[13:13:54] ... -- f_addr_obj_update_parent.sql
-[13:13:54] ... -- f_adr_area_set_data.sql
-[13:13:54] ... -- f_addr_obj_get_parents.sql  
-[13:13:54] ... -- f_adr_area_get_twins.sql
-[13:13:54] ... -- p_alt_tbl.sql  
-[13:13:54] ... -- del_gar_all.sql
-[13:13:54] ... -- save_gar_addr_obj.sql         
-[13:13:54] ... -- save_gar_normative_docs.sql   
-[13:13:55] ... -- save_gar_apartments.sql       
-[13:13:55] ... -- save_gar_adm_hierarchy.sql    
-[13:13:55] ... -- save_gar_room_type.sql        
-[13:13:55] ... -- save_gar_rooms.sql            
-[13:13:55] ... -- save_gar_rooms_params.sql     
-[13:13:55] ... -- save_gar_norm_docs_kinds.sql  
-[13:13:55] ... -- save_gar_norm_docs_types.sql  
-[13:13:55] ... -- save_gar_param_type.sql       
-[13:13:55] ... -- save_gar_houses_params.sql    
-[13:13:55] ... -- save_gar_carplaces_params.sql 
-[13:13:55] ... -- save_gar_carplaces.sql        
-[13:13:55] ... -- save_gar_apartments_params.sql
-[13:13:55] ... -- save_gar_apartment_type.sql   
-[13:13:55] ... -- save_gar_house_type.sql       
-[13:13:56] ... -- save_gar_addr_obj_division.sql
-[13:13:56] ... -- save_gar_steads_params.sql    
-[13:13:56] ... -- save_gar_steads.sql           
-[13:13:56] ... -- save_gar_reestr_objects.sql   
-[13:13:56] ... -- save_gar_operation_type.sql   
-[13:13:56] ... -- save_gar_object_level.sql     
-[13:13:56] ... -- save_gar_mun_hierarchy.sql    
-[13:13:56] ... -- save_gar_houses.sql           
-[13:13:56] ... -- save_gar_change_history.sql   
-[13:13:56] ... -- save_gar_add_house_type.sql   
-[13:13:56] ... -- save_gar_addr_obj_type.sql    
-[13:13:56] ... -- save_gar_addr_obj_params.sql  
-[13:13:56] ... Stop process
+[17:08:17] ... Start process, Сборка gar-пакета
+[17:08:17] ... -- Версия 1708/2022-08-30
+[17:08:17] ... -- f_adr_area_show_data.sql
+[17:08:18] ... -- f_addr_obj_update_parent.sql
+[17:08:18] ... -- f_adr_area_set_data.sql
+[17:08:18] ... -- f_addr_obj_get_parents.sql
+[17:08:19] ... -- f_adr_area_get_twins.sql
+[17:08:19] ... -- f_addr_obj_update_children.sql
+[17:08:19] ... -- p_alt_tbl.sql  
+[17:08:19] ... -- del_gar_all.sql
+[17:08:19] ... -- save_gar_addr_obj.sql         
+[17:08:20] ... -- save_gar_normative_docs.sql   
+[17:08:20] ... -- save_gar_apartments.sql       
+[17:08:20] ... -- save_gar_adm_hierarchy.sql    
+[17:08:20] ... -- save_gar_room_type.sql        
+[17:08:20] ... -- save_gar_rooms.sql            
+[17:08:20] ... -- save_gar_rooms_params.sql     
+[17:08:20] ... -- save_gar_norm_docs_kinds.sql  
+[17:08:21] ... -- save_gar_norm_docs_types.sql  
+[17:08:21] ... -- save_gar_param_type.sql       
+[17:08:21] ... -- save_gar_houses_params.sql    
+[17:08:21] ... -- save_gar_carplaces_params.sql 
+[17:08:21] ... -- save_gar_carplaces.sql        
+[17:08:21] ... -- save_gar_apartments_params.sql
+[17:08:21] ... -- save_gar_apartment_type.sql   
+[17:08:22] ... -- save_gar_house_type.sql       
+[17:08:22] ... -- save_gar_addr_obj_division.sql
+[17:08:22] ... -- save_gar_steads_params.sql    
+[17:08:22] ... -- save_gar_steads.sql           
+[17:08:22] ... -- save_gar_reestr_objects.sql   
+[17:08:22] ... -- save_gar_operation_type.sql   
+[17:08:22] ... -- save_gar_object_level.sql     
+[17:08:22] ... -- save_gar_mun_hierarchy.sql    
+[17:08:22] ... -- save_gar_houses.sql           
+[17:08:23] ... -- save_gar_change_history.sql   
+[17:08:23] ... -- save_gar_add_house_type.sql   
+[17:08:23] ... -- save_gar_addr_obj_type.sql    
+[17:08:23] ... -- save_gar_addr_obj_params.sql  
+[17:08:23] ... Stop process
 --------------------------------------------------------

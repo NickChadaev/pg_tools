@@ -7,7 +7,7 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_gar_fias_crt_idx (p_sw boolean =
  AS 
    $$
     -- -----------------------------------------------------------------------
-    --    2021-11-25/2021-12-09/2022-04-12
+    --    2021-11-25/2021-12-09/2022-04-12/2022-07-12/2022-09-05
     --     Nick. Управление индексами в схеме "gar_fias"
     -- -----------------------------------------------------------------------
     --     p_sw boolean = TRUE  - удаление и создание индексов
@@ -87,7 +87,7 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_gar_fias_crt_idx (p_sw boolean =
           WHERE is_actual AND is_active;   
          --       
          CREATE INDEX iex_as_steads
-          ON gar_fias.as_steads USING hash (object_guid)
+              ON gar_fias.as_steads USING hash (object_guid)
           WHERE is_actual AND is_active;       
          --
          CREATE INDEX ie1_as_steads
@@ -96,8 +96,8 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_gar_fias_crt_idx (p_sw boolean =
              WHERE is_actual AND is_active;         
          --
          CREATE INDEX ie1_as_operation_type
-          ON gar_fias.as_operation_type USING btree
-            (end_date ASC NULLS LAST, start_date ASC NULLS LAST)
+             ON gar_fias.as_operation_type USING btree
+                 (end_date ASC NULLS LAST, start_date ASC NULLS LAST)
           WHERE is_active;    
          --
          CREATE INDEX ie1_as_addr_obj_type
@@ -116,14 +116,35 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_gar_fias_crt_idx (p_sw boolean =
        --
        IF (p_sw) THEN
        
-         CREATE INDEX ie2_as_addr_obj 
+         CREATE INDEX IF NOT EXISTS ie2_as_addr_obj 
              ON gar_fias.as_addr_obj  USING btree (upper(object_name))  
                    WHERE (is_actual AND is_active); 
                    
        END IF;
+       --
+       -- 2022-09-05
+       --
+       IF (p_sw) THEN
+       
+           CREATE INDEX IF NOT EXISTS ie1_gap_adr_area ON gar_fias.gap_adr_area 
+                   USING btree (id_addr_parent, upper(nm_addr_obj), addr_obj_type_id, change_id);
+           --
+           CREATE INDEX IF NOT EXISTS ie2_gap_adr_area ON gar_fias.gap_adr_area 
+                   USING btree (obj_level);
+           --
+           CREATE INDEX IF NOT EXISTS ie3_as_addr_obj ON gar_fias.as_addr_obj  
+                   USING btree (object_guid, end_date, start_date) WHERE (is_actual AND is_active); 
+           -- 
+           CREATE INDEX IF NOT EXISTS ie4_as_addr_obj ON gar_fias.as_addr_obj 
+                   USING btree (end_date, start_date) WHERE (is_actual AND is_active);
+           -- 
+           CREATE INDEX IF NOT EXISTS ie2_as_adm_hierarchy ON gar_fias.as_adm_hierarchy 
+                   USING btree (end_date, start_date) WHERE (is_active);
+                       
+       END IF;
+       
      END;
  $$;
- 
   
 ALTER PROCEDURE gar_tmp_pcg_trans.p_gar_fias_crt_idx (boolean) OWNER TO postgres;  
 

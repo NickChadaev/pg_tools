@@ -124,6 +124,12 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_gar_fias_crt_idx (p_sw boolean =
        --
        -- 2022-09-05
        --
+       DROP INDEX IF EXISTS ie1_gap_adr_area;
+       DROP INDEX IF EXISTS ie2_gap_adr_area;
+       DROP INDEX IF EXISTS ie3_as_addr_obj ;
+       DROP INDEX IF EXISTS ie4_as_addr_obj ;
+       DROP INDEX IF EXISTS ie2_as_adm_hierarchy; 
+       
        IF (p_sw) THEN
        
            CREATE INDEX IF NOT EXISTS ie1_gap_adr_area ON gar_fias.gap_adr_area 

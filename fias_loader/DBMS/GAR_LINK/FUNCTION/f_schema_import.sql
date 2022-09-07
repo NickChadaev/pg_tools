@@ -125,9 +125,7 @@ CREATE OR REPLACE FUNCTION gar_link.f_schema_import (
                      , (SELECT option_value::numeric(4) FROM information_schema.foreign_server_options 
                           WHERE (foreign_server_name = _fserver_name) AND (option_name = PORT)
                       )
-                     , ('c_' || (SELECT option_value FROM information_schema.foreign_server_options 
-                          WHERE (foreign_server_name = _fserver_name) AND (option_name = DBNAME)
-                      ))
+                     , ('c_' || _fserver_name) 
                      ,_lschema_name
                      , TRUE
                      )

@@ -26,7 +26,7 @@
 #-------------------------------------------------------------------------------
 X;;;Start process, Сборка коммуникационного пакета;
 #
-5;version.sql;;-- Версия 1226/2022-05-23;
+5;version.sql;;-- Версия 1743/2022-09-07;
 #
 5;FUNCTION/f_server_crt.sql;;-- f_server_crt.sql;
 5;FUNCTION/f_server_drp.sql   ;;-- f_server_drp.sql;

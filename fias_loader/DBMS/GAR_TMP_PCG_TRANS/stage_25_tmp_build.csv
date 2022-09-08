@@ -26,7 +26,7 @@
 #-------------------------------------------------------------------------------
 X;;;Start process, Сборка процессингового пакета;
 #
-5;version.sql;;-- Версия 1738/2022-09-05;
+5;version.sql;;-- Версия 1748/2022-09-08;
 #
 5;FUNCTION/f_xxx_ob_seq_crt.sql  ;;-- f_xxx_ob_seq_crt.sql  ;
 5;FUNCTION/f_xxx_replace_char.sql;;-- f_xxx_replace_char.sql;
@@ -80,6 +80,8 @@ X;;;Start process, Сборка процессингового пакета;
 #
 5;PROCEDURE/p_adr_house_del_twins.sql;;-- p_adr_house_del_twins.sql УСТАРЕЛО, нужно для: "p_adr_house_ins", "fp_adr_house_upd"; 
 #
+5;FUNCTION/f_adr_area_unload_get_data.sql  ;;-- f_adr_area_unload_get_data.sql  ;
+5;FUNCTION/f_adr_street_unload_get_data.sql;;-- f_adr_street_unload_get_data.sql;
 5;FUNCTION/f_adr_house_unload_get_data.sql ;;-- f_adr_house_unload_get_data.sql ;
 5;FUNCTION/f_adr_object_unload_get_data.sql;;-- f_adr_object_unload_get_data.sql;
 #
@@ -89,6 +91,9 @@ X;;;Start process, Сборка процессингового пакета;
 5;PROCEDURE/p_adr_street_upd.sql   ;;-- p_adr_street_upd.sql   ;
 5;PROCEDURE/p_adr_house_ins.sql    ;;-- p_adr_house_ins.sql    ;
 5;FUNCTION/fp_adr_house_upd.sql   ;;-- fp_adr_house_upd.sql   ;
+#
+5;PROCEDURE/p_adr_area_unload.sql  ;;-- p_adr_area_unload.sql  ;
+5;PROCEDURE/p_adr_street_unload.sql;;-- p_adr_street_unload.sql;
 5;PROCEDURE/p_adr_house_unload.sql ;;-- p_adr_house_unload.sql ;
 5;PROCEDURE/p_adr_house_upload.sql ;;-- p_adr_house_upload.sql ;
 5;PROCEDURE/p_adr_object_ins.sql   ;;-- p_adr_object_ins.sql   ;

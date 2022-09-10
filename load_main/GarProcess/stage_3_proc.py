@@ -9,7 +9,7 @@
 import sys
 ## import string
 
-VERSION_STR = "  Version 0.0.2 Build 2022-08-30"
+VERSION_STR = "  Version 0.1.0 Build 2022-09-02"
 
 class proc_patterns ():
     """
@@ -17,11 +17,18 @@ class proc_patterns ():
     """
     def __init__ (self):
         
-        # Заполнените таблицы с дефектными данными.
+        # Заполнение таблицы с дефектными данными.
         self.gar_fias_set_adr_data = """SELECT gar_fias_pcg_load.f_adr_area_set_data (
               p_fias_guid := (gar_tmp_pcg_trans.f_adr_area_get('{0}',{1})).nm_fias_guid::uuid
              ,p_date      := '{2}'::date
              ,p_descr     := (gar_tmp_pcg_trans.f_adr_area_get('{0}',{1})).nm_area_full::text);"""     
+             
+        # Обработка таблицы с дефектными данными.
+        self.gar_fias_addr_obj_update_children = """SELECT * FROM gar_fias_pcg_load.f_addr_obj_update_children (
+         p_date_1    := '{0}'::date
+        ,p_obj_level := ARRAY{1}::integer[]      
+        ,p_date_2    := {2}::date           
+        );"""
              
         # Установка признака LOGGED/UNLOGGED у таблиц в схеме gar_tmp
         self.gar_tmp_p_alt_tbl = "CALL gar_tmp_pcg_trans.p_alt_tbl (p_all := {0}::boolean);"
@@ -158,7 +165,9 @@ class proc_patterns ():
 if __name__ == '__main__':
     try:
         pp = proc_patterns ()
-        print pp.gar_tmp_p_adr_object_unload
+        print pp.gar_fias_set_adr_data
+        print
+        print pp.gar_fias_addr_obj_update_children
         sys.exit (0)
 
 #---------------------------------------

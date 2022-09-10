@@ -14,7 +14,7 @@ from GarProcess import stage_3_yaml as Yaml3
 from MainProcess import fd_0 as Fd0
 from MainProcess import fd_log as FdLog
 
-VERSION_STR = "  Version 0.0.2 Build 2022-08-30"
+VERSION_STR = "  Version 0.1.0 Build 2022-09-02"
 
 CONN_ABORTED = "... Connection aborted: "
 OP_ABORTED = "... Operation aborted: "
@@ -65,7 +65,8 @@ class make_main (Proc3.proc_patterns, Yaml3.yaml_patterns, Fd0.fd_0, fd_log_z):
      ,p_id_region = None, p_fserver_nmb = None, p_fschemas = None, p_date = None):
      
      Proc3.proc_patterns.__init__(self)
-     Yaml3.yaml_patterns.__init__(self, p_path, p_yaml_file, p_fserver_nmb, p_fschemas, p_id_region)
+     Yaml3.yaml_patterns.__init__(self, p_path, p_yaml_file, p_fserver_nmb, p_fschemas,\
+         p_id_region, p_date)
      
      fd_log_z.__init__(self, p_host_ip, p_port, p_db_name, p_user_name) 
      Fd0.fd_0.__init__(self, 0, p_host_ip, p_port, p_db_name, p_user_name, bOUT_NAME, bERR_NAME)
@@ -124,11 +125,22 @@ class make_main (Proc3.proc_patterns, Yaml3.yaml_patterns, Fd0.fd_0, fd_log_z):
     self.MOGRIFY = p_MOGRIFY
     rc = 0
     
-    # Адресные регионы
+    # Установка индексного покрытия в схеме gar_fias;
+    if not self.gf_cidx_skip:  
+        rc = self.stage_3 (self.gar_tmp_p_gar_fias_crt_idx.format (self.gf_cidx_sw),\
+            self.gf_cidx_descr)
+     
+    # Адресные регионы, заполнение таблицы дефектов.
     if not self.gar_fias_set_gap_adr_area_skip:     
         rc = self.stage_3 (self.gar_fias_set_adr_data.format (self.g_adr_area_sch,\
             self.region_id, self.date), self.gar_fias_set_gap_descr)
-    
+ 
+    # Корреция данных на основании таблицы дефектов.
+    if not self.gar_fias_update_children_skip:                         # 2022-09-05
+        rc = self.stage_3 (self.gar_fias_addr_obj_update_children.format (self.date,\
+            self.gar_fias_update_children_obj_level, self.gar_fias_update_children_date_2),\
+                self.gar_fias_update_children_descr)
+        
     # Дома
     #if not self.gar_fias_set_gap_adr_house_skip:  
                     
@@ -146,12 +158,7 @@ class make_main (Proc3.proc_patterns, Yaml3.yaml_patterns, Fd0.fd_0, fd_log_z):
     if not self.gt_stl_skip:     
         rc = self.stage_3 (self.gar_tmp_p_alt_tbl.format (self.gt_stl_sw),\
             self.gt_stl_descr)
-    
-    # Установка индексного покрытия в схеме gar_fias;
-    if not self.gf_cidx_skip:  
-        rc = self.stage_3 (self.gar_tmp_p_gar_fias_crt_idx.format (self.gf_cidx_sw),\
-            self.gf_cidx_descr)
-             
+            
     # Очистка данных во временной схеме
     if not self.gt_clr_skip:
         rc = self.stage_3 (self.gar_tmp_p_clear_tbl.format (self.gt_clr_sw),\

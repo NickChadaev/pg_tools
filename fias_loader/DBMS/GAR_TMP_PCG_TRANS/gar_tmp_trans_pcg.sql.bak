@@ -5,7 +5,7 @@
 --
 CREATE OR REPLACE VIEW gar_tmp_pcg_trans.version
  AS
- SELECT '$Revision:1738$ modified $RevDate:2022-09-05$'::text AS version; 
+ SELECT '$Revision:1748$ modified $RevDate:2022-09-08$'::text AS version; 
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_obj_seq_crt (text, bigint);
@@ -5116,6 +5116,302 @@ COMMENT ON PROCEDURE gar_tmp_pcg_trans.p_adr_house_del_twin
 -- ROLLBACK;
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_area_unload_data (text, bigint, text);
+CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_unload_data (
+              p_schema_name   text       -- схема на отдалённом сервере
+             ,p_id_region     bigint     -- Номер региона.
+             ,p_conn          text       -- connection dblink
+)
+
+        RETURNS TABLE  (
+                             id_area           bigint       
+                            ,id_country        integer      
+                            ,nm_area           varchar(120) 
+                            ,nm_area_full      varchar(4000)
+                            ,id_area_type      integer      
+                            ,id_area_parent    bigint       
+                            ,kd_timezone       integer      
+                            ,pr_detailed       smallint     
+                            ,kd_oktmo          varchar(11)  
+                            ,nm_fias_guid      uuid         
+                            ,dt_data_del       timestamp without time zone 
+                            ,id_data_etalon    bigint 
+                            ,kd_okato          varchar(11) 
+                            ,nm_zipcode        varchar(20) 
+                            ,kd_kladr          varchar(15) 
+                            ,vl_addr_latitude  numeric
+                            ,vl_addr_longitude numeric
+      )                   
+        LANGUAGE plpgsql
+        SECURITY DEFINER        
+ AS $$
+  -- -------------------------------------------------------------------------------------
+  --  2022-09-08  Загрузка регионального фрагмента из ОТДАЛЁННОГО справочника 
+  --                         георегионов.
+  -- -------------------------------------------------------------------------------------
+  DECLARE
+    _exec text;
+    
+    _select text = $_$
+  
+           WITH RECURSIVE aa1 (
+                                 id_area           
+                                ,id_country        
+                                ,nm_area           
+                                ,nm_area_full      
+                                ,id_area_type      
+                                ,id_area_parent    
+                                ,kd_timezone       
+                                ,pr_detailed       
+                                ,kd_oktmo          
+                                ,nm_fias_guid      
+                                ,dt_data_del        
+                                ,id_data_etalon    
+                                ,kd_okato          
+                                ,nm_zipcode        
+                                ,kd_kladr          
+                                ,vl_addr_latitude  
+                                ,vl_addr_longitude 
+                                 --
+                                ,tree_d            
+                                ,level_d
+                                ,cicle_d                               
+            
+            ) AS (
+                     SELECT 
+                         x.id_area           
+                        ,x.id_country        
+                        ,x.nm_area           
+                        ,x.nm_area_full      
+                        ,x.id_area_type      
+                        ,x.id_area_parent    
+                        ,x.kd_timezone       
+                        ,x.pr_detailed       
+                        ,x.kd_oktmo          
+                        ,x.nm_fias_guid      
+                        ,x.dt_data_del        
+                        ,x.id_data_etalon    
+                        ,x.kd_okato          
+                        ,x.nm_zipcode        
+                        ,x.kd_kladr          
+                        ,x.vl_addr_latitude  
+                        ,x.vl_addr_longitude 
+                         --
+                        ,CAST (ARRAY [x.id_area] AS bigint []) 
+                        ,1
+                        ,FALSE
+                       
+                     FROM %I.adr_area x 
+                     WHERE (x.id_area_parent IS NULL) AND (x.id_area = %L) 
+                            AND (x.dt_data_del IS NULL) AND (x.id_data_etalon IS NULL)
+                   
+                     UNION ALL
+                     
+                     SELECT 
+                         x.id_area           
+                        ,x.id_country        
+                        ,x.nm_area           
+                        ,x.nm_area_full      
+                        ,x.id_area_type      
+                        ,x.id_area_parent    
+                        ,x.kd_timezone       
+                        ,x.pr_detailed       
+                        ,x.kd_oktmo          
+                        ,x.nm_fias_guid      
+                        ,x.dt_data_del        
+                        ,x.id_data_etalon    
+                        ,x.kd_okato          
+                        ,x.nm_zipcode        
+                        ,x.kd_kladr          
+                        ,x.vl_addr_latitude  
+                        ,x.vl_addr_longitude 
+                         --	       
+                        ,CAST (aa1.tree_d || x.id_area AS bigint [])
+                        ,(aa1.level_d + 1) t
+                        ,x.id_area = ANY (aa1.tree_d)               
+                       
+                     FROM %I.adr_area x  
+                      
+                       INNER JOIN aa1 ON (aa1.id_area = x.id_area_parent ) AND (NOT aa1.cicle_d)
+            )
+               SELECT   aa1.id_area           
+                       ,aa1.id_country        
+                       ,aa1.nm_area           
+                       ,aa1.nm_area_full      
+                       ,aa1.id_area_type      
+                       ,aa1.id_area_parent    
+                       ,aa1.kd_timezone       
+                       ,aa1.pr_detailed       
+                       ,aa1.kd_oktmo          
+                       ,aa1.nm_fias_guid      
+                       ,aa1.dt_data_del       
+                       ,aa1.id_data_etalon    
+                       ,aa1.kd_okato          
+                       ,aa1.nm_zipcode        
+                       ,aa1.kd_kladr          
+                       ,aa1.vl_addr_latitude  
+                       ,aa1.vl_addr_longitude 
+                     
+               FROM aa1 ORDER BY aa1.tree_d;  
+    $_$;
+  
+  BEGIN
+    _exec := format (_select, p_schema_name, p_id_region, p_schema_name, p_schema_name);            
+      
+    RETURN QUERY
+         SELECT x1.* FROM gar_link.dblink (p_conn, _exec) AS x1
+          (
+                 id_area           bigint       
+                ,id_country        integer      
+                ,nm_area           varchar(120) 
+                ,nm_area_full      varchar(4000)
+                ,id_area_type      integer      
+                ,id_area_parent    bigint       
+                ,kd_timezone       integer      
+                ,pr_detailed       smallint     
+                ,kd_oktmo          varchar(11)  
+                ,nm_fias_guid      uuid         
+                ,dt_data_del       timestamp without time zone 
+                ,id_data_etalon    bigint 
+                ,kd_okato          varchar(11) 
+                ,nm_zipcode        varchar(20) 
+                ,kd_kladr          varchar(15) 
+                ,vl_addr_latitude  numeric
+                ,vl_addr_longitude numeric
+           ); 
+    END;             
+$$;
+COMMENT ON FUNCTION gar_tmp_pcg_trans.f_adr_area_unload_data (text, bigint, text) IS
+'Загрузка регионального фрагмента из ОТДАЛЁННОГО справочника георегинов';
+-- -----------------------------------------------------
+-- USE CASE:
+--      SELECT * FROM gar_tmp_pcg_trans.f_adr_area_unload_data ('unnsi'
+-- 				, 24, (gar_link.f_conn_set (11))
+-- 	);
+-- -------------------------------------------------------------------
+-- Successfully run. Total query runtime: 5 secs 701 msec.
+-- 891734 rows affected.
+--     SELECT * FROM gar_link.v_servers_active;
+
+-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_street_unload_data (text, bigint, text);
+CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_unload_data (
+              p_schema_name   text       -- схема на отдалённом сервере
+             ,p_id_region     bigint     -- Номер региона.
+             ,p_conn          text       -- connection dblink
+)
+
+        RETURNS TABLE  (
+                           id_street         bigint       
+                          ,id_area           bigint       
+                          ,nm_street         varchar(120) 
+                          ,id_street_type    integer      
+                          ,nm_street_full    varchar(255) 
+                          ,nm_fias_guid      uuid         
+                          ,dt_data_del       timestamp without time zone 
+                          ,id_data_etalon    bigint 
+                          ,kd_kladr          varchar(15)  
+                          ,vl_addr_latitude  numeric 
+                          ,vl_addr_longitude numeric 
+        )
+        LANGUAGE plpgsql
+        SECURITY DEFINER        
+ AS $$
+  -- -------------------------------------------------------------------------------------
+  --  2022-09-28  Загрузка регионального фрагмента из ОТДАЛЁННОГО справочника адресов улиц.
+  -- -------------------------------------------------------------------------------------
+  DECLARE
+    _exec text;
+    
+    _select text = $_$
+  
+           WITH RECURSIVE aa1 (
+                                 id_area_parent             
+                                ,id_area 
+                                 --
+                                ,tree_d            
+                                ,level_d
+                                ,cicle_d                               
+            
+            ) AS (
+                     SELECT 
+                         x.id_area_parent   
+                        ,x.id_area    
+                         --
+                        ,CAST (ARRAY [x.id_area] AS bigint []) 
+                        ,1
+                        ,FALSE
+                       
+                     FROM %I.adr_area x 
+                   
+                        WHERE(x.id_area_parent IS NULL) AND (x.id_area = %L) AND
+           	              (x.dt_data_del IS NULL) AND (x.id_data_etalon IS NULL)
+                   
+                     UNION ALL
+                     
+                     SELECT 
+                         x.id_area_parent   
+                        ,x.id_area  
+                       -- --	       
+                        ,CAST (aa1.tree_d || x.id_area AS bigint [])
+                        ,(aa1.level_d + 1) t
+                        ,x.id_area = ANY (aa1.tree_d)               
+                       
+                     FROM %I.adr_area x  
+                      
+                       INNER JOIN aa1 ON (aa1.id_area = x.id_area_parent ) AND (NOT aa1.cicle_d)
+            )
+               SELECT      
+                s.id_street          
+               ,aa1.id_area          
+               ,s.nm_street          
+               ,s.id_street_type     
+               ,s.nm_street_full     
+               ,s.nm_fias_guid       
+               ,s.dt_data_del        
+               ,s.id_data_etalon     
+               ,s.kd_kladr           
+               ,s.vl_addr_latitude   
+               ,s.vl_addr_longitude  
+                     
+               FROM aa1 
+                   INNER JOIN %I.adr_street s ON (s.id_area = aa1.id_area)
+                   
+               ORDER BY aa1.tree_d;    
+    $_$;
+  
+  BEGIN
+    _exec := format (_select, p_schema_name, p_id_region, p_schema_name, p_schema_name);            
+      
+    RETURN QUERY
+         SELECT x1.* FROM gar_link.dblink (p_conn, _exec) AS x1
+          (
+                id_street         bigint       
+               ,id_area           bigint       
+               ,nm_street         varchar(120) 
+               ,id_street_type    integer      
+               ,nm_street_full    varchar(255) 
+               ,nm_fias_guid      uuid         
+               ,dt_data_del       timestamp without time zone 
+               ,id_data_etalon    bigint 
+               ,kd_kladr          varchar(15)  
+               ,vl_addr_latitude  numeric 
+               ,vl_addr_longitude numeric 
+           ); 
+    END;             
+$$;
+COMMENT ON FUNCTION gar_tmp_pcg_trans.f_adr_street_unload_data (text, bigint, text) IS
+'Загрузка регионального фрагмента из ОТДАЛЁННОГО справочника адресов улиц';
+-- -----------------------------------------------------
+-- USE CASE:
+--      SELECT * FROM gar_tmp_pcg_trans.f_adr_street_unload_data ('unnsi'
+-- 				, 24, (gar_link.f_conn_set (11))
+-- 	);
+-- -------------------------------------------------------------------
+-- Successfully run. Total query runtime: 5 secs 701 msec.
+-- 891734 rows affected.
+
+-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_house_unload_data (text, bigint, text);
 CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_unload_data (
               p_schema_name   text       -- схема на отдалённом сервере
@@ -7385,6 +7681,156 @@ COMMENT ON FUNCTION gar_tmp_pcg_trans.fp_adr_house_upd (
 --     CALL gar_tmp_pcg_trans.fp_adr_house_upd ('unsi', 1, 'fff', 'sss', 0::smallint, NULL);
 --     CALL gar_tmp_pcg_trans.fp_adr_house_upd ('unsi', 3, 'Автономная область', 'Аобл', 0::smallint, NULL);
 
+
+-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_area_unload (text, bigint, text);
+CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_unload (
+              p_schema_name   text  
+             ,p_id_region     bigint
+             ,p_conn          text       -- connection dblink             
+)
+    LANGUAGE plpgsql SECURITY DEFINER
+    AS $$
+    -- -------------------------------------------------------------------------------------
+    --  2022-09-08  Загрузка фрагмента из ОТДАЛЁННОГО справочника адресных регионов.
+    -- -------------------------------------------------------------------------------------
+    BEGIN
+      ALTER TABLE gar_tmp.adr_area DROP CONSTRAINT IF EXISTS pk_adr_area;
+      ALTER TABLE gar_tmp.adr_area DROP CONSTRAINT IF EXISTS pk_tmp_adr_area;
+      DROP INDEX IF EXISTS gar_tmp._xxx_adr_area_ak1;
+      DROP INDEX IF EXISTS gar_tmp._xxx_adr_area_ie2;
+      --
+      DELETE FROM ONLY gar_tmp.adr_area;   -- 2022-02-17
+      
+      INSERT INTO gar_tmp.adr_area (
+                                       id_area          
+                                      ,id_country       
+                                      ,nm_area          
+                                      ,nm_area_full     
+                                      ,id_area_type     
+                                      ,id_area_parent   
+                                      ,kd_timezone      
+                                      ,pr_detailed      
+                                      ,kd_oktmo         
+                                      ,nm_fias_guid     
+                                      ,dt_data_del      
+                                      ,id_data_etalon   
+                                      ,kd_okato         
+                                      ,nm_zipcode       
+                                      ,kd_kladr         
+                                      ,vl_addr_latitude 
+                                      ,vl_addr_longitude
+       ) 
+          SELECT * FROM gar_tmp_pcg_trans.f_adr_area_unload_data (
+                      p_schema_name
+	     			 ,p_id_region
+	     			 ,p_conn
+ 	     );           
+      
+      ALTER TABLE gar_tmp.adr_area ADD CONSTRAINT pk_adr_area PRIMARY KEY (id_area);
+      
+      CREATE UNIQUE INDEX IF NOT EXISTS _xxx_adr_area_ak1
+          ON gar_tmp.adr_area USING btree
+                (id_country, id_area_parent, id_area_type, upper(nm_area::text))
+          WHERE id_data_etalon IS NULL AND dt_data_del IS NULL;
+      
+      CREATE UNIQUE INDEX IF NOT EXISTS _xxx_adr_area_ie2
+          ON gar_tmp.adr_area USING btree
+          (nm_fias_guid ASC NULLS LAST)
+          WHERE id_data_etalon IS NULL AND dt_data_del IS NULL;      
+      
+    -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++    
+    EXCEPTION           
+       WHEN OTHERS THEN 
+        BEGIN
+          RAISE WARNING 'P_ADR_AREA_LOAD: % -- %', SQLSTATE, SQLERRM;
+        END;
+    END;
+  $$;
+
+COMMENT ON PROCEDURE gar_tmp_pcg_trans.p_adr_area_unload (text, bigint, text) 
+         IS 'Загрузка фрагмента ОТДАЛЁННОМ справочника адресных регионов';
+-- -----------------------------------------------------------------------------------------------
+--  USE CASE:
+--    CALL gar_tmp_pcg_trans.p_adr_area_unload (
+--                                 'unnsi'
+--                                , 24
+--                                ,(gar_link.f_conn_set (11))
+-- );
+--    SELECT count(1) AS qty_adr_area FROM gar_tmp.adr_area; -- 5076
+--    SELECT * FROM gar_tmp.adr_area; -- 5076
+ 
+
+
+-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_street_unload (text, bigint, text);
+CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_unload (
+              p_schema_name   text  
+             ,p_id_region     bigint
+             ,p_conn          text       -- connection dblink             
+)
+    LANGUAGE plpgsql SECURITY DEFINER
+    AS $$
+    -- -------------------------------------------------------------------------------------
+    --  2022-09-28  Загрузка фрагмента из ОТДАЛЁННОГО справочника адресов улиц.
+    -- -------------------------------------------------------------------------------------
+    BEGIN
+      ALTER TABLE gar_tmp.adr_street DROP CONSTRAINT IF EXISTS pk_adr_street;
+	  ALTER TABLE gar_tmp.adr_street DROP CONSTRAINT IF EXISTS pk_tmp_adr_street;
+      DROP INDEX IF EXISTS gar_tmp._xxx_adr_street_ak1;
+      DROP INDEX IF EXISTS gar_tmp._xxx_adr_street_ie2;
+      --
+      DELETE FROM ONLY gar_tmp.adr_street;   -- 2022-02-17
+      
+      INSERT INTO gar_tmp.adr_street (
+                   id_street          
+                  ,id_area          
+                  ,nm_street          
+                  ,id_street_type     
+                  ,nm_street_full     
+                  ,nm_fias_guid       
+                  ,dt_data_del        
+                  ,id_data_etalon     
+                  ,kd_kladr           
+                  ,vl_addr_latitude   
+                  ,vl_addr_longitude  
+       ) 
+          SELECT * FROM gar_tmp_pcg_trans.f_adr_street_unload_data (
+                      p_schema_name
+	     			 ,p_id_region
+	     			 ,p_conn
+ 	     );           
+      
+      ALTER TABLE gar_tmp.adr_street ADD CONSTRAINT pk_adr_street PRIMARY KEY (id_street);
+      
+      CREATE UNIQUE INDEX IF NOT EXISTS _xxx_adr_street_ak1
+          ON gar_tmp.adr_street USING btree (id_area, upper(nm_street), id_street_type)
+          WHERE id_data_etalon IS NULL AND dt_data_del IS NULL;
+      
+      CREATE UNIQUE INDEX IF NOT EXISTS _xxx_adr_street_ie2
+          ON gar_tmp.adr_street USING btree (nm_fias_guid ASC NULLS LAST)
+          WHERE id_data_etalon IS NULL AND dt_data_del IS NULL;      
+      
+    -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++    
+    EXCEPTION           
+       WHEN OTHERS THEN 
+        BEGIN
+          RAISE WARNING 'P_ADR_STREET_LOAD: % -- %', SQLSTATE, SQLERRM;
+        END;
+    END;
+  $$;
+
+COMMENT ON PROCEDURE gar_tmp_pcg_trans.p_adr_street_unload (text, bigint, text) 
+         IS 'Загрузка фрагмента ОТДАЛЁННОМ справочника адресов улиц';
+-- -----------------------------------------------------------------------------------------------
+--  USE CASE:
+--    CALL gar_tmp_pcg_trans.p_adr_street_unload (
+--                                 'unnsi'
+--                                , 24
+--                                ,(gar_link.f_conn_set (11))
+-- );
+--    SELECT count(1) AS qty_adr_street FROM gar_tmp.adr_street; -- 41947
+-- SELECT * FROM gar_tmp.adr_street;
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_house_unload (text);

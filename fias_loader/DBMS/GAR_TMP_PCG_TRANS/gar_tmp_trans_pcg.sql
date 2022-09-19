@@ -5,7 +5,7 @@
 --
 CREATE OR REPLACE VIEW gar_tmp_pcg_trans.version
  AS
- SELECT '$Revision:1748$ modified $RevDate:2022-09-08$'::text AS version; 
+ SELECT '$Revision:1758$ modified $RevDate:2022-09-19$'::text AS version; 
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_obj_seq_crt (text, bigint);
@@ -10512,12 +10512,39 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_show_data (
                    --   
                    ,bb1.nm_addr_obj    
                    ,COALESCE (bb1.addr_obj_type_id,
-                     (SELECT z.id FROM gar_fias.as_addr_obj_type z 
-                            WHERE (z.type_shortname = bb1.addr_obj_type) 
---                                    AND     2022-08-17 В справочниках GAR может быть
---                                 (z.end_date > p_date)  несколько активных записей.
-                                    AND 
-                                 (z.type_level::bigint = bb1.obj_level)            
+                     (
+                       WITH z (
+                                 type_id
+                                ,type_level
+						        ,is_active
+                                ,fias_row_key
+                       )
+                         AS (
+                             SELECT   t.id
+                                     ,t.type_level
+							         ,t.is_active
+                                     ,gar_tmp_pcg_trans.f_xxx_replace_char (t.type_name)
+                             FROM gar_fias.as_addr_obj_type t 
+                               WHERE (t.type_shortname = bb1.addr_obj_type) AND 
+                                     (t.type_level::bigint = bb1.obj_level)            
+                             )
+                       , v (type_id)
+                         AS (
+                             SELECT r.id FROM gar_fias.as_addr_obj_type r, z 
+                              WHERE (gar_tmp_pcg_trans.f_xxx_replace_char (r.type_name)
+                                       = 
+                                     z.fias_row_key
+                                    ) 
+                                           AND 
+                                    (r.type_level = z.type_level) AND (r.is_active) 
+                           )  
+                             SELECT 
+                                 CASE 
+                                   WHEN NOT z.is_active THEN (SELECT v.type_id FROM v)
+                                      ELSE 
+                                           z.type_id
+                                 END AS type_id
+                             FROM z
                       )
                     ) AS addr_obj_type_id
                    ,bb1.addr_obj_type               
@@ -10549,7 +10576,7 @@ COMMENT ON FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_show_data (date, bigint, bi
 IS 'Функция подготавливает исходные данные для таблицы-прототипа "gar_tmp.xxx_adr_area"';
 ----------------------------------------------------------------------------------
 -- USE CASE:
---    EXPLAIN ANALyZE SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data (); -- 1184
+--    EXPLAIN ANALyZE SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data () WHERE (fias_guid = '22f712f4-091f-4adf-af7f-129ee95b4468'); -- 1184
 -- CALL gar_tmp_pcg_trans.p_gar_fias_crt_idx ();
 -- SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data (p_obj_level := 22); 
 -- SELECT count (1) FROM gar_tmp_pcg_trans.as_addr_obj; --7345  --- 1312 ?

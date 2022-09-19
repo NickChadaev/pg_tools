@@ -1,13 +1,13 @@
-psql:./FUNCTION/f_addr_obj_update_parent.sql:45: ЗАМЕЧАНИЕ:  (FUNCTION,276173,gar_fias_pcg_load,f_adr_area_show_data,"(uuid)")
+psql:./FUNCTION/f_addr_obj_update_parent.sql:45: ЗАМЕЧАНИЕ:  (FUNCTION,276212,gar_fias_pcg_load,f_adr_area_show_data,"(uuid)")
 psql:./FUNCTION/f_addr_obj_update_parent.sql:45: ЗАМЕЧАНИЕ:  (RELATION,274433,gar_fias,as_addr_obj,)
 psql:./FUNCTION/f_addr_obj_update_parent.sql:45: ЗАМЕЧАНИЕ:  (RELATION,274451,gar_fias,as_adm_hierarchy,)
-psql:./FUNCTION/f_adr_area_set_data.sql:168: ЗАМЕЧАНИЕ:  (FUNCTION,276173,gar_fias_pcg_load,f_adr_area_show_data,"(uuid)")
+psql:./FUNCTION/f_adr_area_set_data.sql:168: ЗАМЕЧАНИЕ:  (FUNCTION,276212,gar_fias_pcg_load,f_adr_area_show_data,"(uuid)")
 psql:./FUNCTION/f_adr_area_set_data.sql:168: ЗАМЕЧАНИЕ:  (RELATION,274545,gar_fias,gap_adr_area,)
 psql:./FUNCTION/f_addr_obj_update_children.sql:1: ЗАМЕЧАНИЕ:  функция gar_fias_pcg_load.f_addr_obj_update_children(uuid,uuid,date) не существует, пропускается
-psql:./FUNCTION/f_addr_obj_update_children.sql:110: ЗАМЕЧАНИЕ:  (FUNCTION,276175,gar_fias_pcg_load,f_addr_obj_update_parent,"(uuid,uuid,date)")
-psql:./FUNCTION/f_addr_obj_update_children.sql:110: ЗАМЕЧАНИЕ:  (FUNCTION,276173,gar_fias_pcg_load,f_adr_area_show_data,"(uuid)")
-psql:./FUNCTION/f_addr_obj_update_children.sql:110: ЗАМЕЧАНИЕ:  (RELATION,274433,gar_fias,as_addr_obj,)
-psql:./FUNCTION/f_addr_obj_update_children.sql:110: ЗАМЕЧАНИЕ:  (RELATION,274545,gar_fias,gap_adr_area,)
+psql:./FUNCTION/f_addr_obj_update_children.sql:106: ЗАМЕЧАНИЕ:  (FUNCTION,276214,gar_fias_pcg_load,f_addr_obj_update_parent,"(uuid,uuid,date)")
+psql:./FUNCTION/f_addr_obj_update_children.sql:106: ЗАМЕЧАНИЕ:  (FUNCTION,276212,gar_fias_pcg_load,f_adr_area_show_data,"(uuid)")
+psql:./FUNCTION/f_addr_obj_update_children.sql:106: ЗАМЕЧАНИЕ:  (RELATION,274433,gar_fias,as_addr_obj,)
+psql:./FUNCTION/f_addr_obj_update_children.sql:106: ЗАМЕЧАНИЕ:  (RELATION,274545,gar_fias,gap_adr_area,)
 psql:./PROCEDURE/del_gar_all.sql:1: ЗАМЕЧАНИЕ:  функция gar_fias_pcg_load.del_gar_addr_obj(pg_catalog.int8) не существует, пропускается
 psql:./PROCEDURE/save_gar_addr_obj.sql:102: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_addr_obj.id%TYPE преобразована в тип bigint
 psql:./PROCEDURE/save_gar_addr_obj.sql:102: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_addr_obj.object_id%TYPE преобразована в тип bigint

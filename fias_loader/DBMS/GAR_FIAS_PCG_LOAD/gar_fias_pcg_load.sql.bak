@@ -863,10 +863,6 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_addr_obj_update_children (
     --   адресный объект, потом старый. 
     -- Должны совпадать: id_addr_parent, upper(nm_addr_obj), addr_obj_type_id.
     -- Далее обработка (пункты 0,1,2). 
-    -- Чтение одной записи (старая/новая  пока вопрос)
-    -- Тройка атрибутов совпала -- это ещё одна старая -- обработка (пункты 0,1,2).
-    -- Тройка не совпала, это новая запись !!! Ура - новая, читаю следующую - старая
-    -- и Обработка по пунктам 0,1,2
     -- -----------------------------------------------------------------------------
   
     FOR _rec_one IN 
@@ -917,7 +913,7 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_addr_obj_update_children (
           UPDATE gar_fias.as_addr_obj SET is_actual = FALSE, is_active = FALSE
            WHERE (object_guid = _rec_one.fias_guid_old);
          
-          -- 2) Убрать неактуальных детей. (id_lead IS not NULL) убрать  is actual, is_active <---- FALSE.
+          -- 2) Убрать неактуальных детей. (id_lead IS not NULL) убрать is actual, is_active <---- FALSE.
           WITH z (id_addr_obj)
               AS (
                    SELECT id_addr_obj 

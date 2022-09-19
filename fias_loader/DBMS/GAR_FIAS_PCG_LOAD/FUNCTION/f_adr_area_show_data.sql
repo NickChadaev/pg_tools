@@ -257,15 +257,42 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_adr_area_show_data (
                    --   
                    ,bb1.nm_addr_obj    
                    ,COALESCE (bb1.addr_obj_type_id,
-                     (SELECT z.id FROM gar_fias.as_addr_obj_type z 
-                            WHERE (z.type_shortname = bb1.addr_obj_type) 
---                                    AND     2022-08-17 В справочниках GAR может быть
---                                 (z.end_date > p_date)  несколько активных записей.
-                                    AND 
-                                 (z.type_level::bigint = bb1.obj_level)            
+                     (
+                       WITH z (
+                                 type_id
+                                ,type_level
+						        ,is_active
+                                ,fias_row_key
+                       )
+                         AS (
+                             SELECT   t.id
+                                     ,t.type_level
+							         ,t.is_active
+                                     ,gar_tmp_pcg_trans.f_xxx_replace_char (t.type_name)
+                             FROM gar_fias.as_addr_obj_type t 
+                               WHERE (t.type_shortname = bb1.addr_obj_type) AND 
+                                     (t.type_level::bigint = bb1.obj_level)            
+                             )
+                       , v (type_id)
+                         AS (
+                             SELECT r.id FROM gar_fias.as_addr_obj_type r, z 
+                              WHERE (gar_tmp_pcg_trans.f_xxx_replace_char (r.type_name)
+                                       = 
+                                     z.fias_row_key
+                                    ) 
+                                           AND 
+                                    (r.type_level = z.type_level) AND (r.is_active) 
+                           )  
+                             SELECT 
+                                 CASE 
+                                   WHEN NOT z.is_active THEN (SELECT v.type_id FROM v)
+                                      ELSE 
+                                           z.type_id
+                                 END AS type_id
+                             FROM z
                       )
-                    ) AS addr_obj_type_id 
-                    
+                    ) AS addr_obj_type_id
+                    --                    
                    ,bb1.addr_obj_type               
                    --
                    ,bb1.obj_level
@@ -301,7 +328,7 @@ COMMENT ON FUNCTION gar_fias_pcg_load.f_adr_area_show_data (uuid, date, bigint)
 IS 'Отображение исходных данных в формате "gar_fias.gap_adr_area_t"';
 ----------------------------------------------------------------------------------
 -- USE CASE:
--- SELECT * FROM gar_fias_pcg_load.f_adr_area_show_data (p_fias_guid := '80a6adb4-a120-4f45-9a50-646ee565d37a'::uuid); -- 69598
+-- SELECT * FROM gar_fias_pcg_load.f_adr_area_show_data (p_fias_guid := '22f712f4-091f-4adf-af7f-129ee95b4468'::uuid); -- 69598
 -- SELECT * FROM gar_fias_pcg_load.f_adr_area_show_data (p_fias_guid := 'b0aa0895-e596-4a25-a0aa-0c69c83f0f9e'::uuid);  
 -- SELECT * FROM gar_fias_pcg_load.f_adr_area_show_data (p_fias_guid := NULL::uuid) WHERE (nm_addr_obj ilike 'Аметистовый%'); 
 --      57a0587f-59a4-4445-8ef4-d35998fdf3fd  Аметистовый

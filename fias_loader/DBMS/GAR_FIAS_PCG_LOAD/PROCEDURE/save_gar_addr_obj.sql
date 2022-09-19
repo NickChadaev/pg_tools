@@ -24,7 +24,7 @@ CREATE OR REPLACE PROCEDURE gar_fias_pcg_load.save_gar_addr_obj (
     -- Author: Nick
     -- Create date: 2021-10-07
     -- Updates:  2021-10-28 Модификация под загрузчик ГИС Интеграция.
-    --           2022-01-26 Неоднозность в определении типов
+    --           2022-01-26/2022-09-19 Неоднозначность в определении типов
     -- ----------------------------------------------------------------------------------------------------  
     -- Загрузка классификатора адресных объектов. Источник: внешний парсер.
     --  Предварительно должны быть загружены: "as_operation_type", "as_reestr_objects", "as_object_level".
@@ -91,11 +91,11 @@ CREATE OR REPLACE PROCEDURE gar_fias_pcg_load.save_gar_addr_obj (
                     WHERE (i.id = excluded.id);
         --
         WITH x AS (
-                    SELECT z.id, z.type_shortname 
+                    SELECT z.id AS type_id, z.type_shortname 
                         FROM gar_fias.as_addr_obj_type z WHERE (z.type_shortname = i_type_name) AND 
-               			      (z.end_date > current_date) AND (	z.type_level::bigint = i_obj_level)            
+               			      (z.is_active) AND (z.type_level::bigint = i_obj_level)            
         )
-        UPDATE gar_fias.as_addr_obj u SET type_id = x.id 
+        UPDATE gar_fias.as_addr_obj u SET type_id = x.type_id 
            FROM x  
                  WHERE (u.type_name = x.type_shortname) AND (u.id = i_id);
     END;

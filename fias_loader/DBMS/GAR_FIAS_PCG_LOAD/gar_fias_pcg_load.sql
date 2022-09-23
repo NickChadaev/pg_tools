@@ -5,7 +5,7 @@
 --
 CREATE OR REPLACE VIEW gar_fias_pcg_load.version
  AS
- SELECT '$Revision:1758$ modified $RevDate:2022-09-19$'::text AS version; 
+ SELECT '$Revision:1765$ modified $RevDate:2022-09-23$'::text AS version; 
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DROP FUNCTION IF EXISTS gar_fias_pcg_load.f_adr_area_show_data (uuid, date, bigint);
@@ -859,16 +859,16 @@ DROP FUNCTION IF EXISTS gar_fias_pcg_load.f_addr_obj_update_children (uuid, uuid
 
 DROP FUNCTION IF EXISTS gar_fias_pcg_load.f_addr_obj_update_children (date, integer[], uuid[], date);
 CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_addr_obj_update_children (
-         p_date_1     date
-        ,p_obj_level  integer[] = ARRAY[6,7] 
-        ,p_fias_guid  uuid[]    = NULL::uuid[]
-        ,p_date_2     date      = current_date
+         p_date_1     date                      -- Обрабатываемвя дата
+        ,p_obj_level  integer[] = ARRAY[6,7]    -- Уровни адресных объектов
+        ,p_fias_guid  uuid[]    = NULL::uuid[]  -- Выбранные UUID, опционально
+        ,p_date_2     date      = current_date  -- Текущая дата (передаётся как параметр ??)
          --
-        ,OUT fias_guid_new    uuid
-        ,OUT nm_addr_obj      varchar(250) 
-        ,OUT addr_obj_type_id bigint 
-        ,OUT chld_qty_tot     integer
-        ,OUT chld_qty_unact   integer
+        ,OUT fias_guid_new    uuid         -- UUID актуального объекта.
+        ,OUT nm_addr_obj      varchar(250) -- Наименование адресного объекта. 
+        ,OUT addr_obj_type_id bigint       -- Тип адрессного объекта.
+        ,OUT chld_qty_tot     integer      -- Общее количество подчинённых объектов 
+        ,OUT chld_qty_unact   integer      -- Неактуальные.
   )
     RETURNS setof record
     LANGUAGE plpgsql 
@@ -897,12 +897,15 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_addr_obj_update_children (
               ,id_addr_parent
               ,nm_addr_obj
               ,addr_obj_type_id
+              ,date_create
          ) AS 
            (
+             -- Выбираю записи, принадлежание обрабатываемой дате.
              SELECT  MAX(x.change_id) AS change_id
                     ,x.id_addr_parent
                     ,upper(x.nm_addr_obj)
                     ,x.addr_obj_type_id
+                    ,x.date_create
                    
                   FROM gar_fias.gap_adr_area x 
                     WHERE (x.obj_level = ANY(p_obj_level)) AND 
@@ -910,24 +913,29 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_addr_obj_update_children (
                           (((x.fias_guid = ANY (p_fias_guid)) AND (p_fias_guid IS NOT NULL))
                              OR (p_fias_guid IS NULL)
                           )	                                  
-                   GROUP BY x.id_addr_parent, upper(x.nm_addr_obj), x.addr_obj_type_id  
+                   GROUP BY x.id_addr_parent
+                          ,upper(x.nm_addr_obj)
+                          ,x.addr_obj_type_id
+                          ,x.date_create 
             )
               SELECT a.fias_guid AS fias_guid_new
                    , b.fias_guid AS fias_guid_old 
-                   , a.id_addr_parent  
+                   , z.id_addr_parent  
                    , a.nm_addr_obj 
-                   , a.addr_obj_type_id              
-                   , a.change_id AS change_id_new
+                   , z.addr_obj_type_id              
+                   , z.change_id AS change_id_new
                    , b.change_id AS change_id_old
               FROM z
                 JOIN gar_fias.gap_adr_area a ON (z.id_addr_parent = a.id_addr_parent)  AND
                                                 (z.nm_addr_obj = upper(a.nm_addr_obj)) AND
                                                 (z.addr_obj_type_id = a.addr_obj_type_id) AND
-                                                (z.change_id = a.change_id) 
-                --                                
+                                                (z.change_id = a.change_id) AND
+                                                (z.date_create = a.date_create)
+                 --                                
                 JOIN gar_fias.gap_adr_area b ON (z.id_addr_parent = b.id_addr_parent)  AND
                                                 (z.nm_addr_obj = upper(b.nm_addr_obj)) AND
                                                 (z.addr_obj_type_id = b.addr_obj_type_id) AND
+												(b.date_create = z.date_create) AND                                                 
                                                 (z.change_id > b.change_id)		  
 
       LOOP

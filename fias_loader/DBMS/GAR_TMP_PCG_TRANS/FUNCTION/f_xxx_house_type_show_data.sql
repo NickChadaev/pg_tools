@@ -15,9 +15,11 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_house_type_show_data (
     --    Функция подготавливает исходные данные для таблицы-прототипа 
     --                    "gar_tmp.xxx_adr_house_type"
     --  2022-02-18 добавлен столбец kd_house_type_lvl - 'Уровень типа номера (1-основной)'
-    --     + stop_list. Расширенный список ТИПОВ форимруется на эталонной базе, то 
+    --     + stop_list. Расширенный список ТИПОВ формируется на эталонной базе, то 
     --       типы попавшие в stop_list нужно вычистить сразу-же. В функции типа SET они 
-    --       будут вычищены на остальных базах.
+    --       будут вычищены в основной базе.
+    --  2022-09-26 
+    --       Тип дома всегда принимается в работу, даже если он неактуальный и просроченный
     -- --------------------------------------------------------------------------------------
     --     p_schema_name text -- Имя схемы-источника._
     --     p_date        date -- Дата на которую формируется выборка       
@@ -38,7 +40,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_house_type_show_data (
                      ,ht.type_shortname
                      ,gar_tmp_pcg_trans.f_xxx_replace_char (ht.type_name) AS row_key
                      
-                  FROM gar_fias.as_house_type ht WHERE (ht.is_active) -- AND ht.end_date > %L) 
+                  FROM gar_fias.as_house_type ht      -- WHERE (ht.is_active) AND ht.end_date > %L) 
                     ORDER BY ht.type_name, ht.house_type_id           --  2021-12-14 Nick
            ),
               z (
@@ -143,7 +145,8 @@ IS 'Функция подготавливает исходные данные д
 --       STOP_LIST CONSTANT text [] := ARRAY ['гараж','шахта']::text[];  
 -- USE CASE:
 --   EXPLAIN ANALyZE 
---     SELECT * FROM gar_tmp_pcg_trans.f_xxx_house_type_show_data ('unnsi', p_stop_list := ARRAY ['гараж','шахта']); --8
+--   SELECT * FROM gar_tmp_pcg_trans.f_xxx_house_type_show_data ('unnsi'
+--     ,p_stop_list := ARRAY ['гараж','шахта','погреб','подвал','котельная','литера','объектнезавершенногостроительства']); --8
 --     SELECT * FROM gar_tmp_pcg_trans.f_xxx_house_type_show_data ('unnsi'); 
 --     SELECT * FROM unnsi.adr_house_type ORDER BY 1;
 -- CALL gar_tmp_pcg_trans.p_gar_fias_crt_idx ();

@@ -1,6 +1,6 @@
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_set_params_value (bigint[]);
 CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_set_params_value (
-       p_param_type_ids  bigint[] = ARRAY [5,6,7,10,11]::bigint[]
+       p_param_type_ids  bigint[] = ARRAY [5,6,7,8,10,11]::bigint[]
 ) RETURNS integer
     LANGUAGE plpgsql SECURITY DEFINER
     SET search_path TO gar_tmp, public

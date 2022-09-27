@@ -261,13 +261,13 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_show_data (
                        WITH z (
                                  type_id
                                 ,type_level
-						        ,is_active
+                                ,is_active
                                 ,fias_row_key
                        )
                          AS (
                              SELECT   t.id
                                      ,t.type_level
-							         ,t.is_active
+                                     ,t.is_active
                                      ,gar_tmp_pcg_trans.f_xxx_replace_char (t.type_name)
                              FROM gar_fias.as_addr_obj_type t 
                                WHERE (t.type_shortname = bb1.addr_obj_type) AND 

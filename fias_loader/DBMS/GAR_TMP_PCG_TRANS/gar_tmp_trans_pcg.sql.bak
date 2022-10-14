@@ -5,7 +5,7 @@
 --
 CREATE OR REPLACE VIEW gar_tmp_pcg_trans.version
  AS
- SELECT '$Revision:1758$ modified $RevDate:2022-09-19$'::text AS version; 
+ SELECT '$Revision:1770$ modified $RevDate:2022-09-27$'::text AS version; 
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_obj_seq_crt (text, bigint);
@@ -1078,9 +1078,11 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_house_type_show_data (
     --    Функция подготавливает исходные данные для таблицы-прототипа 
     --                    "gar_tmp.xxx_adr_house_type"
     --  2022-02-18 добавлен столбец kd_house_type_lvl - 'Уровень типа номера (1-основной)'
-    --     + stop_list. Расширенный список ТИПОВ форимруется на эталонной базе, то 
+    --     + stop_list. Расширенный список ТИПОВ формируется на эталонной базе, то 
     --       типы попавшие в stop_list нужно вычистить сразу-же. В функции типа SET они 
-    --       будут вычищены на остальных базах.
+    --       будут вычищены в основной базе.
+    --  2022-09-26 
+    --       Тип дома всегда принимается в работу, даже если он неактуальный и просроченный
     -- --------------------------------------------------------------------------------------
     --     p_schema_name text -- Имя схемы-источника._
     --     p_date        date -- Дата на которую формируется выборка       
@@ -1101,7 +1103,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_house_type_show_data (
                      ,ht.type_shortname
                      ,gar_tmp_pcg_trans.f_xxx_replace_char (ht.type_name) AS row_key
                      
-                  FROM gar_fias.as_house_type ht WHERE (ht.is_active) -- AND ht.end_date > %L) 
+                  FROM gar_fias.as_house_type ht      -- WHERE (ht.is_active) AND ht.end_date > %L) 
                     ORDER BY ht.type_name, ht.house_type_id           --  2021-12-14 Nick
            ),
               z (
@@ -1206,7 +1208,8 @@ IS 'Функция подготавливает исходные данные д
 --       STOP_LIST CONSTANT text [] := ARRAY ['гараж','шахта']::text[];  
 -- USE CASE:
 --   EXPLAIN ANALyZE 
---     SELECT * FROM gar_tmp_pcg_trans.f_xxx_house_type_show_data ('unnsi', p_stop_list := ARRAY ['гараж','шахта']); --8
+--   SELECT * FROM gar_tmp_pcg_trans.f_xxx_house_type_show_data ('unnsi'
+--     ,p_stop_list := ARRAY ['гараж','шахта','погреб','подвал','котельная','литера','объектнезавершенногостроительства']); --8
 --     SELECT * FROM gar_tmp_pcg_trans.f_xxx_house_type_show_data ('unnsi'); 
 --     SELECT * FROM unnsi.adr_house_type ORDER BY 1;
 -- CALL gar_tmp_pcg_trans.p_gar_fias_crt_idx ();
@@ -1410,6 +1413,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_house_show_data (
     -- ---------------------------------------------------------------------------------------
     --  2021-10-20 Nick Функция для формирования таблицы-прототипа "gar_tmp.xxx_adr_house"
     --  2021-12-09/2021-12-20 Ревизия функции. 
+    --  2022-09-26 
+    --   Тип дома принимается всегда, диапазон актуальности и признак активности - игнорируются.
     -- ---------------------------------------------------------------------------------------
     --   p_date          date   -- Дата на которую формируется выборка    
     --   p_parent_obj_id bigint -- Идентификатор родительского объекта, если NULL то все дома
@@ -1423,16 +1428,16 @@ WITH aa (
             ,parent_fias_guid 
             --   
             ,nm_parent_obj  
-	        ,region_code
-	        --
-	        ,parent_type_id
-	        ,parent_type_name
-	        ,parent_type_shortname
-	        --
-	        ,parent_level_id
-	        ,parent_level_name
-	        ,parent_short_name	        
-	        --
+            ,region_code
+            --
+            ,parent_type_id
+            ,parent_type_name
+            ,parent_type_shortname
+            --
+            ,parent_level_id
+            ,parent_level_name
+            ,parent_short_name	        
+            --
             ,house_num
             ,add_num1
             ,add_num2
@@ -1466,16 +1471,16 @@ WITH aa (
           ,y.object_guid
           --
           ,y.object_name     -- e.g.  parent_name
-	      ,ia.region_code
-	       --
-	      ,x.id
-	      ,x.type_name
-	      ,x.type_shortname
-	      --
-	      ,z.level_id
-	      ,z.level_name
-	      ,z.short_name
-          
+          ,ia.region_code
+           --
+          ,x.id
+          ,x.type_name
+          ,x.type_shortname
+          --
+          ,z.level_id
+          ,z.level_name
+          ,z.short_name
+          --          
           ,h.house_num 
           ,h.add_num1
           ,h.add_num2
@@ -1500,15 +1505,16 @@ WITH aa (
           ,session_user
           --
           ,row_number() OVER (PARTITION BY ia.parent_obj_id, h.house_type, h.add_type1, h.add_type2
-								  , upper(h.house_num), upper(h.add_num1), upper(h.add_num2) 
-								  ORDER BY h.change_id DESC
+                                         , upper(h.house_num), upper(h.add_num1), upper(h.add_num2) 
+                                         ORDER BY h.change_id DESC
                              ) AS rn
           
         FROM gar_fias.as_houses h
           INNER JOIN gar_fias.as_reestr_objects r ON ((r.object_id = h.object_id) AND (r.is_active))
           --
-          INNER JOIN gar_fias.as_house_type t ON ((t.house_type_id = h.house_type) AND (t.is_active)
-                                                     AND (t.end_date > p_date) AND (t.start_date <= p_date)
+          INNER JOIN gar_fias.as_house_type t ON ((t.house_type_id = h.house_type) 
+                                                   --  AND (t.is_active)
+                                                   --  AND (t.end_date > p_date) AND (t.start_date <= p_date)
                                                  )
           --    Проверить      -- LEFT OUTER                             
           INNER JOIN gar_fias.as_adm_hierarchy ia ON ((ia.object_id = r.object_id) AND (ia.is_active) 
@@ -1524,12 +1530,14 @@ WITH aa (
           LEFT OUTER JOIN gar_fias.as_addr_obj_type x ON (x.id = y.type_id) AND (x.is_active)
                                                       AND ((x.end_date > p_date) AND (x.start_date <= p_date)
                                                       )
-          LEFT OUTER JOIN gar_fias.as_add_house_type a1 ON (a1.add_type_id = h.add_type1) AND (a1.is_active)
-                                                      AND ((a1.end_date > p_date) AND (a1.start_date <= p_date)
-                                                      )
-          LEFT OUTER JOIN gar_fias.as_add_house_type a2 ON (a2.add_type_id = h.add_type2)  AND (a2.is_active)
-                                                      AND ((a2.end_date > p_date) AND (a2.start_date <= p_date)
-                                                      )
+          LEFT OUTER JOIN gar_fias.as_add_house_type a1 ON (a1.add_type_id = h.add_type1) 
+                                                      -- AND (a1.is_active)
+                                                      -- AND ((a1.end_date > p_date) AND (a1.start_date <= p_date)
+                                                      --)
+          LEFT OUTER JOIN gar_fias.as_add_house_type a2 ON (a2.add_type_id = h.add_type2)  
+                                                      -- AND (a2.is_active)
+                                                      -- AND ((a2.end_date > p_date) AND (a2.start_date <= p_date)
+                                                      --)
           --
           LEFT OUTER JOIN gar_fias.as_operation_type ot ON (ot.oper_type_id = h.oper_type_id) AND (ot.is_active)
                                                       AND ((ot.end_date > p_date) AND (ot.start_date <= p_date)
@@ -1545,16 +1553,16 @@ WITH aa (
             ,aa.parent_fias_guid 
             --   
             ,aa.nm_parent_obj  
-	        ,aa.region_code
-	        --
-	        ,aa.parent_type_id
-	        ,aa.parent_type_name
-	        ,aa.parent_type_shortname
-	        --
-	        ,aa.parent_level_id
-	        ,aa.parent_level_name
-	        ,aa.parent_short_name	        
-	        --
+            ,aa.region_code
+            --
+            ,aa.parent_type_id
+            ,aa.parent_type_name
+            ,aa.parent_type_shortname
+            --
+            ,aa.parent_level_id
+            ,aa.parent_level_name
+            ,aa.parent_short_name	        
+            --
             ,aa.house_num
             ,aa.add_num1
             ,aa.add_num2
@@ -2969,8 +2977,10 @@ COMMENT ON PROCEDURE gar_tmp_pcg_trans.p_alt_tbl (boolean) IS 'Модифика�
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_clear_tbl (boolean);
+
+DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_clear_tbl (integer[]);
 CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_clear_tbl (
-        p_all  boolean = FALSE
+          p_op_type  integer[] = ARRAY[-8,-9]::integer[] 
 )
     LANGUAGE plpgsql SECURITY DEFINER
     AS $$
@@ -2978,41 +2988,84 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_clear_tbl (
     -- Author: Nick
     -- Create date: 2021-10-13/2021-11-25/2022-03-15
     -- ----------------------------------------------------------------------------------------------------  
-    -- Очистка временных (буфферных таблиц). false - очищаются только таблицы-результаты
-    --        true - все таблицы.
+    -- Очистка временных (буфферных таблиц). FALSE - очищаются только таблицы-результаты TRUE - все таблицы.
     -- 2022-03-15 -- История сохраняется всегда.
+    -- 2022-09-26 -- Многоступенчатое удаление.
     -- ====================================================================================================
-   
+    DECLARE
+
+      _OP_0 CONSTANT integer := 0;
+      _OP_1 CONSTANT integer := 1;
+      _OP_2 CONSTANT integer := 2;
+      _OP_3 CONSTANT integer := 3;
+         
     BEGIN
     
-      IF p_all THEN
+     IF (_OP_0 = ANY (p_op_type)) THEN -- Только прототипы справочников
+     
+        DELETE FROM ONLY gar_tmp.xxx_adr_area_type;   -- Временная таблица для "С_Типы гео-региона (!)"
+        DELETE FROM ONLY gar_tmp.xxx_adr_street_type; -- Временная таблица для "C_Типы улицы (!)"
+        DELETE FROM ONLY gar_tmp.xxx_adr_house_type;  -- Временная таблица для "С_Типы номера (!)"
+       
+     END IF;
+     --
+     IF (_OP_1 = ANY (p_op_type)) THEN -- Только временные таблицы.
+     
+        DELETE FROM ONLY gar_tmp.xxx_adr_area;         -- Временная таблица. заполняется данными из "AS_ADDR_OBJ", "AS_REESTR_OBJECTS", "AS_ADM_HIERARCHY", "AS_MUN_HIERARCHY", "AS_OBJECT_LEVEL", "AS_STEADS_PARAMS"
+        DELETE FROM ONLY gar_tmp.xxx_adr_house;	       -- Адреса домов 
+        DELETE FROM ONLY gar_tmp.xxx_obj_fias;         -- Дополнительная связь адресных объектов с ГАР-ФИАС
+        DELETE FROM ONLY gar_tmp.xxx_type_param_value; -- Для каждого объекта хранятся агрегированные пары "Тип" - "Значение"
       
-	    TRUNCATE TABLE gar_tmp.xxx_adr_area_type;   -- Временная таблица для "С_Типы гео-региона (!)"
-        TRUNCATE TABLE gar_tmp.xxx_adr_street_type; -- Временная таблица для "C_Типы улицы (!)"
-        TRUNCATE TABLE gar_tmp.xxx_adr_house_type;  -- Временная таблица для "С_Типы номера (!)"
-    
-      END IF;
-      -- 
-	  TRUNCATE TABLE gar_tmp.xxx_adr_area;         -- Временная таблица. заполняется данными из "AS_ADDR_OBJ", "AS_REESTR_OBJECTS", "AS_ADM_HIERARCHY", "AS_MUN_HIERARCHY", "AS_OBJECT_LEVEL", "AS_STEADS_PARAMS"
-	  TRUNCATE TABLE gar_tmp.xxx_adr_house;	       -- Адреса домов 
-	  TRUNCATE TABLE gar_tmp.xxx_obj_fias;         -- Дополнительная связь адресных объектов с ГАР-ФИАС
-      TRUNCATE TABLE gar_tmp.xxx_type_param_value; -- Для каждого объекта хранятся агрегированные пары "Тип" - "Значение"
-      --
-      DELETE FROM ONLY gar_tmp.adr_area;     -- 2022-03-10 Сохраняются данные в таблицах-наследниках.
-      DELETE FROM ONLY gar_tmp.adr_house; 
-	  DELETE FROM ONLY gar_tmp.adr_objects;
-	  DELETE FROM ONLY gar_tmp.adr_street;    
-	  
+     END IF;
+     --
+     IF (_OP_2 = ANY (p_op_type)) THEN -- Только таблицы-секции
+     
+        DELETE FROM ONLY gar_tmp.adr_area;     
+        DELETE FROM ONLY gar_tmp.adr_house; 
+        DELETE FROM ONLY gar_tmp.adr_objects;
+        DELETE FROM ONLY gar_tmp.adr_street;
+      
+     END IF;
+     -- 
+     IF (_OP_3 = ANY (p_op_type)) THEN -- Только исторические таблицы
+     
+        DELETE FROM ONLY gar_tmp.adr_area_hist;     
+        DELETE FROM ONLY gar_tmp.adr_house_hist; 
+        DELETE FROM ONLY gar_tmp.adr_objects_hist;
+        DELETE FROM ONLY gar_tmp.adr_street_hist;
+      
+     END IF;
     END;
   $$;
 
-ALTER PROCEDURE gar_tmp_pcg_trans.p_clear_tbl (boolean) OWNER TO postgres;
+ALTER PROCEDURE gar_tmp_pcg_trans.p_clear_tbl(integer[]) OWNER TO postgres;
 
-COMMENT ON PROCEDURE gar_tmp_pcg_trans.p_clear_tbl (boolean) IS 'Очистка временных (буфферных) таблиц';
+COMMENT ON PROCEDURE gar_tmp_pcg_trans.p_clear_tbl(integer[]) IS 'Очистка временных таблиц';
 --
 --  USE CASE:
---             CALL gar_tmp_pcg_trans.p_clear_tbl (FALSE); --  
 --             CALL gar_tmp_pcg_trans.p_clear_tbl ();
+--       begin;
+-- 			 CALL gar_tmp_pcg_trans.p_clear_tbl (ARRAY[0, 1, 2, 3]);
+--       rollback;
+-- -------------------------------------------------- unsi_test_89
+-- SELECT count(1) AS xxx_adr_area_type   FROM gar_tmp.xxx_adr_area_type;    -- 166
+-- SELECT count(1) AS xxx_adr_street_type FROM gar_tmp.xxx_adr_street_type;  -- 115
+-- SELECT count(1) AS xxx_adr_house_type  FROM gar_tmp.xxx_adr_house_type;   --  10
+-- --
+-- SELECT count(1) AS qty_xxx_adr_area         FROM gar_tmp.xxx_adr_area;         -- 3007
+-- SELECT count(1) AS qty_xxx_adr_house        FROM gar_tmp.xxx_adr_house;	       -- 46101
+-- SELECT count(1) AS qty_xxx_obj_fias         FROM gar_tmp.xxx_obj_fias;         -- 49104   
+-- SELECT count(1) AS qty_xxx_type_param_value FROM gar_tmp.xxx_type_param_value; -- 310443
+-- --
+-- SELECT count(1) AS qty_adr_area    FROM gar_tmp.adr_area;      -- 999
+-- SELECT count(1) AS qty_adr_house   FROM gar_tmp.adr_house;     -- 51600
+-- SELECT count(1) AS qty_adr_objects FROM gar_tmp.adr_objects; 
+-- SELECT count(1) AS qty_adr_street  FROM gar_tmp.adr_street;    -- 2246
+--     --
+-- SELECT count(1) AS qty_adr_area_hist    FROM gar_tmp.adr_area_hist;   -- 973
+-- SELECT count(1) AS qty_adr_house_hist   FROM gar_tmp.adr_house_hist;  -- 2019
+-- SELECT count(1) AS qty_adr_objects_hist FROM gar_tmp.adr_objects_hist;
+-- SELECT count(1) AS qty_adr_street_hist  FROM gar_tmp.adr_street_hist; -- 365
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_gar_fias_crt_idx (p_sw boolean);
@@ -10208,7 +10261,7 @@ IS 'Получить список величин параметров объек
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_set_params_value (bigint[]);
 CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_set_params_value (
-       p_param_type_ids  bigint[] = ARRAY [5,6,7,10,11]::bigint[]
+       p_param_type_ids  bigint[] = ARRAY [5,6,7,8,10,11]::bigint[]
 ) RETURNS integer
     LANGUAGE plpgsql SECURITY DEFINER
     SET search_path TO gar_tmp, public
@@ -10516,13 +10569,13 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_show_data (
                        WITH z (
                                  type_id
                                 ,type_level
-						        ,is_active
+                                ,is_active
                                 ,fias_row_key
                        )
                          AS (
                              SELECT   t.id
                                      ,t.type_level
-							         ,t.is_active
+                                     ,t.is_active
                                      ,gar_tmp_pcg_trans.f_xxx_replace_char (t.type_name)
                              FROM gar_fias.as_addr_obj_type t 
                                WHERE (t.type_shortname = bb1.addr_obj_type) AND 

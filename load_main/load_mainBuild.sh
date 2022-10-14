@@ -5,7 +5,8 @@
 # --------------------------------------------------------
 if [ $# -ne 7 ]
   then
-     echo Использование: load_mainBuild.sh \<Host_IP\> \<Port\> \<DB_name\> \<User_name\> \<Batch_file_name\> \<Path\> \Package_Name\>
+     echo '  ' Version 0.0.1 Build 2022-10-14
+     echo '  ' Usage: load_mainBuild.sh \<Host_IP\> \<Port\> \<DB_name\> \<User_name\> \<Batch_file_name\> \<Path\> \<Package_Name\>
      exit 1   
 fi
 #

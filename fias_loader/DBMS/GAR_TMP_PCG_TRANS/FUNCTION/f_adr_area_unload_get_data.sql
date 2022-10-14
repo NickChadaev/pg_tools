@@ -30,6 +30,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_unload_data (
   -- -------------------------------------------------------------------------------------
   --  2022-09-08  Загрузка регионального фрагмента из ОТДАЛЁННОГО справочника 
   --                         георегионов.
+  --  2022-10-14 Выгружаю всё, имеющее значимый uuid.
   -- -------------------------------------------------------------------------------------
   DECLARE
     _exec text;
@@ -134,7 +135,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_unload_data (
                        ,aa1.vl_addr_latitude  
                        ,aa1.vl_addr_longitude 
                      
-               FROM aa1 ORDER BY aa1.tree_d;  
+               FROM aa1                    
+               WHERE (aa1.nm_fias_guid IS NOT NULL);  
     $_$;
   
   BEGIN

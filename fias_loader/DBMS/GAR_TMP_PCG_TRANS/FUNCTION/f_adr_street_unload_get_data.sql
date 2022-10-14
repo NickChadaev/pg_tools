@@ -23,6 +23,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_unload_data (
  AS $$
   -- -------------------------------------------------------------------------------------
   --  2022-09-28  Загрузка регионального фрагмента из ОТДАЛЁННОГО справочника адресов улиц.
+  --  2022-10-14 Выгружаю всё, имеющее значимый uuid.
   -- -------------------------------------------------------------------------------------
   DECLARE
     _exec text;
@@ -81,7 +82,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_unload_data (
                FROM aa1 
                    INNER JOIN %I.adr_street s ON (s.id_area = aa1.id_area)
                    
-               ORDER BY aa1.tree_d;    
+               WHERE (s.nm_fias_guid IS NOT NULL);     
     $_$;
   
   BEGIN

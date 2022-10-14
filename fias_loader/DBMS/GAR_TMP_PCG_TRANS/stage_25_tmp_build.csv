@@ -26,7 +26,7 @@
 #-------------------------------------------------------------------------------
 X;;;Start process, Сборка процессингового пакета;
 #
-5;version.sql;;-- Версия 1770/2022-09-27;
+5;version.sql;;-- Версия 1770/2022-10-14;
 #
 5;FUNCTION/f_xxx_ob_seq_crt.sql  ;;-- f_xxx_ob_seq_crt.sql  ;
 5;FUNCTION/f_xxx_replace_char.sql;;-- f_xxx_replace_char.sql;

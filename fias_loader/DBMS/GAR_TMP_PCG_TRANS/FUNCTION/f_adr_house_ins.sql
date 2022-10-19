@@ -1,7 +1,3 @@
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_house_ins (text[], uuid[]);
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_house_ins (text, text, uuid[]);
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_house_ins (text, text, uuid[], boolean);
-
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_house_ins (text, text, text, uuid[], boolean, boolean);
 CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_ins (
            p_schema_data    text -- Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
@@ -10,8 +6,12 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_ins (
           ,p_nm_guids_fias  uuid[]  = NULL  -- Список обрабатываемых GUID, NULL - все.
           ,p_sw             boolean = TRUE  -- Включить дополнение/обновление adr_objects
           ,p_sw_twin        boolean = FALSE -- Включается поиск двойников        
+           --
+          ,OUT total_row  integer  -- Общее количество обработанных строк.
+          ,OUT ins_row    integer  -- Из них добавлено 
+          ,OUT upd_row    integer  -- Из них обновлено (конфликты).
 )
-    RETURNS integer
+    RETURNS setof record
     LANGUAGE plpgsql
  AS
   $$
@@ -41,7 +41,12 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_ins (
 
      _id_house  bigint; 
 
-     _id_object    bigint;     
+     _id_object    bigint;   
+     
+     -- 2022-10-18
+     --
+     INS_OP CONSTANT char(1) := 'I';
+     UPD_OP CONSTANT char(1) := 'U';     
      
    BEGIN
     -- ----------------------------------------------------------------------------------------
@@ -65,7 +70,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_ins (
     --      FROM gar_tmp.xxx_adr_house_type 
     --                      WHERE (lower(_data.add_type2_name) = lower(nm_house_type)) LIMIT 1; 
     -- ----------------------------------------------------------------------------------------
-    --   2022-05-31 Уточняю определение родительского объекта и правила вычисления типов.   
+    --   2022-05-31 - Уточняю определение родительского объекта и правила вычисления типов.   
+    --   2022-10-18 - Вспомогательные таблицы.
     -- ----------------------------------------------------------------------------------------
     --     p_schema_data   -- Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
     --    ,p_schema_etl    -- Схема эталон, обычно локальный сервер, копия p_schema_data 
@@ -276,9 +282,12 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_ins (
          _r_ins := _r_ins + 1; 
          
        END LOOP; -- FOR _data SELECT
-
-    RETURN _r_ins;
     
+    total_row := _r_ins;
+    ins_row := (SELECT count(1) FROM gar_tmp.adr_house_aux WHERE (op_sign = INS_OP));
+    upd_row := (SELECT count(1) FROM gar_tmp.adr_house_aux WHERE (op_sign = UPD_OP));
+    
+    RETURN;    
    END;                   
   $$;
  

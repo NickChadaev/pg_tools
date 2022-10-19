@@ -1,7 +1,3 @@
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_area_upd (text);
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_area_upd (text,uuid[]);
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_area_upd (text[],uuid[]);
-
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_area_upd (text, text, text, uuid[], boolean);
 CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_upd (
            p_schema_data    text -- Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
@@ -9,8 +5,11 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_upd (
           ,p_schema_hist    text -- Схема для хранения исторических данных 
           ,p_nm_guids_fias  uuid[]  = NULL -- Список обрабатываемых GUID, NULL - все.
           ,p_sw_hist        boolean = TRUE -- Создаётся историческая запись.
+           --
+          ,OUT total_row  integer  -- Общее количество обработанных строк.
+          ,OUT upd_row    integer  -- Из них обновлено.
 )
-    RETURNS integer
+    RETURNS setof record
     LANGUAGE plpgsql
  AS
   $$
@@ -27,7 +26,10 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_upd (
      --
      _schema_name  text;
      _id_area      bigint;
-           
+     --
+     -- 2022-10-18
+     UPD_OP CONSTANT char(1) := 'U';     
+     --
    BEGIN
     -- ---------------------------------------------------------------------------------
     --  2021-12-10/2022-02-10 Nick  Обновление адресных георегионов.
@@ -125,7 +127,11 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_upd (
            _r_upd := _r_upd + 1; 
        END LOOP;
    
-    RETURN _r_upd;
+    total_row := _r_upd;
+    upd_row := (SELECT count(1) FROM gar_tmp.adr_area_aux WHERE (op_sign = UPD_OP));
+    
+    RETURN;    
+    
    END;                   
   $$;
  

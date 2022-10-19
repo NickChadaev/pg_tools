@@ -1,11 +1,4 @@
 DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_area_upd (
-                text, bigint, integer, varchar(120), varchar(4000), integer, bigint, integer
-               ,smallint, varchar(11), uuid, bigint, varchar(11), varchar(20), varchar(15)
-               ,numeric, numeric 
-               ,bigint
-);
---
-DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_area_upd (
                 text, text, bigint, integer, varchar(120), varchar(4000), integer, bigint, integer
                ,smallint, varchar(11), uuid, bigint, varchar(11), varchar(20), varchar(15)
                ,numeric, numeric 
@@ -59,6 +52,8 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_upd (
     --  "adr_area", "adr_street". 
     -- -------------------------------------------------------------------------------
     --   2022-05-31 COALESCE только для NOT NULL полей.    
+    -- -------------------------------------------------------------------------------
+    --   2022-10-18 Вспомогательные таблицы..
     -- -------------------------------------------------------------------------------     
     DECLARE
       _exec text;
@@ -149,7 +144,10 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_upd (
       _del_twins  text = $_$
           DELETE FROM ONLY %I.adr_area WHERE (id_area = %L); 
       $_$;        
-      -- 2022-02-01   
+      -- 2022-02-01
+      
+      -- 2022-10-18
+      UPD_OP CONSTANT char(1) := 'U';      
       
     BEGIN
     --
@@ -228,6 +226,11 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_upd (
                                     ,_rr.id_area 
            );                       
            EXECUTE _exec;
+           --
+           INSERT INTO gar_tmp.adr_area_aux (id_area, op_sign)
+           VALUES (_rr.id_area, UPD_OP)
+            ON CONFLICT (id_area) DO UPDATE SET op_sign = UPD_OP
+                  WHERE (gar_tmp.adr_area_aux.id_area = excluded.id_area);           
            
         END IF; -- compare
         
@@ -358,7 +361,12 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_upd (
                                       --
                                      ,_rr.id_area 
              );                       
-             EXECUTE _exec;             
+             EXECUTE _exec;    
+             --
+             INSERT INTO gar_tmp.adr_area_aux (id_area, op_sign)
+             VALUES (_rr.id_area, UPD_OP)
+              ON CONFLICT (id_area) DO UPDATE SET op_sign = UPD_OP
+                    WHERE (gar_tmp.adr_area_aux.id_area = excluded.id_area);               
         --
         END IF; -- _rr.id_area IS NOT NULL    
        END;  -- unique_violation

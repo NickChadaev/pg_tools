@@ -1,10 +1,4 @@
 DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_area_ins (
-                text, bigint, integer, varchar(120), varchar(4000), integer, bigint, integer
-               ,smallint, varchar(11), uuid, bigint, varchar(11), varchar(20), varchar(15)
-               ,numeric, numeric                        
-);
-
-DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_area_ins (
                 text, text, bigint, integer, varchar(120), varchar(4000), integer, bigint, integer
                ,smallint, varchar(11), uuid, bigint, varchar(11), varchar(20), varchar(15)
                ,numeric, numeric, boolean                        
@@ -54,6 +48,8 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_ins (
     --  "adr_area", "adr_street". 
     -- -------------------------------------------------------------------------
     --   2022-05-31 COALESCE только для NOT NULL полей.    
+    -- -------------------------------------------------------------------------
+    --   2022-10-18 Вспомогательные таблицы..
     -- -------------------------------------------------------------------------    
     DECLARE
       _exec text;
@@ -96,7 +92,7 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_ins (
                            ,%L::varchar(15)                 
                            ,%L::numeric                    
                            ,%L::numeric                     
-                 );      
+                 ) RETURNING id_area;      
               $_$;
 
       _ins_hist text = $_$
@@ -169,8 +165,13 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_ins (
         $_$;          
         -- 2022-05-19/2022-05-31
         
-      _rr  gar_tmp.adr_area_t;   
-
+      _rr  gar_tmp.adr_area_t; 
+       
+       -- 2022-10-18
+      _id_area bigint; 
+      INS_OP CONSTANT char(1) := 'I';
+      UPD_OP CONSTANT char(1) := 'U';
+      
     BEGIN
     --
     --  2022-05-19 Значения "p_nm_fias_guid" нет в базе.
@@ -194,7 +195,12 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_ins (
                              ,p_vl_addr_latitude 
                              ,p_vl_addr_longitude                           
        );            
-       EXECUTE _exec;
+       EXECUTE _exec INTO _id_area;
+       --
+       INSERT INTO gar_tmp.adr_area_aux (id_area, op_sign)
+       VALUES (_id_area, INS_OP)
+        ON CONFLICT (id_area) DO UPDATE SET op_sign = INS_OP
+              WHERE (gar_tmp.adr_area_aux.id_area = excluded.id_area);
     
     EXCEPTION  -- Возникает на отдалённом сервере    Повторяю сделанное ???        
        WHEN unique_violation THEN 
@@ -256,6 +262,12 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_ins (
                                       ,_rr.id_area
                   );            
                   EXECUTE _exec;   -- Возможна смена UUID.
+                  
+                  INSERT INTO gar_tmp.adr_area_aux (id_area, op_sign)
+                  VALUES (_rr.id_area, UPD_OP)
+                   ON CONFLICT (id_area) DO UPDATE SET op_sign = UPD_OP
+                         WHERE (gar_tmp.adr_area_aux.id_area = excluded.id_area);                  
+                  
             END IF; -- _rr.id_area IS NOT NULL
           END; -- unique_violation
     END;

@@ -1,6 +1,3 @@
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_street_upd (text[], uuid[]);
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_street_upd (text, text, text, uuid[], boolean);
-
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_street_upd (text, text, text, uuid[], boolean, boolean);
 CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_upd (
            p_schema_data    text -- Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
@@ -9,8 +6,11 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_upd (
           ,p_nm_guids_fias  uuid[]  = NULL -- Список обрабатываемых GUID, NULL - все.
           ,p_sw_hist        boolean = TRUE  -- Создаётся историческая запись.  
           ,p_sw_duble       boolean = FALSE -- Обязательное выявление дубликатов
+           --
+          ,OUT total_row  integer  -- Общее количество обработанных строк.
+          ,OUT upd_row    integer  -- Из них обновлено.
 )
-    RETURNS integer
+    RETURNS setof record
     LANGUAGE plpgsql
  AS
   $$
@@ -25,7 +25,11 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_upd (
      --
      --  2021-12-20
      --
-     _id_street   bigint; 
+     _id_street   bigint;
+     --
+     -- 2022-10-18
+     --
+     UPD_OP CONSTANT char(1) := 'U';
      
    BEGIN
     -- --------------------------------------------------------------------------
@@ -107,7 +111,10 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_upd (
           _r_upd := _r_upd + 1; 
        END LOOP;
    
-    RETURN _r_upd;
+    total_row := _r_upd;
+    upd_row := (SELECT count(1) FROM gar_tmp.adr_street_aux WHERE (op_sign = UPD_OP));
+    
+    RETURN;       
     
    END;                   
   $$;

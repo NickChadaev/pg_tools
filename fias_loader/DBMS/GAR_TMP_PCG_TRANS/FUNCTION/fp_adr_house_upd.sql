@@ -1,23 +1,3 @@
-DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_house_upd (
-                text,bigint,bigint,bigint,integer,varchar(70),integer,varchar(50)     
-                    ,integer,varchar(50),varchar(20),varchar(250),varchar(11)
-                    ,uuid,bigint,varchar(11),numeric,numeric
-                    ,bigint
- );
- 
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.fp_adr_house_upd (
-                    text, bigint, bigint, bigint, integer, varchar(70), integer, varchar(50)
-                  , integer, varchar(50), varchar(20), varchar(250), varchar(11)
-                  , uuid, bigint, varchar(11), numeric, numeric, bigint
-);
---
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.fp_adr_house_upd (
-                 text, text
-                ,bigint,bigint,bigint,integer,varchar(70),integer,varchar(50)     
-                ,integer,varchar(50),varchar(20),varchar(250),varchar(11)
-                ,uuid,bigint,varchar(11),numeric,numeric,bigint, boolean, boolean
- );
--- 
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.fp_adr_house_upd (
                  text, text
                 ,bigint,bigint,bigint,integer,varchar(70),integer,varchar(50)     
@@ -76,6 +56,9 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_house_upd (
     -- ----------------------------------------------------------------------------------- 
     --  2022-05-31 COALESCE только для NOT NULL полей.    
     -- -----------------------------------------------------------------------------
+    --   2022-10-18 Вспомогательные таблицы..
+    -- -------------------------------------------------------------------------------     
+    
     DECLARE
       _exec text;
       
@@ -163,6 +146,10 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_house_upd (
        
        _rr  gar_tmp.adr_house_t; 
        _rr1 gar_tmp.adr_house_t;
+       
+      -- 2022-10-18
+      --
+      UPD_OP CONSTANT char(1) := 'U';  
       
     BEGIN
      -- _rr := gar_tmp_pcg_trans.f_adr_house_get (p_schema_name
@@ -259,7 +246,13 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_house_upd (
                                --   
                               ,_rr.id_house               
               );
-              EXECUTE _exec;  
+              EXECUTE _exec;
+              --  
+              INSERT INTO gar_tmp.adr_house_aux (id_house, op_sign)
+              VALUES (_rr.id_house, UPD_OP)
+                 ON CONFLICT (id_house) DO UPDATE SET op_sign = UPD_OP
+                     WHERE (gar_tmp.adr_house_aux.id_house = excluded.id_house);             
+              
             END IF; -- compare
         ELSE
              _id_house_new := NULL;
@@ -394,6 +387,11 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_house_upd (
                                 ,_rr.id_house               
                 );
                EXECUTE _exec;
+               --  
+               INSERT INTO gar_tmp.adr_house_aux (id_house, op_sign)
+                VALUES (_rr.id_house, UPD_OP)
+                  ON CONFLICT (id_house) DO UPDATE SET op_sign = UPD_OP
+                      WHERE (gar_tmp.adr_house_aux.id_house = excluded.id_house);                
                
              ELSE
                   _id_house_new := NULL;     

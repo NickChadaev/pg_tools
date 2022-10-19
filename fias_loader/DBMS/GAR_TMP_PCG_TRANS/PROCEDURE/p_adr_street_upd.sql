@@ -1,14 +1,4 @@
 DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_street_upd (
-                text, bigint, bigint, varchar(120), integer, varchar(255)      
-               ,uuid, bigint, varchar(15), numeric, numeric, bigint                             
- ); 
- 
-DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_street_upd (
-                text, text, bigint, bigint, varchar(120), integer, varchar(255)      
-               ,uuid, bigint, varchar(15), numeric, numeric, bigint, boolean                             
- ); 
- 
-DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_street_upd (
                 text, text, bigint, bigint, varchar(120), integer, varchar(255)      
                ,uuid, bigint, varchar(15), numeric, numeric, bigint, boolean, boolean                             
  );  
@@ -52,7 +42,9 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_upd (
     --  В дальнейшем распространяю это на остальные фунции типа "_ins", "_upd"
     -- -------------------------------------------------------------------------------  
     --   2022-05-31 COALESCE только для NOT NULL полей.    
-    -- ----------------------------------------------------------------------- ------
+    -- -------------------------------------------------------------------------------
+    --   2022-10-18 Вспомогательные таблицы..
+    -- -------------------------------------------------------------------------------     
     
     DECLARE
       _exec    text;
@@ -123,6 +115,9 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_upd (
        
      _rr   gar_tmp.adr_street_t;
      _rr1  gar_tmp.adr_street_t; 
+     
+     -- 2022-10-19
+     UPD_OP CONSTANT char(1) := 'U';      
   
     BEGIN
       --
@@ -237,7 +232,12 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_upd (
                      
                       ,_rr.id_street
                );
-               EXECUTE _exec;                    
+               EXECUTE _exec;    
+               
+               INSERT INTO gar_tmp.adr_street_aux (id_street, op_sign)
+                VALUES (_rr.id_street, UPD_OP)
+                   ON CONFLICT (id_street) DO UPDATE SET op_sign = UPD_OP
+                       WHERE (gar_tmp.adr_street_aux.id_street = excluded.id_street);               
                     
              END IF; -- compare
       END IF; -- rr.id_street IS NOT NULL  
@@ -342,7 +342,12 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_upd (
                     
                      ,_rr.id_street
               );
-              EXECUTE _exec;              
+              EXECUTE _exec;  
+              
+              INSERT INTO gar_tmp.adr_street_aux (id_street, op_sign)
+                VALUES (_rr.id_street, UPD_OP)
+                   ON CONFLICT (id_street) DO UPDATE SET op_sign = UPD_OP
+                       WHERE (gar_tmp.adr_street_aux.id_street = excluded.id_street);              
               
           END IF;  -- COMPARE _rr. (_rr.id_street IS NOT NULL) AND (_rr1.id_street IS NOT NULL)             
  	    END; -- unique_violation	

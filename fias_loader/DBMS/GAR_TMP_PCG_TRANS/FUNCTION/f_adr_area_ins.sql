@@ -1,7 +1,3 @@
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_area_ins (text);
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_area_ins (text, uuid[]);
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_area_ins (text[], uuid[]);
-
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_area_ins (text, text, text, uuid[], boolean);
 CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_ins (
            p_schema_data    text -- Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
@@ -9,8 +5,12 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_ins (
           ,p_schema_hist    text -- Схема для хранения исторических данных 
           ,p_nm_guids_fias  uuid[]  = NULL -- Список обрабатываемых GUID, NULL - все.
           ,p_sw_hist        boolean = TRUE -- Создаётся историческая запись.
+           --
+          ,OUT total_row  integer  -- Общее количество обработанных строк.
+          ,OUT ins_row    integer  -- Из них добавлено 
+          ,OUT upd_row    integer  -- Из них обновлено (конфликты).
 )
-    RETURNS integer
+    RETURNS setof record
     LANGUAGE plpgsql
 	SET search_path=gar_tmp_pcg_trans, gar_tmp, public
  AS
@@ -26,12 +26,18 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_ins (
      --
      --  2021-12-20
      --
-     _id_area    bigint;
+     _id_area  bigint;
+     
+     -- 2022-10-18
+     --
+     INS_OP CONSTANT char(1) := 'I';
+     UPD_OP CONSTANT char(1) := 'U';
            
    BEGIN
     -- ------------------------------------------------------------------------------
     --  2021-12-10/2021-12-19/2022-02-09 Nick  Дополнение адресных георегионов.
     --  2022-02-21 - фильтрация данных по справочнику типов.  
+    --  2022-10-19 - вспомогательные таблицы.
     -- ------------------------------------------------------------------------------
     --  p_schema_data   -- Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
     --  p_schema_etl    -- Схема эталон, обычно локальный сервер, копия p_schema_data 
@@ -128,7 +134,11 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_ins (
            _r_ins := _r_ins + 1; 
        END LOOP;
    
-    RETURN _r_ins;
+    total_row := _r_ins;
+    ins_row := (SELECT count(1) FROM gar_tmp.adr_area_aux WHERE (op_sign = INS_OP));
+    upd_row := (SELECT count(1) FROM gar_tmp.adr_area_aux WHERE (op_sign = UPD_OP));
+    
+    RETURN;
    END;                   
   $$;
  

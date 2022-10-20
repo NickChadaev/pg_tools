@@ -287,7 +287,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_ins (
     ins_row := (SELECT count(1) FROM gar_tmp.adr_house_aux WHERE (op_sign = INS_OP));
     upd_row := (SELECT count(1) FROM gar_tmp.adr_house_aux WHERE (op_sign = UPD_OP));
     
-    RETURN;    
+    RETURN NEXT;    
    END;                   
   $$;
  

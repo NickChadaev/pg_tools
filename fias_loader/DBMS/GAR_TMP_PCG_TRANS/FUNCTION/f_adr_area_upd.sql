@@ -130,7 +130,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_upd (
     total_row := _r_upd;
     upd_row := (SELECT count(1) FROM gar_tmp.adr_area_aux WHERE (op_sign = UPD_OP));
     
-    RETURN;    
+    RETURN NEXT;    
     
    END;                   
   $$;

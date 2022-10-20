@@ -118,7 +118,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_ins (
     ins_row := (SELECT count(1) FROM gar_tmp.adr_street_aux WHERE (op_sign = INS_OP));
     upd_row := (SELECT count(1) FROM gar_tmp.adr_street_aux WHERE (op_sign = UPD_OP));
     
-    RETURN;    
+    RETURN NEXT;    
     
    END;                   
   $$;

@@ -327,6 +327,12 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_house_upd (
                                       ,_rr1.id_house               
                       );
                       EXECUTE _exec;
+                      --  
+                      INSERT INTO gar_tmp.adr_house_aux (id_house, op_sign)
+                       VALUES (_rr1.id_house, UPD_OP)
+                         ON CONFLICT (id_house) DO UPDATE SET op_sign = UPD_OP
+                             WHERE (gar_tmp.adr_house_aux.id_house = excluded.id_house); 
+                             
                END IF;  -- иЗБАВЛЯЕМСЯ ОТ ДУБЛЕЙ.
            END IF; -- _rr1.id_house IS NOT NULL
            --

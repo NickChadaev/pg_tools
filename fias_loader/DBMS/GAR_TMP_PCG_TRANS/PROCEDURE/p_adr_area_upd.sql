@@ -303,6 +303,12 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_upd (
                                        ,_rr1.id_area 
              );                       
              EXECUTE _exec;
+             --
+             INSERT INTO gar_tmp.adr_area_aux (id_area, op_sign)
+             VALUES (_rr1.id_area, UPD_OP)
+              ON CONFLICT (id_area) DO UPDATE SET op_sign = UPD_OP
+                    WHERE (gar_tmp.adr_area_aux.id_area = excluded.id_area);               
+             
         END IF; -- _rr1.id_area IS NOT NULL
         
         -- Поскольку процесс обновления прервался, повторяю его.
@@ -334,7 +340,8 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_upd (
                                         --
                                         , NULL  -- id_region
                   );            
-                  EXECUTE _exec;               
+                  EXECUTE _exec;      
+
              END IF;
                
               -- update,  

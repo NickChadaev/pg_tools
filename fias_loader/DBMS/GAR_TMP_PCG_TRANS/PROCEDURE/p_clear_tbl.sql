@@ -13,6 +13,7 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_clear_tbl (
     -- Очистка временных (буфферных таблиц). FALSE - очищаются только таблицы-результаты TRUE - все таблицы.
     -- 2022-03-15 -- История сохраняется всегда.
     -- 2022-09-26 -- Многоступенчатое удаление.
+    --  2022-10-21   Вспомогательные таблицы.    
     -- ====================================================================================================
     DECLARE
 
@@ -37,6 +38,12 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_clear_tbl (
         DELETE FROM ONLY gar_tmp.xxx_adr_house;	       -- Адреса домов 
         DELETE FROM ONLY gar_tmp.xxx_obj_fias;         -- Дополнительная связь адресных объектов с ГАР-ФИАС
         DELETE FROM ONLY gar_tmp.xxx_type_param_value; -- Для каждого объекта хранятся агрегированные пары "Тип" - "Значение"
+        --
+        --  2022-10-21  Вспомогательные таблицы.
+        --
+        DELETE FROM ONLY gar_tmp.adr_area_aux;     
+        DELETE FROM ONLY gar_tmp.adr_house_aux; 
+        DELETE FROM ONLY gar_tmp.adr_street_aux;        
       
      END IF;
      --

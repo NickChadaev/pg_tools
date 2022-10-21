@@ -93,7 +93,9 @@ X;;;Start process, Сборка процессингового пакета;
 5;FUNCTION/fp_adr_house_upd.sql   ;;-- fp_adr_house_upd.sql   ;
 #
 5;PROCEDURE/p_adr_area_unload.sql  ;;-- p_adr_area_unload.sql  ;
+5;PROCEDURE/p_adr_area_upload.sql  ;;-- p_adr_area_upload.sql  ;
 5;PROCEDURE/p_adr_street_unload.sql;;-- p_adr_street_unload.sql;
+5;PROCEDURE/p_adr_street_upload.sql;;-- p_adr_street_upload.sql;
 5;PROCEDURE/p_adr_house_unload.sql ;;-- p_adr_house_unload.sql ;
 5;PROCEDURE/p_adr_house_upload.sql ;;-- p_adr_house_upload.sql ;
 5;PROCEDURE/p_adr_object_ins.sql   ;;-- p_adr_object_ins.sql   ;

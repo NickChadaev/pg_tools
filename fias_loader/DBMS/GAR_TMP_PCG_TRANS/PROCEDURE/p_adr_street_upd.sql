@@ -299,6 +299,11 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_upd (
                );
                EXECUTE _exec;
                
+               INSERT INTO gar_tmp.adr_street_aux (id_street, op_sign)
+                 VALUES (_rr1.id_street, UPD_OP)
+                    ON CONFLICT (id_street) DO UPDATE SET op_sign = UPD_OP
+                       WHERE (gar_tmp.adr_street_aux.id_street = excluded.id_street);  
+                       
           END IF; -- 2022-02-10 -- _rr1.id_street IS NOT NULL 
                  
           -- Повторяем прерванную операцию.       

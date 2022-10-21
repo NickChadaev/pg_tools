@@ -5,7 +5,7 @@
 --
 CREATE OR REPLACE VIEW gar_tmp_pcg_trans.version
  AS
- SELECT '$Revision:1770$ modified $RevDate:2022-09-27$'::text AS version; 
+ SELECT '$Revision:0ea120c$ modified $RevDate:2022-10-14$'::text AS version; 
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_obj_seq_crt (text, bigint);
@@ -5201,6 +5201,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_unload_data (
   -- -------------------------------------------------------------------------------------
   --  2022-09-08  Загрузка регионального фрагмента из ОТДАЛЁННОГО справочника 
   --                         георегионов.
+  --  2022-10-14 Выгружаю всё, имеющее значимый uuid.
   -- -------------------------------------------------------------------------------------
   DECLARE
     _exec text;
@@ -5305,7 +5306,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_unload_data (
                        ,aa1.vl_addr_latitude  
                        ,aa1.vl_addr_longitude 
                      
-               FROM aa1 ORDER BY aa1.tree_d;  
+               FROM aa1                    
+               WHERE (aa1.nm_fias_guid IS NOT NULL);  
     $_$;
   
   BEGIN
@@ -5372,6 +5374,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_unload_data (
  AS $$
   -- -------------------------------------------------------------------------------------
   --  2022-09-28  Загрузка регионального фрагмента из ОТДАЛЁННОГО справочника адресов улиц.
+  --  2022-10-14 Выгружаю всё, имеющее значимый uuid.
   -- -------------------------------------------------------------------------------------
   DECLARE
     _exec text;
@@ -5430,7 +5433,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_unload_data (
                FROM aa1 
                    INNER JOIN %I.adr_street s ON (s.id_area = aa1.id_area)
                    
-               ORDER BY aa1.tree_d;    
+               WHERE (s.nm_fias_guid IS NOT NULL);     
     $_$;
   
   BEGIN
@@ -5498,6 +5501,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_unload_data (
   -- -------------------------------------------------------------------------------------
   --  2021-12-31/2022-01-28  Загрузка регионального фрагмента из ОТДАЛЁННОГО справочника 
   --                         адресов домов.
+  --  2022-10-14 Выгружаю всё, имеющее значимый uuid.
   -- -------------------------------------------------------------------------------------
   DECLARE
     _exec text;
@@ -5564,9 +5568,10 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_unload_data (
                FROM aa1 
                    INNER JOIN %I.adr_house h ON (h.id_area = aa1.id_area)
               
-               WHERE (h.dt_data_del IS NULL) AND (h.id_data_etalon IS NULL) AND 
-                     (h.nm_fias_guid IS NOT NULL); 
+               WHERE (h.nm_fias_guid IS NOT NULL); 
     $_$;
+  
+    -- (h.dt_data_del IS NULL) AND (h.id_data_etalon IS NULL) AND 
   
   BEGIN
     _exec := format (_select, p_schema_name, p_id_region, p_schema_name, p_schema_name);            

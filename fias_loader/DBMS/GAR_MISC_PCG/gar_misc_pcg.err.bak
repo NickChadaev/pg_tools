@@ -1,2 +1,1 @@
-psql:../1_FUNC/f_check_uuid_1.sql:1: ЗАМЕЧАНИЕ:  функция public.f_check_uuids(text) не существует, пропускается
-psql:../1_FUNC/f_check_uuid_1.sql:14: ЗАМЕЧАНИЕ:  (FUNCTION,1476260,gar_link,dblink,"(text,text)")
+psql:./FUNCTION/f_check_uuid_1.sql:1: ЗАМЕЧАНИЕ:  функция public.f_check_uuids(text) не существует, пропускается

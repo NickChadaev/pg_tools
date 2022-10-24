@@ -5,7 +5,7 @@
 --
 CREATE OR REPLACE VIEW gar_tmp_pcg_trans.version
  AS
- SELECT '$Revision:0ea120c$ modified $RevDate:2022-10-14$'::text AS version; 
+ SELECT '$Revision:4594177$ modified $RevDate:2022-10-21$'::text AS version; 
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_obj_seq_crt (text, bigint);
@@ -2991,6 +2991,7 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_clear_tbl (
     -- Очистка временных (буфферных таблиц). FALSE - очищаются только таблицы-результаты TRUE - все таблицы.
     -- 2022-03-15 -- История сохраняется всегда.
     -- 2022-09-26 -- Многоступенчатое удаление.
+    --  2022-10-21   Вспомогательные таблицы.    
     -- ====================================================================================================
     DECLARE
 
@@ -3015,6 +3016,12 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_clear_tbl (
         DELETE FROM ONLY gar_tmp.xxx_adr_house;	       -- Адреса домов 
         DELETE FROM ONLY gar_tmp.xxx_obj_fias;         -- Дополнительная связь адресных объектов с ГАР-ФИАС
         DELETE FROM ONLY gar_tmp.xxx_type_param_value; -- Для каждого объекта хранятся агрегированные пары "Тип" - "Значение"
+        --
+        --  2022-10-21  Вспомогательные таблицы.
+        --
+        DELETE FROM ONLY gar_tmp.adr_area_aux;     
+        DELETE FROM ONLY gar_tmp.adr_house_aux; 
+        DELETE FROM ONLY gar_tmp.adr_street_aux;        
       
      END IF;
      --
@@ -5761,12 +5768,6 @@ COMMENT ON FUNCTION gar_tmp_pcg_trans.f_adr_object_unload_data (text, bigint, te
 -- 6 secs 483 msec. 813177 rows affected.
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_area_ins (
-                text, bigint, integer, varchar(120), varchar(4000), integer, bigint, integer
-               ,smallint, varchar(11), uuid, bigint, varchar(11), varchar(20), varchar(15)
-               ,numeric, numeric                        
-);
-
-DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_area_ins (
                 text, text, bigint, integer, varchar(120), varchar(4000), integer, bigint, integer
                ,smallint, varchar(11), uuid, bigint, varchar(11), varchar(20), varchar(15)
                ,numeric, numeric, boolean                        
@@ -5816,6 +5817,8 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_ins (
     --  "adr_area", "adr_street". 
     -- -------------------------------------------------------------------------
     --   2022-05-31 COALESCE только для NOT NULL полей.    
+    -- -------------------------------------------------------------------------
+    --   2022-10-18 Вспомогательные таблицы..
     -- -------------------------------------------------------------------------    
     DECLARE
       _exec text;
@@ -5858,7 +5861,7 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_ins (
                            ,%L::varchar(15)                 
                            ,%L::numeric                    
                            ,%L::numeric                     
-                 );      
+                 ) RETURNING id_area;      
               $_$;
 
       _ins_hist text = $_$
@@ -5931,8 +5934,13 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_ins (
         $_$;          
         -- 2022-05-19/2022-05-31
         
-      _rr  gar_tmp.adr_area_t;   
-
+      _rr  gar_tmp.adr_area_t; 
+       
+       -- 2022-10-18
+      _id_area bigint; 
+      INS_OP CONSTANT char(1) := 'I';
+      UPD_OP CONSTANT char(1) := 'U';
+      
     BEGIN
     --
     --  2022-05-19 Значения "p_nm_fias_guid" нет в базе.
@@ -5956,7 +5964,12 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_ins (
                              ,p_vl_addr_latitude 
                              ,p_vl_addr_longitude                           
        );            
-       EXECUTE _exec;
+       EXECUTE _exec INTO _id_area;
+       --
+       INSERT INTO gar_tmp.adr_area_aux (id_area, op_sign)
+       VALUES (_id_area, INS_OP)
+        ON CONFLICT (id_area) DO UPDATE SET op_sign = INS_OP
+              WHERE (gar_tmp.adr_area_aux.id_area = excluded.id_area);
     
     EXCEPTION  -- Возникает на отдалённом сервере    Повторяю сделанное ???        
        WHEN unique_violation THEN 
@@ -6018,6 +6031,12 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_ins (
                                       ,_rr.id_area
                   );            
                   EXECUTE _exec;   -- Возможна смена UUID.
+                  
+                  INSERT INTO gar_tmp.adr_area_aux (id_area, op_sign)
+                  VALUES (_rr.id_area, UPD_OP)
+                   ON CONFLICT (id_area) DO UPDATE SET op_sign = UPD_OP
+                         WHERE (gar_tmp.adr_area_aux.id_area = excluded.id_area);                  
+                  
             END IF; -- _rr.id_area IS NOT NULL
           END; -- unique_violation
     END;
@@ -6036,13 +6055,6 @@ COMMENT ON PROCEDURE gar_tmp_pcg_trans.p_adr_area_ins (
 
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_area_upd (
-                text, bigint, integer, varchar(120), varchar(4000), integer, bigint, integer
-               ,smallint, varchar(11), uuid, bigint, varchar(11), varchar(20), varchar(15)
-               ,numeric, numeric 
-               ,bigint
-);
---
 DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_area_upd (
                 text, text, bigint, integer, varchar(120), varchar(4000), integer, bigint, integer
                ,smallint, varchar(11), uuid, bigint, varchar(11), varchar(20), varchar(15)
@@ -6097,6 +6109,8 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_upd (
     --  "adr_area", "adr_street". 
     -- -------------------------------------------------------------------------------
     --   2022-05-31 COALESCE только для NOT NULL полей.    
+    -- -------------------------------------------------------------------------------
+    --   2022-10-18 Вспомогательные таблицы..
     -- -------------------------------------------------------------------------------     
     DECLARE
       _exec text;
@@ -6187,7 +6201,10 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_upd (
       _del_twins  text = $_$
           DELETE FROM ONLY %I.adr_area WHERE (id_area = %L); 
       $_$;        
-      -- 2022-02-01   
+      -- 2022-02-01
+      
+      -- 2022-10-18
+      UPD_OP CONSTANT char(1) := 'U';      
       
     BEGIN
     --
@@ -6266,6 +6283,11 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_upd (
                                     ,_rr.id_area 
            );                       
            EXECUTE _exec;
+           --
+           INSERT INTO gar_tmp.adr_area_aux (id_area, op_sign)
+           VALUES (_rr.id_area, UPD_OP)
+            ON CONFLICT (id_area) DO UPDATE SET op_sign = UPD_OP
+                  WHERE (gar_tmp.adr_area_aux.id_area = excluded.id_area);           
            
         END IF; -- compare
         
@@ -6338,6 +6360,12 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_upd (
                                        ,_rr1.id_area 
              );                       
              EXECUTE _exec;
+             --
+             INSERT INTO gar_tmp.adr_area_aux (id_area, op_sign)
+             VALUES (_rr1.id_area, UPD_OP)
+              ON CONFLICT (id_area) DO UPDATE SET op_sign = UPD_OP
+                    WHERE (gar_tmp.adr_area_aux.id_area = excluded.id_area);               
+             
         END IF; -- _rr1.id_area IS NOT NULL
         
         -- Поскольку процесс обновления прервался, повторяю его.
@@ -6369,7 +6397,8 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_upd (
                                         --
                                         , NULL  -- id_region
                   );            
-                  EXECUTE _exec;               
+                  EXECUTE _exec;      
+
              END IF;
                
               -- update,  
@@ -6396,7 +6425,12 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_upd (
                                       --
                                      ,_rr.id_area 
              );                       
-             EXECUTE _exec;             
+             EXECUTE _exec;    
+             --
+             INSERT INTO gar_tmp.adr_area_aux (id_area, op_sign)
+             VALUES (_rr.id_area, UPD_OP)
+              ON CONFLICT (id_area) DO UPDATE SET op_sign = UPD_OP
+                    WHERE (gar_tmp.adr_area_aux.id_area = excluded.id_area);               
         --
         END IF; -- _rr.id_area IS NOT NULL    
        END;  -- unique_violation
@@ -6419,11 +6453,6 @@ COMMENT ON PROCEDURE gar_tmp_pcg_trans.p_adr_area_upd
 
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_street_ins (
-                text, bigint, bigint, varchar(120), integer, varchar(255)      
-               ,uuid, bigint, varchar(15), numeric, numeric                             
- ); 
- 
 DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_street_ins (
                 text, text, bigint, bigint, varchar(120), integer, varchar(255)      
                ,uuid, bigint, varchar(15), numeric, numeric, boolean                             
@@ -6465,7 +6494,10 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_ins (
     --  "adr_area", "adr_street".     
     -- ----------------------------------------------------------------------
     --  2022-05-31 COALESCE только для NOT NULL полей.    
-    -- -----------------------------------------------------------------------    
+    -- -------------------------------------------------------------------------
+    --   2022-10-18 Вспомогательные таблицы..
+    -- -------------------------------------------------------------------------    
+    
     DECLARE
       _exec  text;
       
@@ -6494,7 +6526,7 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_ins (
                            ,%L::varchar(15)               
                            ,%L::numeric                    
                            ,%L::numeric                   
-                 );      
+                 ) RETURNING id_street;      
               $_$;
               
      _ins_hist text = $_$
@@ -6544,7 +6576,12 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_ins (
        $_$;        
        -- 2022-05-31
         
-      _rr  gar_tmp.adr_street_t;   
+      _rr  gar_tmp.adr_street_t; 
+      
+       -- 2022-10-18
+      _id_street bigint; 
+      INS_OP CONSTANT char(1) := 'I';
+      UPD_OP CONSTANT char(1) := 'U';      
       
     BEGIN
     --
@@ -6563,7 +6600,12 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_ins (
                        ,p_vl_addr_latitude 
                        ,p_vl_addr_longitude
       );            
-      EXECUTE _exec;      
+      EXECUTE _exec INTO _id_street;
+      
+      INSERT INTO gar_tmp.adr_street_aux (id_street, op_sign)
+       VALUES (_id_street, INS_OP)
+          ON CONFLICT (id_street) DO UPDATE SET op_sign = INS_OP
+              WHERE (gar_tmp.adr_street_aux.id_street = excluded.id_street);
       
     EXCEPTION  -- Возникает на отдалённоми сервере, уникальность AK.            
        WHEN unique_violation THEN 
@@ -6610,6 +6652,11 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_ins (
                                        ,_rr.id_street
                 );
                 EXECUTE _exec; -- Смена значения UUID
+                
+                INSERT INTO gar_tmp.adr_street_aux (id_street, op_sign)
+                  VALUES (_rr.id_street, UPD_OP)
+                    ON CONFLICT (id_street) DO UPDATE SET op_sign = UPD_OP
+                        WHERE (gar_tmp.adr_street_aux.id_street = excluded.id_street);                
             
             END IF; -- _rr.id_street IS NOT NULL
  		  END;  -- unique_violation
@@ -6629,16 +6676,6 @@ COMMENT ON PROCEDURE gar_tmp_pcg_trans.p_adr_street_ins (
 
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_street_upd (
-                text, bigint, bigint, varchar(120), integer, varchar(255)      
-               ,uuid, bigint, varchar(15), numeric, numeric, bigint                             
- ); 
- 
-DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_street_upd (
-                text, text, bigint, bigint, varchar(120), integer, varchar(255)      
-               ,uuid, bigint, varchar(15), numeric, numeric, bigint, boolean                             
- ); 
- 
 DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_street_upd (
                 text, text, bigint, bigint, varchar(120), integer, varchar(255)      
                ,uuid, bigint, varchar(15), numeric, numeric, bigint, boolean, boolean                             
@@ -6683,7 +6720,9 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_upd (
     --  В дальнейшем распространяю это на остальные фунции типа "_ins", "_upd"
     -- -------------------------------------------------------------------------------  
     --   2022-05-31 COALESCE только для NOT NULL полей.    
-    -- ----------------------------------------------------------------------- ------
+    -- -------------------------------------------------------------------------------
+    --   2022-10-18 Вспомогательные таблицы..
+    -- -------------------------------------------------------------------------------     
     
     DECLARE
       _exec    text;
@@ -6754,6 +6793,9 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_upd (
        
      _rr   gar_tmp.adr_street_t;
      _rr1  gar_tmp.adr_street_t; 
+     
+     -- 2022-10-19
+     UPD_OP CONSTANT char(1) := 'U';      
   
     BEGIN
       --
@@ -6868,7 +6910,12 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_upd (
                      
                       ,_rr.id_street
                );
-               EXECUTE _exec;                    
+               EXECUTE _exec;    
+               
+               INSERT INTO gar_tmp.adr_street_aux (id_street, op_sign)
+                VALUES (_rr.id_street, UPD_OP)
+                   ON CONFLICT (id_street) DO UPDATE SET op_sign = UPD_OP
+                       WHERE (gar_tmp.adr_street_aux.id_street = excluded.id_street);               
                     
              END IF; -- compare
       END IF; -- rr.id_street IS NOT NULL  
@@ -6930,6 +6977,11 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_upd (
                );
                EXECUTE _exec;
                
+               INSERT INTO gar_tmp.adr_street_aux (id_street, op_sign)
+                 VALUES (_rr1.id_street, UPD_OP)
+                    ON CONFLICT (id_street) DO UPDATE SET op_sign = UPD_OP
+                       WHERE (gar_tmp.adr_street_aux.id_street = excluded.id_street);  
+                       
           END IF; -- 2022-02-10 -- _rr1.id_street IS NOT NULL 
                  
           -- Повторяем прерванную операцию.       
@@ -6973,7 +7025,12 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_upd (
                     
                      ,_rr.id_street
               );
-              EXECUTE _exec;              
+              EXECUTE _exec;  
+              
+              INSERT INTO gar_tmp.adr_street_aux (id_street, op_sign)
+                VALUES (_rr.id_street, UPD_OP)
+                   ON CONFLICT (id_street) DO UPDATE SET op_sign = UPD_OP
+                       WHERE (gar_tmp.adr_street_aux.id_street = excluded.id_street);              
               
           END IF;  -- COMPARE _rr. (_rr.id_street IS NOT NULL) AND (_rr1.id_street IS NOT NULL)             
  	    END; -- unique_violation	
@@ -6996,19 +7053,6 @@ COMMENT ON PROCEDURE gar_tmp_pcg_trans.p_adr_street_upd (
       
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_house_ins (
-                text,bigint,bigint,bigint,integer,varchar(70),integer,varchar(50)     
-                    ,integer,varchar(50),varchar(20),varchar(250),varchar(11)
-                    ,uuid,bigint,varchar(11),numeric,numeric                             
- ); 
- 
-DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_house_ins (
-                  text, text
-                 ,bigint,bigint,bigint,integer,varchar(70),integer,varchar(50)     
-                 ,integer,varchar(50),varchar(20),varchar(250),varchar(11)
-                 ,uuid,bigint,varchar(11),numeric,numeric
-                 ,bigint, boolean
- );   
 DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_house_ins (
                   text, text
                  ,bigint,bigint,bigint,integer,varchar(70),integer,varchar(50)     
@@ -7063,6 +7107,8 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_house_ins (
     -- ------------------------------------------------------------------------- 
     --  2022-05-31 COALESCE только для NOT NULL полей.    
     -- -------------------------------------------------------------------------
+    --   2022-10-18 Вспомогательные таблицы..
+    -- -------------------------------------------------------------------------     
     DECLARE
       _exec text;
       
@@ -7131,7 +7177,7 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_house_ins (
                            ,%L::varchar(11)               
                            ,%L::numeric                  
                            ,%L::numeric                   
-                 );      
+                 ) RETURNING id_house;      
               $_$;
       -- 2022-02-11
       _ins_hist text = $_$
@@ -7179,7 +7225,12 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_house_ins (
               $_$;
         -- 2022-02-11      
       --
-      _rr  gar_tmp.adr_house_t;   
+      _rr  gar_tmp.adr_house_t;
+      
+       -- 2022-10-18
+      _id_house bigint; 
+      INS_OP CONSTANT char(1) := 'I';
+      UPD_OP CONSTANT char(1) := 'U'; 
       
     BEGIN
      --
@@ -7218,7 +7269,12 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_house_ins (
                             ,p_vl_addr_latitude  
                             ,p_vl_addr_longitude 
       );            
-      EXECUTE _exec;         
+      EXECUTE _exec INTO _id_house;         
+      
+      INSERT INTO gar_tmp.adr_house_aux (id_house, op_sign)
+       VALUES (_id_house, INS_OP)
+          ON CONFLICT (id_house) DO UPDATE SET op_sign = INS_OP
+              WHERE (gar_tmp.adr_house_aux.id_house = excluded.id_house);
       
     EXCEPTION  -- Возникает на отдалённом сервере            
        WHEN unique_violation THEN 
@@ -7287,6 +7343,11 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_house_ins (
               );
               EXECUTE _exec;  -- Результат - сменился UUID у записи.
               --
+              INSERT INTO gar_tmp.adr_house_aux (id_house, op_sign)
+               VALUES (_rr.id_house, UPD_OP)
+                  ON CONFLICT (id_house) DO UPDATE SET op_sign = UPD_OP
+                      WHERE (gar_tmp.adr_house_aux.id_house = excluded.id_house);
+              --
               IF p_sw
                 THEN
                       CALL gar_tmp_pcg_trans.p_adr_house_del_twin (
@@ -7319,26 +7380,6 @@ COMMENT ON PROCEDURE gar_tmp_pcg_trans.p_adr_house_ins (
 
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_house_upd (
-                text,bigint,bigint,bigint,integer,varchar(70),integer,varchar(50)     
-                    ,integer,varchar(50),varchar(20),varchar(250),varchar(11)
-                    ,uuid,bigint,varchar(11),numeric,numeric
-                    ,bigint
- );
- 
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.fp_adr_house_upd (
-                    text, bigint, bigint, bigint, integer, varchar(70), integer, varchar(50)
-                  , integer, varchar(50), varchar(20), varchar(250), varchar(11)
-                  , uuid, bigint, varchar(11), numeric, numeric, bigint
-);
---
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.fp_adr_house_upd (
-                 text, text
-                ,bigint,bigint,bigint,integer,varchar(70),integer,varchar(50)     
-                ,integer,varchar(50),varchar(20),varchar(250),varchar(11)
-                ,uuid,bigint,varchar(11),numeric,numeric,bigint, boolean, boolean
- );
--- 
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.fp_adr_house_upd (
                  text, text
                 ,bigint,bigint,bigint,integer,varchar(70),integer,varchar(50)     
@@ -7397,6 +7438,9 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_house_upd (
     -- ----------------------------------------------------------------------------------- 
     --  2022-05-31 COALESCE только для NOT NULL полей.    
     -- -----------------------------------------------------------------------------
+    --   2022-10-18 Вспомогательные таблицы..
+    -- -------------------------------------------------------------------------------     
+    
     DECLARE
       _exec text;
       
@@ -7484,6 +7528,10 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_house_upd (
        
        _rr  gar_tmp.adr_house_t; 
        _rr1 gar_tmp.adr_house_t;
+       
+      -- 2022-10-18
+      --
+      UPD_OP CONSTANT char(1) := 'U';  
       
     BEGIN
      -- _rr := gar_tmp_pcg_trans.f_adr_house_get (p_schema_name
@@ -7580,7 +7628,13 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_house_upd (
                                --   
                               ,_rr.id_house               
               );
-              EXECUTE _exec;  
+              EXECUTE _exec;
+              --  
+              INSERT INTO gar_tmp.adr_house_aux (id_house, op_sign)
+              VALUES (_rr.id_house, UPD_OP)
+                 ON CONFLICT (id_house) DO UPDATE SET op_sign = UPD_OP
+                     WHERE (gar_tmp.adr_house_aux.id_house = excluded.id_house);             
+              
             END IF; -- compare
         ELSE
              _id_house_new := NULL;
@@ -7655,6 +7709,12 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_house_upd (
                                       ,_rr1.id_house               
                       );
                       EXECUTE _exec;
+                      --  
+                      INSERT INTO gar_tmp.adr_house_aux (id_house, op_sign)
+                       VALUES (_rr1.id_house, UPD_OP)
+                         ON CONFLICT (id_house) DO UPDATE SET op_sign = UPD_OP
+                             WHERE (gar_tmp.adr_house_aux.id_house = excluded.id_house); 
+                             
                END IF;  -- иЗБАВЛЯЕМСЯ ОТ ДУБЛЕЙ.
            END IF; -- _rr1.id_house IS NOT NULL
            --
@@ -7715,6 +7775,11 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_house_upd (
                                 ,_rr.id_house               
                 );
                EXECUTE _exec;
+               --  
+               INSERT INTO gar_tmp.adr_house_aux (id_house, op_sign)
+                VALUES (_rr.id_house, UPD_OP)
+                  ON CONFLICT (id_house) DO UPDATE SET op_sign = UPD_OP
+                      WHERE (gar_tmp.adr_house_aux.id_house = excluded.id_house);                
                
              ELSE
                   _id_house_new := NULL;     
@@ -7821,6 +7886,77 @@ COMMENT ON PROCEDURE gar_tmp_pcg_trans.p_adr_area_unload (text, bigint, text)
 
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_area_upload (text, text); 
+CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_upload (
+              p_lschema_name  text -- локальная схема 
+             ,p_fschema_name  text -- отдалённая схема
+           )
+    LANGUAGE plpgsql SECURITY DEFINER
+    AS $$
+    -- --------------------------------------------------------------------------
+    --  2021-12-31 Обратная загрузка обработанного фрагмента ОТДАЛЁННОГО 
+    --              справочника адресов домов.
+    --  2022-10-20 Вспомогальные таблицы, инкрементальное обновление.
+    -- --------------------------------------------------------------------------
+    DECLARE
+      _exec text;
+      
+      _del text = $_$
+         DELETE FROM ONLY %I.adr_area a USING ONLY %I.adr_area_aux z 
+                            WHERE (a.id_area = z.id_area) AND (z.op_sign = 'U');    
+      $_$;      
+      
+      _ins text = $_$
+                 INSERT INTO %I.adr_area 
+                     SELECT 
+                              a.id_area          
+                             ,a.id_country        
+                             ,a.nm_area           
+                             ,a.nm_area_full     
+                             ,a.id_area_type      
+                             ,a.id_area_parent   
+                             ,a.kd_timezone       
+                             ,a.pr_detailed      
+                             ,a.kd_oktmo          
+                             ,a.nm_fias_guid      
+                             ,a.dt_data_del       
+                             ,a.id_data_etalon    
+                             ,a.kd_okato          
+                             ,a.nm_zipcode        
+                             ,a.kd_kladr          
+                             ,a.vl_addr_latitude  
+                             ,a.vl_addr_longitude 
+                     FROM ONLY %I.adr_area a
+                       INNER JOIN %I.adr_area_aux x ON (a.id_area = x.id_area);
+      $_$;			   
+
+    BEGIN
+      --
+      _exec := format (_del, p_fschema_name, p_lschema_name); 
+      -- RAISE NOTICE '%', _exec;
+      EXECUTE _exec;  
+      --
+      _exec := format (_ins, p_fschema_name, p_lschema_name, p_lschema_name);   
+	  -- RAISE NOTICE '%', _exec;      
+      EXECUTE _exec;  
+      --
+-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++    
+    EXCEPTION           
+       WHEN OTHERS THEN 
+        BEGIN
+          RAISE WARNING 'P_ADR_AREA_UPLOAD: % -- %', SQLSTATE, SQLERRM;
+        END;
+    END;
+  $$;
+
+COMMENT ON PROCEDURE gar_tmp_pcg_trans.p_adr_area_upload (text, text)
+   IS 'Обратная загрузка обработанного фрагмента ОТДАЛЁННОГО справочника адресных регионов.';
+-- -----------------------------------------------------------------------------------------------
+--  USE CASE:
+--     CALL gar_tmp_pcg_trans.p_adr_area_upload ('gar_tmp', 'unnsi');
+
+
+-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_street_unload (text, bigint, text);
 CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_unload (
               p_schema_name   text  
@@ -7889,6 +8025,71 @@ COMMENT ON PROCEDURE gar_tmp_pcg_trans.p_adr_street_unload (text, bigint, text)
 -- );
 --    SELECT count(1) AS qty_adr_street FROM gar_tmp.adr_street; -- 41947
 -- SELECT * FROM gar_tmp.adr_street;
+
+-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_street_upload (text, text); 
+CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_upload (
+              p_lschema_name  text -- локальная схема 
+             ,p_fschema_name  text -- отдалённая схема
+           )
+    LANGUAGE plpgsql SECURITY DEFINER
+    AS $$
+    -- --------------------------------------------------------------------------
+    --  2021-12-31 Обратная загрузка обработанного фрагмента ОТДАЛЁННОГО 
+    --              справочника адресов домов.
+    --  2022-10-20 Вспомогальные таблицы, инкрементальное обновление.
+    -- --------------------------------------------------------------------------
+    DECLARE
+      _exec text;
+      
+      _del text = $_$
+         DELETE FROM ONLY %I.adr_street s USING ONLY %I.adr_street_aux z 
+                            WHERE (s.id_street = z.id_street) AND (z.op_sign = 'U');    
+      $_$;      
+      
+      _ins text = $_$
+                 INSERT INTO %I.adr_street 
+                     SELECT 
+                              s.id_street            
+                             ,s.id_area             
+                             ,s.nm_street           
+                             ,s.id_street_type       
+                             ,s.nm_street_full      
+                             ,s.nm_fias_guid         
+                             ,s.dt_data_del         
+                             ,s.id_data_etalon       
+                             ,s.kd_kladr            
+                             ,s.vl_addr_latitude    
+                             ,s.vl_addr_longitude   
+                     FROM ONLY %I.adr_street s
+                       INNER JOIN %I.adr_street_aux x ON (s.id_street = x.id_street);
+      $_$;			   
+
+    BEGIN
+      --
+      _exec := format (_del, p_fschema_name, p_lschema_name); 
+      -- RAISE NOTICE '%', _exec;
+      EXECUTE _exec;  
+      --
+      _exec := format (_ins, p_fschema_name, p_lschema_name, p_lschema_name);   
+	  -- RAISE NOTICE '%', _exec;      
+      EXECUTE _exec;  
+      --
+-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++    
+    EXCEPTION           
+       WHEN OTHERS THEN 
+        BEGIN
+          RAISE WARNING 'P_ADR_STREET_UPLOAD: % -- %', SQLSTATE, SQLERRM;
+        END;
+    END;
+  $$;
+
+COMMENT ON PROCEDURE gar_tmp_pcg_trans.p_adr_street_upload (text, text)
+   IS 'Обратная загрузка обработанного фрагмента ОТДАЛЁННОГО справочника элементов дорожной сети.';
+-- -----------------------------------------------------------------------------------------------
+--  USE CASE:
+--     CALL gar_tmp_pcg_trans.p_adr_street_upload ('gar_tmp', 'unnsi');
+
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_house_unload (text);
@@ -7978,39 +8179,26 @@ COMMENT ON PROCEDURE gar_tmp_pcg_trans.p_adr_house_unload (text, bigint, text)
 
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_house_upload (text, text); 
-DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_house_upload (text); 
-DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_house_upload (text, date); 
-
 DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_house_upload (text, date, boolean); 
+
+DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_house_upload (text, text); 
 CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_house_upload (
-              p_schema_name  text  
-             ,p_date_proc    date = current_date
-             ,p_del          boolean = FALSE -- В fp_adr_house убирались дубли при обработки EXCEPTION N 
-                                             -- теперь убираю их в основной таблице 
+              p_lschema_name  text -- локальная схема 
+             ,p_fschema_name  text -- отдалённая схема
            )
     LANGUAGE plpgsql SECURITY DEFINER
     AS $$
     -- --------------------------------------------------------------------------
     --  2021-12-31 Обратная загрузка обработанного фрагмента ОТДАЛЁННОГО 
     --              справочника адресов домов.
+    --  2022-10-20 Вспомогальные таблицы, инкрементальное обновление.
     -- --------------------------------------------------------------------------
     DECLARE
       _exec text;
       
-      _del_tw text = $_$
-           WITH z (id_house) AS (
-                 SELECT y.id_house FROM ONLY gar_tmp.adr_house y
-                   UNION 
-                 SELECT x.id_data_etalon FROM gar_tmp.adr_house_hist x 
-                    WHERE ((date(x.dt_data_del) = %L) AND (x.id_region = 0)) 
-           ) 
-            DELETE FROM ONLY %I.adr_house h USING z WHERE (h.id_house = z.id_house);    
-      $_$;
-      
       _del text = $_$
-         DELETE FROM ONLY %I.adr_house h USING ONLY gar_tmp.adr_house z 
-                            WHERE (h.id_house = z.id_house);    
+         DELETE FROM ONLY %I.adr_house h USING ONLY %I.adr_house_aux z 
+                            WHERE (h.id_house = z.id_house) AND (z.op_sign = 'U');    
       $_$;      
       
       _ins text = $_$
@@ -8034,47 +8222,37 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_house_upload (
                              ,h.kd_okato           
                              ,h.vl_addr_latitude   
                              ,h.vl_addr_longitude  
-                     FROM ONLY gar_tmp.adr_house h;
+                     FROM ONLY %I.adr_house h
+                       INNER JOIN %I.adr_house_aux x ON (h.id_house = x.id_house);
       $_$;			   
 
     BEGIN
       -- ALTER TABLE %I.adr_objects ADD CONSTRAINT adr_objects_pkey PRIMARY KEY (id_object);
       -- DROP INDEX IF EXISTS %I._xxx_adr_objects_ak1;
       -- DROP INDEX IF EXISTS %I._xxx_adr_objects_ie2;
-      --  + Остальные индексы, для таблицы объектов на отдалённом сервере.
-      --  dblink-функционал.
       --
-      IF p_del 
-        THEN
-              _exec := format (_del_tw, p_date_proc, p_schema_name);
-        ELSE
-              _exec := format (_del, p_schema_name); 
-      END IF;
-	  -- RAISE NOTICE '%', _exec;
+      _exec := format (_del, p_fschema_name, p_lschema_name); 
+      -- RAISE NOTICE '%', _exec;
       EXECUTE _exec;  
       --
-      _exec := format (_ins, p_schema_name);   
+      _exec := format (_ins, p_fschema_name, p_lschema_name, p_lschema_name);   
 	  -- RAISE NOTICE '%', _exec;      
       EXECUTE _exec;  
       --
-      -- + Далее отдалённо, восстанавливается индексное покрытие.     
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++    
     EXCEPTION           
        WHEN OTHERS THEN 
         BEGIN
-          RAISE WARNING 'P_ADR_OBJECT_LOAD: % -- %', SQLSTATE, SQLERRM;
+          RAISE WARNING 'P_ADR_HOUSE_UPLOAD: % -- %', SQLSTATE, SQLERRM;
         END;
     END;
   $$;
 
-COMMENT ON PROCEDURE gar_tmp_pcg_trans.p_adr_house_upload (text, date, boolean) 
+COMMENT ON PROCEDURE gar_tmp_pcg_trans.p_adr_house_upload (text, text)
    IS 'Обратная загрузка обработанного фрагмента ОТДАЛЁННОГО справочника адресов домов.';
 -- -----------------------------------------------------------------------------------------------
 --  USE CASE:
---     CALL gar_tmp_pcg_trans.p_adr_house_upload ('unnsi');
---     CALL gar_tmp_pcg_trans.p_adr_house_upload ('unsi', current_date);
---     CALL gar_tmp_pcg_trans.p_adr_house_upload ('unsi', current_date, false);
---     CALL gar_tmp_pcg_trans.p_adr_house_upload ('unsi', current_date, true);
+--     CALL gar_tmp_pcg_trans.p_adr_house_upload ('gar_tmp', 'unnsi');
 
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -8989,10 +9167,6 @@ COMMENT ON PROCEDURE gar_tmp_pcg_trans.p_adr_object_upload (text)
 
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_area_ins (text);
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_area_ins (text, uuid[]);
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_area_ins (text[], uuid[]);
-
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_area_ins (text, text, text, uuid[], boolean);
 CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_ins (
            p_schema_data    text -- Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
@@ -9000,8 +9174,12 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_ins (
           ,p_schema_hist    text -- Схема для хранения исторических данных 
           ,p_nm_guids_fias  uuid[]  = NULL -- Список обрабатываемых GUID, NULL - все.
           ,p_sw_hist        boolean = TRUE -- Создаётся историческая запись.
+           --
+          ,OUT total_row  integer  -- Общее количество обработанных строк.
+          ,OUT ins_row    integer  -- Из них добавлено 
+          ,OUT upd_row    integer  -- Из них обновлено (конфликты).
 )
-    RETURNS integer
+    RETURNS setof record
     LANGUAGE plpgsql
 	SET search_path=gar_tmp_pcg_trans, gar_tmp, public
  AS
@@ -9017,12 +9195,18 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_ins (
      --
      --  2021-12-20
      --
-     _id_area    bigint;
+     _id_area  bigint;
+     
+     -- 2022-10-18
+     --
+     INS_OP CONSTANT char(1) := 'I';
+     UPD_OP CONSTANT char(1) := 'U';
            
    BEGIN
     -- ------------------------------------------------------------------------------
     --  2021-12-10/2021-12-19/2022-02-09 Nick  Дополнение адресных георегионов.
     --  2022-02-21 - фильтрация данных по справочнику типов.  
+    --  2022-10-19 - вспомогательные таблицы.
     -- ------------------------------------------------------------------------------
     --  p_schema_data   -- Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
     --  p_schema_etl    -- Схема эталон, обычно локальный сервер, копия p_schema_data 
@@ -9119,7 +9303,11 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_ins (
            _r_ins := _r_ins + 1; 
        END LOOP;
    
-    RETURN _r_ins;
+    total_row := _r_ins;
+    ins_row := (SELECT count(1) FROM gar_tmp.adr_area_aux WHERE (op_sign = INS_OP));
+    upd_row := (SELECT count(1) FROM gar_tmp.adr_area_aux WHERE (op_sign = UPD_OP));
+    
+    RETURN NEXT;
    END;                   
   $$;
  
@@ -9137,10 +9325,6 @@ IS 'Дополнение адресных георегионов';
 -- DELETE from unsi.adr_area where (id_area > 50000000)
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_area_upd (text);
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_area_upd (text,uuid[]);
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_area_upd (text[],uuid[]);
-
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_area_upd (text, text, text, uuid[], boolean);
 CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_upd (
            p_schema_data    text -- Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
@@ -9148,8 +9332,11 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_upd (
           ,p_schema_hist    text -- Схема для хранения исторических данных 
           ,p_nm_guids_fias  uuid[]  = NULL -- Список обрабатываемых GUID, NULL - все.
           ,p_sw_hist        boolean = TRUE -- Создаётся историческая запись.
+           --
+          ,OUT total_row  integer  -- Общее количество обработанных строк.
+          ,OUT upd_row    integer  -- Из них обновлено.
 )
-    RETURNS integer
+    RETURNS setof record
     LANGUAGE plpgsql
  AS
   $$
@@ -9166,7 +9353,10 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_upd (
      --
      _schema_name  text;
      _id_area      bigint;
-           
+     --
+     -- 2022-10-18
+     UPD_OP CONSTANT char(1) := 'U';     
+     --
    BEGIN
     -- ---------------------------------------------------------------------------------
     --  2021-12-10/2022-02-10 Nick  Обновление адресных георегионов.
@@ -9264,7 +9454,11 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_upd (
            _r_upd := _r_upd + 1; 
        END LOOP;
    
-    RETURN _r_upd;
+    total_row := _r_upd;
+    upd_row := (SELECT count(1) FROM gar_tmp.adr_area_aux WHERE (op_sign = UPD_OP));
+    
+    RETURN NEXT;    
+    
    END;                   
   $$;
  
@@ -9282,8 +9476,6 @@ IS 'Обновление георегионов';
 -- DELETE from unsi.adr_area where (id_area > 50000000)
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_street_ins (text[], uuid[]);
-
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_street_ins (text, text, text, uuid[], boolean);
 CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_ins (
            p_schema_data    text -- Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
@@ -9291,8 +9483,12 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_ins (
           ,p_schema_hist    text -- Схема для хранения исторических данных 
           ,p_nm_guids_fias  uuid[]  = NULL -- Список обрабатываемых GUID, NULL - все.
           ,p_sw_hist        boolean = TRUE -- Создаётся историческая запись.          
+           --
+          ,OUT total_row  integer  -- Общее количество обработанных строк.
+          ,OUT ins_row    integer  -- Из них добавлено 
+          ,OUT upd_row    integer  -- Из них обновлено (конфликты).
 )
-    RETURNS integer
+    RETURNS setof record
     LANGUAGE plpgsql
  AS
   $$
@@ -9308,11 +9504,17 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_ins (
      --  2021-12-20
      --
      _id_street   bigint;     
-           
+
+     -- 2022-10-18
+     --
+     INS_OP CONSTANT char(1) := 'I';
+     UPD_OP CONSTANT char(1) := 'U';
+     
    BEGIN
     -- --------------------------------------------------------------------------------
     --  2021-12-14 Nick  Дополнение адресов улиц.
     --  2022-02-21 - фильтрация данных по справочнику типов.  
+    --  2022-10-18 - Вспомогательные таблицы.
     -- --------------------------------------------------------------------------------
     --   p_schema_data   -- Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
     --   p_schema_etl    -- Схема эталон, обычно локальный сервер, копия p_schema_data 
@@ -9390,7 +9592,11 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_ins (
          _r_ins := _r_ins + 1; 
        END LOOP;
    
-    RETURN _r_ins;
+    total_row := _r_ins;
+    ins_row := (SELECT count(1) FROM gar_tmp.adr_street_aux WHERE (op_sign = INS_OP));
+    upd_row := (SELECT count(1) FROM gar_tmp.adr_street_aux WHERE (op_sign = UPD_OP));
+    
+    RETURN NEXT;    
     
    END;                   
   $$;
@@ -9408,9 +9614,6 @@ IS 'Дополнение адресов улиц';
 -- DELETE FROM unsi.adr_street WHERE ( id_street > 50000000);
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_street_upd (text[], uuid[]);
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_street_upd (text, text, text, uuid[], boolean);
-
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_street_upd (text, text, text, uuid[], boolean, boolean);
 CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_upd (
            p_schema_data    text -- Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
@@ -9419,8 +9622,11 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_upd (
           ,p_nm_guids_fias  uuid[]  = NULL -- Список обрабатываемых GUID, NULL - все.
           ,p_sw_hist        boolean = TRUE  -- Создаётся историческая запись.  
           ,p_sw_duble       boolean = FALSE -- Обязательное выявление дубликатов
+           --
+          ,OUT total_row  integer  -- Общее количество обработанных строк.
+          ,OUT upd_row    integer  -- Из них обновлено.
 )
-    RETURNS integer
+    RETURNS setof record
     LANGUAGE plpgsql
  AS
   $$
@@ -9435,7 +9641,11 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_upd (
      --
      --  2021-12-20
      --
-     _id_street   bigint; 
+     _id_street   bigint;
+     --
+     -- 2022-10-18
+     --
+     UPD_OP CONSTANT char(1) := 'U';
      
    BEGIN
     -- --------------------------------------------------------------------------
@@ -9517,7 +9727,10 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_upd (
           _r_upd := _r_upd + 1; 
        END LOOP;
    
-    RETURN _r_upd;
+    total_row := _r_upd;
+    upd_row := (SELECT count(1) FROM gar_tmp.adr_street_aux WHERE (op_sign = UPD_OP));
+    
+    RETURN NEXT;       
     
    END;                   
   $$;
@@ -9535,10 +9748,6 @@ IS 'Обновление адресов улиц';
 -- DELETE FROM unsi.adr_street WHERE ( id_street > 50000000);
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_house_ins (text[], uuid[]);
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_house_ins (text, text, uuid[]);
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_house_ins (text, text, uuid[], boolean);
-
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_house_ins (text, text, text, uuid[], boolean, boolean);
 CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_ins (
            p_schema_data    text -- Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
@@ -9547,8 +9756,12 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_ins (
           ,p_nm_guids_fias  uuid[]  = NULL  -- Список обрабатываемых GUID, NULL - все.
           ,p_sw             boolean = TRUE  -- Включить дополнение/обновление adr_objects
           ,p_sw_twin        boolean = FALSE -- Включается поиск двойников        
+           --
+          ,OUT total_row  integer  -- Общее количество обработанных строк.
+          ,OUT ins_row    integer  -- Из них добавлено 
+          ,OUT upd_row    integer  -- Из них обновлено (конфликты).
 )
-    RETURNS integer
+    RETURNS setof record
     LANGUAGE plpgsql
  AS
   $$
@@ -9578,7 +9791,12 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_ins (
 
      _id_house  bigint; 
 
-     _id_object    bigint;     
+     _id_object    bigint;   
+     
+     -- 2022-10-18
+     --
+     INS_OP CONSTANT char(1) := 'I';
+     UPD_OP CONSTANT char(1) := 'U';     
      
    BEGIN
     -- ----------------------------------------------------------------------------------------
@@ -9602,7 +9820,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_ins (
     --      FROM gar_tmp.xxx_adr_house_type 
     --                      WHERE (lower(_data.add_type2_name) = lower(nm_house_type)) LIMIT 1; 
     -- ----------------------------------------------------------------------------------------
-    --   2022-05-31 Уточняю определение родительского объекта и правила вычисления типов.   
+    --   2022-05-31 - Уточняю определение родительского объекта и правила вычисления типов.   
+    --   2022-10-18 - Вспомогательные таблицы.
     -- ----------------------------------------------------------------------------------------
     --     p_schema_data   -- Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
     --    ,p_schema_etl    -- Схема эталон, обычно локальный сервер, копия p_schema_data 
@@ -9813,9 +10032,12 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_ins (
          _r_ins := _r_ins + 1; 
          
        END LOOP; -- FOR _data SELECT
-
-    RETURN _r_ins;
     
+    total_row := _r_ins;
+    ins_row := (SELECT count(1) FROM gar_tmp.adr_house_aux WHERE (op_sign = INS_OP));
+    upd_row := (SELECT count(1) FROM gar_tmp.adr_house_aux WHERE (op_sign = UPD_OP));
+    
+    RETURN NEXT;    
    END;                   
   $$;
  
@@ -9834,11 +10056,6 @@ IS 'Дополнение адресных свойств домов';
 -- SELECT * FROM gar_tmp_pcg_trans.f_adr_house_show (2);
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_house_upd (text[], uuid[]);
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_house_upd (text, text, uuid[]);
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_house_upd (text, text, uuid[], boolean);
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_house_upd (text, text, text, uuid[], boolean, boolean, boolean);
-
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_house_upd 
                            (text, text, text, uuid[], boolean, boolean, boolean, boolean);
 CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_upd (
@@ -9851,8 +10068,11 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_upd (
           ,p_sw_duble  boolean = FALSE -- Обязательное выявление дубликатов
           ,p_sw        boolean = FALSE -- Включить дополнение/обновление adr_objects
           ,p_del       boolean = FALSE -- Убираю дубли при обработки EXCEPTION 
+           --
+          ,OUT total_row  integer  -- Общее количество обработанных строк.
+          ,OUT upd_row    integer  -- Из них обновлено.
 )
-    RETURNS integer
+    RETURNS setof record
     LANGUAGE plpgsql
  AS
   $$
@@ -9886,6 +10106,10 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_upd (
      --
      _id_object    bigint;     
      
+     -- 2022-10-18
+     --
+     UPD_OP CONSTANT char(1) := 'U';  
+     
    BEGIN
     -- -----------------------------------------------------------------------------------
     --  2021-12-10 Nick  Обновление и дополнение адресных свойств домов.
@@ -9909,7 +10133,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_upd (
     --                      WHERE (lower(_data.add_type2_name) = lower(nm_house_type)) LIMIT 1;          
     -- -----------------------------------------------------------------------------------
     --   2022-05-31 Уточняю определение родительского объекта и правила вычисления типов.    
-    -- ----------------------------------------------------------------------------------- 
+    --   2022-10-18 Вспомогательные таблицы..
+    -- -------------------------------------------------------------------------  
     --     p_schema_data    -- Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
     --    ,p_schema_etl     -- Схема эталон, обычно локальный сервер, копия p_schema_data 
     --    ,p_schema_hist    -- Схема для хранения исторических данных 
@@ -10146,9 +10371,11 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_upd (
        
          _r_upd := _r_upd + 1; 
        END LOOP;           
-           
-    RETURN _r_upd;
+ 
+    total_row := _r_upd;
+    upd_row := (SELECT count(1) FROM gar_tmp.adr_house_aux WHERE (op_sign = UPD_OP));
     
+    RETURN NEXT;      
    END;                   
   $$;
  

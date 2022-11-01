@@ -8,11 +8,12 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_house_del_twin_local_0 (
        ,p_id_street        bigint       --      NULL
        ,p_nm_house_full    varchar(250) --  NOT NULL
        ,p_nm_fias_guid     uuid
-       ,p_bound_date       date = '2022-01-01'::date -- Только для режима Post обработки.
+       ,p_bound_date       date = '2022-01-01'::date  
        ,p_schema_hist_name text = 'gar_tmp'
         --
+       ,OUT fcase          integer
        ,OUT id_house_subj  bigint
-       ,OUT id_house       bigint
+       ,OUT id_house_obj   bigint
        ,OUT nm_hose_full   varchar(250)
        ,OUT nm_fias_guid   uuid
 )
@@ -21,7 +22,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_house_del_twin_local_0 (
     SECURITY DEFINER
     AS $$
     -- ---------------------------------------------------------------------------
-    --  2022-02-28  Убираем дубли. 
+    --  2022-02-28  Убираем дубли. AK1
     --  2022-02-28 Поиск близнецов. Два режима: 
     --    Поиск в процессе обработки, загрузочное индексное покрытие. 
     --    Поиск в после обработки, эксплуатационное индексное покрытие:
@@ -39,7 +40,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_house_del_twin_local_0 (
     --             воздействующий субъект (id_data_etalon := id_house)
     --  --------------------------------------------------------------------------
     --  2022-06-20 Постобработка, только.
-    --  2022-10-31 Вариант 
+    --  2022-10-31 Вариант для локальной обработки 
     -- ---------------------------------------------------------------------------
     -- 	ЗАМЕЧАНИЕ:  warning extra:00000:134:DECLARE:never read variable "_sel_twin_proc"
     --  ЗАМЕЧАНИЕ:  warning extra:00000:unused parameter "p_nm_fias_guid"
@@ -157,12 +158,16 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_house_del_twin_local_0 (
                   ) AND (id_data_etalon IS NULL) 
                );
                --
-               -- Либо различные регионы, одинаковые UUIDs, разница в улицах не важна
+               -- Либо различные регионы, одинаковые UUIDs, разница в улицах не важна ??
                --
       $_$;
       --
      _rr    gar_tmp.adr_house_t; 
      _rr1   gar_tmp.adr_house_t; 
+     
+      -- 2022-10-18
+      --
+      UPD_OP CONSTANT char(1) := 'U';      
       
    BEGIN
      _exec := format (_sel_twin_post, p_schema_name
@@ -174,7 +179,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_house_del_twin_local_0 (
                             ,p_id_house
      );         
      EXECUTE _exec INTO _rr1; -- Поиск дублёра
-     ----------------
+     ----------------------------------
      -- Двойники: см. определение выше
      --
      IF (_rr1.id_house IS NOT NULL) -- Найден. 
@@ -182,28 +187,35 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_house_del_twin_local_0 (
         IF (_rr1.dt_data_del <=  p_bound_date) AND (_rr1.dt_data_del IS NOT NULL)
            -- Мусор, кто-то, раньше, его ручками удалил.
           THEN
-               _exec = format (_upd_id, p_schema_name
-                                 ,_rr1.id_area          
-                                 ,_rr1.id_street        
-                                 ,_rr1.id_house_type_1  
-                                 ,_rr1.nm_house_1       
-                                 ,_rr1.id_house_type_2  
-                                 ,_rr1.nm_house_2       
-                                 ,_rr1.id_house_type_3  
-                                 ,_rr1.nm_house_3       
-                                 ,_rr1.nm_zipcode       
-                                 ,_rr1.nm_house_full    
-                                 ,_rr1.kd_oktmo         
-                                 ,_rr1.nm_fias_guid     
-                                 ,_rr1.dt_data_del      
-                                 ,p_id_house  
-                                 ,_rr1.kd_okato         
-                                 ,_rr1.vl_addr_latitude 
-                                 ,_rr1.vl_addr_longitude
-                                  --   
-                                 ,_rr1.id_house               
-                 );
-                 EXECUTE _exec; -- Связали.
+            _exec = format (_upd_id, p_schema_name
+                              ,_rr1.id_area          
+                              ,_rr1.id_street        
+                              ,_rr1.id_house_type_1  
+                              ,_rr1.nm_house_1       
+                              ,_rr1.id_house_type_2  
+                              ,_rr1.nm_house_2       
+                              ,_rr1.id_house_type_3  
+                              ,_rr1.nm_house_3       
+                              ,_rr1.nm_zipcode       
+                              ,_rr1.nm_house_full    
+                              ,_rr1.kd_oktmo         
+                              ,_rr1.nm_fias_guid     
+                              ,_rr1.dt_data_del      
+                              ,p_id_house  
+                              ,_rr1.kd_okato         
+                              ,_rr1.vl_addr_latitude 
+                              ,_rr1.vl_addr_longitude
+                               --   
+                              ,_rr1.id_house               
+              );
+              EXECUTE _exec; -- Связали.   
+              --  
+              INSERT INTO gar_tmp.adr_house_aux (id_house, op_sign)  
+                VALUES (_rr1.id_house, UPD_OP)
+                  ON CONFLICT (id_house) DO UPDATE SET op_sign = UPD_OP
+                      WHERE (gar_tmp.adr_house_aux.id_house = excluded.id_house); 
+              --     
+              fcase := 4; -- Дублёр НЕ актуален,  проверяемая - актуальна                 
                  
         ELSE
            -- -----------------------------------------------------------------
@@ -218,66 +230,80 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_house_del_twin_local_0 (
            
            IF _rr.id_house IS NOT NULL 
              THEN
-                 _exec = format (_del_twin, p_schema_name, _rr.id_house);  
-                 EXECUTE _exec;   -- Проверяемая запись
-                 --
-                 --    UPDATE _rr1 Обновление дублёра.
-                 --    Старое значение уходит в историю
-                 --
-                 _exec := format (_ins_hist, p_schema_hist_name  
-                                        --
-                         ,_rr1.id_house  
-                         ,_rr1.id_area           
-                         ,_rr1.id_street         
-                         ,_rr1.id_house_type_1   
-                         ,_rr1.nm_house_1        
-                         ,_rr1.id_house_type_2   
-                         ,_rr1.nm_house_2        
-                         ,_rr1.id_house_type_3   
-                         ,_rr1.nm_house_3        
-                         ,_rr1.nm_zipcode        
-                         ,_rr1.nm_house_full     
-                         ,_rr1.kd_oktmo          
-                         ,_rr1.nm_fias_guid     -- 2022-04-04 
-                         ,now()                 --    _rr1.dt_data_del     
-                         ,_rr.id_house          --    _rr1.id_data_etalon     
-                         ,_rr1.kd_okato          
-                         ,_rr1.vl_addr_latitude  
-                         ,_rr1.vl_addr_longitude
-                         , -1 -- ID региона
-                 ); 
-                 EXECUTE _exec;
-                 --      
-                 --  Обновляется старое значение  ??? Сколько их ??
-                 --
-                 _exec = format (_upd_id_1, p_schema_name
-                                 ,_rr.id_area          
-                                 ,_rr.id_street        
-                                 ,_rr.id_house_type_1  
-                                 ,_rr.nm_house_1       
-                                 ,_rr.id_house_type_2  
-                                 ,_rr.nm_house_2       
-                                 ,_rr.id_house_type_3  
-                                 ,_rr.nm_house_3       
-                                 ,_rr.nm_zipcode       
-                                 ,_rr.nm_house_full    
-                                 ,_rr.kd_oktmo         
-                                 ,_rr1.nm_fias_guid   -- 2022-06-20 Сохраняется старый UUID  
-                                 ,NULL      
-                                 ,NULL  
-                                 ,_rr.kd_okato         
-                                 ,_rr.vl_addr_latitude 
-                                 ,_rr.vl_addr_longitude
-                                  --  
-                                 ,_rr1.id_house               
-                 );
-                 EXECUTE _exec;
-                 
+               _exec = format (_del_twin, p_schema_name, _rr.id_house);  
+               EXECUTE _exec;   -- Проверяемая запись
+               --
+               -- Создаю запись-фантом,
+               --      "_rr.id_house" потом удалится в отдалённой базе.
+               --   
+               INSERT INTO gar_tmp.adr_house_aux (id_house, op_sign)
+                 VALUES (_rr.id_house, UPD_OP)
+                   ON CONFLICT (id_house) DO UPDATE SET op_sign = UPD_OP
+                       WHERE (gar_tmp.adr_house_aux.id_house = excluded.id_house);                  
+               --
+               --    UPDATE _rr1 Обновление дублёра. Старое значение уходит в историю
+               --
+               _exec := format (_ins_hist, p_schema_hist_name  
+                                      --
+                       ,_rr1.id_house  
+                       ,_rr1.id_area           
+                       ,_rr1.id_street         
+                       ,_rr1.id_house_type_1   
+                       ,_rr1.nm_house_1        
+                       ,_rr1.id_house_type_2   
+                       ,_rr1.nm_house_2        
+                       ,_rr1.id_house_type_3   
+                       ,_rr1.nm_house_3        
+                       ,_rr1.nm_zipcode        
+                       ,_rr1.nm_house_full     
+                       ,_rr1.kd_oktmo          
+                       ,_rr1.nm_fias_guid     -- 2022-04-04 
+                       ,now()                 --    _rr1.dt_data_del     
+                       ,_rr.id_house          --    _rr1.id_data_etalon     
+                       ,_rr1.kd_okato          
+                       ,_rr1.vl_addr_latitude  
+                       ,_rr1.vl_addr_longitude
+                       , -1 -- ID региона
+               ); 
+               EXECUTE _exec;
+               --      
+               --  Обновляется старое значение  ??? Сколько их ??
+               --
+               _exec = format (_upd_id_1, p_schema_name
+                               ,_rr.id_area          
+                               ,_rr.id_street        
+                               ,_rr.id_house_type_1  
+                               ,_rr.nm_house_1       
+                               ,_rr.id_house_type_2  
+                               ,_rr.nm_house_2       
+                               ,_rr.id_house_type_3  
+                               ,_rr.nm_house_3       
+                               ,_rr.nm_zipcode       
+                               ,_rr.nm_house_full    
+                               ,_rr.kd_oktmo         
+                               ,_rr.nm_fias_guid   -- 2022-06-20 Сохраняется старый UUID /2022-11-01 НЕТ 
+                               ,NULL      
+                               ,NULL  
+                               ,_rr.kd_okato         
+                               ,_rr.vl_addr_latitude 
+                               ,_rr.vl_addr_longitude
+                                --  
+                               ,_rr1.id_house               
+               );
+               EXECUTE _exec;
+               fcase := 5; -- Дублёр , БЫЛ НЕ актуален,  проверяемая - актуальна
+               --  Теперь ДУБЛЁР СТАЛ стал актуальным.
+               
+               INSERT INTO gar_tmp.adr_house_aux (id_house, op_sign)
+                 VALUES (_rr1.id_house, UPD_OP)
+                   ON CONFLICT (id_house) DO UPDATE SET op_sign = UPD_OP
+                        WHERE (gar_tmp.adr_house_aux.id_house = excluded.id_house); 
+               --     
            END IF; -- _rr.id_house IS NOT NULL
         END IF; -- (_rr1.dt_data_del <=  p_bound_date) AND (_rr1.dt_data_del IS NOT NULL)
      
         id_house_subj := p_id_house;
-        id_house      := _rr1.id_house;
+        id_house_obj  := _rr1.id_house;
         nm_hose_full  := _rr1.nm_house_full;
         nm_fias_guid  := _rr1.nm_fias_guid;
      

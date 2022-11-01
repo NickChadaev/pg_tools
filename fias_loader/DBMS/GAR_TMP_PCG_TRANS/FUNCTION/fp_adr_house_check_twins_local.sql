@@ -8,14 +8,15 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.p_adr_house_check_twins_local (
        ,p_bound_date        date = '2022-01-01'::date  
        ,p_schema_hist_name  text = 'gar_tmp' 
         --
+       ,OUT fcase          integer
        ,OUT id_house_subj  bigint
-       ,OUT id_house       bigint
+       ,OUT id_house_obj   bigint
        ,OUT nm_hose_full   varchar(250)
        ,OUT nm_fias_guid   uuid       
 )
+    RETURNS setof record
     LANGUAGE plpgsql 
     SECURITY DEFINER
-    RETURNS setof record
   AS
 $$
   -- ========================================================================
@@ -31,6 +32,13 @@ $$
    _rr      record;
    _z       bigint[];
 
+   -- ---------------------------------
+   --     id_house      bigint
+   --    ,id_area       bigint
+   --    ,id_street     bigint 
+   --    ,nm_house_full varchar(250)
+   --    ,nm_fias_guid  uuid 
+   -- ---------------------------------
    _select text := $_$
       SELECT id_house, id_area, id_street, nm_house_full, nm_fias_guid 
             FROM %I.adr_house 
@@ -48,16 +56,11 @@ $$
     _exec := format (_select, p_schema_name, p_house_ids[1], p_house_ids[2]);
     --
     FOR _rr IN EXECUTE _exec
-                           --     id_house      bigint
-                           --    ,id_area       bigint
-                           --    ,id_street     bigint 
-                           --    ,nm_house_full varchar(250)
-                           --    ,nm_fias_guid  uuid 
      LOOP
         EXIT WHEN (_rr.id_house IS NULL);
         --
-        SELECT f0.* INTO id_house_subj, id_house, nm_hose_full, nm_fias_guid 
-        FROM  gar_tmp_pcg_trans.fp_adr_house_del_twin_local_0 (
+        SELECT f0.* INTO fcase, id_house_subj, id_house_obj, nm_hose_full, nm_fias_guid 
+        FROM gar_tmp_pcg_trans.fp_adr_house_del_twin_local_0 (
                   p_schema_name       :=  p_schema_name 
                  ,p_id_house          :=  _rr.id_house     
                  ,p_id_area           :=  _rr.id_area      
@@ -68,26 +71,24 @@ $$
                  ,p_schema_hist_name  :=  p_schema_hist_name           
         ) f0;
         --            
-        _qty_l1 := _qty_l1 + gar_tmp_pcg_trans.fp_adr_house_del_twin_local_1 (
-                  p_schema_name      := p_schema_name 
-                 ,p_id_house         := _rr.id_house     
-                 ,p_id_area          := _rr.id_area      
-                 ,p_id_street        := _rr.id_street    
-                 ,p_nm_house_full    := _rr.nm_house_full
-                 ,p_nm_fias_guid     := _rr.nm_fias_guid 
-                 ,p_mode             := p_mode
-                 ,p_bound_date       := p_bound_date       -- Только для режима Post обработки.
-                 ,p_schema_hist_name := p_schema_hist_name
-        );
+      --   SELECT f1.* INTO fcase, id_house_subj, id_house_obj, nm_hose_full, nm_fias_guid 
+      --   FROM gar_tmp_pcg_trans.fp_adr_house_del_twin_local_1 (
+      --             p_schema_name      := p_schema_name 
+      --            ,p_id_house         := _rr.id_house     
+      --            ,p_id_area          := _rr.id_area      
+      --            ,p_id_street        := _rr.id_street    
+      --            ,p_nm_house_full    := _rr.nm_house_full
+      --            ,p_nm_fias_guid     := _rr.nm_fias_guid 
+      --            ,p_bound_date       := p_bound_date       
+      --            ,p_schema_hist_name := p_schema_hist_name
+      --   ) f1;
      END LOOP;
-        --
-     RAISE NOTICE 'Houses 2 (nm_fias_guid). Bounds: % - %, qty = % ', p_house_ids[1], p_house_ids[2], _qty_l1;
-        
+     --
      RETURN NEXT;   
   END;
 $$;
 
-COMMENT ON FUNCTION gar_tmp_pcg_trans.p_adr_house_check_twins_local (text, text, bigint [][], boolean, date, text) 
+COMMENT ON FUNCTION gar_tmp_pcg_trans.p_adr_house_check_twins_local (text, bigint [], date, text) 
                    IS 'Постобработка, фильтрация дублей';
 -- ------------------------------------------------------------------------
 --  USE CASE:

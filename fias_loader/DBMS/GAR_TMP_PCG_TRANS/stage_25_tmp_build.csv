@@ -26,7 +26,7 @@
 #-------------------------------------------------------------------------------
 X;;;Start process, Сборка процессингового пакета;
 #
-5;version.sql;;-- Версия 4594177/2022-10-21;
+5;version.sql;;-- Версия f8690be/2022-11-02;
 #
 5;FUNCTION/f_xxx_ob_seq_crt.sql  ;;-- f_xxx_ob_seq_crt.sql  ;
 5;FUNCTION/f_xxx_replace_char.sql;;-- f_xxx_replace_char.sql;
@@ -71,12 +71,11 @@ X;;;Start process, Сборка процессингового пакета;
 5;PROCEDURE/p_adr_street_del_twins.sql  ;;-- p_adr_street_del_twins.sql  ; 
 5;PROCEDURE/p_adr_street_check_twins.sql;;-- p_adr_street_check_twins.sql;
 #
-5;FUNCTION/fp_adr_house_del_twins_0.sql;;-- fp_adr_house_del_twins_0.sql;
-5;FUNCTION/fp_adr_house_del_twins_1.sql;;-- fp_adr_house_del_twins_1.sql;
-5;FUNCTION/fp_adr_house_del_twins_2.sql;;-- fp_adr_house_del_twins_2.sql;
+5;drop_objects.sql;;-- drop_objects.sql;
 #
-5;PROCEDURE/p_adr_house_check_twins_1.sql;;-- p_adr_house_check_twins_1.sql;
-5;PROCEDURE/p_adr_house_check_twins_2.sql;;-- p_adr_house_check_twins_2.sql;
+5;FUNCTION/fp_adr_house_del_twins_local_0.sql;;-- fp_adr_house_del_twins_local_0.sql;
+5;FUNCTION/fp_adr_house_del_twins_local_1.sql;;-- fp_adr_house_del_twins_local_1.sql;
+5;FUNCTION/fp_adr_house_check_twins_local.sql;;-- fp_adr_house_check_twins_local.sql;
 #
 5;PROCEDURE/p_adr_house_del_twins.sql;;-- p_adr_house_del_twins.sql УСТАРЕЛО, нужно для: "p_adr_house_ins", "fp_adr_house_upd"; 
 #

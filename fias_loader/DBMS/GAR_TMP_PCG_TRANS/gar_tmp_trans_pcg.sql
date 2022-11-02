@@ -5,7 +5,7 @@
 --
 CREATE OR REPLACE VIEW gar_tmp_pcg_trans.version
  AS
- SELECT '$Revision:4594177$ modified $RevDate:2022-10-21$'::text AS version; 
+ SELECT '$Revision:f8690be$ modified $RevDate:2022-11-02$'::text AS version; 
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_obj_seq_crt (text, bigint);
@@ -3599,42 +3599,45 @@ COMMENT ON PROCEDURE gar_tmp_pcg_trans.p_adr_street_check_twins (text, text, big
 --             ,{3800000000,3899000000}
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_house_del_twin (
-                  text, bigint, bigint, bigint, varchar(250), uuid, boolean, date, text 
- );   
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.fp_adr_house_del_twin_0 (
-                  text, bigint, bigint, bigint, varchar(250), uuid, boolean, date, text 
- );    
-CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_house_del_twin_0 (
+--
+--  2022-11-02
+--
+DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.fp_adr_house_del_twin_0(text,bigint,bigint,bigint,varchar(250),uuid,boolean,date,text);
+DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.fp_adr_house_del_twin_1(text,bigint,bigint,bigint,varchar(250),uuid,boolean,date,text);
+DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.fp_adr_house_del_twin_2(text,bigint,bigint,bigint,varchar(250),uuid,boolean,date,text);
+--
+DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_house_check_twins(text,text,bigint[][],boolean,date,text);
+DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_house_check_twins_1(text,text,boolean,date,text);
+
+-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.fp_adr_house_del_twin_local_0 (
+                  text, bigint, bigint, bigint, varchar(250), uuid, date, text 
+ );
+CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_house_del_twin_local_0 (
         p_schema_name      text  
        ,p_id_house         bigint       --  NOT NULL
        ,p_id_area          bigint       --  NOT NULL
        ,p_id_street        bigint       --      NULL
        ,p_nm_house_full    varchar(250) --  NOT NULL
        ,p_nm_fias_guid     uuid
-       ,p_mode             boolean = TRUE  -- используется в процессе обработки
-                                 --  FALSE -- в постобработке.
-       ,p_bound_date       date = '2022-01-01'::date -- Только для режима Post обработки.
-       ,p_schema_hist_name text = 'gar_tmp'                     
+       ,p_bound_date       date = '2022-01-01'::date  
+       ,p_schema_hist_name text = 'gar_tmp'
+        --
+       ,OUT fcase          integer
+       ,OUT id_house_subj  bigint
+       ,OUT id_house_obj   bigint
+       ,OUT nm_house_full  varchar(250)
+       ,OUT nm_fias_guid   uuid
 )
-    RETURNS integer
+    RETURNS setof record
     LANGUAGE plpgsql 
     SECURITY DEFINER
     AS $$
     -- ---------------------------------------------------------------------------
-    --  2022-02-28  Убираем дубли. 
+    --  2022-02-28  Убираем дубли. AK1
     --  2022-02-28 Поиск близнецов. Два режима: 
     --    Поиск в процессе обработки, загрузочное индексное покрытие. 
     --    Поиск в после обработки, эксплуатационное индексное покрытие:
-    --
-    -- Используется технологический индекс (поиск в процессе обработки):
-    --    UNIQUE INDEX _xxx_adr_house_ak1 ON unnsi.adr_house USING btree
-    --                        (id_area ASC NULLS LAST
-    --                        ,upper (nm_house_full::text) ASC NULLS LAST
-    --                        ,id_street ASC NULLS LAST
-    --                        ,id_house_type_1 ASC NULLS LAST
-    --                        )
-    --                    WHERE (id_data_etalon IS NULL) AND (dt_data_del IS NULL)  
     -- ---------------------------------------------------------------------------
     --  2022-03-03  Двурежимная работа процедуры.
     --  Поиск в процессе постобработки, 
@@ -3649,300 +3652,281 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_house_del_twin_0 (
     --             воздействующий субъект (id_data_etalon := id_house)
     --  --------------------------------------------------------------------------
     --  2022-06-20 Постобработка, только.
+    --  2022-10-31 Вариант для локальной обработки 
     -- ---------------------------------------------------------------------------
     -- 	ЗАМЕЧАНИЕ:  warning extra:00000:134:DECLARE:never read variable "_sel_twin_proc"
     --  ЗАМЕЧАНИЕ:  warning extra:00000:unused parameter "p_nm_fias_guid"
 	
-    DECLARE
-      _exec text;
-      
-      _upd_id text = $_$
-            UPDATE ONLY %I.adr_house SET  
-            
-                 id_area           = COALESCE (%L, id_area)::bigint               -- NOT NULL
-                ,id_street         = COALESCE (%L, id_street)::bigint             --  NULL
-                ,id_house_type_1   = COALESCE (%L, id_house_type_1)::integer      --  NULL
-                ,nm_house_1        = COALESCE (%L, nm_house_1)::varchar(70)       --  NULL
-                ,id_house_type_2   = %L::integer      -- COALESCE ( NULL , id_house_type_2)
-                ,nm_house_2        = %L::varchar(50)  -- COALESCE ( NULL , nm_house_2)
-                ,id_house_type_3   = %L::integer      -- COALESCE ( NULL , id_house_type_3)
-                ,nm_house_3        = %L::varchar(50)  -- COALESCE ( NULL, nm_house_3)
-                ,nm_zipcode        = COALESCE (%L, nm_zipcode)::varchar(20)       --  NULL
-                ,nm_house_full     = COALESCE (%L, nm_house_full)::varchar(250)   -- NOT NULL
-                ,kd_oktmo          = COALESCE (%L, kd_oktmo)::varchar(11)         --  NULL
-                ,nm_fias_guid      = COALESCE (%L, nm_fias_guid)::uuid
-                ,dt_data_del       = COALESCE (dt_data_del, %L)::timestamp without time zone              --  NULL
-                ,id_data_etalon    = %L::bigint                                   --  NULL
-                ,kd_okato          = COALESCE (%L, kd_okato)::varchar(11)         --  NULL
-                ,vl_addr_latitude  = COALESCE (%L, vl_addr_latitude )::numeric    --  NULL
-                ,vl_addr_longitude = COALESCE (%L, vl_addr_longitude)::numeric    --  NULL
-                    
-            WHERE (id_house = %L::bigint);
-        $_$;        
-      --
-      _upd_id_1 text = $_$
-            UPDATE ONLY %I.adr_house SET  
-            
-                 id_area           = COALESCE (%L, id_area)::bigint               -- NOT NULL
-                ,id_street         = COALESCE (%L, id_street)::bigint             --  NULL
-                ,id_house_type_1   = COALESCE (%L, id_house_type_1)::integer      --  NULL
-                ,nm_house_1        = COALESCE (%L, nm_house_1)::varchar(70)       --  NULL
-                ,id_house_type_2   = %L::integer      -- COALESCE ( NULL , id_house_type_2)
-                ,nm_house_2        = %L::varchar(50)  -- COALESCE ( NULL , nm_house_2)
-                ,id_house_type_3   = %L::integer      -- COALESCE ( NULL , id_house_type_3)
-                ,nm_house_3        = %L::varchar(50)  -- COALESCE ( NULL, nm_house_3)
-                ,nm_zipcode        = COALESCE (%L, nm_zipcode)::varchar(20)       --  NULL
-                ,nm_house_full     = COALESCE (%L, nm_house_full)::varchar(250)   -- NOT NULL
-                ,kd_oktmo          = COALESCE (%L, kd_oktmo)::varchar(11)         --  NULL
-                ,nm_fias_guid      = COALESCE (%L, nm_fias_guid)::uuid
-                ,dt_data_del       = %L::timestamp without time zone              --  NULL
-                ,id_data_etalon    = %L::bigint                                   --  NULL
-                ,kd_okato          = COALESCE (%L, kd_okato)::varchar(11)         --  NULL
-                ,vl_addr_latitude  = COALESCE (%L, vl_addr_latitude )::numeric    --  NULL
-                ,vl_addr_longitude = COALESCE (%L, vl_addr_longitude)::numeric    --  NULL
-                    
-            WHERE (id_house = %L::bigint);
-        $_$;        
-      -- 
-       _select_u text = $_$
-             SELECT h.* FROM ONLY %I.adr_house h WHERE (h.id_house = %L);
-       $_$;
-           --
-       _del_twin  text = $_$             --        
-              DELETE FROM ONLY %I.adr_house WHERE (id_house = %L);                     
-       $_$;
-       --
-      _ins_hist text = $_$
-             INSERT INTO %I.adr_house_hist (
-                             id_house          -- bigint        NOT NULL
-                            ,id_area           -- bigint        NOT NULL
-                            ,id_street         -- bigint         NULL
-                            ,id_house_type_1   -- integer        NULL
-                            ,nm_house_1        -- varchar(70)    NULL
-                            ,id_house_type_2   -- integer        NULL
-                            ,nm_house_2        -- varchar(50)    NULL
-                            ,id_house_type_3   -- integer        NULL
-                            ,nm_house_3        -- varchar(50)    NULL
-                            ,nm_zipcode        -- varchar(20)    NULL
-                            ,nm_house_full     -- varchar(250)  NOT NULL
-                            ,kd_oktmo          -- varchar(11)    NULL
-                            ,nm_fias_guid      -- uuid           NULL 
-                            ,dt_data_del       -- timestamp without time zone NULL
-                            ,id_data_etalon    -- bigint        NULL
-                            ,kd_okato          -- varchar(11)   NULL
-                            ,vl_addr_latitude  -- numeric       NULL
-                            ,vl_addr_longitude -- numeric       NULL
-                            ,id_region         -- bigint
-             )
-               VALUES (   %L::bigint                   
-                         ,%L::bigint                   
-                         ,%L::bigint                    
-                         ,%L::integer                  
-                         ,%L::varchar(70)               
-                         ,%L::integer                  
-                         ,%L::varchar(50)               
-                         ,%L::integer                  
-                         ,%L::varchar(50)               
-                         ,%L::varchar(20)  
-                         ,%L::varchar(250)             
-                         ,%L::varchar(11)               
-                         ,%L::uuid
-                         ,%L::timestamp without time zone
-                         ,%L::bigint                   
-                         ,%L::varchar(11)               
-                         ,%L::numeric                  
-                         ,%L::numeric  
-                         ,%L::bigint
-               ); 
-        $_$;             
-      -- -------------------------------------------------------------------------
-      _sel_twin_proc  text = $_$
-           SELECT * FROM ONLY %I.adr_house
-               WHERE
-                ((id_area = %L::bigint) AND 
-                    (
-                      (  -- На ОДНОЙ улице разные названия, UUIDs тождественны
-                        (NOT (upper(nm_house_full::text) = upper (%L)::text)) AND
-                        (id_street IS NOT DISTINCT FROM %L::bigint)  AND
-                        (nm_fias_guid = %L::uuid)
-                      )
-                         OR
-                      (     -- На РАЗНЫХ улицах одинаковые названия, UUIDs тождественны
-                        (upper(nm_house_full::text) = upper (%L)::text) AND
-                        (id_street IS DISTINCT FROM %L::bigint) AND 
-                        (nm_fias_guid = %L::uuid)
-                      )
-                         OR
-                      (   -- На ОДНОЙ улице одинаковые названия, UUIDs различаются
-                        (upper(nm_house_full::text) = upper (%L)::text) AND
-                        (id_street IS NOT DISTINCT FROM %L::bigint)  AND
-                        (NOT (nm_fias_guid = %L::uuid))                   
-                      )
-                    ) 
-                      AND 
-                          ((id_data_etalon IS NULL) AND (dt_data_del IS NULL))    
-                )
-                
-                OR -- Разные регионы (адресные пространства), одинаковые названия и UUID
-                
-                (((NOT (id_area = %L::bigint)) AND
-                        (upper(nm_house_full::text) = upper (%L)::text) AND
-                        (id_street IS NOT DISTINCT FROM %L::bigint) AND 
-                        (nm_fias_guid = %L::uuid)
-                 )
-                     AND 
-                 ((id_data_etalon IS NULL) AND (dt_data_del IS NULL))    
-                );
-       $_$;
-       -- Различаются ID.      
-      _sel_twin_post  text = $_$     
-           SELECT * FROM ONLY %I.adr_house
-                   -- В пределах одного региона, 
-                   -- на ОДНОЙ улице одинаковые названия, разница в UUIDs не важна
-                   --
-               WHERE ((id_area = %L::bigint) AND    
-                   (
-                            (upper(nm_house_full::text) = upper (%L)::text) AND
-                            (id_street IS NOT DISTINCT FROM %L::bigint)  AND
-                            (NOT (id_house = %L::bigint))
-                     
-                   ) AND (id_data_etalon IS NULL) 
-                );
-                --
-                -- Либо различные регионы, одинаковые UUIDs, разница в улицах не важна
-                --
-       $_$;
-       --
-      _rr    gar_tmp.adr_house_t; 
-      _rr1   gar_tmp.adr_house_t; 
-      _qty integer;
-      
-    BEGIN
-     _qty := 0;
-    
-     IF p_mode
-       THEN -- Обработка
-         NULL;
-             
-       ELSE -- Постобработка
-         _exec := format (_sel_twin_post, p_schema_name
-                                ,p_id_area
-                                 --
-                                ,p_nm_house_full
-                                ,p_id_street
-                                 --
-                                ,p_id_house
-         );         
-         EXECUTE _exec INTO _rr1; -- Поиск дублёра
-         ----------------
-         -- Двойники: см. определение выше
-         --
-         IF (_rr1.id_house IS NOT NULL) -- Найден. 
-           THEN
-            IF (_rr1.dt_data_del <=  p_bound_date) AND (_rr1.dt_data_del IS NOT NULL)
-              THEN
-                   _exec = format (_upd_id, p_schema_name
-                                     ,_rr1.id_area          
-                                     ,_rr1.id_street        
-                                     ,_rr1.id_house_type_1  
-                                     ,_rr1.nm_house_1       
-                                     ,_rr1.id_house_type_2  
-                                     ,_rr1.nm_house_2       
-                                     ,_rr1.id_house_type_3  
-                                     ,_rr1.nm_house_3       
-                                     ,_rr1.nm_zipcode       
-                                     ,_rr1.nm_house_full    
-                                     ,_rr1.kd_oktmo         
-                                     ,_rr1.nm_fias_guid     
-                                     ,_rr1.dt_data_del      
-                                     ,p_id_house  
-                                     ,_rr1.kd_okato         
-                                     ,_rr1.vl_addr_latitude 
-                                     ,_rr1.vl_addr_longitude
-                                      --   
-                                     ,_rr1.id_house               
-                     );
-                     EXECUTE _exec; -- Связали.
-                     _qty := 1;
-            ELSE
-               -- -----------------------------------------------------------------
-               --  (dt_data_del >  p_bound_date) AND (dt_data_del IS NOT NULL) 
-               --                   OR (dt_data_del IS NULL)
-               -- -----------------------------------------------------------------
-               -- Дублёр существует, он обновляется данными из проверяемой записи,
-               -- проверяемая запись удаляется.
-               -- -----------------------------------------------------------------
-               _exec = format (_select_u, p_schema_name, p_id_house);
-               EXECUTE _exec INTO _rr; -- проверяемая запись, полная структура.
-               IF _rr.id_house IS NOT NULL 
-                 THEN
-                     _exec = format (_del_twin, p_schema_name, _rr.id_house);  
-                     EXECUTE _exec;   -- Проверяемая запись
-                     --
-                     --    UPDATE _rr1 Обновление дублёра.
-                     --    Старое значение уходит в историю
-                     --
-                     _exec := format (_ins_hist, p_schema_hist_name  
-                                            --
-                             ,_rr1.id_house  
-                             ,_rr1.id_area           
-                             ,_rr1.id_street         
-                             ,_rr1.id_house_type_1   
-                             ,_rr1.nm_house_1        
-                             ,_rr1.id_house_type_2   
-                             ,_rr1.nm_house_2        
-                             ,_rr1.id_house_type_3   
-                             ,_rr1.nm_house_3        
-                             ,_rr1.nm_zipcode        
-                             ,_rr1.nm_house_full     
-                             ,_rr1.kd_oktmo          
-                             ,_rr1.nm_fias_guid     -- 2022-04-04 
-                             ,now()                 --    _rr1.dt_data_del     
-                             ,_rr.id_house          --    _rr1.id_data_etalon     
-                             ,_rr1.kd_okato          
-                             ,_rr1.vl_addr_latitude  
-                             ,_rr1.vl_addr_longitude
-                             , -1 -- ID региона
-                     ); 
-                     EXECUTE _exec;
-                     --      
-                     --  Обновляется старое значение  ??? Сколько их ??
-                     --
-                     _exec = format (_upd_id_1, p_schema_name
-                                     ,_rr.id_area          
-                                     ,_rr.id_street        
-                                     ,_rr.id_house_type_1  
-                                     ,_rr.nm_house_1       
-                                     ,_rr.id_house_type_2  
-                                     ,_rr.nm_house_2       
-                                     ,_rr.id_house_type_3  
-                                     ,_rr.nm_house_3       
-                                     ,_rr.nm_zipcode       
-                                     ,_rr.nm_house_full    
-                                     ,_rr.kd_oktmo         
-                                     ,_rr1.nm_fias_guid   -- 2022-06-20 Сохраняется старый UUID  
-                                     ,NULL      
-                                     ,NULL  
-                                     ,_rr.kd_okato         
-                                     ,_rr.vl_addr_latitude 
-                                     ,_rr.vl_addr_longitude
-                                      --  
-                                     ,_rr1.id_house               
-                     );
-                     EXECUTE _exec;
-                     _qty := 1;
-                     
-               END IF; -- _rr.id_house IS NOT NULL
-            END IF; -- (_rr1.dt_data_del <=  p_bound_date) AND (_rr1.dt_data_del IS NOT NULL)
-         END IF; --  _rr1.id_house IS NOT NULL
-     END IF; -- p_mode
+   DECLARE
+     _exec text;
      
-     RETURN _qty;
-    END;
+     _upd_id text = $_$
+           UPDATE ONLY %I.adr_house SET  
+           
+                id_area           = COALESCE (%L, id_area)::bigint               -- NOT NULL
+               ,id_street         = COALESCE (%L, id_street)::bigint             --  NULL
+               ,id_house_type_1   = COALESCE (%L, id_house_type_1)::integer      --  NULL
+               ,nm_house_1        = COALESCE (%L, nm_house_1)::varchar(70)       --  NULL
+               ,id_house_type_2   = %L::integer      -- COALESCE ( NULL , id_house_type_2)
+               ,nm_house_2        = %L::varchar(50)  -- COALESCE ( NULL , nm_house_2)
+               ,id_house_type_3   = %L::integer      -- COALESCE ( NULL , id_house_type_3)
+               ,nm_house_3        = %L::varchar(50)  -- COALESCE ( NULL, nm_house_3)
+               ,nm_zipcode        = COALESCE (%L, nm_zipcode)::varchar(20)       --  NULL
+               ,nm_house_full     = COALESCE (%L, nm_house_full)::varchar(250)   -- NOT NULL
+               ,kd_oktmo          = COALESCE (%L, kd_oktmo)::varchar(11)         --  NULL
+               ,nm_fias_guid      = COALESCE (%L, nm_fias_guid)::uuid
+               ,dt_data_del       = COALESCE (dt_data_del, %L)::timestamp without time zone              --  NULL
+               ,id_data_etalon    = %L::bigint                                   --  NULL
+               ,kd_okato          = COALESCE (%L, kd_okato)::varchar(11)         --  NULL
+               ,vl_addr_latitude  = COALESCE (%L, vl_addr_latitude )::numeric    --  NULL
+               ,vl_addr_longitude = COALESCE (%L, vl_addr_longitude)::numeric    --  NULL
+                   
+           WHERE (id_house = %L::bigint);
+       $_$;        
+     --
+     _upd_id_1 text = $_$
+           UPDATE ONLY %I.adr_house SET  
+           
+                id_area           = COALESCE (%L, id_area)::bigint               -- NOT NULL
+               ,id_street         = COALESCE (%L, id_street)::bigint             --  NULL
+               ,id_house_type_1   = COALESCE (%L, id_house_type_1)::integer      --  NULL
+               ,nm_house_1        = COALESCE (%L, nm_house_1)::varchar(70)       --  NULL
+               ,id_house_type_2   = %L::integer      -- COALESCE ( NULL , id_house_type_2)
+               ,nm_house_2        = %L::varchar(50)  -- COALESCE ( NULL , nm_house_2)
+               ,id_house_type_3   = %L::integer      -- COALESCE ( NULL , id_house_type_3)
+               ,nm_house_3        = %L::varchar(50)  -- COALESCE ( NULL, nm_house_3)
+               ,nm_zipcode        = COALESCE (%L, nm_zipcode)::varchar(20)       --  NULL
+               ,nm_house_full     = COALESCE (%L, nm_house_full)::varchar(250)   -- NOT NULL
+               ,kd_oktmo          = COALESCE (%L, kd_oktmo)::varchar(11)         --  NULL
+               ,nm_fias_guid      = COALESCE (%L, nm_fias_guid)::uuid
+               ,dt_data_del       = %L::timestamp without time zone              --  NULL
+               ,id_data_etalon    = %L::bigint                                   --  NULL
+               ,kd_okato          = COALESCE (%L, kd_okato)::varchar(11)         --  NULL
+               ,vl_addr_latitude  = COALESCE (%L, vl_addr_latitude )::numeric    --  NULL
+               ,vl_addr_longitude = COALESCE (%L, vl_addr_longitude)::numeric    --  NULL
+                   
+           WHERE (id_house = %L::bigint);
+       $_$;        
+       --
+      _del_twin  text = $_$             --        
+             DELETE FROM ONLY %I.adr_house WHERE (id_house = %L);                     
+      $_$;
+      --
+     _ins_hist text = $_$
+            INSERT INTO %I.adr_house_hist (
+                            id_house          -- bigint        NOT NULL
+                           ,id_area           -- bigint        NOT NULL
+                           ,id_street         -- bigint         NULL
+                           ,id_house_type_1   -- integer        NULL
+                           ,nm_house_1        -- varchar(70)    NULL
+                           ,id_house_type_2   -- integer        NULL
+                           ,nm_house_2        -- varchar(50)    NULL
+                           ,id_house_type_3   -- integer        NULL
+                           ,nm_house_3        -- varchar(50)    NULL
+                           ,nm_zipcode        -- varchar(20)    NULL
+                           ,nm_house_full     -- varchar(250)  NOT NULL
+                           ,kd_oktmo          -- varchar(11)    NULL
+                           ,nm_fias_guid      -- uuid           NULL 
+                           ,dt_data_del       -- timestamp without time zone NULL
+                           ,id_data_etalon    -- bigint        NULL
+                           ,kd_okato          -- varchar(11)   NULL
+                           ,vl_addr_latitude  -- numeric       NULL
+                           ,vl_addr_longitude -- numeric       NULL
+                           ,id_region         -- bigint
+            )
+              VALUES (   %L::bigint                   
+                        ,%L::bigint                   
+                        ,%L::bigint                    
+                        ,%L::integer                  
+                        ,%L::varchar(70)               
+                        ,%L::integer                  
+                        ,%L::varchar(50)               
+                        ,%L::integer                  
+                        ,%L::varchar(50)               
+                        ,%L::varchar(20)  
+                        ,%L::varchar(250)             
+                        ,%L::varchar(11)               
+                        ,%L::uuid
+                        ,%L::timestamp without time zone
+                        ,%L::bigint                   
+                        ,%L::varchar(11)               
+                        ,%L::numeric                  
+                        ,%L::numeric  
+                        ,%L::bigint
+              ); 
+       $_$;             
+      -- Различаются ID.      
+     _sel_twin_post  text = $_$     
+          SELECT * FROM ONLY %I.adr_house
+                  -- В пределах одного региона, 
+                  -- на ОДНОЙ улице одинаковые названия, разница в UUIDs не важна
+                  --
+              WHERE ((id_area = %L::bigint) AND    
+                  (
+                           (upper(nm_house_full::text) = upper (%L)::text) AND
+                           (id_street IS NOT DISTINCT FROM %L::bigint)  AND
+                           (NOT (id_house = %L::bigint))
+                    
+                  ) AND (id_data_etalon IS NULL) 
+               );
+               --
+               -- Либо различные регионы, одинаковые UUIDs, разница в улицах не важна ??
+               --
+      $_$;
+      --
+     _rr    gar_tmp.adr_house_t; 
+     _rr1   gar_tmp.adr_house_t; 
+     
+      -- 2022-10-18
+      --
+      UPD_OP CONSTANT char(1) := 'U';      
+      
+   BEGIN
+     _exec := format (_sel_twin_post, p_schema_name
+                            ,p_id_area
+                             --
+                            ,p_nm_house_full
+                            ,p_id_street
+                             --
+                            ,p_id_house
+     );         
+     EXECUTE _exec INTO _rr1; -- Поиск дублёра
+     ----------------------------------
+     -- Двойники: см. определение выше
+     --
+     IF (_rr1.id_house IS NOT NULL) -- Найден. 
+       THEN
+        IF (_rr1.dt_data_del <=  p_bound_date) AND (_rr1.dt_data_del IS NOT NULL)
+           -- Мусор, кто-то, раньше, его ручками удалил.
+          THEN
+            _exec = format (_upd_id, p_schema_name
+                              ,_rr1.id_area          
+                              ,_rr1.id_street        
+                              ,_rr1.id_house_type_1  
+                              ,_rr1.nm_house_1       
+                              ,_rr1.id_house_type_2  
+                              ,_rr1.nm_house_2       
+                              ,_rr1.id_house_type_3  
+                              ,_rr1.nm_house_3       
+                              ,_rr1.nm_zipcode       
+                              ,_rr1.nm_house_full    
+                              ,_rr1.kd_oktmo         
+                              ,_rr1.nm_fias_guid     
+                              ,_rr1.dt_data_del      
+                              ,p_id_house  
+                              ,_rr1.kd_okato         
+                              ,_rr1.vl_addr_latitude 
+                              ,_rr1.vl_addr_longitude
+                               --   
+                              ,_rr1.id_house               
+              );
+              EXECUTE _exec; -- Связали.   
+              --  
+              INSERT INTO gar_tmp.adr_house_aux (id_house, op_sign)  
+                VALUES (_rr1.id_house, UPD_OP)
+                  ON CONFLICT (id_house) DO UPDATE SET op_sign = UPD_OP
+                      WHERE (gar_tmp.adr_house_aux.id_house = excluded.id_house); 
+              --     
+              fcase := 4; -- Дублёр НЕ актуален,  проверяемая - актуальна                 
+                 
+        ELSE
+           -- -----------------------------------------------------------------
+           --  (dt_data_del >  p_bound_date) AND (dt_data_del IS NOT NULL) 
+           --                   OR (dt_data_del IS NULL)
+           -- -----------------------------------------------------------------
+           -- Дублёр существует, он обновляется данными из проверяемой записи,
+           -- проверяемая запись удаляется. Это не мусор, что-то серьёзное.
+           -- -----------------------------------------------------------------
+           -- проверяемая запись, полная структура
+           _rr := gar_tmp_pcg_trans.f_adr_house_get (p_schema_name, p_id_house);
+           
+           IF _rr.id_house IS NOT NULL 
+             THEN
+               _exec = format (_del_twin, p_schema_name, _rr.id_house);  
+               EXECUTE _exec;   -- Проверяемая запись
+               --
+               -- Создаю запись-фантом,
+               --      "_rr.id_house" потом удалится в отдалённой базе.
+               --   
+               INSERT INTO gar_tmp.adr_house_aux (id_house, op_sign)
+                 VALUES (_rr.id_house, UPD_OP)
+                   ON CONFLICT (id_house) DO UPDATE SET op_sign = UPD_OP
+                       WHERE (gar_tmp.adr_house_aux.id_house = excluded.id_house);                  
+               --
+               --    UPDATE _rr1 Обновление дублёра. Старое значение уходит в историю
+               --
+               _exec := format (_ins_hist, p_schema_hist_name  
+                                      --
+                       ,_rr1.id_house  
+                       ,_rr1.id_area           
+                       ,_rr1.id_street         
+                       ,_rr1.id_house_type_1   
+                       ,_rr1.nm_house_1        
+                       ,_rr1.id_house_type_2   
+                       ,_rr1.nm_house_2        
+                       ,_rr1.id_house_type_3   
+                       ,_rr1.nm_house_3        
+                       ,_rr1.nm_zipcode        
+                       ,_rr1.nm_house_full     
+                       ,_rr1.kd_oktmo          
+                       ,_rr1.nm_fias_guid     -- 2022-04-04 
+                       ,now()                 --    _rr1.dt_data_del     
+                       ,_rr.id_house          --    _rr1.id_data_etalon     
+                       ,_rr1.kd_okato          
+                       ,_rr1.vl_addr_latitude  
+                       ,_rr1.vl_addr_longitude
+                       , -1 -- ID региона
+               ); 
+               EXECUTE _exec;
+               --      
+               --  Обновляется старое значение  ??? Сколько их ??
+               --
+               _exec = format (_upd_id_1, p_schema_name
+                               ,_rr.id_area          
+                               ,_rr.id_street        
+                               ,_rr.id_house_type_1  
+                               ,_rr.nm_house_1       
+                               ,_rr.id_house_type_2  
+                               ,_rr.nm_house_2       
+                               ,_rr.id_house_type_3  
+                               ,_rr.nm_house_3       
+                               ,_rr.nm_zipcode       
+                               ,_rr.nm_house_full    
+                               ,_rr.kd_oktmo         
+                               ,_rr.nm_fias_guid   -- 2022-06-20 Сохраняется старый UUID /2022-11-01 НЕТ 
+                               ,NULL      
+                               ,NULL  
+                               ,_rr.kd_okato         
+                               ,_rr.vl_addr_latitude 
+                               ,_rr.vl_addr_longitude
+                                --  
+                               ,_rr1.id_house               
+               );
+               EXECUTE _exec;
+               fcase := 5; -- Дублёр , БЫЛ НЕ актуален,  проверяемая - актуальна
+               --  Теперь ДУБЛЁР СТАЛ стал актуальным.
+               
+               INSERT INTO gar_tmp.adr_house_aux (id_house, op_sign)
+                 VALUES (_rr1.id_house, UPD_OP)
+                   ON CONFLICT (id_house) DO UPDATE SET op_sign = UPD_OP
+                        WHERE (gar_tmp.adr_house_aux.id_house = excluded.id_house); 
+               --     
+           END IF; -- _rr.id_house IS NOT NULL
+        END IF; -- (_rr1.dt_data_del <=  p_bound_date) AND (_rr1.dt_data_del IS NOT NULL)
+     
+        id_house_subj := p_id_house;
+        id_house_obj  := _rr1.id_house;
+        nm_house_full := _rr1.nm_house_full;
+        nm_fias_guid  := _rr1.nm_fias_guid;
+     
+     END IF; --  _rr1.id_house IS NOT NULL
+                 
+    RETURN NEXT;
+   END;
   $$;
 
-COMMENT ON FUNCTION gar_tmp_pcg_trans.fp_adr_house_del_twin_0 
-    (text, bigint, bigint, bigint, varchar(250), uuid, boolean, date, text)
+COMMENT ON FUNCTION gar_tmp_pcg_trans.fp_adr_house_del_twin_local_0 
+    (text, bigint, bigint, bigint, varchar(250), uuid, date, text)
     IS 'Удаление/Слияние дублей';
 -- ------------------------------------------------------------------------
 --  USE CASE:
@@ -3963,183 +3947,32 @@ COMMENT ON FUNCTION gar_tmp_pcg_trans.fp_adr_house_del_twin_0
 -- ROLLBACK;
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
--- 
-DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_house_del_twin_1 (
-                  text, bigint, bigint, bigint, varchar(250), uuid, boolean, date, text 
- );   
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.fp_adr_house_del_twin_1 (
-                  text, bigint, bigint, bigint, varchar(250), uuid, boolean, date, text 
- );   
- 
-CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_house_del_twin_1 (
-        p_schema_name      text  
-       ,p_id_house         bigint       --  NOT NULL
-       ,p_id_area          bigint       --  NOT NULL
-       ,p_id_street        bigint       --      NULL
-       ,p_nm_house_full    varchar(250) --  NOT NULL
-       ,p_nm_fias_guid     uuid
-       ,p_mode             boolean = FALSE -- используется в процессе обработки
-                                 --  FALSE -- в постобработке.
-       ,p_bound_date       date = '2022-01-01'::date -- Только для режима Post обработки.
-       ,p_schema_hist_name text = 'gar_tmp'                     
-)
-    RETURNS integer
-    LANGUAGE plpgsql 
-    SECURITY DEFINER
-    AS $$
-    -- ---------------------------------------------------------------------------
-    --  2022-02-28  Убираем дубли. 
-    -- ---------------------------------------------------------------------------
-    --  2022-06-06/2022-06-21/2022-07-28 Опытный вариант Постобработки. 
-    -- ---------------------------------------------------------------------------
-    -- ЗАМЕЧАНИЕ:  warning extra:00000:unused parameter "p_nm_fias_guid"
-    -- ЗАМЕЧАНИЕ:  warning extra:00000:unused parameter "p_bound_date"
-    -- ЗАМЕЧАНИЕ:  warning extra:00000:unused parameter "p_schema_hist_name"   
-    
-    DECLARE
-      _exec text;
-      --
-      _upd_id text = $_$
-            UPDATE ONLY %I.adr_house SET  
-            
-                 id_area           = COALESCE (%L, id_area)::bigint               -- NOT NULL
-                ,id_street         = COALESCE (%L, id_street)::bigint             --  NULL
-                ,id_house_type_1   = COALESCE (%L, id_house_type_1)::integer      --  NULL
-                ,nm_house_1        = COALESCE (%L, nm_house_1)::varchar(70)       --  NULL
-                ,id_house_type_2   = %L::integer      -- COALESCE ( NULL , id_house_type_2)
-                ,nm_house_2        = %L::varchar(50)  -- COALESCE ( NULL , nm_house_2)
-                ,id_house_type_3   = %L::integer      -- COALESCE ( NULL , id_house_type_3)
-                ,nm_house_3        = %L::varchar(50)  -- COALESCE ( NULL, nm_house_3)
-                ,nm_zipcode        = COALESCE (%L, nm_zipcode)::varchar(20)       --  NULL
-                ,nm_house_full     = COALESCE (%L, nm_house_full)::varchar(250)   -- NOT NULL
-                ,kd_oktmo          = COALESCE (%L, kd_oktmo)::varchar(11)         --  NULL
-                ,nm_fias_guid      = COALESCE (%L, nm_fias_guid)::uuid
-                ,dt_data_del       = %L::timestamp without time zone              --  NULL
-                ,id_data_etalon    = %L::bigint                                   --  NULL
-                ,kd_okato          = COALESCE (%L, kd_okato)::varchar(11)         --  NULL
-                ,vl_addr_latitude  = COALESCE (%L, vl_addr_latitude )::numeric    --  NULL
-                ,vl_addr_longitude = COALESCE (%L, vl_addr_longitude)::numeric    --  NULL
-                    
-            WHERE (id_house = %L::bigint);
-        $_$;        
-      -- -------------------------------------------------------------------------
-      -- Различаются ID.
-       
-      _sel_twin_post  text = $_$     
-           SELECT * FROM ONLY %I.adr_house
-                   -- В пределах одного региона, 
-                   -- на ОДНОЙ улице одинаковые названия, разница в UUIDs не важна
-                   --
-               WHERE ((id_area = %L::bigint) AND    
-                   (
-                            (upper(nm_house_full::text) = upper (%L)::text) AND
-                            (id_street IS NOT DISTINCT FROM %L::bigint)  AND
-                            (NOT (id_house = %L::bigint))
-                     
-                   ) AND (id_data_etalon IS NULL) 
-                );
-
-       $_$;
-       --
-      _rr1  gar_tmp.adr_house_t; 
-      _qty  integer;
-      
-    BEGIN
-     _qty := 0;
-    
-     IF p_mode
-       THEN -- Обработка
-          NULL;
-             
-       ELSE -- Постобработка
-         _exec := format (_sel_twin_post, p_schema_name
-                                ,p_id_area
-                                 --
-                                ,p_nm_house_full
-                                ,p_id_street
-                                 --
-                                ,p_id_house
-         );         
-         EXECUTE _exec INTO _rr1; -- Поиск дублёра
-         ----------------
-         -- Двойники: см. определение выше
-         --
-         IF (_rr1.id_house IS NOT NULL) -- Найден. 
-           THEN
-            _exec = format (_upd_id, p_schema_name
-                                     ,_rr1.id_area          
-                                     ,_rr1.id_street        
-                                     ,_rr1.id_house_type_1  
-                                     ,_rr1.nm_house_1       
-                                     ,_rr1.id_house_type_2  
-                                     ,_rr1.nm_house_2       
-                                     ,_rr1.id_house_type_3  
-                                     ,_rr1.nm_house_3       
-                                     ,_rr1.nm_zipcode       
-                                     ,_rr1.nm_house_full    
-                                     ,_rr1.kd_oktmo         
-                                     ,_rr1.nm_fias_guid     
-                                     ,coalesce (_rr1.dt_data_del, date (now()))   
-                                     ,p_id_house  
-                                     ,_rr1.kd_okato         
-                                     ,_rr1.vl_addr_latitude 
-                                     ,_rr1.vl_addr_longitude
-                                      --   
-                                     ,_rr1.id_house               
-            );
-            EXECUTE _exec; -- Связали.
-            _qty := 1;
-         END IF; -- _rr1.id_house IS NOT NULL
-     END IF; -- p_mode
-     
-     RETURN _qty;
-    END;
-  $$;
-
-COMMENT ON FUNCTION gar_tmp_pcg_trans.fp_adr_house_del_twin_1 
-    (text, bigint, bigint, bigint, varchar(250), uuid, boolean, date, text)
-    IS 'Удаление/Слияние дублей';
--- ------------------------------------------------------------------------
---  USE CASE:
--- ------------------------------------------------------------------------
--- SELECT gar_tmp_pcg_trans.fp_adr_house_del_twin_1 (
---               p_schema_name    := 'unnsi'  
---              ,p_id_house       := 13696829   --  NOT NULL
---              ,p_id_area        := 126646        --  NOT NULL
---              ,p_id_street      := NULL       --      NULL
---              ,p_nm_house_full  := 'Д. 175Л'    --  NOT NULL
---              ,p_nm_fias_guid   := '0c755ac2-dd91-477d-b61e-68e6f3faef62'
--- );	-- 1
--- SELECT * FROM unnsi.adr_house WHERE (id_house IN (13696829, 26510189));
-
-
--- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_house_del_twin_2 (
-                  text, bigint, bigint, bigint, varchar(250), uuid, boolean, date, text 
- );  
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.fp_adr_house_del_twin_2 (
-                  text, bigint, bigint, bigint, varchar(250), uuid, boolean, date, text 
+DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.fp_adr_house_del_twin_local_1 (
+                  text, bigint, bigint, bigint, varchar(250), uuid, date, text 
  ); 
-CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_house_del_twin_2 (
+CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_house_del_twin_local_1 (
         p_schema_name      text  
        ,p_id_house         bigint       --  NOT NULL
        ,p_id_area          bigint       --  NOT NULL
        ,p_id_street        bigint       --      NULL
        ,p_nm_house_full    varchar(250) --  NOT NULL
        ,p_nm_fias_guid     uuid
-       ,p_mode             boolean = FALSE -- используется в постобработке.
        ,p_bound_date       date = '2022-01-01'::date -- Только для режима Post обработки.
-       ,p_schema_hist_name text = 'gar_tmp'                     
+       ,p_schema_hist_name text = 'gar_tmp' 
+        --
+       ,OUT fcase          integer
+       ,OUT id_house_subj  bigint
+       ,OUT id_house_obj   bigint
+       ,OUT nm_house_full  varchar(250)
+       ,OUT nm_fias_guid   uuid       
 )
--- ЗАМЕЧАНИЕ:  warning extra:00000:unused parameter "p_id_street"
--- ЗАМЕЧАНИЕ:  warning extra:00000:unused parameter "p_nm_house_full"
 
-    RETURNS integer
+    RETURNS setof record
     LANGUAGE plpgsql SECURITY DEFINER
    
     AS $$
     -- ----------------------------------------------------------------------------------------
-    --  2022-02-28  Убираем дубли. 
+    --  2022-02-28  Убираем дубли. Проверка по UUID.
     -- ---------------------------------------------------------------------------------------
     --  2022-03-03  Двурежимная работа процедуры.
     --  Поиск в процессе постобработки, 
@@ -4201,10 +4034,6 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_house_del_twin_2 (
                     
             WHERE (id_house = %L::bigint);
         $_$;        
-      -- 
-      --    _select_id text = $_$
-      --          SELECT h.* FROM ONLY %I.adr_house h WHERE (h.id_house = %L);
-      --    $_$;
            --
        _del_twin_id  text = $_$             --        
              DELETE FROM ONLY %I.adr_house WHERE (id_house = %L);                     
@@ -4263,240 +4092,303 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_house_del_twin_2 (
       _rr    gar_tmp.adr_house_t; 
       _rr1   gar_tmp.adr_house_t; 
       _rr2   gar_tmp.adr_area_t;
-      -- _rr3   gar_tmp.adr_street_t;
-      _qty integer := 0;
+      
+      -- 2022-10-18
+      --
+      UPD_OP CONSTANT char(1) := 'U';       
       
     BEGIN
-     IF p_mode
-       THEN -- Обработка
-          NULL;
-       ELSE -- Постобработка
-         _exec := format (_sel_twin_post_u, p_schema_name, p_nm_fias_guid, p_id_house);         
-         EXECUTE _exec INTO _rr1; -- Поиск дублёра
+     _exec := format (_sel_twin_post_u, p_schema_name, p_nm_fias_guid, p_id_house);         
+     EXECUTE _exec INTO _rr1; -- Поиск дублёра по UUID
+     -- --------------------------------
+     --  Двойники: см. определение выше
+     -- --------------------------------
+     IF (_rr1.id_house IS NOT NULL) -- Найден. 
+       THEN
+        IF (_rr1.dt_data_del IS NULL)
+          THEN
+              _rr2 := gar_tmp_pcg_trans.f_adr_area_get (p_schema_name, _rr1.id_area);
+              
+              IF (_rr2.dt_data_del IS NULL) --- AND (_rr2.id_data_etalon IS NULL) 
+                THEN
+                    --  1.1) Актуален, его "адресная область" так-же актуальна.
+                    --       сливаем записи, проверяемая запись удаляется 
+                    -- --------------------------------------------------------
 
-         -- RAISE NOTICE 'Point 0.0) %', _rr;
-         -- --------------------------------
-         --  Двойники: см. определение выше
-         -- --------------------------------
-         IF (_rr1.id_house IS NOT NULL) -- Найден. 
-           THEN
-            -- RAISE NOTICE 'Point 0) % - %', p_id_house, _rr1;
-                
-            IF (_rr1.dt_data_del IS NULL)
-              THEN
-                  _rr2 := gar_tmp_pcg_trans.f_adr_area_get (p_schema_name, _rr1.id_area);
-                  
-                  -- RAISE NOTICE 'Point 1) %', _rr2;
-                  
-                  IF (_rr2.dt_data_del IS NULL) --- AND (_rr2.id_data_etalon IS NULL) 
-                    THEN
-                        --  1.1) Актуален, его "адресная область" так-же актуальна.
-                        --       сливаем записи, проверяемая запись удаляется 
-                        -- --------------------------------------------------------
+                    _rr := gar_tmp_pcg_trans.f_adr_house_get (p_schema_name, p_id_house);
+                    _exec = format (_del_twin_id, p_schema_name, p_id_house);  
+                    EXECUTE _exec;   -- Проверяемая запись
+                    --
+                    -- Создаю запись-фантом,
+                    --      "_rr.id_house" потом удалится в отдалённой базе.
+                    --   
+                    INSERT INTO gar_tmp.adr_house_aux (id_house, op_sign)
+                      VALUES (_rr.id_house, UPD_OP)
+                        ON CONFLICT (id_house) DO UPDATE SET op_sign = UPD_OP
+                            WHERE (gar_tmp.adr_house_aux.id_house = excluded.id_house);                    
+                         
+                    IF (_rr.id_data_etalon IS NULL) 
+                     THEN
+                        --
+                        --    UPDATE _rr1 Обновление дублёра. 
+                        --    Только в том случае, если проверяемая запись актуальна.
+                        --    Старое значение уходит в историю
+                        --
+                        _exec := format (_ins_hist, p_schema_hist_name  
+                                               --
+                                ,_rr1.id_house  
+                                ,_rr1.id_area           
+                                ,_rr1.id_street         
+                                ,_rr1.id_house_type_1   
+                                ,_rr1.nm_house_1        
+                                ,_rr1.id_house_type_2   
+                                ,_rr1.nm_house_2        
+                                ,_rr1.id_house_type_3   
+                                ,_rr1.nm_house_3        
+                                ,_rr1.nm_zipcode        
+                                ,_rr1.nm_house_full     
+                                ,_rr1.kd_oktmo          
+                                ,_rr1.nm_fias_guid     -- 2022-04-04 
+                                ,now()                 --    _rr1.dt_data_del     
+                                ,p_id_house            --    _rr1.id_data_etalon     
+                                ,_rr1.kd_okato          
+                                ,_rr1.vl_addr_latitude  
+                                ,_rr1.vl_addr_longitude
+                                , -1 -- ID региона
+                        ); 
+                        EXECUTE _exec;
 
-                        _rr := gar_tmp_pcg_trans.f_adr_house_get (p_schema_name, p_id_house);
-                        _exec = format (_del_twin_id, p_schema_name, p_id_house);  
-                        EXECUTE _exec;   -- Проверяемая запись
-
-                        -- RAISE NOTICE 'Point 2) % - %', p_id_house, _rr;
-                        IF (_rr.id_data_etalon IS NULL) 
-                         THEN
-                            --
-                            --    UPDATE _rr1 Обновление дублёра. 
-                            --    Только в том случае, если проверяемая запись актуальна.
-                            --    Старое значение уходит в историю
-                            --
-                            -- RAISE NOTICE 'Point 3.0)';
-                            _exec := format (_ins_hist, p_schema_hist_name  
-                                                   --
-                                    ,_rr1.id_house  
-                                    ,_rr1.id_area           
-                                    ,_rr1.id_street         
-                                    ,_rr1.id_house_type_1   
-                                    ,_rr1.nm_house_1        
-                                    ,_rr1.id_house_type_2   
-                                    ,_rr1.nm_house_2        
-                                    ,_rr1.id_house_type_3   
-                                    ,_rr1.nm_house_3        
-                                    ,_rr1.nm_zipcode        
-                                    ,_rr1.nm_house_full     
-                                    ,_rr1.kd_oktmo          
-                                    ,_rr1.nm_fias_guid     -- 2022-04-04 
-                                    ,now()                 --    _rr1.dt_data_del     
-                                    ,p_id_house          --    _rr1.id_data_etalon     
-                                    ,_rr1.kd_okato          
-                                    ,_rr1.vl_addr_latitude  
-                                    ,_rr1.vl_addr_longitude
-                                    , -1 -- ID региона
-                            ); 
-                            EXECUTE _exec;
-
-                            --  Обновляется старое значение  ??? Сколько их ??
-                            _exec = format (_upd_id, p_schema_name
-                                            ,_rr.id_area          
-                                            ,_rr.id_street        
-                                            ,_rr.id_house_type_1  
-                                            ,_rr.nm_house_1       
-                                            ,_rr.id_house_type_2  
-                                            ,_rr.nm_house_2       
-                                            ,_rr.id_house_type_3  
-                                            ,_rr.nm_house_3       
-                                            ,_rr.nm_zipcode       
-                                            ,_rr.nm_house_full    
-                                            ,_rr.kd_oktmo         
-                                            ,_rr.nm_fias_guid     
-                                            ,NULL      
-                                            ,NULL  
-                                            ,_rr.kd_okato         
-                                            ,_rr.vl_addr_latitude 
-                                            ,_rr.vl_addr_longitude
-                                             --  
-                                            ,_rr1.id_house               
-                            );
-                            EXECUTE _exec;
-                            
-                          ELSE -- Проверяемую запись в историю.   
-                            -- RAISE NOTICE 'Point 3.1)';
-                            
-                            _exec := format (_ins_hist, p_schema_hist_name  
-                                                   --
-                                    ,_rr.id_house  
-                                    ,_rr.id_area           
-                                    ,_rr.id_street         
-                                    ,_rr.id_house_type_1   
-                                    ,_rr.nm_house_1        
-                                    ,_rr.id_house_type_2   
-                                    ,_rr.nm_house_2        
-                                    ,_rr.id_house_type_3   
-                                    ,_rr.nm_house_3        
-                                    ,_rr.nm_zipcode        
-                                    ,_rr.nm_house_full     
-                                    ,_rr.kd_oktmo          
-                                    ,_rr.nm_fias_guid      
-                                    ,_rr.dt_data_del     
-                                    ,_rr.id_data_etalon     
-                                    ,_rr.kd_okato          
-                                    ,_rr.vl_addr_latitude  
-                                    ,_rr.vl_addr_longitude
-                                    , -1 -- ID региона
-                            ); 
-                            EXECUTE _exec;
-                            
-                        END IF; -- (_rr.id_data_etalon IS NULL)
-                        _qty := 1;
+                        --  Обновляется старое значение  ??? Сколько их ??
+                        _exec = format (_upd_id, p_schema_name
+                                        ,_rr.id_area          
+                                        ,_rr.id_street        
+                                        ,_rr.id_house_type_1  
+                                        ,_rr.nm_house_1       
+                                        ,_rr.id_house_type_2  
+                                        ,_rr.nm_house_2       
+                                        ,_rr.id_house_type_3  
+                                        ,_rr.nm_house_3       
+                                        ,_rr.nm_zipcode       
+                                        ,_rr.nm_house_full    
+                                        ,_rr.kd_oktmo         
+                                        ,_rr.nm_fias_guid     
+                                        ,NULL      
+                                        ,NULL  
+                                        ,_rr.kd_okato         
+                                        ,_rr.vl_addr_latitude 
+                                        ,_rr.vl_addr_longitude
+                                         --  
+                                        ,_rr1.id_house               
+                        );
+                        EXECUTE _exec;
+                        fcase := 1; -- Дублёр актуален, его adr_area - актуальна, 
+                                   -- проверяемая - актуальна
+                                   
+                        INSERT INTO gar_tmp.adr_house_aux (id_house, op_sign)
+                          VALUES (_rr1.id_house, UPD_OP)
+                            ON CONFLICT (id_house) DO UPDATE SET op_sign = UPD_OP
+                                 WHERE (gar_tmp.adr_house_aux.id_house = excluded.id_house);                                    
                         
-                     ELSE
-                     
-                     -- 1.2) Дублёр актуален, но его адресная облась НЕ АКТУАЛЬНА.
-                     --      Дублёр деактуализируется, его dt_data_del = dt_data_del адресной области.
-                     --      Активной остаётся проверяемая запись.  
-                     
-                     -- RAISE NOTICE 'Point 4) %', p_id_house;
-                     _exec = format (_upd_id, p_schema_name
-                                     ,_rr1.id_area          
-                                     ,_rr1.id_street        
-                                     ,_rr1.id_house_type_1  
-                                     ,_rr1.nm_house_1       
-                                     ,_rr1.id_house_type_2  
-                                     ,_rr1.nm_house_2       
-                                     ,_rr1.id_house_type_3  
-                                     ,_rr1.nm_house_3       
-                                     ,_rr1.nm_zipcode       
-                                     ,_rr1.nm_house_full    
-                                     ,_rr1.kd_oktmo         
-                                     ,_rr1.nm_fias_guid     
-                                     ,_rr2.dt_data_del  --  dt_data_del    
-                                     ,p_id_house     --  id_data_etalon 
-                                     ,_rr1.kd_okato         
-                                     ,_rr1.vl_addr_latitude 
-                                     ,_rr1.vl_addr_longitude
-                                      --  
-                                     ,_rr1.id_house               
-                     );
-                     EXECUTE _exec;
-                     _qty := 1;
-                  END IF; -- (_rr2.dt_data_del IS NULL)
-                  
-             ELSE --  (_rr1.dt_data_del IS NOT NULL)    
-                IF (_rr1.dt_data_del < p_bound_date)
-                  THEN
-                   -- 
-                   -- 1.3) Дублёр не актуален, в случае если dt_data_del < '2022-01-01' то 
-                   --      его id_data_etalon = id_house проверяемой записи.
-                   --
-                   -- RAISE NOTICE 'Point 5) %', p_id_house;
-                   _exec = format (_upd_id, p_schema_name
-                                     ,_rr1.id_area          
-                                     ,_rr1.id_street        
-                                     ,_rr1.id_house_type_1  
-                                     ,_rr1.nm_house_1       
-                                     ,_rr1.id_house_type_2  
-                                     ,_rr1.nm_house_2       
-                                     ,_rr1.id_house_type_3  
-                                     ,_rr1.nm_house_3       
-                                     ,_rr1.nm_zipcode       
-                                     ,_rr1.nm_house_full    
-                                     ,_rr1.kd_oktmo         
-                                     ,_rr1.nm_fias_guid     
-                                     ,_rr1.dt_data_del      
-                                     ,p_id_house  
-                                     ,_rr1.kd_okato         
-                                     ,_rr1.vl_addr_latitude 
-                                     ,_rr1.vl_addr_longitude
-                                      --   
-                                     ,_rr1.id_house               
-                   );
-                   EXECUTE _exec; -- Связали.
-                   _qty := 1;
-                     
-                 ELSE -- (_rr1.dt_data_del >= p_bound_date)
-                   --
-                   --  1.4) Дублёр не актуален, его dt_data_del >= '2022-01-01', то он удаляется.
-                   --
-                   -- RAISE NOTICE 'Point 6) %', p_id_house;
-                   _exec := format (_ins_hist, p_schema_hist_name  
-                           ,_rr1.id_house  
-                           ,_rr1.id_area           
-                           ,_rr1.id_street         
-                           ,_rr1.id_house_type_1   
-                           ,_rr1.nm_house_1        
-                           ,_rr1.id_house_type_2   
-                           ,_rr1.nm_house_2        
-                           ,_rr1.id_house_type_3   
-                           ,_rr1.nm_house_3        
-                           ,_rr1.nm_zipcode        
-                           ,_rr1.nm_house_full     
-                           ,_rr1.kd_oktmo          
-                           ,_rr1.nm_fias_guid     -- 2022-04-04 
-                           ,now()                 --    _rr1.dt_data_del     
-                           ,p_id_house         --    _rr1.id_data_etalon     
-                           ,_rr1.kd_okato          
-                           ,_rr1.vl_addr_latitude  
-                           ,_rr1.vl_addr_longitude
-                           , -1 -- ID региона
-                   ); 
-                   EXECUTE _exec;
-                   _exec = format (_del_twin_id, p_schema_name, _rr1.id_house);  
-                   EXECUTE _exec;   -- Запись дублёр
-                   _qty := 1;
-                   
-                END IF; -- (_rr1.dt_data_del < p_bound_date)
-            END IF; -- _rr1.dt_data_del IS NULL
-           
-         END IF; --  _rr1.id_house IS NOT NULL
-     END IF; -- p_mode
+                      ELSE -- Проверяемую запись в историю. (_rr.id_data_etalon IS NOT NULL)
+
+                        _exec := format (_ins_hist, p_schema_hist_name  
+                                               --
+                                ,_rr.id_house  
+                                ,_rr.id_area           
+                                ,_rr.id_street         
+                                ,_rr.id_house_type_1   
+                                ,_rr.nm_house_1        
+                                ,_rr.id_house_type_2   
+                                ,_rr.nm_house_2        
+                                ,_rr.id_house_type_3   
+                                ,_rr.nm_house_3        
+                                ,_rr.nm_zipcode        
+                                ,_rr.nm_house_full     
+                                ,_rr.kd_oktmo          
+                                ,_rr.nm_fias_guid      
+                                ,_rr.dt_data_del     
+                                ,_rr.id_data_etalon     
+                                ,_rr.kd_okato          
+                                ,_rr.vl_addr_latitude  
+                                ,_rr.vl_addr_longitude
+                                , -1 -- ID региона
+                        ); 
+                        EXECUTE _exec;
+
+                        fcase := 2; -- Дублёр актуален, его adr_area - актуальна, 
+                                    -- проверяемая - НЕ актуальна
+                    END IF; -- (_rr.id_data_etalon IS NULL)
+                    
+                 ELSE
+                 
+                 -- 1.2) Дублёр актуален, но его адресная облась НЕ АКТУАЛЬНА.
+                 --      Дублёр деактуализируется, его dt_data_del = dt_data_del адресной области.
+                 --      Активной остаётся проверяемая запись.  
+                 
+                 _exec = format (_upd_id, p_schema_name
+                                 ,_rr1.id_area          
+                                 ,_rr1.id_street        
+                                 ,_rr1.id_house_type_1  
+                                 ,_rr1.nm_house_1       
+                                 ,_rr1.id_house_type_2  
+                                 ,_rr1.nm_house_2       
+                                 ,_rr1.id_house_type_3  
+                                 ,_rr1.nm_house_3       
+                                 ,_rr1.nm_zipcode       
+                                 ,_rr1.nm_house_full    
+                                 ,_rr1.kd_oktmo         
+                                 ,_rr1.nm_fias_guid     
+                                 ,_rr2.dt_data_del  --  dt_data_del    
+                                 ,p_id_house     --  id_data_etalon 
+                                 ,_rr1.kd_okato         
+                                 ,_rr1.vl_addr_latitude 
+                                 ,_rr1.vl_addr_longitude
+                                  --  
+                                 ,_rr1.id_house               
+                 );
+                 EXECUTE _exec;
+                 --
+                 INSERT INTO gar_tmp.adr_house_aux (id_house, op_sign)
+                    VALUES (_rr1.id_house, UPD_OP)
+                      ON CONFLICT (id_house) DO UPDATE SET op_sign = UPD_OP
+                         WHERE (gar_tmp.adr_house_aux.id_house = excluded.id_house); 
+                        
+                 fcase := 3; -- Дублёр актуален, его adr_area - НЕ актуальна, 
+                             -- проверяемая - актуальна                        
+              END IF; -- (_rr2.dt_data_del IS NULL)
+              
+         ELSE --  (_rr1.dt_data_del IS NOT NULL)    
+            IF (_rr1.dt_data_del < p_bound_date)
+              THEN
+               -- 
+               -- 1.3) Дублёр не актуален, в случае если dt_data_del < '2022-01-01' то 
+               --      его id_data_etalon = id_house проверяемой записи.
+
+               _exec = format (_upd_id, p_schema_name
+                                 ,_rr1.id_area          
+                                 ,_rr1.id_street        
+                                 ,_rr1.id_house_type_1  
+                                 ,_rr1.nm_house_1       
+                                 ,_rr1.id_house_type_2  
+                                 ,_rr1.nm_house_2       
+                                 ,_rr1.id_house_type_3  
+                                 ,_rr1.nm_house_3       
+                                 ,_rr1.nm_zipcode       
+                                 ,_rr1.nm_house_full    
+                                 ,_rr1.kd_oktmo         
+                                 ,_rr1.nm_fias_guid     
+                                 ,_rr1.dt_data_del      
+                                 ,p_id_house  
+                                 ,_rr1.kd_okato         
+                                 ,_rr1.vl_addr_latitude 
+                                 ,_rr1.vl_addr_longitude
+                                  --   
+                                 ,_rr1.id_house               
+               );
+               EXECUTE _exec; -- Связали.
+               
+               INSERT INTO gar_tmp.adr_house_aux (id_house, op_sign)  
+                 VALUES (_rr1.id_house, UPD_OP)
+                  ON CONFLICT (id_house) DO UPDATE SET op_sign = UPD_OP
+                      WHERE (gar_tmp.adr_house_aux.id_house = excluded.id_house); 
+              --     
+              fcase := 4; -- Дублёр НЕ актуален,  проверяемая - актуальна                  
+                 
+             ELSE -- (_rr1.dt_data_del >= p_bound_date)
+               --
+               --  1.4) Дублёр не актуален, его dt_data_del >= '2022-01-01'.
+                -- -----------------------------------------------------------------
+                -- Дублёр существует, он обновляется данными из проверяемой записи,
+                -- проверяемая запись удаляется. Это не мусор, что-то серьёзное.
+                -- -----------------------------------------------------------------               
+                --
+                _rr := gar_tmp_pcg_trans.f_adr_house_get (p_schema_name, p_id_house);
+                _exec = format (_del_twin_id, p_schema_name, p_id_house);  
+                EXECUTE _exec;   -- Проверяемая запись
+                --
+                -- Создаю запись-фантом,
+                --      "_rr.id_house" потом удалится в отдалённой базе.
+                --   
+                INSERT INTO gar_tmp.adr_house_aux (id_house, op_sign)
+                  VALUES (_rr.id_house, UPD_OP)
+                    ON CONFLICT (id_house) DO UPDATE SET op_sign = UPD_OP
+                        WHERE (gar_tmp.adr_house_aux.id_house = excluded.id_house);                
+                    
+                _exec := format (_ins_hist, p_schema_hist_name  
+                       ,_rr1.id_house  
+                       ,_rr1.id_area           
+                       ,_rr1.id_street         
+                       ,_rr1.id_house_type_1   
+                       ,_rr1.nm_house_1        
+                       ,_rr1.id_house_type_2   
+                       ,_rr1.nm_house_2        
+                       ,_rr1.id_house_type_3   
+                       ,_rr1.nm_house_3        
+                       ,_rr1.nm_zipcode        
+                       ,_rr1.nm_house_full     
+                       ,_rr1.kd_oktmo          
+                       ,_rr1.nm_fias_guid     -- 2022-04-04 
+                       ,now()                 --    _rr1.dt_data_del     
+                       ,p_id_house         --    _rr1.id_data_etalon     
+                       ,_rr1.kd_okato          
+                       ,_rr1.vl_addr_latitude  
+                       ,_rr1.vl_addr_longitude
+                       , -1 -- ID региона
+               ); 
+               EXECUTE _exec;
+               
+               _exec = format (_upd_id, p_schema_name
+                               ,_rr.id_area          
+                               ,_rr.id_street        
+                               ,_rr.id_house_type_1  
+                               ,_rr.nm_house_1       
+                               ,_rr.id_house_type_2  
+                               ,_rr.nm_house_2       
+                               ,_rr.id_house_type_3  
+                               ,_rr.nm_house_3       
+                               ,_rr.nm_zipcode       
+                               ,_rr.nm_house_full    
+                               ,_rr.kd_oktmo         
+                               ,_rr.nm_fias_guid   -- 2022-06-20 Сохраняется старый UUID /2022-11-01 НЕТ 
+                               ,NULL      
+                               ,NULL  
+                               ,_rr.kd_okato         
+                               ,_rr.vl_addr_latitude 
+                               ,_rr.vl_addr_longitude
+                                --  
+                               ,_rr1.id_house               
+               );
+               EXECUTE _exec;
+               
+               INSERT INTO gar_tmp.adr_house_aux (id_house, op_sign)
+                 VALUES (_rr1.id_house, UPD_OP)
+                   ON CONFLICT (id_house) DO UPDATE SET op_sign = UPD_OP
+                        WHERE (gar_tmp.adr_house_aux.id_house = excluded.id_house);
+              
+               fcase := 5; -- Дублёр , БЫЛ НЕ актуален,  проверяемая - актуальна
+               --  Теперь ДУБЛЁР СТАЛ стал актуальным.
+                              
+            END IF; -- (_rr1.dt_data_del < p_bound_date)
+        END IF; -- _rr1.dt_data_del IS NULL
+
+      id_house_subj := p_id_house;
+      id_house_obj  := _rr1.id_house;
+      nm_house_full := _rr1.nm_house_full;
+      nm_fias_guid  := _rr1.nm_fias_guid;  
+       
+     END IF; --  _rr1.id_house IS NOT NULL -- Найден.
      
-     RETURN _qty;
+     RETURN NEXT;
     END;
   $$;
 
-COMMENT ON FUNCTION gar_tmp_pcg_trans.fp_adr_house_del_twin_2 
-    (text, bigint, bigint, bigint, varchar(250), uuid, boolean, date, text)
+COMMENT ON FUNCTION gar_tmp_pcg_trans.fp_adr_house_del_twin_local_1 
+    (text, bigint, bigint, bigint, varchar(250), uuid, date, text)
     IS 'Удаление/Слияние дублей';
 -- ------------------------------------------------------------------------
 --  USE CASE:
 -- ------------------------------------------------------------------------
--- CALL gar_tmp_pcg_trans.fp_adr_house_del_twin_2 (
+-- CALL gar_tmp_pcg_trans.fp_adr_house_del_twin_local_1 (
 --               p_schema_name    := 'unnsi'  
 --              ,p_id_house       := 2400298628   --  NOT NULL
 --              ,p_id_area        := 32107        --  NOT NULL
@@ -4512,23 +4404,26 @@ COMMENT ON FUNCTION gar_tmp_pcg_trans.fp_adr_house_del_twin_2
 -- ROLLBACK;
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_house_check_twins (
-                  text, text, bigint [][], boolean
+DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.p_adr_house_check_twins_local (
+                  text, date, text
  ); 
- --
-DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_house_check_twins (
-                  text, text, bigint [][], boolean, date, text
- );  
--- 
-CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_house_check_twins (
+DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.fp_adr_house_check_twins_local (
+                  text, date, text
+); 
+CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_house_check_twins_local (
         p_schema_name       text  
-       ,p_conn_name         text  
-       ,p_house_ids         bigint [][]       
-       ,p_mode              boolean = FALSE -- Постобработка.
-       ,p_bound_date        date = '2022-01-01'::date -- Только для режима Post обработки.
-       ,p_schema_hist_name text = 'gar_tmp'             
+       ,p_bound_date        date = '2022-01-01'::date  
+       ,p_schema_hist_name  text = 'gar_tmp' 
+        --
+       ,OUT fcase          integer
+       ,OUT id_house_subj  bigint
+       ,OUT id_house_obj   bigint
+       ,OUT nm_house_full   varchar(250)
+       ,OUT nm_fias_guid   uuid       
 )
-    LANGUAGE plpgsql SECURITY DEFINER
+    RETURNS setof record
+    LANGUAGE plpgsql 
+    SECURITY DEFINER
   AS
 $$
   -- ========================================================================
@@ -4538,162 +4433,41 @@ $$
   --     gar_tmp_pcg_trans.fp_adr_house_del_twin_0 () удаление "AK1"
   --     gar_tmp_pcg_trans.fp_adr_house_del_twin_2 () удаление "nm_fias_guid"
   --  2022-07-27 Подключение постоянно, запрос выполняется дважды
+  --  2022-10-31 Вариант для работы в локальной региональной базе.
   -- ========================================================================
   DECLARE
    _rr      record;
-   _z       bigint[];
-   _arr_len integer;
-   _i       integer := 1;
-   _qty_0   integer;
-   _qty_2   integer;
-
-   _select text := $_$
-      SELECT id_house, id_area, id_street, nm_house_full, nm_fias_guid 
-            FROM %I.adr_house 
-                    WHERE (id_house >= %L) AND (id_house < %L)
-                           ORDER BY id_house DESC;	
-   $_$;
-   _exec text;
-   
+   -- ---------------------------------
+   --     id_house      bigint
+   --    ,id_area       bigint
+   --    ,id_street     bigint 
+   --    ,nm_house_full varchar(250)
+   --    ,nm_fias_guid  uuid 
+   -- ---------------------------------
+  
   BEGIN
-    IF (p_house_ids IS NULL) 
-      THEN
-           RAISE 'Массив граничных значений не может быть NULL';
-    END IF;
-    _arr_len := array_length (p_house_ids, 1);
-     --
-     LOOP
-  	   _qty_0 := 0;
-	   _qty_2 := 0;
-       _z := p_house_ids [_i:_i];
-       --
-       _exec := format (_select, p_schema_name, (_z[1][1]), (_z[1][2]));
-       --
-       FOR _rr IN SELECT x1.* FROM gar_link.dblink (p_conn_name, _exec) 
-             AS x1
-               (
-                    id_house      bigint
-                   ,id_area       bigint
-                   ,id_street     bigint 
-                   ,nm_house_full varchar(250)
-                   ,nm_fias_guid  uuid 
-                )                             
-        --                    
-        LOOP
-           EXIT WHEN (_rr.id_house IS NULL);
-           --
-           _qty_0 := _qty_0 + gar_tmp_pcg_trans.fp_adr_house_del_twin_0 (
-                     p_schema_name       :=  p_schema_name 
-                    ,p_id_house          :=  _rr.id_house     
-                    ,p_id_area           :=  _rr.id_area      
-                    ,p_id_street         :=  _rr.id_street    
-                    ,p_nm_house_full     :=  _rr.nm_house_full
-                    ,p_nm_fias_guid      :=  _rr.nm_fias_guid 
-                    ,p_mode              :=  p_mode
-                    ,p_bound_date        :=  p_bound_date       -- Только для режима Post обработки.
-                    ,p_schema_hist_name  :=  p_schema_hist_name           
-           );
-        END LOOP;
-        
-        -- 2022-07-27 Подключение постоянно, запрос выполняется дважды
-
-       FOR _rr IN SELECT x1.* FROM gar_link.dblink (p_conn_name, _exec) 
-             AS x1
-               (
-                    id_house      bigint
-                   ,id_area       bigint
-                   ,id_street     bigint 
-                   ,nm_house_full varchar(250)
-                   ,nm_fias_guid  uuid 
-                )                             
-        --                    
-        LOOP
-           EXIT WHEN (_rr.id_house IS NULL);
-           --
-           _qty_2 := _qty_2 + gar_tmp_pcg_trans.fp_adr_house_del_twin_2 (
-                     p_schema_name      := p_schema_name 
-                    ,p_id_house         := _rr.id_house     
-                    ,p_id_area          := _rr.id_area      
-                    ,p_id_street        := _rr.id_street    
-                    ,p_nm_house_full    := _rr.nm_house_full
-                    ,p_nm_fias_guid     := _rr.nm_fias_guid 
-                    ,p_mode             := p_mode
-                    ,p_bound_date       := p_bound_date       -- Только для режима Post обработки.
-                    ,p_schema_hist_name := p_schema_hist_name
-           );
-        END LOOP;
-        
-        RAISE NOTICE 'Houses 0 (ak1). Bounds: % - %, qty = % ', (_z[1][1]), (_z[1][2]), _qty_0;
-        RAISE NOTICE 'Houses 2 (nm_fias_guid). Bounds: % - %, qty = % ', (_z[1][1]), (_z[1][2]), _qty_2;
-        
-       _i := _i + 1;
-       EXIT WHEN (_i > _arr_len);
-     END LOOP;
-  END;
-$$;
-
-COMMENT ON PROCEDURE gar_tmp_pcg_trans.p_adr_house_check_twins (text, text, bigint [][], boolean, date, text) 
-                   IS 'Постобработка, фильтрация дублей';
--- ------------------------------------------------------------------------
---  USE CASE:
--- ------------------------------------------------------------------------
--- SELECT * FROM unsi.adr_house WHERE(id_area = 78) AND (upper(nm_house_full::text)='Д. 100 ЛИТЕР АБ')
---                 AND (id_street= 1641)
--- SELECT gar_link.f_server_is();
--- SELECT * FROM gar_link.v_servers_active;
--- --------------------------------------------------------------------------
---   CALL gar_tmp_pcg_trans.p_adr_house_check_twins ('unnsi',gar_link.f_conn_set (3)
---          ,'{
---             {1100000000,1199000000}
---            ,{2400000000,2499000000}												   
---           }'
---   );
---
---           ,'{{2400000000,2499000000}
---             ,{7800000000,7899000000}
---             ,{3800000000,3899000000}
-
--- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_house_check_twins_1 (
-                  text, text, boolean, date, text
- );  
--- 
-CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_house_check_twins_1 (
-        p_schema_name       text  
-       ,p_conn_name         text  
-       ,p_mode              boolean = FALSE -- Постобработка.
-       ,p_bound_date        date = '2022-01-01'::date -- Только для режима Post обработки.
-       ,p_schema_hist_name  text = 'gar_tmp'             
-)
-    LANGUAGE plpgsql SECURITY DEFINER
-  AS
-$$
-  -- ========================================================================
-  --  2022-07-28 Функция фильтрующая дубли. Сканирует всю "unnsi.adr_house",
-  --               требует неуникального индекса "adr_house_ak1".
-  -- ========================================================================
-  DECLARE
-   _rr      record;
-   _qty_1   integer;
-
-   _select text := $_$
-       WITH x (
-                 id_house
-                ,id_area
-                ,id_street
-                ,nm_house_full
-                ,nm_fias_guid
-                ,rn
-       ) 
+    --
+    FOR _rr IN  WITH x (
+                         id_house
+                        ,id_area
+                        ,id_street
+                        ,nm_house_full
+                        ,nm_fias_guid
+                        ,id_data_etalon
+                        ,dt_data_del           
+                        ,rn
+     ) 
         AS (
              SELECT 
-               id_house 
-              ,id_area
-              ,id_street
-              ,nm_house_full
-              ,nm_fias_guid
-              ,(count (1) OVER (PARTITION BY id_area, upper (nm_house_full), id_street)) AS rn 
-             FROM  %I.adr_house WHERE (id_data_etalon IS NULL)
+               h.id_house 
+              ,h.id_area
+              ,h.id_street
+              ,h.nm_house_full
+              ,h.nm_fias_guid
+              ,h.id_data_etalon
+              ,h.dt_data_del
+              ,(count (1) OVER (PARTITION BY h.id_area, upper (h.nm_house_full), h.id_street)) AS rn 
+             FROM gar_tmp.adr_house h WHERE (h.id_data_etalon IS NULL)
          ) 
          , z (
                  id_house
@@ -4701,6 +4475,7 @@ $$
                 ,id_street
                 ,nm_house_full
                 ,nm_fias_guid
+                ,dt_data_del
             ) AS (
                    SELECT   
                            x.id_house
@@ -4708,71 +4483,117 @@ $$
                           ,x.id_street
                           ,x.nm_house_full
                           ,x.nm_fias_guid
+                          ,x.dt_data_del
                    
-                   FROM x WHERE (rn = 2) AND (nm_fias_guid IS NOT NULL)
+                   FROM x WHERE (rn = 2) AND (x.nm_fias_guid IS NOT NULL) AND (x.dt_data_del IS NULL)
             )
               SELECT DISTINCT ON (z.id_area, upper(z.nm_house_full), z.id_street) 
-       
+              
                  z.id_house
                 ,z.id_area
                 ,z.id_street
                 ,z.nm_house_full
                 ,z.nm_fias_guid
               
-              FROM z;
-   $_$;
-   
-   _exec text;
-   
-  BEGIN
-    _qty_1 := 0;
-    --
-    _exec := format (_select, p_schema_name);
-    --
-    FOR _rr IN SELECT x1.* FROM gar_link.dblink (p_conn_name, _exec) 
-          AS x1
-            (
-                 id_house      bigint
-                ,id_area       bigint
-                ,id_street     bigint 
-                ,nm_house_full varchar(250)
-                ,nm_fias_guid  uuid 
-             )                             
-     --                    
+              FROM z
      LOOP
         EXIT WHEN (_rr.id_house IS NULL);
         --
-        _qty_1 := _qty_1 + gar_tmp_pcg_trans.fp_adr_house_del_twin_1 (
+        SELECT f0.fcase, f0.id_house_subj, f0.id_house_obj, f0.nm_house_full, f0.nm_fias_guid
+        INTO fcase, id_house_subj, id_house_obj, nm_house_full, nm_fias_guid 
+        
+        FROM gar_tmp_pcg_trans.fp_adr_house_del_twin_local_0 (
                   p_schema_name       :=  p_schema_name 
                  ,p_id_house          :=  _rr.id_house     
                  ,p_id_area           :=  _rr.id_area      
                  ,p_id_street         :=  _rr.id_street    
                  ,p_nm_house_full     :=  _rr.nm_house_full
                  ,p_nm_fias_guid      :=  _rr.nm_fias_guid 
-                 ,p_mode              :=  p_mode
-                 ,p_bound_date        :=  p_bound_date       -- Только для режима Post обработки.
+                 ,p_bound_date        :=  p_bound_date       
                  ,p_schema_hist_name  :=  p_schema_hist_name           
-        );
+        ) f0;
+        --            
+        RETURN NEXT;  
      END LOOP;
+     --
+     FOR _rr IN  WITH x (
+                 id_house
+                ,id_area
+                ,id_street
+                ,nm_house_full
+                ,nm_fias_guid
+                ,id_data_etalon
+                ,dt_data_del
+                ,rn
+       ) 
+        AS (
+             SELECT 
+               h.id_house 
+              ,h.id_area
+              ,h.id_street
+              ,h.nm_house_full
+              ,h.nm_fias_guid
+              ,h.id_data_etalon
+              ,h.dt_data_del              
+              ,(count (1) OVER (PARTITION BY h.nm_fias_guid)) AS rn 
+             FROM gar_tmp.adr_house h WHERE (h.id_data_etalon IS NULL)
+         ) 
+         , z (
+                 id_house
+                ,id_area
+                ,id_street
+                ,nm_house_full
+                ,nm_fias_guid
+                ,dt_data_del                 
+            ) AS (
+                   SELECT   
+                           x.id_house
+                          ,x.id_area
+                          ,x.id_street
+                          ,x.nm_house_full
+                          ,x.nm_fias_guid
+                          ,x.dt_data_del                           
+                   
+                   FROM x WHERE (rn = 2) AND (x.nm_fias_guid IS NOT NULL) AND
+                                (x.dt_data_del IS NULL)
+            )
+              SELECT  DISTINCT ON (z.nm_fias_guid) 
+                      z.id_house
+                     ,z.id_area
+                     ,z.id_street
+                     ,z.nm_house_full
+                     ,z.nm_fias_guid
+              
+              FROM z 
+     LOOP
+        EXIT WHEN (_rr.id_house IS NULL);
+        --
+       SELECT f1.fcase, f1.id_house_subj, f1.id_house_obj, f1.nm_house_full, f1.nm_fias_guid 
+       INTO fcase, id_house_subj, id_house_obj, nm_house_full, nm_fias_guid 
        
-     RAISE NOTICE 'Houses 1 (ak1). qty = % ', _qty_1;
-       
+       FROM gar_tmp_pcg_trans.fp_adr_house_del_twin_local_1 (
+                 p_schema_name      := p_schema_name 
+                ,p_id_house         := _rr.id_house     
+                ,p_id_area          := _rr.id_area      
+                ,p_id_street        := _rr.id_street    
+                ,p_nm_house_full    := _rr.nm_house_full
+                ,p_nm_fias_guid     := _rr.nm_fias_guid 
+                ,p_bound_date       := p_bound_date       
+                ,p_schema_hist_name := p_schema_hist_name
+       ) f1;
+        --            
+        RETURN NEXT;  
+     END LOOP;
+        
   END;
 $$;
 
-COMMENT ON PROCEDURE gar_tmp_pcg_trans.p_adr_house_check_twins_1 (text, text, boolean, date, text) 
+COMMENT ON FUNCTION gar_tmp_pcg_trans.fp_adr_house_check_twins_local (text, date, text) 
                    IS 'Постобработка, фильтрация дублей';
 -- ------------------------------------------------------------------------
 --  USE CASE:
---  CALL gar_tmp_pcg_trans.p_adr_house_check_twins_1 (
---                         'unnsi'
---                       , gar_link.f_conn_set(10)
---                       , FALSE
---                       , '2022-01-01 00:00:00'
---                       , 'gar_tmp'
--- );
 -- ------------------------------------------------------------------------
-
+-- SELECT * FROM unsi.adr_house WHERE(id_area = 78) AND (upper(nm_house_full::text)='Д. 100 ЛИТЕР АБ')
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_house_del_twin (

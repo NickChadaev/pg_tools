@@ -1,7 +1,10 @@
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.p_adr_house_check_twins_local (
                   text, date, text
  ); 
-CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.p_adr_house_check_twins_local (
+DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.fp_adr_house_check_twins_local (
+                  text, date, text
+); 
+CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_house_check_twins_local (
         p_schema_name       text  
        ,p_bound_date        date = '2022-01-01'::date  
        ,p_schema_hist_name  text = 'gar_tmp' 
@@ -179,7 +182,7 @@ $$
   END;
 $$;
 
-COMMENT ON FUNCTION gar_tmp_pcg_trans.p_adr_house_check_twins_local (text, date, text) 
+COMMENT ON FUNCTION gar_tmp_pcg_trans.fp_adr_house_check_twins_local (text, date, text) 
                    IS 'Постобработка, фильтрация дублей';
 -- ------------------------------------------------------------------------
 --  USE CASE:

@@ -14,7 +14,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_house_del_twin_local_0 (
        ,OUT fcase          integer
        ,OUT id_house_subj  bigint
        ,OUT id_house_obj   bigint
-       ,OUT nm_hose_full   varchar(250)
+       ,OUT nm_house_full  varchar(250)
        ,OUT nm_fias_guid   uuid
 )
     RETURNS setof record
@@ -304,7 +304,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_house_del_twin_local_0 (
      
         id_house_subj := p_id_house;
         id_house_obj  := _rr1.id_house;
-        nm_hose_full  := _rr1.nm_house_full;
+        nm_house_full := _rr1.nm_house_full;
         nm_fias_guid  := _rr1.nm_fias_guid;
      
      END IF; --  _rr1.id_house IS NOT NULL

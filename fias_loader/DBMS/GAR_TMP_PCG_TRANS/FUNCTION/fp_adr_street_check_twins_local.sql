@@ -1,12 +1,7 @@
-DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_street_check_twins (
-                  text, text, bigint [][], boolean, date, text
- );  
+DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.fp_adr_street_check_twins_local (text, date, text);  
 -- 
-CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_check_twins (
+CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_street_check_twins_local (
         p_schema_name       text  
-       ,p_conn_name         text  
-       ,p_street_ids        bigint [][]       
-       ,p_mode              boolean = FALSE -- Постобработка.
        ,p_bound_date        date = '2022-01-01'::date -- Только для режима Post обработки.
        ,p_schema_hist_name  text = 'gar_tmp'             
 )
@@ -16,6 +11,7 @@ $$
   -- ================================================================
   --  2022-04-29 Функция фильтрующая дубли.
   --  2022-05-15 Изменён порядок выборки записей.
+  --  2022-11-03 Вариант для работы в локальной секции.
   -- ================================================================
   DECLARE
    _rr      record;
@@ -79,7 +75,7 @@ $$
   END;
 $$;
 
-COMMENT ON PROCEDURE gar_tmp_pcg_trans.p_adr_street_check_twins (text, text, bigint [][], boolean, date, text) 
+COMMENT ON FUNCTION gar_tmp_pcg_trans.fp_adr_street_check_twins_local (text, date, text) 
                    IS 'Постобработка, фильтрация дублей УЛИЦЫ';
 -- ------------------------------------------------------------------------
 --  USE CASE:
@@ -89,7 +85,7 @@ COMMENT ON PROCEDURE gar_tmp_pcg_trans.p_adr_street_check_twins (text, text, big
 -- SELECT gar_link.f_server_is();
 -- SELECT * FROM gar_link.v_servers_active;
 -- --------------------------------------------------------------------------
---   CALL gar_tmp_pcg_trans.p_adr_street_check_twins ('unnsi',gar_link.f_conn_set (3)
+--   CALL gar_tmp_pcg_trans.fp_adr_street_check_twins_local ('unnsi',gar_link.f_conn_set (3)
 --          ,'{
 --             {1100000000,1199000000}
 --            ,{2400000000,2499000000}												   

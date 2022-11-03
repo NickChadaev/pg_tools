@@ -1,7 +1,7 @@
-DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_street_del_twin (
+DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.fp_adr_street_del_twin (
                   text, bigint, bigint, varchar(120), integer, uuid, boolean, date, text 
  );   
-CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_del_twin (
+CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_street_del_twin (
         p_schema_name      text  
         --
        ,p_id_street        bigint
@@ -234,13 +234,13 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_del_twin (
     END;
   $$;
 
-COMMENT ON PROCEDURE gar_tmp_pcg_trans.p_adr_street_del_twin 
+COMMENT ON FUNCTION gar_tmp_pcg_trans.fp_adr_street_del_twin 
     (text, bigint, bigint, varchar(120), integer, uuid, boolean, date, text)
     IS 'Удаление/Слияние дублей. УЛИЦЫ';
 -- ------------------------------------------------------------------------
 --  USE CASE:
 -- ------------------------------------------------------------------------
--- CALL gar_tmp_pcg_trans.p_adr_street_del_twin (
+-- CALL gar_tmp_pcg_trans.fp_adr_street_del_twin (
 --               p_schema_name    := 'unnsi'  
 --              ,p_id_house       := 2400298628   --  NOT NULL
 --              ,p_id_area        := 32107        --  NOT NULL

@@ -7,3 +7,13 @@ DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.fp_adr_house_del_twin_2(text,bigint,bi
 --
 DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_house_check_twins(text,text,bigint[][],boolean,date,text);
 DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_house_check_twins_1(text,text,boolean,date,text);
+--
+-- 2022-11-03
+--
+DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_street_check_twins (
+                  text, text, bigint [][], boolean, date, text
+ );  
+DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_street_del_twin (
+                  text, bigint, bigint, varchar(120), integer, uuid, boolean, date, text 
+ ); 
+--

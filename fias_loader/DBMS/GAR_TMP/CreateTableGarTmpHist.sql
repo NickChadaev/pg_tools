@@ -114,7 +114,7 @@ CREATE INDEX IF NOT EXISTS ie3_adr_objects_hist ON gar_tmp.adr_objects_hist USIN
 /*==============================================================*/
 CREATE INDEX IF NOT EXISTS ie1_adr_street_hist ON gar_tmp.adr_street_hist USING btree (date_create);
 CREATE INDEX IF NOT EXISTS ie2_adr_street_hist ON gar_tmp.adr_street_hist USING btree (f_server_name);
-CREATE INDEX IF NOT EXISTS ie3_adr_street_hist ON gar_tmp.adr_street_hist USING btree (id_region)
+CREATE INDEX IF NOT EXISTS ie3_adr_street_hist ON gar_tmp.adr_street_hist USING btree (id_region);
 -- ---------------------------------------------------------
 -- SELECT * FROM  gar_tmp.adr_street_hist WHERE (id_region = 27);
 

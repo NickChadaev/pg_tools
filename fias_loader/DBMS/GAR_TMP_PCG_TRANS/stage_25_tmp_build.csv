@@ -64,14 +64,14 @@ X;;;Start process, Сборка процессингового пакета;
 5;FUNCTION/f_adr_object_get.sql  ;;-- f_adr_object_get.sql  ;
 5;FUNCTION/f_adr_object_get_m.sql;;-- f_adr_object_get_m.sql;
 #
-5;PROCEDURE/p_alt_tbl.sql         ;;-- p_alt_tbl.sql         ;
-5;PROCEDURE/p_clear_tbl.sql       ;;-- p_clear_tbl.sql       ;
+5;PROCEDURE/p_alt_tbl.sql;;-- p_alt_tbl.sql;
+5;PROCEDURE/p_clear_tbl.sql;;-- p_clear_tbl.sql;
 5;PROCEDURE/p_gar_fias_crt_idx.sql;;-- p_gar_fias_crt_idx.sql;
 #
-5;PROCEDURE/p_adr_street_del_twins.sql  ;;-- p_adr_street_del_twins.sql  ; 
-5;PROCEDURE/p_adr_street_check_twins.sql;;-- p_adr_street_check_twins.sql;
-#
 5;drop_objects.sql;;-- drop_objects.sql;
+#
+5;fp_adr_street_del_twins_local.sql;;-- fp_adr_street_del_twins_local.sql;
+5;fp_adr_street_check_twins_local.sql;;-- fp_adr_street_check_twins_local.sql;
 #
 5;FUNCTION/fp_adr_house_del_twins_local_0.sql;;-- fp_adr_house_del_twins_local_0.sql;
 5;FUNCTION/fp_adr_house_del_twins_local_1.sql;;-- fp_adr_house_del_twins_local_1.sql;

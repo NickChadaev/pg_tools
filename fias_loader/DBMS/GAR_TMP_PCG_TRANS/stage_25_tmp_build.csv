@@ -27,6 +27,7 @@
 X;;;Start process, Сборка процессингового пакета;
 #
 5;version.sql;;-- Версия f8690be/2022-11-02;
+5;drop_objects.sql;;-- drop_objects.sql;
 #
 5;FUNCTION/f_xxx_ob_seq_crt.sql  ;;-- f_xxx_ob_seq_crt.sql  ;
 5;FUNCTION/f_xxx_replace_char.sql;;-- f_xxx_replace_char.sql;
@@ -68,10 +69,8 @@ X;;;Start process, Сборка процессингового пакета;
 5;PROCEDURE/p_clear_tbl.sql;;-- p_clear_tbl.sql;
 5;PROCEDURE/p_gar_fias_crt_idx.sql;;-- p_gar_fias_crt_idx.sql;
 #
-5;drop_objects.sql;;-- drop_objects.sql;
-#
-5;fp_adr_street_del_twins_local.sql;;-- fp_adr_street_del_twins_local.sql;
-5;fp_adr_street_check_twins_local.sql;;-- fp_adr_street_check_twins_local.sql;
+5;FUNCTION/fp_adr_street_del_twins_local.sql;;-- fp_adr_street_del_twins_local.sql;
+5;FUNCTION/fp_adr_street_check_twins_local.sql;;-- fp_adr_street_check_twins_local.sql;
 #
 5;FUNCTION/fp_adr_house_del_twins_local_0.sql;;-- fp_adr_house_del_twins_local_0.sql;
 5;FUNCTION/fp_adr_house_del_twins_local_1.sql;;-- fp_adr_house_del_twins_local_1.sql;

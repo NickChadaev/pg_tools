@@ -5,7 +5,28 @@
 --
 CREATE OR REPLACE VIEW gar_tmp_pcg_trans.version
  AS
- SELECT '$Revision:f8690be$ modified $RevDate:2022-11-02$'::text AS version; 
+ SELECT '$Revision:cbe871f$ modified $RevDate:2022-11-03$'::text AS version; 
+
+-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+--
+--  2022-11-02
+--
+DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.fp_adr_house_del_twin_0(text,bigint,bigint,bigint,varchar(250),uuid,boolean,date,text);
+DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.fp_adr_house_del_twin_1(text,bigint,bigint,bigint,varchar(250),uuid,boolean,date,text);
+DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.fp_adr_house_del_twin_2(text,bigint,bigint,bigint,varchar(250),uuid,boolean,date,text);
+--
+DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_house_check_twins(text,text,bigint[][],boolean,date,text);
+DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_house_check_twins_1(text,text,boolean,date,text);
+--
+-- 2022-11-03
+--
+DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_street_check_twins (
+                  text, text, bigint [][], boolean, date, text
+ );  
+DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_street_del_twin (
+                  text, bigint, bigint, varchar(120), integer, uuid, boolean, date, text 
+ ); 
+--
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_obj_seq_crt (text, bigint);
@@ -3238,10 +3259,10 @@ IS 'Управление индексами в схеме "gar_fias"';
 --  CALL gar_tmp_pcg_trans.p_gar_fias_crt_idx (); -- Query returned successfully in 3 min 48 secs.
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_street_del_twin (
-                  text, bigint, bigint, varchar(120), integer, uuid, boolean, date, text 
+DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.fp_adr_street_del_twin (
+                  text, bigint, bigint, varchar(120), integer, uuid, date, text 
  );   
-CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_del_twin (
+CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_street_del_twin (
         p_schema_name      text  
         --
        ,p_id_street        bigint
@@ -3249,16 +3270,22 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_del_twin (
        ,p_nm_street        varchar(120)
        ,p_id_street_type   integer
        ,p_nm_fias_guid     uuid 
-        --            
-       ,p_mode             boolean = TRUE  -- используется в процессе обработки
-                                 --  FALSE -- в постобработке.
+        --
        ,p_bound_date       date = '2022-01-01'::date -- Только для режима Post обработки.
        ,p_schema_hist_name text = 'gar_tmp'                     
+        --
+       ,OUT fcase          integer
+       ,OUT id_street_subj bigint
+       ,OUT id_street_obj  bigint
+       ,OUT nm_street_full varchar(250)
+       ,OUT nm_fias_guid   uuid       
 )
-    LANGUAGE plpgsql SECURITY DEFINER
+    RETURNS setof record
+    LANGUAGE plpgsql 
+    SECURITY DEFINER
     AS $$
     -- ---------------------------------------------------------------------------
-    --  2022-04-22  оиск близнецов. Два режима: 
+    --  2022-04-22  Поиск близнецов. Два режима: 
     --    Поиск в процессе обработки, загрузочное индексное покрытие. 
     --    Поиск в после обработки, эксплуатационное индексное покрытие:
     --    В процессе постобработки, 
@@ -3307,11 +3334,7 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_del_twin (
                 , vl_addr_longitude = COALESCE (%L, vl_addr_longitude)::numeric                
             WHERE (id_street = %L::bigint);   
        $_$;      
-      -- 
-       _select_u text = $_$
-             SELECT s.* FROM ONLY %I.adr_street s WHERE (s.id_street = %L);
-       $_$;
-           --
+       --
        _del_twin  text = $_$             --        
               DELETE FROM ONLY %I.adr_street WHERE (id_street = %L);                     
        $_$;
@@ -3361,126 +3384,152 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_del_twin (
                 );
        $_$;
        --
-      _rr    gar_tmp.adr_street_t; 
-      _rr1   gar_tmp.adr_street_t; 
+      _rr  gar_tmp.adr_street_t; 
+      _rr1 gar_tmp.adr_street_t; 
+      --
+      -- 2022-10-18
+      --
+      UPD_OP CONSTANT char(1) := 'U';       
       
     BEGIN
-     IF p_mode
-       THEN -- Обработка
-             NULL;             
-       ELSE -- Постобработка
-         _exec := format (_sel_twin_post, p_schema_name
-                                ,p_id_area
-                                ,p_id_street
+     _exec := format (_sel_twin_post, p_schema_name
+                            ,p_id_area
+                            ,p_id_street
+                             --
+                            ,p_nm_street
+                            ,p_id_street_type
+                             --
+     );         
+     EXECUTE _exec INTO _rr1; -- Поиск дублёра
+     -----------------------------------------
+     -- Двойники:  
+     --
+     IF (_rr1.id_street IS NOT NULL) -- Найден. 
+       THEN
+        IF (_rr1.dt_data_del <=  p_bound_date) AND (_rr1.dt_data_del IS NOT NULL)
+          THEN
+             _exec = format (_upd_id, p_schema_name
                                  --
-                                ,p_nm_street
-                                ,p_id_street_type
+                               ,_rr1.id_area           
+                               ,_rr1.nm_street         
+                               ,_rr1.id_street_type    
+                               ,_rr1.nm_street_full    
+                                --       
+                               ,_rr1.nm_fias_guid  
+                                --
+                               ,_rr1.dt_data_del      
+                               ,p_id_street 
+                                --
+                               ,_rr1.kd_kladr         
+                               ,_rr1.vl_addr_latitude 
+                               ,_rr1.vl_addr_longitude
+                                --   
+                               ,_rr1.id_street               
+               );
+             EXECUTE _exec; -- Связали.
+             --  
+             INSERT INTO gar_tmp.adr_street_aux (id_street, op_sign)  
+                VALUES (_rr1.id_street, UPD_OP)
+                  ON CONFLICT (id_street) DO UPDATE SET op_sign = UPD_OP
+                      WHERE (gar_tmp.adr_street_aux.id_street = excluded.id_street); 
+             --     
+             fcase := 4; -- Дублёр НЕ актуален,  проверяемая - актуальна                   
+        ELSE
+           -- -----------------------------------------------------------------
+           --  (dt_data_del >  p_bound_date) AND (dt_data_del IS NOT NULL) 
+           --                   OR (dt_data_del IS NULL)
+           -- -----------------------------------------------------------------
+           -- Дублёр существует, он обновляется данными из проверяемой записи,
+           -- проверяемая запись удаляется.
+           -- -----------------------------------------------------------------
+           _rr := gar_tmp_pcg_trans.f_adr_street_get (p_schema_name, p_id_street); -- проверяемая запись, полная структура.
+           IF _rr.id_street IS NOT NULL 
+             THEN
+               _exec = format (_del_twin, p_schema_name, _rr.id_street);  
+               EXECUTE _exec;   -- Проверяемая запись
+               --
+               -- Создаю запись-фантом,
+               --      "_rr.id_house" потом удалится в отдалённой базе.
+               --   
+               INSERT INTO gar_tmp.adr_street_aux (id_street, op_sign)
+                 VALUES (_rr.id_street, UPD_OP)
+                   ON CONFLICT (id_street) DO UPDATE SET op_sign = UPD_OP
+                       WHERE (gar_tmp.adr_street_aux.id_street = excluded.id_street);                 
+               --
+               --    UPDATE _rr1 Обновление дублёра.
+               --    Старое значение уходит в историю
+               --
+               _exec := format (_ins_hist, p_schema_hist_name  
                                  --
-         );         
-         EXECUTE _exec INTO _rr1; -- Поиск дублёра
-         ----------------
-         -- Двойники:  
-         --
-         IF (_rr1.id_street IS NOT NULL) -- Найден. 
-           THEN
-            IF (_rr1.dt_data_del <=  p_bound_date) AND (_rr1.dt_data_del IS NOT NULL)
-              THEN
-                   _exec = format (_upd_id, p_schema_name
-                                       --
-                                     ,_rr1.id_area           
-                                     ,_rr1.nm_street         
-                                     ,_rr1.id_street_type    
-                                     ,_rr1.nm_street_full    
-                                      --       
-                                     ,_rr1.nm_fias_guid  
-                                      --
-                                     ,_rr1.dt_data_del      
-                                     ,p_id_street 
-                                      --
-                                     ,_rr1.kd_kladr         
-                                     ,_rr1.vl_addr_latitude 
-                                     ,_rr1.vl_addr_longitude
-                                      --   
-                                     ,_rr1.id_street               
-                     );
-                     EXECUTE _exec; -- Связали.
-            ELSE
-               -- -----------------------------------------------------------------
-               --  (dt_data_del >  p_bound_date) AND (dt_data_del IS NOT NULL) 
-               --                   OR (dt_data_del IS NULL)
-               -- -----------------------------------------------------------------
-               -- Дублёр существует, он обновляется данными из проверяемой записи,
-               -- проверяемая запись удаляется.
-               -- -----------------------------------------------------------------
-               _exec = format (_select_u, p_schema_name, p_id_street);
-               EXECUTE _exec INTO _rr; -- проверяемая запись, полная структура.
-               IF _rr.id_street IS NOT NULL 
-                 THEN
-                     _exec = format (_del_twin, p_schema_name, _rr.id_street);  
-                     EXECUTE _exec;   -- Проверяемая запись
-                     --
-                     --    UPDATE _rr1 Обновление дублёра.
-                     --    Старое значение уходит в историю
-                     --
-                     _exec := format (_ins_hist, p_schema_hist_name  
-                                       --
-                                     ,_rr1.id_street               
-                                     ,_rr1.id_area           
-                                     ,_rr1.nm_street         
-                                     ,_rr1.id_street_type    
-                                     ,_rr1.nm_street_full    
-                                      --       
-                                     ,_rr1.nm_fias_guid  
-                                      --
-                                     ,now()              --    _rr1.dt_data_del     
-                                     ,_rr.id_street         --    _rr1.id_data_etalon     
-                                      --
-                                     ,_rr1.kd_kladr         
-                                     ,_rr1.vl_addr_latitude 
-                                     ,_rr1.vl_addr_longitude
-                                      --   
-                                     ,-1 -- ID региона
-                     ); 
-                     EXECUTE _exec;
-                     --      
-                     --  Обновляется старое значение  ??? Сколько их ??
-                     --
-                     _exec = format (_upd_id_1, p_schema_name
-                                         --
-                                       ,_rr1.id_area           
-                                       ,_rr1.nm_street         
-                                       ,_rr1.id_street_type    
-                                       ,_rr1.nm_street_full    
-                                        --       
-                                       ,_rr1.nm_fias_guid  
-                                        --
-                                       ,NULL      
-                                       ,NULL 
-                                        --
-                                       ,_rr1.kd_kladr         
-                                       ,_rr1.vl_addr_latitude 
-                                       ,_rr1.vl_addr_longitude
-                                        --   
-                                       ,_rr1.id_street               
-                       );
-                     
-                     
-                     EXECUTE _exec;
-               END IF; -- _rr.id_street IS NOT NULL
-            END IF; -- (_rr1.dt_data_del <=  p_bound_date) AND (_rr1.dt_data_del IS NOT NULL)
-         END IF; --  _rr1.id_street IS NOT NULL
-         
-     END IF; -- p_mode
+                               ,_rr1.id_street               
+                               ,_rr1.id_area           
+                               ,_rr1.nm_street         
+                               ,_rr1.id_street_type    
+                               ,_rr1.nm_street_full    
+                                --       
+                               ,_rr1.nm_fias_guid  
+                                --
+                               ,now()              --    _rr1.dt_data_del     
+                               ,_rr.id_street         --    _rr1.id_data_etalon     
+                                --
+                               ,_rr1.kd_kladr         
+                               ,_rr1.vl_addr_latitude 
+                               ,_rr1.vl_addr_longitude
+                                --   
+                               ,-1 -- ID региона
+               ); 
+               EXECUTE _exec;
+               --      
+               --  Обновляется старое значение  ??? Сколько их ??
+               --
+               _exec = format (_upd_id_1, p_schema_name
+                                   --
+                                 ,_rr.id_area           
+                                 ,_rr.nm_street         
+                                 ,_rr.id_street_type    
+                                 ,_rr.nm_street_full    
+                                  --      
+                                 ,_rr.nm_fias_guid  
+                                  --
+                                 ,NULL      
+                                 ,NULL 
+                                  --
+                                 ,_rr.kd_kladr         
+                                 ,_rr.vl_addr_latitude 
+                                 ,_rr.vl_addr_longitude
+                                  --   
+                                 ,_rr1.id_street               
+               );
+               EXECUTE _exec;
+               fcase := 5; -- Дублёр, БЫЛ НЕ актуален,  проверяемая - актуальна
+               -- Теперь ДУБЛЁР СТАЛ стал актуальным.
+               
+               INSERT INTO gar_tmp.adr_street_aux (id_street, op_sign)
+                 VALUES (_rr1.id_street, UPD_OP)
+                   ON CONFLICT (id_street) DO UPDATE SET op_sign = UPD_OP
+                        WHERE (gar_tmp.adr_street_aux.id_street = excluded.id_street);                
+               
+           END IF; -- _rr.id_street IS NOT NULL
+        END IF; -- (_rr1.dt_data_del <=  p_bound_date) AND (_rr1.dt_data_del IS NOT NULL)
+     
+        id_street_subj := p_id_street;
+        id_street_obj  := _rr1.id_street;
+        nm_street_full := _rr1.nm_street_full;
+        nm_fias_guid   := _rr1.nm_fias_guid;   
+        
+     END IF; --  _rr1.id_street IS NOT NULL
+                 
+     RETURN NEXT;
     END;
   $$;
 
-COMMENT ON PROCEDURE gar_tmp_pcg_trans.p_adr_street_del_twin 
-    (text, bigint, bigint, varchar(120), integer, uuid, boolean, date, text)
+COMMENT ON FUNCTION gar_tmp_pcg_trans.fp_adr_street_del_twin 
+    (text, bigint, bigint, varchar(120), integer, uuid, date, text)
     IS 'Удаление/Слияние дублей. УЛИЦЫ';
 -- ------------------------------------------------------------------------
 --  USE CASE:
 -- ------------------------------------------------------------------------
--- CALL gar_tmp_pcg_trans.p_adr_street_del_twin (
+-- CALL gar_tmp_pcg_trans.fp_adr_street_del_twin (
 --               p_schema_name    := 'unnsi'  
 --              ,p_id_house       := 2400298628   --  NOT NULL
 --              ,p_id_area        := 32107        --  NOT NULL
@@ -3496,88 +3545,120 @@ COMMENT ON PROCEDURE gar_tmp_pcg_trans.p_adr_street_del_twin
 -- ROLLBACK;
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_street_check_twins (
-                  text, text, bigint [][], boolean, date, text
- );  
+DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.fp_adr_street_check_twins_local (text, date, text);  
 -- 
-CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_check_twins (
+CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_street_check_twins_local (
         p_schema_name       text  
-       ,p_conn_name         text  
-       ,p_street_ids        bigint [][]       
-       ,p_mode              boolean = FALSE -- Постобработка.
        ,p_bound_date        date = '2022-01-01'::date -- Только для режима Post обработки.
        ,p_schema_hist_name  text = 'gar_tmp'             
+        --
+       ,OUT fcase           integer
+       ,OUT id_street_subj  bigint
+       ,OUT id_street_obj   bigint
+       ,OUT nm_street_full  varchar(255)
+       ,OUT nm_fias_guid    uuid       
 )
-    LANGUAGE plpgsql SECURITY DEFINER
+    RETURNS setof record
+    LANGUAGE plpgsql 
+    SECURITY DEFINER
   AS
 $$
   -- ================================================================
   --  2022-04-29 Функция фильтрующая дубли.
   --  2022-05-15 Изменён порядок выборки записей.
+  --  2022-11-03 Вариант для работы с локальной секцией.
   -- ================================================================
   DECLARE
-   _rr      record;
-   _z       bigint[];
-   _arr_len integer;
-   _i       integer := 1;
-
-   _select text := $_$
-      SELECT id_street, id_area, nm_street, id_street_type, nm_fias_guid
-              FROM %I.adr_street 
-                            WHERE (id_street >= %L) AND (id_street < %L)
-                                 ORDER BY id_street DESC;	
-   $_$;
-   _exec text;
-   
+   _rr record;
+     
+    --   id_street      bigint
+    --  ,id_area        bigint
+    --  ,nm_street      varchar(255)
+    --  ,id_street_type integer
+    --  ,nm_fias_guid   uuid 
+  
   BEGIN
-    IF (p_street_ids IS NULL) 
-      THEN
-           RAISE 'Массив граничных значений не может быть NULL';
-    END IF;
-    _arr_len := array_length (p_street_ids, 1);
-     --
+    FOR _rr IN WITH x (
+                        id_street      
+                       ,id_area        
+                       ,nm_street      
+                       ,id_street_type 
+                       ,nm_street_full 
+                       ,nm_fias_guid   
+                       ,dt_data_del    
+                       ,id_data_etalon 
+                       ,rn
+       ) 
+        AS (
+             SELECT  s.id_street      
+                    ,s.id_area        
+                    ,s.nm_street      
+                    ,s.id_street_type 
+                    ,s.nm_street_full 
+                    ,s.nm_fias_guid   
+                    ,s.dt_data_del    
+                    ,s.id_data_etalon 
+                    ,(count (1) OVER (PARTITION BY s.id_area, upper (s.nm_street), s.id_street_type)) AS rn 
+              
+             FROM gar_tmp.adr_street s WHERE (s.id_data_etalon IS NULL)
+           ) 
+           ,z (  id_street      
+                ,id_area        
+                ,nm_street      
+                ,id_street_type 
+                ,nm_street_full 
+                ,nm_fias_guid   
+                ,dt_data_del    
+                ,id_data_etalon 	
+                
+            ) AS (
+                   SELECT  x.id_street      
+                          ,x.id_area        
+                          ,x.nm_street      
+                          ,x.id_street_type 
+                          ,x.nm_street_full 
+                          ,x.nm_fias_guid   
+                          ,x.dt_data_del    
+                          ,x.id_data_etalon 					
+                   
+                   FROM x WHERE (x.rn = 2) AND (x.nm_fias_guid IS NOT NULL)
+            )
+              SELECT -- DISTINCT ON (z.id_area, upper (z.nm_street), z.id_street_type) 
+                      z.id_street      
+                     ,z.id_area        
+                     ,z.nm_street      
+                     ,z.id_street_type 
+                     ,z.nm_street_full 
+                     ,z.nm_fias_guid   
+                     ,z.dt_data_del    
+                     ,z.id_data_etalon  
+              
+              FROM z WHERE (z.dt_data_del IS NULL)
      LOOP
-       _z := p_street_ids [_i:_i];
-       --
-       _exec := format (_select, p_schema_name, (_z[1][1]), (_z[1][2]));
-       --
-       FOR _rr IN SELECT x1.* FROM gar_link.dblink (p_conn_name, _exec) 
-             AS x1
-               (
-                    id_street      bigint
-                   ,id_area        bigint
-                   ,nm_street      varchar(120)
-                   ,id_street_type integer
-                   ,nm_fias_guid   uuid 
-                )                             
-        --                    
-        LOOP
-           EXIT WHEN (_rr.id_street IS NULL);
-           --
-           CALL gar_tmp_pcg_trans.p_adr_street_del_twin (
-                     p_schema_name      := p_schema_name 
-                     --
-                    ,p_id_street        := _rr.id_street    
-                    ,p_id_area          := _rr.id_area      
-                    ,p_nm_street        := _rr.nm_street
-                    ,p_id_street_type   := _rr.id_street_type
-                    ,p_nm_fias_guid     := _rr.nm_fias_guid 
-                     --
-                    ,p_mode             := p_mode
-                    ,p_bound_date       := p_bound_date       -- Только для режима Post обработки.
-                    ,p_schema_hist_name := p_schema_hist_name
-           );
-        END LOOP;
+       EXIT WHEN (_rr.id_street IS NULL);
+        --
+       SELECT f.fcase, f.id_street_subj, f.id_street_obj, f.nm_street_full, f.nm_fias_guid 
+       INTO fcase, id_street_subj, id_street_obj, nm_street_full, nm_fias_guid 
        
-        RAISE NOTICE 'Streets (ak1). Bounds: % - %', (_z[1][1]), (_z[1][2]);
-       _i := _i + 1;
-       
-       EXIT WHEN (_i > _arr_len);
+       FROM gar_tmp_pcg_trans.fp_adr_street_del_twin (
+                  p_schema_name      := p_schema_name 
+                  --
+                 ,p_id_street        := _rr.id_street    
+                 ,p_id_area          := _rr.id_area      
+                 ,p_nm_street        := _rr.nm_street
+                 ,p_id_street_type   := _rr.id_street_type
+                 ,p_nm_fias_guid     := _rr.nm_fias_guid 
+                  --
+                 ,p_bound_date       := p_bound_date        
+                 ,p_schema_hist_name := p_schema_hist_name
+       ) f;
+     --   
+     RETURN NEXT;  
      END LOOP;
   END;
 $$;
 
-COMMENT ON PROCEDURE gar_tmp_pcg_trans.p_adr_street_check_twins (text, text, bigint [][], boolean, date, text) 
+COMMENT ON FUNCTION gar_tmp_pcg_trans.fp_adr_street_check_twins_local (text, date, text) 
                    IS 'Постобработка, фильтрация дублей УЛИЦЫ';
 -- ------------------------------------------------------------------------
 --  USE CASE:
@@ -3587,27 +3668,7 @@ COMMENT ON PROCEDURE gar_tmp_pcg_trans.p_adr_street_check_twins (text, text, big
 -- SELECT gar_link.f_server_is();
 -- SELECT * FROM gar_link.v_servers_active;
 -- --------------------------------------------------------------------------
---   CALL gar_tmp_pcg_trans.p_adr_street_check_twins ('unnsi',gar_link.f_conn_set (3)
---          ,'{
---             {1100000000,1199000000}
---            ,{2400000000,2499000000}												   
---           }'
---   );
---
---           ,'{{2400000000,2499000000}
---             ,{7800000000,7899000000}
---             ,{3800000000,3899000000}
 
--- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
---
---  2022-11-02
---
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.fp_adr_house_del_twin_0(text,bigint,bigint,bigint,varchar(250),uuid,boolean,date,text);
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.fp_adr_house_del_twin_1(text,bigint,bigint,bigint,varchar(250),uuid,boolean,date,text);
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.fp_adr_house_del_twin_2(text,bigint,bigint,bigint,varchar(250),uuid,boolean,date,text);
---
-DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_house_check_twins(text,text,bigint[][],boolean,date,text);
-DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_house_check_twins_1(text,text,boolean,date,text);
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.fp_adr_house_del_twin_local_0 (

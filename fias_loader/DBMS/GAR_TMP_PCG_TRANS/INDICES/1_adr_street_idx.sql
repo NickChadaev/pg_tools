@@ -6,7 +6,7 @@ BEGIN;
 
   DROP INDEX IF EXISTS  gar_tmp.adr_street_ak1;
   CREATE UNIQUE INDEX IF NOT EXISTS adr_street_ak1
-    ON unnsi.adr_street USING btree
+    ON gar_tmp.adr_street USING btree
     (id_area ASC NULLS LAST, upper(nm_street::text) COLLATE pg_catalog."default" ASC NULLS LAST, id_street_type ASC NULLS LAST)
     TABLESPACE pg_default
     WHERE id_data_etalon IS NULL;

@@ -103,10 +103,10 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_upd (
                  ,p_id_area           := _id_area --  bigint                           --  NOT NULL
                  ,p_id_country        := COALESCE (_parent.id_country, 185)::integer   --  NOT NULL
                  ,p_nm_area           := _data.nm_area::varchar(120)                   --  NOT NULL
-                 ,p_nm_area_full      := btrim ((COALESCE (_parent.nm_area_full, '') ||  ', ' || 
-                                                   _data.nm_area || ' ' ||
-                                                   _area_type_short_name
-                                               ), ',')::varchar(4000)                  
+                 ,p_nm_area_full      := trim((COALESCE (_parent.nm_area_full, '') ||  ', ' || 
+                                                   _data.nm_area || ' ' || _area_type_short_name
+                                              ), ', '
+                                          )::varchar(4000)                  
                  ,p_id_area_type      := _id_area_type       ::integer       --    NULL
                  ,p_id_area_parent    := _parent.id_area     ::bigint        --    NULL
                  ,p_kd_timezone       := _parent.kd_timezone ::integer       --    NULL

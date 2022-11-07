@@ -49,7 +49,8 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_ins (
     -- -------------------------------------------------------------------------
     --   2022-05-31 COALESCE только для NOT NULL полей.    
     -- -------------------------------------------------------------------------
-    --   2022-10-18 Вспомогательные таблицы..
+    --  2022-10-18 Вспомогательные таблицы.
+    --  2022-11-07 Увеличено количество защищённых (от обновления NULL) столбцов    
     -- -------------------------------------------------------------------------    
     DECLARE
       _exec text;
@@ -141,25 +142,26 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_ins (
         -- 2022-05-19/2022-05-31
       _upd_id text = $_$
             UPDATE ONLY %I.adr_area SET  
+            
                  id_country     = COALESCE (%L, id_country    )::integer       -- NOT NULL  
                 ,nm_area        = COALESCE (%L, nm_area       )::varchar(120)  -- NOT NULL
                 ,nm_area_full   = COALESCE (%L, nm_area_full  )::varchar(4000) -- NOT NULL                         
                 ,id_area_type   = %L::integer
                 ,id_area_parent = %L::bigint
                  --
-                ,kd_timezone  = %L::integer                               
-                ,pr_detailed  = COALESCE (%L, pr_detailed )::smallint          -- NOT NULL                          
-                ,kd_oktmo     = %L::varchar(11)  
+                ,kd_timezone  = COALESCE (%L, kd_timezone)::integer       -- 2022-11-07                   
+                ,pr_detailed  = COALESCE (%L, pr_detailed)::smallint      -- NOT NULL                          
+                ,kd_oktmo     = COALESCE (%L, kd_oktmo)::varchar(11)  
                 ,nm_fias_guid = %L::uuid
                 
                 ,dt_data_del    = %L::timestamp without time zone
                 ,id_data_etalon = %L::bigint
                  --
-                ,kd_okato          = %L::varchar(11)                           
-                ,nm_zipcode        = %L::varchar(20)                           
-                ,kd_kladr          = %L::varchar(15)                
+                ,kd_okato   = COALESCE (%L, kd_okato)::varchar(11)         -- 2022-11-07                      
+                ,nm_zipcode = COALESCE (%L, nm_zipcode)::varchar(20)                           
+                ,kd_kladr   = COALESCE (%L, kd_kladr)::varchar(15)                
                 ,vl_addr_latitude  = %L::numeric                               
-                ,vl_addr_longitude = %L::numeric                               
+                ,vl_addr_longitude = %L::numeric  
                     
             WHERE (id_area = %L::bigint);         
         $_$;          

@@ -509,7 +509,7 @@ COMMENT ON TABLE gar_tmp.adr_street IS 'С_Улицы (!)';
 alter table gar_tmp.adr_street
    add constraint PK_TMP_ADR_STREET primary key (id_street);
 -- ---------------------------------------------------------
-ALTER TABLE gar_tmp.adr_area    SET UNLOGGED;
-ALTER TABLE gar_tmp.adr_house   SET UNLOGGED;
-ALTER TABLE gar_tmp.adr_objects SET UNLOGGED;
-ALTER TABLE gar_tmp.adr_street  SET UNLOGGED;
+-- ALTER TABLE gar_tmp.adr_area    SET UNLOGGED;
+-- ALTER TABLE gar_tmp.adr_house   SET UNLOGGED;
+-- ALTER TABLE gar_tmp.adr_objects SET UNLOGGED;
+-- ALTER TABLE gar_tmp.adr_street  SET UNLOGGED;

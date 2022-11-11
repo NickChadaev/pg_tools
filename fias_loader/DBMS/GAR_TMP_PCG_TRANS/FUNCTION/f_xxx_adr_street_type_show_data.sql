@@ -1,10 +1,9 @@
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_street_type_show_data (text, date);
-
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_street_type_show_data (text, date, text[]);
+
+DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_street_type_show_data (text);
 CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_street_type_show_data (
         p_schema_name  text  
-       ,p_date         date   = current_date
-       ,p_stop_list    text[] = NULL
 )
     RETURNS SETOF gar_tmp.xxx_adr_street_type
     LANGUAGE plpgsql
@@ -14,9 +13,9 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_street_type_show_data (
     --  2021-12-02 Nick 
     --    Функция подготавливает исходные данные для таблицы-прототипа 
     --                    "gar_tmp.xxx_street_type"
-    --     + stop_list. Расширенный список ТИПОВ формируется на эталонной базе, то 
-    --       типы попавшие в stop_list нужно вычистить сразу-же. В функции типа SET они 
-    --       будут вычищены на остальных базах.
+    -- --------------------------------------------------------------------------
+    --   2022-11-11 Меняю USE CASE таблицы, теперь это буфер для последующего дополнения 
+    --             адресного справочника.    
     -- --------------------------------------------------------------------------------------
     --     p_schema_name text   -- Имя схемы-источника._
     --     p_date        date   -- Дата на которую формируется выборка    
@@ -39,8 +38,14 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_street_type_show_data (
                 ,at.type_shortname
                 ,gar_tmp_pcg_trans.f_xxx_replace_char (at.type_name) AS row_key
                 
-             FROM gar_fias.as_addr_obj_type at WHERE (at.is_active) -- AND at.end_date > %L) 
-                 AND (at.type_level IN ('7','8'))                          -- 2021-12-14 Nick
+             FROM gar_fias.as_addr_obj_type at WHERE (at.is_active)   
+                 AND (at.type_level IN ('7','8'))   
+                 AND ((gar_tmp_pcg_trans.f_xxx_replace_char (at.type_name) NOT IN
+                        (SELECT fias_row_key FROM gar_fias.as_addr_obj_type_black_list
+                               WHERE (object_kind = '1')
+                        )
+                      )
+                     )                       
                ORDER BY at.type_name, at.id 
       )
       , y (
@@ -104,45 +109,27 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_street_type_show_data (
                      ,x.fias_row_key         
                      ,x.is_twin                   
           
-          FROM x WHERE ((NOT (x.fias_row_key = ANY (%L))) AND %L IS NOT NULL) OR (%L IS NULL);           ;
+          FROM x ;
     $_$;
     --    
-    _del_something text = $_$
-          DELETE FROM %I.adr_street_type nt
-                WHERE (gar_tmp_pcg_trans.f_xxx_replace_char (nt.nm_street_type) = ANY (%L));
-    $_$;    
-    
     BEGIN
       CREATE TEMP TABLE __adr_street_type (LIKE gar_tmp.xxx_adr_street_type)
         ON COMMIT DROP;
       --
-      _exec := format (_select, p_date, p_schema_name, p_stop_list, p_stop_list, p_stop_list);-- p_date, 
+      _exec := format (_select, p_schema_name); 
       EXECUTE (_exec);
       --
-      IF (p_stop_list IS NOT NULL)
-        THEN
-           _exec := format (_del_something, p_schema_name, p_stop_list);
-           EXECUTE _exec;
-      END IF;   
-      
       RETURN QUERY SELECT * FROM __adr_street_type ORDER BY id_street_type;     
        
     END;
   $$;
  
-ALTER FUNCTION gar_tmp_pcg_trans.f_xxx_street_type_show_data (text, date, text[]) OWNER TO postgres;  
+ALTER FUNCTION gar_tmp_pcg_trans.f_xxx_street_type_show_data (text) OWNER TO postgres;  
 
-COMMENT ON FUNCTION gar_tmp_pcg_trans.f_xxx_street_type_show_data (text, date, text[]) 
+COMMENT ON FUNCTION gar_tmp_pcg_trans.f_xxx_street_type_show_data (text) 
 IS 'Функция подготавливает исходные данные для таблицы-прототипа "gar_tmp.xxx_street_type"';
 ----------------------------------------------------------------------------------
 -- USE CASE:
---    EXPLAIN ANALyZE 
---           SELECT * FROM gar_tmp_pcg_trans.f_xxx_street_type_show_data ('unnsi'
---                 , p_stop_list := ARRAY ['юрты','усадьба']
--- ); -- 
--- SELECT * FROM gar_tmp_pcg_trans.f_xxx_street_type_show_data ('unnsi'); -- 
---   SELECT * FROM unsi.adr_street_type WHERE (id_street_type > 1000);
---   SELECT * FROM unnsi.adr_street_type WHERE (id_street_type > 1000);
 --
---   delete FROM unsi.adr_street_type WHERE (id_street_type > 1000);
---   DELETE FROM unnsi.adr_street_type WHERE (id_street_type > 1000);
+--  SELECT * FROM gar_tmp_pcg_trans.f_xxx_street_type_show_data ('gar_tmp'); -- 
+--  SELECT * FROM gar_tmp_pcg_trans.f_xxx_street_type_show_data ('unnsi'); -- 

@@ -1,15 +1,33 @@
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_adr_area_type_show_data (text, date);
-
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_adr_area_type_show_data (text, date, text[]);
+
+DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_adr_area_type_show_data (text);
 CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_type_show_data (
         p_schema_name  text  
-       ,p_date         date   = current_date
-       ,p_stop_list    text[] = NULL
 )
     RETURNS SETOF gar_tmp.xxx_adr_area_type
     LANGUAGE plpgsql
  AS
   $$
+      -- ----------------------------------------------------------------------------------------
+    --  2021-12-01 Nick    
+    --    Функция подготавливает исходные данные для таблицы-прототипа 
+    --                    "gar_tmp.xxx_adr_area_type"
+    -- ----------------------------------------------------------------------------------------
+    --     p_schema_name text -- Имя схемы-источника._
+    --     p_date      date   -- Дата на которую формируется выборка    
+    -- ----------------------------------------------------------------------------------------
+    --    2021-12-13 активная запись, со истёкшим сроком действия, но в таблице 
+    --        с данными есть ссылки на "просроченый тип".
+    --    Убран DISTINCT  отношение n <-> 1  (тип фиас тип adr_area).
+    -- ----------------------------------------------------------------------------------------
+    --   2022-02-18 Добавлен stop_list. Расширенный список ТИПОВ форимруется на эталонной базе,  
+    --     типы попавшие в stop_list нужно вычистить в эталоне сразу-же. В функции типа SET они 
+    --     будут вычищены на остальных базах.
+    -- ----------------------------------------------------------------------------------------
+    --   2022-11-11 Меняю USE CASE таблицы, теперь это буфер для последующего дополнения 
+    --             адресного справочника.
+    -- ----------------------------------------------------------------------------------
    DECLARE
     _exec   text;
     _select text = $_$
@@ -26,8 +44,15 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_type_show_data (
                 ,at.type_shortname
                 ,gar_tmp_pcg_trans.f_xxx_replace_char (at.type_name) AS row_key
                 
-             FROM gar_fias.as_addr_obj_type at WHERE (at.is_active) -- AND (at.end_date > %L) 
-               ORDER BY at.type_name, at.id                         -- 2021-12-13
+             FROM gar_fias.as_addr_obj_type at WHERE (at.is_active)  
+                  AND ((gar_tmp_pcg_trans.f_xxx_replace_char (at.type_name) NOT IN
+                        (SELECT fias_row_key FROM gar_fias.as_addr_obj_type_black_list
+                               WHERE (object_kind = '0')
+                         )
+                       )
+                     )              
+             
+               ORDER BY at.type_name, at.id                          
       ),
          z (
                fias_ids  
@@ -69,8 +94,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_type_show_data (
                 
                 FROM z
                   FULL JOIN %I.adr_area_type nt 
-                      ON (z.fias_row_key = gar_tmp_pcg_trans.f_xxx_replace_char (nt.nm_area_type))
-                           AND (nt.dt_data_del IS NULL)
+                      ON (z.fias_row_key = gar_tmp_pcg_trans.f_xxx_replace_char (nt.nm_area_type)
+                         ) AND (nt.dt_data_del IS NULL)
                          ORDER BY z.fias_type_names[1] 
              )
                 INSERT INTO __adr_area_type  (
@@ -94,65 +119,27 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_type_show_data (
                          ,y.fias_row_key       
                          ,y.is_twin  
                          
-                FROM y WHERE ((NOT (y.fias_row_key = ANY (%L))) AND %L IS NOT NULL) OR (%L IS NULL);           
+                FROM y;           
     $_$;
     
-    _del_something text = $_$
-                   DELETE FROM %I.adr_area_type nt
-                              WHERE (gar_tmp_pcg_trans.f_xxx_replace_char (nt.nm_area_type) = ANY (%L));
-    $_$;    
-            
    BEGIN
-    -- ----------------------------------------------------------------------------------------
-    --  2021-12-01 Nick    
-    --    Функция подготавливает исходные данные для таблицы-прототипа 
-    --                    "gar_tmp.xxx_adr_area_type"
-    -- ----------------------------------------------------------------------------------------
-    --     p_schema_name text -- Имя схемы-источника._
-    --     p_date      date   -- Дата на которую формируется выборка    
-    -- ----------------------------------------------------------------------------------------
-    --    2021-12-13 активная запись, со истёкшим сроком действия, но в таблице 
-    --        с данными есть ссылки на "просроченый тип".
-    --    Убран DISTINCT  отношение n <-> 1  (тип фиас тип adr_area).
-    -- ----------------------------------------------------------------------------------------
-    --   2022-02-18 Добавлен stop_list. Расширенный список ТИПОВ форимруется на эталонной базе,  
-    --     типы попавшие в stop_list нужно вычистить в эталоне сразу-же. В функции типа SET они 
-    --     будут вычищены на остальных базах.
-    -- ----------------------------------------------------------------------------------------
     
     CREATE TEMP TABLE __adr_area_type (LIKE gar_tmp.xxx_adr_area_type)
        ON COMMIT DROP;
     --
-    _exec := format (_select,  p_date, p_schema_name, p_stop_list, p_stop_list, p_stop_list);
+    _exec := format (_select,  p_schema_name);
     EXECUTE (_exec);
-    --
-    IF (p_stop_list IS NOT NULL)
-      THEN
-           _exec := format (_del_something, p_schema_name, p_stop_list);
-           EXECUTE _exec;
-    END IF;    
     --
     RETURN QUERY SELECT * FROM __adr_area_type ORDER BY id_area_type;
    
    END;                   
   $$;
  
-ALTER FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_type_show_data (text, date, text[]) OWNER TO postgres;  
+ALTER FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_type_show_data (text) OWNER TO postgres;  
 
-COMMENT ON FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_type_show_data (text, date, text[]) 
+COMMENT ON FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_type_show_data (text) 
 IS 'Функция подготавливает исходные данные для таблицы-прототипа "gar_tmp.xxx_adr_area_type"';
 ----------------------------------------------------------------------------------
 -- USE CASE:
---    EXPLAIN ANALyZE 
---  SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_type_show_data ('unnsi'
--- 	,p_stop_list := ARRAY['внутригородскаятерриториявнутригородскоемуниципальноеобразованиегородафедеральногозначения'
--- 						  ,'внутригородскаятерриториявнутригородскоемуници']);
---    ORDER BY id_area_type -- 163 -- , '2015-11-01'
---
---    SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_type_show_data ('unsi')
---         EXCEPT
---    SELECT * FROM gar_tmp.xxx_adr_area_type ORDER BY 2;
--- ------------------------------------------------------------
--- ALTER TABLE gar_tmp.xxx_adr_area ADD COLUMN addr_obj_type_id bigint;
--- COMMENT ON COLUMN gar_tmp.xxx_adr_area.addr_obj_type_id IS
--- 'ID типа объекта';
+--  SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_type_show_data ('gar_tmp');
+--  SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_type_show_data ('unnsi');

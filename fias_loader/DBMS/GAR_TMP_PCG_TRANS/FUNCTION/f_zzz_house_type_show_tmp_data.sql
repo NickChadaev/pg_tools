@@ -1,21 +1,8 @@
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_house_type_show_tmp_data (text);
-CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_house_type_show_tmp_data (
+DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_zzz_house_type_show_tmp_data (text);
+CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_zzz_house_type_show_tmp_data (
           p_schema_name  text  
 )
-    RETURNS TABLE (
-                    id_house_type integer -- ID типа дома, ОСНОВНОЙ	
-                   ,nm_house_type varchar(50) -- Наименованиек типа дома, ОСНОВНОЕ
-                   ,nm_house_type_short varchar(10) -- Наименованиек типа дома, ОСНОВНОЕ
-                   ,kd_house_type_lvl integer -- Код уровня 
-                   ,dt_data_del	timestamp without time zone -- Дата удаления.
-                   ,fias_ids   bigint[] -- Исходные идентифкаторы ГАР-ФИАС 
-                   ,id_house_type_tmp integer -- ID типа дома, ПРОМЕЖУТОЧНЫЙ
-                   ,fias_type_name_tmp	varchar(50) -- Наименованиек типа дома, ПРОМЕЖУТОЧНЫЙ
-                   ,nm_house_type  	varchar(50) -- Наименованиек типа дома, ПРОМЕЖУТОЧНЫЙ
-                   ,fias_type_shortname varchar(20) -- Имя типа ФИАС ПРОМЕЖУТОЧНОЕ
-                   ,nm_house_type_short_tmp varchar(10) -- Наименованиек типа дома,
-                   ,fias_row_key	text -- Уникальный идентификатор строки
-)  
+    RETURNS setof gar_tmp.zzz_adr_house_t 
  
     LANGUAGE plpgsql
  AS
@@ -25,100 +12,32 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_house_type_show_tmp_data (
     -- ----------------------------------------------------------------
     DECLARE
        _exec   text;
-       _select text = $_$    
-            WITH x (
-                    fias_id            
-                   ,fias_type_name     
-                   ,fias_type_shortname
-                   ,fias_row_key
-           
-           ) AS (
-                  SELECT
-                      ht.house_type_id            
-                     ,ht.type_name     
-                     ,ht.type_shortname
-                     ,gar_tmp_pcg_trans.f_xxx_replace_char (ht.type_name) AS row_key
-                     
-                  FROM gar_fias.as_house_type ht 
-                     WHERE ((gar_tmp_pcg_trans.f_xxx_replace_char (ht.type_name) NOT IN
-                                 (SELECT fias_row_key FROM gar_fias.as_house_type_black_list))
-                           ) 
-                    ORDER BY ht.type_name, ht.house_type_id          
-           ),
-              z (
-                    fias_ids            
-                   ,fias_type_names     
-                   ,fias_type_shortnames
-                   ,fias_row_key       
-              ) 
-                 AS (
-                       SELECT  array_agg (x.fias_id)
-                              ,array_agg (x.fias_type_name)     
-                              ,array_agg (x.fias_type_shortname)
-                              ,x.fias_row_key  
-                       FROM x 
-                               GROUP BY x.fias_row_key    
-                    )
-               ,y  (
-                      fias_ids             
-                     ,id_house_type       
-                     ,fias_type_name      
-                     ,nm_house_type       
-                     ,fias_type_shortname 
-                     ,nm_house_type_short 
-                     ,kd_house_type_lvl
-                     ,fias_row_key        
-                     ,is_twin                           
-                   )
-               
-                   AS (     
-                        SELECT 
-                            z.fias_ids  
-                           ,nt.id_house_type
-                           --
-                           ,z.fias_type_names[1] 
-                           ,nt.nm_house_type 
-                           --
-                           ,z.fias_type_shortnames[1]
-                           ,nt.nm_house_type_short
-                           ,nt.kd_house_type_lvl    
-                           --
-                           ,COALESCE (z.fias_row_key, gar_tmp_pcg_trans.f_xxx_replace_char (nt.nm_house_type))
-                           ,FALSE          
-                     
-                        FROM z
-                          FULL JOIN %I.adr_house_type nt
-                              ON (z.fias_row_key = gar_tmp_pcg_trans.f_xxx_replace_char (nt.nm_house_type))
-                                   AND
-                                 (nt.dt_data_del IS NULL) ORDER BY z.fias_type_names[1]
-                    ) 
-                      INSERT INTO __adr_house_type ( 
-                                                     fias_ids           
-                                                    ,id_house_type      
-                                                    ,fias_type_name     
-                                                    ,nm_house_type      
-                                                    ,fias_type_shortname
-                                                    ,nm_house_type_short
-                                                    ,kd_house_type_lvl  
-                                                    ,fias_row_key       
-                                                    ,is_twin            
-                      )
-                      SELECT  
-                             y.fias_ids             
-                            ,y.id_house_type       
-                            ,y.fias_type_name      
-                            ,y.nm_house_type       
-                            ,y.fias_type_shortname 
-                            ,y.nm_house_type_short 
-                            ,y.kd_house_type_lvl
-                            ,y.fias_row_key        
-                            ,y.is_twin           
-                            
-                      FROM y ;  
+       _select text = $_$  
+            INSERT INTO __adr_house_type
+            SELECT  
+                   t.id_house_type       -- integer     -- ID типа дома, ОСНОВНОЙ	
+                  ,t.nm_house_type       -- varchar(50) -- Наименованиек типа дома, ОСНОВНОЕ
+                  ,t.nm_house_type_short -- varchar(10) -- Краткое наименованиек типа дома, ОСНОВНОЕ
+                  ,t.kd_house_type_lvl   -- integer     -- Код уровня ОСНОВНОЙ
+                  ,t.dt_data_del	     -- timestamp without time zone -- Дата удаления ОСНОВНАЯ
+                   ----
+                  ,x.fias_ids            AS fias_ids                -- bigint[]    -- Исходные идентификаторы ГАР-ФИАС 
+                  ,x.id_house_type       AS id_house_type_tmp       -- integer     -- ID типа дома, ПРОМЕЖУТОЧНЫЙ
+                  ,x.fias_type_name	     AS fias_type_name	        -- varchar(50) -- Наименованиек типа дома, ГАР-ФИАС
+                  ,x.nm_house_type  	 AS nm_house_type_tmp  	    -- varchar(50) -- Наименованиек типа дома, ПРОМЕЖУТОЧНОЕ
+                  ,x.fias_type_shortname AS fias_type_shortname     -- varchar(20) -- Краткое имя типа, ГАР-ФИАС
+                  ,x.nm_house_type_short AS nm_house_type_short_tmp -- varchar(10) -- Краткое наименованиек типа дома ПРОМЕЖУТОЧНОЕ,
+                  ,x.fias_row_key	     AS fias_row_key	        -- text -- Уникальный идентификатор строки
+                  
+            FROM %I.adr_house_type t
+            
+             LEFT JOIN  gar_tmp.xxx_adr_house_type x 
+                   ON (x.fias_row_key = gar_tmp_pcg_trans.f_xxx_replace_char (t.nm_house_type))
+             ORDER BY t.id_house_type;       
        $_$;
 
     BEGIN
-      CREATE TEMP TABLE __adr_house_type (LIKE gar_tmp.xxx_adr_house_type)
+      CREATE TEMP TABLE __adr_house_type OF gar_tmp.zzz_adr_house_t
         ON COMMIT DROP;
       --
       _exec := format (_select, p_schema_name);
@@ -128,12 +47,12 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_house_type_show_tmp_data (
     END;                   
   $$;
  
-ALTER FUNCTION gar_tmp_pcg_trans.f_xxx_house_type_show_tmp_data (text) OWNER TO postgres;  
+ALTER FUNCTION gar_tmp_pcg_trans.f_zzz_house_type_show_tmp_data (text) OWNER TO postgres;  
 
-COMMENT ON FUNCTION gar_tmp_pcg_trans.f_xxx_house_type_show_tmp_data (text) 
-IS 'Функция подготавливает исходные данные для таблицы-прототипа "gar_tmp.xxx_house_type"';
+COMMENT ON FUNCTION gar_tmp_pcg_trans.f_zzz_house_type_show_tmp_data (text) 
+IS 'Функция отображает "тип дома" из промежуточного хранилища.';
 ----------------------------------------------------------------------------------
 -- USE CASE:
---           SELECT * FROM gar_tmp_pcg_trans.f_xxx_house_type_show_tmp_data ('gar_tmp'); 
---           SELECT * FROM gar_tmp_pcg_trans.f_xxx_house_type_show_tmp_data ('unnsi'); 
+--           SELECT * FROM gar_tmp_pcg_trans.f_zzz_house_type_show_tmp_data ('gar_tmp'); 
+--           SELECT * FROM gar_tmp_pcg_trans.f_zzz_house_type_show_tmp_data ('unnsi'); 
 --

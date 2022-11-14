@@ -1,4 +1,3 @@
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_adr_area_type_show_data (text, date);
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_adr_area_type_show_data (text, date, text[]);
 
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_adr_area_type_show_data (text);

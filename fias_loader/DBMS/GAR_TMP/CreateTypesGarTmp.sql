@@ -123,3 +123,33 @@ DO
            RAISE WARNING '%, %', SQLSTATE, SQLERRM;
    END;
   $$;
+-- ====================================================================================
+--   2022-11-14 Промежуточные типы: 1) - дома, 2) - улицы, 3) - адресные пространства. 
+-- ====================================================================================
+DO
+  $$
+   BEGIN
+     CREATE TYPE gar_tmp.zzz_adr_house_t AS (
+         
+       id_house_type       integer     -- ID типа дома, ОСНОВНОЙ	
+      ,nm_house_type       varchar(50) -- Наименованиек типа дома, ОСНОВНОЕ
+      ,nm_house_type_short varchar(10) -- Краткое наименованиек типа дома, ОСНОВНОЕ
+      ,kd_house_type_lvl   integer     -- Код уровня ОСНОВНОЙ
+      ,dt_data_del	       timestamp without time zone -- Дата удаления ОСНОВНАЯ
+       ----
+      ,fias_ids                bigint[]    -- Исходные идентификаторы ГАР-ФИАС 
+      ,id_house_type_tmp       integer     -- ID типа дома, ПРОМЕЖУТОЧНЫЙ
+      ,fias_type_name	       varchar(50) -- Наименованиек типа дома, ГАР-ФИАС
+      ,nm_house_type_tmp  	   varchar(50) -- Наименованиек типа дома, ПРОМЕЖУТОЧНОЕ
+      ,fias_type_shortname     varchar(20) -- Краткое имя типа, ГАР-ФИАС
+      ,nm_house_type_short_tmp varchar(10) -- Краткое наименованиек типа дома ПРОМЕЖУТОЧНОЕ,
+      ,fias_row_key	           text        -- Уникальный идентификатор строки
+     );
+     
+     COMMENT ON TYPE gar_tmp.zzz_adr_house_t IS 'С_Адреса (!), промежуточная структура';
+
+    EXCEPTION           
+       WHEN OTHERS THEN 
+           RAISE WARNING '%, %', SQLSTATE, SQLERRM;
+   END;
+  $$;

@@ -1,11 +1,14 @@
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_street_type_set (text,text[],integer[],date);
+DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_street_type_set(text, text[], integer[], date, text[]);
+DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_street_type_set (text,text[],integer[],date,integer,boolean);
 CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_street_type_set (
        
         p_schema_etalon  text 
        ,p_schemas        text[]
        ,p_op_type        integer[] = ARRAY[1,2] 
        ,p_date           date      = current_date
-       ,p_stop_list    text[] = NULL       
+       ,p_delta          integer   = 0
+       ,p_clear_all      boolean   = TRUE       
 )
 
   RETURNS SETOF integer
@@ -17,22 +20,15 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_street_type_set (
     -- -----------------------------------------------------------------------------------
     --  2021-12-01/2021-12-14 Nick Запомнить промежуточные данные, типы улиц, обновить 
     --                  отдалённые справочники.
-    -- -----------------------------------------------------------------------------------
-    --   p_schema_etalon  text      -- Схема с эталонныями справочниками.
-    --   p_schemas        text[]    -- Список обновляемых схем (Здесь может быть эталон).
-    --   p_op_type        integer[] -- Список выполняемых операций, пока только две.     
-    --   p_date           date      -- Дата на которую формируется выборка из "gar_fias".
-    --   p_stop_list      text[]    -- список исключаемых типов
-    -- -----------------------------------------------------------------------------------
-    --     + stop_list. Расширенный список ТИПОВ формируется на эталонной базе, то 
-    --       типы попавшие в stop_list нужно вычистить сразу-же. В функции типа SET они 
-    --       будут вычищены на остальных базах.
+    --  2022-11-11 Меняю USE CASE таблицы, теперь это буфер для последующего дополнения 
+    --             адресного справочника.        
     -- -----------------------------------------------------------------------------------
     DECLARE
       _r integer;
       
       _OP_1 CONSTANT integer = 1;
       _OP_2 CONSTANT integer = 2;
+      _LD   CONSTANT integer = 1000;      
       
       _schema_name text;
       _qty         integer = 0;
@@ -41,17 +37,12 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_street_type_set (
       _exec text;
       
       _del_something text = $_$
-           DELETE FROM %I.adr_street_type nt
-                  WHERE (gar_tmp_pcg_trans.f_xxx_replace_char (nt.nm_street_type) = ANY (%L));
+           DELETE FROM %I.adr_street_type nt;
        $_$;       
     
     BEGIN   
-     IF p_stop_list IS NOT NULL
-       THEN
-           DELETE FROM gar_tmp.xxx_adr_street_type WHERE (fias_row_key = ANY (p_stop_list));
-     END IF;     
      --
-     -- 1) Запомнить данные в промежуточной структуре. Выбираем из справочника-эталона.(ОТДАЛЁННЫЙ СПРАВОЧНИК).
+     -- 1) Запомнить данные в промежуточной структуре. Выбираем из справочника-эталона.
      --
      IF (_OP_1 = ANY (p_op_type))
       THEN  
@@ -66,19 +57,20 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_street_type_set (
             ,is_twin                    
         )       
           SELECT   x.fias_ids             
-                  ,x.id_street_type       
+                  ,COALESCE (x.id_street_type, (x.fias_ids[1] + _LD)) AS id_street_type
                   ,x.fias_type_name      
-                  ,x.nm_street_type     
+                  ,COALESCE (x.nm_street_type, x.fias_type_name::varchar(50)) AS nm_street_type 
                   ,x.fias_type_shortname 
-                  ,x.nm_street_type_short 
+                  ,COALESCE (x.nm_street_type_short, x.fias_type_shortname::varchar(10)) AS nm_street_type_short
                   ,x.fias_row_key        
-                  ,x.is_twin             
-          
-          FROM gar_tmp_pcg_trans.f_xxx_street_type_show_data (p_schema_etalon, p_date, p_stop_list) x
+                  ,x.is_twin 
+                  
+          FROM gar_tmp_pcg_trans.f_xxx_street_type_show_data (p_schema_etalon) x
                ON CONFLICT (fias_row_key) DO 
                
                UPDATE
                     SET
+                  
                         fias_ids             = excluded.fias_ids 
                        ,id_street_type       = excluded.id_street_type      
                        ,fias_type_name       = excluded.fias_type_name     
@@ -103,26 +95,41 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_street_type_set (
        THEN
          FOREACH _schema_name IN ARRAY p_schemas 
          LOOP
-            IF (p_stop_list IS NOT NULL)
-               THEN
-                   _exec := format (_del_something, _schema_name, p_stop_list);
+            IF p_clear_all
+              THEN
+                   _exec := format (_del_something, _schema_name);
                    EXECUTE _exec;
             END IF;
-         
+            -- 
             FOR _rdata IN 
               SELECT 
-                  COALESCE (id_street_type, (fias_ids[1] + 1000))                   AS id_street_type
-                 ,COALESCE (nm_street_type, fias_type_name::varchar(50))            AS nm_street_type 
-                 ,COALESCE (nm_street_type_short, fias_type_shortname::varchar(10)) AS nm_street_type_short
-                 ,NULL                                                              AS data_del
-                 ,fias_row_key                
-              FROM gar_tmp.xxx_adr_street_type  ORDER BY fias_row_key
+                  CASE 
+                    WHEN z.id_street_type < _LD
+                      THEN z.id_street_type
+                      ELSE row_number() OVER ()  
+                  END AS id_street_type
+                  --                  
+                 ,z.id_street_type       AS id_street_type_aux
+                 ,z.nm_street_type       AS nm_street_type 
+                 ,z.nm_street_type_short AS nm_street_type_short
+                 ,NULL AS data_del
+                 ,z.fias_row_key   
+                 
+              FROM gar_tmp.xxx_adr_street_type z ORDER BY z.fias_row_key
             LOOP 
             
-               --- RAISE NOTICE '%', _rdata;
                CALL gar_tmp_pcg_trans.p_adr_street_type_set (
-                      p_schema_name          := _schema_name               ::text  
-                     ,p_id_street_type       := _rdata.id_street_type      ::integer  
+                      p_schema_name := _schema_name::text  
+                      
+                     ,p_id_street_type := 
+                           CASE 
+                               WHEN _rdata.id_street_type_aux < _LD
+                                 THEN 
+                                    _rdata.id_street_type
+                                 ELSE   
+                                    (_rdata.id_street_type + p_delta)::integer  
+                           END::integer                     
+                     
                      ,p_nm_street_type       := _rdata.nm_street_type      ::varchar(50)  
                      ,p_nm_street_type_short := _rdata.nm_street_type_short::varchar(10)  
                      ,p_dt_data_del          := _rdata.data_del            ::timestamp without time zone                
@@ -139,34 +146,18 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_street_type_set (
     END;         
 $$;
  
-ALTER FUNCTION gar_tmp_pcg_trans.f_xxx_street_type_set (text,text[],integer[],date, text[]) OWNER TO postgres;  
+ALTER FUNCTION gar_tmp_pcg_trans.f_xxx_street_type_set (text,text[],integer[],date,integer,boolean) OWNER TO postgres;  
 
-COMMENT ON FUNCTION gar_tmp_pcg_trans.f_xxx_street_type_set (text,text[],integer[],date, text[]) 
+COMMENT ON FUNCTION gar_tmp_pcg_trans.f_xxx_street_type_set (text,text[],integer[],date,integer,boolean) 
 IS ' Запомнить промежуточные данные, типы улицы, обновить ОТДАЛЁННЫЕ справочники.';
 ----------------------------------------------------------------------------------
 -- USE CASE:
---   SELECT * FROM  gar_tmp.xxx_adr_street_type order by 2;
---   TRUNCATE TABLE  gar_tmp.xxx_adr_street_type;
 
---  SELECT gar_tmp_pcg_trans.f_xxx_street_type_set ('unsi',ARRAY['unnsi','unsi'], ARRAY [1,2]); -- 49, 49, 49
---  SELECT gar_tmp_pcg_trans.f_xxx_street_type_set ('unsi',ARRAY['unnsi','unsi'], ARRAY [1]); -- 86
---  SELECT gar_tmp_pcg_trans.f_xxx_street_type_set ('unsi',ARRAY['unnsi','unsi'], ARRAY [2]); -- 86
-
--- SELECT gar_tmp_pcg_trans.f_xxx_street_type_set ('unsi',ARRAY['unnsi','unsi'], ARRAY [1,2]
---                 , p_stop_list := ARRAY ['юрты','усадьба']
--- ); -- 
-
--- 1)
---  SELECT * FROM gar_tmp.xxx_adr_street_type ORDER BY 1; -- 129
---  TRUNCATE TABLE gar_tmp.xxx_adr_area_type;
---  SELECT * FROM gar_tmp.xxx_adr_area_type; -- 0
---  SELECT gar_tmp_pcg_trans.f_xxx_street_type_set ('unsi',ARRAY['unnsi','unsi'], ARRAY [1]); --129
--- --------------------------------
--- SELECT * FROM unsi.adr_street_type ORDER BY 1; WHERE (id_area_type >= 1000);
--- SELECT * FROM unnsi.adr_street_type ORDER BY 1;
--- DELETE FROM unsi.adr_street_type WHERE (id_area_type >= 1000);
--- DELETE FROM unnsi.adr_street_type WHERE (id_area_type >= 1000);
--------------------------------------
--- SELECT gar_tmp_pcg_trans.f_xxx_street_type_set ('unsi',ARRAY['unnsi','unsi'], ARRAY [2]);
-
-
+--  SELECT * FROM  gar_tmp.xxx_adr_street_type;
+--  TRUNCATE TABLE  gar_tmp.xxx_adr_street_type;
+--  SELECT * FROM  gar_tmp.adr_street_type ORDER BY id_street_type; 
+--  SELECT * FROM  unnsi.adr_street_type ORDER BY id_street_type; 
+--
+-- SELECT gar_tmp_pcg_trans.f_xxx_street_type_set ('gar_tmp',ARRAY['unnsi'], ARRAY [1]);
+-- SELECT gar_tmp_pcg_trans.f_xxx_street_type_set ('gar_tmp',ARRAY['unnsi'], ARRAY [2]);
+-- SELECT gar_tmp_pcg_trans.f_xxx_street_type_set ('gar_tmp',ARRAY['gar_tmp','unnsi'], ARRAY [2]);

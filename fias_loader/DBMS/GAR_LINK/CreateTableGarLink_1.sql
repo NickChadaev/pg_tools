@@ -57,4 +57,30 @@ INSERT INTO gar_link.adr_indecies (table_name, index_name, index_body, index_kin
        ,('adr_area','_xxx_adr_area_ak1', 'ON %I.adr_area USING btree (id_country ASC NULLS LAST, id_area_parent ASC NULLS LAST, id_area_type ASC NULLS LAST, upper(nm_area::text) ASC NULLS LAST) WHERE (id_data_etalon IS NULL) AND (dt_data_del IS NULL)', false, true)
        ,('adr_area','_xxx_adr_area_ie2', 'ON %I.adr_area USING btree (nm_fias_guid) WHERE (id_data_etalon IS NULL) AND (dt_data_del IS NULL)', false, true)       
 ;
+--
+INSERT INTO gar_link.adr_indecies (table_name, index_name, index_body, index_kind, unique_sign)
+ VALUES ('adr_street','adr_street_i1', 'ON %I.adr_street USING btree (id_area)', true, false )
+       ,('adr_street','adr_street_i2', 'ON %I.adr_street USING btree (id_street_type)', true, false)
+       ,('adr_street','adr_street_i3', 'ON %I.adr_street USING btree (id_data_etalon)', true, false)
+       ,('adr_street','adr_street_i4', 'ON %I.adr_street USING btree (nm_fias_guid)', true, false)
+       ,('adr_street','adr_street_ak1', 'ON %I.adr_street USING btree (id_area, upper((nm_street)::text), id_street_type) WHERE (id_data_etalon IS NULL)', true, true)
+         --
+       ,('adr_street','_xxx_adr_street_ie2', 'ON %I.adr_street USING btree (nm_fias_guid ASC NULLS LAST) WHERE id_data_etalon IS NULL AND dt_data_del IS NULL', false, true)
+       ,('adr_street','_xxx_adr_street_ak1', 'ON %I.adr_street USING btree (id_area ASC NULLS LAST, upper(nm_street::text) ASC NULLS LAST, id_street_type ASC NULLS LAST) WHERE (id_data_etalon IS NULL) AND (dt_data_del IS NULL)', false, true)       
+;
+--
+INSERT INTO gar_link.adr_indecies (table_name, index_name, index_body, index_kind, unique_sign)
+ VALUES ('adr_house','adr_house_i1', 'ON %I.adr_house USING btree (id_area)', true, false)
+       ,('adr_house','adr_house_i2', 'ON %I.adr_house USING btree (id_street)', true, false)
+       ,('adr_house','adr_house_i3', 'ON %I.adr_house USING btree (id_house_type_1)', true, false)
+       ,('adr_house','adr_house_i4', 'ON %I.adr_house USING btree (id_house_type_2)', true, false)
+       ,('adr_house','adr_house_i5', 'ON %I.adr_house USING btree (id_house_type_3)', true, false)
+       ,('adr_house','adr_house_i7', 'ON %I.adr_house USING btree (nm_fias_guid)', true, false)
+       ,('adr_house','adr_house_idx1', 'ON %I.adr_house USING btree (id_area) WHERE (id_street IS NULL)', true, false)       
+       ,('adr_house','adr_house_ak1', 'ON %I.adr_house USING btree (id_area, upper((nm_house_full)::text), id_street) WHERE (id_data_etalon IS NULL)', true, true)
+         --
+       ,('adr_house','_xxx_adr_house_ie2', 'ON %I.adr_house USING btree (nm_fias_guid ASC NULLS LAST) WHERE (id_data_etalon IS NULL) AND (dt_data_del IS NULL)', false, true)
+       ,('adr_house','_xxx_adr_house_ak1', 'ON %I.adr_house USING btree (id_area ASC NULLS LAST, upper (nm_house_full::text) ASC NULLS LAST, id_street ASC NULLS LAST,id_house_type_1 ASC NULLS LAST)  WHERE (id_data_etalon IS NULL) AND (dt_data_del IS NULL)', false, true)       
+;
+
 SELECT * FROM gar_link.adr_indecies;

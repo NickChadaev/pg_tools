@@ -68,13 +68,14 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_type_set (
                SELECT   x.fias_ids          
                        ,COALESCE (x.id_area_type, (fias_ids[1] + 1000)) AS id_area_type
                        ,x.fias_type_name      
-                       ,COALESCE (x.nm_area_type, x.fias_type_name::varchar(50)) AS nm_area_type 
+                       ,COALESCE (x.nm_area_type, x.fias_type_name) AS nm_area_type 
                        ,x.fias_type_shortname 
-                       ,COALESCE (x.nm_area_type_short, fias_type_shortname::varchar(10)) AS nm_area_type_short
-                       ,COALESCE (x.pr_lead, 0::smallint) AS pr_lead          -- ------------------------------------------------------     
+                       ,COALESCE (x.nm_area_type_short, fias_type_shortname) AS nm_area_type_short
+                       ,COALESCE (x.pr_lead, 0::smallint) AS pr_lead       
+                       -- ------------------------------------------------------     
                        ,x.fias_row_key        
                        ,x.is_twin      
-          -- ------------------------------------------------------             
+ 
                FROM gar_tmp_pcg_trans.f_xxx_adr_area_type_show_data (p_schema_etalon) x
                
                 ON CONFLICT (fias_row_key) DO 

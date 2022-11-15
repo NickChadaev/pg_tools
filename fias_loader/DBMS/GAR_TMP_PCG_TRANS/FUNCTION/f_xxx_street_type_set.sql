@@ -1,4 +1,3 @@
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_street_type_set (text,text[],integer[],date);
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_street_type_set(text, text[], integer[], date, text[]);
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_street_type_set (text,text[],integer[],date,integer,boolean);
 CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_street_type_set (
@@ -59,9 +58,9 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_street_type_set (
           SELECT   x.fias_ids             
                   ,COALESCE (x.id_street_type, (x.fias_ids[1] + _LD)) AS id_street_type
                   ,x.fias_type_name      
-                  ,COALESCE (x.nm_street_type, x.fias_type_name::varchar(50)) AS nm_street_type 
+                  ,COALESCE (x.nm_street_type, x.fias_type_name) AS nm_street_type 
                   ,x.fias_type_shortname 
-                  ,COALESCE (x.nm_street_type_short, x.fias_type_shortname::varchar(10)) AS nm_street_type_short
+                  ,COALESCE (x.nm_street_type_short, x.fias_type_shortname) AS nm_street_type_short
                   ,x.fias_row_key        
                   ,x.is_twin 
                   
@@ -158,6 +157,6 @@ IS ' Запомнить промежуточные данные, типы ули
 --  SELECT * FROM  gar_tmp.adr_street_type ORDER BY id_street_type; 
 --  SELECT * FROM  unnsi.adr_street_type ORDER BY id_street_type; 
 --
--- SELECT gar_tmp_pcg_trans.f_xxx_street_type_set ('gar_tmp',ARRAY['unnsi'], ARRAY [1]);
+-- SELECT gar_tmp_pcg_trans.f_xxx_street_type_set ('gar_tmp',ARRAY['unnsi'], ARRAY [1]); -- 78
 -- SELECT gar_tmp_pcg_trans.f_xxx_street_type_set ('gar_tmp',ARRAY['unnsi'], ARRAY [2]);
 -- SELECT gar_tmp_pcg_trans.f_xxx_street_type_set ('gar_tmp',ARRAY['gar_tmp','unnsi'], ARRAY [2]);

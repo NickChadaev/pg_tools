@@ -25,7 +25,7 @@ CREATE OR REPLACE PROCEDURE gar_link.p_adr_area_idx (
                ,p_table_name  := TABLE_NAME -- Имя таблицы 
                ,p_index_name  := NULL       -- Имя индекса.   
                ,p_mode_c      := p_mode_c -- Создание индексов FALSE - удаление
-               ,p_kind_index  := p_mode_t -- Вид индекса -- FALSE -- эксплуатационный.
+               ,p_kind_index  := p_mode_t -- Вид индекса (FALSE - процессинговый) -- TRUE -- эксплуатационный.
      )
       LOOP 
          SELECT xx1.mess INTO _mess FROM gar_link.dblink (p_conn, _exec) xx1 ( mess text); 

@@ -1,7 +1,7 @@
 DROP PROCEDURE IF EXISTS gar_link.p_adr_area_idx (text, text, boolean, boolean);
 CREATE OR REPLACE PROCEDURE gar_link.p_adr_area_idx (
-              p_conn         text -- Именованное dblink-соединение   
-             ,p_schema_name  text -- Имя отдалённой схемы 
+              p_schema_name  text        -- Имя отдалённой/локальной схемы схемы 
+             ,p_conn         text = NULL -- Именованное dblink-соединение   
              ,p_mode_t       boolean = TRUE -- Выбор типа индексов TRUE  - Эксплутационные
                                             --                    ,FALSE - Загрузочные
              ,p_mode_c       boolean = TRUE  -- Создание индексов FALSE - удаление             
@@ -28,25 +28,32 @@ CREATE OR REPLACE PROCEDURE gar_link.p_adr_area_idx (
                ,p_kind_index  := p_mode_t -- Вид индекса (FALSE - процессинговый) -- TRUE -- эксплуатационный.
      )
       LOOP 
-         SELECT xx1.mess INTO _mess FROM gar_link.dblink (p_conn, _exec) xx1 ( mess text); 
-         RAISE NOTICE '%', _mess;
+        IF (p_conn IS NOT NULL) 
+          THEN
+             SELECT xx1.mess INTO _mess 
+                        FROM gar_link.dblink (p_conn, _exec) xx1 ( mess text);
+          ELSE
+               EXECUTE _exec;
+        END IF; 
+        
+        RAISE NOTICE '%', _exec;
       END LOOP;
       --
     END;
   $$;
   
 COMMENT ON PROCEDURE gar_link.p_adr_area_idx (text, text, boolean, boolean) 
-  IS 'Управление индексами в отдалённой таблице "adr_area".';  
+  IS 'Управление индексами в отдалённой/локальной таблице "adr_area".';  
 -- ----- ----------------------------------------------------
 -- USE CASE:
 -- SELECT gar_link.f_server_is();
 -- SELECT * FROM gar_link.v_servers_active;
 
 -- CALL gar_link.p_adr_area_idx (gar_link.f_conn_set(12), 'unnsi', true, true); -- Создаю эксплуатационные
--- CALL gar_link.p_adr_area_idx (gar_link.f_conn_set(4), 'unnsi', false, true); -- Создание загрузочных
+-- CALL gar_link.p_adr_area_idx ('gar_tmp', NULL, false); -- Создание загрузочных
 --
--- CALL gar_link.p_adr_area_idx (gar_link.f_conn_set(4), 'unnsi', true, false); -- Убираю эксплуатационные
--- CALL gar_link.p_adr_area_idx (gar_link.f_conn_set(12), 'unnsi', false, false); -- Убираю загрузочные
+-- CALL gar_link.p_adr_area_idx ('gar_tmp', NULL, true, false); -- Убираю эксплуатационные
+-- CALL gar_link.p_adr_area_idx ('gar_tmp', NULL, false, false); -- Убираю загрузочные
 
 
 

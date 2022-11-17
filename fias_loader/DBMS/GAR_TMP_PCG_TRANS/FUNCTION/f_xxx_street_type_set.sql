@@ -6,7 +6,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_street_type_set (
        ,p_schemas        text[]
        ,p_op_type        integer[] = ARRAY[1,2] 
        ,p_date           date      = current_date
-       ,p_delta          integer   = 0
+       ,p_delta          integer   = 2
        ,p_clear_all      boolean   = TRUE       
 )
 
@@ -64,7 +64,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_street_type_set (
                   ,x.fias_row_key        
                   ,x.is_twin 
                   
-          FROM gar_tmp_pcg_trans.f_xxx_street_type_show_data (p_schema_etalon) x
+          FROM gar_tmp_pcg_trans.f_xxx_street_type_show_data (p_schema_etalon) x 
                ON CONFLICT (fias_row_key) DO 
                
                UPDATE
@@ -114,13 +114,13 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_street_type_set (
                  ,NULL AS data_del
                  ,z.fias_row_key   
                  
-              FROM gar_tmp.xxx_adr_street_type z ORDER BY z.fias_row_key
+              FROM gar_tmp.xxx_adr_street_type z ORDER BY z.id_street_type  
+              
             LOOP 
-            
                CALL gar_tmp_pcg_trans.p_adr_street_type_set (
                       p_schema_name := _schema_name::text  
                       
-                     ,p_id_street_type := 
+                     ,p_id_street_type :=
                            CASE 
                                WHEN _rdata.id_street_type_aux < _LD
                                  THEN 
@@ -133,7 +133,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_street_type_set (
                      ,p_nm_street_type_short := _rdata.nm_street_type_short::varchar(10)  
                      ,p_dt_data_del          := _rdata.data_del            ::timestamp without time zone                
                );
-               _qty := _qty + 1;            
+               _qty := _qty + 1;    
+               
             END LOOP;
                 
             RETURN NEXT _qty;

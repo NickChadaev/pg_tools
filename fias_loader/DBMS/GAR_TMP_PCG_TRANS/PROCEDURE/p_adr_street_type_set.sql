@@ -47,9 +47,9 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_type_set (
     EXCEPTION  -- Возникает на отдалённоми сервере            
        WHEN unique_violation THEN 
 
-            _exec := format (_upd, p_schema_name, p_nm_street_type, p_nm_street_type_short 
+            _exec := format (_upd, p_schema_name, p_nm_street_type,                  p_nm_street_type_short 
                              ,p_dt_data_del, p_id_street_type  
-            );            
+            );
             EXECUTE _exec;  
     END;
   $$;

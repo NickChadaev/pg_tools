@@ -1,4 +1,3 @@
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_house_type_set (text,text[],integer[],date);
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_house_type_set (text, text[], integer[], date, text[]);
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_house_type_set (text, text[], integer[]);
 
@@ -7,7 +6,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_house_type_set (
         p_schema_etalon text 
        ,p_schemas       text[]
        ,p_op_type       integer[] = ARRAY[1,2]
-       ,p_delta         integer   = 0
+       ,p_delta         integer   = 2
        ,p_clear_all     boolean   = TRUE
 )
 
@@ -37,7 +36,6 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_house_type_set (
       _schema_name text;
       _qty         integer = 0;
       _rdata       RECORD;
-      --_max_id_house_type_etalon integer := 0;
       
       _exec text;
       
@@ -164,10 +162,12 @@ IS ' Запомнить промежуточные данные, типы дом
 ----------------------------------------------------------------------------------
 -- USE CASE:
 --  SELECT * FROM  gar_tmp.xxx_adr_house_type;
---  TRUNCATE TABLE  gar_tmp.xxx_adr_house_type;
+--  TRUNCATE TABLE gar_tmp.adr_house_type;
+--  TRUNCATE TABLE gar_tmp.xxx_adr_house_type;
 --  SELECT * FROM  gar_tmp.adr_house_type ORDER BY id_house_type; 
 --  SELECT * FROM  unnsi.adr_house_type ORDER BY id_house_type; 
 --
--- SELECT gar_tmp_pcg_trans.f_xxx_house_type_set ('gar_tmp',ARRAY['unnsi'], ARRAY [1]);
+-- SELECT gar_tmp_pcg_trans.f_xxx_house_type_set ('gar_tmp',NULL, ARRAY [1]); -- 12
+-- SELECT * FROM gar_tmp_pcg_trans.f_zzz_house_type_show_tmp_data ('gar_tmp'); 
 -- SELECT gar_tmp_pcg_trans.f_xxx_house_type_set ('gar_tmp',ARRAY['unnsi'], ARRAY [2]);
 -- SELECT gar_tmp_pcg_trans.f_xxx_house_type_set ('gar_tmp',ARRAY['gar_tmp','unnsi'], ARRAY [2]);

@@ -32,3 +32,10 @@ COMMENT ON COLUMN gar_tmp.xxx_object_type_alias.id_object_type IS 'ID типа �
 COMMENT ON COLUMN gar_tmp.xxx_object_type_alias.fias_row_key   IS 'Текстовый ключ строки';
 COMMENT ON COLUMN gar_tmp.xxx_object_type_alias.object_kind    IS 
                            'Вид объекта: 0-адресные пространства, 1-улицы, 2 - Дома.';
+--
+--
+--
+INSERT INTO gar_tmp.xxx_object_type_alias (id_object_type, fias_row_key, object_kind)
+ VALUES (41, 'чувашия', 0);
+--
+-- SELECT * FROM gar_tmp.xxx_object_type_alias ;

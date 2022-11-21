@@ -37,6 +37,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_ins (
     --  2021-12-14 Nick  Дополнение адресов улиц.
     --  2022-02-21 - фильтрация данных по справочнику типов.  
     --  2022-10-18 - Вспомогательные таблицы.
+    --  2022-11-21 - Преобразование типов ФИАС -> ЕС НСИ. 
     -- --------------------------------------------------------------------------------
     --   p_schema_data   -- Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
     --   p_schema_etl    -- Схема эталон, обычно локальный сервер, копия p_schema_data 
@@ -81,9 +82,12 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_ins (
           ORDER BY x.tree_d 
   
        LOOP
+          -- Nick 2022-11-21
           SELECT id_street_type, nm_street_type_short 
               INTO _id_street_type, _street_type_short_name
-           FROM gar_tmp.xxx_adr_street_type WHERE (_data.id_street_type = ANY (fias_ids));
+           FROM gar_tmp_pcg_trans.f_adr_type_get (p_schema_etl, _data.id_street_type);
+          -- Nick 2022-11-21
+          
           CONTINUE WHEN ((_id_street_type IS NULL) OR (_street_type_short_name IS NULL)); -- 2022-02-21     
 
           _parent := gar_tmp_pcg_trans.f_adr_area_get (p_schema_etl, _data.nm_fias_guid_area);

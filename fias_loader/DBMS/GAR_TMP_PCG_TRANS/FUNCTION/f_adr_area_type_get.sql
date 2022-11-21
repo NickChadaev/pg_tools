@@ -1,7 +1,7 @@
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_type_get (text, bigint);
 CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_type_get (
                p_schema                text   -- Имя схемы
-              ,p_id_area_fias_type     bigint -- ID типа - ФИАС.
+              ,p_id_addr_obj_fias_type bigint -- ID типа - ФИАС.
               ,OUT id_area_type        bigint 
               ,OUT nm_area_type_short  text  
 )
@@ -18,7 +18,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_type_get (
     -- Прилетел ID FIAS. Нужно сразу найти справочный id и краткое имя.
     --    делаем это, используя fias_row_key.
     --    Преобразуем этот id, сразу из FIAS_ID в ЕС НСИ id, используя obj_alias.
-    --    В том случае, если преобразование не удалось, используем уже готовы 
+    --    В том случае, если преобразование не удалось, используем уже готовый 
     --    ЕС НСИ id.
     --
     _select text = 
@@ -53,7 +53,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_type_get (
     --  2022-11-21 Nick Преобразование ID адресного региона FIAS -> ЕС НСИ
     -- --------------------------------------------------------------------------
     
-     _exec := format (_select, p_schema, p_id_area_fias_type, OBJECT_KIND, p_schema);  
+     _exec := format (_select, p_schema, p_id_addr_obj_fias_type, OBJECT_KIND, p_schema);  
      -- RAISE NOTICE '%', _exec;
      EXECUTE _exec INTO id_area_type, nm_area_type_short;  
      

@@ -85,8 +85,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_ins (
           -- Nick 2022-11-21
           SELECT id_street_type, nm_street_type_short 
               INTO _id_street_type, _street_type_short_name
-           FROM gar_tmp_pcg_trans.f_adr_type_get (p_schema_etl, _data.id_street_type);
-          -- Nick 2022-11-21
+           FROM gar_tmp_pcg_trans.f_street_type_get (p_schema_etl, _data.id_street_type);
+          -- Nick 2022-11-21   
           
           CONTINUE WHEN ((_id_street_type IS NULL) OR (_street_type_short_name IS NULL)); -- 2022-02-21     
 

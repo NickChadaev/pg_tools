@@ -43,7 +43,9 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_type_show_data (
                 ,at.type_shortname
                 ,gar_tmp_pcg_trans.f_xxx_replace_char (at.type_name) AS row_key
                 
-             FROM gar_fias.as_addr_obj_type at WHERE (at.is_active)  
+             FROM gar_fias.as_addr_obj_type at 
+             WHERE (at.is_active) AND (at.type_level::integer <= 7)               
+             
                   AND ((gar_tmp_pcg_trans.f_xxx_replace_char (at.type_name) NOT IN
                         (SELECT fias_row_key FROM gar_fias.as_addr_obj_type_black_list
                                WHERE (object_kind = '0')

@@ -165,9 +165,11 @@ IS 'Запомнить промежуточные данные, типы адр�
 -- USE CASE:
 --    SELECT * FROM  gar_tmp.xxx_adr_area_type;
 --    TRUNCATE TABLE  gar_tmp.xxx_adr_area_type;       -- DONE
+--  TRUNCATE TABLE  gar_tmp.adr_area_type;       -- DONE
+--   delete from  unnsi.adr_area_type;  
 --    SELECT * FROM  gar_tmp.adr_area_type ORDER BY id_area_type; 
 --    SELECT * FROM  unnsi.adr_area_type ORDER BY id_area_type; 
 --    
---    SELECT gar_tmp_pcg_trans.f_xxx_adr_area_type_set ('gar_tmp'::text,ARRAY['unnsi'], ARRAY [1]); -- 117
+--    SELECT gar_tmp_pcg_trans.f_xxx_adr_area_type_set ('gar_tmp'::text,NULL, ARRAY [1]); -- 117
 --    SELECT gar_tmp_pcg_trans.f_xxx_adr_area_type_set ('gar_tmp',ARRAY['unnsi'], ARRAY [2]); -- 117
 --    SELECT gar_tmp_pcg_trans.f_xxx_adr_area_type_set ('gar_tmp',ARRAY['gar_tmp','unnsi'], ARRAY [2]);

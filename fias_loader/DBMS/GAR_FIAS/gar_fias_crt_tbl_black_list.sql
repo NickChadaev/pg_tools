@@ -59,6 +59,15 @@ COMMENT ON COLUMN gar_fias.as_addr_obj_type_black_list.fias_row_key
 COMMENT ON COLUMN gar_fias.as_addr_obj_type_black_list.object_kind
     IS 'Вид объекта: 0-адресные пространства, 1-улицы';
     
+ALTER TABLE gar_fias.as_addr_obj_type_black_list 
+   DROP CONSTRAINT IF EXISTS chk_as_addr_obj_type_black_list_object_kind;
+   
+ALTER TABLE gar_fias.as_addr_obj_type_black_list 
+   ADD CONSTRAINT chk_as_addr_obj_type_black_list_object_kind 
+                       CHECK ( object_kind = '0' -- адресные пространства
+                            OR object_kind = '1' -- улицы
+);
+
 /*==============================================================*/
 /* Table: AS_HOUSE_TYPE_BLACK_LIST                              */
 /*==============================================================*/

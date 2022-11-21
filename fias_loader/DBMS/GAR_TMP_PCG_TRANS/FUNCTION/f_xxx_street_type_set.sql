@@ -155,9 +155,10 @@ IS ' Запомнить промежуточные данные, типы ули
 
 --  SELECT * FROM  gar_tmp.xxx_adr_street_type;
 --  TRUNCATE TABLE  gar_tmp.xxx_adr_street_type;
+--  TRUNCATE TABLE  gar_tmp.adr_street_type;
 --  SELECT * FROM  gar_tmp.adr_street_type ORDER BY id_street_type; 
 --  SELECT * FROM  unnsi.adr_street_type ORDER BY id_street_type; 
 --
--- SELECT gar_tmp_pcg_trans.f_xxx_street_type_set ('gar_tmp',ARRAY['unnsi'], ARRAY [1]); -- 78
+-- SELECT gar_tmp_pcg_trans.f_xxx_street_type_set ('gar_tmp',NULL, ARRAY [1]); -- 78
 -- SELECT gar_tmp_pcg_trans.f_xxx_street_type_set ('gar_tmp',ARRAY['unnsi'], ARRAY [2]);
 -- SELECT gar_tmp_pcg_trans.f_xxx_street_type_set ('gar_tmp',ARRAY['gar_tmp','unnsi'], ARRAY [2]);

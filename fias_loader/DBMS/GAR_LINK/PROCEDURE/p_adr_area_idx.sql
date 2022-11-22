@@ -28,15 +28,7 @@ CREATE OR REPLACE PROCEDURE gar_link.p_adr_area_idx (
                ,p_kind_index  := p_mode_t -- Вид индекса (FALSE - процессинговый) -- TRUE -- эксплуатационный.
      )
       LOOP 
-        IF (p_conn IS NOT NULL) 
-          THEN
-             SELECT xx1.mess INTO _mess 
-                        FROM gar_link.dblink (p_conn, _exec) xx1 ( mess text);
-          ELSE
-               EXECUTE _exec;
-        END IF; 
-        
-        RAISE NOTICE '%', _exec;
+           CALL gar_link.p_execute_idx (_exec, p_conn);
       END LOOP;
       --
     END;

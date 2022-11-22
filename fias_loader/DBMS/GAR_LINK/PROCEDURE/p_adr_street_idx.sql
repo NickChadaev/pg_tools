@@ -1,7 +1,7 @@
 DROP PROCEDURE IF EXISTS gar_link.p_adr_street_idx (text, text, boolean, boolean, boolean);
 CREATE OR REPLACE PROCEDURE gar_link.p_adr_street_idx (
-      p_conn         text -- Именованное dblink-соединение   
-     ,p_schema_name  text -- Имя отдалённой схемы 
+      p_schema_name  text -- Имя отдалённой схемы 
+     ,p_conn         text    = NULL -- Именованное dblink-соединение   
      ,p_mode_t       boolean = TRUE -- Выбор типа индексов TRUE  - Эксплутационные
                                     --                    ,FALSE - Загрузочные
      ,p_mode_c       boolean = TRUE  -- Создание индексов FALSE - удаление  
@@ -35,86 +35,89 @@ CREATE OR REPLACE PROCEDURE gar_link.p_adr_street_idx (
                 ,p_kind_index  := p_mode_t      -- Вид индекса (FALSE - процессинговый) -- TRUE -- эксплуатационный..
            )
             LOOP 
-               SELECT xx1.mess INTO _mess FROM gar_link.dblink (p_conn, _exec) xx1 ( mess text); 
-               RAISE NOTICE '%', _mess;
+                 CALL gar_link.p_execute_idx (_exec, p_conn);
             END LOOP;    
     
       ELSIF p_mode_t -- Создание, эксплуатационные (начинается веселие).
           THEN
-             _exec := gar_link.f_index_get ( 
-                 p_schema_name := p_schema_name   -- Имя схемы приёмника.
-                ,p_table_name  := TABLE_NAME      -- Имя таблицы 
-                ,p_index_name  := 'adr_street_i1' -- Имя индекса.   
-                ,p_mode_c      := TRUE            -- Создание индексов FALSE - удаление
-                ,p_kind_index  := TRUE            -- Вид индекса (FALSE - процессинговый) -- TRUE -- эксплуатационный.
+             CALL gar_link.p_execute_idx (
+                   p_exec := gar_link.f_index_get ( 
+                        p_schema_name := p_schema_name   -- Имя схемы приёмника.
+                       ,p_table_name  := TABLE_NAME      -- Имя таблицы 
+                       ,p_index_name  := 'adr_street_i1' -- Имя индекса.   
+                       ,p_mode_c      := TRUE            -- Создание индексов FALSE - удаление
+                       ,p_kind_index  := TRUE            -- Вид индекса (FALSE - процессинговый) -- TRUE -- эксплуатационный.
+                   )
+                  ,p_conn := p_conn
              );
-             SELECT xx1.mess INTO _mess FROM gar_link.dblink (p_conn, _exec) xx1 (mess text); 
-             RAISE NOTICE '%', _mess;
              --
-             _exec := gar_link.f_index_get ( 
-                 p_schema_name := p_schema_name   -- Имя схемы приёмника.
-                ,p_table_name  := TABLE_NAME      -- Имя таблицы 
-                ,p_index_name  := 'adr_street_i2' -- Имя индекса.   
-                ,p_mode_c      := TRUE            -- Создание индексов FALSE - удаление
-                ,p_kind_index  := TRUE            -- Вид индекса (FALSE - процессинговый) -- TRUE -- эксплуатационный.
+             CALL gar_link.p_execute_idx (
+                   p_exec := gar_link.f_index_get ( 
+                        p_schema_name := p_schema_name   -- Имя схемы приёмника.
+                       ,p_table_name  := TABLE_NAME      -- Имя таблицы 
+                       ,p_index_name  := 'adr_street_i2' -- Имя индекса.   
+                       ,p_mode_c      := TRUE            -- Создание индексов FALSE - удаление
+                       ,p_kind_index  := TRUE            -- Вид индекса (FALSE - процессинговый) -- TRUE -- эксплуатационный.
+                   )
+                  ,p_conn := p_conn
              );
-             SELECT xx1.mess INTO _mess FROM gar_link.dblink (p_conn, _exec) xx1 (mess text); 
-             RAISE NOTICE '%', _mess;
              --
-             _exec := gar_link.f_index_get ( 
-                 p_schema_name := p_schema_name   -- Имя схемы приёмника.
-                ,p_table_name  := TABLE_NAME      -- Имя таблицы 
-                ,p_index_name  := 'adr_street_i3' -- Имя индекса.   
-                ,p_mode_c      := TRUE            -- Создание индексов FALSE - удаление
-                ,p_kind_index  := TRUE            -- Вид индекса (FALSE - процессинговый) -- TRUE -- эксплуатационный.
+             CALL gar_link.p_execute_idx (
+                   p_exec := gar_link.f_index_get ( 
+                        p_schema_name := p_schema_name   -- Имя схемы приёмника.
+                       ,p_table_name  := TABLE_NAME      -- Имя таблицы 
+                       ,p_index_name  := 'adr_street_i3' -- Имя индекса.   
+                       ,p_mode_c      := TRUE            -- Создание индексов FALSE - удаление
+                       ,p_kind_index  := TRUE            -- Вид индекса (FALSE - процессинговый) -- TRUE -- эксплуатационный.
+                   )
+                  ,p_conn := p_conn
              );
-             SELECT xx1.mess INTO _mess FROM gar_link.dblink (p_conn, _exec) xx1 (mess text); 
-             RAISE NOTICE '%', _mess;             
              --
-             _exec := gar_link.f_index_get ( 
-                 p_schema_name := p_schema_name   -- Имя схемы приёмника.
-                ,p_table_name  := TABLE_NAME      -- Имя таблицы 
-                ,p_index_name  := 'adr_street_i4' -- Имя индекса.   
-                ,p_mode_c      := TRUE            -- Создание индексов FALSE - удаление
-                ,p_kind_index  := TRUE            -- Вид индекса (FALSE - процессинговый) -- TRUE -- эксплуатационный.
+             CALL gar_link.p_execute_idx (
+                   p_exec := gar_link.f_index_get ( 
+                        p_schema_name := p_schema_name   -- Имя схемы приёмника.
+                       ,p_table_name  := TABLE_NAME      -- Имя таблицы 
+                       ,p_index_name  := 'adr_street_i4' -- Имя индекса.   
+                       ,p_mode_c      := TRUE            -- Создание индексов FALSE - удаление
+                       ,p_kind_index  := TRUE            -- Вид индекса (FALSE - процессинговый) -- TRUE -- эксплуатационный.
+                   )
+                  ,p_conn := p_conn
              );
-             SELECT xx1.mess INTO _mess FROM gar_link.dblink (p_conn, _exec) xx1 (mess text); 
-             RAISE NOTICE '%', _mess;     
-             --
-             _exec := gar_link.f_index_get ( 
-                 p_schema_name := p_schema_name    -- Имя схемы приёмника.
-                ,p_table_name  := TABLE_NAME       -- Имя таблицы 
-                ,p_index_name  := 'adr_street_ak1' -- Имя индекса.   
-                ,p_mode_c      := TRUE             -- Создание индексов FALSE - удаление
-                ,p_kind_index  := TRUE             -- Вид индекса (FALSE - процессинговый) -- TRUE -- эксплуатационный.
-                ,p_unique_sign := p_uniq_sw
-             );
-             SELECT xx1.mess INTO _mess FROM gar_link.dblink (p_conn, _exec) xx1 (mess text); 
-             RAISE NOTICE '%', _mess;              
+             --             
+             CALL gar_link.p_execute_idx (
+                   p_exec := gar_link.f_index_get ( 
+                        p_schema_name := p_schema_name    -- Имя схемы приёмника.
+                       ,p_table_name  := TABLE_NAME       -- Имя таблицы 
+                       ,p_index_name  := 'adr_street_ak1' -- Имя индекса.   
+                       ,p_mode_c      := TRUE             -- Создание индексов FALSE - удаление
+                       ,p_kind_index  := TRUE             -- Вид индекса (FALSE - процессинговый) -- TRUE -- эксплуатационный.
+                   )
+                  ,p_conn := p_conn
+             );             --
              
           ELSE -- Процессинговые индексы.
           
-             _exec := gar_link.f_index_get ( 
-                 p_schema_name := p_schema_name    -- Имя схемы приёмника.
-                ,p_table_name  := TABLE_NAME       -- Имя таблицы 
-                ,p_index_name  := '_xxx_adr_street_ie2' -- Имя индекса.   
-                ,p_mode_c      := TRUE             -- Создание индексов FALSE - удаление
-                ,p_kind_index  := FALSE            -- Вид индекса (FALSE - процессинговый) -- TRUE -- эксплуатационный.
-                ,p_unique_sign := p_uniq_sw
-             );
-             SELECT xx1.mess INTO _mess FROM gar_link.dblink (p_conn, _exec) xx1 (mess text); 
-             RAISE NOTICE '%', _mess;   
+             CALL gar_link.p_execute_idx (
+                   p_exec := gar_link.f_index_get ( 
+                        p_schema_name := p_schema_name    -- Имя схемы приёмника.
+                       ,p_table_name  := TABLE_NAME       -- Имя таблицы 
+                       ,p_index_name  := '_xxx_adr_street_ie2' -- Имя индекса.   
+                       ,p_mode_c      := TRUE             -- Создание индексов FALSE - удаление
+                       ,p_kind_index  := FALSE             -- Вид индекса (FALSE - процессинговый) -- TRUE -- эксплуатационный.
+                   )
+                  ,p_conn := p_conn
+             );          
              --
-             _exec := gar_link.f_index_get ( 
-                 p_schema_name := p_schema_name    -- Имя схемы приёмника.
-                ,p_table_name  := TABLE_NAME       -- Имя таблицы 
-                ,p_index_name  := '_xxx_adr_street_ak1' -- Имя индекса.   
-                ,p_mode_c      := TRUE             -- Создание индексов FALSE - удаление
-                ,p_kind_index  := FALSE             -- Вид индекса (FALSE - процессинговый) -- TRUE -- эксплуатационный.
-             );
-             SELECT xx1.mess INTO _mess FROM gar_link.dblink (p_conn, _exec) xx1 (mess text); 
-             RAISE NOTICE '%', _mess;              
-          
+             CALL gar_link.p_execute_idx (
+                   p_exec := gar_link.f_index_get ( 
+                        p_schema_name := p_schema_name    -- Имя схемы приёмника.
+                       ,p_table_name  := TABLE_NAME       -- Имя таблицы 
+                       ,p_index_name  := '_xxx_adr_street_ak1' -- Имя индекса.   
+                       ,p_mode_c      := TRUE             -- Создание индексов FALSE - удаление
+                       ,p_kind_index  := FALSE             -- Вид индекса (FALSE - процессинговый) -- TRUE -- эксплуатационный.
+                   )
+                  ,p_conn := p_conn
+             );               
      END IF; -- p_mode_c -- Удаление, создание.
     END;
   $$;
@@ -127,15 +130,15 @@ COMMENT ON PROCEDURE gar_link.p_adr_street_idx (text, text, boolean, boolean, bo
 -- SELECT gar_link.f_server_is(); -- unnsi_m12l
 -- SELECT * FROM gar_link.v_servers_active;  -- 12
 --
--- CALL gar_link.p_adr_street_idx (gar_link.f_conn_set(12), 'unnsi', false, false); -- Убиваю процессинговые
--- CALL gar_link.p_adr_street_idx (gar_link.f_conn_set(12), 'unnsi', false, true); -- Создаю процессинговые
--- CALL gar_link.p_adr_street_idx (gar_link.f_conn_set(12), 'unnsi', false, false); -- Убиваю процессинговые
--- CALL gar_link.p_adr_street_idx (gar_link.f_conn_set(12), 'unnsi', false, true, false); -- Создаю процессинговые, второй не уникальный
--- CALL gar_link.p_adr_street_idx (gar_link.f_conn_set(12), 'unnsi', false, false); -- Убиваю процессинговые
+-- CALL gar_link.p_execute_idx (gar_link.f_conn_set(12), 'unnsi', false, false); -- Убиваю процессинговые
+-- CALL gar_link.p_execute_idx (gar_link.f_conn_set(12), 'unnsi', false, true); -- Создаю процессинговые
+-- CALL gar_link.p_execute_idx (gar_link.f_conn_set(12), 'unnsi', false, false); -- Убиваю процессинговые
+-- CALL gar_link.p_execute_idx (gar_link.f_conn_set(12), 'unnsi', false, true, false); -- Создаю процессинговые, второй не уникальный
+-- CALL gar_link.p_execute_idx (gar_link.f_conn_set(12), 'unnsi', false, false); -- Убиваю процессинговые
 --
--- CALL gar_link.p_adr_street_idx (gar_link.f_conn_set(12), 'unnsi', true, true); -- Создаю эксплуатационные
--- CALL gar_link.p_adr_street_idx (gar_link.f_conn_set(12), 'unnsi', true, false); -- Убиваю эксплуатационные
--- CALL gar_link.p_adr_street_idx (gar_link.f_conn_set(12), 'unnsi', true, true, false); -- Создаю эксплуатационные? всё неуникально.
--- CALL gar_link.p_adr_street_idx (gar_link.f_conn_set(12), 'unnsi', true, false); -- Убиваю эксплуатационные 
+-- CALL gar_link.p_execute_idx (gar_link.f_conn_set(12), 'unnsi', true, true); -- Создаю эксплуатационные
+-- CALL gar_link.p_execute_idx (gar_link.f_conn_set(12), 'unnsi', true, false); -- Убиваю эксплуатационные
+-- CALL gar_link.p_execute_idx (gar_link.f_conn_set(12), 'unnsi', true, true, false); -- Создаю эксплуатационные? всё неуникально.
+-- CALL gar_link.p_execute_idx (gar_link.f_conn_set(12), 'unnsi', true, false); -- Убиваю эксплуатационные 
 --
--- CALL gar_link.p_adr_street_idx (gar_link.f_conn_set(12), 'unnsi', false, true); -- Создаю процессинговые
+-- CALL gar_link.p_execute_idx (gar_link.f_conn_set(12), 'unnsi', false, true); -- Создаю процессинговые

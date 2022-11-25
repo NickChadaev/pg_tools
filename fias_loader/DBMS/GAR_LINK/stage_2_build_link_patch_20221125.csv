@@ -24,31 +24,11 @@
 #       1;0_COM/2_com_crt_tables.sql;;-- Creating the base tables; 
 #       1;0_COM/4_com_crt_errors.sql;;-- Creating the tables for errors;
 #-------------------------------------------------------------------------------
-X;;;Start process, Сборка коммуникационного пакета;
+X;;;Start process, Patch 20221125 к коммуникационному пакету;
 #
-5;version.sql;;-- Версия 99df370/2022-11-25;    
-#
-5;FUNCTION/f_server_crt.sql;;-- f_server_crt.sql;
-5;FUNCTION/f_server_drp.sql   ;;-- f_server_drp.sql;
-5;FUNCTION/f_schema_import.sql;;-- f_schema_import.sql;  
-5;FUNCTION/f_conn_set.sql     ;;-- f_conn_set.sql;
-5;FUNCTION/f_active_set.sql   ;;-- f_active_set.sql;
-5;FUNCTION/f_server_is.sql    ;;-- f_server_is.sql;
-#
-5;VIEW/fserver_view.sql;;-- fserver_view.sql;
-#
-5;FUNCTION/f_index_get.sql;;-- f_index_get.sql;
-5;PROCEDURE/p_execute_idx.sql;;-- p_execute_idx.sql;
-#
-5;PROCEDURE/p_adr_objects_idx.sql;;-- p_adr_objects_idx.sql;
-#
-5;PROCEDURE/p_adr_house_idx_set_uniq.sql;;-- p_adr_house_idx_set_uniq.sql;
-5;PROCEDURE/p_adr_house_idx.sql;;-- p_adr_house_idx.sql;
-#
-5;PROCEDURE/p_adr_street_idx_set_uniq.sql;;-- p_adr_street_idx_set_uniq.sql;
-5;PROCEDURE/p_adr_street_idx.sql;;-- p_adr_street_idx.sql;
-#
-5;PROCEDURE/p_adr_area_idx.sql;;-- p_adr_area_idx.sql;
+0;CREATE EXTENSION pg_trgm SCHEMA pg_catalog;;-- CREATE EXTENSION pg_trgm;
+1;CreateTableGarLink_1.sql;;-- CreateTableGarLink_1.sql;
+1;gar_link_pcg.sql;;-- gar_link_pcg.sql;  
 #
 X;;;Stop process;
 #-------------------------------------------------------------------------------

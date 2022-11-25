@@ -1,0 +1,49 @@
+psql:./gar_link_pcg.sql:13: ЗАМЕЧАНИЕ:  функция gar_link.f_server_crt(text,text,text,pg_catalog.numeric,text,text,text) не существует, пропускается
+psql:./gar_link_pcg.sql:79: ЗАМЕЧАНИЕ:  RELATION | 13385 | information_schema | foreign_servers
+psql:./gar_link_pcg.sql:79: ЗАМЕЧАНИЕ:  RELATION | 13378 | information_schema | _pg_foreign_servers
+psql:./gar_link_pcg.sql:79: ЗАМЕЧАНИЕ:  RELATION | 1260 | pg_catalog | pg_authid
+psql:./gar_link_pcg.sql:79: ЗАМЕЧАНИЕ:  RELATION | 2328 | pg_catalog | pg_foreign_data_wrapper
+psql:./gar_link_pcg.sql:79: ЗАМЕЧАНИЕ:  RELATION | 1417 | pg_catalog | pg_foreign_server
+psql:./gar_link_pcg.sql:108: ЗАМЕЧАНИЕ:  функция gar_link.f_server_drp(text) не существует, пропускается
+psql:./gar_link_pcg.sql:137: ЗАМЕЧАНИЕ:  RELATION | 66650 | gar_link | foreign_servers
+psql:./gar_link_pcg.sql:162: ЗАМЕЧАНИЕ:  функция gar_link.f_active_fserver_set(text,text,text,text) не существует, пропускается
+psql:./gar_link_pcg.sql:164: ЗАМЕЧАНИЕ:  функция gar_link.f_schema_import(text,text,text,text) не существует, пропускается
+psql:./gar_link_pcg.sql:299: ЗАМЕЧАНИЕ:  RELATION | 66650 | gar_link | foreign_servers
+psql:./gar_link_pcg.sql:299: ЗАМЕЧАНИЕ:  RELATION | 13382 | information_schema | foreign_server_options
+psql:./gar_link_pcg.sql:299: ЗАМЕЧАНИЕ:  RELATION | 13385 | information_schema | foreign_servers
+psql:./gar_link_pcg.sql:299: ЗАМЕЧАНИЕ:  RELATION | 13378 | information_schema | _pg_foreign_servers
+psql:./gar_link_pcg.sql:299: ЗАМЕЧАНИЕ:  RELATION | 1260 | pg_catalog | pg_authid
+psql:./gar_link_pcg.sql:299: ЗАМЕЧАНИЕ:  RELATION | 2328 | pg_catalog | pg_foreign_data_wrapper
+psql:./gar_link_pcg.sql:299: ЗАМЕЧАНИЕ:  RELATION | 1417 | pg_catalog | pg_foreign_server
+psql:./gar_link_pcg.sql:339: ЗАМЕЧАНИЕ:  функция gar_link.f_conn_set(text,text) не существует, пропускается
+psql:./gar_link_pcg.sql:340: ЗАМЕЧАНИЕ:  функция gar_link.f_conn_set(pg_catalog.numeric) не существует, пропускается
+psql:./gar_link_pcg.sql:391: ЗАМЕЧАНИЕ:  FUNCTION | 66101 | gar_link | dblink_connect | (text,text)
+psql:./gar_link_pcg.sql:391: ЗАМЕЧАНИЕ:  FUNCTION | 66138 | gar_link | dblink_get_connections | ()
+psql:./gar_link_pcg.sql:391: ЗАМЕЧАНИЕ:  RELATION | 66650 | gar_link | foreign_servers
+psql:./gar_link_pcg.sql:478: ЗАМЕЧАНИЕ:  функция gar_link.f_index_get(text,text,text,pg_catalog.bool,pg_catalog.bool,pg_catalog.bool) не существует, пропускается
+psql:./gar_link_pcg.sql:540: ЗАМЕЧАНИЕ:  RELATION | 118052 | gar_link | adr_indecies
+psql:./gar_link_pcg.sql:577: ЗАМЕЧАНИЕ:  процедура gar_link.p_execute_idx(text,text) не существует, пропускается
+psql:./gar_link_pcg.sql:604: ЗАМЕЧАНИЕ:  warning extra:00000:6:DECLARE:never read variable "_mess"
+psql:./gar_link_pcg.sql:604: ЗАМЕЧАНИЕ:  FUNCTION | 66118 | gar_link | dblink | (text,text)
+psql:./gar_link_pcg.sql:620: ЗАМЕЧАНИЕ:  процедура gar_link.p_adr_objects_idx(text,text,pg_catalog.bool,pg_catalog.bool,pg_catalog.bool) не существует, пропускается
+psql:./gar_link_pcg.sql:776: ЗАМЕЧАНИЕ:  FUNCTION | 66118 | gar_link | dblink | (text,text)
+psql:./gar_link_pcg.sql:795: ЗАМЕЧАНИЕ:  процедура gar_link.p_adr_house_idx_set_uniq(text,text,pg_catalog.bool,pg_catalog.bool) не существует, пропускается
+psql:./gar_link_pcg.sql:863: ЗАМЕЧАНИЕ:  warning:00000:9:DECLARE:unused variable "_mess"
+psql:./gar_link_pcg.sql:863: ЗАМЕЧАНИЕ:  FUNCTION | 118072 | gar_link | f_index_get | (text,text,text,boolean,boolean)
+psql:./gar_link_pcg.sql:863: ЗАМЕЧАНИЕ:  PROCEDURE | 118073 | gar_link | p_execute_idx | (text,text)
+psql:./gar_link_pcg.sql:885: ЗАМЕЧАНИЕ:  процедура gar_link.p_adr_house_idx(text,text,pg_catalog.bool,pg_catalog.bool,pg_catalog.bool) не существует, пропускается
+psql:./gar_link_pcg.sql:1024: ЗАМЕЧАНИЕ:  warning:00000:12:DECLARE:unused variable "_mess"
+psql:./gar_link_pcg.sql:1024: ЗАМЕЧАНИЕ:  FUNCTION | 118072 | gar_link | f_index_get | (text,text,text,boolean,boolean)
+psql:./gar_link_pcg.sql:1024: ЗАМЕЧАНИЕ:  PROCEDURE | 118073 | gar_link | p_execute_idx | (text,text)
+psql:./gar_link_pcg.sql:1043: ЗАМЕЧАНИЕ:  процедура gar_link.p_adr_street_idx_set_uniq(text,text,pg_catalog.bool,pg_catalog.bool) не существует, пропускается
+psql:./gar_link_pcg.sql:1112: ЗАМЕЧАНИЕ:  warning:00000:11:DECLARE:unused variable "_mess"
+psql:./gar_link_pcg.sql:1112: ЗАМЕЧАНИЕ:  FUNCTION | 118072 | gar_link | f_index_get | (text,text,text,boolean,boolean)
+psql:./gar_link_pcg.sql:1112: ЗАМЕЧАНИЕ:  PROCEDURE | 118073 | gar_link | p_execute_idx | (text,text)
+psql:./gar_link_pcg.sql:1134: ЗАМЕЧАНИЕ:  процедура gar_link.p_adr_street_idx(text,text,pg_catalog.bool,pg_catalog.bool,pg_catalog.bool) не существует, пропускается
+psql:./gar_link_pcg.sql:1244: ЗАМЕЧАНИЕ:  warning:00000:11:DECLARE:unused variable "_mess"
+psql:./gar_link_pcg.sql:1244: ЗАМЕЧАНИЕ:  FUNCTION | 118072 | gar_link | f_index_get | (text,text,text,boolean,boolean)
+psql:./gar_link_pcg.sql:1244: ЗАМЕЧАНИЕ:  PROCEDURE | 118073 | gar_link | p_execute_idx | (text,text)
+psql:./gar_link_pcg.sql:1267: ЗАМЕЧАНИЕ:  процедура gar_link.p_adr_area_idx(text,text,pg_catalog.bool,pg_catalog.bool) не существует, пропускается
+psql:./gar_link_pcg.sql:1301: ЗАМЕЧАНИЕ:  warning:00000:7:DECLARE:unused variable "_mess"
+psql:./gar_link_pcg.sql:1301: ЗАМЕЧАНИЕ:  FUNCTION | 118072 | gar_link | f_index_get | (text,text,text,boolean,boolean)
+psql:./gar_link_pcg.sql:1301: ЗАМЕЧАНИЕ:  PROCEDURE | 118073 | gar_link | p_execute_idx | (text,text)

@@ -25,53 +25,45 @@ CREATE OR REPLACE PROCEDURE gar_link.p_adr_house_idx_set_uniq (
      IF p_mode_t  -- Эксплуатационное покрытие
        THEN
          --
-         CALL gar_link.p_execute_idx (
-              p_exec := gar_link.f_index_get ( 
+         _exec := gar_link.f_index_get ( 
                      p_schema_name := p_schema_name    -- Имя схемы приёмника.
                     ,p_table_name  := TABLE_NAME       -- Имя таблицы 
-                    ,p_index_name  := 'adr_house_ak1' -- Имя индекса.   
+                    ,p_index_name  := 'adr_house_ak1'  -- Имя индекса.   
                     ,p_mode_c      := FALSE            -- Создание индексов FALSE - удаление
                     ,p_kind_index  := TRUE             -- Вид индекса (FALSE - процессинговый) -- TRUE -- эксплуатационный..
-              )
-             ,p_conn := p_conn
-           );
+         );
+         CALL gar_link.p_execute_idx (_exec, p_conn);
          --  
-         CALL gar_link.p_execute_idx (
-              p_exec := gar_link.f_index_get ( 
+         _exec := gar_link.f_index_get ( 
                      p_schema_name := p_schema_name    -- Имя схемы приёмника.
                     ,p_table_name  := TABLE_NAME       -- Имя таблицы 
                     ,p_index_name  := 'adr_house_ak1' -- Имя индекса.   
                     ,p_mode_c      := TRUE         -- Создание индексов FALSE - удаление
                     ,p_kind_index  := TRUE         -- Вид индекса (FALSE - процессинговый) -- TRUE -- эксплуатационный..
                     ,p_unique_sign := p_uniq_sw
-              )
-             ,p_conn := p_conn
-           );        
+         );         
+         CALL gar_link.p_execute_idx (_exec, p_conn);        
          
       ELSE -- Процессинговое покрытие.
          --
-         CALL gar_link.p_execute_idx (
-              p_exec := gar_link.f_index_get ( 
+         _exec := gar_link.f_index_get ( 
                            p_schema_name := p_schema_name    -- Имя схемы приёмника.
                           ,p_table_name  := TABLE_NAME       -- Имя таблицы 
                           ,p_index_name  := '_xxx_adr_house_ie2' -- Имя индекса.   
                           ,p_mode_c      := FALSE            -- Создание индексов FALSE - удаление
                           ,p_kind_index  := FALSE         -- Вид индекса (FALSE - процессинговый) -- TRUE -- эксплуатационный..
-              )
-             ,p_conn := p_conn
-           );
+         );
+         CALL gar_link.p_execute_idx (_exec, p_conn);
          --  
-         CALL gar_link.p_execute_idx (
-              p_exec := gar_link.f_index_get ( 
-                           p_schema_name := p_schema_name    -- Имя схемы приёмника.
-                          ,p_table_name  := TABLE_NAME       -- Имя таблицы 
-                          ,p_index_name  := '_xxx_adr_house_ie2' -- Имя индекса.   
-                          ,p_mode_c      := TRUE         -- Создание индексов FALSE - удаление
-                          ,p_kind_index  := FALSE         -- Вид индекса (FALSE - процессинговый) -- TRUE -- эксплуатационный..
-                          ,p_unique_sign := p_uniq_sw
-              )
-             ,p_conn := p_conn
-           );        
+         _exec := gar_link.f_index_get ( 
+                         p_schema_name := p_schema_name    -- Имя схемы приёмника.
+                        ,p_table_name  := TABLE_NAME       -- Имя таблицы 
+                        ,p_index_name  := '_xxx_adr_house_ie2' -- Имя индекса.   
+                        ,p_mode_c      := TRUE         -- Создание индексов FALSE - удаление
+                        ,p_kind_index  := FALSE         -- Вид индекса (FALSE - процессинговый) -- TRUE -- эксплуатационный..
+                        ,p_unique_sign := p_uniq_sw                          
+         );
+         CALL gar_link.p_execute_idx (_exec, p_conn);        
      END IF; -- p_mode_t   
     END;
   $$;

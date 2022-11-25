@@ -41,7 +41,7 @@ COMMENT ON PROCEDURE gar_link.p_adr_area_idx (text, text, boolean, boolean)
 -- SELECT gar_link.f_server_is();
 -- SELECT * FROM gar_link.v_servers_active;
 
--- CALL gar_link.p_adr_area_idx (gar_link.f_conn_set(12), 'unnsi', true, true); -- Создаю эксплуатационные
+-- CALL gar_link.p_adr_area_idx ('unnsi', gar_link.f_conn_set(12), true, true); -- Создаю эксплуатационные
 -- CALL gar_link.p_adr_area_idx ('gar_tmp', NULL, false); -- Создание загрузочных
 --
 -- CALL gar_link.p_adr_area_idx ('gar_tmp', NULL, true, false); -- Убираю эксплуатационные

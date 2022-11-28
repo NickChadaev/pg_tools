@@ -99,7 +99,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_type_show_data (
                          ) AND (nt.dt_data_del IS NULL)
                          ORDER BY z.fias_type_names[1] 
              )
-                INSERT INTO __adr_area_type  (
+                INSERT INTO %I  (
                           fias_ids            
                          ,id_area_type        
                          ,fias_type_name      
@@ -124,14 +124,14 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_type_show_data (
     $_$;
     
    BEGIN
-    
-    CREATE TEMP TABLE __adr_area_type (LIKE gar_tmp.xxx_adr_area_type)
+    CREATE TEMP TABLE IF NOT EXISTS __adr_area_type_x (LIKE gar_tmp.xxx_adr_area_type)
        ON COMMIT DROP;
+    DELETE FROM __adr_area_type_x;   
     --
-    _exec := format (_select,  p_schema_name);
+    _exec := format (_select,  p_schema_name, '__adr_area_type_x');
     EXECUTE (_exec);
     --
-    RETURN QUERY SELECT * FROM __adr_area_type ORDER BY id_area_type;
+    RETURN QUERY SELECT * FROM __adr_area_type_x ORDER BY id_area_type;
    
    END;                   
   $$;

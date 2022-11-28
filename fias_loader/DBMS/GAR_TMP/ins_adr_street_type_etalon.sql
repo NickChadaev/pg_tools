@@ -9,6 +9,8 @@ INSERT INTO gar_tmp.adr_street_type (id_street_type, nm_street_type, nm_street_t
 INSERT INTO gar_tmp.adr_street_type (id_street_type, nm_street_type, nm_street_type_short, dt_data_del) VALUES (8, 'Въезд', 'въезд', NULL);
 INSERT INTO gar_tmp.adr_street_type (id_street_type, nm_street_type, nm_street_type_short, dt_data_del) VALUES (9, 'Заезд', 'заезд', NULL);
 INSERT INTO gar_tmp.adr_street_type (id_street_type, nm_street_type, nm_street_type_short, dt_data_del) VALUES (10, 'Зона', 'зона', NULL);
+INSERT INTO gar_tmp.adr_street_type (id_street_type, nm_street_type, nm_street_type_short, dt_data_del) VALUES (11,	'Канал', 'канал', NULL);
+-- 11 Канал не используется никогда.
 INSERT INTO gar_tmp.adr_street_type (id_street_type, nm_street_type, nm_street_type_short, dt_data_del) VALUES (12, 'Квартал', 'кв-л', NULL);
 INSERT INTO gar_tmp.adr_street_type (id_street_type, nm_street_type, nm_street_type_short, dt_data_del) VALUES (13, 'Кольцо', 'кольцо', NULL);
 INSERT INTO gar_tmp.adr_street_type (id_street_type, nm_street_type, nm_street_type_short, dt_data_del) VALUES (14, 'Коса', 'коса', NULL);
@@ -23,6 +25,8 @@ INSERT INTO gar_tmp.adr_street_type (id_street_type, nm_street_type, nm_street_t
 INSERT INTO gar_tmp.adr_street_type (id_street_type, nm_street_type, nm_street_type_short, dt_data_del) VALUES (23, 'Проезд', 'проезд', NULL);
 INSERT INTO gar_tmp.adr_street_type (id_street_type, nm_street_type, nm_street_type_short, dt_data_del) VALUES (24, 'Просек', 'просек', NULL);
 INSERT INTO gar_tmp.adr_street_type (id_street_type, nm_street_type, nm_street_type_short, dt_data_del) VALUES (25, 'Просека', 'просека', NULL);
+INSERT INTO gar_tmp.adr_street_type (id_street_type, nm_street_type, nm_street_type_short, dt_data_del) VALUES (26,	'Проток', 'проток',	NULL);
+-- 26 Проток, не используется никогда.
 INSERT INTO gar_tmp.adr_street_type (id_street_type, nm_street_type, nm_street_type_short, dt_data_del) VALUES (27, 'Проулок', 'проулок', NULL);
 INSERT INTO gar_tmp.adr_street_type (id_street_type, nm_street_type, nm_street_type_short, dt_data_del) VALUES (28, 'Разъезд', 'рзд', NULL);
 INSERT INTO gar_tmp.adr_street_type (id_street_type, nm_street_type, nm_street_type_short, dt_data_del) VALUES (29, 'Ряды', 'ряды', NULL);

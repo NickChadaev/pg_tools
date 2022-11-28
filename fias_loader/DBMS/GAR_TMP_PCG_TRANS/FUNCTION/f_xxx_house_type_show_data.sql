@@ -94,16 +94,15 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_house_type_show_data (
                                    AND
                                  (nt.dt_data_del IS NULL) ORDER BY z.fias_type_names[1]
                     ) 
-                      INSERT INTO __adr_house_type ( 
-                                                     fias_ids           
-                                                    ,id_house_type      
-                                                    ,fias_type_name     
-                                                    ,nm_house_type      
-                                                    ,fias_type_shortname
-                                                    ,nm_house_type_short
-                                                    ,kd_house_type_lvl  
-                                                    ,fias_row_key       
-                                                    ,is_twin            
+                      INSERT INTO %I (        fias_ids           
+                                             ,id_house_type      
+                                             ,fias_type_name     
+                                             ,nm_house_type      
+                                             ,fias_type_shortname
+                                             ,nm_house_type_short
+                                             ,kd_house_type_lvl  
+                                             ,fias_row_key       
+                                             ,is_twin            
                       )
                       SELECT  
                              y.fias_ids             
@@ -120,13 +119,14 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_house_type_show_data (
        $_$;
 
     BEGIN
-      CREATE TEMP TABLE __adr_house_type (LIKE gar_tmp.xxx_adr_house_type)
+      CREATE TEMP TABLE IF NOT EXISTS  __adr_house_type_x (LIKE gar_tmp.xxx_adr_house_type)
         ON COMMIT DROP;
+      DELETE FROM __adr_house_type_x;  
       --
-      _exec := format (_select, p_schema_name);
+      _exec := format (_select, p_schema_name, '__adr_house_type_x');
       EXECUTE (_exec);
       --
-      RETURN QUERY SELECT * FROM __adr_house_type ORDER BY id_house_type;                      
+      RETURN QUERY SELECT * FROM __adr_house_type_x ORDER BY id_house_type;                      
     END;                   
   $$;
  

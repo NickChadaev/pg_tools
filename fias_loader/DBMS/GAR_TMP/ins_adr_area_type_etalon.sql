@@ -16,6 +16,8 @@ INSERT INTO gar_tmp.adr_area_type (id_area_type, nm_area_type, nm_area_type_shor
 INSERT INTO gar_tmp.adr_area_type (id_area_type, nm_area_type, nm_area_type_short, pr_lead, dt_data_del) VALUES (16, 'Железнодорожный пост', 'ж/д_пост', 0, NULL);
 INSERT INTO gar_tmp.adr_area_type (id_area_type, nm_area_type, nm_area_type_short, pr_lead, dt_data_del) VALUES (17, 'Железнодорожный разъезд', 'ж/д_рзд', 0, NULL);
 INSERT INTO gar_tmp.adr_area_type (id_area_type, nm_area_type, nm_area_type_short, pr_lead, dt_data_del) VALUES (18, 'Железнодорожная станция', 'ж/д_ст', 0, NULL);
+INSERT INTO gar_tmp.adr_area_type (id_area_type, nm_area_type, nm_area_type_short, pr_lead, dt_data_del) VALUES (19, 'Жилая зона', 'жилзона', 0, NULL);
+-- 19 жилзона не используется никогда
 INSERT INTO gar_tmp.adr_area_type (id_area_type, nm_area_type, nm_area_type_short, pr_lead, dt_data_del) VALUES (20, 'Жилой район', 'жилрайон', 0, NULL);
 INSERT INTO gar_tmp.adr_area_type (id_area_type, nm_area_type, nm_area_type_short, pr_lead, dt_data_del) VALUES (21, 'Заимка', 'заимка', 0, NULL);
 INSERT INTO gar_tmp.adr_area_type (id_area_type, nm_area_type, nm_area_type_short, pr_lead, dt_data_del) VALUES (22, 'Казарма', 'казарма', 0, NULL);

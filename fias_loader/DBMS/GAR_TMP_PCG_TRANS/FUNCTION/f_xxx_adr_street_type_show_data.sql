@@ -86,7 +86,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_street_type_show_data (
                            AND
                          (st.dt_data_del IS NULL) ORDER BY y.fias_row_key
          )
-          INSERT INTO __adr_street_type ( 
+          INSERT INTO %I ( 
                                             fias_ids             
                                            ,id_street_type       
                                            ,fias_type_name       
@@ -110,13 +110,14 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_street_type_show_data (
     $_$;
     --    
     BEGIN
-      CREATE TEMP TABLE __adr_street_type (LIKE gar_tmp.xxx_adr_street_type)
+      CREATE TEMP TABLE IF NOT EXISTS __adr_street_type_x (LIKE gar_tmp.xxx_adr_street_type)
         ON COMMIT DROP;
       --
-      _exec := format (_select, p_schema_name); 
+      DELETE FROM __adr_street_type_x;
+      _exec := format (_select, p_schema_name, '__adr_street_type_x'); 
       EXECUTE (_exec);
       --
-      RETURN QUERY SELECT * FROM __adr_street_type ORDER BY id_street_type;     
+      RETURN QUERY SELECT * FROM __adr_street_type_x ORDER BY id_street_type;     
        
     END;
   $$;

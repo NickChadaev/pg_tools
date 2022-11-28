@@ -13,7 +13,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_zzz_house_type_show_tmp_data (
     DECLARE
        _exec   text;
        _select text = $_$  
-            INSERT INTO __adr_house_type
+            INSERT INTO %I
             SELECT  
                    t.id_house_type       -- integer     -- ID типа дома, ОСНОВНОЙ	
                   ,t.nm_house_type       -- varchar(50) -- Наименованиек типа дома, ОСНОВНОЕ
@@ -37,13 +37,14 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_zzz_house_type_show_tmp_data (
        $_$;
 
     BEGIN
-      CREATE TEMP TABLE __adr_house_type OF gar_tmp.zzz_adr_house_type_t
+      CREATE TEMP TABLE IF NOT EXISTS __adr_house_type_z OF gar_tmp.zzz_adr_house_type_t
         ON COMMIT DROP;
+      DELETE FROM __adr_house_type_z;  
       --
-      _exec := format (_select, p_schema_name);
+      _exec := format (_select, '__adr_house_type_z', p_schema_name);
       EXECUTE (_exec);
       --
-      RETURN QUERY SELECT * FROM __adr_house_type ORDER BY id_house_type;                      
+      RETURN QUERY SELECT * FROM __adr_house_type_z ORDER BY id_house_type;                      
     END;                   
   $$;
  

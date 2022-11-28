@@ -8,12 +8,11 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_unload (
     AS $$
     -- -------------------------------------------------------------------------------------
     --  2022-09-08  Загрузка фрагмента из ОТДАЛЁННОГО справочника адресных регионов.
+    --  2022-11-28  Переход к использованию индексного хранилища.
     -- -------------------------------------------------------------------------------------
     BEGIN
-      ALTER TABLE gar_tmp.adr_area DROP CONSTRAINT IF EXISTS pk_adr_area;
-      ALTER TABLE gar_tmp.adr_area DROP CONSTRAINT IF EXISTS pk_tmp_adr_area;
-      DROP INDEX IF EXISTS gar_tmp._xxx_adr_area_ak1;
-      DROP INDEX IF EXISTS gar_tmp._xxx_adr_area_ie2;
+      CALL gar_link.p_adr_area_idx ('gar_tmp', NULL, true, false); -- Убираю эксплуатационные
+      CALL gar_link.p_adr_area_idx ('gar_tmp', NULL, false, false); -- Убираю загрузочные
       --
       DELETE FROM ONLY gar_tmp.adr_area;   -- 2022-02-17
       
@@ -37,22 +36,12 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_unload (
                                       ,vl_addr_longitude
        ) 
           SELECT * FROM gar_tmp_pcg_trans.f_adr_area_unload_data (
-                      p_schema_name
-	     			 ,p_id_region
-	     			 ,p_conn
- 	     );           
-      
-      ALTER TABLE gar_tmp.adr_area ADD CONSTRAINT pk_adr_area PRIMARY KEY (id_area);
-      
-      CREATE UNIQUE INDEX IF NOT EXISTS _xxx_adr_area_ak1
-          ON gar_tmp.adr_area USING btree
-                (id_country, id_area_parent, id_area_type, upper(nm_area::text))
-          WHERE id_data_etalon IS NULL AND dt_data_del IS NULL;
-      
-      CREATE UNIQUE INDEX IF NOT EXISTS _xxx_adr_area_ie2
-          ON gar_tmp.adr_area USING btree
-          (nm_fias_guid ASC NULLS LAST)
-          WHERE id_data_etalon IS NULL AND dt_data_del IS NULL;      
+                           p_schema_name
+                          ,p_id_region
+                          ,p_conn
+       );                
+       
+      CALL gar_link.p_adr_area_idx ('gar_tmp', NULL, false, true); -- Создаю загрузочные
       
     -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++    
     EXCEPTION           
@@ -67,12 +56,8 @@ COMMENT ON PROCEDURE gar_tmp_pcg_trans.p_adr_area_unload (text, bigint, text)
          IS 'Загрузка фрагмента ОТДАЛЁННОМ справочника адресных регионов';
 -- -----------------------------------------------------------------------------------------------
 --  USE CASE:
---    CALL gar_tmp_pcg_trans.p_adr_area_unload (
---                                 'unnsi'
---                                , 24
---                                ,(gar_link.f_conn_set (11))
--- );
---    SELECT count(1) AS qty_adr_area FROM gar_tmp.adr_area; -- 5076
---    SELECT * FROM gar_tmp.adr_area; -- 5076
+--    CALL gar_tmp_pcg_trans.p_adr_area_unload ('unnsi',77,(gar_link.f_conn_set (12)));
+--    SELECT count(1) AS qty_adr_area FROM gar_tmp.adr_area; -- 9146
+--    SELECT * FROM gar_tmp.adr_area; -- 9146
  
 

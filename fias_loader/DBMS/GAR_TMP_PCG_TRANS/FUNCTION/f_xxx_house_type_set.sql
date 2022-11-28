@@ -6,7 +6,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_house_type_set (
         p_schema_etalon text 
        ,p_schemas       text[]
        ,p_op_type       integer[] = ARRAY[1,2]
-       ,p_delta         integer   = 2
+       ,p_delta         integer   = 0
        ,p_clear_all     boolean   = TRUE
 )
 

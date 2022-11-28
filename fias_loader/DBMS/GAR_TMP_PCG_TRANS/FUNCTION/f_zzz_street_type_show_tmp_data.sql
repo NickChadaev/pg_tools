@@ -13,7 +13,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_zzz_street_type_show_tmp_data (
     DECLARE
        _exec   text;
        _select text = $_$  
-            INSERT INTO __adr_street_type
+            INSERT INTO %I
             SELECT  
                    t.id_street_type       -- integer,
                   ,t.nm_street_type       -- character varying(50),
@@ -36,13 +36,14 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_zzz_street_type_show_tmp_data (
        $_$;
 
     BEGIN
-      CREATE TEMP TABLE __adr_street_type OF gar_tmp.zzz_adr_street_type_t
+      CREATE TEMP TABLE IF NOT EXISTS __adr_street_type_z OF gar_tmp.zzz_adr_street_type_t
         ON COMMIT DROP;
       --
-      _exec := format (_select, p_schema_name);
+      DELETE FROM __adr_street_type_z;
+      _exec := format (_select, '__adr_street_type_z', p_schema_name);
       EXECUTE (_exec);
       --
-      RETURN QUERY SELECT * FROM __adr_street_type ORDER BY id_street_type;                      
+      RETURN QUERY SELECT * FROM __adr_street_type_z ORDER BY id_street_type;                      
     END;                   
   $$;
  

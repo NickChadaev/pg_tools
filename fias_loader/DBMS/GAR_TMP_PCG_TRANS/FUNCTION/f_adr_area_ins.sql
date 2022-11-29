@@ -88,14 +88,28 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_ins (
 	        ORDER BY x.tree_d 
      
        LOOP
-          -- Код страны
-          -- часовой пояс
-          -- Полное имя       Это всё забираем у родителя  (полная инфа о родителе.
+           -- Код страны
+           -- часовой пояс
+           -- Полное имя       Это всё забираем у родителя  (полная инфа о родителе.
           
-          -- Тип, вычисляется на локальных данных.
+           -- Тип, вычисляется на локальных данных.
            -- Nick 2022-11-21
-           SELECT id_area_type, nm_area_type_short INTO _id_area_type, _area_type_short_name
-           FROM gar_tmp_pcg_trans.f_adr_type_get (p_schema_etl, _data.id_area_type); 
+           _id_area_type := NULL;
+           _area_type_short_name := NULL;
+           
+           IF (EXISTS (SELECT 1 FROM gar_tmp.xxx_adr_area_type 
+                                  WHERE (_data.id_area_type = ANY (fias_ids))
+                      )
+               ) 
+             THEN  
+                SELECT id_area_type, nm_area_type_short 
+                          INTO _id_area_type, _area_type_short_name
+                FROM gar_tmp_pcg_trans.f_adr_type_get (p_schema_etl, _data.id_area_type);
+                
+             ELSIF (_data.id_area_type IS NOT NULL) 
+                 THEN
+                    RAISE NOTICE 'AI: %', _data.id_area_type;
+           END IF;           
            --
            CONTINUE WHEN ((_id_area_type IS NULL) OR (_area_type_short_name IS NULL) OR
                           (_data.nm_area IS NULL) 

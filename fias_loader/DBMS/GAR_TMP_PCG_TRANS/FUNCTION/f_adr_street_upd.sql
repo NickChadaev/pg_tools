@@ -81,10 +81,24 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_upd (
           ORDER BY x.tree_d 
        LOOP
           -- Nick 2022-11-21
-          SELECT id_street_type, nm_street_type_short 
-              INTO _id_street_type, _street_type_short_name
-           FROM gar_tmp_pcg_trans.f_street_type_get (p_schema_etl, _data.id_street_type);
-          -- Nick 2022-11-21  
+          _id_street_type := NULL;
+          _street_type_short_name := NULL;
+          
+          IF (EXISTS (SELECT 1 FROM gar_tmp.xxx_adr_street_type 
+                                 WHERE (_data.id_street_type = ANY (fias_ids))
+                     )
+              ) 
+            THEN  
+                 SELECT id_street_type, nm_street_type_short 
+                     INTO _id_street_type, _street_type_short_name
+                  FROM gar_tmp_pcg_trans.f_street_type_get (p_schema_etl, _data.id_street_type);
+               
+            ELSIF (_data.id_street_type IS NOT NULL) 
+                THEN
+                   RAISE NOTICE 'SU: %', _data.id_street_type;
+          END IF;           
+          -- Nick 2022-11-21            
+          
           CONTINUE WHEN ((_id_street_type IS NULL) OR (_street_type_short_name IS NULL)); -- 2022-02-21     
          
           _parent := gar_tmp_pcg_trans.f_adr_area_get (p_schema_etl, _data.nm_fias_guid_area);

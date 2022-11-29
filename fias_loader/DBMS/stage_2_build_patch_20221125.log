@@ -1,17 +1,17 @@
-2022-11-25 20:26:52 ./
-127.0.0.1 5434 unsi_test_02 postgres stage_2_build_patch_20221125.csv 2022-11-25
+2022-11-29 19:42:41 ./
+127.0.0.1 5434 unsi_test_02 postgres stage_2_build_patch_20221125.csv 2022-11-29
 --------------------------------------------------------
-[20:26:52] ... Start process, Patch 20221125 общий
-[20:26:52] ... -- gar_fias_crt_tbl_black_list
-[20:26:53] ... -- gar_fias_ins_tbl_as_adr_objects_type_black_list
-[20:26:54] ... -- gar_fias_ins_tbl_as_house_type_black_list.sql
-[20:26:54] ... -- xxx_adr_area_type.sql
-[20:26:55] ... -- xxx_adr_street_type.sql
-[20:26:55] ... -- CreateTypesGarTmp.sql
-[20:26:55] ... -- CreateTableGarTmp_1.sql
-[20:26:55] ... -- CreateTableGarTmp_2.sql
-[20:26:56] ... -- ins_adr_area_type_etalon.sql
-[20:26:56] ... -- ins_adr_street_type_etalon.sql
-[20:26:57] ... -- ins_adr_house_type_etalon.sql
-[20:26:57] ... Stop process
+[19:42:41] ... Start process, Patch 20221125 общий
+[19:42:41] ... -- gar_fias_crt_tbl_black_list
+[19:43:00] ... -- gar_fias_ins_tbl_as_adr_objects_type_black_list
+[19:43:03] ... -- gar_fias_ins_tbl_as_house_type_black_list.sql
+[19:43:04] ... -- xxx_adr_area_type.sql
+[19:43:04] ... -- xxx_adr_street_type.sql
+[19:43:04] ... -- CreateTypesGarTmp.sql
+[19:43:05] ... -- CreateTableGarTmp_1.sql
+[19:43:09] ... -- CreateTableGarTmp_2.sql
+[19:43:09] ... -- ins_adr_area_type_etalon.sql
+[19:43:10] ... -- ins_adr_street_type_etalon.sql
+[19:43:12] ... -- ins_adr_house_type_etalon.sql
+[19:43:12] ... Stop process
 --------------------------------------------------------

@@ -5,7 +5,7 @@
 --
 CREATE OR REPLACE VIEW gar_tmp_pcg_trans.version
  AS
- SELECT '$Revision:cbe871f$ modified $RevDate:2022-11-03$'::text AS version; 
+ SELECT '$Revision:9392bfc$ modified $RevDate:2022-11-07$'::text AS version; 
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 --
@@ -5700,7 +5700,8 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_ins (
     -- -------------------------------------------------------------------------
     --   2022-05-31 COALESCE только для NOT NULL полей.    
     -- -------------------------------------------------------------------------
-    --   2022-10-18 Вспомогательные таблицы..
+    --  2022-10-18 Вспомогательные таблицы.
+    --  2022-11-07 Увеличено количество защищённых (от обновления NULL) столбцов    
     -- -------------------------------------------------------------------------    
     DECLARE
       _exec text;
@@ -5792,25 +5793,26 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_ins (
         -- 2022-05-19/2022-05-31
       _upd_id text = $_$
             UPDATE ONLY %I.adr_area SET  
+            
                  id_country     = COALESCE (%L, id_country    )::integer       -- NOT NULL  
                 ,nm_area        = COALESCE (%L, nm_area       )::varchar(120)  -- NOT NULL
                 ,nm_area_full   = COALESCE (%L, nm_area_full  )::varchar(4000) -- NOT NULL                         
                 ,id_area_type   = %L::integer
                 ,id_area_parent = %L::bigint
                  --
-                ,kd_timezone  = %L::integer                               
-                ,pr_detailed  = COALESCE (%L, pr_detailed )::smallint          -- NOT NULL                          
-                ,kd_oktmo     = %L::varchar(11)  
+                ,kd_timezone  = COALESCE (%L, kd_timezone)::integer       -- 2022-11-07                   
+                ,pr_detailed  = COALESCE (%L, pr_detailed)::smallint      -- NOT NULL                          
+                ,kd_oktmo     = COALESCE (%L, kd_oktmo)::varchar(11)  
                 ,nm_fias_guid = %L::uuid
                 
                 ,dt_data_del    = %L::timestamp without time zone
                 ,id_data_etalon = %L::bigint
                  --
-                ,kd_okato          = %L::varchar(11)                           
-                ,nm_zipcode        = %L::varchar(20)                           
-                ,kd_kladr          = %L::varchar(15)                
+                ,kd_okato   = COALESCE (%L, kd_okato)::varchar(11)         -- 2022-11-07                      
+                ,nm_zipcode = COALESCE (%L, nm_zipcode)::varchar(20)                           
+                ,kd_kladr   = COALESCE (%L, kd_kladr)::varchar(15)                
                 ,vl_addr_latitude  = %L::numeric                               
-                ,vl_addr_longitude = %L::numeric                               
+                ,vl_addr_longitude = %L::numeric  
                     
             WHERE (id_area = %L::bigint);         
         $_$;          
@@ -5993,6 +5995,7 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_upd (
     --   2022-05-31 COALESCE только для NOT NULL полей.    
     -- -------------------------------------------------------------------------------
     --   2022-10-18 Вспомогательные таблицы..
+    --   2022-11-07 Увеличено количество защищённых (от обновления NULL) столбцов
     -- -------------------------------------------------------------------------------     
     DECLARE
       _exec text;
@@ -6049,17 +6052,17 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_upd (
                 ,id_area_type   = %L::integer
                 ,id_area_parent = %L::bigint
                  --
-                ,kd_timezone  = %L::integer                               
-                ,pr_detailed  = COALESCE (%L, pr_detailed )::smallint          -- NOT NULL                          
-                ,kd_oktmo     = %L::varchar(11)  
+                ,kd_timezone  = COALESCE (%L, kd_timezone)::integer       -- 2022-11-07                   
+                ,pr_detailed  = COALESCE (%L, pr_detailed)::smallint      -- NOT NULL                          
+                ,kd_oktmo     = COALESCE (%L, kd_oktmo)::varchar(11)  
                 ,nm_fias_guid = %L::uuid
                 
                 ,dt_data_del    = %L::timestamp without time zone
                 ,id_data_etalon = %L::bigint
                  --
-                ,kd_okato          = %L::varchar(11)                           
-                ,nm_zipcode        = %L::varchar(20)                           
-                ,kd_kladr          = %L::varchar(15)                
+                ,kd_okato   = COALESCE (%L, kd_okato)::varchar(11)         -- 2022-11-07                      
+                ,nm_zipcode = COALESCE (%L, nm_zipcode)::varchar(20)                           
+                ,kd_kladr   = COALESCE (%L, kd_kladr)::varchar(15)                
                 ,vl_addr_latitude  = %L::numeric                               
                 ,vl_addr_longitude = %L::numeric                               
                     
@@ -6069,21 +6072,6 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_upd (
         
       _rr   gar_tmp.adr_area_t; 
       _rr1  gar_tmp.adr_area_t;   
-
-      -- _nm_fias_guid uuid;
-      
-      -- 2022-02-01 -- Общий родитель, одинаковые UUID но различные названия.
-      --               Ту запись, которая уже была, ПЕРЕМЕЩАЕМ в историю со значением ID_REGION = 0
-      --               (удаляем её из базы).
-      _select_twin  text = $_$
-          SELECT * FROM ONLY %I.adr_area 
-                              WHERE ((nm_fias_guid = %L) AND (id_data_etalon IS NULL) AND (dt_data_del IS NULL));
-      $_$;     
-      
-      _del_twins  text = $_$
-          DELETE FROM ONLY %I.adr_area WHERE (id_area = %L); 
-      $_$;        
-      -- 2022-02-01
       
       -- 2022-10-18
       UPD_OP CONSTANT char(1) := 'U';      
@@ -6181,10 +6169,6 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_upd (
     
       WHEN unique_violation THEN 
        BEGIN
-        -- _exec := format (_select_twin, p_schema_name, p_nm_fias_guid);
-        -- EXECUTE _exec INTO _rr1;  -- Дублёр
-        -- Допустим, что это будет возможным. 
-        
         _rr =  gar_tmp_pcg_trans.f_adr_area_get (p_schema_name, p_nm_fias_guid);  -- Основная запись
         _rr1 =  gar_tmp_pcg_trans.f_adr_area_get (p_schema_name, p_id_country
                                             ,p_id_area_parent, p_id_area_type, p_nm_area
@@ -6214,9 +6198,6 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_upd (
                          ,0 -- Регион "0" - Исключение во время процесса дополнения.
              );            
              EXECUTE _exec;      
-             --
-             --  _exec := format (_del_twins, p_schema_name, _rr1.id_area);
-             --  EXECUTE _exec;
              --
              _exec := format (_upd_id, p_schema_name 
                                        ,_rr1.id_country       
@@ -9162,10 +9143,10 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_ins (
                  ,p_id_area           := _id_area                    --  bigint      --  NOT NULL
                  ,p_id_country        := COALESCE (_parent.id_country, 185)::integer --  NOT NULL
                  ,p_nm_area           := _data.nm_area::varchar(120)                 --  NOT NULL
-                 ,p_nm_area_full      := btrim ((COALESCE (_parent.nm_area_full, '') ||  ', ' || 
-                                                   _data.nm_area || ' ' ||
-                                                   _area_type_short_name
-                                               ), ',')::varchar(4000)                --  NOT NULL
+                 ,p_nm_area_full      := trim ((COALESCE (_parent.nm_area_full, '') ||  ', ' || 
+                                                   _data.nm_area || ' ' || _area_type_short_name
+                                               ), ', '
+                                             )::varchar(4000)                          --  NOT NULL
                  ,p_id_area_type      := _id_area_type       ::integer                --    NULL
                  ,p_id_area_parent    := _parent.id_area     ::bigint                 --    NULL
                  ,p_kd_timezone       := _parent.kd_timezone ::integer                --    NULL
@@ -9312,10 +9293,10 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_upd (
                  ,p_id_area           := _id_area --  bigint                           --  NOT NULL
                  ,p_id_country        := COALESCE (_parent.id_country, 185)::integer   --  NOT NULL
                  ,p_nm_area           := _data.nm_area::varchar(120)                   --  NOT NULL
-                 ,p_nm_area_full      := btrim ((COALESCE (_parent.nm_area_full, '') ||  ', ' || 
-                                                   _data.nm_area || ' ' ||
-                                                   _area_type_short_name
-                                               ), ',')::varchar(4000)                  
+                 ,p_nm_area_full      := trim((COALESCE (_parent.nm_area_full, '') ||  ', ' || 
+                                                   _data.nm_area || ' ' || _area_type_short_name
+                                              ), ', '
+                                          )::varchar(4000)                  
                  ,p_id_area_type      := _id_area_type       ::integer       --    NULL
                  ,p_id_area_parent    := _parent.id_area     ::bigint        --    NULL
                  ,p_kd_timezone       := _parent.kd_timezone ::integer       --    NULL

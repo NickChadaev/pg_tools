@@ -26,7 +26,7 @@
 #-------------------------------------------------------------------------------
 X;;;Start process, Сборка процессингового пакета;
 #
-5;version.sql;;-- Версия 9392bfc/2022-11-07;
+5;version.sql;;-- Версия 3d93590/2022-11-29;
 5;drop_objects.sql;;-- drop_objects.sql;
 #
 5;FUNCTION/f_xxx_ob_seq_crt.sql  ;;-- f_xxx_ob_seq_crt.sql  ;
@@ -44,6 +44,14 @@ X;;;Start process, Сборка процессингового пакета;
 5;FUNCTION/f_xxx_house_type_set.sql           ;;-- f_xxx_house_type_set.sql           ;
 5;FUNCTION/f_xxx_adr_house_show_data.sql      ;;-- f_xxx_adr_house_show_data.sql      ;
 5;FUNCTION/f_xxx_adr_house_set_data.sql       ;;-- f_xxx_adr_house_set_data.sql       ;
+#
+5;FUNCTION/f_adr_house_type_get.sql ;;-- f_adr_house_type_get.sql ;
+5;FUNCTION/f_adr_street_type_get.sql;;-- f_adr_street_type_get.sql;
+5;FUNCTION/f_adr_area_type_get.sql  ;;-- f_adr_area_type_get.sql  ;
+#
+5;FUNCTION/f_zzz_adr_area_type_show_tmp_data.sql;;-- f_zzz_adr_area_type_show_tmp_data.sql;
+5;FUNCTION/f_zzz_street_type_show_tmp_data.sql  ;;-- f_zzz_street_type_show_tmp_data.sql  ;
+5;FUNCTION/f_zzz_house_type_show_tmp_data.sql   ;;-- f_zzz_house_type_show_tmp_data.sql   ;
 #
 5;FUNCTION/f_xxx_obj_fias_0.sql       ;;-- f_xxx_obj_fias_0.sql;
 5;FUNCTION/f_xxx_obj_fias_1.sql       ;;-- f_xxx_obj_fias_1.sql;

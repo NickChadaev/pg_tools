@@ -22,96 +22,113 @@
 --   	
 --   SELECT * FROM gar_tmp.adr_street WHERE (id_street_type > 1000); -- 48
 --   SELECT * FROM gar_tmp.adr_area WHERE (id_area = 611); -- 48
---   --
---   -- 2022-11-30  -- {33,90,276,440}
---   --
---   SELECT * FROM gar_tmp.adr_street WHERE (id_street_type > 1000);
-DO
- $$
-  DECLARE
-    
-  
-  BEGIN
-    WITH z AS (
-     SELECT s.id_street
-          , s.id_area
-          , s.nm_street
-          , (s.id_street_type - 1000) AS id_street_type
-          , s.nm_street_full
-          , s.nm_fias_guid
-          , a.type_name 
-          , gar_tmp_pcg_trans.f_xxx_replace_char(a.type_name ) AS fias_row_key
-          , s.dt_data_del
-          , s.id_data_etalon
-          , s.kd_kladr
-     
-        FROM gar_tmp.adr_street s
-          LEFT JOIN gar_fias.as_addr_obj_type a ON ((s.id_street_type - 1000) = a.id)
-        WHERE (s.id_street_type > 1000)
-     )
-      SELECT z.id_street
-            ,z.id_area
-            ,z.nm_street
-            ,z.nm_street_full
-            ,z.nm_fias_guid
-            ,z.dt_data_del
-            ,z.id_data_etalon
-            ,z.kd_kladr
-            ,x.id_area_type
-            ,x.nm_area_type
-      FROM z
-          LEFT JOIN gar_tmp.adr_area_type x 
-              ON (z.fias_row_key = gar_tmp_pcg_trans.f_xxx_replace_char(x.nm_area_type));
-             
-     -- Создать в adr_area, adr_area_aux   INSERT
-     -- adr_street - DELETE, adr_street_aux update_date
-     
-     
+
+BEGIN;
+ --
+ -- 1) Перенести в адресные области     
+ --
+ WITH ax AS (    
      INSERT INTO gar_tmp.adr_area (
-         id_area           --  bigint NOT NULL,
-         id_country        --  integer NOT NULL,
-         nm_area           --  character varying(120) COLLATE pg_catalog."default" NOT NULL,
-         nm_area_full      --  character varying(4000) COLLATE pg_catalog."default" NOT NULL,
-         id_area_type      --  integer,
-         id_area_parent    --  bigint,
-         kd_timezone       --  integer,
-         pr_detailed       --   smallint NOT NULL,
-         kd_oktmo          --  character varying(11) COLLATE pg_catalog."default",
-         nm_fias_guid      --  uuid,
-         dt_data_del       --  timestamp without time zone,
-         id_data_etalon    --  bigint,
-         kd_okato          --  character varying(11) COLLATE pg_catalog."default",
-         nm_zipcode        --  character varying(20) COLLATE pg_catalog."default",
-         kd_kladr          --  character varying(15) COLLATE pg_catalog."default",
-         vl_addr_latitude  --  numeric,
-         vl_addr_longitude --  numeric,
+        id_area           --  bigint NOT NULL,
+       ,id_country        --  integer NOT NULL,
+       ,nm_area           --  character varying(120) COLLATE pg_catalog."default" NOT NULL,
+       ,nm_area_full      --  character varying(4000) COLLATE pg_catalog."default" NOT NULL,
+       ,id_area_type      --  integer,
+       ,id_area_parent    --  bigint,
+       ,kd_timezone       --  integer,
+       ,pr_detailed       --   smallint NOT NULL,
+       ,kd_oktmo          --  character varying(11) COLLATE pg_catalog."default",
+       ,nm_fias_guid      --  uuid,
+       ,dt_data_del       --  timestamp without time zone,
+       ,id_data_etalon    --  bigint,
+       ,kd_okato          --  character varying(11) COLLATE pg_catalog."default",
+       ,nm_zipcode        --  character varying(20) COLLATE pg_catalog."default",
+       ,kd_kladr          --  character varying(15) COLLATE pg_catalog."default",
+       ,vl_addr_latitude  --  numeric,
+       ,vl_addr_longitude --  numeric,
      )
-       SELECT    
-         
-     --    SELECT 
-     --    (
-             id_street           -- bigint NOT NULL,
-             185  AS id_country  --              
-             nm_street           -- character varying(120) COLLATE pg_catalog."default" NOT NULL,
-             nm_street_full  ++ имя родителя    -- character varying(255) COLLATE pg_catalog."default" NOT NULL,
-             id_area_type              -- bigint NOT NULL,
-             id_area         ++ родитель
-             NULL    AS kd_timezone
-             0 AS prdetailed
-             NULL as kd_oktmo
-             nm_fias_guid        -- uuid,
-             dt_data_del         -- timestamp without time zone,
-             id_data_etalon      -- bigint,
-             NULL as kd_okato
-             NULL as nm_zipcode
-             kd_kladr            -- character varying(15) COLLATE pg_catalog."default",
-             vl_addr_latitude    -- numeric,
-             vl_addr_longitude   -- numeric,
-             
-             id_street_type      -- integer,
-     --        CONSTRAINT pk_adr_street PRIMARY KEY (id_street)
-     
-     --      FROM gar_tmp.adr_street
-     --  )
-  END; 
- $$;  
+        WITH z AS (
+           SELECT s.id_street
+                , s.id_area
+                , s.nm_street
+                , s.nm_street_full
+                , s.nm_fias_guid
+                , a.type_name 
+                , gar_tmp_pcg_trans.f_xxx_replace_char(a.type_name ) AS fias_row_key
+                , s.dt_data_del
+                , s.id_data_etalon
+                , s.kd_kladr
+           
+              FROM gar_tmp.adr_street s
+                LEFT JOIN gar_fias.as_addr_obj_type a ON ((s.id_street_type - 1000) = a.id)
+              WHERE (s.id_street_type > 1000)
+         )
+          SELECT z.id_street
+                ,185 AS id_country 
+                ,z.nm_street AS nm_area
+                ,((gar_tmp_pcg_trans.f_adr_area_get ('gar_tmp', z.id_area)).nm_area_full ||
+                  ', ' || z.nm_street_full
+                 ) AS nm_area_full
+                ,x.id_area_type
+                ,z.id_area AS id_area_parent
+                ,NULL AS kd_timezone
+                ,0 AS pr_detailed
+                ,NULL AS kd_oktmo
+                ,z.nm_fias_guid
+                ,z.dt_data_del
+                ,z.id_data_etalon
+                ,NULL AS kd_okato
+                ,NULL AS nm_zipcode
+                ,z.kd_kladr
+                ,NULL AS vl_addr_latitude 
+                ,NULL AS vl_addr_longitude
+          FROM z
+              LEFT JOIN gar_tmp.adr_area_type x 
+                  ON (z.fias_row_key = gar_tmp_pcg_trans.f_xxx_replace_char(x.nm_area_type))
+     RETURNING *
+ )
+   SELECT ax.* FROM ax;
+
+ --
+ -- 2) Создать в adr_area_aux   INSERT
+ -- 3) Создать в adr_street_aux   UPDATE
+                    
+ WITH a0 AS (
+              SELECT s.id_street AS id_obj FROM gar_tmp.adr_street s
+                WHERE (s.id_street_type > 1000)
+      )
+      ,a1 AS (
+              INSERT INTO gar_tmp.adr_area_aux (id_area, op_sign)
+               SELECT a0.id_obj, 'I' FROM a0 
+                 ON CONFLICT (id_area) DO UPDATE SET op_sign = 'I'
+                    WHERE (gar_tmp.adr_area_aux.id_area = excluded.id_area)                  
+              RETURNING * 
+             )  
+      ,a2 AS (              
+             INSERT INTO gar_tmp.adr_street_aux (id_street, op_sign)
+               SELECT a0.id_obj, 'U' FROM a0  
+                 ON CONFLICT (id_street) DO UPDATE SET op_sign = 'U'
+                    WHERE (gar_tmp.adr_street_aux.id_street = excluded.id_street)  
+              RETURNING *  
+             )
+         SELECT a1.* FROM a1 UNION ALL SELECT a2.* FROM a2
+         ORDER BY 1,2;
+     --
+     -- 4) Удалить
+     WITH z0 AS (
+                 SELECT s.id_street FROM gar_tmp.adr_street s
+                      WHERE (s.id_street_type > 1000)
+     )
+     , z1 AS (
+               DELETE FROM gar_tmp.adr_street s 
+                        USING z0 WHERE (z0.id_street = s.id_street)
+               RETURNING s.*         
+     )
+      SELECT z1.* FROM z1;
+      
+ SELECT * FROM gar_tmp.adr_area_aux WHERE (id_area = 7700023287);      
+ SELECT * FROM gar_tmp.adr_street_aux WHERE (id_street = 7700023287);
+ --
+ 
+-- ROLLBACK;
+COMMIT;

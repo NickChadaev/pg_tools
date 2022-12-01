@@ -83,7 +83,7 @@ BEGIN;
                 ,NULL AS vl_addr_latitude 
                 ,NULL AS vl_addr_longitude
           FROM z
-              LEFT JOIN gar_tmp.adr_area_type x 
+              INNER JOIN gar_tmp.adr_area_type x -- 2022-12-01
                   ON (z.fias_row_key = gar_tmp_pcg_trans.f_xxx_replace_char(x.nm_area_type))
      RETURNING *
  )

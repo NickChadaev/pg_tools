@@ -26,7 +26,7 @@
 #-------------------------------------------------------------------------------
 X;;;Start process, Patch 20221125 к коммуникационному пакету;
 #
-## 0;CREATE EXTENSION pg_trgm SCHEMA pg_catalog;;-- CREATE EXTENSION pg_trgm;
+0;CREATE EXTENSION pg_trgm SCHEMA pg_catalog;;-- CREATE EXTENSION pg_trgm;
 1;CreateTableGarLink_1.sql;;-- CreateTableGarLink_1.sql;
 1;gar_link_pcg.sql;;-- gar_link_pcg.sql;  
 #

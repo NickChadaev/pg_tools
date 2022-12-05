@@ -106,37 +106,121 @@ BEGIN;
      )  
      SELECT * FROM ay3 ORDER BY 1;   
  --
- -- 5) Что осталось
+ -- 5) Что осталось ??
  --
-   WITH z0 AS (
-                DELETE FROM gar_tmp.adr_house h WHERE (h.id_house_type_1 > 1000)
-                RETURNING *
-   )             
-     SELECT * FROM z0;
-   
---  WITH z0 AS (
---               SELECT h.id_house
---                 ,h.id_area
---                 ,upper(h.nm_house_full::text) AS nm_house_full
---                 ,h.id_street
---                 ,h.id_house_type_1                
---                  --                
---                 ,a.house_type_id
---                 ,(gar_tmp_pcg_trans.f_xxx_replace_char (a.type_name)) AS fias_row_key
---                 
---               FROM gar_tmp.adr_house h 
---                         LEFT JOIN gar_fias.as_house_type a ON ((h.id_house_type_1 - 1000) = a.house_type_id)  
---               WHERE (h.id_house_type_1 > 1000)      
---       )
---      ,z1 AS (SELECT h1.id_house
---                    ,h1.id_area
---                    ,upper(h1.nm_house_full::text) AS nm_house_full
---                    ,h1.id_street
---                    ,h1.id_house_type_1                
---            FROM gar_tmp.adr_house h1
---               LEFT JOIN gar_tmp.adr_house_type x 
---                   ON (z0.fias_row_key = gar_tmp_pcg_trans.f_xxx_replace_char(x.nm_house_type))
---             )                      
---              SELECT * FROM z0;
+ WITH z0 AS (
+              DELETE FROM gar_tmp.adr_house h WHERE (h.id_house_type_1 > 1000)
+              RETURNING h.*
+ )             
+   INSERT INTO gar_tmp.xxx_adr_house_gap (
+ 
+            id_house
+           ,id_addr_parent
+           ,nm_fias_guid
+           ,nm_fias_guid_parent
+           ,nm_parent_obj
+           ,region_code
+           ,parent_type_id
+           ,parent_type_name
+           ,parent_type_shortname
+           ,parent_level_id
+           ,parent_level_name
+           ,parent_short_name
+           ,house_num
+           ,add_num1
+           ,add_num2
+           ,house_type
+           ,house_type_name
+           ,house_type_shortname
+           ,add_type1
+           ,add_type1_name
+           ,add_type1_shortname
+           ,add_type2
+           ,add_type2_name
+           ,add_type2_shortname
+           ,nm_zipcode
+           ,kd_oktmo
+           ,kd_okato
+           ,oper_type_id
+           ,oper_type_name
+           ,curr_date
+           ,check_kind
+ )
+ 
+   SELECT 
+       z0.id_house                           -- bigint NOT NULL,
+      ,COALESCE (z0.id_area, z0.id_street)   -- bigint NOT NULL,
+      ,z0.nm_fias_guid                       -- uuid,
+      ,NULL AS nm_fias_guid_parent
+      ,z0.nm_house_full  AS nm_parent_obj
+      ,NULL AS region_code
+      ,NULL AS parent_type_id
+      ,NULL AS parent_type_name
+      ,NULL AS parent_type_shortname
+      ,NULL AS parent_level_id
+      ,NULL AS parent_level_name
+      ,NULL AS parent_short_name
+       --
+      ,z0.nm_house_1  -- character varying(70) COLLATE pg_catalog."default",
+      ,z0.nm_house_2  -- character varying(50) COLLATE pg_catalog."default",
+      ,z0.nm_house_3  -- character varying(50) COLLATE pg_catalog."default",
+       --
+      ,z0.id_house_type_1            -- integer,
+      ,NULL AS house_type_name
+      ,NULL AS house_type_shortname
+      ,z0.id_house_type_2            -- integer,
+      ,NULL AS add_type1_name
+      ,NULL AS add_type1_shortname
+      ,z0.id_house_type_3            -- integer,
+      ,NULL AS add_type2_name
+      ,NULL AS add_type2_shortname   
+       --
+      ,z0.nm_zipcode  -- character varying(20) COLLATE pg_catalog."default",
+      ,z0.kd_oktmo    -- character varying(11) COLLATE pg_catalog."default",
+      ,z0.kd_okato    -- character varying(11) COLLATE pg_catalog."default",
+       --
+      ,NULL AS oper_type_id
+      ,NULL AS oper_type_name
+      ,current_date
+      ,'1'
+
+      FROM z0 
+
+      ON CONFLICT (nm_fias_guid) DO UPDATE
+          SET
+                 id_house              = excluded.id_house
+                ,id_addr_parent        = excluded.id_addr_parent
+                ,nm_fias_guid_parent   = excluded.nm_fias_guid_parent
+                ,nm_parent_obj         = excluded.nm_parent_obj
+                ,region_code           = excluded.region_code
+                ,parent_type_id        = excluded.parent_type_id
+                ,parent_type_name      = excluded.parent_type_name
+                ,parent_type_shortname = excluded.parent_type_shortname
+                ,parent_level_id       = excluded.parent_level_id
+                ,parent_level_name     = excluded.parent_level_name
+                ,parent_short_name     = excluded.parent_short_name
+                ,house_num             = excluded.house_num
+                ,add_num1              = excluded.add_num1
+                ,add_num2              = excluded.add_num2
+                ,house_type            = excluded.house_type
+                ,house_type_name       = excluded.house_type_name
+                ,house_type_shortname  = excluded.house_type_shortname
+                ,add_type1             = excluded.add_type1
+                ,add_type1_name        = excluded.add_type1_name
+                ,add_type1_shortname   = excluded.add_type1_shortname
+                ,add_type2             = excluded.add_type2
+                ,add_type2_name        = excluded.add_type2_name
+                ,add_type2_shortname   = excluded.add_type2_shortname
+                ,nm_zipcode            = excluded.nm_zipcode
+                ,kd_oktmo              = excluded.kd_oktmo
+                ,kd_okato              = excluded.kd_okato
+                ,oper_type_id          = excluded.oper_type_id
+                ,oper_type_name        = excluded.oper_type_name
+                ,curr_date             = COALESCE (excluded.curr_date, current_date)
+                ,check_kind            = COALESCE (excluded.check_kind, '0')
+          
+            WHERE (gar_tmp.xxx_adr_house_gap.nm_fias_guid =  excluded.nm_fias_guid);
+
+   SELECT * FROM gar_tmp.xxx_adr_house_gap;
 -- ROLLBACK;
 COMMIT;

@@ -18,7 +18,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_ins (
    DECLARE
      _r_ins   integer := 0;   
      
-     _data   RECORD;  
+     _data   gar_tmp.xxx_adr_area_proc_t;  
      _parent gar_tmp.adr_area_t;
      
      _id_area_type         bigint;
@@ -93,7 +93,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_ins (
            -- Полное имя       Это всё забираем у родителя  (полная инфа о родителе.
           
            -- Тип, вычисляется на локальных данных.
-           -- Nick 2022-11-21
+           -- Nick 2022-11-21/2022-12-05
            _id_area_type := NULL;
            _area_type_short_name := NULL;
            
@@ -108,12 +108,12 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_ins (
                 
              ELSIF (_data.id_area_type IS NOT NULL) 
                  THEN
-                    RAISE NOTICE 'AI: %', _data.id_area_type;
+                      CALL gar_tmp_pcg_trans.p_xxx_adr_area_gap_put (_data);
            END IF;           
            --
            CONTINUE WHEN ((_id_area_type IS NULL) OR (_area_type_short_name IS NULL) OR
                           (_data.nm_area IS NULL) 
-           ); -- 2022-02-21
+           ); -- 2022-11-21/2022-12-05
            --
           _id_area := nextval('gar_tmp.obj_seq'); 
            _parent := gar_tmp_pcg_trans.f_adr_area_get (p_schema_etl, _data.nm_fias_guid_parent);

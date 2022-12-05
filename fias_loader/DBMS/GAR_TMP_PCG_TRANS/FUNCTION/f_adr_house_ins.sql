@@ -24,7 +24,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_ins (
      _r_ins   integer := 0;   
      --
      _parent gar_tmp.adr_street_t;
-     _data   RECORD;  
+     _data   gar_tmp.xxx_adr_house_proc_t;  
      --
      _id_area    bigint;   
      _id_street  bigint;    
@@ -161,14 +161,23 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_ins (
          --                                -- ??? Костыль 
          _id_house_type_1 := NULL; 
          _nm_house_type_1 := NULL;
-         
-         IF (_data.house_type IS NOT NULL) 
-           THEN  -- 2022-05-20 !!! Создаются новые записи
-                 -- 2022-11-21, Тип, вычисляется на локальных данных.
-                 --
-             SELECT id_house_type, nm_house_type_short INTO _id_house_type_1, _nm_house_type_1
-               FROM gar_tmp_pcg_trans.f_house_type_get (p_schema_etl, _data.house_type);          
-         END IF;  
+         --
+         -- 2022-05-20 !!! Создаются новые записи.
+         -- 2022-11-21/2022-12-05, Тип, вычисляется на локальных данных.
+         --
+         IF (EXISTS (SELECT 1 FROM gar_tmp.xxx_adr_house_type 
+                                WHERE (_data.house_type = ANY (fias_ids))
+                    )
+             ) 
+           THEN  
+              SELECT  id_house_type, nm_house_type_short 
+                        INTO _id_house_type_1, _nm_house_type_1
+              FROM gar_tmp_pcg_trans.f_house_type_get (p_schema_etl, _data.house_type);
+              
+           ELSIF (_data.house_type IS NOT NULL) 
+               THEN
+                    CALL gar_tmp_pcg_trans.p_xxx_adr_house_gap_put (_data);
+         END IF;         
          
          CONTINUE WHEN ((_id_house_type_1 IS NULL) OR (_nm_house_type_1 IS NULL)); -- 2022-02-21
          

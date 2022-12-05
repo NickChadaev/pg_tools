@@ -29,12 +29,21 @@ X;;;Start process, Сборка процессингового пакета;
 5;version.sql;;-- Версия 3d93590/2022-11-29;
 5;drop_objects.sql;;-- drop_objects.sql;
 #
+
+
 5;FUNCTION/f_xxx_ob_seq_crt.sql  ;;-- f_xxx_ob_seq_crt.sql  ;
 5;FUNCTION/f_xxx_replace_char.sql;;-- f_xxx_replace_char.sql;
 #
 5;PROCEDURE/p_adr_area_type_set.sql  ;;-- p_adr_area_type_set.sql  ;
 5;PROCEDURE/p_adr_street_type_set.sql;;-- p_adr_street_type_set.sql;
 5;PROCEDURE/p_adr_house_type_set.sql ;;-- p_adr_house_type_set.sql ;
+#
+5;PROCEDURE/p_adr_area_type_unload.sql  ;;-- p_adr_area_type_unload.sql;
+5;PROCEDURE/p_adr_street_type_unload.sql;;-- p_adr_street_type_unload.sql;
+5;PROCEDURE/p_adr_house_type_unload.sql ;;-- p_adr_house_type_unload.sql;
+5;PROCEDURE/p_xxx_adr_house_gap_put.sql ;;-- p_xxx_adr_house_gap_put.sql;
+5;PROCEDURE/p_xxx_adr_street_gap_put.sql;;-- p_xxx_adr_street_gap_put.sql;
+5;PROCEDURE/p_xxx_adr_area_gap_put.sql  ;;-- p_xxx_adr_area_gap_put.sql;
 #
 5;FUNCTION/f_xxx_adr_area_type_show_data.sql  ;;-- f_xxx_adr_area_type_show_data.sql  ;
 5;FUNCTION/f_xxx_adr_area_type_set.sql        ;;-- f_xxx_adr_area_type_set.sql        ;

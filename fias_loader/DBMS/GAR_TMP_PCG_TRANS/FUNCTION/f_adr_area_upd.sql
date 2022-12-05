@@ -16,7 +16,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_upd (
    DECLARE
      _r_upd   integer := 0;   
      
-     _data   RECORD;  
+     _data   gar_tmp.xxx_adr_area_proc_t;  
      _parent gar_tmp.adr_area_t;
      
      _id_area_type         bigint;
@@ -45,10 +45,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_upd (
     -- ---------------------------------------------------------------------------------
     FOR _data IN 
            SELECT 
-                f.id_obj 
-               ,id_obj_fias
-                --
-               ,x.id_addr_obj AS id_area     
+                x.id_addr_obj AS id_area     
                 --
                ,x.nm_addr_obj AS nm_area     
                ,x.nm_addr_obj AS nm_area_full
@@ -88,7 +85,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_upd (
 	        ORDER BY x.tree_d 
      
        LOOP
-           -- Nick 2022-11-21
+           -- Nick 2022-11-21/2022-12-05
            _id_area_type := NULL;
            _area_type_short_name := NULL;
            
@@ -103,12 +100,12 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_upd (
                 
              ELSIF (_data.id_area_type IS NOT NULL) 
                  THEN
-                       RAISE NOTICE 'AU: %', _data.id_area_type;
+                      CALL gar_tmp_pcg_trans.p_xxx_adr_area_gap_put (_data);
            END IF;
            --
            CONTINUE WHEN ((_id_area_type IS NULL) OR (_area_type_short_name IS NULL) OR
                           (_data.nm_area IS NULL) 
-           ); -- 2022-02-21
+           ); -- 2022-11-21/2022-12-05
            --         
            _parent := gar_tmp_pcg_trans.f_adr_area_get (p_schema_etl, _data.nm_fias_guid_parent);
          

@@ -17,7 +17,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_upd (
    DECLARE
      _r_upd   integer := 0;  
      
-     _data   RECORD;  
+     _data   gar_tmp.xxx_adr_street_proc_t;  
      _parent gar_tmp.adr_area_t;
      
      _id_street_type          bigint;
@@ -80,7 +80,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_upd (
 	              )          
           ORDER BY x.tree_d 
        LOOP
-          -- Nick 2022-11-21
+          -- Nick 2022-11-21/2022-12-05
           _id_street_type := NULL;
           _street_type_short_name := NULL;
           
@@ -95,9 +95,9 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_upd (
                
             ELSIF (_data.id_street_type IS NOT NULL) 
                 THEN
-                   RAISE NOTICE 'SU: %', _data.id_street_type;
+                     CALL gar_tmp_pcg_trans.p_xxx_adr_street_gap_put(_data);
           END IF;           
-          -- Nick 2022-11-21            
+          --  Nick 2022-11-21/2022-12-05           
           
           CONTINUE WHEN ((_id_street_type IS NULL) OR (_street_type_short_name IS NULL)); -- 2022-02-21     
          

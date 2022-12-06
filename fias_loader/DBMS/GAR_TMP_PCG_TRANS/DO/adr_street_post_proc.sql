@@ -113,22 +113,81 @@ BEGIN;
              )
          SELECT a1.* FROM a1 UNION ALL SELECT a2.* FROM a2
          ORDER BY 1,2;
-     --
-     -- 4) Удалить
-     WITH z0 AS (
-                 SELECT s.id_street FROM gar_tmp.adr_street s
-                      WHERE (s.id_street_type > 1000)
-     )
-     , z1 AS (
-               DELETE FROM gar_tmp.adr_street s 
-                        USING z0 WHERE (z0.id_street = s.id_street)
-               RETURNING s.*         
-     )
-      SELECT z1.* FROM z1;
-      
- SELECT * FROM gar_tmp.adr_area_aux WHERE (id_area = 7700023287);      
- SELECT * FROM gar_tmp.adr_street_aux WHERE (id_street = 7700023287);
  --
+ -- 4) Удалить
+ --
+ WITH z0 AS (
+             SELECT s.id_street FROM gar_tmp.adr_street s
+                  WHERE (s.id_street_type > 1000)
+ )
+ , z1 AS (
+           DELETE FROM gar_tmp.adr_street s 
+                    USING z0 WHERE (z0.id_street = s.id_street)
+           RETURNING s.*         
+ )
+    INSERT INTO gar_tmp.xxx_adr_street_gap (
+        id_street          -- bigint,
+       ,nm_street          -- character varying(250),
+       ,nm_street_full     -- character varying(250),
+       ,id_street_type     -- bigint,
+       ,nm_street_type     -- character varying(50),
+       ,id_area            -- bigint,
+       ,nm_fias_guid_area  -- uuid,
+       ,nm_fias_guid       -- uuid,
+       ,kd_kladr           -- text,
+       --
+       ,tree_d             -- bigint[],
+       ,level_d            -- integer,
+       ,obj_level          -- bigint,
+       ,level_name         -- character varying(100),
+       ,oper_type_id       -- bigint,
+       ,oper_type_name     -- character varying(100),
+       ,curr_date          -- date,
+       ,check_kind         -- character(1)
+  )
+    SELECT 
+         z1.id_street      
+        ,z1.nm_street      
+        ,z1.nm_street_full 
+        ,z1.id_street_type 
+        ,NULL AS nm_street_type
+        ,z1.id_area  
+        ,NULL AS nm_fias_guid_area 
+        ,z1.nm_fias_guid   
+        ,z1.kd_kladr       
+         --
+        ,NULL AS tree_d          
+        ,NULL AS level_d         
+        ,NULL AS obj_level       
+        ,NULL AS level_name      
+        ,NULL AS oper_type_id    
+        ,NULL AS oper_type_name  
+        ,current_date
+        ,'1'
  
+       FROM z1 
+ 
+       ON CONFLICT (nm_fias_guid) DO UPDATE
+           SET
+             id_street          = excluded.id_street        
+            ,nm_street          = excluded.nm_street        
+            ,nm_street_full     = excluded.nm_street_full   
+            ,id_street_type     = excluded.id_street_type   
+            ,nm_street_type     = excluded.nm_street_type   
+            ,id_area            = excluded.id_area          
+            ,nm_fias_guid_area  = excluded.nm_fias_guid_area
+            ,kd_kladr           = excluded.kd_kladr         
+            ,tree_d             = excluded.tree_d           
+            ,level_d            = excluded.level_d          
+            ,obj_level          = excluded.obj_level        
+            ,level_name         = excluded.level_name       
+            ,oper_type_id       = excluded.oper_type_id     
+            ,oper_type_name     = excluded.oper_type_name   
+            ,curr_date          = excluded.curr_date        
+            ,check_kind         = excluded.check_kind       
+           
+         WHERE (gar_tmp.xxx_adr_street_gap.nm_fias_guid =  excluded.nm_fias_guid);
+         
+   SELECT * FROM gar_tmp.xxx_adr_street_gap;             
 -- ROLLBACK;
 COMMIT;

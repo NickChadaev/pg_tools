@@ -43,11 +43,11 @@ BEGIN;
                 ,(gar_tmp_pcg_trans.f_xxx_replace_char (a.type_name)) AS fias_row_key
                 
               FROM gar_tmp.adr_house h 
-                        LEFT JOIN gar_fias.as_house_type a ON ((h.id_house_type_1 - 1000) = a.house_type_id)  
+                        JOIN gar_fias.as_house_type a ON ((h.id_house_type_1 - 1000) = a.house_type_id)  
               WHERE (h.id_house_type_1 > 1000)
   )
    , az1 AS (SELECT ax1.id_house, x.id_house_type FROM ax1
-              LEFT JOIN gar_tmp.adr_house_type x 
+              JOIN gar_tmp.adr_house_type x 
                   ON (ax1.fias_row_key = gar_tmp_pcg_trans.f_xxx_replace_char(x.nm_house_type))
               WHERE (NOT EXISTS (SELECT 1 FROM gar_tmp.adr_house 
                                   WHERE ((id_area = ax1.id_area) AND 
@@ -72,11 +72,11 @@ BEGIN;
                 ,a.house_type_id
                 ,(gar_tmp_pcg_trans.f_xxx_replace_char (a.type_name)) AS fias_row_key
               FROM gar_tmp.adr_house h 
-                        LEFT JOIN gar_fias.as_house_type a ON ((h.id_house_type_2 - 1000) = a.house_type_id)  
+                        JOIN gar_fias.as_house_type a ON ((h.id_house_type_2 - 1000) = a.house_type_id)  
               WHERE (h.id_house_type_2 > 1000)
   )
    , az2 AS (SELECT ax2.id_house, x.id_house_type FROM ax2
-              LEFT JOIN gar_tmp.adr_house_type x 
+               JOIN gar_tmp.adr_house_type x 
                   ON (ax2.fias_row_key = gar_tmp_pcg_trans.f_xxx_replace_char(x.nm_house_type))
      )
    , ay2 AS (UPDATE gar_tmp.adr_house SET id_house_type_2 = az2.id_house_type
@@ -93,11 +93,11 @@ BEGIN;
                 ,a.house_type_id
                 ,(gar_tmp_pcg_trans.f_xxx_replace_char (a.type_name)) AS fias_row_key
               FROM gar_tmp.adr_house h 
-                        LEFT JOIN gar_fias.as_house_type a ON ((h.id_house_type_3 - 1000) = a.house_type_id)  
+                        JOIN gar_fias.as_house_type a ON ((h.id_house_type_3 - 1000) = a.house_type_id)  
               WHERE (h.id_house_type_3 > 1000)
   )
    , az3 AS (SELECT ax3.id_house, x.id_house_type FROM ax3
-              LEFT JOIN gar_tmp.adr_house_type x 
+              JOIN gar_tmp.adr_house_type x 
                   ON (ax3.fias_row_key = gar_tmp_pcg_trans.f_xxx_replace_char(x.nm_house_type))
      )
    , ay3 AS (UPDATE gar_tmp.adr_house SET id_house_type_3 = az3.id_house_type

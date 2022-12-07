@@ -14,7 +14,7 @@ from GarProcess import stage_4_yaml as Yaml4
 from MainProcess import fd_0 as Fd0
 from MainProcess import fd_log as FdLog
 
-VERSION_STR = "  Version 0.0.1 Build 2022-06-23"
+VERSION_STR = "  Version 0.3.0 Build 2022-12-06"
 
 ERR_NOT_OPENED_0 = "... Err file not opened: '"
 ERR_NOT_OPENED_1 = "'."
@@ -82,7 +82,7 @@ class make_main (Proc4.proc_patterns, Yaml4.yaml_patterns, Fd0.fd_0, fd_log_z):
      
      #------------------------------------------------------------
  
- def write_log_1 ( self, p_mess ):
+ def write_log_1 (self, p_mess):
      self.write_log (SPACE_7 + p_mess)
  
  def prt_stat (self):
@@ -90,14 +90,14 @@ class make_main (Proc4.proc_patterns, Yaml4.yaml_patterns, Fd0.fd_0, fd_log_z):
      self.f_err.write ('\n' + self.l_arg + '\n')
      return 0
  
- def stage_4 ( self, p_cmd, p_log_mess = None):  
+ def stage_4 (self, p_cmd, p_log_mess = None, p_mode = 0):  
      """
       Main method
      """
      if not (p_log_mess == None):
          self.write_log_1 (p_log_mess)
          
-     self.f_create ( p_cmd )   
+     self.f_create_1 (p_cmd, p_mode)   
      rc = self.prt_stat() if self.MOGRIFY else self.f_run()
      
      if rc<> 0:    #  Fatal error, break process
@@ -152,6 +152,15 @@ class make_main (Proc4.proc_patterns, Yaml4.yaml_patterns, Fd0.fd_0, fd_log_z):
     
     return rc
 
+ def stage_a_p ( self, p_MOGRIFY): 
+    """
+      Адресные регионы, постобработка.
+    """
+    self.MOGRIFY = p_MOGRIFY
+    rc = 0
+    
+    return self.stage_4 (self.adr_area_pp_query1, self.adr_area_pp_descr, 1)
+
  def stage_4_3 ( self, p_MOGRIFY): 
     """
       Элемент улично-дорожной сети/Элемент планировочной структуры. Дополнение.
@@ -194,6 +203,15 @@ class make_main (Proc4.proc_patterns, Yaml4.yaml_patterns, Fd0.fd_0, fd_log_z):
             (self.adr_street_upd_check_query), None)           
         #
     return rc
+
+ def stage_s_p ( self, p_MOGRIFY): 
+    """
+      Улицы, постобработка.
+    """
+    self.MOGRIFY = p_MOGRIFY
+    rc = 0
+    
+    return self.stage_4 (self.adr_street_pp_query1, self.adr_street_pp_descr, 1)
 
  def stage_4_5 ( self, p_MOGRIFY): 
     """
@@ -239,6 +257,16 @@ class make_main (Proc4.proc_patterns, Yaml4.yaml_patterns, Fd0.fd_0, fd_log_z):
                 (self.adr_house_upd_check_query), None)    
         
     return rc
+
+ def stage_h_p ( self, p_MOGRIFY): 
+    """
+      Дома, постобработка.
+    """
+    self.MOGRIFY = p_MOGRIFY
+    rc = 0
+    
+    return self.stage_4 (self.adr_house_pp_query1, self.adr_house_pp_descr, 1)
+
 # ---------------------------------------------------------------------------------------------------------------------
 if __name__ == '__main__':
     try:
@@ -267,19 +295,28 @@ if __name__ == '__main__':
          
         if mm.stage_4_2_on: 
             rc = mm.stage_4_2 ( mm.mogrify_4_2 )
+
+        if mm.stage_a_p_on: 
+            rc = mm.stage_a_p ( mm.mogrify_a_p )
         
         if mm.stage_4_3_on: 
             rc = mm.stage_4_3 ( mm.mogrify_4_3 )
         
         if mm.stage_4_4_on: 
             rc = mm.stage_4_4 ( mm.mogrify_4_4 )
+
+        if mm.stage_s_p_on: 
+            rc = mm.stage_s_p ( mm.mogrify_s_p )
         
         if mm.stage_4_5_on: 
             rc = mm.stage_4_5 ( mm.mogrify_4_5 )
          
         if mm.stage_4_6_on: 
             rc = mm.stage_4_6 ( mm.mogrify_4_6 )
-        
+
+        if mm.stage_h_p_on: 
+            rc = mm.stage_h_p ( mm.mogrify_h_p )
+            
         mm.close_log ()
         mm.f_err.close()
         mm.f_out.close()        

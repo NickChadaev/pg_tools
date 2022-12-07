@@ -37,9 +37,9 @@ X;;;Start process, Patch 20221125 общий;
 1;GAR_TMP/CreateTableGarTmp_1.sql;;-- CreateTableGarTmp_1.sql;
 1;GAR_TMP/CreateTableGarTmp_2.sql;;-- CreateTableGarTmp_2.sql;
 #
-1;GAR_TMP/ins_adr_area_type_etalon.sql;;-- ins_adr_area_type_etalon.sql;
-1;GAR_TMP/ins_adr_street_type_etalon.sql;;-- ins_adr_street_type_etalon.sql;
-1;GAR_TMP/ins_adr_house_type_etalon.sql;;-- ins_adr_house_type_etalon.sql;
+1;GAR_TMP/ins_adr_area_type_etalon_1.sql;;-- ins_adr_area_type_etalon_1.sql;
+1;GAR_TMP/ins_adr_street_type_etalon_1.sql;;-- ins_adr_street_type_etalon_1.sql;
+1;GAR_TMP/ins_adr_house_type_etalon_1.sql;;-- ins_adr_house_type_etalon_1.sql;
 #
 X;;;Stop process;
 #-------------------------------------------------------------------------------

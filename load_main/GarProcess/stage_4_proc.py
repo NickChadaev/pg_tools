@@ -9,7 +9,7 @@
 import sys
 ## import string
 
-VERSION_STR = "  Version 0.0.0 Build 2022-06-09"
+VERSION_STR = "  Version 0.3.0 Build 2022-12-06"
 
 class proc_patterns ():
     """
@@ -20,7 +20,7 @@ class proc_patterns ():
         # ----------------------------------------------------------------------------------
         # Дополнение адресных регионов
         self.gar_tmp_pcg_trans_f_adr_area_ins = """    
-  SELECT gar_tmp_pcg_trans.f_adr_area_ins (
+  SELECT * FROM gar_tmp_pcg_trans.f_adr_area_ins (
          p_schema_data   := '{0}'::text  -- Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
         ,p_schema_etl    := '{1}'::text  -- Схема эталон, обычно локальный сервер, копия p_schema_data 
         ,p_schema_hist   := '{2}'::text  -- Схема для хранения исторических данных 
@@ -30,7 +30,7 @@ class proc_patterns ():
 """
         # Обновление адресных регионов
         self.gar_tmp_pcg_trans_f_adr_area_upd = """
- SELECT gar_tmp_pcg_trans.f_adr_area_upd (
+ SELECT * FROM gar_tmp_pcg_trans.f_adr_area_upd (
            p_schema_data   := '{0}'::text  -- Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
           ,p_schema_etl    := '{1}'::text  -- Схема эталон, обычно локальный сервер, копия p_schema_data 
           ,p_schema_hist   := '{2}'::text  -- Схема для хранения исторических данных 
@@ -45,7 +45,7 @@ class proc_patterns ():
         # ----------------------------------------------------------------------------------
         # Дополнение улиц
         self.gar_tmp_pcg_trans_f_adr_street_ins = """
- SELECT gar_tmp_pcg_trans.f_adr_street_ins (
+ SELECT * FROM gar_tmp_pcg_trans.f_adr_street_ins (
            p_schema_data   := '{0}'::text  -- Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
           ,p_schema_etl    := '{1}'::text  -- Схема эталон, обычно локальный сервер, копия p_schema_data 
           ,p_schema_hist   := '{2}'::text  -- Схема для хранения исторических данных 
@@ -55,7 +55,7 @@ class proc_patterns ():
 
         # Обновление улиц  
         self.gar_tmp_pcg_trans_f_adr_street_upd = """
- SELECT gar_tmp_pcg_trans.f_adr_street_upd  (
+ SELECT * FROM gar_tmp_pcg_trans.f_adr_street_upd  (
            p_schema_data   := '{0}'::text  -- Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
           ,p_schema_etl    := '{1}'::text  -- Схема эталон, обычно локальный сервер, копия p_schema_data 
           ,p_schema_hist   := '{2}'::text  -- Схема для хранения исторических данных 
@@ -71,7 +71,7 @@ class proc_patterns ():
         # ------------------------------------------------
         # Дополнение домов
         self.gar_tmp_pcg_trans_f_adr_house_ins = """
-  SELECT gar_tmp_pcg_trans.f_adr_house_ins (
+  SELECT * FROM gar_tmp_pcg_trans.f_adr_house_ins (
            p_schema_data   := '{0}'::text  -- Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
           ,p_schema_etl    := '{1}'::text  -- Схема эталон, обычно локальный сервер, копия p_schema_data 
           ,p_schema_hist   := '{2}'::text  -- Схема для хранения исторических данных 
@@ -82,7 +82,7 @@ class proc_patterns ():
 
         # Обновление домов
         self.gar_tmp_pcg_trans_f_adr_house_upd = """
- SELECT gar_tmp_pcg_trans.f_adr_house_upd (
+ SELECT * FROM gar_tmp_pcg_trans.f_adr_house_upd (
            p_schema_data   := '{0}'::text  -- Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
           ,p_schema_etl    := '{1}'::text  -- Схема эталон, обычно локальный сервер, копия p_schema_data 
           ,p_schema_hist   := '{2}'::text  -- Схема для хранения исторических данных 

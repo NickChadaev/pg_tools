@@ -92,7 +92,7 @@ bAS_ROOMS_PARAMS      = "ASROOMSPARAMS"
 bAS_STEADS            = "ASSTEADS"
 bAS_STEADS_PARAMS     = "ASSTEADSPARAMS"
 
-VERSION_STR = "  Version 0.5.1 Build 2022-08-30"
+VERSION_STR = "  Version 0.5.3 Build 2022-12-06"
 
 GET_DT = "SELECT now()::TIMESTAMP without time zone FROM current_timestamp;"
 
@@ -379,35 +379,34 @@ class make_load ( fd_log_s ):
                 mm3.set_file_log (self.fd)  # Уже открыт
                 ## mm3.set_date_time (self.date_time, self.delta_dt)
 
-                # 2022-08-30
+                if mm3.stage_3_I_on: 
+                    rc = mm3.stage_3_I ( mm3.mogrify_3_I )
+                    if rc <> 0:     #  Fatal error, break process
+                        break
+                    
                 if mm3.stage_3_9_on: 
                     rc = mm3.stage_3_9 ( mm3.mogrify_3_9 )
                     if rc <> 0:     #  Fatal error, break process
-                        # self.write_log_err ( rc, fr_0.l_arg )
                         break
                     
                 if mm3.stage_3_0_on: 
                     rc = mm3.stage_3_0 ( mm3.mogrify_3_0 )
                     if rc <> 0:     #  Fatal error, break process
-                        # self.write_log_err ( rc, fr_0.l_arg )
                         break
                  
                 if mm3.stage_3_1_on: 
                     rc = mm3.stage_3_1 ( mm3.mogrify_3_1 )
                     if rc <> 0:     #  Fatal error, break process
-                        # self.write_log_err ( rc, fr_0.l_arg )
                         break
                 
                 if mm3.stage_3_2_on: 
                     rc = mm3.stage_3_2 ( mm3.mogrify_3_2 )
                     if rc <> 0:     #  Fatal error, break process
-                        # self.write_log_err ( rc, fr_0.l_arg )
                         break
                 
                 if mm3.stage_3_3_on: 
                     rc = mm3.stage_3_3 ( mm3.mogrify_3_3 )           
                     if rc <> 0:     #  Fatal error, break process
-                        # self.write_log_err ( rc, fr_0.l_arg )
                         break
            
             #----------------------------------------------------------------------------
@@ -422,41 +421,49 @@ class make_load ( fd_log_s ):
                 ## mm4.set_date_time (self.date_time, self.delta_dt)
 
                 #------------------------------------------------------------
- 
                 if mm4.stage_4_1_on: 
                     rc = mm4.stage_4_1 ( mm4.mogrify_4_1 )
                     if rc <> 0:     #  Fatal error, break process
-                        # self.write_log_err ( rc, fr_0.l_arg )
                         break
                  
                 if mm4.stage_4_2_on: 
                     rc = mm4.stage_4_2 ( mm4.mogrify_4_2 )
                     if rc <> 0:     #  Fatal error, break process
-                        # self.write_log_err ( rc, fr_0.l_arg )
+                        break
+
+                if mm4.stage_a_p_on: 
+                    rc = mm4.stage_a_p ( mm4.mogrify_a_p )
+                    if rc <> 0:     #  Fatal error, break process
                         break
                 
                 if mm4.stage_4_3_on: 
                     rc = mm4.stage_4_3 ( mm4.mogrify_4_3 )
                     if rc <> 0:     #  Fatal error, break process
-                        # self.write_log_err ( rc, fr_0.l_arg )
                         break
                 
                 if mm4.stage_4_4_on: 
                     rc = mm4.stage_4_4 ( mm4.mogrify_4_4 )
                     if rc <> 0:     #  Fatal error, break process
-                        # self.write_log_err ( rc, fr_0.l_arg )
+                        break
+
+                if mm4.stage_s_p_on: 
+                    rc = mm4.stage_s_p ( mm4.mogrify_s_p )
+                    if rc <> 0:     #  Fatal error, break process
                         break
                 
                 if mm4.stage_4_5_on: 
                     rc = mm4.stage_4_5 ( mm4.mogrify_4_5 )
                     if rc <> 0:     #  Fatal error, break process
-                        # self.write_log_err ( rc, fr_0.l_arg )
                         break
                  
                 if mm4.stage_4_6_on: 
                     rc = mm4.stage_4_6 ( mm4.mogrify_4_6 )
                     if rc <> 0:     #  Fatal error, break process
-                        # self.write_log_err ( rc, fr_0.l_arg )
+                        break
+
+                if mm4.stage_h_p_on: 
+                    rc = mm4.stage_h_p ( mm4.mogrify_h_p )
+                    if rc <> 0:     #  Fatal error, break process
                         break
  
             #----------------------------------------------------------------------------

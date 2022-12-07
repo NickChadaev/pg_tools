@@ -85,6 +85,7 @@ BEGIN;
           FROM z
               INNER JOIN gar_tmp.adr_area_type x -- 2022-12-01
                   ON (z.fias_row_key = gar_tmp_pcg_trans.f_xxx_replace_char(x.nm_area_type))
+       ON CONFLICT DO NOTHING           
      RETURNING *
  )
    SELECT ax.* FROM ax;

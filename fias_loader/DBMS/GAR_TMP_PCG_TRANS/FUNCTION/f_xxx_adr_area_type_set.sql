@@ -95,7 +95,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_type_set (
                   
             GET DIAGNOSTICS _r = ROW_COUNT;
             RETURN NEXT _r; 
-       END IF;
+       END IF; -- _OP_1
        --
        -- 2) Обновить данными из промежуточной структуры. Схемы-Цели (ЛОКАЛЬНЫЕ И ОТДАЛЁННЫЕ СПРАВОЧНИКИ).
        --       
@@ -105,23 +105,30 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_type_set (
        --
        IF (_OP_2 = ANY (p_op_type))
          THEN
+           DROP SEQUENCE IF EXISTS  xxx_adr_area_type_seq;
+           CREATE TEMPORARY SEQUENCE IF NOT EXISTS  xxx_adr_area_type_seq;
+           --
            FOREACH _schema_name IN ARRAY p_schemas 
            LOOP
+             PERFORM setval('xxx_adr_area_type_seq'::regclass
+		          ,(SELECT MAX (z.id_area_type) FROM gar_tmp.xxx_adr_area_type z 
+                     WHERE (z.id_area_type < _LD)) , true);
+             --        
              IF p_clear_all
                THEN
                    _exec := format (_del_something, _schema_name);
                    EXECUTE _exec;
              END IF;
              --    
-             FOR _rdata IN 
+             FOR _rdata IN
+             
                  SELECT 
                   CASE 
-                    WHEN z.id_area_type < _LD
-                      THEN z.id_area_type
-                      ELSE row_number() OVER ()  
+                      WHEN z.id_area_type < _LD
+                        THEN z.id_area_type
+                        ELSE nextval('xxx_adr_area_type_seq'::regclass) + p_delta
                   END AS id_area_type
                   
-                 ,z.id_area_type       AS id_area_type_aux
                  ,z.nm_area_type       AS nm_area_type 
                  ,z.nm_area_type_short AS nm_area_type_short
                  ,z.pr_lead            AS pr_lead
@@ -133,14 +140,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_type_set (
              
                   CALL gar_tmp_pcg_trans.p_adr_area_type_set (
                         p_schema_name  := _schema_name::text   
-                       ,p_id_area_type := CASE 
-                                            WHEN _rdata.id_area_type_aux < _LD
-                                              THEN 
-                                                 _rdata.id_area_type
-                                              ELSE   
-                                                 (_rdata.id_area_type + p_delta)::integer  
-                                          END::integer                    
-                       ,p_nm_area_type       := _rdata.nm_area_type      ::varchar (50)               
+                       ,p_id_area_type := _rdata.id_area_type::integer
+                       ,p_nm_area_type := _rdata.nm_area_type::varchar (50)               
                        ,p_nm_area_type_short := _rdata.nm_area_type_short::varchar(10)                        
                        ,p_pr_lead            := _rdata.pr_lead           ::smallint                      
                        ,p_dt_data_del        := _rdata.data_del          ::timestamp without time zone
@@ -152,8 +153,9 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_type_set (
              _qty := 0;
                   
            END LOOP; -- FOREACH _schema_name
-         
-       END IF;
+
+        DROP SEQUENCE IF EXISTS  xxx_adr_area_type_seq;
+       END IF; -- _OP_2
     END;         
 $$;
  
@@ -168,8 +170,8 @@ IS 'Запомнить промежуточные данные, типы адр�
 --  TRUNCATE TABLE  gar_tmp.adr_area_type;       -- DONE
 --   delete from  unnsi.adr_area_type;  
 --    SELECT * FROM  gar_tmp.adr_area_type ORDER BY id_area_type; 
---    SELECT * FROM  unnsi.adr_area_type ORDER BY id_area_type; 
+--    SELECT * FROM  gar_test.adr_area_type ORDER BY id_area_type; 
 --    
 --    SELECT gar_tmp_pcg_trans.f_xxx_adr_area_type_set ('gar_tmp'::text,NULL, ARRAY [1]); -- 117
 --    SELECT gar_tmp_pcg_trans.f_xxx_adr_area_type_set ('gar_tmp',ARRAY['unnsi'], ARRAY [2]); -- 117
---    SELECT gar_tmp_pcg_trans.f_xxx_adr_area_type_set ('gar_tmp',ARRAY['gar_tmp','unnsi'], ARRAY [2]);
+--    SELECT gar_tmp_pcg_trans.f_xxx_adr_area_type_set ('gar_tmp',ARRAY['gar_tmp','gar_test'], ARRAY [2]);

@@ -27,7 +27,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_obj_fias_show_data_0 (
 		        ,aa.level_d
                 
              FROM gar_tmp.xxx_adr_area aa 
-                    WHERE (aa.obj_level <> 8)--- AND NOT((nm_addr_obj ilike 'ГСК%%')))  
+                    WHERE (aa.obj_level < 8)  
 		        ORDER BY tree_d
       )
                 INSERT INTO %I
@@ -57,6 +57,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_obj_fias_show_data_0 (
     --                    "gar_tmp.xxx_obj_fias"
     -- --------------------------------------------------------------------------
     --     p_schema_name text -- Имя схемы-источника._
+    -- --------------------------------------------------------------------------
+    -- 2022-12-13 Условие выбора (aa.obj_level < 8)
     -- --------------------------------------------------------------------------
     CREATE TEMP TABLE IF NOT EXISTS __adr_area_fias (LIKE gar_tmp.xxx_obj_fias)
         ON COMMIT DROP;

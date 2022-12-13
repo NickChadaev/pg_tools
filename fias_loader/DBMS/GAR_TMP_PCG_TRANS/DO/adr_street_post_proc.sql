@@ -66,9 +66,10 @@ BEGIN;
           SELECT z.id_street
                 ,185 AS id_country 
                 ,z.nm_street AS nm_area
-                ,((gar_tmp_pcg_trans.f_adr_area_get ('gar_tmp', z.id_area)).nm_area_full ||
-                  ', ' || z.nm_street_full
-                 ) AS nm_area_full
+                ,COALESCE (
+                   ((gar_tmp_pcg_trans.f_adr_area_get ('gar_tmp', z.id_area)).nm_area_full ||
+                       ', ' || z.nm_street_full
+                   ), z.nm_street) AS nm_area_full
                 ,x.id_area_type
                 ,z.id_area AS id_area_parent
                 ,NULL AS kd_timezone
@@ -88,7 +89,10 @@ BEGIN;
        ON CONFLICT DO NOTHING           
      RETURNING *
  )
-   SELECT ax.* FROM ax;
+   SELECT ax.* FROM ax; -- 43
+
+-- SELECT * FROM unnsi.adr_area WHERE (id_area = 5200009204)
+-- SELECT * FROM unnsi.adr_street WHERE (id_street = 5200009204)
 
  --
  -- 2) Создать в adr_area_aux   INSERT
@@ -113,7 +117,7 @@ BEGIN;
               RETURNING *  
              )
          SELECT a1.* FROM a1 UNION ALL SELECT a2.* FROM a2
-         ORDER BY 1,2;
+         ORDER BY 1,2; -- 90
  --
  -- 4) Удалить
  --
@@ -192,3 +196,6 @@ BEGIN;
    SELECT * FROM gar_tmp.xxx_adr_street_gap;             
 -- ROLLBACK;
 COMMIT;
+-- SELECT * FROM unnsi.adr_area WHERE (id_area = 5200008700);
+-- SELECT * FROM unnsi.adr_street WHERE (id_street = 5200008700);
+-- SELECT * FROM gar_tmp.xxx_adr_street_gap WHERE (id_street = 5200008700);

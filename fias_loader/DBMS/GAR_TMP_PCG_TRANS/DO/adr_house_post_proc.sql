@@ -16,9 +16,9 @@ BEGIN;
  --
  WITH a0 AS (
              SELECT h.id_house AS id_obj FROM gar_tmp.adr_house h WHERE (h.id_house_type_1 > 1000)
-                UNION ALL
+                UNION 
              SELECT h.id_house AS id_obj FROM gar_tmp.adr_house h WHERE (h.id_house_type_2 > 1000)
-                UNION ALL
+                UNION 
              SELECT h.id_house AS id_obj FROM gar_tmp.adr_house h WHERE (h.id_house_type_3 > 1000)
       )
       ,a1 AS (
@@ -217,7 +217,7 @@ BEGIN;
                 ,oper_type_id          = excluded.oper_type_id
                 ,oper_type_name        = excluded.oper_type_name
                 ,curr_date             = COALESCE (excluded.curr_date, current_date)
-                ,check_kind            = COALESCE (excluded.check_kind, '0')
+                ,check_kind            = COALESCE (excluded.check_kind, '1')
           
             WHERE (gar_tmp.xxx_adr_house_gap.nm_fias_guid =  excluded.nm_fias_guid);
 

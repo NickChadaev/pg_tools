@@ -1,3 +1,5 @@
+DELETE FROM unnsi.adr_area_type;
+--
 INSERT INTO unnsi.adr_area_type (id_area_type, nm_area_type, nm_area_type_short, pr_lead, dt_data_del) VALUES (1, 'Аал', 'аал', 0, NULL);
 INSERT INTO unnsi.adr_area_type (id_area_type, nm_area_type, nm_area_type_short, pr_lead, dt_data_del) VALUES (2, 'Автономный округ', 'АО', 0, NULL);
 INSERT INTO unnsi.adr_area_type (id_area_type, nm_area_type, nm_area_type_short, pr_lead, dt_data_del) VALUES (3, 'Автономная область', 'Аобл', 0, NULL);

@@ -8,7 +8,7 @@ WITH z AS (
 SELECT z.qty, z.id_street_type, t.nm_street_type, t.nm_street_type_short
   FROM z
       LEFT JOIN unnsi.adr_street_type t ON (t.id_street_type = z.id_street_type)
-   ORDER BY z.id_street_type DESC; 
+   ORDER BY z.qty DESC; 
 --
 WITH z AS (
     SELECT count(1) AS qty, id_street_type 

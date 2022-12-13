@@ -1,3 +1,5 @@
+DELETE FROM gar_tmp.adr_street_type;
+--
 INSERT INTO gar_tmp.adr_street_type (id_street_type, nm_street_type, nm_street_type_short, dt_data_del) VALUES (1, 'Аллея', 'аллея', NULL);
 INSERT INTO gar_tmp.adr_street_type (id_street_type, nm_street_type, nm_street_type_short, dt_data_del) VALUES (2, 'Бульвар', 'б-р', NULL);
 INSERT INTO gar_tmp.adr_street_type (id_street_type, nm_street_type, nm_street_type_short, dt_data_del) VALUES (3, 'Балка', 'балка', NULL);

@@ -1,3 +1,5 @@
+DELETE FROM unnsi.adr_house_type;
+--
 INSERT INTO unnsi.adr_house_type (id_house_type, nm_house_type, nm_house_type_short, kd_house_type_lvl, dt_data_del) VALUES (1, 'Владение', 'вл.', 1, NULL);
 INSERT INTO unnsi.adr_house_type (id_house_type, nm_house_type, nm_house_type_short, kd_house_type_lvl, dt_data_del) VALUES (2, 'Дом', 'д.', 1, NULL);
 INSERT INTO unnsi.adr_house_type (id_house_type, nm_house_type, nm_house_type_short, kd_house_type_lvl, dt_data_del) VALUES (3, 'Домовладение', 'дв.', 1, NULL);

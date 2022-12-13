@@ -1,3 +1,5 @@
+DELETE FROM gar_tmp.adr_area_type;
+--
 INSERT INTO gar_tmp.adr_area_type (id_area_type, nm_area_type, nm_area_type_short, pr_lead, dt_data_del) VALUES (1, 'Аал', 'аал', 0, NULL);
 INSERT INTO gar_tmp.adr_area_type (id_area_type, nm_area_type, nm_area_type_short, pr_lead, dt_data_del) VALUES (2, 'Автономный округ', 'АО', 0, NULL);
 INSERT INTO gar_tmp.adr_area_type (id_area_type, nm_area_type, nm_area_type_short, pr_lead, dt_data_del) VALUES (3, 'Автономная область', 'Аобл', 0, NULL);
@@ -130,16 +132,16 @@ INSERT INTO gar_tmp.adr_area_type (id_area_type, nm_area_type, nm_area_type_shor
 INSERT INTO gar_tmp.adr_area_type (id_area_type, nm_area_type, nm_area_type_short, pr_lead, dt_data_del) VALUES (135, 'Месторождение', 'месторожд.', 0, NULL);
 INSERT INTO gar_tmp.adr_area_type (id_area_type, nm_area_type, nm_area_type_short, pr_lead, dt_data_del) VALUES (136, 'Набережная', 'наб.', 0, NULL);
 --
-INSERT INTO gar_tmp.adr_house_type (id_area_type, nm_area_type, nm_area_type_short, pr_lead, dt_data_del) VALUES (137, 'Сельский поселок', 'сп.', 0, NULL);
-INSERT INTO gar_tmp.adr_house_type (id_area_type, nm_area_type, nm_area_type_short, pr_lead, dt_data_del) VALUES (138, 'Усадьба', 'ус.', 0, NULL);
-INSERT INTO gar_tmp.adr_house_type (id_area_type, nm_area_type, nm_area_type_short, pr_lead, dt_data_del) VALUES (139, 'Поселок при станции (поселок станции)', 'п. ст.', 0, NULL);
-INSERT INTO gar_tmp.adr_house_type (id_area_type, nm_area_type, nm_area_type_short, pr_lead, dt_data_del) VALUES (140, 'Некоммерческое партнерство', 'н/п', 0, NULL);
+INSERT INTO gar_tmp.adr_area_type (id_area_type, nm_area_type, nm_area_type_short, pr_lead, dt_data_del) VALUES (137, 'Сельский поселок', 'сп.', 0, NULL);
+INSERT INTO gar_tmp.adr_area_type (id_area_type, nm_area_type, nm_area_type_short, pr_lead, dt_data_del) VALUES (138, 'Усадьба', 'ус.', 0, NULL);
+INSERT INTO gar_tmp.adr_area_type (id_area_type, nm_area_type, nm_area_type_short, pr_lead, dt_data_del) VALUES (139, 'Поселок при станции (поселок станции)', 'п. ст.', 0, NULL);
+INSERT INTO gar_tmp.adr_area_type (id_area_type, nm_area_type, nm_area_type_short, pr_lead, dt_data_del) VALUES (140, 'Некоммерческое партнерство', 'н/п', 0, NULL);
 --
-INSERT INTO gar_tmp.adr_house_type (id_area_type, nm_area_type, nm_area_type_short, pr_lead, dt_data_del) VALUES (141, 'Железнодорожный путевой пост', 'ж/д п.п.', 0, NULL);
-INSERT INTO gar_tmp.adr_house_type (id_area_type, nm_area_type, nm_area_type_short, pr_lead, dt_data_del) VALUES (142, 'Платформа', 'платф', 0, NULL);
-INSERT INTO gar_tmp.adr_house_type (id_area_type, nm_area_type, nm_area_type_short, pr_lead, dt_data_del) VALUES (143, 'Порт', 'порт', 0, NULL);
-INSERT INTO gar_tmp.adr_house_type (id_area_type, nm_area_type, nm_area_type_short, pr_lead, dt_data_del) VALUES (144, 'Погост', 'погост', 0, NULL);
-INSERT INTO gar_tmp.adr_house_type (id_area_type, nm_area_type, nm_area_type_short, pr_lead, dt_data_del) VALUES (145, 'Планировочный район', 'пл.р-н', 0, NULL);
-INSERT INTO gar_tmp.adr_house_type (id_area_type, nm_area_type, nm_area_type_short, pr_lead, dt_data_del) VALUES (146, 'Почтовое отделение', 'п/о', 0, NULL);
+INSERT INTO gar_tmp.adr_area_type (id_area_type, nm_area_type, nm_area_type_short, pr_lead, dt_data_del) VALUES (141, 'Железнодорожный путевой пост', 'ж/д п.п.', 0, NULL);
+INSERT INTO gar_tmp.adr_area_type (id_area_type, nm_area_type, nm_area_type_short, pr_lead, dt_data_del) VALUES (142, 'Платформа', 'платф', 0, NULL);
+INSERT INTO gar_tmp.adr_area_type (id_area_type, nm_area_type, nm_area_type_short, pr_lead, dt_data_del) VALUES (143, 'Порт', 'порт', 0, NULL);
+INSERT INTO gar_tmp.adr_area_type (id_area_type, nm_area_type, nm_area_type_short, pr_lead, dt_data_del) VALUES (144, 'Погост', 'погост', 0, NULL);
+INSERT INTO gar_tmp.adr_area_type (id_area_type, nm_area_type, nm_area_type_short, pr_lead, dt_data_del) VALUES (145, 'Планировочный район', 'пл.р-н', 0, NULL);
+INSERT INTO gar_tmp.adr_area_type (id_area_type, nm_area_type, nm_area_type_short, pr_lead, dt_data_del) VALUES (146, 'Почтовое отделение', 'п/о', 0, NULL);
 --
-INSERT INTO gar_tmp.adr_house_type (id_area_type, nm_area_type, nm_area_type_short, pr_lead, dt_data_del) VALUES (147, 'Площадка', 'пл-ка', 0, NULL);
+INSERT INTO gar_tmp.adr_area_type (id_area_type, nm_area_type, nm_area_type_short, pr_lead, dt_data_del) VALUES (147, 'Площадка', 'пл-ка', 0, NULL);

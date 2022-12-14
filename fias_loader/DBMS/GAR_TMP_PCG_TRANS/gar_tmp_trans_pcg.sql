@@ -5,7 +5,7 @@
 --
 CREATE OR REPLACE VIEW gar_tmp_pcg_trans.version
  AS
- SELECT '$Revision:f5c9b39$ modified $RevDate:2022-12-05$'::text AS version; 
+ SELECT '$Revision:52494b9$ modified $RevDate:2022-12-14$'::text AS version; 
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 --
@@ -1126,7 +1126,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_type_set (
                   
             GET DIAGNOSTICS _r = ROW_COUNT;
             RETURN NEXT _r; 
-       END IF;
+       END IF; -- _OP_1
        --
        -- 2) Обновить данными из промежуточной структуры. Схемы-Цели (ЛОКАЛЬНЫЕ И ОТДАЛЁННЫЕ СПРАВОЧНИКИ).
        --       
@@ -1136,23 +1136,30 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_type_set (
        --
        IF (_OP_2 = ANY (p_op_type))
          THEN
+           DROP SEQUENCE IF EXISTS  xxx_adr_area_type_seq;
+           CREATE TEMPORARY SEQUENCE IF NOT EXISTS  xxx_adr_area_type_seq;
+           --
            FOREACH _schema_name IN ARRAY p_schemas 
            LOOP
+             PERFORM setval('xxx_adr_area_type_seq'::regclass
+		          ,(SELECT MAX (z.id_area_type) FROM gar_tmp.xxx_adr_area_type z 
+                     WHERE (z.id_area_type < _LD)) , true);
+             --        
              IF p_clear_all
                THEN
                    _exec := format (_del_something, _schema_name);
                    EXECUTE _exec;
              END IF;
              --    
-             FOR _rdata IN 
+             FOR _rdata IN
+             
                  SELECT 
                   CASE 
-                    WHEN z.id_area_type < _LD
-                      THEN z.id_area_type
-                      ELSE row_number() OVER ()  
+                      WHEN z.id_area_type < _LD
+                        THEN z.id_area_type
+                        ELSE nextval('xxx_adr_area_type_seq'::regclass) + p_delta
                   END AS id_area_type
                   
-                 ,z.id_area_type       AS id_area_type_aux
                  ,z.nm_area_type       AS nm_area_type 
                  ,z.nm_area_type_short AS nm_area_type_short
                  ,z.pr_lead            AS pr_lead
@@ -1164,14 +1171,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_type_set (
              
                   CALL gar_tmp_pcg_trans.p_adr_area_type_set (
                         p_schema_name  := _schema_name::text   
-                       ,p_id_area_type := CASE 
-                                            WHEN _rdata.id_area_type_aux < _LD
-                                              THEN 
-                                                 _rdata.id_area_type
-                                              ELSE   
-                                                 (_rdata.id_area_type + p_delta)::integer  
-                                          END::integer                    
-                       ,p_nm_area_type       := _rdata.nm_area_type      ::varchar (50)               
+                       ,p_id_area_type := _rdata.id_area_type::integer
+                       ,p_nm_area_type := _rdata.nm_area_type::varchar (50)               
                        ,p_nm_area_type_short := _rdata.nm_area_type_short::varchar(10)                        
                        ,p_pr_lead            := _rdata.pr_lead           ::smallint                      
                        ,p_dt_data_del        := _rdata.data_del          ::timestamp without time zone
@@ -1183,8 +1184,9 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_type_set (
              _qty := 0;
                   
            END LOOP; -- FOREACH _schema_name
-         
-       END IF;
+
+        DROP SEQUENCE IF EXISTS  xxx_adr_area_type_seq;
+       END IF; -- _OP_2
     END;         
 $$;
  
@@ -1199,11 +1201,11 @@ IS 'Запомнить промежуточные данные, типы адр�
 --  TRUNCATE TABLE  gar_tmp.adr_area_type;       -- DONE
 --   delete from  unnsi.adr_area_type;  
 --    SELECT * FROM  gar_tmp.adr_area_type ORDER BY id_area_type; 
---    SELECT * FROM  unnsi.adr_area_type ORDER BY id_area_type; 
+--    SELECT * FROM  gar_test.adr_area_type ORDER BY id_area_type; 
 --    
 --    SELECT gar_tmp_pcg_trans.f_xxx_adr_area_type_set ('gar_tmp'::text,NULL, ARRAY [1]); -- 117
 --    SELECT gar_tmp_pcg_trans.f_xxx_adr_area_type_set ('gar_tmp',ARRAY['unnsi'], ARRAY [2]); -- 117
---    SELECT gar_tmp_pcg_trans.f_xxx_adr_area_type_set ('gar_tmp',ARRAY['gar_tmp','unnsi'], ARRAY [2]);
+--    SELECT gar_tmp_pcg_trans.f_xxx_adr_area_type_set ('gar_tmp',ARRAY['gar_tmp','gar_test'], ARRAY [2]);
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_street_type_show_data (text, date, text[]);
@@ -1425,7 +1427,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_street_type_set (
              
        GET DIAGNOSTICS _r = ROW_COUNT;
        RETURN NEXT _r;
-     END IF;  
+     END IF;  -- _OP_1
      --
      -- 2) Обновить данными из промежуточной структуры. Схемы-Цели (ОТДАЛЁННЫЕ СПРАВОЧНИКИ).
      --       
@@ -1435,8 +1437,14 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_street_type_set (
      --
      IF (_OP_2 = ANY (p_op_type))
        THEN
+         DROP SEQUENCE IF EXISTS  xxx_adr_street_type_seq;
+         CREATE TEMPORARY SEQUENCE IF NOT EXISTS  xxx_adr_street_type_seq;
+         --
          FOREACH _schema_name IN ARRAY p_schemas 
          LOOP
+            PERFORM setval('xxx_adr_street_type_seq'::regclass
+		         ,(SELECT MAX (z.id_street_type) FROM gar_tmp.xxx_adr_street_type z 
+                    WHERE (z.id_street_type < _LD)), true);         
             IF p_clear_all
               THEN
                    _exec := format (_del_something, _schema_name);
@@ -1448,10 +1456,9 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_street_type_set (
                   CASE 
                     WHEN z.id_street_type < _LD
                       THEN z.id_street_type
-                      ELSE row_number() OVER ()  
+                      ELSE nextval('xxx_adr_street_type_seq'::regclass) + p_delta
                   END AS id_street_type
-                  --                  
-                 ,z.id_street_type       AS id_street_type_aux
+                  --
                  ,z.nm_street_type       AS nm_street_type 
                  ,z.nm_street_type_short AS nm_street_type_short
                  ,NULL AS data_del
@@ -1461,20 +1468,11 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_street_type_set (
               
             LOOP 
                CALL gar_tmp_pcg_trans.p_adr_street_type_set (
-                      p_schema_name := _schema_name::text  
-                      
-                     ,p_id_street_type :=
-                           CASE 
-                               WHEN _rdata.id_street_type_aux < _LD
-                                 THEN 
-                                    _rdata.id_street_type
-                                 ELSE   
-                                    (_rdata.id_street_type + p_delta)::integer  
-                           END::integer                     
-                     
-                     ,p_nm_street_type       := _rdata.nm_street_type      ::varchar(50)  
+                      p_schema_name    := _schema_name::text  
+                     ,p_id_street_type := _rdata.id_street_type::integer
+                     ,p_nm_street_type := _rdata.nm_street_type::varchar(50)  
                      ,p_nm_street_type_short := _rdata.nm_street_type_short::varchar(10)  
-                     ,p_dt_data_del          := _rdata.data_del            ::timestamp without time zone                
+                     ,p_dt_data_del          := _rdata.data_del::timestamp without time zone                
                );
                _qty := _qty + 1;    
                
@@ -1484,8 +1482,9 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_street_type_set (
             _qty := 0;
                               
          END LOOP; -- FOREACH _schema_name
-      
-     END IF;     
+         
+      DROP SEQUENCE IF EXISTS  xxx_adr_street_type_seq;
+     END IF;  -- _OP_2    
     END;         
 $$;
  
@@ -1650,7 +1649,6 @@ IS 'Функция подготавливает исходные данные д
 --
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_house_type_set (text, text[], integer[], date, text[]);
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_house_type_set (text, text[], integer[]);
 
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_house_type_set (text, text[], integer[], integer, boolean);
@@ -1742,7 +1740,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_house_type_set (
                 
           GET DIAGNOSTICS _r = ROW_COUNT;
           RETURN NEXT _r;  
-     END IF;  
+     END IF;  -- _OP_1
      --
      -- 2) Обновить данными из промежуточной структуры. Схемы-Цели (ЛОКАЛЬНЫЕ И ОТДАЛЁННЫЕ СПРАВОЧНИКИ).
      --       
@@ -1752,8 +1750,15 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_house_type_set (
      --    
      IF (_OP_2 = ANY (p_op_type))
        THEN
+         DROP SEQUENCE IF EXISTS  xxx_adr_house_type_seq;
+         CREATE TEMPORARY SEQUENCE IF NOT EXISTS  xxx_adr_house_type_seq;
+         --       
          FOREACH _schema_name IN ARRAY p_schemas 
          LOOP
+            PERFORM setval('xxx_adr_house_type_seq'::regclass
+		         ,(SELECT MAX (z.id_house_type) FROM gar_tmp.xxx_adr_house_type z 
+                    WHERE (z.id_house_type < _LD)), true);
+            --           
             IF p_clear_all
               THEN
                    _exec := format (_del_something, _schema_name);
@@ -1765,10 +1770,9 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_house_type_set (
                   CASE 
                     WHEN z.id_house_type < _LD
                       THEN z.id_house_type
-                      ELSE row_number() OVER ()  
+                      ELSE nextval('xxx_adr_house_type_seq'::regclass) + p_delta
                   END AS id_house_type
                   
-                 ,z.id_house_type       AS id_house_type_aux
                  ,z.nm_house_type       AS nm_house_type 
                  ,z.nm_house_type_short AS nm_house_type_short
                  ,z.kd_house_type_lvl   AS kd_house_type_lvl
@@ -1781,15 +1785,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_house_type_set (
                CALL gar_tmp_pcg_trans.p_adr_house_type_set (
 
                   p_schema_name   := _schema_name::text  
-                 ,p_id_house_type := CASE 
-                                       WHEN _rdata.id_house_type_aux < _LD
-                                         THEN 
-                                            _rdata.id_house_type
-                                         ELSE   
-                                            (_rdata.id_house_type + p_delta)::integer  
-                                     END::integer
-                 
-                 ,p_nm_house_type       := _rdata.nm_house_type::varchar(50)  
+                 ,p_id_house_type := _rdata.id_house_type::integer  
+                 ,p_nm_house_type := _rdata.nm_house_type::varchar(50)  
                  ,p_nm_house_type_short := _rdata.nm_house_type_short::varchar(10) 
                  ,p_kd_house_type_lvl   := _rdata.kd_house_type_lvl::integer
                  ,p_dt_data_del         := _rdata.data_del::timestamp without time zone                
@@ -1802,8 +1799,9 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_house_type_set (
             _qty := 0;
                               
          END LOOP; -- FOREACH _schema_name
-      
-     END IF;       
+
+        DROP SEQUENCE IF EXISTS  xxx_adr_house_type_seq;         
+     END IF;  -- _OP_2      
     END;         
 $$;
  
@@ -2615,7 +2613,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_obj_fias_show_data_0 (
 		        ,aa.level_d
                 
              FROM gar_tmp.xxx_adr_area aa 
-                    WHERE (aa.obj_level <> 8)--- AND NOT((nm_addr_obj ilike 'ГСК%%')))  
+                    WHERE (aa.obj_level < 8)  
 		        ORDER BY tree_d
       )
                 INSERT INTO %I
@@ -2645,6 +2643,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_obj_fias_show_data_0 (
     --                    "gar_tmp.xxx_obj_fias"
     -- --------------------------------------------------------------------------
     --     p_schema_name text -- Имя схемы-источника._
+    -- --------------------------------------------------------------------------
+    -- 2022-12-13 Условие выбора (aa.obj_level < 8)
     -- --------------------------------------------------------------------------
     CREATE TEMP TABLE IF NOT EXISTS __adr_area_fias (LIKE gar_tmp.xxx_obj_fias)
         ON COMMIT DROP;
@@ -5909,9 +5909,10 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_unload_data (
         SECURITY DEFINER        
  AS $$
   -- -------------------------------------------------------------------------------------
-  --  2022-09-08  Загрузка регионального фрагмента из ОТДАЛЁННОГО справочника 
+  --  2022-09-08 Загрузка регионального фрагмента из ОТДАЛЁННОГО справочника 
   --                         георегионов.
   --  2022-10-14 Выгружаю всё, имеющее значимый uuid.
+  --  2022-12-13 Отмена выгрузки значимого UUID.
   -- -------------------------------------------------------------------------------------
   DECLARE
     _exec text;
@@ -6016,8 +6017,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_unload_data (
                        ,aa1.vl_addr_latitude  
                        ,aa1.vl_addr_longitude 
                      
-               FROM aa1                    
-               WHERE (aa1.nm_fias_guid IS NOT NULL);  
+               FROM aa1;                    
+               -- WHERE (aa1.nm_fias_guid IS NOT NULL); -- 2022-12-13
     $_$;
   
   BEGIN
@@ -6083,8 +6084,9 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_unload_data (
         SECURITY DEFINER        
  AS $$
   -- -------------------------------------------------------------------------------------
-  --  2022-09-28  Загрузка регионального фрагмента из ОТДАЛЁННОГО справочника адресов улиц.
+  --  2022-09-28 Загрузка регионального фрагмента из ОТДАЛЁННОГО справочника адресов улиц.
   --  2022-10-14 Выгружаю всё, имеющее значимый uuid.
+  --  2022-12-13 Отмена выгрузки значимого UUID.  
   -- -------------------------------------------------------------------------------------
   DECLARE
     _exec text;
@@ -6142,8 +6144,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_unload_data (
                      
                FROM aa1 
                    INNER JOIN %I.adr_street s ON (s.id_area = aa1.id_area)
-                   
-               WHERE (s.nm_fias_guid IS NOT NULL);     
+               ;    
+               -- WHERE (s.nm_fias_guid IS NOT NULL);   --  2022-12-13
     $_$;
   
   BEGIN
@@ -6212,6 +6214,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_unload_data (
   --  2021-12-31/2022-01-28  Загрузка регионального фрагмента из ОТДАЛЁННОГО справочника 
   --                         адресов домов.
   --  2022-10-14 Выгружаю всё, имеющее значимый uuid.
+  --  2022-12-13 Отмена выгрузки значимого UUID.   
   -- -------------------------------------------------------------------------------------
   DECLARE
     _exec text;
@@ -6277,8 +6280,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_unload_data (
                      
                FROM aa1 
                    INNER JOIN %I.adr_house h ON (h.id_area = aa1.id_area)
-              
-               WHERE (h.nm_fias_guid IS NOT NULL); 
+              ;
+              -- WHERE (h.nm_fias_guid IS NOT NULL); -- 2022-12-13
     $_$;
   
     -- (h.dt_data_del IS NULL) AND (h.id_data_etalon IS NULL) AND 

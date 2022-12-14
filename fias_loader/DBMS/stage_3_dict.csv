@@ -32,5 +32,9 @@ X;;;Start process;
 #
 1;A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_dic_pre_proc.sql;;-- adr_dic_pre_proc.sql;
 #
+0;SELECT * FROM gar_tmp.xxx_adr_area_type z ORDER BY z.id_area_type;;-- ;
+0;SELECT * FROM gar_tmp.xxx_adr_street_type z ORDER BY z.id_street_type;;-- ;
+0;SELECT * FROM gar_tmp.xxx_adr_house_type z ORDER BY z.id_house_type;;-- ;
+#
 X;;;Stop process;
 #-------------------------------------------------------------------------------

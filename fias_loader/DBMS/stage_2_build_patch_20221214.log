@@ -1,0 +1,11 @@
+2022-12-14 11:44:39 ./
+127.0.0.1 5435 unsi_test_92 postgres stage_2_build_patch_20221214.csv 2022-12-14
+--------------------------------------------------------
+[11:44:39] ... Start process, Patch 20221214 общий
+[11:44:39] ... -- gar_fias_ins_tbl_as_adr_objects_type_black_list
+[11:44:39] ... -- gar_fias_ins_tbl_as_house_type_black_list.sql
+[11:44:39] ... -- ins_adr_area_type_etalon_1.sql
+[11:44:40] ... -- ins_adr_street_type_etalon_1.sql
+[11:44:40] ... -- ins_adr_house_type_etalon_1.sql
+[11:44:40] ... Stop process
+--------------------------------------------------------

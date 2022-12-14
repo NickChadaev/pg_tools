@@ -1,0 +1,36 @@
+#-------------------------------------------------------------------------------
+# 2009-04-21/2020-05-10 Nick (nick-ch58@yandex.ru).
+#-------------------------------------------------------------------------------
+# The structure of bathc-file. It consists:
+#    0 - Type action 
+#    1 - SQL-command/The SQL-file name/The <1*.conf> file name
+#    2 - DB name 
+#    3 - The text of message
+#    The DB-name may be ommited. But if it is present, the it 
+#    cancels the name specified in the parameter list.
+#-------------------------------------------------------------------------------
+# Type action is: 0 - Direct performing SQL-command
+#                 1 - Perform SQL-command from SQL-file
+#-------------------------------------------------------------------------------
+# For example: 
+#       0;DROP DATABASE IF EXISTS db_k2;;Remove old DB; 
+#       1;1_crt_domain.sql;db_k2;Creating domains; 
+#       X;;;Schema COM; 
+#       1;0_COM/2_com_crt_tables.sql;;-- Creating the base tables; 
+#       1;0_COM/4_com_crt_errors.sql;;-- Creating the tables for errors;
+#-------------------------------------------------------------------------------
+X;;;Start process;
+#
+0;SELECT gar_tmp_pcg_trans.f_xxx_adr_area_type_set('gar_tmp'::text,NULL,ARRAY[1]);;-- gar_tmp_pcg_trans.f_xxx_adr_area_type_set(); 
+0;SELECT * FROM gar_tmp.xxx_adr_area_type z ORDER BY z.id_area_type;;--;
+#--
+0;SELECT gar_tmp_pcg_trans.f_xxx_street_type_set('gar_tmp'::text,NULL,ARRAY[1]);;-- gar_tmp_pcg_trans.f_xxx_street_type_set();
+0;SELECT * FROM gar_tmp.xxx_adr_street_type z ORDER BY z.id_street_type;;-- ;
+#--
+0;SELECT gar_tmp_pcg_trans.f_xxx_house_type_set('gar_tmp'::text,NULL,ARRAY[1]);;-- gar_tmp_pcg_trans.f_xxx_house_type_set();
+0;SELECT * FROM gar_tmp.xxx_adr_house_type z ORDER BY z.id_house_type;;-- ;
+#
+1;A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_dic_pre_proc.sql;;-- adr_dic_pre_proc.sql;
+#
+X;;;Stop process;
+#-------------------------------------------------------------------------------

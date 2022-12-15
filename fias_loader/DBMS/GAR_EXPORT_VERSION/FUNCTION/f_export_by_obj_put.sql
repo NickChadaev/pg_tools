@@ -1,10 +1,11 @@
-DROP FUNCTION IF EXISTS export_version.f_version_by_obj_put (date, text, text, char(1), text);
+DROP FUNCTION IF EXISTS export_version.f_version_by_obj_put (date, text, text, integer, integer, text);
 CREATE OR REPLACE FUNCTION export_version.f_version_by_obj_put (
-                 p_dt_gar_version  date
-                ,p_sch_object      text 
-                ,p_nm_object       text
-                ,p_object_kind     char(1)
-                ,p_file_path       text              
+                 p_dt_gar_version  date     -- Версия по GAR-FIAS
+                ,p_sch_name        text     -- Схема
+                ,p_nm_object       text     -- Имя таблицы
+                ,p_qty_main        integer  -- Общее количество записей
+                ,p_qty_aux         integer  -- Количество обновлённых записей.     
+                ,p_file_path       text     -- Файл, с выгруженными обновлениями         
 ) 
   RETURNS bigint
   
@@ -27,33 +28,31 @@ CREATE OR REPLACE FUNCTION export_version.f_version_by_obj_put (
       THEN
           _id_un_export_by_obj := NULL;
       ELSE
+      
         INSERT INTO export_version.un_export_by_obj AS v
         (        id_un_export
+                ,sch_name   
                 ,nm_object
-                ,object_kind
                 ,qty_main
                 ,qty_aux
-                ,seq_value
                 ,file_path
          )
              VALUES (_id_un_export
+                    ,p_sch_name
                     ,p_nm_object
-                    ,p_object_kind
-                    ,0
-                    ,0
-                    ,(SELECT last_value FROM gar_tmp.obj_seq)
+                    ,p_qty_main   
+                    ,p_qty_aux    
                     ,p_file_path
              )                                
-            ON CONFLICT (id_un_export, object_kind) 
+            ON CONFLICT (id_un_export, nm_object) 
             DO 
-                 UPDATE SET  nm_object = excluded.nm_object
+                 UPDATE SET  sch_name  = excluded.sch_name
                             ,qty_main  = excluded.qty_main 
                             ,qty_aux   = excluded.qty_aux  
-                            ,seq_value = excluded.seq_value
                             ,file_path = excluded.file_path
                             
                    WHERE (v.id_un_export = excluded.id_un_export) AND
-                         (v.object_kind = excluded.object_kind)
+                         (v.nm_object = excluded.nm_object)
              
         RETURNING v.id_un_export_by_obj INTO _id_un_export_by_obj;   
     END IF;  
@@ -62,13 +61,41 @@ CREATE OR REPLACE FUNCTION export_version.f_version_by_obj_put (
   END;
 $$;
 
-ALTER FUNCTION export_version.f_version_by_obj_put (date, text, text, char(1), text) OWNER TO postgres;
+ALTER FUNCTION export_version.f_version_by_obj_put (date, text, text, integer, integer, text) OWNER TO postgres;
 
-COMMENT ON FUNCTION export_version.f_version_by_obj_put (date, text, text, char(1), text) IS 'Сохранение Версии ГАР ФИАС';
+COMMENT ON FUNCTION export_version.f_version_by_obj_put (date, text, text, integer, integer, text) IS 'Сохранение Версии ГАР ФИАС';
 --
 --  USE CASE:
+--
+-- SELECT export_version.f_version_by_obj_put (
 
--- SELECT export_version.f_version_by_obj_put ('2021-09-27', NULL, '/media/rootadmin/Transcend/FIAS_GAR1/AS_ADDHOUSE_TYPES_20210927_bc9df1c0-f77b-4e00-a49b-0a3c92254c66.XML');
+--         p_dt_gar_version := '2022-11-21'::date     -- Версия по GAR-FIAS
+--        ,p_sch_name     := 'gar_tmp'::text     -- Схема
+--        ,p_nm_object      := 'adr_area'::text     -- Имя таблицы
+--        ,p_qty_main       := 389::integer  -- Общее количество записей
+--        ,p_qty_aux        := 11::integer  -- Количество обновлённых записей.     
+--        ,p_file_path      := NULL::text     -- Файл, с выгруженными обновлениями         
 
+-- );
+--
+-- SELECT export_version.f_version_by_obj_put (
 
+--         p_dt_gar_version := '2022-11-21'::date     -- Версия по GAR-FIAS
+--        ,p_sch_name     := 'unnsi'::text     -- Схема
+--        ,p_nm_object      := 'adr_street'::text     -- Имя таблицы
+--        ,p_qty_main       := 910::integer  -- Общее количество записей
+--        ,p_qty_aux        := 391::integer  -- Количество обновлённых записей.     
+--        ,p_file_path      := NULL::text     -- Файл, с выгруженными обновлениями         
 
+-- );
+-- --
+-- SELECT export_version.f_version_by_obj_put (
+
+--         p_dt_gar_version := '2022-11-21'::date     -- Версия по GAR-FIAS
+--        ,p_sch_name     := 'unnsi'::text     -- Схема
+--        ,p_nm_object      := 'adr_house'::text     -- Имя таблицы
+--        ,p_qty_main       := 2190::integer  -- Общее количество записей
+--        ,p_qty_aux        := 470::integer  -- Количество обновлённых записей.     
+--        ,p_file_path      := NULL::text     -- Файл, с выгруженными обновлениями         
+
+-- );

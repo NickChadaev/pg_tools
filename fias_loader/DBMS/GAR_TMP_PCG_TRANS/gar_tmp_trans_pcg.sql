@@ -5,7 +5,7 @@
 --
 CREATE OR REPLACE VIEW gar_tmp_pcg_trans.version
  AS
- SELECT '$Revision:52494b9$ modified $RevDate:2022-12-14$'::text AS version; 
+ SELECT '$Revision:0cb98a3$ modified $RevDate:2022-12-15$'::text AS version; 
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 --
@@ -3818,8 +3818,6 @@ COMMENT ON PROCEDURE gar_tmp_pcg_trans.p_alt_tbl (boolean) IS 'Модифика�
 --             CALL gar_tmp_pcg_trans.p_alt_tbl ();
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_clear_tbl (boolean);
-
 DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_clear_tbl (integer[]);
 CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_clear_tbl (
           p_op_type  integer[] = ARRAY[-8,-9]::integer[] 
@@ -3833,25 +3831,24 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_clear_tbl (
     -- Очистка временных (буфферных таблиц). FALSE - очищаются только таблицы-результаты TRUE - все таблицы.
     -- 2022-03-15 -- История сохраняется всегда.
     -- 2022-09-26 -- Многоступенчатое удаление.
-    --  2022-10-21   Вспомогательные таблицы.    
+    -- 2022-10-21 -- Вспомогательные таблицы.
+    -- 2022-12-15 -- Пересмотр приоритетов процессов очистки данных: 
     -- ====================================================================================================
     DECLARE
 
-      _OP_0 CONSTANT integer := 0;
-      _OP_1 CONSTANT integer := 1;
-      _OP_2 CONSTANT integer := 2;
+      _OP_0 CONSTANT integer := 0;  
+      _OP_1 CONSTANT integer := 1; -- Временные таблицы и вспомогательные таблицы.
+      _OP_2 CONSTANT integer := 2; -- Таблицы-секции
       _OP_3 CONSTANT integer := 3;
+      _OP_4 CONSTANT integer := 4;
+      _OP_5 CONSTANT integer := 5;
+      _OP_6 CONSTANT integer := 6; -- logging выгрузки.
+      _OP_7 CONSTANT integer := 7; -- GAP-таблицы
+      _OP_8 CONSTANT integer := 8; -- Исторические таблицы
+      _OP_9 CONSTANT integer := 9; -- Прототипы справочников
          
     BEGIN
     
-     IF (_OP_0 = ANY (p_op_type)) THEN -- Только прототипы справочников
-     
-        DELETE FROM ONLY gar_tmp.xxx_adr_area_type;   -- Временная таблица для "С_Типы гео-региона (!)"
-        DELETE FROM ONLY gar_tmp.xxx_adr_street_type; -- Временная таблица для "C_Типы улицы (!)"
-        DELETE FROM ONLY gar_tmp.xxx_adr_house_type;  -- Временная таблица для "С_Типы номера (!)"
-       
-     END IF;
-     --
      IF (_OP_1 = ANY (p_op_type)) THEN -- Только временные таблицы.
      
         DELETE FROM ONLY gar_tmp.xxx_adr_area;         -- Временная таблица. заполняется данными из "AS_ADDR_OBJ", "AS_REESTR_OBJECTS", "AS_ADM_HIERARCHY", "AS_MUN_HIERARCHY", "AS_OBJECT_LEVEL", "AS_STEADS_PARAMS"
@@ -3876,7 +3873,22 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_clear_tbl (
       
      END IF;
      -- 
-     IF (_OP_3 = ANY (p_op_type)) THEN -- Только исторические таблицы
+     IF (_OP_6 = ANY (p_op_type)) THEN -- LOGGING выгрузки
+     
+        DELETE FROM ONLY export_version.un_export_by_obj;
+        DELETE FROM ONLY export_version.un_export;
+
+     END IF;     
+     -- 
+     IF (_OP_7 = ANY (p_op_type)) THEN -- Только GAP-таблицы
+     
+        DELETE FROM ONLY gar_tmp.xxx_adr_street_gap;
+        DELETE FROM ONLY gar_tmp.xxx_adr_area_gap;
+        DELETE FROM ONLY gar_tmp.xxx_adr_house_gap;
+
+     END IF;
+     --
+     IF (_OP_8 = ANY (p_op_type)) THEN -- Только исторические таблицы
      
         DELETE FROM ONLY gar_tmp.adr_area_hist;     
         DELETE FROM ONLY gar_tmp.adr_house_hist; 
@@ -3884,6 +3896,15 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_clear_tbl (
         DELETE FROM ONLY gar_tmp.adr_street_hist;
       
      END IF;
+     --
+     IF (_OP_9 = ANY (p_op_type)) THEN -- Только прототипы справочников
+     
+        DELETE FROM ONLY gar_tmp.xxx_adr_area_type;   -- Временная таблица для "С_Типы гео-региона (!)"
+        DELETE FROM ONLY gar_tmp.xxx_adr_street_type; -- Временная таблица для "C_Типы улицы (!)"
+        DELETE FROM ONLY gar_tmp.xxx_adr_house_type;  -- Временная таблица для "С_Типы номера (!)"
+       
+     END IF;
+     --
     END;
   $$;
 

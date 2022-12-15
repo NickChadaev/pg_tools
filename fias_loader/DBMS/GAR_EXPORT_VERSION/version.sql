@@ -1,8 +1,8 @@
 --
 -- Версия пакета. Дата общей сборки, либо максимальная дата обновления.
 --
-CREATE OR REPLACE VIEW public.version
+CREATE OR REPLACE VIEW export_version.version
  AS
- SELECT '$Revision:213568b$ modified $RevDate:2022-10-24$'::text AS version; 
+ SELECT '$Revision:0cb98a3$ modified $RevDate:2022-12-15$'::text AS version; 
 
--- SELECT * FROM public.version;
+-- SELECT * FROM export_version.version;  

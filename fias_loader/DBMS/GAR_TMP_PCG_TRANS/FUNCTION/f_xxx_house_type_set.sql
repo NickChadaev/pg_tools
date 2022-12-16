@@ -71,7 +71,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_house_type_set (
                      ,x.fias_row_key        
                      ,x.is_twin  
                      
-             FROM gar_tmp_pcg_trans.f_xxx_house_type_show_data (p_schema_etalon) x
+             FROM gar_tmp_pcg_trans.f_xxx_house_type_show_data (p_schema_etalon) x 
+                         ORDER BY x.id_house_type, x.fias_type_name
                   ON CONFLICT (fias_row_key) DO 
                   
                   UPDATE

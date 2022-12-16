@@ -21,20 +21,29 @@
 #-------------------------------------------------------------------------------
 X;;;Start process;
 #
+0;DELETE FROM gar_tmp.xxx_adr_area_type;;-- DELETE FROM gar_tmp.xxx_adr_area_type;
 0;SELECT gar_tmp_pcg_trans.f_xxx_adr_area_type_set('gar_tmp'::text,NULL,ARRAY[1]);;-- gar_tmp_pcg_trans.f_xxx_adr_area_type_set(); 
-0;SELECT * FROM gar_tmp.xxx_adr_area_type z ORDER BY z.id_area_type;;--;
 #--
+0;DELETE FROM gar_tmp.xxx_adr_street_type;;-- DELETE FROM gar_tmp.xxx_adr_street_type;
 0;SELECT gar_tmp_pcg_trans.f_xxx_street_type_set('gar_tmp'::text,NULL,ARRAY[1]);;-- gar_tmp_pcg_trans.f_xxx_street_type_set();
-0;SELECT * FROM gar_tmp.xxx_adr_street_type z ORDER BY z.id_street_type;;-- ;
 #--
+0;DELETE FROM gar_tmp.xxx_adr_house_type;;-- DELETE FROM gar_tmp.xxx_adr_house_type;
 0;SELECT gar_tmp_pcg_trans.f_xxx_house_type_set('gar_tmp'::text,NULL,ARRAY[1]);;-- gar_tmp_pcg_trans.f_xxx_house_type_set();
-0;SELECT * FROM gar_tmp.xxx_adr_house_type z ORDER BY z.id_house_type;;-- ;
 #
 1;A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_dic_pre_proc.sql;;-- adr_dic_pre_proc.sql;
 #
-0;SELECT * FROM gar_tmp.xxx_adr_area_type z ORDER BY z.id_area_type;;-- ;
-0;SELECT * FROM gar_tmp.xxx_adr_street_type z ORDER BY z.id_street_type;;-- ;
-0;SELECT * FROM gar_tmp.xxx_adr_house_type z ORDER BY z.id_house_type;;-- ;
+0;DELETE FROM gar_tmp.xxx_adr_street_type WHERE (fias_row_key = 'фермерскоехозяйство');;-- DELETE FROM gar_tmp.xxx_adr_street_type;
+0;SELECT gar_tmp_pcg_trans.f_xxx_adr_area_type_set('gar_tmp'::text,ARRAY['gar_tmp'],ARRAY[2]);;-- gar_tmp_pcg_trans.f_xxx_adr_area_type_set(); 
+0;SELECT gar_tmp_pcg_trans.f_xxx_street_type_set('gar_tmp'::text,ARRAY['gar_tmp'],ARRAY[2]);;-- gar_tmp_pcg_trans.f_xxx_street_type_set();
+0;SELECT gar_tmp_pcg_trans.f_xxx_house_type_set('gar_tmp'::text,ARRAY['gar_tmp'],ARRAY[2]);;-- gar_tmp_pcg_trans.f_xxx_house_type_set();
+#
+0;SELECT * FROM gar_tmp.xxx_adr_area_type z ORDER BY z.id_area_type;;-- SELECT * FROM gar_tmp.xxx_adr_area_type;
+0;SELECT * FROM gar_tmp.xxx_adr_street_type z ORDER BY z.id_street_type;;-- SELECT * FROM gar_tmp.xxx_adr_street_type;
+0;SELECT * FROM gar_tmp.xxx_adr_house_type z ORDER BY z.id_house_type;;-- SELECT * FROM gar_tmp.xxx_adr_house_type;
+#
+0;SELECT * FROM gar_tmp.adr_area_type z ORDER BY z.id_area_type;;-- SELECT * FROM gar_tmp.adr_area_type;
+0;SELECT * FROM gar_tmp.adr_street_type z ORDER BY z.id_street_type;;-- SELECT * FROM gar_tmp.adr_street_type;
+0;SELECT * FROM gar_tmp.adr_house_type z ORDER BY z.id_house_type;;-- SELECT * FROM gar_tmp.adr_house_type;
 #
 X;;;Stop process;
 #-------------------------------------------------------------------------------

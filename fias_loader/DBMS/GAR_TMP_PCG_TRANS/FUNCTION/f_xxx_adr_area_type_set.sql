@@ -66,7 +66,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_type_set (
                        ,is_twin                   
              )       
                SELECT   x.fias_ids          
-                       ,COALESCE (x.id_area_type, (fias_ids[1] + 1000)) AS id_area_type
+                       ,COALESCE (x.id_area_type, (fias_ids[1] + _LD)) AS id_area_type
                        ,x.fias_type_name      
                        ,COALESCE (x.nm_area_type, x.fias_type_name) AS nm_area_type 
                        ,x.fias_type_shortname 
@@ -76,7 +76,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_type_set (
                        ,x.fias_row_key        
                        ,x.is_twin      
  
-               FROM gar_tmp_pcg_trans.f_xxx_adr_area_type_show_data (p_schema_etalon) x
+               FROM gar_tmp_pcg_trans.f_xxx_adr_area_type_show_data (p_schema_etalon) 
+                         x ORDER BY x.id_area_type, x.fias_type_name
                
                 ON CONFLICT (fias_row_key) DO 
                     

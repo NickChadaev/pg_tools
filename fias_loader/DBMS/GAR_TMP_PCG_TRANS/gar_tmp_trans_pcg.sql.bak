@@ -5,7 +5,7 @@
 --
 CREATE OR REPLACE VIEW gar_tmp_pcg_trans.version
  AS
- SELECT '$Revision:52494b9$ modified $RevDate:2022-12-14$'::text AS version; 
+ SELECT '$Revision:d3992ea$ modified $RevDate:2022-12-16$'::text AS version; 
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 --
@@ -1097,7 +1097,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_type_set (
                        ,is_twin                   
              )       
                SELECT   x.fias_ids          
-                       ,COALESCE (x.id_area_type, (fias_ids[1] + 1000)) AS id_area_type
+                       ,COALESCE (x.id_area_type, (fias_ids[1] + _LD)) AS id_area_type
                        ,x.fias_type_name      
                        ,COALESCE (x.nm_area_type, x.fias_type_name) AS nm_area_type 
                        ,x.fias_type_shortname 
@@ -1107,7 +1107,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_type_set (
                        ,x.fias_row_key        
                        ,x.is_twin      
  
-               FROM gar_tmp_pcg_trans.f_xxx_adr_area_type_show_data (p_schema_etalon) x
+               FROM gar_tmp_pcg_trans.f_xxx_adr_area_type_show_data (p_schema_etalon) 
+                         x ORDER BY x.id_area_type, x.fias_type_name
                
                 ON CONFLICT (fias_row_key) DO 
                     
@@ -1410,6 +1411,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_street_type_set (
                   ,x.is_twin 
                   
           FROM gar_tmp_pcg_trans.f_xxx_street_type_show_data (p_schema_etalon) x 
+                      ORDER BY x.id_street_type, x.fias_type_name
+                      
                ON CONFLICT (fias_row_key) DO 
                
                UPDATE
@@ -1722,7 +1725,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_house_type_set (
                      ,x.fias_row_key        
                      ,x.is_twin  
                      
-             FROM gar_tmp_pcg_trans.f_xxx_house_type_show_data (p_schema_etalon) x
+             FROM gar_tmp_pcg_trans.f_xxx_house_type_show_data (p_schema_etalon) x 
+                         ORDER BY x.id_house_type, x.fias_type_name
                   ON CONFLICT (fias_row_key) DO 
                   
                   UPDATE

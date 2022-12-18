@@ -24,14 +24,14 @@
 #       1;0_COM/2_com_crt_tables.sql;;-- Creating the base tables; 
 #       1;0_COM/4_com_crt_errors.sql;;-- Creating the tables for errors;
 #-------------------------------------------------------------------------------
-X;;;Start process, Patch 20221214 общий;
+X;;;Start process, Patch 20221214/20221216 общий;
 #
 1;GAR_FIAS/gar_fias_ins_tbl_as_adr_objects_type_black_list.sql;;-- gar_fias_ins_tbl_as_adr_objects_type_black_list;
 1;GAR_FIAS/gar_fias_ins_tbl_as_house_type_black_list.sql;;-- gar_fias_ins_tbl_as_house_type_black_list.sql;
 #
-1;GAR_TMP/ins_adr_area_type_etalon_1.sql;;-- ins_adr_area_type_etalon_1.sql;
-1;GAR_TMP/ins_adr_street_type_etalon_1.sql;;-- ins_adr_street_type_etalon_1.sql;
-1;GAR_TMP/ins_adr_house_type_etalon_1.sql;;-- ins_adr_house_type_etalon_1.sql;
+1;GAR_TMP/ins_adr_area_type_etalon_2.sql;;-- ins_adr_area_type_etalon_2.sql;
+1;GAR_TMP/ins_adr_street_type_etalon_2.sql;;-- ins_adr_street_type_etalon_2.sql;
+1;GAR_TMP/ins_adr_house_type_etalon_2.sql;;-- ins_adr_house_type_etalon_2.sql;
 #
 X;;;Stop process;
 #-------------------------------------------------------------------------------

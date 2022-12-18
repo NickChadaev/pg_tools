@@ -1,7 +1,3 @@
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_obj_seq_crt (text, bigint);
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_obj_seq_crt (text, text, bigint, bigint);
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_obj_seq_crt (text, bigint, bigint, text);
-
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_obj_seq_crt (text, bigint, bigint, text, text, text, text);
 CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_obj_seq_crt (
               p_seq_name        text   -- Имя последовательности
@@ -75,6 +71,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_obj_seq_crt (
       
       IF NOT (_val = 1 ) THEN
            _val := _val + 10;
+         ELSE 
+           _val := _val + _min_val;
       END IF;
       
       _exec := format (_sq_set, _seq_name, _val);

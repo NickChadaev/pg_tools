@@ -50,7 +50,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_zzz_street_type_show_tmp_data (
 ALTER FUNCTION gar_tmp_pcg_trans.f_zzz_street_type_show_tmp_data (text) OWNER TO postgres;  
 
 COMMENT ON FUNCTION gar_tmp_pcg_trans.f_zzz_street_type_show_tmp_data (text) 
-IS 'Функция отображает "тип дома" из промежуточного хранилища.';
+IS 'Функция отображает "тип улицы" из промежуточного хранилища.';
 ----------------------------------------------------------------------------------
 -- USE CASE:
 --           SELECT * FROM gar_tmp_pcg_trans.f_zzz_street_type_show_tmp_data ('gar_tmp'); 

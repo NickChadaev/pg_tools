@@ -5,7 +5,7 @@
 --
 CREATE OR REPLACE VIEW gar_tmp_pcg_trans.version
  AS
- SELECT '$Revision:0cb98a3$ modified $RevDate:2022-12-15$'::text AS version; 
+ SELECT '$Revision:d3992ea$ modified $RevDate:2022-12-16$'::text AS version; 
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 --
@@ -29,10 +29,6 @@ DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_street_del_twin (
 --
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_obj_seq_crt (text, bigint);
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_obj_seq_crt (text, text, bigint, bigint);
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_obj_seq_crt (text, bigint, bigint, text);
-
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_obj_seq_crt (text, bigint, bigint, text, text, text, text);
 CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_obj_seq_crt (
               p_seq_name        text   -- Имя последовательности
@@ -106,6 +102,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_obj_seq_crt (
       
       IF NOT (_val = 1 ) THEN
            _val := _val + 10;
+         ELSE 
+           _val := _val + _min_val;
       END IF;
       
       _exec := format (_sq_set, _seq_name, _val);
@@ -1097,7 +1095,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_type_set (
                        ,is_twin                   
              )       
                SELECT   x.fias_ids          
-                       ,COALESCE (x.id_area_type, (fias_ids[1] + 1000)) AS id_area_type
+                       ,COALESCE (x.id_area_type, (fias_ids[1] + _LD)) AS id_area_type
                        ,x.fias_type_name      
                        ,COALESCE (x.nm_area_type, x.fias_type_name) AS nm_area_type 
                        ,x.fias_type_shortname 
@@ -1107,7 +1105,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_type_set (
                        ,x.fias_row_key        
                        ,x.is_twin      
  
-               FROM gar_tmp_pcg_trans.f_xxx_adr_area_type_show_data (p_schema_etalon) x
+               FROM gar_tmp_pcg_trans.f_xxx_adr_area_type_show_data (p_schema_etalon) 
+                         x ORDER BY x.id_area_type, x.fias_type_name
                
                 ON CONFLICT (fias_row_key) DO 
                     
@@ -1410,6 +1409,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_street_type_set (
                   ,x.is_twin 
                   
           FROM gar_tmp_pcg_trans.f_xxx_street_type_show_data (p_schema_etalon) x 
+                      ORDER BY x.id_street_type, x.fias_type_name
+                      
                ON CONFLICT (fias_row_key) DO 
                
                UPDATE
@@ -1722,7 +1723,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_house_type_set (
                      ,x.fias_row_key        
                      ,x.is_twin  
                      
-             FROM gar_tmp_pcg_trans.f_xxx_house_type_show_data (p_schema_etalon) x
+             FROM gar_tmp_pcg_trans.f_xxx_house_type_show_data (p_schema_etalon) x 
+                         ORDER BY x.id_house_type, x.fias_type_name
                   ON CONFLICT (fias_row_key) DO 
                   
                   UPDATE
@@ -2515,7 +2517,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_zzz_street_type_show_tmp_data (
 ALTER FUNCTION gar_tmp_pcg_trans.f_zzz_street_type_show_tmp_data (text) OWNER TO postgres;  
 
 COMMENT ON FUNCTION gar_tmp_pcg_trans.f_zzz_street_type_show_tmp_data (text) 
-IS 'Функция отображает "тип дома" из промежуточного хранилища.';
+IS 'Функция отображает "тип улицы" из промежуточного хранилища.';
 ----------------------------------------------------------------------------------
 -- USE CASE:
 --           SELECT * FROM gar_tmp_pcg_trans.f_zzz_street_type_show_tmp_data ('gar_tmp'); 

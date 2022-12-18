@@ -38,8 +38,8 @@ SELECT * FROM gar_tmp.xxx_adr_area_type WHERE (id_area_type = 105);
 --     SET fias_ids = COALESCE (fias_ids, ARRAY[]::bigint[]) || 285::bigint 
 --        ,fias_type_name = COALESCE (fias_type_name, nm_area_type)
 --        ,fias_type_shortname = COALESCE (fias_type_shortname, nm_area_type_short)
---  WHERE (id_area_type = 106); 
--- SELECT * FROM gar_tmp.xxx_adr_area_type WHERE (id_area_type = 106); 
+--  WHERE (id_area_type = 107); 
+-- SELECT * FROM gar_tmp.xxx_adr_area_type WHERE (id_area_type = 107); 
 --
 -- UPDATE gar_tmp.xxx_adr_area_type   -- Погост 
 --     SET fias_ids = COALESCE (fias_ids, ARRAY[]::bigint[]) || 97::bigint 

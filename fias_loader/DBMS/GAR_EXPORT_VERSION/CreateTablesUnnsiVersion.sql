@@ -71,7 +71,7 @@ COMMENT ON TABLE export_version.un_export_by_obj IS 'Детали экспорт
 
 COMMENT ON COLUMN export_version.un_export_by_obj.id_un_export_by_obj IS 'ID процесса экспорта объекта в адресную базу ЕС НСИ';
 COMMENT ON COLUMN export_version.un_export_by_obj.id_un_export        IS 'ID процесса экспорта в адресную базу ЕС НСИ';
-COMMENT ON COLUMN export_version.un_export_by_obj.sch_name   IS 'Имя схемы';
+COMMENT ON COLUMN export_version.un_export_by_obj.sch_name   IS 'Имя схемы-источника данных';
 COMMENT ON COLUMN export_version.un_export_by_obj.nm_object  IS 'Наименование объекта: adr_area, adr_street, adr_house';
 COMMENT ON COLUMN export_version.un_export_by_obj.qty_main   IS 'Общее количестов записей в таблице';
 COMMENT ON COLUMN export_version.un_export_by_obj.qty_aux    IS 'Количество изменений/дополнений в таблице';

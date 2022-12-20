@@ -92,7 +92,7 @@ bAS_ROOMS_PARAMS      = "ASROOMSPARAMS"
 bAS_STEADS            = "ASSTEADS"
 bAS_STEADS_PARAMS     = "ASSTEADSPARAMS"
 
-VERSION_STR = "  Version 0.5.3 Build 2022-12-06"
+VERSION_STR = "  Version 0.5.4 Build 2022-12-20"
 
 GET_DT = "SELECT now()::TIMESTAMP without time zone FROM current_timestamp;"
 
@@ -497,7 +497,9 @@ class make_load ( fd_log_s ):
                     rc = mm6.stage_6_3 ( mm6.mogrify_6_3 ) 
                     if rc <> 0:     #  Fatal error, break process
                         break
- 
+         
+                mm6.cur6.close()
+                mm6.conn6.close()
             #----------------------------------------------------------------------------
             if l_words [0] == LOAD_XML:  # Parse and Load XML
                  list_names = self.load_list_names (l_words [1]) # 2021-11-28  

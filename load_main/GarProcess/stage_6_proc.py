@@ -9,7 +9,7 @@
 import sys
 ## import string
 
-VERSION_STR = "  Version 0.0.1 Build 2022-08-05"
+VERSION_STR = "  Version 0.1.1 Build 2022-12-19"
 
 class proc_patterns ():
     """
@@ -17,125 +17,129 @@ class proc_patterns ():
     """
     def __init__ (self):
         
-        # Смена индексного покрытия в целевых таблицах
-        
-        self.gar_link_p_adr_area_idx = """CALL gar_link.p_adr_area_idx (
-              p_conn        := (gar_link.f_conn_set({0}::numeric(3)))::text -- Именованное dblink-соединение   
-             ,p_schema_name := '{1}'::text  -- Имя отдалённой схемы 
-             ,p_mode_t      := {2}::boolean -- Выбор типа индексов TRUE - Эксплутационные, FALSE - Загрузочные
-             ,p_mode_c      := {3}::boolean -- Создание индексов FALSE - удаление             
+        # Сохранение записи в журнале выгрузок
+        self.export_f_version_put = """SELECT export_version.f_version_put (
+                                      p_dt_gar_version := '{0}'::date 
+                                     ,p_kd_export_type := {1}::boolean 
+                                     ,p_id_region      := {2}::bigint 
+                                     ,p_seq_name       := '{3}'::text 
+                                     ,p_node_id        := {4}::numeric         
         );
         """
-        self.gar_link_p_adr_street_idx = """CALL gar_link.p_adr_street_idx (
-                   p_conn        := (gar_link.f_conn_set({0}::numeric(3)))::text -- Именованное dblink-соединение   
-                  ,p_schema_name := '{1}'::text  -- Имя отдалённой схемы 
-                  ,p_mode_t      := {2}::boolean -- TRUE - Эксплутационные, FALSE - Загрузочные
-                  ,p_mode_c      := {3}::boolean -- TRUE - Создание индексов, FALSE - удаление  
-                  ,p_uniq_sw     := {4}::boolean -- Уникальность "ak1", "ie2".                  
-            );
+        self.export_f_version_by_obj_put = """SELECT export_version.f_version_by_obj_put (
+                           p_dt_gar_version := '{0}'::date 
+                          ,p_sch_name       := '{1}'::text
+                          ,p_nm_object      := '{2}'::text 
+                          ,p_qty_main       := {3}::integer 
+                          ,p_qty_aux        := {4}::integer 
+                          ,p_file_path      := '{5}'::text
+        );
+        """
+        # Загрузка
+        self.gar_tmp_p_adr_area_upload = """CALL gar_tmp_pcg_trans.p_adr_area_upload (
+                      p_lschema_name := '{0}'::text -- локальная схема 
+                     ,p_fschema_name := '{1}'::text -- отдалённая схема
+                   );
+        """
+
+        self.gar_tmp_p_adr_street_upload = """CALL gar_tmp_pcg_trans.p_adr_street_upload (
+                      p_lschema_name := '{0}'::text -- локальная схема 
+                     ,p_fschema_name := '{1}'::text -- отдалённая схема
+                   );
+        """   
+
+        self.gar_tmp_p_adr_house_upload = """ CALL gar_tmp_pcg_trans.p_adr_house_upload (
+                      p_lschema_name := '{0}'::text -- локальная схема 
+                     ,p_fschema_name := '{1}'::text -- отдалённая схема
+                   );
         """      
-        self.gar_link_p_adr_house_idx = """CALL gar_link.p_adr_house_idx (
-                   p_conn        := (gar_link.f_conn_set({0}::numeric(3)))::text -- Именованное dblink-соединение   
-                  ,p_schema_name := '{1}'::text  -- Имя отдалённой схемы 
+
+        # Управление индексами -- (gar_link.f_conn_set({1}::numeric(3)))
+        self.gar_link_p_adr_street_idx = """CALL gar_link.p_adr_street_idx (
+                   p_schema_name := '{0}'::text  -- Имя локальной/отдалённой схемы 
+                  ,p_conn        := {1}::text    -- Именованное dblink-соединение   
                   ,p_mode_t      := {2}::boolean -- TRUE - Эксплутационные, FALSE - Загрузочные
                   ,p_mode_c      := {3}::boolean -- TRUE - Создание индексов FALSE - удаление  
                   ,p_uniq_sw     := {4}::boolean -- TRUE - Уникальность "ak1", "ie2" - 
             ); 
         """
-        self.gar_link_p_adr_objects_idx = """CALL gar_link.p_adr_objects_idx (
-           p_conn        := (gar_link.f_conn_set({0}::numeric(3)))::text -- Именованное dblink-соединение   
-          ,p_schema_name := '{1}'::text  -- Имя отдалённой схемы 
-          ,p_mode_t      := {2}::boolean -- Выбор типа индексов TRUE  - Эксплутационные, FALSE - Загрузочные
-          ,p_mode_c      := {3}::boolean -- Создание индексов FALSE - удаление  
-          ,p_uniq_x2     := {4}::boolean -- Уникальность второго загрузочного индекса.
-          );
-        """  
-        #--------------------------------------------------------------------------------------------        
-        # stage_6_1
-        #
-        #   adr_street_check_twins:
-        #       descr: Поиск дублей, таблица ADR_STREET
-        #       params:
-        #           p_skip: False
-        #           p_bound_date: DATE('2022-01-01') 
-        #           p_init_value: 100000000   
-        #           
-        self.gar_tmp_p_adr_street_check_twins = """CALL gar_tmp_pcg_trans.p_adr_street_check_twins (
-                p_schema_name      := '{0}'::text      -- Схема 
-               ,p_conn_name        := (gar_link.f_conn_set({1}::numeric(3)))::text   -- Именованое dblink-соединение
-               ,p_street_ids       := {2}::bigint[][] -- Массив граничных значений  
-               ,p_mode             := {3}::boolean     -- Постобработка FALSE.
-               ,p_bound_date       := {4}::date        -- Только для режима Post обработки. '2022-01-01' 
-               ,p_schema_hist_name := '{5}'::text      -- Схема с историческими данными 'gar_tmp'             
-        );
-        """
-        # -- Улицы. Контрольный запрос.
-        self.check_data_adr_street = "{0}"
-        # Уникальный эксплуатационный индекс.
+        # Уникальный индекс. -- (gar_link.f_conn_set({1}::numeric(3)))
         self.gar_link_p_adr_street_idx_set_uniq = """CALL gar_link.p_adr_street_idx_set_uniq (
-                   p_conn        := (gar_link.f_conn_set({0}::numeric(3)))::text  -- Именованное dblink-соединение   
-                  ,p_schema_name := '{1}'::text      -- Имя отдалённой схемы 
+                   p_schema_name := '{0}'::text  -- Имя локальной/отдалённой схемы 
+                  ,p_conn        := {1}::text    -- Именованное dblink-соединение   
                   ,p_mode_t      := {2}::boolean -- Выбор типа индексов TRUE - Эксплутационные, FALSE - Загрузочные
                   ,p_uniq_sw     := {3}::boolean -- Уникальность "ak1", "ie2" - TRUE  
         );
         """
-        # ---------------------------------------------     
-        # stage_6_2
-        #
-        #   adr_house_check_twins:
-        #       descr: Поиск дублей, таблица ADR_HOUSE
-        #       params:
-        #           p_skip: False
-        #           p_bound_date: DATE('2022-01-01') 
-        #           p_init_value: 100000000   
-        #        
-        self.gar_tmp_p_adr_house_check_twins_1 = """CALL gar_tmp_pcg_trans.p_adr_house_check_twins (
-                p_schema_name      := '{0}'::text      -- Схема 
-               ,p_conn_name        := (gar_link.f_conn_set({1}::numeric(3)))::text   -- Именованое dblink-соединение
-               ,p_house_ids        := {2}::bigint [][] -- Массив граничных значений  
-               ,p_mode             := {3}::boolean     -- Постобработка FALSE.
-               ,p_bound_date       := {4}::date        -- Только для режима Post обработки. '2022-01-01' 
-               ,p_schema_hist_name := '{5}'::text      -- Схема с историческими данными 'gar_tmp'             
-        );
-        """
-        
-        self.gar_tmp_p_adr_house_check_twins_2 = """CALL gar_tmp_pcg_trans.p_adr_house_check_twins_1 (
-               p_schema_name      := '{0}'::text      -- Схема   
-              ,p_conn_name        := (gar_link.f_conn_set({1}::numeric(3)))::text   -- Именованое dblink-соединение 
-              ,p_mode             := {2}::boolean     -- Постобработка FALSE.              
-              ,p_bound_date       := {3}::date        -- Только для режима Post обработки. '2022-01-01'
-              ,p_schema_hist_name := '{4}'::text      -- Схема с историческими данными 'gar_tmp'             
-       );
-       """  
-       
-        # -- Дома. Контрольный запрос.
-        self.check_data_adr_house = "{0}"
-        self.gar_link_p_adr_house_idx_set_uniq = """CALL gar_link.p_adr_house_idx_set_uniq (
-                   p_conn        := (gar_link.f_conn_set({0}::numeric(3)))::text -- Именованное dblink-соединение   
-                  ,p_schema_name := '{1}'::text  -- Имя отдалённой схемы 
+        #       -- (gar_link.f_conn_set({1}::numeric(3)))::text
+        self.gar_link_p_adr_house_idx = """CALL gar_link.p_adr_house_idx (
+                   p_schema_name := '{0}'::text  -- Имя локальной/отдалённой схемы
+                  ,p_conn        := {1}::text    -- Именованное dblink-соединение   
                   ,p_mode_t      := {2}::boolean -- TRUE - Эксплутационные, FALSE - Загрузочные
+                  ,p_mode_c      := {3}::boolean -- TRUE - Создание индексов FALSE - удаление  
                   ,p_uniq_sw     := {4}::boolean -- TRUE - Уникальность "ak1", "ie2" - 
             ); 
+        """        
+        # Уникальный индекс. -- (gar_link.f_conn_set({1}::numeric(3)))        
+        self.gar_link_p_adr_house_idx_set_uniq = """CALL gar_link.p_adr_house_idx_set_uniq (
+                   p_schema_name := '{0}'::text  -- Имя локальной/отдалённой схемы 
+                  ,p_conn        := {1}::text -- Именованное dblink-соединение   
+                  ,p_mode_t      := {2}::boolean -- TRUE - Эксплутационные, FALSE - Загрузочные
+                  ,p_uniq_sw     := {3}::boolean -- TRUE - Уникальность "ak1", "ie2" - 
+            ); 
         """
+        
+        # Поиск дубликатов
+        self.gar_tmp_fp_adr_street_check_twins_local = """SELECT * FROM gar_tmp_pcg_trans.fp_adr_street_check_twins_local(
+              p_schema_name      := '{0}'::text 
+             ,p_bound_date       := '{1}'::date 
+             ,p_schema_hist_name := '{2}'::text      
+        );
+        """
+        self.gar_tmp_fp_adr_house_check_twins_local = """SELECT * FROM gar_tmp_pcg_trans.fp_adr_house_check_twins_local(
+              p_schema_name      := '{0}'::text 
+             ,p_bound_date       := '{1}'::date 
+             ,p_schema_hist_name := '{2}'::text      
+        );
+        """
+        # Контрольный запрос
+        self.check_data_adr = """SELECT count(1) FROM {0}.{1}; 
+        """
+        # Дополнительный контрольный запрос.
+        self.check_data_adr_1 = """SELECT {0} AS qty_{1}; 
+        """
+
+        # Простейший Post анализ.
+        self.post_adr_area = "{0}"
+        self.post_adr_street = "{0}"
+        self.post_adr_house = "{0}"
 
 # ---------------------------------------------------------------------------------------------------------------------
 if __name__ == '__main__':
     try:
         pp = proc_patterns ()
+        #
+        print pp.export_f_version_put                      
+        print pp.export_f_version_by_obj_put                  
+
+        print pp.gar_tmp_p_adr_area_upload          
+        print pp.gar_tmp_p_adr_street_upload        
+        print pp.gar_tmp_p_adr_house_upload         
         
-        print pp.gar_link_p_adr_area_idx
-        print pp.gar_link_p_adr_street_idx
-        print pp.gar_link_p_adr_house_idx 
-        print pp.gar_link_p_adr_objects_idx
-        #
-        print pp.gar_tmp_p_adr_street_check_twins
-        print pp.check_data_adr_street 
-        print pp.gar_link_p_adr_street_idx_set_uniq
-        #
-        print pp.gar_tmp_p_adr_house_check_twins_1
-        print pp.gar_tmp_p_adr_house_check_twins_2       
-        print pp.check_data_adr_house
-        print pp.gar_link_p_adr_house_idx_set_uniq
+        print pp.gar_link_p_adr_street_idx          
+        print pp.gar_link_p_adr_street_idx_set_uniq 
+        print pp.gar_link_p_adr_house_idx           
+        print pp.gar_link_p_adr_house_idx_set_uniq  
+        
+        print pp.gar_tmp_fp_adr_street_check_twins_local
+        print pp.gar_tmp_fp_adr_house_check_twins_local 
+        
+        print pp.check_data_adr   
+        print pp.check_data_adr_1 
+         
+        print pp.post_adr_area   
+        print pp.post_adr_street 
+        print pp.post_adr_house  
         
         sys.exit (0)
 

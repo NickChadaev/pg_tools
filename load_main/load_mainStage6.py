@@ -7,6 +7,7 @@
 # -----------------------------------------------------------------------------------------
 
 import sys
+import psycopg2   
 
 from GarProcess import stage_6_proc as Proc6
 from GarProcess import stage_6_yaml as Yaml6
@@ -14,7 +15,7 @@ from GarProcess import stage_6_yaml as Yaml6
 from MainProcess import fd_0 as Fd0
 from MainProcess import fd_log as FdLog
 
-VERSION_STR = "  Version 0.0.2 Build 2022-08-05" 
+VERSION_STR = "  Version 0.1.1 Build 2022-12-19" 
 
 CONN_ABORTED = "... Connection aborted: "
 OP_ABORTED = "... Operation aborted: "
@@ -35,7 +36,24 @@ SPACE_0 = " "
 SPACE_7 = "    -- "
 bCP = "utf8"
 #-----------------------------------
+#          1       2        3          4            5             6         7
+SA = " <Host_IP> <Port> <DB_name> <User_name> <YAML_file_name> <Path> <dt_gar_version>"
+IA = 7
+#
+ADR_AREA = "adr_area"
+ADR_AREA_AUX = "adr_area_aux"
+ADR_AREA_FILE = "adr_area.sql"
 
+ADR_STREET = "adr_street"
+ADR_STREET_AUX = "adr_street_aux"
+ADR_STREET_FILE = "adr_street.sql"
+
+ADR_HOUSE = "adr_house"
+ADR_HOUSE_AUX = "adr_house_aux"
+ADR_HOUSE_FILE = "adr_house.sql"
+
+PATH_DELIMITER = '/' 
+#-----------------------------------
 class fd_log_z ( FdLog.fd_log ):
     
  def set_file_log ( self, p_fd = None ):
@@ -62,10 +80,10 @@ class make_main (Proc6.proc_patterns, Yaml6.yaml_patterns, Fd0.fd_0, fd_log_z):
  """
 
  def __init__(self, p_host_ip, p_port, p_db_name, p_user_name, p_yaml_file, p_path\
-     ,p_fserver_nmb = None, p_fschemas = None):
+     ,p_dt_gar_version):
      
      Proc6.proc_patterns.__init__(self)
-     Yaml6.yaml_patterns.__init__(self, p_path, p_yaml_file, p_fserver_nmb, p_fschemas)
+     Yaml6.yaml_patterns.__init__(self, p_path, p_yaml_file)
      
      fd_log_z.__init__(self, p_host_ip, p_port, p_db_name, p_user_name) 
      Fd0.fd_0.__init__(self, 0, p_host_ip, p_port, p_db_name, p_user_name, bOUT_NAME, bERR_NAME)
@@ -85,6 +103,21 @@ class make_main (Proc6.proc_patterns, Yaml6.yaml_patterns, Fd0.fd_0, fd_log_z):
      # 2022-05-11
      
      self.s_arr_ids = "'{0}'"
+     self.dt_gar_version = p_dt_gar_version
+     #-------------------------------------- 
+     #  Open connection.
+     #
+     rc = -1  
+     l_s = "host = " + str (p_host_ip) + " port = " + str (p_port) + " dbname = " + str (p_db_name) + " user = " + str ( p_user_name )
+
+     try:
+          self.conn6 = psycopg2.connect(l_s)
+          self.cur6 = self.conn6.cursor()
+      
+     except psycopg2.OperationalError, e:
+          print "... Connection aborted: "
+          print "... " + str (e)
+          sys.exit ( rc )
      
      #------------------------------------------------------------
  
@@ -96,24 +129,14 @@ class make_main (Proc6.proc_patterns, Yaml6.yaml_patterns, Fd0.fd_0, fd_log_z):
      self.f_err.write ('\n' + self.l_arg + '\n')
      return 0
  
- def make_arr_bounds (self, p_init_value):
-
-     lr = []
-     for le in self.g_regions:
-         le_min = le * p_init_value
-         le_max = (le * p_init_value) + (p_init_value/100)*99
-         lr.append([le_min,le_max])
-         
-     return lr    
- 
- def stage_6 ( self, p_cmd, p_log_mess = None):  
+ def stage_6 ( self, p_cmd, p_log_mess = None, p_mode = 0):  
      """
       Main method
      """
      if not (p_log_mess == None):
          self.write_log_1 (p_log_mess)
          
-     self.f_create ( p_cmd )   
+     self.f_create_1 ( p_cmd, p_mode )   
      rc = self.prt_stat() if self.MOGRIFY else self.f_run()
      
      if rc<> 0:    #  Fatal error, break process
@@ -128,155 +151,245 @@ class make_main (Proc6.proc_patterns, Yaml6.yaml_patterns, Fd0.fd_0, fd_log_z):
  
  def stage_6_0 ( self, p_MOGRIFY ): 
     """
-     Смена индексного покрытия 
-     that has been defined in stage_6.csv
+      Сохранение записи в журнале выгрузок (master-запись).
     """
     self.MOGRIFY = p_MOGRIFY
     rc = 0
-    
-    # Смена индексного покрытия в целевых таблицах
-       
-    self.write_log_1(self.drp_lidx_descr)   
-    
-    if not self.drp_lidx_skip_area: 
-        rc = self.stage_6 (self.gar_link_p_adr_area_idx.format\
-            (self.g_fhost_id, self.g_adr_area_sch, False, False))        
-
-    if not self.drp_lidx_skip_street:
-        rc = self.stage_6 (self.gar_link_p_adr_street_idx.format\
-            (self.g_fhost_id, self.g_adr_street_sch, False, False, False))
-        
-    if not self.drp_lidx_skip_house:
-        rc = self.stage_6 (self.gar_link_p_adr_house_idx.format\
-            (self.g_fhost_id, self.g_adr_house_sch, False, False, False))
-        
-    if not self.drp_lidx_skip_object:
-        rc = self.stage_6 (self.gar_link_p_adr_objects_idx.format\
-            (self.g_fhost_id, self.g_adr_house_sch, False, False, False))               
-                           
-    self.write_log_1 (self.crt_widx_descr)
-
-    if not self.crt_widx_skip_area:
-       rc = self.stage_6 (self.gar_link_p_adr_area_idx.format\
-           (self.g_fhost_id, self.g_adr_area_sch, True, True))          
-    #
-    if not self.crt_widx_skip_street:    
-       rc = self.stage_6 (self.gar_link_p_adr_street_idx.format\
-           (self.g_fhost_id, self.g_adr_street_sch, True, True,\
-               self.crt_widx_unique_street))
-
-    if not self.crt_widx_skip_house:
-        rc = self.stage_6 (self.gar_link_p_adr_house_idx.format\
-            (self.g_fhost_id, self.g_adr_house_sch, True, True,\
-                self.crt_widx_unique_house))
-        
-    if not self.crt_widx_skip_object:
-        rc = self.stage_6 (self.gar_link_p_adr_objects_idx.format\
-            (self.g_fhost_id, self.g_adr_house_sch, True, True, False))            
+    if not self.save_ver_skip: 
+        self.stage_6 (self.export_f_version_put.format\
+            (self.dt_gar_version, self.kd_export_type, self.region_id,\
+                self.seq_name, self.fserver_nmb), self.save_ver_descr)     
         
     return rc
 
  def stage_6_1 ( self, p_MOGRIFY): 
     """
-       Поиск и коррекция дублей, таблица ADR_STREET
+     # Это постанализ и выгрузка адресных пространств
+     0;SELECT count(1) AS qty_adr_area_main_0 FROM gar_tmp.adr_area;; -- Количество в gar_tmp.adr_area;
+     0;SELECT count(1) AS qty_adr_area_aux_0 FROM gar_tmp.adr_area_aux;; -- Количество в gar_tmp.adr_area_aux;
+     #
+     1;../../A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_area_post_proc_1.sql;; -- Постанализ списка адресных регионов;
+     0;CALL gar_tmp_pcg_trans.p_adr_area_upload ('gar_tmp', 'unnsi');; -- Выгрузка adr_area;
     """
     rc = 0
     self.MOGRIFY = p_MOGRIFY
-    if not self.adr_street_check_twins_skip:
     
-        # Улицы. Поиск и коррекция дублей
-
-        ### self.gar_tmp_p_adr_street_check_twins = """CALL gar_tmp_pcg_trans.p_adr_street_check_twins (
-        ###         p_schema_name      := '{0}'::text      -- Схема 
-        ###        ,p_conn_name        := (gar_link.f_conn_set({1}::numeric(3)))::text   -- Именованое dblink-соединение
-        ###        ,p_street_ids       := {2}::bigint [][] -- Массив граничных значений  
-        ###        ,p_mode             := {3}::boolean     -- Постобработка FALSE.
-        ###        ,p_bound_date       := {4}::date        -- Только для режима Post обработки. '2022-01-01' 
-        ###        ,p_schema_hist_name := '{5}'::text      -- Схема с историческими данными 'gar_tmp'             
-        ### );
-        ### """
-        sa = ((self.s_arr_ids.format(self.make_arr_bounds(self.adr_street_check_twins_init_value)))\
-            .replace('[', '{')).replace (']', '}') 
+    qty_total = 0   # Отдельное соединение
+    qty_mod = 0
+    
+    if not self.aa_upload_skip:
+    
+        self.write_log_1 (self.aa_upload_descr)
         
-        rc = self.stage_6 (self.gar_tmp_p_adr_street_check_twins.format (self.g_adr_street_sch,\
-            self.g_fhost_id, sa, False, self.adr_street_check_twins_bound_date,\
-                    self.g_history_sch), self.adr_street_check_twins_descr)        
+        self.cur6.execute(self.check_data_adr.format(self.adr_area_sch_l, ADR_AREA))
+        qty_total = self.cur6.fetchone()[0]
+        self.conn6.commit()        
+        
+        self.cur6.execute(self.check_data_adr.format(self.adr_area_sch_l, ADR_AREA_AUX))
+        qty_mod = self.cur6.fetchone()[0]
+        self.conn6.commit()
 
-        # -- Улицы. Контрольный запрос.
-        rc = self.stage_6 (self.check_data_adr_street.format(self.adr_street_cquery))
+        self.stage_6 (self.check_data_adr_1.format (qty_total,(ADR_AREA + "_0"))); 
+        self.stage_6 (self.check_data_adr_1.format (qty_mod,(ADR_AREA_AUX + "_0"))); 
+
+        if not (self.aa_upload_pa_script == None):
+            self.stage_6 (self.post_adr_area.format(self.aa_upload_pa_script),p_mode = 1)
+       
+        self.stage_6 (self.gar_tmp_p_adr_area_upload.format\
+            (self.adr_area_sch_l,self.adr_area_sch))
+
+        if not self.save_ver_skip: 
+            
+            if not self.kd_export_type:
+                file_path = (self.file_path + PATH_DELIMITER + ADR_AREA_FILE)
+            else:
+                file_path = ''
+                
+            self.stage_6 (self.export_f_version_by_obj_put.format\
+                (self.dt_gar_version, self.adr_area_sch_l, ADR_AREA, qty_total, qty_mod,\
+                    file_path))
             
     return rc
 
  def stage_6_2 ( self, p_MOGRIFY): 
     """
-      Поиск и коррекция дублей, таблица ADR_HOUSE
+     Поиск дублей, постанализ и выгрузка улиц 
+     0;SELECT count(1) AS qty_adr_street_main_0 FROM gar_tmp.adr_street;; -- Количество в gar_tmp.adr_street;
+     0;SELECT count(1) AS qty_adr_street_aux_0 FROM gar_tmp.adr_street_aux;; -- Количество в gar_tmp.adr_street_aux;
+     #
+     0;CALL gar_link.p_adr_street_idx ('gar_tmp', NULL, false, false);; -- Улицы. Убираю Процессинговые ; 
+     0;CALL gar_link.p_adr_street_idx ('gar_tmp', NULL, true, true, false);; -- Улицы. Эксплуатационное неуникальное индексное покрытие;
+     #
+     0;SELECT * FROM gar_tmp_pcg_trans.fp_adr_street_check_twins_local('gar_tmp');; -- Постобработка;
+     #
+     0;SELECT count(1) AS qty_adr_street_main_1 FROM gar_tmp.adr_street;; -- Количество в gar_tmp.adr_street;
+     0;SELECT count(1) AS qty_adr_street_aux_1 FROM gar_tmp.adr_street_aux;; -- Количество в gar_tmp.adr_street_aux;
+     #
+     0;CALL gar_link.p_adr_street_idx_set_uniq ('gar_tmp', NULL, true, true);; -- Уникальность в эксплуатационных;
+     0;CALL gar_link.p_adr_street_idx ('gar_tmp', NULL, true, false);; -- Убираю эксплуатационные;
+     0;CALL gar_link.p_adr_street_idx ('gar_tmp', NULL, false, true);; -- Создаю процессинговые;
+     #
+     1;../../A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_street_post_proc_1.sql;; -- Постанализ списка улиц;
+     0;CALL gar_tmp_pcg_trans.p_adr_street_upload ('gar_tmp', 'unnsi');; -- Выгрузка adr_street;
     """
     rc = 0
     self.MOGRIFY = p_MOGRIFY
     
-    self.write_log_1(self.adr_house_check_twins_descr)
+    qty_total = 0   # Отдельное соединение
+    qty_mod = 0   
     
-    if not self.adr_house_check_twins_skip_1:
-    
-        # Поиск и коррекция дублей, часть 1
-        ### self.gar_tmp_p_adr_house_check_twins = """CALL gar_tmp_pcg_trans.p_adr_house_check_twins (
-        ###         p_schema_name      := '{0}'::text      -- Схема 
-        ###        ,p_conn_name        := (gar_link.f_conn_set({1}::numeric(3)))::text   -- Именованое dblink-соединение
-        ###        ,p_house_ids        := {2}::bigint [][] -- Массив граничных значений  
-        ###        ,p_mode             := {3}::boolean     -- Постобработка FALSE.
-        ###        ,p_bound_date       := {4}::date        -- Только для режима Post обработки. '2022-01-01' 
-        ###        ,p_schema_hist_name := '{5}'::text      -- Схема с историческими данными 'gar_tmp'             
-        ### );
-        self.s_arr_ids = "'{0}'"
-        sa = ((self.s_arr_ids.format(self.make_arr_bounds(self.adr_house_check_twins_init_value)))\
-            .replace('[', '{')).replace (']', '}') 
+    if not self.as_upload_skip:
+
+        self.write_log_1 (self.as_upload_descr)
         
-        rc = self.stage_6 (self.gar_tmp_p_adr_house_check_twins_1.format(self.g_adr_house_sch,\
-            self.g_fhost_id, sa, False, self.adr_house_check_twins_bound_date,self.g_history_sch))
+        self.cur6.execute(self.check_data_adr.format(self.adr_street_sch_l, ADR_STREET))
+        qty_total = self.cur6.fetchone()[0]
+        self.conn6.commit()
+        
+        self.cur6.execute(self.check_data_adr.format(self.adr_street_sch_l, ADR_STREET_AUX))
+        qty_mod = self.cur6.fetchone()[0]
+        self.conn6.commit()
 
-    if not self.adr_house_check_twins_skip_2:
-
-        # Поиск и коррекция дублей, часть 2
-        ### gar_tmp_pcg_trans.p_adr_house_check_twins_1 (
-        ###                p_schema_name      := '{0}'::text      -- Схема   
-        ###               ,p_conn_name        := (gar_link.f_conn_set({1}::numeric(3)))::text   -- Именованое dblink-соединение 
-        ###               ,p_mode             := {2}::boolean     -- Постобработка FALSE.              
-        ###               ,p_bound_date       := {3}::date        -- Только для режима Post обработки. '2022-01-01'
-        ###               ,p_schema_hist_name := '{4}'::text      -- Схема с историческими данными 'gar_tmp'             
-        ###        );
-        rc = self.stage_6 (self.gar_tmp_p_adr_house_check_twins_2.format(self.g_adr_house_sch,\
-            self.g_fhost_id, False, self.adr_house_check_twins_bound_date,self.g_history_sch))
-
-        # -- Дома. Контрольный запрос.
-        rc = self.stage_6 (self.check_data_adr_house.format(self.adr_house_cquery))
+        self.stage_6 (self.check_data_adr_1.format (qty_total,(ADR_STREET + "_0"))); 
+        self.stage_6 (self.check_data_adr_1.format (qty_mod,(ADR_STREET_AUX + "_0")));     
+    
+        self.stage_6 (self.gar_link_p_adr_street_idx.format\
+            (self.adr_street_sch_l,'NULL', False, False, False)) 
             
+        self.stage_6 (self.gar_link_p_adr_street_idx.format\
+            (self.adr_street_sch_l,'NULL', True, True, False)) 
+
+        self.stage_6 (self.gar_tmp_fp_adr_street_check_twins_local.format\
+            (self.adr_area_sch_l, self.as_bound_date, self.adr_hist_sch))
+        
+        self.cur6.execute(self.check_data_adr.format(self.adr_street_sch_l, ADR_STREET))
+        qty_total = self.cur6.fetchone()[0]
+        self.conn6.commit()
+
+        self.cur6.execute(self.check_data_adr.format(self.adr_street_sch_l, ADR_STREET_AUX))
+        qty_mod = self.cur6.fetchone()[0]
+        self.conn6.commit()
+
+        self.stage_6 (self.check_data_adr_1.format (qty_total,(ADR_STREET + "_1"))); 
+        self.stage_6 (self.check_data_adr_1.format (qty_mod,(ADR_STREET_AUX + "_1")));     
+        
+        self.stage_6 (self.gar_link_p_adr_street_idx_set_uniq.format\
+            (self.adr_area_sch_l, 'NULL', True, True)) 
+
+        self.stage_6 (self.gar_link_p_adr_street_idx.format\
+            (self.adr_street_sch_l,'NULL', True, False, False)) 
+
+        self.stage_6 (self.gar_link_p_adr_street_idx.format\
+            (self.adr_street_sch_l,'NULL', False, True, True)) 
+        
+        if not (self.as_upload_pa_script == None):
+            self.stage_6 (self.post_adr_street.format(self.as_upload_pa_script),p_mode = 1)
+       
+        self.stage_6 (self.gar_tmp_p_adr_street_upload.format\
+            (self.adr_street_sch_l,self.adr_street_sch))
+
+        if not self.save_ver_skip:
+            
+            if not self.kd_export_type:
+                file_path = (self.file_path + PATH_DELIMITER + ADR_STREET_FILE)
+            else:
+                file_path = ''
+                
+            self.stage_6 (self.export_f_version_by_obj_put.format\
+                (self.dt_gar_version, self.adr_street_sch_l, ADR_STREET, qty_total, qty_mod,\
+                    file_path))
+               
     return rc
 
-    #   self.crt_unique_indexies_descr = stage_6 ['gar_crt_unique_indexies'] ['descr']
-    
  def stage_6_3 ( self, p_MOGRIFY ): 
     """
-     Смена индексного покрытия 
-     that has been defined in stage_6.csv
+     0;SELECT count(1) AS qty_adr_house_main_0 FROM gar_tmp.adr_house;; -- Количество в gar_tmp.adr_house;
+     0;SELECT count(1) AS qty_adr_house_aux_0 FROM gar_tmp.adr_house_aux;; -- Количество в gar_tmp.adr_house_aux;
+     #
+     0;CALL gar_link.p_adr_house_idx ('gar_tmp', NULL, false, false);; -- Дома. Убираю Процессинговые ; 
+     0;CALL gar_link.p_adr_house_idx ('gar_tmp', NULL, true, true, false);; -- Дома. Эксплуатационное неуникальное индексное покрытие;
+     #
+     0;SELECT * FROM gar_tmp_pcg_trans.fp_adr_house_check_twins_local('gar_tmp');; -- Постобработка;
+     #
+     0;SELECT count(1) AS qty_house_main_1 FROM gar_tmp.adr_house;; -- Количество в gar_tmp.adr_house;
+     0;SELECT count(1) AS qty_house_aux_1 FROM gar_tmp.adr_house_aux;; -- Количество в gar_tmp.adr_house_aux;
+     #
+     0;CALL gar_link.p_adr_house_idx_set_uniq ('gar_tmp', NULL, true, true);; -- Уникальность в эксплуатационных;
+     0;CALL gar_link.p_adr_house_idx ('gar_tmp', NULL, true, false);; -- Убираю эксплуатационные;
+     0;CALL gar_link.p_adr_house_idx ('gar_tmp', NULL, false, true);; -- Создаю процессинговые;
+     #
+     1;../../A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_house_post_proc_1.sql;; -- Постанализ списка домов;
+     0;CALL gar_tmp_pcg_trans.p_adr_house_upload ('gar_tmp', 'unnsi');; -- Обратная выгрузка adr_house;
+
     """
     self.MOGRIFY = p_MOGRIFY
     rc = 0
-       
-    self.write_log_1(self.crt_unique_indexies_descr)
     
-    # Смена индексного покрытия в целевых таблицах
-    if not self.crt_unique_indexies_street_skip:
-        # -- Улицы. Установка уникального индекса
-        rc = self.stage_6 (self.gar_link_p_adr_street_idx_set_uniq.format\
-                (self.g_fhost_id, self.g_adr_street_sch, True, True,\
-                    self.crt_unique_indexies_street_uniq_sw))
+    qty_total = 0   # Отдельное соединение
+    qty_mod = 0   
+    
+    if not self.as_upload_skip:
 
-    if not self.crt_unique_indexies_house_skip:        
-        # -- Дома. Установка уникального индекса.
-        rc = self.stage_6 (self.gar_link_p_adr_house_idx_set_uniq.format\
-                (self.g_fhost_id, self.g_adr_street_sch, True, True,\
-                    self.crt_unique_indexies_house_uniq_sw))
+        self.write_log_1 (self.ah_upload_descr)
+        
+        self.cur6.execute(self.check_data_adr.format(self.adr_house_sch_l, ADR_HOUSE))
+        qty_total = self.cur6.fetchone()[0]
+        self.conn6.commit()
+             
+        self.cur6.execute(self.check_data_adr.format(self.adr_house_sch_l, ADR_HOUSE_AUX))
+        qty_mod = self.cur6.fetchone()[0]
+        self.conn6.commit()
 
+        self.stage_6 (self.check_data_adr_1.format (qty_total,(ADR_HOUSE + "_0"))); 
+        self.stage_6 (self.check_data_adr_1.format (qty_mod,(ADR_HOUSE_AUX + "_0"))); 
+        
+        self.stage_6 (self.gar_link_p_adr_house_idx.format\
+            (self.adr_house_sch_l,'NULL', False, False, False)) 
+            
+        self.stage_6 (self.gar_link_p_adr_house_idx.format\
+            (self.adr_house_sch_l,'NULL', True, True, False)) 
+
+        self.stage_6 (self.gar_tmp_fp_adr_house_check_twins_local.format\
+            (self.adr_house_sch_l, self.as_bound_date, self.adr_hist_sch))
+  
+        self.cur6.execute(self.check_data_adr.format(self.adr_house_sch_l, ADR_HOUSE))
+        qty_total = self.cur6.fetchone()[0]
+        self.conn6.commit()
+             
+        self.cur6.execute(self.check_data_adr.format(self.adr_house_sch_l, ADR_HOUSE_AUX))
+        qty_mod = self.cur6.fetchone()[0]
+        self.conn6.commit()
+
+        self.stage_6 (self.check_data_adr_1.format (qty_total,(ADR_HOUSE + "_1"))); 
+        self.stage_6 (self.check_data_adr_1.format (qty_mod,(ADR_HOUSE_AUX + "_1")));
+        
+        self.stage_6 (self.gar_link_p_adr_house_idx_set_uniq.format\
+            (self.adr_house_sch_l, 'NULL', True, True)) 
+
+        self.stage_6 (self.gar_link_p_adr_house_idx.format\
+            (self.adr_house_sch_l,'NULL', True, False, False)) 
+
+        self.stage_6 (self.gar_link_p_adr_house_idx.format\
+            (self.adr_house_sch_l,'NULL', False, True, True))
+        
+        if not (self.ah_upload_pa_script== None):
+            self.stage_6 (self.post_adr_house.format\
+                (self.ah_upload_pa_script),p_mode = 1)
+       
+        self.stage_6 (self.gar_tmp_p_adr_house_upload.format\
+            (self.adr_house_sch_l,self.adr_house_sch))
+ 
+        if not self.save_ver_skip: 
+
+            if not self.kd_export_type:
+                file_path = (self.file_path + PATH_DELIMITER + ADR_HOUSE_FILE)
+            else:
+                file_path = ''
+
+            self.stage_6 (self.export_f_version_by_obj_put.format\
+                (self.dt_gar_version, self.adr_house_sch_l, ADR_HOUSE, qty_total, qty_mod,\
+                    file_path))
+ 
     return rc
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -285,13 +398,11 @@ if __name__ == '__main__':
         """
              Main entrypoint for the class
         """
-#                  1       2        3          4            5             6        7  
-        sa = " <Host_IP> <Port> <DB_name> <User_name> <YAML_file_name> <Path> <fserver_nmb>"
-        if ( len( sys.argv ) - 1 ) < 7:
+        if ( len( sys.argv ) - 1 ) < IA:
             print VERSION_STR 
-            print "  Usage: " + str ( sys.argv [0] ) + sa
+            print "  Usage: " + str ( sys.argv [0] ) + SA
             sys.exit( 1 )
-#
+     
         mm = make_main (sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]\
             ,sys.argv[5], sys.argv[6], sys.argv[7])  
 
@@ -317,6 +428,10 @@ if __name__ == '__main__':
         mm.close_log ()
         mm.f_err.close()
         mm.f_out.close()        
+        
+        mm.cur6.close()
+        mm.conn6.close()
+        
         sys.exit ( rc )
 
 #---------------------------------------

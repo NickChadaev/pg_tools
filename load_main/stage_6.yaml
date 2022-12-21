@@ -1,6 +1,7 @@
 #
 #  2022-05-19. Stage_6. Новая реализация, только управление процессами, вызовы функций 
 #                       в коде "stage_6_proc.py"
+#  Version 0.1.1 Build 2022-12-19/0.5.4 Build 2022-12-20
 #
 control_params:
     stage_6_0: True   # Начальная отметка в log (master - запись).
@@ -14,8 +15,8 @@ control_params:
     mogrify_6_3: False
     
 global_params:
-    g_region_id: 77              # Ярославль         --  p_node_id  
-    g_fserver_nmb: 12            # На 5434 unnsi_12l --  p_id_region
+    g_region_id: 6               # Дагестан    --  p_node_id  
+    g_fserver_nmb: 12            # На 5435  --  unnsi_pp2l
     g_kd_export_type: True       # True: с использованием FDW, False: текстовый файл
     g_seq_name: gar_tmp.obj_seq  # Региональная последовательность
     g_file_path: ~/tmp           # Путь для хранения экспортируемых файлов
@@ -48,8 +49,7 @@ unnsi_adr_area_upload:
     descr: Постанализ и выгрузка адресных пространств.
     p_skip: False
     params_proc:
-        p_post_script: A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_area_post_proc_1.sql
-#        p_post_script: ../../A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_area_post_proc_1.sql
+        p_post_script: ../../A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_area_post_proc_1.sql
 #  
 # stage_6_2
 #
@@ -59,8 +59,7 @@ unnsi_adr_street_upload:
     params_proc:
         p_bound_date: 2022-01-01
         p_post_proc_skip: False   # Пропустили постобработку, ослеживание дубликатов.
-        p_post_script: A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_street_post_proc_1.sql
-#        p_post_script: ../../A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_street_post_proc_1.sql
+        p_post_script: ../../A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_street_post_proc_1.sql
         #      
 # stage_6_3
 #
@@ -70,5 +69,4 @@ unnsi_adr_house_upload:
     params_proc:
         p_bound_date: 2022-01-01
         p_post_proc_skip: False   # Пропустили постобработку, ослеживание дубликатов.        
-        p_post_script: A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_house_post_proc_1.sql
-#        p_post_script: ../../A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_house_post_proc_1.sql
+        p_post_script: ../../A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_house_post_proc_1.sql

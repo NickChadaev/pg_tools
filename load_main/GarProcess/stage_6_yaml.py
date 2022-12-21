@@ -14,7 +14,7 @@ import yaml
 from yaml.loader import SafeLoader
 
 PATH_DELIMITER = '/'  
-VERSION_STR = "  Version 0.1.1 Build 2022-12-19"
+VERSION_STR = "  Version 0.1.2 Build 2022-12-20"
 
 YAML_NOT_OPENED_0 = "... YAML file not opened: '"
 YAML_NOT_OPENED_1 = "'."
@@ -25,7 +25,7 @@ class yaml_patterns ():
  
     """
     
-    def __init__ ( self, p_path, p_yaml_name ):
+    def __init__ (self, p_path, p_yaml_name, p_fserver_nmb = None, p_id_region = None):
 
         target_dir = string.strip (p_path) + PATH_DELIMITER
         yaml_file_name = string.strip (p_yaml_name)
@@ -98,7 +98,16 @@ class yaml_patterns ():
         #      
         f_yaml.close()     
         #
-            
+        #  Возможное переопределение. Данные из "hosts_xx.yaml"
+        #  могут переопределить часть параметров в "stage_3.yaml". 
+        #
+        # Передавались как параметр командной строки !!!!
+
+        if (not (p_fserver_nmb == 'None')) and (not (p_fserver_nmb == None)):
+            self.fserver_nmb = int(p_fserver_nmb)   
+
+        if (not (p_id_region == 'None')) and (not (p_id_region == None)):  
+            self.region_id = int(p_id_region)            
 # ---------------------------------------------------------------------------------------------------------------------
 if __name__ == '__main__':
     try:
@@ -112,7 +121,12 @@ if __name__ == '__main__':
             print "  Usage: " + str ( sys.argv [0] ) + sa
             sys.exit( 1 )
 #
-        yp = yaml_patterns (sys.argv[1], sys.argv[2])
+        if (len( sys.argv ) - 1) == 2:
+            yp = yaml_patterns (sys.argv[1], sys.argv[2])
+        elif (len( sys.argv ) - 1) == 3:   
+            yp = yaml_patterns (sys.argv[1], sys.argv[2], sys.argv[3])  
+        elif (len( sys.argv ) - 1) == 4:   
+            yp = yaml_patterns (sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])  
         #
         print yp.stage_6_0_on   
         print yp.stage_6_1_on   

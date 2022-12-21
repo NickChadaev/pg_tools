@@ -472,7 +472,7 @@ class make_load ( fd_log_s ):
                 self.write_log ((l_words [3]).decode (bCP))                        
  
                 mm6 = Stage6.make_main (p_host_ip, p_port, l_db_name, p_user_name, \
-                    string.strip (l_words [1]), p_path) 
+                    string.strip (l_words [1]), p_path, self.version, p_fserver_nmb, p_id_region) 
  
                 mm6.set_file_log (self.fd)  # Уже открыт
                 ## mm4.set_date_time (self.date_time, self.delta_dt)

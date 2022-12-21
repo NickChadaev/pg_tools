@@ -80,11 +80,11 @@ class make_main (Proc6.proc_patterns, Yaml6.yaml_patterns, Fd0.fd_0, fd_log_z):
  """
 
  def __init__(self, p_host_ip, p_port, p_db_name, p_user_name, p_yaml_file, p_path\
-     ,p_dt_gar_version):
+     ,p_dt_gar_version, p_fserver_nmb = None, p_id_region = None):
      
      Proc6.proc_patterns.__init__(self)
-     Yaml6.yaml_patterns.__init__(self, p_path, p_yaml_file)
-     
+     Yaml6.yaml_patterns.__init__(self, p_path, p_yaml_file, p_fserver_nmb, p_id_region)
+
      fd_log_z.__init__(self, p_host_ip, p_port, p_db_name, p_user_name) 
      Fd0.fd_0.__init__(self, 0, p_host_ip, p_port, p_db_name, p_user_name, bOUT_NAME, bERR_NAME)
 

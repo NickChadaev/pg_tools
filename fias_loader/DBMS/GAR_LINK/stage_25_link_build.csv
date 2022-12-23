@@ -28,6 +28,7 @@ X;;;Start process, Сборка коммуникационного пакета;
 #
 5;version.sql;;-- Версия 99df370/2022-11-25;    
 #
+5;FUNCTION/f_show_col_descr.sql;;-- f_show_col_descr.sql;
 5;FUNCTION/f_server_crt.sql;;-- f_server_crt.sql;
 5;FUNCTION/f_server_drp.sql   ;;-- f_server_drp.sql;
 5;FUNCTION/f_schema_import.sql;;-- f_schema_import.sql;  

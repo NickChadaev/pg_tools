@@ -5,7 +5,7 @@
 --
 CREATE OR REPLACE VIEW gar_tmp_pcg_trans.version
  AS
- SELECT '$Revision:2556650$ modified $RevDate:2022-12-21$'::text AS version; 
+ SELECT '$Revision:84021a3$ modified $RevDate:2022-12-27$'::text AS version; 
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 --
@@ -10054,10 +10054,14 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_ins (
                           (_data.nm_area IS NULL) 
            ); -- 2022-11-21/2022-12-05
            --
-          _id_area := nextval('gar_tmp.obj_seq'); 
            _parent := gar_tmp_pcg_trans.f_adr_area_get (p_schema_etl, _data.nm_fias_guid_parent);
            
-           CALL gar_tmp_pcg_trans.p_adr_area_ins (
+          -- 2022-12-27 Такая ситуация крайне редко, но может возникнуть.
+          --
+          RAISE NOTICE '% *** %', _data.nm_fias_guid_parent, _parent.id_area;
+           
+          _id_area := nextval('gar_tmp.obj_seq'); 
+          CALL gar_tmp_pcg_trans.p_adr_area_ins (
                   p_schema_name       := p_schema_data                    --  text  
                  ,p_schema_h          := p_schema_hist     
                   --
@@ -10082,9 +10086,9 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_ins (
                  ,p_vl_addr_longitude := NULL::numeric                                --    NULL  
                   --
                  ,p_sw                := p_sw_hist
-           );
+          );
              
-           _r_ins := _r_ins + 1; 
+          _r_ins := _r_ins + 1; 
        END LOOP;
    
     total_row := _r_ins;
@@ -10219,8 +10223,12 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_upd (
            ); -- 2022-11-21/2022-12-05
            --         
            _parent := gar_tmp_pcg_trans.f_adr_area_get (p_schema_etl, _data.nm_fias_guid_parent);
-         
-           CALL gar_tmp_pcg_trans.p_adr_area_upd (
+           
+          -- 2022-12-27 Такая ситуация крайне редко, но может возникнуть.
+          --
+          CONTINUE WHEN ((_data.nm_fias_guid_parent IS NOT NULL) AND (_parent.id_area IS NULL)); 
+                    
+          CALL gar_tmp_pcg_trans.p_adr_area_upd (
                   p_schema_name       := p_schema_data                    --  text  
                  ,p_schema_h          := p_schema_hist   
                   --   ID сохраняется 
@@ -10246,9 +10254,9 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_upd (
                  ,p_oper_type_id      := _data.oper_type_id
                   --
                  ,p_sw                := p_sw_hist                 
-           );
+          );
                 
-           _r_upd := _r_upd + 1; 
+          _r_upd := _r_upd + 1; 
        END LOOP;
    
     total_row := _r_upd;

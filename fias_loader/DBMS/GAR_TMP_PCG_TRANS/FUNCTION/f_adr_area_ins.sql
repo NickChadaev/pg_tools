@@ -115,10 +115,14 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_ins (
                           (_data.nm_area IS NULL) 
            ); -- 2022-11-21/2022-12-05
            --
-          _id_area := nextval('gar_tmp.obj_seq'); 
            _parent := gar_tmp_pcg_trans.f_adr_area_get (p_schema_etl, _data.nm_fias_guid_parent);
            
-           CALL gar_tmp_pcg_trans.p_adr_area_ins (
+          -- 2022-12-27 Такая ситуация крайне редко, но может возникнуть.
+          --
+          RAISE NOTICE '% *** %', _data.nm_fias_guid_parent, _parent.id_area;
+           
+          _id_area := nextval('gar_tmp.obj_seq'); 
+          CALL gar_tmp_pcg_trans.p_adr_area_ins (
                   p_schema_name       := p_schema_data                    --  text  
                  ,p_schema_h          := p_schema_hist     
                   --
@@ -143,9 +147,9 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_ins (
                  ,p_vl_addr_longitude := NULL::numeric                                --    NULL  
                   --
                  ,p_sw                := p_sw_hist
-           );
+          );
              
-           _r_ins := _r_ins + 1; 
+          _r_ins := _r_ins + 1; 
        END LOOP;
    
     total_row := _r_ins;

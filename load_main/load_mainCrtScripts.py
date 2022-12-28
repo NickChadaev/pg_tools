@@ -12,16 +12,16 @@ import string
 import datetime
 import psycopg2    
 
-VERSION_STR_0 = "  Version 0.1.0 Build 2022-07-18"
+VERSION_STR_0 = "  Version 0.3.1 Build 2022-12-28"
 VERSION_STR_1 = "  ------------------------------"
 
-#            1            2             3           4          5       
-SA = " <CSV_pattern> <Target_Dir> <XML-dir-1> <ZIP-name> <XML-dir-2>\
-<Version> <F-server-nmb> <Del-Sw (optional)>"
-#      6         7              8
+#            1            2           3           4          5         6          7 
+SA = " <CSV_pattern> <Target_Dir> <Host_Path> <Git_Path> <XML-dir> <ZIP-name> <XML-path>\
+ <Version> <F-server-nmb> <Del-Sw(optional)>"
+#    8         9              10
 
 USE_CASE = "  USE CASE: "
-US ="    load_mainCrtScripts.py pattern.csv ~/tmp '/media/rootadmin/Transcend' 'gar_xml.zip' 'FIAS_GAR_2022_03_10' '2022-03-10' 10"
+US ="    load_mainCrtScripts.py  pattern.csv  ~  example  git  ~/example_data  gar_xml_2022_09_30.zip  FIAS_GAR_2022_09_30  2022-03-10  11  True"
 #
 
 FILE_NOT_OPENED_0 = "... File not opened: '"
@@ -62,16 +62,16 @@ class m_stage_0 ():
         self.stage_body_p = """#------------------------------------------------------------------------
 X;;;Start process;
 0;DROP DATABASE IF EXISTS unsi_test_{0:02d};; -- Remove old DB;
-1;Y_BUILD/{0:02d}/createDb_{0:02d}.sql;; -- DB creating;
-1;5_FIAS_LOADER/DBMS/Scripts/createSchemas.sql;unsi_test_{0:02d}; -- Schemas creating;
-1;5_FIAS_LOADER/DBMS/Scripts/CreateExtensions.sql;unsi_test_{0:02d}; -- Extension creating;
+1;{1}/{0:02d}/createDb_{0:02d}.sql;; -- DB creating;
+1;{2}/createSchemas.sql;unsi_test_{0:02d}; -- Schemas creating;
+1;{2}/CreateExtensions.sql;unsi_test_{0:02d}; -- Extension creating;
 X;;;Stop process;
 """
-    def b_stage_0 (self, p_fias_id):
+    def b_stage_0 (self, p_fias_id, p_path, p_git_path):
         
         self.file_name_st0 = self.file_name_p.format (int (p_fias_id))
         self.db_name_0 = self.db_name_p.format (int (p_fias_id))
-        self.stage_body_0 = self.stage_body_p.format (int (p_fias_id))
+        self.stage_body_0 = self.stage_body_p.format (int (p_fias_id), p_path, p_git_path)
           
 class m_db_script_0 ():
     """
@@ -83,15 +83,15 @@ class m_db_script_0 ():
         self.file_name_c = p_path + "{0:02d}/commentDb_{0:02d}.sql"
         
         self.scipt_body_p = """/*==============================================================*/
-/* DBMS name:      PostgreSQL 13.4                              */
+/* DBMS name:      PostgreSQL 13.9                              */
 /*==============================================================*/
 
 CREATE DATABASE {0}
     WITH 
     OWNER = postgres
     ENCODING = 'UTF8'
-    LC_COLLATE = 'ru_RU.UTF-8'
-    LC_CTYPE = 'ru_RU.UTF-8'
+--    LC_COLLATE = 'ru_RU.UTF-8'
+--    LC_CTYPE = 'ru_RU.UTF-8'
     TABLESPACE = pg_default
     CONNECTION LIMIT = -1;
 
@@ -143,18 +143,31 @@ X;;;Stop process;"""
 
 class make_main ():    # m_db_script_0, m_db_script_0, m_stage_parse
  """
-  Это самый главный 
+   This is main. DONT forget please
+           rc = mm.to_do ( sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5],\
+            sys.argv[6], sys.argv[7], sys.argv[8], sys.argv[9], del_sign)
+    ----------------------------------------------------------------------------------------
+                1            2           3           4          5         6          7 
+    SA = " <CSV_pattern> <Target_Dir> <Host_Path> <Git_Path> <XML-dir> <ZIP-name> <XML-path>\
+     <Version> <F-server-nmb> <Del-Sw(optional)
+        8            9              10
+    -----------------------------------------------------------------------------------------    
  """
  #
- def to_do ( self, p_csv_pattern, p_target_dir, p_xml_dir_1, p_zip_name, p_xml_dir_2,\
-     p_version, p_fserver_nmb, p_sel_sign = False):
+ def to_do ( self, p_csv_pattern, p_target_dir, p_host_path, p_git_path, p_xml_dir, p_zip_name,\
+     p_xml_path, p_version, p_fserver_nmb, p_del_sign = False):
      
-    path = string.strip (p_target_dir) + PATH_DELIMITER
+    target_dir = string.strip (p_target_dir) + PATH_DELIMITER
+    xml_dir = string.strip (p_xml_dir) + PATH_DELIMITER
     
-    mc  = m_catalog(path)      # Рабочий каталог 
-    ms0 = m_stage_0(path)      # Начальный stage, создание БД 
-    mdb = m_db_script_0(path)  # Собственно скрипт создающий БД.
-    msp = m_stage_parse(path)  # Stage parsing
+    host_path = string.strip (p_host_path)
+    git_path  = string.strip (p_git_path)
+    xml_path  = string.strip (p_xml_path)
+    
+    mc  = m_catalog (target_dir)      # Рабочий каталог 
+    ms0 = m_stage_0 (target_dir)      # Начальный stage, создание БД 
+    mdb = m_db_script_0 (target_dir)  # Собственно скрипт создающий БД.
+    msp = m_stage_parse (target_dir)  # Stage parsing
 
     try:
         fd = open ( p_csv_pattern, "r" )
@@ -181,7 +194,7 @@ class make_main ():    # m_db_script_0, m_db_script_0, m_stage_parse
             #
             mc.b_catalog (fias_id)
             
-            if p_sel_sign:
+            if p_del_sign:
                 rc = ( os.system ("rm -d -R " + mc.catalog_name ))
                 
             rc = ( os.system ("mkdir " + mc.catalog_name ))
@@ -189,7 +202,7 @@ class make_main ():    # m_db_script_0, m_db_script_0, m_stage_parse
             #
             #   2) Создать stage_0
             #            
-            ms0.b_stage_0 (fias_id)
+            ms0.b_stage_0 (fias_id, host_path, git_path)
             try:
                 fs0 = open ( ms0.file_name_st0, "w" )
             
@@ -198,7 +211,7 @@ class make_main ():    # m_db_script_0, m_db_script_0, m_stage_parse
                 return 1
             
             fs0.write (ms0.stage_body_0)
-            fs0.close ()            
+            fs0.close ()             
             #
             #   3) Создать db_scipt_0
             #
@@ -228,7 +241,7 @@ class make_main ():    # m_db_script_0, m_db_script_0, m_stage_parse
             #
             #   4) Создать parse script
             #
-            msp.b_stage_parse (fias_id, p_version, p_xml_dir_1, p_zip_name, p_xml_dir_1, p_xml_dir_2, nm_area_full)
+            msp.b_stage_parse (fias_id, p_version, xml_dir, p_zip_name, xml_dir, xml_path, nm_area_full)
             try:
                 fsp = open ( msp.file_name_parse, "w" )
             
@@ -247,7 +260,7 @@ if __name__ == '__main__':
         """
              Main entrypoint for the class
         """
-        if ( len( sys.argv ) - 1 ) < 7:
+        if ( len( sys.argv ) - 1 ) < 9:
             print VERSION_STR_0
             print VERSION_STR_1 
             print "  Usage: " + str ( sys.argv [0] ) + SA            
@@ -258,16 +271,17 @@ if __name__ == '__main__':
 #
         del_sign = False
 
-        if ( len( sys.argv ) - 1 ) == 8:
-            del_sign = sys.argv[8]
-            if sys.argv[8] == 'True':
+        if ( len( sys.argv ) - 1 ) == 10:
+            del_sign = sys.argv[10]
+            if sys.argv[10] == 'True':
                 del_sign = True
             else:
                 del_sign = False
 
         mm = make_main ()
         rc = mm.to_do ( sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5],\
-            sys.argv[6], sys.argv[7], del_sign)
+            sys.argv[6], sys.argv[7], sys.argv[8], sys.argv[9], del_sign)
+        
         sys.exit ( rc )
 
 #---------------------------------------

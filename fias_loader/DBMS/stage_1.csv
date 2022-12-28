@@ -37,10 +37,10 @@ X;;;Start process;
 #
 1;GAR_TMP/CreateTypesGarTmp.sql;; -- CreateTypesGarTmp.sql;
 1;GAR_TMP/CreateTypesGarTmp_2.sql;; -- CreateTypesGarTmp_2.sql;
-1;GAR_TMP/PATCHES/xxx_adr_area_type.sql;; -- xxx_adr_area_type.sql;
-1;GAR_TMP/PATCHES/xxx_adr_street_type.sql;; -- xxx_adr_street_type.sql;
 #
 1;GAR_TMP/CreateTableGarTmp.sql;; -- CreateTableGarTmp.sql;
+1;GAR_TMP/PATCHES/xxx_adr_area_type.sql;; -- xxx_adr_area_type.sql;
+1;GAR_TMP/PATCHES/xxx_adr_street_type.sql;; -- xxx_adr_street_type.sql;
 1;GAR_TMP/CreateTableGarTmpHist.sql;; -- CreateTableGarTmpHist.sql;
 1;GAR_TMP/CreateTableGarTmpAux.sql;; -- CreateTableGarTmpAux.sql;
 #

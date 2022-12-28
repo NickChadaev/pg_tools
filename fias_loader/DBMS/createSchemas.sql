@@ -29,3 +29,8 @@ COMMENT ON SCHEMA unnsi IS 'NN Отдалённые Справочники';
 -- 2021-12-31
 CREATE SCHEMA IF NOT EXISTS gar_link; 
 COMMENT ON SCHEMA gar_link IS 'Выполнить команды на ОТДАЛЁННОМ СЕРВЕРЕ';
+--
+-- 2022-12-20   ;
+CREATE SCHEMA IF NOT EXISTS export_version;
+COMMENT ON SCHEMA export_version IS 'Версионирование экспорта данных в адресную базу ЕС НСИ';
+

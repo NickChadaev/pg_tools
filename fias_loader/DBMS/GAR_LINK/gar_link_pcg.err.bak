@@ -1,2 +1,69 @@
+psql:./FUNCTION/f_show_col_descr.sql:1: ЗАМЕЧАНИЕ:  функция gar_link.f_show_col_descr(pg_catalog.varchar,pg_catalog.varchar,pg_catalog.bpchar[],text) не существует, пропускается
+psql:./FUNCTION/f_show_col_descr.sql:137: ЗАМЕЧАНИЕ:  FUNCTION | 13144 | information_schema | _pg_char_max_length | (oid,integer)
+psql:./FUNCTION/f_show_col_descr.sql:137: ЗАМЕЧАНИЕ:  FUNCTION | 13145 | information_schema | _pg_char_octet_length | (oid,integer)
+psql:./FUNCTION/f_show_col_descr.sql:137: ЗАМЕЧАНИЕ:  FUNCTION | 13149 | information_schema | _pg_datetime_precision | (oid,integer)
+psql:./FUNCTION/f_show_col_descr.sql:137: ЗАМЕЧАНИЕ:  FUNCTION | 13150 | information_schema | _pg_interval_type | (oid,integer)
+psql:./FUNCTION/f_show_col_descr.sql:137: ЗАМЕЧАНИЕ:  FUNCTION | 13146 | information_schema | _pg_numeric_precision | (oid,integer)
+psql:./FUNCTION/f_show_col_descr.sql:137: ЗАМЕЧАНИЕ:  FUNCTION | 13147 | information_schema | _pg_numeric_precision_radix | (oid,integer)
+psql:./FUNCTION/f_show_col_descr.sql:137: ЗАМЕЧАНИЕ:  FUNCTION | 13148 | information_schema | _pg_numeric_scale | (oid,integer)
+psql:./FUNCTION/f_show_col_descr.sql:137: ЗАМЕЧАНИЕ:  FUNCTION | 13142 | information_schema | _pg_truetypid | (pg_attribute,pg_type)
+psql:./FUNCTION/f_show_col_descr.sql:137: ЗАМЕЧАНИЕ:  FUNCTION | 13143 | information_schema | _pg_truetypmod | (pg_attribute,pg_type)
+psql:./FUNCTION/f_show_col_descr.sql:137: ЗАМЕЧАНИЕ:  RELATION | 13213 | information_schema | columns
+psql:./FUNCTION/f_show_col_descr.sql:137: ЗАМЕЧАНИЕ:  RELATION | 2604 | pg_catalog | pg_attrdef
+psql:./FUNCTION/f_show_col_descr.sql:137: ЗАМЕЧАНИЕ:  RELATION | 1249 | pg_catalog | pg_attribute
+psql:./FUNCTION/f_show_col_descr.sql:137: ЗАМЕЧАНИЕ:  RELATION | 1260 | pg_catalog | pg_authid
+psql:./FUNCTION/f_show_col_descr.sql:137: ЗАМЕЧАНИЕ:  RELATION | 1259 | pg_catalog | pg_class
+psql:./FUNCTION/f_show_col_descr.sql:137: ЗАМЕЧАНИЕ:  RELATION | 3456 | pg_catalog | pg_collation
+psql:./FUNCTION/f_show_col_descr.sql:137: ЗАМЕЧАНИЕ:  RELATION | 1262 | pg_catalog | pg_database
+psql:./FUNCTION/f_show_col_descr.sql:137: ЗАМЕЧАНИЕ:  RELATION | 2608 | pg_catalog | pg_depend
+psql:./FUNCTION/f_show_col_descr.sql:137: ЗАМЕЧАНИЕ:  RELATION | 2609 | pg_catalog | pg_description
+psql:./FUNCTION/f_show_col_descr.sql:137: ЗАМЕЧАНИЕ:  RELATION | 3466 | pg_catalog | pg_event_trigger
+psql:./FUNCTION/f_show_col_descr.sql:137: ЗАМЕЧАНИЕ:  RELATION | 2612 | pg_catalog | pg_language
+psql:./FUNCTION/f_show_col_descr.sql:137: ЗАМЕЧАНИЕ:  RELATION | 2995 | pg_catalog | pg_largeobject_metadata
+psql:./FUNCTION/f_show_col_descr.sql:137: ЗАМЕЧАНИЕ:  RELATION | 2615 | pg_catalog | pg_namespace
+psql:./FUNCTION/f_show_col_descr.sql:137: ЗАМЕЧАНИЕ:  RELATION | 1255 | pg_catalog | pg_proc
+psql:./FUNCTION/f_show_col_descr.sql:137: ЗАМЕЧАНИЕ:  RELATION | 6104 | pg_catalog | pg_publication
+psql:./FUNCTION/f_show_col_descr.sql:137: ЗАМЕЧАНИЕ:  RELATION | 3596 | pg_catalog | pg_seclabel
+psql:./FUNCTION/f_show_col_descr.sql:137: ЗАМЕЧАНИЕ:  RELATION | 12161 | pg_catalog | pg_seclabels
+psql:./FUNCTION/f_show_col_descr.sql:137: ЗАМЕЧАНИЕ:  RELATION | 2224 | pg_catalog | pg_sequence
+psql:./FUNCTION/f_show_col_descr.sql:137: ЗАМЕЧАНИЕ:  RELATION | 3592 | pg_catalog | pg_shseclabel
+psql:./FUNCTION/f_show_col_descr.sql:137: ЗАМЕЧАНИЕ:  RELATION | 6100 | pg_catalog | pg_subscription
+psql:./FUNCTION/f_show_col_descr.sql:137: ЗАМЕЧАНИЕ:  RELATION | 1213 | pg_catalog | pg_tablespace
+psql:./FUNCTION/f_show_col_descr.sql:137: ЗАМЕЧАНИЕ:  RELATION | 1247 | pg_catalog | pg_type
+psql:./FUNCTION/f_server_crt.sql:67: ЗАМЕЧАНИЕ:  RELATION | 13385 | information_schema | foreign_servers
+psql:./FUNCTION/f_server_crt.sql:67: ЗАМЕЧАНИЕ:  RELATION | 13378 | information_schema | _pg_foreign_servers
+psql:./FUNCTION/f_server_crt.sql:67: ЗАМЕЧАНИЕ:  RELATION | 1260 | pg_catalog | pg_authid
+psql:./FUNCTION/f_server_crt.sql:67: ЗАМЕЧАНИЕ:  RELATION | 2328 | pg_catalog | pg_foreign_data_wrapper
+psql:./FUNCTION/f_server_crt.sql:67: ЗАМЕЧАНИЕ:  RELATION | 1417 | pg_catalog | pg_foreign_server
+psql:./FUNCTION/f_server_drp.sql:30: ЗАМЕЧАНИЕ:  RELATION | 34652 | gar_link | foreign_servers
 psql:./FUNCTION/f_schema_import.sql:1: ЗАМЕЧАНИЕ:  функция gar_link.f_active_fserver_set(text,text,text,text) не существует, пропускается
+psql:./FUNCTION/f_schema_import.sql:138: ЗАМЕЧАНИЕ:  RELATION | 34652 | gar_link | foreign_servers
+psql:./FUNCTION/f_schema_import.sql:138: ЗАМЕЧАНИЕ:  RELATION | 13382 | information_schema | foreign_server_options
+psql:./FUNCTION/f_schema_import.sql:138: ЗАМЕЧАНИЕ:  RELATION | 13385 | information_schema | foreign_servers
+psql:./FUNCTION/f_schema_import.sql:138: ЗАМЕЧАНИЕ:  RELATION | 13378 | information_schema | _pg_foreign_servers
+psql:./FUNCTION/f_schema_import.sql:138: ЗАМЕЧАНИЕ:  RELATION | 1260 | pg_catalog | pg_authid
+psql:./FUNCTION/f_schema_import.sql:138: ЗАМЕЧАНИЕ:  RELATION | 2328 | pg_catalog | pg_foreign_data_wrapper
+psql:./FUNCTION/f_schema_import.sql:138: ЗАМЕЧАНИЕ:  RELATION | 1417 | pg_catalog | pg_foreign_server
 psql:./FUNCTION/f_conn_set.sql:1: ЗАМЕЧАНИЕ:  функция gar_link.f_conn_set(text,text) не существует, пропускается
+psql:./FUNCTION/f_conn_set.sql:53: ЗАМЕЧАНИЕ:  FUNCTION | 16550 | gar_link | dblink_connect | (text,text)
+psql:./FUNCTION/f_conn_set.sql:53: ЗАМЕЧАНИЕ:  FUNCTION | 16587 | gar_link | dblink_get_connections | ()
+psql:./FUNCTION/f_conn_set.sql:53: ЗАМЕЧАНИЕ:  RELATION | 34652 | gar_link | foreign_servers
+psql:./FUNCTION/f_index_get.sql:63: ЗАМЕЧАНИЕ:  RELATION | 782582 | gar_link | adr_indecies
+psql:./PROCEDURE/p_execute_idx.sql:28: ЗАМЕЧАНИЕ:  warning extra:00000:6:DECLARE:never read variable "_mess"
+psql:./PROCEDURE/p_execute_idx.sql:28: ЗАМЕЧАНИЕ:  FUNCTION | 16567 | gar_link | dblink | (text,text)
+psql:./PROCEDURE/p_adr_objects_idx.sql:157: ЗАМЕЧАНИЕ:  FUNCTION | 16567 | gar_link | dblink | (text,text)
+psql:./PROCEDURE/p_adr_house_idx_set_uniq.sql:69: ЗАМЕЧАНИЕ:  warning:00000:9:DECLARE:unused variable "_mess"
+psql:./PROCEDURE/p_adr_house_idx_set_uniq.sql:69: ЗАМЕЧАНИЕ:  FUNCTION | 959505 | gar_link | f_index_get | (text,text,text,boolean,boolean)
+psql:./PROCEDURE/p_adr_house_idx_set_uniq.sql:69: ЗАМЕЧАНИЕ:  PROCEDURE | 959506 | gar_link | p_execute_idx | (text,text)
+psql:./PROCEDURE/p_adr_house_idx.sql:140: ЗАМЕЧАНИЕ:  warning:00000:12:DECLARE:unused variable "_mess"
+psql:./PROCEDURE/p_adr_house_idx.sql:140: ЗАМЕЧАНИЕ:  FUNCTION | 959505 | gar_link | f_index_get | (text,text,text,boolean,boolean)
+psql:./PROCEDURE/p_adr_house_idx.sql:140: ЗАМЕЧАНИЕ:  PROCEDURE | 959506 | gar_link | p_execute_idx | (text,text)
+psql:./PROCEDURE/p_adr_street_idx_set_uniq.sql:70: ЗАМЕЧАНИЕ:  warning:00000:11:DECLARE:unused variable "_mess"
+psql:./PROCEDURE/p_adr_street_idx_set_uniq.sql:70: ЗАМЕЧАНИЕ:  FUNCTION | 959505 | gar_link | f_index_get | (text,text,text,boolean,boolean)
+psql:./PROCEDURE/p_adr_street_idx_set_uniq.sql:70: ЗАМЕЧАНИЕ:  PROCEDURE | 959506 | gar_link | p_execute_idx | (text,text)
+psql:./PROCEDURE/p_adr_street_idx.sql:111: ЗАМЕЧАНИЕ:  warning:00000:11:DECLARE:unused variable "_mess"
+psql:./PROCEDURE/p_adr_street_idx.sql:111: ЗАМЕЧАНИЕ:  FUNCTION | 959505 | gar_link | f_index_get | (text,text,text,boolean,boolean)
+psql:./PROCEDURE/p_adr_street_idx.sql:111: ЗАМЕЧАНИЕ:  PROCEDURE | 959506 | gar_link | p_execute_idx | (text,text)
+psql:./PROCEDURE/p_adr_area_idx.sql:35: ЗАМЕЧАНИЕ:  warning:00000:7:DECLARE:unused variable "_mess"
+psql:./PROCEDURE/p_adr_area_idx.sql:35: ЗАМЕЧАНИЕ:  FUNCTION | 959505 | gar_link | f_index_get | (text,text,text,boolean,boolean)
+psql:./PROCEDURE/p_adr_area_idx.sql:35: ЗАМЕЧАНИЕ:  PROCEDURE | 959506 | gar_link | p_execute_idx | (text,text)

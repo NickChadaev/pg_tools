@@ -1,23 +1,23 @@
-2022-12-29 18:23:04 ./
+2022-12-29 18:27:56 ./
 127.0.0.1 5432 unsi_test_01 postgres stage_25_link_build.csv 
 --------------------------------------------------------
-[18:23:04] ... Start process, Сборка коммуникационного пакета
-[18:23:04] ... -- Версия 54d152c/2022-12-23
-[18:23:04] ... -- f_show_col_descr.sql
-[18:23:04] ... -- f_server_crt.sql
-[18:23:04] ... -- f_server_drp.sql
-[18:23:04] ... -- f_schema_import.sql
-[18:23:05] ... -- f_conn_set.sql
-[18:23:05] ... -- f_active_set.sql
-[18:23:05] ... -- f_server_is.sql
-[18:23:05] ... -- fserver_view.sql
-[18:23:05] ... -- f_index_get.sql
-[18:23:05] ... -- p_execute_idx.sql
-[18:23:05] ... -- p_adr_objects_idx.sql
-[18:23:05] ... -- p_adr_house_idx_set_uniq.sql
-[18:23:05] ... -- p_adr_house_idx.sql
-[18:23:05] ... -- p_adr_street_idx_set_uniq.sql
-[18:23:05] ... -- p_adr_street_idx.sql
-[18:23:05] ... -- p_adr_area_idx.sql
-[18:23:05] ... Stop process
+[18:27:56] ... Start process, Сборка коммуникационного пакета
+[18:27:56] ... -- Версия c6ec2fd/2022-12-29
+[18:27:57] ... -- f_show_col_descr.sql
+[18:27:57] ... -- f_server_crt.sql
+[18:27:57] ... -- f_server_drp.sql
+[18:27:57] ... -- f_schema_import.sql
+[18:27:57] ... -- f_conn_set.sql
+[18:27:57] ... -- f_active_set.sql
+[18:27:57] ... -- f_server_is.sql
+[18:27:57] ... -- fserver_view.sql
+[18:27:57] ... -- f_index_get.sql
+[18:27:57] ... -- p_execute_idx.sql
+[18:27:57] ... -- p_adr_objects_idx.sql
+[18:27:57] ... -- p_adr_house_idx_set_uniq.sql
+[18:27:57] ... -- p_adr_house_idx.sql
+[18:27:58] ... -- p_adr_street_idx_set_uniq.sql
+[18:27:58] ... -- p_adr_street_idx.sql
+[18:27:58] ... -- p_adr_area_idx.sql
+[18:27:58] ... Stop process
 --------------------------------------------------------

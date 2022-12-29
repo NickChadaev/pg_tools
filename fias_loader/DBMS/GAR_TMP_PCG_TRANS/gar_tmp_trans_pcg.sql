@@ -5,7 +5,7 @@
 --
 CREATE OR REPLACE VIEW gar_tmp_pcg_trans.version
  AS
- SELECT '$Revision:84021a3$ modified $RevDate:2022-12-27$'::text AS version; 
+ SELECT '$Revision:0b2d846$ modified $RevDate:2022-12-29$'::text AS version; 
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 --
@@ -905,8 +905,11 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_type_show_data (
     --     типы попавшие в stop_list нужно вычистить в эталоне сразу-же. В функции типа SET они 
     --     будут вычищены на остальных базах.
     -- ----------------------------------------------------------------------------------------
-    --   2022-11-11 Меняю USE CASE таблицы, теперь это буфер для последующего дополнения 
+    --  2022-11-11 Меняю USE CASE таблицы, теперь это буфер для последующего дополнения 
     --             адресного справочника.
+    -- ---------------------------------------------------------------------------------
+    --  2022-12-29 Убрана проверка -- (gar_fias.as_addr_obj_type.is_active) 
+    --                     В ФИАС полно противоречий, эта проверка углубляет их.
     -- ----------------------------------------------------------------------------------
    DECLARE
     _exec   text;
@@ -925,7 +928,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_type_show_data (
                 ,gar_tmp_pcg_trans.f_xxx_replace_char (at.type_name) AS row_key
                 
              FROM gar_fias.as_addr_obj_type at 
-             WHERE (at.is_active) AND (at.type_level::integer <= 7)               
+             WHERE (at.type_level::integer <= 7) -- (at.is_active) AND 2022-12-29               
              
                   AND ((gar_tmp_pcg_trans.f_xxx_replace_char (at.type_name) NOT IN
                         (SELECT fias_row_key FROM gar_fias.as_addr_obj_type_black_list
@@ -1023,7 +1026,7 @@ COMMENT ON FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_type_show_data (text)
 IS 'Функция подготавливает исходные данные для таблицы-прототипа "gar_tmp.xxx_adr_area_type"';
 ----------------------------------------------------------------------------------
 -- USE CASE:
---  SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_type_show_data ('gar_tmp');
+--  SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_type_show_data ('gar_tmp') ORDER BY 4;
 --  SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_type_show_data ('unnsi');
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1223,7 +1226,10 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_street_type_show_data (
     --                    "gar_tmp.xxx_street_type"
     -- --------------------------------------------------------------------------
     --   2022-11-11 Меняю USE CASE таблицы, теперь это буфер для последующего дополнения 
-    --             адресного справочника.    
+    --             адресного справочника.  
+    -- -----------------------------------------------------------------------------------
+    --  2022-12-29 Убрана проверка -- (gar_fias.as_addr_obj_type.is_active) 
+    --             В ФИАС полно противоречий, эта проверка углубляет их.
     -- --------------------------------------------------------------------------------------
     --     p_schema_name text   -- Имя схемы-источника._
     -- --------------------------------------------------------------------------------------    
@@ -1244,8 +1250,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_street_type_show_data (
                 ,at.type_shortname
                 ,gar_tmp_pcg_trans.f_xxx_replace_char (at.type_name) AS row_key
                 
-             FROM gar_fias.as_addr_obj_type at WHERE (at.is_active)   
-                 AND (at.type_level::integer = 8)   
+             FROM gar_fias.as_addr_obj_type at WHERE (at.type_level::integer = 8)  
+                                               -- AND (at.is_active)  2022-12-29   
                  AND ((gar_tmp_pcg_trans.f_xxx_replace_char (at.type_name) NOT IN
                         (SELECT fias_row_key FROM gar_fias.as_addr_obj_type_black_list
                                WHERE (object_kind = '1')
@@ -1825,8 +1831,6 @@ IS ' Запомнить промежуточные данные, типы дом
 -- SELECT gar_tmp_pcg_trans.f_xxx_house_type_set ('gar_tmp',ARRAY['gar_tmp','unnsi'], ARRAY [2]);
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-DROP FUNCTION IF EXISTS gar_tmp.f_xxx_adr_house_show_data (date, bigint);
-
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_adr_house_show_data (date, bigint);
 CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_house_show_data (
        p_date           date   = current_date
@@ -1842,6 +1846,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_house_show_data (
     --  2021-12-09/2021-12-20 Ревизия функции. 
     --  2022-09-26 
     --   Тип дома принимается всегда, диапазон актуальности и признак активности - игнорируются.
+    --  2022-12-29 Убрана проверка -- (gar_fias.as_addr_obj_type.is_active) 
+    --                  В ФИАС полно противоречий, эта проверка углубляет их.
     -- ---------------------------------------------------------------------------------------
     --   p_date          date   -- Дата на которую формируется выборка    
     --   p_parent_obj_id bigint -- Идентификатор родительского объекта, если NULL то все дома
@@ -1954,7 +1960,7 @@ WITH aa (
           LEFT OUTER  JOIN gar_fias.as_object_level z ON (z.level_id = y.obj_level) AND (z.is_active) 
                                                      AND ((z.end_date > p_date) AND (z.start_date <= p_date)
                                                      )
-          LEFT OUTER JOIN gar_fias.as_addr_obj_type x ON (x.id = y.type_id) AND (x.is_active)
+          LEFT OUTER JOIN gar_fias.as_addr_obj_type x ON (x.id = y.type_id) -- AND (x.is_active) -- 2022-12-29
                                                       AND ((x.end_date > p_date) AND (x.start_date <= p_date)
                                                       )
           LEFT OUTER JOIN gar_fias.as_add_house_type a1 ON (a1.add_type_id = h.add_type1) 
@@ -2025,7 +2031,7 @@ COMMENT ON FUNCTION gar_tmp_pcg_trans.f_xxx_adr_house_show_data (date, bigint)
 IS 'Функция для формирования таблицы-прототипа "gar_tmp.xxx_adr_house"';
 ----------------------------------------------------------------------------------
 -- USE CASE:
---    EXPLAIN ANALyZE SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_house_show_data (); -- 2 sec 96'167 rows
+--    EXPLAIN ANALyZE SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_house_show_data (); -- 9 sec 487'828 rows
 -- SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_house_show_data (p_parent_obj_id := 1260);
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -11751,7 +11757,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_show_data (
                                      z.fias_row_key
                                     ) 
                                            AND 
-                                    (r.type_level = z.type_level) AND (r.is_active) 
+                                    (r.type_level = z.type_level) AND (r.is_active) -- 2022-12-29 
                            )  
                              SELECT 
                                  CASE 
@@ -11791,7 +11797,7 @@ COMMENT ON FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_show_data (date, bigint, bi
 IS 'Функция подготавливает исходные данные для таблицы-прототипа "gar_tmp.xxx_adr_area"';
 ----------------------------------------------------------------------------------
 -- USE CASE:
---    EXPLAIN ANALyZE SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data () WHERE (fias_guid = '22f712f4-091f-4adf-af7f-129ee95b4468'); -- 1184
+--    EXPLAIN ANALyZE SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data () WHERE (nm_addr_obj IN ('Ивушка','Лазарево')); -- 1184
 -- CALL gar_tmp_pcg_trans.p_gar_fias_crt_idx ();
 -- SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data (p_obj_level := 22); 
 -- SELECT count (1) FROM gar_tmp_pcg_trans.as_addr_obj; --7345  --- 1312 ?

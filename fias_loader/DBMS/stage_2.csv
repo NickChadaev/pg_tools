@@ -26,15 +26,17 @@
 #-------------------------------------------------------------------------------
 X;;;Start process;
 #
-1;GAR_MISC_PCG/gar_misc_pcg.sql;; -- gar_misc_pcg.sql;
-1;GAR_FIAS_PCG_LOAD/gar_fias_pcg_load.sql;; -- gar_fias_pcg_load.sql;
-1;GAR_VERSION_PCG/gar_version_pcg.sql;; -- gar_version_pcg.sql; 
-1;GAR_LINK/gar_link_pcg.sql;; -- gar_link_pcg.sql;
-1;GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.sql;; -- gar_tmp_trans_pcg.sql;
+1;GAR_MISC_PCG/gar_misc_pcg.sql                ;; -- gar_misc_pcg.sql;
+1;GAR_LINK/gar_link_pcg.sql                    ;; -- gar_link_pcg.sql;
+1;GAR_FIAS_PCG_LOAD/gar_fias_pcg_load.sql      ;; -- gar_fias_pcg_load.sql;
+1;GAR_VERSION_PCG/gar_version_pcg.sql          ;; -- gar_version_pcg.sql;
+1;GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.sql      ;; -- gar_tmp_trans_pcg.sql;
+1;GAR_EXPORT_VERSION/gar_export_logging_pcg.sql;; -- gar_export_logging_pcgsql;
 #
-0;SELECT gar_link.f_schema_import ('unnsi_m12l','unnsi','unnsi','Эталон от 2022-09-29');; -- gar_link.f_schema_import();
-0;SELECT gar_link.f_server_is();; -- gar_link.f_server_is();        
-0;SELECT * FROM gar_link.v_servers_active;; -- v_servers_active;
+0;SELECT gar_link.f_server_crt ('unnsi_prd_s','127.0.0.1','unnsi_prd_test',5432,'postgres','postgres','postgres1');;-- gar_link.f_server_crt();
+0;SELECT * FROM gar_link.f_conn_set((SELECT gar_link.f_schema_import ('unnsi_prd_s','unnsi','unnsi','UNNSI_PRD 2022-12-26')));;-- gar_link.f_conn_set();	
+0;SELECT gar_link.f_server_is();;-- gar_link.f_server_is();
+0;SELECT * FROM gar_link.v_servers_active;;-- gar_link.v_servers_active;
 #
 X;;;Stop process;
 #-------------------------------------------------------------------------------

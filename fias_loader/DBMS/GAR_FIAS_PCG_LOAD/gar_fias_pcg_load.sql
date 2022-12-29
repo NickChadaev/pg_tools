@@ -5,7 +5,7 @@
 --
 CREATE OR REPLACE VIEW gar_fias_pcg_load.version
  AS
- SELECT '$Revision:1765$ modified $RevDate:2022-09-23$'::text AS version; 
+ SELECT '$Revision:0b2d846$ modified $RevDate:2022-12-29$'::text AS version; 
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DROP FUNCTION IF EXISTS gar_fias_pcg_load.f_adr_area_show_data (uuid, date, bigint);
@@ -20,7 +20,9 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_adr_area_show_data (
  AS
   $$
     -- ---------------------------------------------------------------------------------------
-    --  2022-08-29 Nick 
+    --  2022-08-29 Nick  Отображение исходных данных в формате "gar_fias.gap_adr_area_t"
+    --  2022-12-29 Убрана проверка -- (gar_fias.as_addr_obj_type.is_active) 
+    --                  В ФИАС полно противоречий, эта проверка углубляет их.    
     -- ---------------------------------------------------------------------------------------
     WITH RECURSIVE aa1 (
                          id_addr_obj       
@@ -291,7 +293,7 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_adr_area_show_data (
                                      z.fias_row_key
                                     ) 
                                            AND 
-                                    (r.type_level = z.type_level) AND (r.is_active) 
+                                    (r.type_level = z.type_level) -- AND (r.is_active) -- 2022-12-29
                            )  
                              SELECT 
                                  CASE 
@@ -339,7 +341,7 @@ IS 'Отображение исходных данных в формате "gar_
 ----------------------------------------------------------------------------------
 -- USE CASE:
 -- SELECT * FROM gar_fias_pcg_load.f_adr_area_show_data (p_fias_guid := '22f712f4-091f-4adf-af7f-129ee95b4468'::uuid); -- 69598
--- SELECT * FROM gar_fias_pcg_load.f_adr_area_show_data (p_fias_guid := 'b0aa0895-e596-4a25-a0aa-0c69c83f0f9e'::uuid);  
+-- SELECT * FROM gar_fias_pcg_load.f_adr_area_show_data (p_fias_guid := 'b81b942b-ccca-4559-9365-d03af2a03d88'::uuid);  
 -- SELECT * FROM gar_fias_pcg_load.f_adr_area_show_data (p_fias_guid := NULL::uuid) WHERE (nm_addr_obj ilike 'Аметистовый%'); 
 --      57a0587f-59a4-4445-8ef4-d35998fdf3fd  Аметистовый
 --   SELECT * FROM gar_fias_pcg_load.f_xxx_adr_area_show_data () WHERE (nm_addr_obj ilike 'Аметистовый%'); 
@@ -1147,8 +1149,10 @@ CREATE OR REPLACE PROCEDURE gar_fias_pcg_load.save_gar_addr_obj (
     -- ====================================================================================================
     -- Author: Nick
     -- Create date: 2021-10-07
-    -- Updates:  2021-10-28 Модификация под загрузчик ГИС Интеграция.
-    --           2022-01-26/2022-09-19 Неоднозначность в определении типов
+    -- Updates: 2021-10-28 Модификация под загрузчик ГИС Интеграция.
+    --          2022-01-26/2022-09-19 Неоднозначность в определении типов
+    --          2022-12-29 Убрана проверка -- (gar_fias.as_addr_obj_type.is_active) 
+    --                     В ФИАС полно противоречий, эта проверка углубляет их.
     -- ----------------------------------------------------------------------------------------------------  
     -- Загрузка классификатора адресных объектов. Источник: внешний парсер.
     --  Предварительно должны быть загружены: "as_operation_type", "as_reestr_objects", "as_object_level".
@@ -1159,6 +1163,7 @@ CREATE OR REPLACE PROCEDURE gar_fias_pcg_load.save_gar_addr_obj (
     -- ====================================================================================================
    
     BEGIN
+    
         INSERT INTO gar_fias.as_addr_obj AS i (
         
                             id            
@@ -1216,8 +1221,9 @@ CREATE OR REPLACE PROCEDURE gar_fias_pcg_load.save_gar_addr_obj (
         --
         WITH x AS (
                     SELECT z.id AS type_id, z.type_shortname 
-                        FROM gar_fias.as_addr_obj_type z WHERE (z.type_shortname = i_type_name) AND 
-               			      (z.is_active) AND (z.type_level::bigint = i_obj_level)            
+                        FROM gar_fias.as_addr_obj_type z 
+                           WHERE (z.type_shortname = i_type_name) AND 
+               			         (z.type_level::bigint = i_obj_level)  
         )
         UPDATE gar_fias.as_addr_obj u SET type_id = x.type_id 
            FROM x  

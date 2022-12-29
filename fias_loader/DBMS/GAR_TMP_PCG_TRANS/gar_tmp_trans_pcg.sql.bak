@@ -10055,11 +10055,14 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_ins (
            ); -- 2022-11-21/2022-12-05
            --
            _parent := gar_tmp_pcg_trans.f_adr_area_get (p_schema_etl, _data.nm_fias_guid_parent);
-           
-          -- 2022-12-27 Такая ситуация крайне редко, но может возникнуть.
+          -- 
+          -- 2022-12-27 Такая ситуация может возникнуть крайне редко.
           --
-          RAISE NOTICE '% *** %', _data.nm_fias_guid_parent, _parent.id_area;
-           
+          CONTINUE WHEN ((_data.nm_fias_guid_parent IS NOT NULL) AND 
+                         (_parent.id_area IS NULL) AND
+                         (_data.level_d > 1)
+                        ); 
+                       
           _id_area := nextval('gar_tmp.obj_seq'); 
           CALL gar_tmp_pcg_trans.p_adr_area_ins (
                   p_schema_name       := p_schema_data                    --  text  
@@ -10222,12 +10225,15 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_upd (
                           (_data.nm_area IS NULL) 
            ); -- 2022-11-21/2022-12-05
            --         
-           _parent := gar_tmp_pcg_trans.f_adr_area_get (p_schema_etl, _data.nm_fias_guid_parent);
-           
-          -- 2022-12-27 Такая ситуация крайне редко, но может возникнуть.
+          _parent := gar_tmp_pcg_trans.f_adr_area_get (p_schema_etl, _data.nm_fias_guid_parent);
+          -- 
+          -- 2022-12-27 Такая ситуация может возникнуть крайне редко.
           --
-          CONTINUE WHEN ((_data.nm_fias_guid_parent IS NOT NULL) AND (_parent.id_area IS NULL)); 
-                    
+          CONTINUE WHEN ((_data.nm_fias_guid_parent IS NOT NULL) AND 
+                         (_parent.id_area IS NULL) AND
+                         (_data.level_d > 1)
+                        );  
+                        
           CALL gar_tmp_pcg_trans.p_adr_area_upd (
                   p_schema_name       := p_schema_data                    --  text  
                  ,p_schema_h          := p_schema_hist   

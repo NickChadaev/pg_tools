@@ -14,7 +14,10 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_street_type_show_data (
     --                    "gar_tmp.xxx_street_type"
     -- --------------------------------------------------------------------------
     --   2022-11-11 Меняю USE CASE таблицы, теперь это буфер для последующего дополнения 
-    --             адресного справочника.    
+    --             адресного справочника.  
+    -- -----------------------------------------------------------------------------------
+    --  2022-12-29 Убрана проверка -- (gar_fias.as_addr_obj_type.is_active) 
+    --             В ФИАС полно противоречий, эта проверка углубляет их.
     -- --------------------------------------------------------------------------------------
     --     p_schema_name text   -- Имя схемы-источника._
     -- --------------------------------------------------------------------------------------    
@@ -35,8 +38,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_street_type_show_data (
                 ,at.type_shortname
                 ,gar_tmp_pcg_trans.f_xxx_replace_char (at.type_name) AS row_key
                 
-             FROM gar_fias.as_addr_obj_type at WHERE (at.is_active)   
-                 AND (at.type_level::integer = 8)   
+             FROM gar_fias.as_addr_obj_type at WHERE (at.type_level::integer = 8)  
+                                               -- AND (at.is_active)  2022-12-29   
                  AND ((gar_tmp_pcg_trans.f_xxx_replace_char (at.type_name) NOT IN
                         (SELECT fias_row_key FROM gar_fias.as_addr_obj_type_black_list
                                WHERE (object_kind = '1')

@@ -24,8 +24,11 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_type_show_data (
     --     типы попавшие в stop_list нужно вычистить в эталоне сразу-же. В функции типа SET они 
     --     будут вычищены на остальных базах.
     -- ----------------------------------------------------------------------------------------
-    --   2022-11-11 Меняю USE CASE таблицы, теперь это буфер для последующего дополнения 
+    --  2022-11-11 Меняю USE CASE таблицы, теперь это буфер для последующего дополнения 
     --             адресного справочника.
+    -- ---------------------------------------------------------------------------------
+    --  2022-12-29 Убрана проверка -- (gar_fias.as_addr_obj_type.is_active) 
+    --                     В ФИАС полно противоречий, эта проверка углубляет их.
     -- ----------------------------------------------------------------------------------
    DECLARE
     _exec   text;
@@ -44,7 +47,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_type_show_data (
                 ,gar_tmp_pcg_trans.f_xxx_replace_char (at.type_name) AS row_key
                 
              FROM gar_fias.as_addr_obj_type at 
-             WHERE (at.is_active) AND (at.type_level::integer <= 7)               
+             WHERE (at.type_level::integer <= 7) -- (at.is_active) AND 2022-12-29               
              
                   AND ((gar_tmp_pcg_trans.f_xxx_replace_char (at.type_name) NOT IN
                         (SELECT fias_row_key FROM gar_fias.as_addr_obj_type_black_list
@@ -142,5 +145,5 @@ COMMENT ON FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_type_show_data (text)
 IS 'Функция подготавливает исходные данные для таблицы-прототипа "gar_tmp.xxx_adr_area_type"';
 ----------------------------------------------------------------------------------
 -- USE CASE:
---  SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_type_show_data ('gar_tmp');
+--  SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_type_show_data ('gar_tmp') ORDER BY 4;
 --  SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_type_show_data ('unnsi');

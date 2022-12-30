@@ -12,17 +12,27 @@ import string
 import datetime
 import psycopg2    
 
-VERSION_STR_0 = "  Version 0.3.1 Build 2022-12-28"
+VERSION_STR_0 = "  Version 0.4.0 Build 2022-12-31"
 VERSION_STR_1 = "  ------------------------------"
 
 #            1            2           3           4          5         6          7 
-SA = " <CSV_pattern> <Target_Dir> <Host_Path> <Git_Path> <XML-dir> <ZIP-name> <XML-path>\
- <Version> <F-server-nmb> <Del-Sw(optional)>"
-#    8         9              10
+SA = " <CSV_pattern> <Target_Dir> <Host_Path> <Git_Path> <XML-dir> <XML-path> <ZIP-name> \
+ <Version> <Del-Sw(optional)>"
+#    8          9               
 
 USE_CASE = "  USE CASE: "
-US ="    load_mainCrtScripts.py  pattern.csv  ~  example  git  ~/example_data  gar_xml_2022_09_30.zip  FIAS_GAR_2022_09_30  2022-03-10  11  True"
-#
+US ="""  load_mainCrtScripts.py pattern_may_0.csv ~/Y_BUILD ../Y_BUILD ../A_FIAS_LOADER ../7_DATA
+            FIAS_GAR_2022_12_26 gar_xml_2022_09_30.zip  FIAS_GAR_2022_09_30  2022-03-10 <True>
+  Где:
+          pattern_may_0.csv    -- Шаблон
+          ~/Y_BUILD            -- Каталог цель   
+          ../Y_BUILD           -- Путь в целевом каталоге       
+          ../A_FIAS_LOADER     -- GIT каталог                   
+          ../7_DATA            -- каталог с XML-данными. 
+          FIAS_GAR_2022_12_26  -- Путь в каталоге с XML-данными  
+          gar_xml_12_26.zip    -- Имя архива
+          2022-12-26           -- Версия
+          True                 -- Опция"""   
 
 FILE_NOT_OPENED_0 = "... File not opened: '"
 FILE_NOT_OPENED_1 = "'."
@@ -90,8 +100,6 @@ CREATE DATABASE {0}
     WITH 
     OWNER = postgres
     ENCODING = 'UTF8'
---    LC_COLLATE = 'ru_RU.UTF-8'
---    LC_CTYPE = 'ru_RU.UTF-8'
     TABLESPACE = pg_default
     CONNECTION LIMIT = -1;
 
@@ -121,12 +129,12 @@ class m_stage_parse ():
         self.file_name_p  = p_path + "{0:02d}/stage_gar_c_{0:02d}.csv"  
         
         self.stage_body_p = """X;;;Start process;
-0;SELECT gar_version_pcg_support.save_gar_version (i_nm_garfias_version := '{1}'::date,i_kd_download_type := FALSE ::boolean,i_dt_download := now()::timestamp without time zone,i_arc_path := '{2}/{3}'::text);; -- Version;
+0;SELECT gar_version_pcg_support.save_gar_version (i_nm_garfias_version := '{1}'::date,i_kd_download_type := FALSE ::boolean,i_dt_download := now()::timestamp without time zone,i_arc_path := '{2}{3}'::text);; -- Version;
 0;CALL gar_fias_pcg_load.del_gar_all();; -- Очистка от данных;
 0;CALL gar_fias_pcg_load.p_alt_tbl (FALSE);; -- Set UNLOGGED;
 #
-2;{4}/{5};; -- Common XML-file;
-2;{4}/{5}/{0:02d};; -- Region XML-file;  # {6}
+2;{4}{5};; -- Common XML-file;
+2;{4}{5}/{0:02d};; -- Region XML-file;  # {6}
 #
 0;SELECT gar_version_pcg_support.set_gar_dt_create ('{1}'::date, now()::timestamp without time zone);; -- Data finish;
 0;CALL gar_fias_pcg_load.p_alt_tbl (TRUE);; -- Set LOGGED;  # in 4 min 30 secs.
@@ -145,20 +153,20 @@ class make_main ():    # m_db_script_0, m_db_script_0, m_stage_parse
  """
    This is main. DONT forget please
            rc = mm.to_do ( sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5],\
-            sys.argv[6], sys.argv[7], sys.argv[8], sys.argv[9], del_sign)
+            sys.argv[6], sys.argv[7], sys.argv[8], del_sign)
     ----------------------------------------------------------------------------------------
                 1            2           3           4          5         6          7 
-    SA = " <CSV_pattern> <Target_Dir> <Host_Path> <Git_Path> <XML-dir> <ZIP-name> <XML-path>\
-     <Version> <F-server-nmb> <Del-Sw(optional)
-        8            9              10
+    SA = " <CSV_pattern> <Target_Dir> <Host_Path> <Git_Path> <XML-dir> <XML-path> <ZIP-name> \
+     <Version> <Del-Sw(optional)
+        8            9               
     -----------------------------------------------------------------------------------------    
  """
  #
- def to_do ( self, p_csv_pattern, p_target_dir, p_host_path, p_git_path, p_xml_dir, p_zip_name,\
-     p_xml_path, p_version, p_fserver_nmb, p_del_sign = False):
-     
+ def to_do ( self, p_csv_pattern, p_target_dir, p_host_path, p_git_path, p_xml_dir, p_xml_path,\
+     p_zip_name, p_version, p_del_sign = False):
+
     target_dir = string.strip (p_target_dir) + PATH_DELIMITER
-    xml_dir = string.strip (p_xml_dir) + PATH_DELIMITER
+    xml_dir = string.strip (p_xml_dir)       + PATH_DELIMITER
     
     host_path = string.strip (p_host_path)
     git_path  = string.strip (p_git_path)
@@ -260,7 +268,7 @@ if __name__ == '__main__':
         """
              Main entrypoint for the class
         """
-        if ( len( sys.argv ) - 1 ) < 9:
+        if ( len( sys.argv ) - 1 ) < 8:
             print VERSION_STR_0
             print VERSION_STR_1 
             print "  Usage: " + str ( sys.argv [0] ) + SA            
@@ -271,16 +279,15 @@ if __name__ == '__main__':
 #
         del_sign = False
 
-        if ( len( sys.argv ) - 1 ) == 10:
-            del_sign = sys.argv[10]
-            if sys.argv[10] == 'True':
+        if ( len( sys.argv ) - 1 ) == 9:
+            if sys.argv[9] == 'True':
                 del_sign = True
             else:
                 del_sign = False
 
         mm = make_main ()
         rc = mm.to_do ( sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5],\
-            sys.argv[6], sys.argv[7], sys.argv[8], sys.argv[9], del_sign)
+            sys.argv[6], sys.argv[7], sys.argv[8], del_sign)
         
         sys.exit ( rc )
 
@@ -288,7 +295,4 @@ if __name__ == '__main__':
     except KeyboardInterrupt, e:
         print "... Terminated by user: "
         sys.exit (1)
-
-## -------------------------------------------------------------------------------------------------------------------------
-##  USE CASE:
-##./load_mainCrtScripts.py pattern.csv ~/tmp '/media/rootadmin/Transcend' 'gar_xml.zip' 'FIAS_GAR_2022_03_10' '2022-03-10' 3
+  

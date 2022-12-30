@@ -9,14 +9,23 @@
 import sys
 import string
 
-#           1              2              3             4        5        6                7               8              9                10
-SA = " <CSV_pattern> <Target_Path_1> <Target_Path_2> <Host_IP> <Port> <Fserver_nmb> <Adr_area_sch> <Adr_street_sch> <Adr_house_sch>  <Adr_house_sch_l>"
-LSA = 10
-VERSION_STR_0 = "  Version 0.2.1 Build 2022-05-23"
+#           1          2         3              4             5        6      7        8
+SA = " <CSV_pattern> <Nmb> <Target_Dir_1> <Target_Path_2> <Host_IP> <Port> <login> <passwd>"
+LSA = 8
+VERSION_STR_0 = "  Version 0.4.0 Build 2022-12-30"
 VERSION_STR_1 = "  ------------------------------"
 
 USE_CASE = "  USE CASE: "
-US ="    load_mainCrtYaml.py pattern_may_2.csv . /home/rootadmin/abr_u/Y_BUILD 127.0.0.1 5434 10 unnsi unnsi unnsi gar_tmp"
+US ="""    load_mainCrtYaml.py pattern_may_2.csv 02 ~/tmp Y_BUILD 127.0.0.1 5434 postgres postgres1
+    Где:  
+           pattern_may_2.csv - Шаблон
+           02                - Номер шаблона в имени YAML-файла
+           ~/tmp             - Целевой каталог
+           Y_BUILD           - Путь (только для init, parse yamls)
+           127.0.0.1         - IP
+           5434              - порт
+           postgres          - login
+           postgres1         - passwd"""
 #
 
 SCRIPT_NOT_OPENED_0 = "... Pattern file not opened: '"
@@ -43,19 +52,10 @@ class m_yamls ():
     """
     def __init__ (self):
 
-        self.file_name_init  = "hosts_init_xx.yaml"
-        self.file_name_build = "hosts_build_xx.yaml" 
-        self.file_name_parse = "hosts_parse_xx.yaml"     
-        self.file_name_total = "hosts_total_xx.yaml"         
+        self.file_name_init  = "hosts_init_xx_{0}.yaml"
+        self.file_name_parse = "hosts_parse_xx_{0}.yaml"     
+        self.file_name_total = "hosts_total_xx_{0}.yaml"         
 
-        self.globals_build = """global_params:
-    g_fserver_nmb: {0}    
-    g_adr_area_sch: {1}
-    g_adr_street_sch: {2}
-    g_adr_house_sch: {3}
-    g_adr_house_sch_l: {4}
-"""
-    
         self.hosts = "hosts:"
         self.last = """
         """
@@ -63,37 +63,27 @@ class m_yamls ():
        -                   
            name: init_{0:02d}
            descr: {2}
-           conninfo: host={3} port={4} dbname=postgres user=postgres password=postgres
+           conninfo: host={3} port={4} dbname=postgres user={7} password={8}
            params:
                id_region: {1}
                path: {5}
-               exec: {5}/{0:02d}/stage_0_{0:02d}.csv"""             
+               exec: {6}/{0:02d}/stage_0_{0:02d}.csv"""             
             
-        self.build_yaml = """
-       -                   
-           name: build_{0:02d}
-           descr: {2}
-           conninfo: host={3} port={4} dbname=unsi_test_{0:02d} user=postgres password=postgres  
-           params:
-               id_region: {1}           
-               path: {5}
-               exec: {5}/{0:02d}/stage_3_{0:02d}.csv"""   
-               
         self.parse_yaml = """
        -                   
            name: parse_{0:02d}
            descr: {2}
-           conninfo: host={3} port={4} dbname=unsi_test_{0:02d} user=postgres password=postgres
+           conninfo: host={3} port={4} dbname=unsi_test_{0:02d} user={7} password={8}
            params:
                id_region: {1}
                path: {5}
-               exec: {5}/{0:02d}/stage_gar_c_{0:02d}.csv""" 
+               exec: {6}/{0:02d}/stage_gar_c_{0:02d}.csv""" 
                
         self.total_yaml = """
        -                   
            name: unnsi_{0:02d}
            descr: {2}
-           conninfo: host={3} port={4} dbname=unsi_test_{0:02d} user=postgres password=postgres
+           conninfo: host={3} port={4} dbname=unsi_test_{0:02d} user={5} password={6}
            params:
                id_region: {1}"""
      
@@ -105,50 +95,45 @@ class make_main (m_yamls):
  def __init__(self):
      
      m_yamls.__init__(self)
-     
- #              1              2              3             4        5        6                7       
- #  sa = " <CSV_pattern> <Target_Path_1> <Target_Path_2> <Host_IP> <Port> <F-server-nmb> <F-schema-name>
- #       
- def to_do (self, p_csv_pattern, p_target_path_1, p_target_path_2, p_host_ip,\
-     p_port, p_fserver_nmb, p_adr_area_sch, p_adr_street_sch, p_adr_house_sch,\
-         p_adr_house_sch_l):
+
+ #               1         2         3              4             5        6      7        8
+ #  SA = " <CSV_pattern> <Nmb> <Target_Dir_1> <Target_Path_2> <Host_IP> <Port> <login> <passwd>"
+ #  LSA = 8 
+ #
+ def to_do (self, p_csv_pattern,p_nmb,p_target_dir_1,p_target_path_2,p_host_ip, p_port,p_login,p_passwd):
     #
-    target_path_1 = string.strip (p_target_path_1)  
+    file_name_init  = self.file_name_init.format(string.strip(p_nmb)) 
+    file_name_parse = self.file_name_parse.format(string.strip(p_nmb))    
+    file_name_total = self.file_name_total.format(string.strip(p_nmb))
+
+    target_dir_1 = string.strip (p_target_dir_1)  
     target_path_2 = string.strip (p_target_path_2)
     #
     #  YAML-files
     #
     # INIT
     try:
-        f_init = open ((target_path_1 + PATH_DELIMITER + self.file_name_init), "w")
+        f_init = open ((target_dir_1 + PATH_DELIMITER + file_name_init), "w")
 
     except IOError, ex:
-        print YAML_NOT_OPENED_0 + self.file_name_init + YAML_NOT_OPENED_1
+        print YAML_NOT_OPENED_0 + file_name_init + YAML_NOT_OPENED_1
         return 1
 
-    # BUILD
-    try:
-        f_build = open ((target_path_1 + PATH_DELIMITER + self.file_name_build), "w")
-
-    except IOError, ex:
-        print YAML_NOT_OPENED_0 + self.file_name_build + YAML_NOT_OPENED_1
-        return 1
-    
     # PARSE
     try:
-        f_parse = open ((target_path_1 + PATH_DELIMITER + self.file_name_parse), "w")
+        f_parse = open ((target_dir_1 + PATH_DELIMITER + file_name_parse), "w")
 
     except IOError, ex:
-        print YAML_NOT_OPENED_0 + self.file_name_parse + YAML_NOT_OPENED_1
+        print YAML_NOT_OPENED_0 + file_name_parse + YAML_NOT_OPENED_1
         return 1
     
     # TOTAL
     try:
-        f_total = open ((target_path_1 + PATH_DELIMITER + self.file_name_total), "w")
+        f_total = open ((target_dir_1 + PATH_DELIMITER + file_name_total), "w")
 
     # 
     except IOError, ex:
-        print YAML_NOT_OPENED_0 + self.file_name_total + YAML_NOT_OPENED_1
+        print YAML_NOT_OPENED_0 + file_name_total + YAML_NOT_OPENED_1
         return 1    
     #  Pattern -- next step.
     #
@@ -164,24 +149,10 @@ class make_main (m_yamls):
 
     host_ip = string.strip (p_host_ip)
     port = str(p_port)
-    #
-    # 2022-05-04
-    fserver_nmb     = str ( p_fserver_nmb )  
-    adr_area_sch    = string.strip ( p_adr_area_sch   )
-    adr_street_sch  = string.strip ( p_adr_street_sch )
-    adr_house_sch   = string.strip ( p_adr_house_sch  )
-    adr_house_sch_l = string.strip ( p_adr_house_sch_l)   
-    # 2022-05-04
     
     rc = 0
     
     f_init.write (self.hosts)
-    
-    # 2022-05-06
-    f_build.write (self.globals_build.format (fserver_nmb, adr_area_sch, adr_street_sch,\
-            adr_house_sch, adr_house_sch_l))
-    f_build.write ("\n" + self.hosts)  
-    # 2022-05-06
     
     f_parse.write (self.hosts)
     f_total.write (self.hosts)
@@ -201,27 +172,23 @@ class make_main (m_yamls):
             
             print SPACES + "Init"
             f_init.write (self.init_yaml.format (int (fias_id), int(id_area),\
-                nm_area_full, host_ip, port, target_path_2))
-                
-            print SPACES + "Build"
-            f_build.write (self.build_yaml.format (int (fias_id), int (id_area),\
-                nm_area_full, host_ip, port, target_path_2))
+                nm_area_full, host_ip, port, target_dir_1, (target_dir_1 + PATH_DELIMITER + target_path_2),\
+                    string.strip(p_login), string.strip(p_passwd)))
             
             print SPACES + "Parse"
             f_parse.write (self.parse_yaml.format (int (fias_id), int (id_area),\
-                nm_area_full, host_ip, port, target_path_2))
+                nm_area_full, host_ip, port, target_dir_1,(target_dir_1 + PATH_DELIMITER + target_path_2),\
+                    string.strip(p_login), string.strip(p_passwd)))
             
             print SPACES + "Total"
-            f_total.write (self.total_yaml.format (int (fias_id), int (id_area),\
-                nm_area_full, host_ip, port))
+            f_total.write (self.total_yaml.format (int (fias_id), int (id_area), nm_area_full,\
+                host_ip, port, string.strip(p_login), string.strip(p_passwd)))
 
     f_init.write  (self.last)
-    f_build.write (self.last)
     f_parse.write (self.last)
     f_total.write (self.last)
 
     f_init.close()
-    f_build.close()
     f_parse.close()
     f_total.close()
     
@@ -243,8 +210,8 @@ if __name__ == '__main__':
             sys.exit( 1 )
 #
         mm = make_main ()
-        rc = mm.to_do (sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5],\
-            sys.argv[6], sys.argv[7], sys.argv[8], sys.argv[9], sys.argv[10])
+        rc = mm.to_do (sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], \
+            sys.argv[7], sys.argv[8])
         sys.exit ( rc )
 
 #---------------------------------------
@@ -252,8 +219,3 @@ if __name__ == '__main__':
         print "... Terminated by user: "
         sys.exit (1)
 
-# -------------------------------
-# USE CASE:
-#  load_mainCrtYaml.py pattern_may_2.csv . /home/rootadmin/abr_u/Y_BUILD 127.0.0.1 5434 10 unnsi unnsi unnsi gar_tmp
-#
-#

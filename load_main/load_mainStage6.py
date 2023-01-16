@@ -15,7 +15,9 @@ from GarProcess import stage_6_yaml as Yaml6
 from MainProcess import fd_0 as Fd0
 from MainProcess import fd_log as FdLog
 
-VERSION_STR = "  Version 0.1.1 Build 2022-12-19" 
+import load_mainAdrUpload as AdrUpTxt
+
+VERSION_STR = "  Version 0.2.2 Build 2023-01-16" 
 
 CONN_ABORTED = "... Connection aborted: "
 OP_ABORTED = "... Operation aborted: "
@@ -36,23 +38,25 @@ SPACE_0 = " "
 SPACE_7 = "    -- "
 bCP = "utf8"
 #-----------------------------------
-#          1       2        3          4            5             6         7
-SA = " <Host_IP> <Port> <DB_name> <User_name> <YAML_file_name> <Path> <dt_gar_version>"
+#          1       2        3          4         5         6                7
+SA = " <Host_IP> <Port> <DB_name> <User_name> <Path> <YAML_file_name> <dt_gar_version>"
 IA = 7
 #
 ADR_AREA = "adr_area"
 ADR_AREA_AUX = "adr_area_aux"
-ADR_AREA_FILE = "adr_area.sql"
+ADR_AREA_FILE = "adr_area_{0:02d}.sql" 
 
 ADR_STREET = "adr_street"
 ADR_STREET_AUX = "adr_street_aux"
-ADR_STREET_FILE = "adr_street.sql"
+ADR_STREET_FILE = "adr_street_{0:02d}.sql"
 
 ADR_HOUSE = "adr_house"
 ADR_HOUSE_AUX = "adr_house_aux"
-ADR_HOUSE_FILE = "adr_house.sql"
+ADR_HOUSE_FILE = "adr_house_{0:02d}.sql"
 
 PATH_DELIMITER = '/' 
+bNULL = "NULL"
+
 #-----------------------------------
 class fd_log_z ( FdLog.fd_log ):
     
@@ -74,12 +78,12 @@ class fd_log_z ( FdLog.fd_log ):
 ##     if not (p_delta_dt == None):
 ##              self.delta_dt = p_delta_dt
 
-class make_main (Proc6.proc_patterns, Yaml6.yaml_patterns, Fd0.fd_0, fd_log_z):     
+class make_main (Proc6.proc_patterns, Yaml6.yaml_patterns, Fd0.fd_0, fd_log_z, AdrUpTxt.AdrUpload):     
  """
      It executes the functionality previously defined in stage_6.csv
  """
 
- def __init__(self, p_host_ip, p_port, p_db_name, p_user_name, p_yaml_file, p_path\
+ def __init__(self, p_host_ip, p_port, p_db_name, p_user_name, p_path, p_yaml_file\
      ,p_dt_gar_version, p_fserver_nmb = None, p_id_region = None):
      
      Proc6.proc_patterns.__init__(self)
@@ -87,6 +91,9 @@ class make_main (Proc6.proc_patterns, Yaml6.yaml_patterns, Fd0.fd_0, fd_log_z):
 
      fd_log_z.__init__(self, p_host_ip, p_port, p_db_name, p_user_name) 
      Fd0.fd_0.__init__(self, 0, p_host_ip, p_port, p_db_name, p_user_name, bOUT_NAME, bERR_NAME)
+     
+     AdrUpTxt.AdrUpload.__init__(self, p_host_ip, p_port, p_db_name, p_user_name, p_path,\
+         p_yaml_file, self.file_path, p_id_region, p_fserver_nmb)
 
      # 2022-05-11
      try:
@@ -125,7 +132,6 @@ class make_main (Proc6.proc_patterns, Yaml6.yaml_patterns, Fd0.fd_0, fd_log_z):
      self.write_log (SPACE_7 + p_mess)
  
  def prt_stat (self):
-     # print self.l_arg
      self.f_err.write ('\n' + self.l_arg + '\n')
      return 0
  
@@ -152,13 +158,14 @@ class make_main (Proc6.proc_patterns, Yaml6.yaml_patterns, Fd0.fd_0, fd_log_z):
  def stage_6_0 ( self, p_MOGRIFY ): 
     """
       Сохранение записи в журнале выгрузок (master-запись).
+      Пишется всегда.
     """
     self.MOGRIFY = p_MOGRIFY
     rc = 0
-    if not self.save_ver_skip: 
-        self.stage_6 (self.export_f_version_put.format\
-            (self.dt_gar_version, self.kd_export_type, self.region_id,\
-                self.seq_name, self.fserver_nmb), self.save_ver_descr)     
+
+    self.stage_6 (self.export_f_version_put.format\
+        (self.dt_gar_version, self.kd_export_type, self.region_id,\
+            self.seq_name, self.fserver_nmb), self.save_ver_descr)     
         
     return rc
 
@@ -168,6 +175,12 @@ class make_main (Proc6.proc_patterns, Yaml6.yaml_patterns, Fd0.fd_0, fd_log_z):
      0;SELECT count(1) AS qty_adr_area_main_0 FROM gar_tmp.adr_area;; -- Количество в gar_tmp.adr_area;
      0;SELECT count(1) AS qty_adr_area_aux_0 FROM gar_tmp.adr_area_aux;; -- Количество в gar_tmp.adr_area_aux;
      #
+     0;CALL gar_link.p_adr_area_idx ('gar_tmp', NULL, false, false);; -- Улицы. Убираю Процессинговые ; 
+     0;CALL gar_link.p_adr_area_idx ('gar_tmp', NULL, true, true);; -- Улицы. Эксплуатационное уникальное индексное покрытие;
+     #
+     0;CALL gar_link.p_adr_area_idx ('gar_tmp', NULL, true, false);; -- Улицы. Убираю Эксплуатационное неуникальное индексное покрытие;
+     0;CALL gar_link.p_adr_area_idx ('gar_tmp', NULL, false, true);; -- Улицы. Процессинговые ; 
+
      1;../../A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_area_post_proc_1.sql;; -- Постанализ списка адресных регионов;
      0;CALL gar_tmp_pcg_trans.p_adr_area_upload ('gar_tmp', 'unnsi');; -- Выгрузка adr_area;
     """
@@ -177,38 +190,54 @@ class make_main (Proc6.proc_patterns, Yaml6.yaml_patterns, Fd0.fd_0, fd_log_z):
     qty_total = 0   # Отдельное соединение
     qty_mod = 0
     
-    if not self.aa_upload_skip:
+    self.write_log_1 (self.aa_upload_descr)
     
-        self.write_log_1 (self.aa_upload_descr)
-        
-        self.cur6.execute(self.check_data_adr.format(self.adr_area_sch_l, ADR_AREA))
-        qty_total = self.cur6.fetchone()[0]
-        self.conn6.commit()        
-        
-        self.cur6.execute(self.check_data_adr.format(self.adr_area_sch_l, ADR_AREA_AUX))
-        qty_mod = self.cur6.fetchone()[0]
-        self.conn6.commit()
+    self.cur6.execute(self.check_data_adr.format(self.adr_area_sch_l, ADR_AREA))
+    qty_total = self.cur6.fetchone()[0]
+    self.conn6.commit()        
+    
+    self.cur6.execute(self.check_data_adr.format(self.adr_area_sch_l, ADR_AREA_AUX))
+    qty_mod = self.cur6.fetchone()[0]
+    self.conn6.commit()
 
-        self.stage_6 (self.check_data_adr_1.format (qty_total,(ADR_AREA + "_0"))); 
-        self.stage_6 (self.check_data_adr_1.format (qty_mod,(ADR_AREA_AUX + "_0"))); 
+    self.stage_6 (self.check_data_adr_1.format (qty_total,(ADR_AREA + "_0"))); 
+    self.stage_6 (self.check_data_adr_1.format (qty_mod,(ADR_AREA_AUX + "_0"))); 
 
-        if not (self.aa_upload_pa_script == None):
-            self.stage_6 (self.post_adr_area.format(self.aa_upload_pa_script),p_mode = 1)
+    if not self.aa_upload_pp_skip:
+        self.stage_6 (self.gar_link_p_adr_area_idx.format(self.adr_area_sch_l, bNULL, False, False))
+        self.stage_6 (self.gar_link_p_adr_area_idx.format(self.adr_area_sch_l, bNULL, True, True))
+        #
+        self.stage_6 (self.gar_link_p_adr_area_idx.format(self.adr_area_sch_l, bNULL, True, False))
+        self.stage_6 (self.gar_link_p_adr_area_idx.format(self.adr_area_sch_l, bNULL, False, True))
+    
+    if not (self.aa_upload_pa_script == None):
+        self.stage_6 (self.post_adr_area.format(self.aa_upload_pa_script),p_mode = 1)
+    
+    if not self.aa_upload_up_skip:
        
-        self.stage_6 (self.gar_tmp_p_adr_area_upload.format\
-            (self.adr_area_sch_l,self.adr_area_sch))
-
-        if not self.save_ver_skip: 
+        if not self.kd_export_type:
+            # Adr_areas,  "Выгрузка в файл"
+            file_path = self.file_path + PATH_DELIMITER + ADR_AREA_FILE.format(self.region_id)
+            self.to_do (file_path)
+            self.stage_up (self.adr_area_sch_l,\
+                (self.adr_area_sch if self.aa_sch_type else self.adr_area_sch_l),\
+                ADR_AREA, ADR_AREA_AUX, self.MOGRIFY)
             
-            if not self.kd_export_type:
-                file_path = (self.file_path + PATH_DELIMITER + ADR_AREA_FILE)
-            else:
-                file_path = ''
+        else:
+            # Adr_areas,  "Обновление сторонней таблицы"
+            file_path = ''
+            if self.aa_drop_remote_idxs:
+                self.stage_6 (self.gar_link_p_adr_area_idx.format\
+                    (self.adr_area_sch, (self.conn.format(self.fserver_nmb)), True, False))
                 
-            self.stage_6 (self.export_f_version_by_obj_put.format\
-                (self.dt_gar_version, self.adr_area_sch_l, ADR_AREA, qty_total, qty_mod,\
-                    file_path))
-            
+            self.stage_6 (self.gar_tmp_p_adr_area_upload.format\
+                (self.adr_area_sch_l, self.adr_area_sch))
+        
+        # Запись-detail о выполненной выгрузке.
+        self.stage_6 (self.export_f_version_by_obj_put.format\
+            (self.dt_gar_version, self.adr_area_sch_l, ADR_AREA, qty_total, qty_mod,\
+                file_path))
+        
     return rc
 
  def stage_6_2 ( self, p_MOGRIFY): 
@@ -238,66 +267,79 @@ class make_main (Proc6.proc_patterns, Yaml6.yaml_patterns, Fd0.fd_0, fd_log_z):
     qty_total = 0   # Отдельное соединение
     qty_mod = 0   
     
-    if not self.as_upload_skip:
-
-        self.write_log_1 (self.as_upload_descr)
-        
-        self.cur6.execute(self.check_data_adr.format(self.adr_street_sch_l, ADR_STREET))
-        qty_total = self.cur6.fetchone()[0]
-        self.conn6.commit()
-        
-        self.cur6.execute(self.check_data_adr.format(self.adr_street_sch_l, ADR_STREET_AUX))
-        qty_mod = self.cur6.fetchone()[0]
-        self.conn6.commit()
-
-        self.stage_6 (self.check_data_adr_1.format (qty_total,(ADR_STREET + "_0"))); 
-        self.stage_6 (self.check_data_adr_1.format (qty_mod,(ADR_STREET_AUX + "_0")));     
+    self.write_log_1 (self.as_upload_descr)
     
+    self.cur6.execute(self.check_data_adr.format(self.adr_street_sch_l, ADR_STREET))
+    qty_total = self.cur6.fetchone()[0]
+    self.conn6.commit()
+    
+    self.cur6.execute(self.check_data_adr.format(self.adr_street_sch_l, ADR_STREET_AUX))
+    qty_mod = self.cur6.fetchone()[0]
+    self.conn6.commit()
+
+    self.stage_6 (self.check_data_adr_1.format (qty_total,(ADR_STREET + "_0"))); 
+    self.stage_6 (self.check_data_adr_1.format (qty_mod,(ADR_STREET_AUX + "_0")));     
+    
+    if not self.as_upload_pp_skip: # Пропущен этап пост-обработки.
+        
         self.stage_6 (self.gar_link_p_adr_street_idx.format\
-            (self.adr_street_sch_l,'NULL', False, False, False)) 
+            (self.adr_street_sch_l,bNULL, False, False, False)) 
             
         self.stage_6 (self.gar_link_p_adr_street_idx.format\
-            (self.adr_street_sch_l,'NULL', True, True, False)) 
-
+            (self.adr_street_sch_l,bNULL, True, True, False)) 
+        
         self.stage_6 (self.gar_tmp_fp_adr_street_check_twins_local.format\
             (self.adr_area_sch_l, self.as_bound_date, self.adr_hist_sch))
         
         self.cur6.execute(self.check_data_adr.format(self.adr_street_sch_l, ADR_STREET))
         qty_total = self.cur6.fetchone()[0]
         self.conn6.commit()
-
+        
         self.cur6.execute(self.check_data_adr.format(self.adr_street_sch_l, ADR_STREET_AUX))
         qty_mod = self.cur6.fetchone()[0]
         self.conn6.commit()
-
+        
         self.stage_6 (self.check_data_adr_1.format (qty_total,(ADR_STREET + "_1"))); 
         self.stage_6 (self.check_data_adr_1.format (qty_mod,(ADR_STREET_AUX + "_1")));     
         
         self.stage_6 (self.gar_link_p_adr_street_idx_set_uniq.format\
-            (self.adr_area_sch_l, 'NULL', True, True)) 
-
-        self.stage_6 (self.gar_link_p_adr_street_idx.format\
-            (self.adr_street_sch_l,'NULL', True, False, False)) 
-
-        self.stage_6 (self.gar_link_p_adr_street_idx.format\
-            (self.adr_street_sch_l,'NULL', False, True, True)) 
+            (self.adr_area_sch_l, bNULL, True, True)) 
         
-        if not (self.as_upload_pa_script == None):
-            self.stage_6 (self.post_adr_street.format(self.as_upload_pa_script),p_mode = 1)
-       
-        self.stage_6 (self.gar_tmp_p_adr_street_upload.format\
-            (self.adr_street_sch_l,self.adr_street_sch))
+        self.stage_6 (self.gar_link_p_adr_street_idx.format\
+            (self.adr_street_sch_l,bNULL, True, False, False)) 
+        
+        self.stage_6 (self.gar_link_p_adr_street_idx.format\
+            (self.adr_street_sch_l,bNULL, False, True, True)) 
 
-        if not self.save_ver_skip:
+    if not (self.as_upload_pa_script == None):
+        self.stage_6 (self.post_adr_street.format(self.as_upload_pa_script),p_mode = 1)
+    
+    if not self.as_upload_up_skip:
+        
+        if not self.kd_export_type:
             
-            if not self.kd_export_type:
-                file_path = (self.file_path + PATH_DELIMITER + ADR_STREET_FILE)
-            else:
-                file_path = ''
-                
-            self.stage_6 (self.export_f_version_by_obj_put.format\
-                (self.dt_gar_version, self.adr_street_sch_l, ADR_STREET, qty_total, qty_mod,\
-                    file_path))
+            # Adr_streets  Выгрузка в файл.
+            file_path = self.file_path + PATH_DELIMITER + ADR_STREET_FILE.format(self.region_id)
+            self.to_do (file_path)
+
+            self.stage_up (self.adr_street_sch_l,\
+                (self.adr_street_sch if self.as_sch_type else self.adr_street_sch_l),\
+                ADR_STREET, ADR_STREET_AUX, self.MOGRIFY)
+                        
+        else:
+            # Adr_streets Обновление сторонней таблицы.
+            file_path = ''
+            if self.as_drop_remote_idxs:
+                self.stage_6 (self.gar_link_p_adr_street_idx.format\
+                    (self.adr_street_sch, (self.conn.format(self.fserver_nmb)), True, False, False))
+            
+            self.stage_6 (self.gar_tmp_p_adr_street_upload.format\
+                (self.adr_street_sch_l,self.adr_street_sch))
+
+        # Запись-detail о выполненной выгрузке.
+        self.stage_6 (self.export_f_version_by_obj_put.format\
+            (self.dt_gar_version, self.adr_street_sch_l, ADR_STREET, qty_total, qty_mod,\
+                file_path))
                
     return rc
 
@@ -328,30 +370,30 @@ class make_main (Proc6.proc_patterns, Yaml6.yaml_patterns, Fd0.fd_0, fd_log_z):
     qty_total = 0   # Отдельное соединение
     qty_mod = 0   
     
-    if not self.as_upload_skip:
-
-        self.write_log_1 (self.ah_upload_descr)
-        
-        self.cur6.execute(self.check_data_adr.format(self.adr_house_sch_l, ADR_HOUSE))
-        qty_total = self.cur6.fetchone()[0]
-        self.conn6.commit()
-             
-        self.cur6.execute(self.check_data_adr.format(self.adr_house_sch_l, ADR_HOUSE_AUX))
-        qty_mod = self.cur6.fetchone()[0]
-        self.conn6.commit()
-
-        self.stage_6 (self.check_data_adr_1.format (qty_total,(ADR_HOUSE + "_0"))); 
-        self.stage_6 (self.check_data_adr_1.format (qty_mod,(ADR_HOUSE_AUX + "_0"))); 
+    self.write_log_1 (self.ah_upload_descr)
+    
+    self.cur6.execute(self.check_data_adr.format(self.adr_house_sch_l, ADR_HOUSE))
+    qty_total = self.cur6.fetchone()[0]
+    self.conn6.commit()
+         
+    self.cur6.execute(self.check_data_adr.format(self.adr_house_sch_l, ADR_HOUSE_AUX))
+    qty_mod = self.cur6.fetchone()[0]
+    self.conn6.commit()
+    
+    self.stage_6 (self.check_data_adr_1.format (qty_total,(ADR_HOUSE + "_0"))); 
+    self.stage_6 (self.check_data_adr_1.format (qty_mod,(ADR_HOUSE_AUX + "_0"))); 
+    
+    if not self.as_upload_pp_skip: # Пропущен этап пост-обработки.
         
         self.stage_6 (self.gar_link_p_adr_house_idx.format\
-            (self.adr_house_sch_l,'NULL', False, False, False)) 
+            (self.adr_house_sch_l,bNULL, False, False, False)) 
             
         self.stage_6 (self.gar_link_p_adr_house_idx.format\
-            (self.adr_house_sch_l,'NULL', True, True, False)) 
-
+            (self.adr_house_sch_l,bNULL, True, True, False)) 
+        
         self.stage_6 (self.gar_tmp_fp_adr_house_check_twins_local.format\
             (self.adr_house_sch_l, self.as_bound_date, self.adr_hist_sch))
-  
+        
         self.cur6.execute(self.check_data_adr.format(self.adr_house_sch_l, ADR_HOUSE))
         qty_total = self.cur6.fetchone()[0]
         self.conn6.commit()
@@ -359,36 +401,46 @@ class make_main (Proc6.proc_patterns, Yaml6.yaml_patterns, Fd0.fd_0, fd_log_z):
         self.cur6.execute(self.check_data_adr.format(self.adr_house_sch_l, ADR_HOUSE_AUX))
         qty_mod = self.cur6.fetchone()[0]
         self.conn6.commit()
-
+        
         self.stage_6 (self.check_data_adr_1.format (qty_total,(ADR_HOUSE + "_1"))); 
         self.stage_6 (self.check_data_adr_1.format (qty_mod,(ADR_HOUSE_AUX + "_1")));
         
         self.stage_6 (self.gar_link_p_adr_house_idx_set_uniq.format\
-            (self.adr_house_sch_l, 'NULL', True, True)) 
-
-        self.stage_6 (self.gar_link_p_adr_house_idx.format\
-            (self.adr_house_sch_l,'NULL', True, False, False)) 
-
-        self.stage_6 (self.gar_link_p_adr_house_idx.format\
-            (self.adr_house_sch_l,'NULL', False, True, True))
+            (self.adr_house_sch_l, bNULL, True, True)) 
         
-        if not (self.ah_upload_pa_script== None):
-            self.stage_6 (self.post_adr_house.format\
-                (self.ah_upload_pa_script),p_mode = 1)
-       
-        self.stage_6 (self.gar_tmp_p_adr_house_upload.format\
-            (self.adr_house_sch_l,self.adr_house_sch))
- 
-        if not self.save_ver_skip: 
+        self.stage_6 (self.gar_link_p_adr_house_idx.format\
+            (self.adr_house_sch_l,bNULL, True, False, False)) 
+        
+        self.stage_6 (self.gar_link_p_adr_house_idx.format\
+            (self.adr_house_sch_l,bNULL, False, True, True))
+    
+    if not (self.ah_upload_pa_script== None):
+        self.stage_6 (self.post_adr_house.format\
+            (self.ah_upload_pa_script),p_mode = 1)
+    
+    if not self.ah_upload_up_skip:
+        
+        if not self.kd_export_type:
+            # Adr_houses Выгрузка в файл.
+            file_path = self.file_path + PATH_DELIMITER + ADR_HOUSE_FILE.format(self.region_id)
+            self.to_do (file_path)
+            self.stage_up (self.adr_house_sch_l,\
+                (self.adr_house_sch if self.ah_sch_type else self.adr_house_sch_l),\
+                ADR_HOUSE, ADR_HOUSE_AUX, self.MOGRIFY)
+            
+        else:
+            # Adr_houses Обновление сторонней таблицы.
+            file_path = ''
+            if self.ah_drop_remote_idxs:
+                self.stage_6 (self.gar_link_p_adr_house_idx.format\
+                    (self.adr_house_sch, (self.conn.format(self.fserver_nmb)), True, False, False))
+            self.stage_6 (self.gar_tmp_p_adr_house_upload.format\
+                (self.adr_house_sch_l, self.adr_house_sch))
 
-            if not self.kd_export_type:
-                file_path = (self.file_path + PATH_DELIMITER + ADR_HOUSE_FILE)
-            else:
-                file_path = ''
-
-            self.stage_6 (self.export_f_version_by_obj_put.format\
-                (self.dt_gar_version, self.adr_house_sch_l, ADR_HOUSE, qty_total, qty_mod,\
-                    file_path))
+        # Запись-detail о выполненной выгрузке.        
+        self.stage_6 (self.export_f_version_by_obj_put.format\
+            (self.dt_gar_version, self.adr_house_sch_l, ADR_HOUSE, qty_total, qty_mod,\
+                file_path))
  
     return rc
 

@@ -9,7 +9,7 @@
 import sys
 ## import string
 
-VERSION_STR = "  Version 0.1.1 Build 2022-12-19"
+VERSION_STR = "  Version 0.2.2 Build 2023-01-16"
 
 class proc_patterns ():
     """
@@ -54,20 +54,31 @@ class proc_patterns ():
                    );
         """      
 
-        # Управление индексами -- (gar_link.f_conn_set({1}::numeric(3)))
+        self.conn = """(gar_link.f_conn_set({0}::numeric(3)))"""
+        
+        # Далее управление индексами
+        self.gar_link_p_adr_area_idx = """CALL gar_link.p_adr_area_idx (
+              p_schema_name := '{0}'::text  -- Имя отдалённой/локальной схемы схемы 
+             ,p_conn        := {1}::text    -- Именованное dblink-соединение   
+             ,p_mode_t      := {2}::boolean -- TRUE - Эксплутационные, FALSE - Загрузочные
+             ,p_mode_c      := {3}::boolean -- TRUE - Создание индексов, FALSE - удаление             
+        );
+        """        
+
+        #       -- (gar_link.f_conn_set({1}::numeric(3)))
         self.gar_link_p_adr_street_idx = """CALL gar_link.p_adr_street_idx (
                    p_schema_name := '{0}'::text  -- Имя локальной/отдалённой схемы 
                   ,p_conn        := {1}::text    -- Именованное dblink-соединение   
                   ,p_mode_t      := {2}::boolean -- TRUE - Эксплутационные, FALSE - Загрузочные
-                  ,p_mode_c      := {3}::boolean -- TRUE - Создание индексов FALSE - удаление  
+                  ,p_mode_c      := {3}::boolean -- TRUE - Создание индексов, FALSE - удаление  
                   ,p_uniq_sw     := {4}::boolean -- TRUE - Уникальность "ak1", "ie2" - 
             ); 
         """
-        # Уникальный индекс. -- (gar_link.f_conn_set({1}::numeric(3)))
+        #  Уникальный индекс. -- (gar_link.f_conn_set({1}::numeric(3)))
         self.gar_link_p_adr_street_idx_set_uniq = """CALL gar_link.p_adr_street_idx_set_uniq (
                    p_schema_name := '{0}'::text  -- Имя локальной/отдалённой схемы 
                   ,p_conn        := {1}::text    -- Именованное dblink-соединение   
-                  ,p_mode_t      := {2}::boolean -- Выбор типа индексов TRUE - Эксплутационные, FALSE - Загрузочные
+                  ,p_mode_t      := {2}::boolean -- TRUE - Эксплутационные, FALSE - Загрузочные
                   ,p_uniq_sw     := {3}::boolean -- Уникальность "ak1", "ie2" - TRUE  
         );
         """
@@ -76,7 +87,7 @@ class proc_patterns ():
                    p_schema_name := '{0}'::text  -- Имя локальной/отдалённой схемы
                   ,p_conn        := {1}::text    -- Именованное dblink-соединение   
                   ,p_mode_t      := {2}::boolean -- TRUE - Эксплутационные, FALSE - Загрузочные
-                  ,p_mode_c      := {3}::boolean -- TRUE - Создание индексов FALSE - удаление  
+                  ,p_mode_c      := {3}::boolean -- TRUE - Создание индексов, FALSE - удаление  
                   ,p_uniq_sw     := {4}::boolean -- TRUE - Уникальность "ak1", "ie2" - 
             ); 
         """        
@@ -114,6 +125,18 @@ class proc_patterns ():
         self.post_adr_street = "{0}"
         self.post_adr_house = "{0}"
 
+        # Сервис
+        self.gar_link_f_show_col_descr = """SELECT * FROM gar_link.f_show_col_descr (
+              p_schema_name := '{0}'::varchar(20) -- Наименование схемы
+             ,p_obj_name    := '{1}'::varchar(64) -- Наименование объекта
+        ) ORDER BY attr_number;        
+        """  
+        self.get_op_sign_u = """SELECT {0} FROM ONLY {1}.{2} WHERE (op_sign = 'U');"""
+        #
+        self.part_0 = """DELETE FROM {0}.{1} WHERE {2} = ANY (ARRAY{3});"""
+        self.part_1 = """COPY {0}.{1} ({2}) FROM stdin WITH DELIMITER '|';"""
+        self.part_2 = """SELECT {0} FROM ONLY {1}.{2} z INNER JOIN ONLY {1}.{3} x ON (z.{4} = x.{4});
+                      """
 # ---------------------------------------------------------------------------------------------------------------------
 if __name__ == '__main__':
     try:
@@ -121,6 +144,8 @@ if __name__ == '__main__':
         #
         print pp.export_f_version_put                      
         print pp.export_f_version_by_obj_put                  
+
+        print pp.conn
 
         print pp.gar_tmp_p_adr_area_upload          
         print pp.gar_tmp_p_adr_street_upload        

@@ -14,7 +14,7 @@ import yaml
 from yaml.loader import SafeLoader
 
 PATH_DELIMITER = '/'  
-VERSION_STR = "  Version 0.1.2 Build 2022-12-20"
+VERSION_STR = "  Version 0.2.2 Build 2023-01-16"
 
 YAML_NOT_OPENED_0 = "... YAML file not opened: '"
 YAML_NOT_OPENED_1 = "'."
@@ -64,37 +64,46 @@ class yaml_patterns ():
         self.adr_street_sch_l = stage_6 ['global_params']['g_adr_street_sch_l']
         self.adr_house_sch_l  = stage_6 ['global_params']['g_adr_house_sch_l']
         
-        
         self.adr_hist_sch = stage_6 ['global_params']['g_adr_hist_sch'] 
         #
         # Далее по этапам:
         # ---------------- 
         # stage_6_0  --  Сохранение данных в журнале.  
-        #            Но будет выполняться на каждой их трёх итераций,  
+        #            Одно выполннение для каждой из трёх последующих итераций,  
         #            управление - либо выключена, либо пропускаем. 
         # 
         self.save_ver_descr = stage_6 ['unnsi_save_version'] ['descr']
-        self.save_ver_skip  = stage_6 ['unnsi_save_version'] ['p_skip']       
         #  
-        # stage_6_1 Постанализ и выгрузка адресных пространств.
+        # stage_6_1 Постанализ и выгрузка Адресных пространств.
         #
         self.aa_upload_descr     = stage_6 ['unnsi_adr_area_upload']['descr']
-        self.aa_upload_skip      = stage_6 ['unnsi_adr_area_upload']['p_skip']
+        self.aa_bound_date       = stage_6 ['unnsi_adr_area_upload']['params_proc']['p_bound_date']
+        self.aa_upload_pp_skip   = stage_6 ['unnsi_adr_area_upload']['params_proc']['p_post_proc_skip']
         self.aa_upload_pa_script = stage_6 ['unnsi_adr_area_upload']['params_proc']['p_post_script']
+        self.aa_upload_up_skip   = stage_6 ['unnsi_adr_area_upload']['params_proc']['p_post_upload_skip']
+        self.aa_sch_type         = stage_6 ['unnsi_adr_area_upload']['params_proc']['p_sch_type']
+        self.aa_drop_remote_idxs = stage_6 ['unnsi_adr_area_upload']['params_proc']['p_drop_remote_idxs'] 
+        
         #        
-        # stage_6_2 Постанализ и выгрузка улиц
+        # stage_6_2 Постанализ и выгрузка Улиц
         #
         self.as_upload_descr     = stage_6 ['unnsi_adr_street_upload']['descr']
-        self.as_upload_skip      = stage_6 ['unnsi_adr_street_upload']['p_skip']
         self.as_bound_date       = stage_6 ['unnsi_adr_street_upload']['params_proc']['p_bound_date']
+        self.as_upload_pp_skip   = stage_6 ['unnsi_adr_street_upload']['params_proc']['p_post_proc_skip']
         self.as_upload_pa_script = stage_6 ['unnsi_adr_street_upload']['params_proc']['p_post_script']
+        self.as_upload_up_skip   = stage_6 ['unnsi_adr_street_upload']['params_proc']['p_post_upload_skip']
+        self.as_sch_type         = stage_6 ['unnsi_adr_street_upload']['params_proc']['p_sch_type']
+        self.as_drop_remote_idxs = stage_6 ['unnsi_adr_street_upload']['params_proc']['p_drop_remote_idxs'] 
         #        
-        # stage_6_3 Постанализ и выгрузка улиц
+        # stage_6_3 Постанализ и выгрузка Домов
         #
         self.ah_upload_descr     = stage_6 ['unnsi_adr_house_upload']['descr']
-        self.ah_upload_skip      = stage_6 ['unnsi_adr_house_upload']['p_skip']
         self.ah_bound_date       = stage_6 ['unnsi_adr_house_upload']['params_proc']['p_bound_date']
+        self.ah_upload_pp_skip   = stage_6 ['unnsi_adr_house_upload']['params_proc']['p_post_proc_skip']
         self.ah_upload_pa_script = stage_6 ['unnsi_adr_house_upload']['params_proc']['p_post_script']
+        self.ah_upload_up_skip   = stage_6 ['unnsi_adr_house_upload']['params_proc']['p_post_upload_skip']
+        self.ah_sch_type         = stage_6 ['unnsi_adr_house_upload']['params_proc']['p_sch_type']
+        self.ah_drop_remote_idxs = stage_6 ['unnsi_adr_house_upload']['params_proc']['p_drop_remote_idxs'] 
         #      
         f_yaml.close()     
         #
@@ -155,27 +164,36 @@ if __name__ == '__main__':
         print yp.adr_hist_sch 
 
         print yp.save_ver_descr
-        print yp.save_ver_skip        
         #  
         # stage_6_1 Постанализ и выгрузка адресных пространств.
         #
         print yp.aa_upload_descr    
-        print yp.aa_upload_skip     
+        print yp.aa_bound_date      
+        print yp.aa_upload_pp_skip  
         print yp.aa_upload_pa_script
+        print yp.aa_upload_up_skip  
+        print yp.aa_sch_type
+        print yp.aa_drop_remote_idxs
         #        
         # stage_6_2 Постанализ и выгрузка улиц
         #
         print yp.as_upload_descr    
-        print yp.as_upload_skip     
-        print yp.as_bound_date     
+        print yp.as_bound_date      
+        print yp.as_upload_pp_skip  
         print yp.as_upload_pa_script
+        print yp.as_upload_up_skip  
+        print yp.as_sch_type
+        print yp.as_drop_remote_idxs
         #        
         # stage_6_3 Постанализ и выгрузка улиц
         #
         print yp.ah_upload_descr    
-        print yp.ah_upload_skip  
-        print yp.ah_bound_date     
+        print yp.ah_bound_date      
+        print yp.ah_upload_pp_skip  
         print yp.ah_upload_pa_script
+        print yp.ah_upload_up_skip  
+        print yp.ah_sch_type
+        print yp.ah_drop_remote_idxs
         #--
         sys.exit (0)
 

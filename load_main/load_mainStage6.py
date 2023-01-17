@@ -17,7 +17,7 @@ from MainProcess import fd_log as FdLog
 
 import load_mainAdrUpload as AdrUpTxt
 
-VERSION_STR = "  Version 0.2.2 Build 2023-01-16" 
+VERSION_STR = "  Version 0.2.2 Build 2023-01-17" 
 
 CONN_ABORTED = "... Connection aborted: "
 OP_ABORTED = "... Operation aborted: "
@@ -37,7 +37,7 @@ POINTS = "... "
 SPACE_0 = " "
 SPACE_7 = "    -- "
 bCP = "utf8"
-#-----------------------------------
+#---------------------------------------------------------------------------------------
 #          1       2        3          4         5         6                7
 SA = " <Host_IP> <Port> <DB_name> <User_name> <Path> <YAML_file_name> <dt_gar_version>"
 IA = 7
@@ -56,6 +56,8 @@ ADR_HOUSE_FILE = "adr_house_{0:02d}.sql"
 
 PATH_DELIMITER = '/' 
 bNULL = "NULL"
+bZR = "_0"
+bON = "_1"
 
 #-----------------------------------
 class fd_log_z ( FdLog.fd_log ):
@@ -200,16 +202,30 @@ class make_main (Proc6.proc_patterns, Yaml6.yaml_patterns, Fd0.fd_0, fd_log_z, A
     qty_mod = self.cur6.fetchone()[0]
     self.conn6.commit()
 
-    self.stage_6 (self.check_data_adr_1.format (qty_total,(ADR_AREA + "_0"))); 
-    self.stage_6 (self.check_data_adr_1.format (qty_mod,(ADR_AREA_AUX + "_0"))); 
+    self.stage_6 (self.check_data_adr_1.format (qty_total,(ADR_AREA + bZR))); 
+    self.stage_6 (self.check_data_adr_1.format (qty_mod,(ADR_AREA_AUX + bZR))); 
 
     if not self.aa_upload_pp_skip:
         self.stage_6 (self.gar_link_p_adr_area_idx.format(self.adr_area_sch_l, bNULL, False, False))
-        self.stage_6 (self.gar_link_p_adr_area_idx.format(self.adr_area_sch_l, bNULL, True, True))
         #
+        self.stage_6 (self.gar_tmp_fp_adr_area_check_twins_local.format\
+            (self.adr_area_sch_l, self.as_bound_date, self.adr_hist_sch))
+        
+        self.stage_6 (self.gar_link_p_adr_area_idx.format(self.adr_area_sch_l, bNULL, True, True))
         self.stage_6 (self.gar_link_p_adr_area_idx.format(self.adr_area_sch_l, bNULL, True, False))
         self.stage_6 (self.gar_link_p_adr_area_idx.format(self.adr_area_sch_l, bNULL, False, True))
-    
+
+        self.cur6.execute(self.check_data_adr.format(self.adr_area_sch_l, ADR_AREA))
+        qty_total = self.cur6.fetchone()[0]
+        self.conn6.commit()
+        
+        self.cur6.execute(self.check_data_adr.format(self.adr_area_sch_l, ADR_AREA_AUX))
+        qty_mod = self.cur6.fetchone()[0]
+        self.conn6.commit()
+        
+        self.stage_6 (self.check_data_adr_1.format (qty_total,(ADR_AREA + bON))); 
+        self.stage_6 (self.check_data_adr_1.format (qty_mod,(ADR_AREA_AUX + bON)));     
+
     if not (self.aa_upload_pa_script == None):
         self.stage_6 (self.post_adr_area.format(self.aa_upload_pa_script),p_mode = 1)
     
@@ -277,8 +293,8 @@ class make_main (Proc6.proc_patterns, Yaml6.yaml_patterns, Fd0.fd_0, fd_log_z, A
     qty_mod = self.cur6.fetchone()[0]
     self.conn6.commit()
 
-    self.stage_6 (self.check_data_adr_1.format (qty_total,(ADR_STREET + "_0"))); 
-    self.stage_6 (self.check_data_adr_1.format (qty_mod,(ADR_STREET_AUX + "_0")));     
+    self.stage_6 (self.check_data_adr_1.format (qty_total,(ADR_STREET + bZR))); 
+    self.stage_6 (self.check_data_adr_1.format (qty_mod,(ADR_STREET_AUX + bZR)));     
     
     if not self.as_upload_pp_skip: # Пропущен этап пост-обработки.
         
@@ -299,8 +315,8 @@ class make_main (Proc6.proc_patterns, Yaml6.yaml_patterns, Fd0.fd_0, fd_log_z, A
         qty_mod = self.cur6.fetchone()[0]
         self.conn6.commit()
         
-        self.stage_6 (self.check_data_adr_1.format (qty_total,(ADR_STREET + "_1"))); 
-        self.stage_6 (self.check_data_adr_1.format (qty_mod,(ADR_STREET_AUX + "_1")));     
+        self.stage_6 (self.check_data_adr_1.format (qty_total,(ADR_STREET + bON))); 
+        self.stage_6 (self.check_data_adr_1.format (qty_mod,(ADR_STREET_AUX + bON)));     
         
         self.stage_6 (self.gar_link_p_adr_street_idx_set_uniq.format\
             (self.adr_area_sch_l, bNULL, True, True)) 
@@ -380,8 +396,8 @@ class make_main (Proc6.proc_patterns, Yaml6.yaml_patterns, Fd0.fd_0, fd_log_z, A
     qty_mod = self.cur6.fetchone()[0]
     self.conn6.commit()
     
-    self.stage_6 (self.check_data_adr_1.format (qty_total,(ADR_HOUSE + "_0"))); 
-    self.stage_6 (self.check_data_adr_1.format (qty_mod,(ADR_HOUSE_AUX + "_0"))); 
+    self.stage_6 (self.check_data_adr_1.format (qty_total,(ADR_HOUSE + bZR))); 
+    self.stage_6 (self.check_data_adr_1.format (qty_mod,(ADR_HOUSE_AUX + bZR))); 
     
     if not self.as_upload_pp_skip: # Пропущен этап пост-обработки.
         
@@ -402,8 +418,8 @@ class make_main (Proc6.proc_patterns, Yaml6.yaml_patterns, Fd0.fd_0, fd_log_z, A
         qty_mod = self.cur6.fetchone()[0]
         self.conn6.commit()
         
-        self.stage_6 (self.check_data_adr_1.format (qty_total,(ADR_HOUSE + "_1"))); 
-        self.stage_6 (self.check_data_adr_1.format (qty_mod,(ADR_HOUSE_AUX + "_1")));
+        self.stage_6 (self.check_data_adr_1.format (qty_total,(ADR_HOUSE + bON))); 
+        self.stage_6 (self.check_data_adr_1.format (qty_mod,(ADR_HOUSE_AUX + bON)));
         
         self.stage_6 (self.gar_link_p_adr_house_idx_set_uniq.format\
             (self.adr_house_sch_l, bNULL, True, True)) 

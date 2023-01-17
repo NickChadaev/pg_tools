@@ -101,6 +101,12 @@ class proc_patterns ():
         """
         
         # Поиск дубликатов
+        self.gar_tmp_fp_adr_area_check_twins_local = """SELECT * FROM gar_tmp_pcg_trans.fp_adr_area_check_twins_local (
+              p_schema_name      := '{0}':: text 
+             ,p_bound_date       := '{1}':: date 
+             ,p_schema_hist_name := '{2}':: text 
+        );
+        """
         self.gar_tmp_fp_adr_street_check_twins_local = """SELECT * FROM gar_tmp_pcg_trans.fp_adr_street_check_twins_local(
               p_schema_name      := '{0}'::text 
              ,p_bound_date       := '{1}'::date 
@@ -133,7 +139,7 @@ class proc_patterns ():
         """  
         self.get_op_sign_u = """SELECT {0} FROM ONLY {1}.{2} WHERE (op_sign = 'U');"""
         #
-        self.part_0 = """DELETE FROM {0}.{1} WHERE {2} = ANY (ARRAY{3});"""
+        self.part_0 = """DELETE FROM {0}.{1} WHERE {2} = ANY (ARRAY{3}::bigint[]);"""
         self.part_1 = """COPY {0}.{1} ({2}) FROM stdin WITH DELIMITER '|';"""
         self.part_2 = """SELECT {0} FROM ONLY {1}.{2} z INNER JOIN ONLY {1}.{3} x ON (z.{4} = x.{4});
                       """
@@ -150,12 +156,14 @@ if __name__ == '__main__':
         print pp.gar_tmp_p_adr_area_upload          
         print pp.gar_tmp_p_adr_street_upload        
         print pp.gar_tmp_p_adr_house_upload         
-        
+
+        print pp.gar_link_p_adr_area_idx          
         print pp.gar_link_p_adr_street_idx          
         print pp.gar_link_p_adr_street_idx_set_uniq 
         print pp.gar_link_p_adr_house_idx           
         print pp.gar_link_p_adr_house_idx_set_uniq  
-        
+          
+        print pp.gar_tmp_fp_adr_area_check_twins_local
         print pp.gar_tmp_fp_adr_street_check_twins_local
         print pp.gar_tmp_fp_adr_house_check_twins_local 
         

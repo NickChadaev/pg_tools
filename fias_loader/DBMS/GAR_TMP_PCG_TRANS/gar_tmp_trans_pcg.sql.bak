@@ -493,7 +493,7 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_type_unload (
   $$;
 
 COMMENT ON PROCEDURE gar_tmp_pcg_trans.p_adr_street_type_unload (text, text) 
-         IS 'Загрузка ОТДАЛЁННОГО справочника типов адресных регионов';
+         IS 'Загрузка ОТДАЛЁННОГО справочника типов улиц';
 -- -----------------------------------------------------------------------------------------------
 --  USE CASE:
  

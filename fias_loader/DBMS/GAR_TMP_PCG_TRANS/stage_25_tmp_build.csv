@@ -84,6 +84,9 @@ X;;;Start process, Сборка процессингового пакета;
 5;PROCEDURE/p_clear_tbl.sql;;-- p_clear_tbl.sql;
 5;PROCEDURE/p_gar_fias_crt_idx.sql;;-- p_gar_fias_crt_idx.sql;
 #
+5;FUNCTION/fp_adr_area_del_twins_local.sql;;-- fp_adr_area_del_twins_local.sql;
+5;FUNCTION/fp_adr_area_check_twins_local.sql;;-- fp_adr_area_check_twins_local.sql;
+#
 5;FUNCTION/fp_adr_street_del_twins_local.sql;;-- fp_adr_street_del_twins_local.sql;
 5;FUNCTION/fp_adr_street_check_twins_local.sql;;-- fp_adr_street_check_twins_local.sql;
 #

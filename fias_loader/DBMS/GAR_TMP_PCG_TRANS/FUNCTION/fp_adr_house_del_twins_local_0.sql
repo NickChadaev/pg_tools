@@ -232,7 +232,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_house_del_twin_local_0 (
           THEN -- Дублёр обновляется данными проверяемой записи,
                --     проверяемая запись удаляется
                -- ----------------------------------------------------------          
-           IF _rr.id_house IS NOT NULL 
+           IF _rr1.id_house IS NOT NULL 
              THEN
                _exec = format (_del_twin, p_schema_name, _rr.id_house);  
                EXECUTE _exec;   -- Проверяемая запись убита

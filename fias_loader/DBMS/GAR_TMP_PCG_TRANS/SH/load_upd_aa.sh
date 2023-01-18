@@ -59,5 +59,5 @@ DT=`date`
 echo $DT >> $OUT
 echo $DT >> $ERR
 
-echo 6.Выполнено обновление адресной схемы (ADR_AREA)
+echo 6.Выполнено обновление адресной схемы ADR_AREA
 echo

@@ -12,7 +12,7 @@ import string
 import datetime
 import psycopg2    
 
-VERSION_STR_0 = "  Version 0.4.0 Build 2022-12-31"
+VERSION_STR_0 = "  Version 0.4.1 Build 2022-12-31"
 VERSION_STR_1 = "  ------------------------------"
 
 #            1            2           3           4          5         6          7 
@@ -22,7 +22,7 @@ SA = " <CSV_pattern> <Target_Dir> <Host_Path> <Git_Path> <XML-dir> <XML-path> <Z
 
 USE_CASE = "  USE CASE: "
 US ="""  load_mainCrtScripts.py pattern_may_0.csv ~/Y_BUILD ../Y_BUILD ../A_FIAS_LOADER ../7_DATA
-            FIAS_GAR_2022_12_26 gar_xml_2022_09_30.zip  FIAS_GAR_2022_09_30  2022-03-10 <True>
+            FIAS_GAR_2022_12_26 gar_xml_2022_09_30.zip 2022-03-10 <True>
   Где:
           pattern_may_0.csv    -- Шаблон
           ~/Y_BUILD            -- Каталог цель   

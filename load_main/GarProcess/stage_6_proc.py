@@ -9,7 +9,7 @@
 import sys
 ## import string
 
-VERSION_STR = "  Version 0.2.2 Build 2023-01-16"
+VERSION_STR = "  Version 0.2.3 Build 2023-01-20"
 
 class proc_patterns ():
     """
@@ -143,6 +143,8 @@ class proc_patterns ():
         self.part_1 = """COPY {0}.{1} ({2}) FROM stdin WITH DELIMITER '|';"""
         self.part_2 = """SELECT {0} FROM ONLY {1}.{2} z INNER JOIN ONLY {1}.{3} x ON (z.{4} = x.{4});
                       """
+        self.part_8 = """BEGIN;"""
+        self.part_9 = """COMMIT;"""
 # ---------------------------------------------------------------------------------------------------------------------
 if __name__ == '__main__':
     try:

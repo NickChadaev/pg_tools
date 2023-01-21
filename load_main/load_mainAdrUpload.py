@@ -16,7 +16,7 @@ from GarProcess import stage_6_yaml as Yaml6
 from MainProcess import fd_0 as Fd0
 from MainProcess import fd_log as FdLog
 
-VERSION_STR = "  Version 0.2.1 Build 2023-01-13" 
+VERSION_STR = "  Version 0.2.3 Build 2023-01-20" 
 
 CONN_ABORTED = "... Connection aborted: "
 OP_ABORTED = "... Operation aborted: "
@@ -238,9 +238,9 @@ IA = 7
        DELETE FROM unnsi.adr_area WHERE id_area = ANY (ARRAY[1,2,])-
      """
      rc = 0
-     
-     
-     l_str = self.part_0.format (p_sch, p_ADR_MAIN, self.column_names[0],\
+    
+     l_str = self.part_8 + bNL   # BEGIN;
+     l_str = l_str + self.part_0.format (p_sch, p_ADR_MAIN, self.column_names[0],\
          (str(self.ids_u).replace (bL,bEMP)) )
      
      self.f_data.write (l_str + bNL + SEPARATOR + bNL) 
@@ -294,7 +294,9 @@ IA = 7
          rows = self.cur7.fetchmany()    
          
      self.conn7.commit()  
+     
      self.f_data.write(F_DELIM + bNL)
+     self.f_data.write(self.part_9 + bNL)  # COMMIT
      
      return rc
 
@@ -364,24 +366,24 @@ if __name__ == '__main__':
             sys.argv[5], sys.argv[6], sys.argv[7], sys.argv[8] ) 
 
         if aaup.stage_6_1_on:   
-            aaup.to_do (ADR_AREA_FILE.format(str(sys.argv[8])))
-            aaup.stage_up (aaup.adr_area_sch_l, ADR_AREA, ADR_AREA_AUX, aaup.mogrify_6_1) #  "Выгрузка в файл"
+            aaup.to_do (ADR_AREA_FILE.format(int(sys.argv[8]))) # str
+            aaup.stage_up (aaup.adr_area_sch_l, aaup.adr_area_sch, ADR_AREA, ADR_AREA_AUX, aaup.mogrify_6_1) #  "Выгрузка в файл"
         
         # Adr_streets
         asup = AdrUpload ( sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4],\
             sys.argv[5], sys.argv[6], sys.argv[7], sys.argv[8] ) 
         
         if asup.stage_6_2_on:
-            asup.to_do (ADR_STREET_FILE.format (str(sys.argv[8])))
-            asup.stage_up (asup.adr_street_sch_l, ADR_STREET, ADR_STREET_AUX, asup.mogrify_6_2)
+            asup.to_do (ADR_STREET_FILE.format (int(sys.argv[8])))  # str
+            asup.stage_up (asup.adr_street_sch_l, asup.adr_street_sch, ADR_STREET, ADR_STREET_AUX, asup.mogrify_6_2)
         
         # Adr_houses
         ahup = AdrUpload ( sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4],\
             sys.argv[5], sys.argv[6], sys.argv[7], sys.argv[8] ) 
         
         if ahup.stage_6_3_on:
-            ahup.to_do (ADR_HOUSE_FILE.format (str(sys.argv[8])))
-            ahup.stage_up (ahup.adr_house_sch_l, ADR_HOUSE, ADR_HOUSE_AUX, ahup.mogrify_6_3)
+            ahup.to_do (ADR_HOUSE_FILE.format (int(sys.argv[8]))) # str
+            ahup.stage_up (ahup.adr_house_sch_l, ahup.adr_house_sch, ADR_HOUSE, ADR_HOUSE_AUX, ahup.mogrify_6_3)
         
         sys.exit ( rc )
 

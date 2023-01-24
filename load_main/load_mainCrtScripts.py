@@ -12,7 +12,7 @@ import string
 import datetime
 import psycopg2    
 
-VERSION_STR_0 = "  Version 0.4.1 Build 2022-12-31"
+VERSION_STR_0 = "  Version 0.4.2 Build 2023-01-23"
 VERSION_STR_1 = "  ------------------------------"
 
 #            1            2           3           4          5         6          7 
@@ -104,10 +104,10 @@ CREATE DATABASE {0}
     CONNECTION LIMIT = -1;
 
 COMMENT ON DATABASE {0}
-    IS '{1} Нормативно-справочная информация. v. 0.2. {2}';"""
+    IS '{1}. {2}';"""
 
         self.scipt_body_c = """COMMENT ON DATABASE {0}
-    IS '{1} Нормативно-справочная информация. v. 0.2. {2}';"""
+    IS '{1}. {2}';"""
 
            
     def b_db_script_0 (self, p_fias_id, p_db_name, p_nm_area_full, p_version_date):

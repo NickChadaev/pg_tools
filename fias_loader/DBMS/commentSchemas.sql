@@ -13,4 +13,5 @@ COMMENT ON SCHEMA unsi IS 'DEPRICATED. Адресная схема на отда
 COMMENT ON SCHEMA unnsi IS 'Адресная схема на отдалённом сервере (Только Foreign Tables).';
 COMMENT ON SCHEMA gar_link IS 'Обеспечение коммуникаций, в частности с FOREIGN SERVERS. Расширение dblink здесь.';
 COMMENT ON SCHEMA export_version IS 'Версионирование экспорта данных в адресную базу.';
+COMMENT ON SCHEMA public IS 'Разная вспомогательная мелочь.';
 

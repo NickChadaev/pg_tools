@@ -52,17 +52,17 @@ psql:./PROCEDURE/p_execute_idx.sql:28: ЗАМЕЧАНИЕ:  warning extra:00000:
 psql:./PROCEDURE/p_execute_idx.sql:28: ЗАМЕЧАНИЕ:  FUNCTION | 17324 | gar_link | dblink | (text,text)
 psql:./PROCEDURE/p_adr_objects_idx.sql:157: ЗАМЕЧАНИЕ:  FUNCTION | 17324 | gar_link | dblink | (text,text)
 psql:./PROCEDURE/p_adr_house_idx_set_uniq.sql:69: ЗАМЕЧАНИЕ:  warning:00000:9:DECLARE:unused variable "_mess"
-psql:./PROCEDURE/p_adr_house_idx_set_uniq.sql:69: ЗАМЕЧАНИЕ:  FUNCTION | 94937 | gar_link | f_index_get | (text,text,text,boolean,boolean)
-psql:./PROCEDURE/p_adr_house_idx_set_uniq.sql:69: ЗАМЕЧАНИЕ:  PROCEDURE | 94938 | gar_link | p_execute_idx | (text,text)
+psql:./PROCEDURE/p_adr_house_idx_set_uniq.sql:69: ЗАМЕЧАНИЕ:  FUNCTION | 94957 | gar_link | f_index_get | (text,text,text,boolean,boolean)
+psql:./PROCEDURE/p_adr_house_idx_set_uniq.sql:69: ЗАМЕЧАНИЕ:  PROCEDURE | 94958 | gar_link | p_execute_idx | (text,text)
 psql:./PROCEDURE/p_adr_house_idx.sql:140: ЗАМЕЧАНИЕ:  warning:00000:12:DECLARE:unused variable "_mess"
-psql:./PROCEDURE/p_adr_house_idx.sql:140: ЗАМЕЧАНИЕ:  FUNCTION | 94937 | gar_link | f_index_get | (text,text,text,boolean,boolean)
-psql:./PROCEDURE/p_adr_house_idx.sql:140: ЗАМЕЧАНИЕ:  PROCEDURE | 94938 | gar_link | p_execute_idx | (text,text)
+psql:./PROCEDURE/p_adr_house_idx.sql:140: ЗАМЕЧАНИЕ:  FUNCTION | 94957 | gar_link | f_index_get | (text,text,text,boolean,boolean)
+psql:./PROCEDURE/p_adr_house_idx.sql:140: ЗАМЕЧАНИЕ:  PROCEDURE | 94958 | gar_link | p_execute_idx | (text,text)
 psql:./PROCEDURE/p_adr_street_idx_set_uniq.sql:70: ЗАМЕЧАНИЕ:  warning:00000:11:DECLARE:unused variable "_mess"
-psql:./PROCEDURE/p_adr_street_idx_set_uniq.sql:70: ЗАМЕЧАНИЕ:  FUNCTION | 94937 | gar_link | f_index_get | (text,text,text,boolean,boolean)
-psql:./PROCEDURE/p_adr_street_idx_set_uniq.sql:70: ЗАМЕЧАНИЕ:  PROCEDURE | 94938 | gar_link | p_execute_idx | (text,text)
+psql:./PROCEDURE/p_adr_street_idx_set_uniq.sql:70: ЗАМЕЧАНИЕ:  FUNCTION | 94957 | gar_link | f_index_get | (text,text,text,boolean,boolean)
+psql:./PROCEDURE/p_adr_street_idx_set_uniq.sql:70: ЗАМЕЧАНИЕ:  PROCEDURE | 94958 | gar_link | p_execute_idx | (text,text)
 psql:./PROCEDURE/p_adr_street_idx.sql:111: ЗАМЕЧАНИЕ:  warning:00000:11:DECLARE:unused variable "_mess"
-psql:./PROCEDURE/p_adr_street_idx.sql:111: ЗАМЕЧАНИЕ:  FUNCTION | 94937 | gar_link | f_index_get | (text,text,text,boolean,boolean)
-psql:./PROCEDURE/p_adr_street_idx.sql:111: ЗАМЕЧАНИЕ:  PROCEDURE | 94938 | gar_link | p_execute_idx | (text,text)
+psql:./PROCEDURE/p_adr_street_idx.sql:111: ЗАМЕЧАНИЕ:  FUNCTION | 94957 | gar_link | f_index_get | (text,text,text,boolean,boolean)
+psql:./PROCEDURE/p_adr_street_idx.sql:111: ЗАМЕЧАНИЕ:  PROCEDURE | 94958 | gar_link | p_execute_idx | (text,text)
 psql:./PROCEDURE/p_adr_area_idx.sql:35: ЗАМЕЧАНИЕ:  warning:00000:7:DECLARE:unused variable "_mess"
-psql:./PROCEDURE/p_adr_area_idx.sql:35: ЗАМЕЧАНИЕ:  FUNCTION | 94937 | gar_link | f_index_get | (text,text,text,boolean,boolean)
-psql:./PROCEDURE/p_adr_area_idx.sql:35: ЗАМЕЧАНИЕ:  PROCEDURE | 94938 | gar_link | p_execute_idx | (text,text)
+psql:./PROCEDURE/p_adr_area_idx.sql:35: ЗАМЕЧАНИЕ:  FUNCTION | 94957 | gar_link | f_index_get | (text,text,text,boolean,boolean)
+psql:./PROCEDURE/p_adr_area_idx.sql:35: ЗАМЕЧАНИЕ:  PROCEDURE | 94958 | gar_link | p_execute_idx | (text,text)

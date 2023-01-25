@@ -26,11 +26,9 @@
 #-------------------------------------------------------------------------------
 X;;;Start process, Сборка коммуникационного пакета;
 #
-5;version.sql;;-- Версия c6ec2fd/2022-12-29;    
+5;version.sql;;-- Версия b1d8909/2023-01-25;    
 #
-f_show_col_descr.sql
-f_show_tbv_descr.sql
-
+5;FUNCTION/f_show_tbv_descr.sql;;-- f_show_tbv_descr.sql;
 5;FUNCTION/f_show_col_descr.sql;;-- f_show_col_descr.sql;
 5;FUNCTION/f_server_crt.sql;;-- f_server_crt.sql;
 5;FUNCTION/f_server_drp.sql   ;;-- f_server_drp.sql;

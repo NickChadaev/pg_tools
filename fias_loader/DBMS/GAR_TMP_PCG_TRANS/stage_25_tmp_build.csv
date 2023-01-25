@@ -91,7 +91,7 @@ X;;;Start process, Сборка процессингового пакета;
 5;FUNCTION/fp_adr_street_check_twins_local.sql;;-- fp_adr_street_check_twins_local.sql;
 #
 5;FUNCTION/fp_adr_house_del_twins_local_0.sql;;-- fp_adr_house_del_twins_local_0.sql;
-5;FUNCTION/fp_adr_house_del_twins_local_1.sql;;-- fp_adr_house_del_twins_local_1.sql;
+### 5;FUNCTION/fp_adr_house_del_twins_local_1.sql;;-- fp_adr_house_del_twins_local_1.sql;
 5;FUNCTION/fp_adr_house_check_twins_local.sql;;-- fp_adr_house_check_twins_local.sql;
 #
 5;PROCEDURE/p_adr_house_del_twins.sql;;-- p_adr_house_del_twins.sql УСТАРЕЛО, нужно для: "p_adr_house_ins", "fp_adr_house_upd"; 

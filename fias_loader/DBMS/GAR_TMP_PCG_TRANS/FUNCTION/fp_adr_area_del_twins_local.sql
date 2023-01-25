@@ -182,18 +182,18 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_area_del_twin (
                 VALUES (_rr1.id_area, UPD_OP)
                   ON CONFLICT (id_area) DO UPDATE SET op_sign = UPD_OP
                       WHERE (gar_tmp.adr_area_aux.id_area = excluded.id_area); 
-             --     
+             -- -----------------------------------------------------------------    
              fcase := 4; -- Дублёр НЕ актуален, проверяемая - актуальна 
              --             ДУБЛЁР был удалён логически.                  
              -- -----------------------------------------------------------------
              --  (dt_data_del >  p_bound_date) AND (dt_data_del IS NOT NULL) 
              --                   OR (dt_data_del IS NULL)
-             -- ----------------------------------------------------------------
+             -- -----------------------------------------------------------------
         
         ELSIF (_rr.id_area > BOUND_VALUE) AND (_rr1.id_area < BOUND_VALUE)
           THEN -- Дублёр обновляется данными проверяемой записи,
                --     проверяемая запись удаляется (сохранение старых id_area).
-           -- -----------------------------------------------------------------
+           -- -------------------------------------------------------------------
            IF _rr1.id_area IS NOT NULL 
              THEN
                _exec = format (_del_twin, p_schema_name, _rr.id_area);  
@@ -205,6 +205,35 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_area_del_twin (
                  VALUES (_rr.id_area, UPD_OP)
                    ON CONFLICT (id_area) DO UPDATE SET op_sign = UPD_OP
                        WHERE (gar_tmp.adr_area_aux.id_area = excluded.id_area);                 
+               --
+               --    Проверяемая запись уходит в историю
+               --
+               _exec := format (_ins_hist, p_schema_hist_name  
+                                 --
+                               ,_rr.id_area           
+                               ,_rr.id_country        
+                               ,_rr.nm_area           
+                               ,_rr.nm_area_full      
+                               ,_rr.id_area_type      
+                               ,_rr.id_area_parent    
+                               ,_rr.kd_timezone       
+                               ,_rr.pr_detailed   
+                               
+                               ,now()          -- _rr.dt_data_del 
+                               
+                               ,_rr.kd_oktmo          
+                               ,_rr.nm_fias_guid      
+                               
+                               ,_rr.id_area        -- _rr.id_data_etalon    
+                               
+                               ,_rr.kd_okato          
+                               ,_rr.nm_zipcode        
+                               ,_rr.kd_kladr          
+                               ,_rr.vl_addr_latitude  
+                               ,_rr.vl_addr_longitude
+                               ,-1 -- ID региона
+               ); 
+               EXECUTE _exec;
                --
                --    Старое значение дублёра уходит в историю
                --
@@ -285,6 +314,35 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_area_del_twin (
                  VALUES (_rr1.id_area, UPD_OP)
                    ON CONFLICT (id_area) DO UPDATE SET op_sign = UPD_OP
                        WHERE (gar_tmp.adr_area_aux.id_area = excluded.id_area);                 
+               --
+               --  Дублёр уходит в историю
+               --
+               _exec := format (_ins_hist, p_schema_hist_name  
+                                 --
+                               ,_rr1.id_area           
+                               ,_rr1.id_country        
+                               ,_rr1.nm_area           
+                               ,_rr1.nm_area_full      
+                               ,_rr1.id_area_type      
+                               ,_rr1.id_area_parent    
+                               ,_rr1.kd_timezone       
+                               ,_rr1.pr_detailed   
+                               
+                               ,now()          -- _rr.dt_data_del 
+                               
+                               ,_rr1.kd_oktmo          
+                               ,_rr1.nm_fias_guid      
+                               
+                               ,_rr1.id_area        -- _rr.id_data_etalon    
+                               
+                               ,_rr1.kd_okato          
+                               ,_rr1.nm_zipcode        
+                               ,_rr1.kd_kladr          
+                               ,_rr1.vl_addr_latitude  
+                               ,_rr1.vl_addr_longitude
+                               ,-1 -- ID региона
+               ); 
+               EXECUTE _exec;
                --
                --  Старое значение проверяемой записи уходит в историю
                --

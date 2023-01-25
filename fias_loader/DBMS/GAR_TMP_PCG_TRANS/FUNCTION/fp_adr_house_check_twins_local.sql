@@ -1,6 +1,3 @@
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.p_adr_house_check_twins_local (
-                  text, date, text
- ); 
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.fp_adr_house_check_twins_local (
                   text, date, text
 ); 
@@ -165,7 +162,7 @@ $$
        SELECT f1.fcase, f1.id_house_subj, f1.id_house_obj, f1.nm_house_full, f1.nm_fias_guid 
        INTO fcase, id_house_subj, id_house_obj, nm_house_full, nm_fias_guid 
        
-       FROM gar_tmp_pcg_trans.fp_adr_house_del_twin_local_1 (
+       FROM gar_tmp_pcg_trans.fp_adr_house_del_twin_local_0 (
                  p_schema_name      := p_schema_name 
                 ,p_id_house         := _rr.id_house     
                 ,p_id_area          := _rr.id_area      

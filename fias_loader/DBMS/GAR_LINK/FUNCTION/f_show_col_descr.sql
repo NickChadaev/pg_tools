@@ -7,7 +7,6 @@ CREATE OR REPLACE FUNCTION gar_link.f_show_col_descr
       ,p_object_type  CHAR(1) []   = array ['r', 'v', 'm', 'c', 't', 'f', 'p'] -- Тип объекта 'r' - таблица, 'v' - представление.
       ,p_provider     text   = 'selinux'  -- Имя провайдера 
     )
-
 RETURNS TABLE (
                   schema_name         VARCHAR  (64)  -- Наименование схемы
                 , objoid              INTEGER        -- OID объекта
@@ -137,7 +136,7 @@ AS
         LANGUAGE plpgsql;
 
 COMMENT ON FUNCTION gar_link.f_show_col_descr (varchar, varchar, char[], text) 
-                                IS '10: Получение описание столбцов таблицы/представления
+                                IS 'Получение описание столбцов таблицы/представления
 
    Раздел или область применения: Сервис
    Входные параметры:

@@ -30,5 +30,10 @@ COMMENT ON SCHEMA unnsi IS 'Адресная схема на отдалённо�
 CREATE SCHEMA IF NOT EXISTS gar_link; 
 COMMENT ON SCHEMA gar_link IS 'Обеспечение коммуникаций, в частности с FOREIGN SERVERS. Расширение dblink здесь.';
 --
+-- DROP SCHEMA IF EXISTS export_version CASCADE;
+CREATE SCHEMA IF NOT EXISTS export_version;
+COMMENT ON SCHEMA export_version IS 'Версионирование экспорта данных в адресную базу.';
+
+COMMENT ON SCHEMA public IS 'Разная вспомогательная мелочь.'
 
 

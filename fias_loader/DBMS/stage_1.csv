@@ -48,6 +48,10 @@ X;;;Start process;
 1;GAR_TMP/CreateTableGarTmp_2.sql;; -- CreateTableGarTmp_2.sql;
 1;GAR_TMP/CreateTableGarTmp_3.sql;; -- CreateTableGarTmp_3.sql;
 #
+1;GAR_TMP/ins_xxx_adr_house_type.sql;; -- ins_xxx_adr_house_type.sql;
+1;GAR_TMP/ins_xxx_adr_street_type.sql;; -- ins_xxx_adr_street_type.sql;
+1;GAR_TMP/ins_xxx_adr_area_type.sql;; -- ins_xxx_adr_area_type.sql;
+#
 X;;;Stop process;
 #-------------------------------------------------------------------------------
 

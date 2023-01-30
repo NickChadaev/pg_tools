@@ -36,11 +36,12 @@ X;;;Start process;
 0;DROP SERVER IF EXISTS unnsi_dev CASCADE;; -- DROP unnsi_dev;
 0;DROP SERVER IF EXISTS unnsi_m2l CASCADE;; -- DROP unnsi_m2l;
 0;DROP SERVER IF EXISTS unnsi_prd_s CASCADE;; -- DROP unnsi_prd_s;
+0;DROP SERVER IF EXISTS unnsi_prd_s CASCADE;; -- DROP unnsi_prd;
 #
 0;DELETE FROM gar_link.foreign_servers;; -- DELETE FROM gar_link.foreign_servers;
 #
-0;SELECT gar_link.f_server_crt ('unnsi_prd_s','127.0.0.1','unnsi_prd_test',5432,'postgres','postgres','postgres1');;-- gar_link.f_server_crt();
-0;SELECT * FROM gar_link.f_conn_set((SELECT gar_link.f_schema_import ('unnsi_prd_s','unnsi','unnsi','UNNSI_PRD 2022-12-26')));;-- gar_link.f_conn_set();	
+0;SELECT gar_link.f_server_crt ('unnsi_prd_l','127.0.0.1','unnsi_prd',5435,'postgres','postgres','postgres1');;-- gar_link.f_server_crt();
+0;SELECT * FROM gar_link.f_conn_set((SELECT gar_link.f_schema_import ('unnsi_prd_l','unnsi','unnsi','UNNSI_PRD 2022-12-26')));;-- gar_link.f_conn_set();	
 0;SELECT gar_link.f_server_is();;-- gar_link.f_server_is();
 0;SELECT * FROM gar_link.v_servers_active;;-- gar_link.v_servers_active;
 #

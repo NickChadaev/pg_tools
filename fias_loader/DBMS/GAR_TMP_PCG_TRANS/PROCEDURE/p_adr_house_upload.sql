@@ -1,36 +1,23 @@
-DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_house_upload (text, text); 
-DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_house_upload (text); 
-DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_house_upload (text, date); 
-
 DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_house_upload (text, date, boolean); 
+
+DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_house_upload (text, text); 
 CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_house_upload (
-              p_schema_name  text  
-             ,p_date_proc    date = current_date
-             ,p_del          boolean = FALSE -- В fp_adr_house убирались дубли при обработки EXCEPTION N 
-                                             -- теперь убираю их в основной таблице 
+              p_lschema_name  text -- локальная схема 
+             ,p_fschema_name  text -- отдалённая схема
            )
     LANGUAGE plpgsql SECURITY DEFINER
     AS $$
     -- --------------------------------------------------------------------------
     --  2021-12-31 Обратная загрузка обработанного фрагмента ОТДАЛЁННОГО 
     --              справочника адресов домов.
+    --  2022-10-20 Вспомогальные таблицы, инкрементальное обновление.
     -- --------------------------------------------------------------------------
     DECLARE
       _exec text;
       
-      _del_tw text = $_$
-           WITH z (id_house) AS (
-                 SELECT y.id_house FROM ONLY gar_tmp.adr_house y
-                   UNION 
-                 SELECT x.id_data_etalon FROM gar_tmp.adr_house_hist x 
-                    WHERE ((date(x.dt_data_del) = %L) AND (x.id_region = 0)) 
-           ) 
-            DELETE FROM ONLY %I.adr_house h USING z WHERE (h.id_house = z.id_house);    
-      $_$;
-      
       _del text = $_$
-         DELETE FROM ONLY %I.adr_house h USING ONLY gar_tmp.adr_house z 
-                            WHERE (h.id_house = z.id_house);    
+         DELETE FROM ONLY %I.adr_house h USING ONLY %I.adr_house_aux z 
+                            WHERE (h.id_house = z.id_house) AND (z.op_sign = 'U');    
       $_$;      
       
       _ins text = $_$
@@ -54,45 +41,35 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_house_upload (
                              ,h.kd_okato           
                              ,h.vl_addr_latitude   
                              ,h.vl_addr_longitude  
-                     FROM ONLY gar_tmp.adr_house h;
+                     FROM ONLY %I.adr_house h
+                       INNER JOIN %I.adr_house_aux x ON (h.id_house = x.id_house);
       $_$;			   
 
     BEGIN
       -- ALTER TABLE %I.adr_objects ADD CONSTRAINT adr_objects_pkey PRIMARY KEY (id_object);
       -- DROP INDEX IF EXISTS %I._xxx_adr_objects_ak1;
       -- DROP INDEX IF EXISTS %I._xxx_adr_objects_ie2;
-      --  + Остальные индексы, для таблицы объектов на отдалённом сервере.
-      --  dblink-функционал.
       --
-      IF p_del 
-        THEN
-              _exec := format (_del_tw, p_date_proc, p_schema_name);
-        ELSE
-              _exec := format (_del, p_schema_name); 
-      END IF;
-	  -- RAISE NOTICE '%', _exec;
+      _exec := format (_del, p_fschema_name, p_lschema_name); 
+      -- RAISE NOTICE '%', _exec;
       EXECUTE _exec;  
       --
-      _exec := format (_ins, p_schema_name);   
+      _exec := format (_ins, p_fschema_name, p_lschema_name, p_lschema_name);   
 	  -- RAISE NOTICE '%', _exec;      
       EXECUTE _exec;  
       --
-      -- + Далее отдалённо, восстанавливается индексное покрытие.     
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++    
     EXCEPTION           
        WHEN OTHERS THEN 
         BEGIN
-          RAISE WARNING 'P_ADR_OBJECT_LOAD: % -- %', SQLSTATE, SQLERRM;
+          RAISE WARNING 'P_ADR_HOUSE_UPLOAD: % -- %', SQLSTATE, SQLERRM;
         END;
     END;
   $$;
 
-COMMENT ON PROCEDURE gar_tmp_pcg_trans.p_adr_house_upload (text, date, boolean) 
+COMMENT ON PROCEDURE gar_tmp_pcg_trans.p_adr_house_upload (text, text)
    IS 'Обратная загрузка обработанного фрагмента ОТДАЛЁННОГО справочника адресов домов.';
 -- -----------------------------------------------------------------------------------------------
 --  USE CASE:
---     CALL gar_tmp_pcg_trans.p_adr_house_upload ('unnsi');
---     CALL gar_tmp_pcg_trans.p_adr_house_upload ('unsi', current_date);
---     CALL gar_tmp_pcg_trans.p_adr_house_upload ('unsi', current_date, false);
---     CALL gar_tmp_pcg_trans.p_adr_house_upload ('unsi', current_date, true);
+--     CALL gar_tmp_pcg_trans.p_adr_house_upload ('gar_tmp', 'unnsi');
 

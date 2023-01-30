@@ -26,15 +26,21 @@
 #-------------------------------------------------------------------------------
 X;;;Start process, Сборка коммуникационного пакета;
 #
-5;version.sql;;-- Версия 1743/2022-09-07;
+5;version.sql;;-- Версия b1d8909/2023-01-25;    
 #
+5;FUNCTION/f_show_tbv_descr.sql;;-- f_show_tbv_descr.sql;
+5;FUNCTION/f_show_col_descr.sql;;-- f_show_col_descr.sql;
 5;FUNCTION/f_server_crt.sql;;-- f_server_crt.sql;
 5;FUNCTION/f_server_drp.sql   ;;-- f_server_drp.sql;
 5;FUNCTION/f_schema_import.sql;;-- f_schema_import.sql;  
 5;FUNCTION/f_conn_set.sql     ;;-- f_conn_set.sql;
 5;FUNCTION/f_active_set.sql   ;;-- f_active_set.sql;
 5;FUNCTION/f_server_is.sql    ;;-- f_server_is.sql;
+#
 5;VIEW/fserver_view.sql;;-- fserver_view.sql;
+#
+5;FUNCTION/f_index_get.sql;;-- f_index_get.sql;
+5;PROCEDURE/p_execute_idx.sql;;-- p_execute_idx.sql;
 #
 5;PROCEDURE/p_adr_objects_idx.sql;;-- p_adr_objects_idx.sql;
 #

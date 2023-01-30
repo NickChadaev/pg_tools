@@ -1,7 +1,3 @@
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_house_ins (text[], uuid[]);
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_house_ins (text, text, uuid[]);
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_house_ins (text, text, uuid[], boolean);
-
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_house_ins (text, text, text, uuid[], boolean, boolean);
 CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_ins (
            p_schema_data    text -- Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
@@ -10,8 +6,12 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_ins (
           ,p_nm_guids_fias  uuid[]  = NULL  -- Список обрабатываемых GUID, NULL - все.
           ,p_sw             boolean = TRUE  -- Включить дополнение/обновление adr_objects
           ,p_sw_twin        boolean = FALSE -- Включается поиск двойников        
+           --
+          ,OUT total_row  integer  -- Общее количество обработанных строк.
+          ,OUT ins_row    integer  -- Из них добавлено 
+          ,OUT upd_row    integer  -- Из них обновлено (конфликты).
 )
-    RETURNS integer
+    RETURNS setof record
     LANGUAGE plpgsql
  AS
   $$
@@ -24,7 +24,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_ins (
      _r_ins   integer := 0;   
      --
      _parent gar_tmp.adr_street_t;
-     _data   RECORD;  
+     _data   gar_tmp.xxx_adr_house_proc_t;  
      --
      _id_area    bigint;   
      _id_street  bigint;    
@@ -41,7 +41,29 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_ins (
 
      _id_house  bigint; 
 
-     _id_object    bigint;     
+     _id_object    bigint;   
+     
+     -- 2022-10-18
+     --
+     INS_OP CONSTANT char(1) := 'I';
+     UPD_OP CONSTANT char(1) := 'U';  
+     
+    -- 2022-11-25
+    _select_type_0 text = 
+        $_$
+            SELECT y1.id_house_type, y1.nm_house_type_short 
+              FROM %I.adr_house_type y1 
+                  WHERE (%L = btrim(lower(y1.nm_house_type))) LIMIT 1;   
+        $_$;     
+        --
+    _select_type_1 text = 
+        $_$
+             SELECT z1.id_house_type, z1.nm_house_type_short 
+               FROM %I.xxx_adr_house_type z1 
+                   WHERE (%L = z1.kd_house_type_lvl) LIMIT 1; 
+        $_$;
+        
+    _exec text;    
      
    BEGIN
     -- ----------------------------------------------------------------------------------------
@@ -51,12 +73,12 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_ins (
     --  2022-02-10  Исторические данные в отдельной схеме.
     --      -- --------------------------------------------------------------------------------
     --  2022-05-20 "Cause belli" - Необходимо определять дополнительные типы по их
-    --                                имени, поставляемом в агрегированной структуре "xxx".
-    --   Было:
+    --                             именам, поставляемом в агрегированной структуре "xxx".
+    --  Было:
     --    SELECT id_house_type, nm_house_type_short INTO _id_house_type_2, _nm_house_type_2
     --      FROM gar_tmp.xxx_adr_house_type WHERE (_data.add_type1 = kd_house_type_lvl) LIMIT 1;
     --    
-    --    Необходимо          
+    --  Необходимо          
     --    SELECT id_house_type, nm_house_type_short INTO _id_house_type_2, _nm_house_type_2
     --      FROM gar_tmp.xxx_adr_house_type 
     --                      WHERE (lower(_data.add_type1_name) = lower(nm_house_type)) LIMIT 1;          
@@ -65,7 +87,9 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_ins (
     --      FROM gar_tmp.xxx_adr_house_type 
     --                      WHERE (lower(_data.add_type2_name) = lower(nm_house_type)) LIMIT 1; 
     -- ----------------------------------------------------------------------------------------
-    --   2022-05-31 Уточняю определение родительского объекта и правила вычисления типов.   
+    --   2022-05-31 - Уточняю определение родительского объекта и правила вычисления типов.   
+    --   2022-10-18 - Вспомогательные таблицы.
+    --   2022-11-21 - Преобразование типов ФИАС -> ЕС НСИ.         
     -- ----------------------------------------------------------------------------------------
     --     p_schema_data   -- Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
     --    ,p_schema_etl    -- Схема эталон, обычно локальный сервер, копия p_schema_data 
@@ -112,7 +136,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_ins (
               , h.oper_type_id
               , h.oper_type_name
               
-           FROM gar_tmp.xxx_adr_house h  -- 96167
+           FROM gar_tmp.xxx_adr_house h  
               
               INNER JOIN gar_tmp.xxx_obj_fias f ON (f.obj_guid = h.fias_guid) 
               LEFT OUTER JOIN gar_tmp.xxx_type_param_value p ON (h.id_house = p.object_id)              
@@ -123,7 +147,6 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_ins (
 	               (p_nm_guids_fias IS NOT NULL)) OR (p_nm_guids_fias IS NULL)
 	              )                     
        LOOP
-       
          _parent := gar_tmp_pcg_trans.f_adr_street_get (p_schema_etl, _data.nm_fias_guid_parent);
          _id_area   := _parent.id_area;   
          _id_street := _parent.id_street;    
@@ -138,12 +161,23 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_ins (
          --                                -- ??? Костыль 
          _id_house_type_1 := NULL; 
          _nm_house_type_1 := NULL;
-         
-         IF (_data.house_type IS NOT NULL) 
-           THEN  -- 2022-05-20 !!! Создаются новые записи
-             SELECT id_house_type, nm_house_type_short INTO _id_house_type_1, _nm_house_type_1
-               FROM gar_tmp.xxx_adr_house_type WHERE (_data.house_type = ANY (fias_ids));  
-         END IF;                                      
+         --
+         -- 2022-05-20 !!! Создаются новые записи.
+         -- 2022-11-21/2022-12-05, Тип, вычисляется на локальных данных.
+         --
+         IF (EXISTS (SELECT 1 FROM gar_tmp.xxx_adr_house_type 
+                                WHERE (_data.house_type = ANY (fias_ids))
+                    )
+             ) 
+           THEN  
+              SELECT  id_house_type, nm_house_type_short 
+                        INTO _id_house_type_1, _nm_house_type_1
+              FROM gar_tmp_pcg_trans.f_house_type_get (p_schema_etl, _data.house_type);
+              
+           ELSIF (_data.house_type IS NOT NULL) 
+               THEN
+                    CALL gar_tmp_pcg_trans.p_xxx_adr_house_gap_put (_data);
+         END IF;         
          
          CONTINUE WHEN ((_id_house_type_1 IS NULL) OR (_nm_house_type_1 IS NULL)); -- 2022-02-21
          
@@ -155,18 +189,24 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_ins (
          
          IF (_data.add_type1 IS NOT NULL) 
            THEN
-              SELECT y1.id_house_type, y1.nm_house_type_short 
-                                             INTO _id_house_type_2, _nm_house_type_2
-                FROM gar_tmp.xxx_adr_house_type y1 
-                    WHERE (btrim(lower(_data.add_type1_name)) = btrim(lower(y1.nm_house_type))) LIMIT 1;   
+             -- SELECT y1.id_house_type, y1.nm_house_type_short 
+             --                                INTO _id_house_type_2, _nm_house_type_2
+             --   FROM gar_tmp.xxx_adr_house_type y1 
+             --       WHERE (btrim(lower(_data.add_type1_name)) = btrim(lower(y1.nm_house_type))) LIMIT 1;   
+             -- --   
+              _exec := format (_select_type_0, p_schema_etl, btrim(lower(_data.add_type1_name))); 
+              EXECUTE _exec INTO _id_house_type_2, _nm_house_type_2;  
               --
               -- 2022-05-31
               IF ( _id_house_type_2 IS NULL) OR (_nm_house_type_2 IS NULL)
                 THEN
-                    SELECT z1.id_house_type, z1.nm_house_type_short 
-                                      INTO _id_house_type_2, _nm_house_type_2
-                      FROM gar_tmp.xxx_adr_house_type z1 
-                          WHERE (_data.add_type1 = z1.kd_house_type_lvl) LIMIT 1;   
+                  --  SELECT z1.id_house_type, z1.nm_house_type_short 
+                  --                    INTO _id_house_type_2, _nm_house_type_2
+                  --    FROM gar_tmp.xxx_adr_house_type z1 
+                  --        WHERE (_data.add_type1 = z1.kd_house_type_lvl) LIMIT 1; 
+                     --
+                    _exec := format (_select_type_1, p_schema_etl, _data.add_type1); 
+                    EXECUTE _exec INTO _id_house_type_2, _nm_house_type_2;                       
               END IF;
               -- 2022-05-31
          END IF;         
@@ -176,17 +216,25 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_ins (
          --
          IF (_data.add_type2 IS NOT NULL) 
            THEN
-              SELECT y2.id_house_type, y2.nm_house_type_short 
-                                              INTO _id_house_type_3, _nm_house_type_3
-                FROM gar_tmp.xxx_adr_house_type y2 
-                   WHERE (btrim(lower(_data.add_type2_name)) = btrim(lower(y2.nm_house_type))) LIMIT 1;   
+              -- SELECT y2.id_house_type, y2.nm_house_type_short 
+              --                                 INTO _id_house_type_3, _nm_house_type_3
+              --   FROM gar_tmp.xxx_adr_house_type y2 
+              --      WHERE (btrim(lower(_data.add_type2_name)) = btrim(lower(y2.nm_house_type))) LIMIT 1;
+                   
+              _exec := format (_select_type_0, p_schema_etl, btrim(lower(_data.add_type2_name))); 
+              EXECUTE _exec INTO _id_house_type_3, _nm_house_type_3;  
+              
               -- 2022-05-31
               IF ( _id_house_type_3 IS NULL) OR (_nm_house_type_3 IS NULL)
                 THEN
-                    SELECT z2.id_house_type, z2.nm_house_type_short 
-                                      INTO _id_house_type_3, _nm_house_type_3
-                      FROM gar_tmp.xxx_adr_house_type z2 
-                          WHERE (_data.add_type2 = z2.kd_house_type_lvl) LIMIT 1;   
+                   -- SELECT z2.id_house_type, z2.nm_house_type_short 
+                   --                   INTO _id_house_type_3, _nm_house_type_3
+                   --   FROM gar_tmp.xxx_adr_house_type z2 
+                   --       WHERE (_data.add_type2 = z2.kd_house_type_lvl) LIMIT 1;   
+                          
+                    _exec := format (_select_type_1, p_schema_etl, _data.add_type2); 
+                    EXECUTE _exec INTO _id_house_type_3, _nm_house_type_3;                       
+                          
               END IF;
               -- 2022-05-31
          END IF;        
@@ -276,9 +324,12 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_ins (
          _r_ins := _r_ins + 1; 
          
        END LOOP; -- FOR _data SELECT
-
-    RETURN _r_ins;
     
+    total_row := _r_ins;
+    ins_row := (SELECT count(1) FROM gar_tmp.adr_house_aux WHERE (op_sign = INS_OP));
+    upd_row := (SELECT count(1) FROM gar_tmp.adr_house_aux WHERE (op_sign = UPD_OP));
+    
+    RETURN NEXT;    
    END;                   
   $$;
  

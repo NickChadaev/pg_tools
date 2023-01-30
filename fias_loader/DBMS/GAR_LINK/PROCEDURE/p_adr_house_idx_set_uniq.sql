@@ -1,10 +1,10 @@
 DROP PROCEDURE IF EXISTS gar_link.p_adr_house_idx_set_uniq (text, text, boolean, boolean);
 CREATE OR REPLACE PROCEDURE gar_link.p_adr_house_idx_set_uniq (
-           p_conn         text -- Именованное dblink-соединение   
-          ,p_schema_name  text -- Имя отдалённой схемы 
-          ,p_mode_t       boolean = TRUE -- Выбор типа индексов TRUE  - Эксплутационные
-                                         --                    ,FALSE - Загрузочные
-          ,p_uniq_sw      boolean = TRUE -- Уникальность "ak1", "ie2" - 
+         p_schema_name text -- Имя отдалённой схемы 
+        ,p_conn        text    = NULL -- Именованное dblink-соединение  
+        ,p_mode_t      boolean = TRUE -- Выбор типа индексов TRUE  - Эксплутационные
+                                      --                    ,FALSE - Загрузочные
+        ,p_uniq_sw     boolean = TRUE -- Уникальность "ak1", "ie2" - 
 )
     LANGUAGE plpgsql SECURITY DEFINER
     AS 
@@ -18,66 +18,52 @@ CREATE OR REPLACE PROCEDURE gar_link.p_adr_house_idx_set_uniq (
    -- --------------------------------------------------------------------------                 
     DECLARE 
       _mess text;
-      --                                      
-      _u_idx_name_0 text := 'adr_house_ak1 ';                           
-      _u_idx_sign_0 text := 'ON %I.adr_house USING btree 
-                               (  id_area
-                                 ,upper((nm_house_full)::text)
-                                 ,id_street
-                               )  WHERE (id_data_etalon IS NULL)';  
-       --
-      _idx_name_1  text := '_xxx_adr_house_ie2 ';
-      _idx_sign_1  text := 'ON %I.adr_house USING btree (nm_fias_guid ASC NULLS LAST)
-                        WHERE (id_data_etalon IS NULL) AND (dt_data_del IS NULL)';
-       --                   
-      _crt_idx    text := $_$ CREATE INDEX IF NOT EXISTS %s; $_$;  
-      _crt_un_idx text := $_$ CREATE UNIQUE INDEX IF NOT EXISTS %s; $_$; 
-      _drp_idx    text := $_$ DROP INDEX IF EXISTS %I.%s; $_$;       
-      
-      _exec    text;
+      _exec text;
+      TABLE_NAME constant text = 'adr_house';
    
     BEGIN
      IF p_mode_t  -- Эксплуатационное покрытие
        THEN
-         -- Комплексный индекс
          --
-         _exec := format (_drp_idx, p_schema_name, _u_idx_name_0);
-         RAISE NOTICE '%', _exec;   
-           
-         SELECT xx1.mess INTO _mess FROM gar_link.dblink (p_conn, _exec) xx1 ( mess text); 
-         RAISE NOTICE '%', _mess;            
-        
-         IF p_uniq_sw -- 2022-03-04
-           THEN
-               _exec := format (_crt_un_idx, (_u_idx_name_0 || format (_u_idx_sign_0, p_schema_name)));
-           ELSE
-               _exec := format (_crt_idx, (_u_idx_name_0 || format (_u_idx_sign_0, p_schema_name)));
-         END IF;
-         RAISE NOTICE '%', _exec;
-              
-         SELECT xx1.mess INTO _mess FROM gar_link.dblink (p_conn, _exec) xx1 ( mess text); 
-         RAISE NOTICE '%', _mess;
-        
-      ELSE -- Загрузочное покрытие.
-      
-         -- Уникальный индекс переделанный из обычного. (UUID - уникален).
-         _exec := format (_drp_idx, p_schema_name, _idx_name_1);
-         RAISE NOTICE '%', _exec;   
-           
-         SELECT xx1.mess INTO _mess FROM gar_link.dblink (p_conn, _exec) xx1 ( mess text); 
-         RAISE NOTICE '%', _mess; 
-         --      
-         IF p_uniq_sw
-           THEN
-               _exec := format (_crt_un_idx, (_idx_name_1 || format (_idx_sign_1, p_schema_name)));
-           ELSE
-               _exec := format (_crt_idx, (_idx_name_1 || format (_idx_sign_1, p_schema_name)));
-         END IF;
-         RAISE NOTICE '%', _exec;
-            
-         SELECT xx1.mess INTO _mess FROM gar_link.dblink (p_conn, _exec) xx1 ( mess text); 
-         RAISE NOTICE '%', _mess;           
-          --
+         _exec := gar_link.f_index_get ( 
+                     p_schema_name := p_schema_name    -- Имя схемы приёмника.
+                    ,p_table_name  := TABLE_NAME       -- Имя таблицы 
+                    ,p_index_name  := 'adr_house_ak1'  -- Имя индекса.   
+                    ,p_mode_c      := FALSE            -- Создание индексов FALSE - удаление
+                    ,p_kind_index  := TRUE             -- Вид индекса (FALSE - процессинговый) -- TRUE -- эксплуатационный..
+         );
+         CALL gar_link.p_execute_idx (_exec, p_conn);
+         --  
+         _exec := gar_link.f_index_get ( 
+                     p_schema_name := p_schema_name    -- Имя схемы приёмника.
+                    ,p_table_name  := TABLE_NAME       -- Имя таблицы 
+                    ,p_index_name  := 'adr_house_ak1' -- Имя индекса.   
+                    ,p_mode_c      := TRUE         -- Создание индексов FALSE - удаление
+                    ,p_kind_index  := TRUE         -- Вид индекса (FALSE - процессинговый) -- TRUE -- эксплуатационный..
+                    ,p_unique_sign := p_uniq_sw
+         );         
+         CALL gar_link.p_execute_idx (_exec, p_conn);        
+         
+      ELSE -- Процессинговое покрытие.
+         --
+         _exec := gar_link.f_index_get ( 
+                           p_schema_name := p_schema_name    -- Имя схемы приёмника.
+                          ,p_table_name  := TABLE_NAME       -- Имя таблицы 
+                          ,p_index_name  := '_xxx_adr_house_ie2' -- Имя индекса.   
+                          ,p_mode_c      := FALSE            -- Создание индексов FALSE - удаление
+                          ,p_kind_index  := FALSE         -- Вид индекса (FALSE - процессинговый) -- TRUE -- эксплуатационный..
+         );
+         CALL gar_link.p_execute_idx (_exec, p_conn);
+         --  
+         _exec := gar_link.f_index_get ( 
+                         p_schema_name := p_schema_name    -- Имя схемы приёмника.
+                        ,p_table_name  := TABLE_NAME       -- Имя таблицы 
+                        ,p_index_name  := '_xxx_adr_house_ie2' -- Имя индекса.   
+                        ,p_mode_c      := TRUE         -- Создание индексов FALSE - удаление
+                        ,p_kind_index  := FALSE         -- Вид индекса (FALSE - процессинговый) -- TRUE -- эксплуатационный..
+                        ,p_unique_sign := p_uniq_sw                          
+         );
+         CALL gar_link.p_execute_idx (_exec, p_conn);        
      END IF; -- p_mode_t   
     END;
   $$;

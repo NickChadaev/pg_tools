@@ -1,17 +1,4 @@
 DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_house_ins (
-                text,bigint,bigint,bigint,integer,varchar(70),integer,varchar(50)     
-                    ,integer,varchar(50),varchar(20),varchar(250),varchar(11)
-                    ,uuid,bigint,varchar(11),numeric,numeric                             
- ); 
- 
-DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_house_ins (
-                  text, text
-                 ,bigint,bigint,bigint,integer,varchar(70),integer,varchar(50)     
-                 ,integer,varchar(50),varchar(20),varchar(250),varchar(11)
-                 ,uuid,bigint,varchar(11),numeric,numeric
-                 ,bigint, boolean
- );   
-DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_house_ins (
                   text, text
                  ,bigint,bigint,bigint,integer,varchar(70),integer,varchar(50)     
                  ,integer,varchar(50),varchar(20),varchar(250),varchar(11)
@@ -65,6 +52,8 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_house_ins (
     -- ------------------------------------------------------------------------- 
     --  2022-05-31 COALESCE только для NOT NULL полей.    
     -- -------------------------------------------------------------------------
+    --   2022-10-18 Вспомогательные таблицы..
+    -- -------------------------------------------------------------------------     
     DECLARE
       _exec text;
       
@@ -133,7 +122,7 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_house_ins (
                            ,%L::varchar(11)               
                            ,%L::numeric                  
                            ,%L::numeric                   
-                 );      
+                 ) RETURNING id_house;      
               $_$;
       -- 2022-02-11
       _ins_hist text = $_$
@@ -181,7 +170,12 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_house_ins (
               $_$;
         -- 2022-02-11      
       --
-      _rr  gar_tmp.adr_house_t;   
+      _rr  gar_tmp.adr_house_t;
+      
+       -- 2022-10-18
+      _id_house bigint; 
+      INS_OP CONSTANT char(1) := 'I';
+      UPD_OP CONSTANT char(1) := 'U'; 
       
     BEGIN
      --
@@ -220,7 +214,12 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_house_ins (
                             ,p_vl_addr_latitude  
                             ,p_vl_addr_longitude 
       );            
-      EXECUTE _exec;         
+      EXECUTE _exec INTO _id_house;         
+      
+      INSERT INTO gar_tmp.adr_house_aux (id_house, op_sign)
+       VALUES (_id_house, INS_OP)
+          ON CONFLICT (id_house) DO UPDATE SET op_sign = INS_OP
+              WHERE (gar_tmp.adr_house_aux.id_house = excluded.id_house);
       
     EXCEPTION  -- Возникает на отдалённом сервере            
        WHEN unique_violation THEN 
@@ -288,6 +287,11 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_house_ins (
                               ,_rr.id_house               
               );
               EXECUTE _exec;  -- Результат - сменился UUID у записи.
+              --
+              INSERT INTO gar_tmp.adr_house_aux (id_house, op_sign)
+               VALUES (_rr.id_house, UPD_OP)
+                  ON CONFLICT (id_house) DO UPDATE SET op_sign = UPD_OP
+                      WHERE (gar_tmp.adr_house_aux.id_house = excluded.id_house);
               --
               IF p_sw
                 THEN

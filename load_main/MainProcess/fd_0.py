@@ -8,7 +8,7 @@
 import sys
 import os
 
-VERSION_STR = "  Version 0.0.0 Build 2022-04-08"
+VERSION_STR = "  Version 0.3.0 Build 2022-12-06"
 
 #------------------------
 bOUT_NAME = "process.out"
@@ -56,6 +56,22 @@ class fd_0:
         self.l_arg = self.l_arg + self.l_3 + self.db_name + self.l_3_0 + self.user_name\
             + self.l_4_out
         self.l_arg = self.l_arg + self.out_name + self.l_5_err + self.err_name
+        
+    def f_create_1 (self, p_cmd_name, p_mode = 0):
+        """
+         Костыль, повторяющий функциональность "f_create".
+        """
+        if ( p_mode == 0 ):
+            self.l_2_pref_cmd = " -c \""
+        else:
+            self.l_2_pref_cmd = " -f \""
+
+        self.cmd_name = p_cmd_name
+        self.l_arg = self.l_1 + self.host + self.l_2 + self.port + self.l_2_pref_cmd\
+            + self.cmd_name
+        self.l_arg = self.l_arg + self.l_3 + self.db_name + self.l_3_0 + self.user_name\
+            + self.l_4_out
+        self.l_arg = self.l_arg + self.out_name + self.l_5_err + self.err_name        
 
     def f_run (self):
 

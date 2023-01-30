@@ -1,0 +1,104 @@
+SET
+DROP TABLE
+CREATE TABLE
+ALTER TABLE
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+SET
+INSERT 0 13
+INSERT 0 7
+INSERT 0 10
+ table_name |            index_name             |                                                                                                     index_body                                                                                                      | index_kind | unique_sign 
+------------+-----------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------+-------------
+ adr_area   | adr_area_i1                       | ON %I.adr_area USING btree (id_area_parent)                                                                                                                                                                         | t          | f
+ adr_area   | adr_area_i2                       | ON %I.adr_area USING btree (id_area_type)                                                                                                                                                                           | t          | f
+ adr_area   | adr_area_i3                       | ON %I.adr_area USING btree (id_country)                                                                                                                                                                             | t          | f
+ adr_area   | adr_area_i4                       | ON %I.adr_area USING btree (kd_timezone)                                                                                                                                                                            | t          | f
+ adr_area   | adr_area_i5                       | ON %I.adr_area USING btree (id_data_etalon)                                                                                                                                                                         | t          | f
+ adr_area   | adr_area_i6                       | ON %I.adr_area USING btree (id_country, upper((nm_area_full)::text))                                                                                                                                                | t          | f
+ adr_area   | adr_area_i7                       | ON %I.adr_area USING btree (nm_fias_guid)                                                                                                                                                                           | t          | f
+ adr_area   | adr_area_i8                       | ON %I.adr_area USING btree (id_country, upper((nm_area)::text))                                                                                                                                                     | t          | f
+ adr_area   | adr_area_i9                       | ON %I.adr_area USING btree (kd_okato)                                                                                                                                                                               | t          | f
+ adr_area   | index_nm_area_on_adr_area_trigram | ON %I.adr_area USING gin (nm_area gin_trgm_ops)                                                                                                                                                                     | t          | f
+ adr_area   | adr_area_ak1                      | ON %I.adr_area USING btree (id_country, id_area_parent, id_area_type, upper((nm_area)::text)) WHERE (id_data_etalon IS NULL)                                                                                        | t          | t
+ adr_area   | _xxx_adr_area_ak1                 | ON %I.adr_area USING btree (id_country ASC NULLS LAST, id_area_parent ASC NULLS LAST, id_area_type ASC NULLS LAST, upper(nm_area::text) ASC NULLS LAST) WHERE (id_data_etalon IS NULL) AND (dt_data_del IS NULL)    | f          | t
+ adr_area   | _xxx_adr_area_ie2                 | ON %I.adr_area USING btree (nm_fias_guid) WHERE (id_data_etalon IS NULL) AND (dt_data_del IS NULL)                                                                                                                  | f          | t
+ adr_street | adr_street_i1                     | ON %I.adr_street USING btree (id_area)                                                                                                                                                                              | t          | f
+ adr_street | adr_street_i2                     | ON %I.adr_street USING btree (id_street_type)                                                                                                                                                                       | t          | f
+ adr_street | adr_street_i3                     | ON %I.adr_street USING btree (id_data_etalon)                                                                                                                                                                       | t          | f
+ adr_street | adr_street_i4                     | ON %I.adr_street USING btree (nm_fias_guid)                                                                                                                                                                         | t          | f
+ adr_street | adr_street_ak1                    | ON %I.adr_street USING btree (id_area, upper((nm_street)::text), id_street_type) WHERE (id_data_etalon IS NULL)                                                                                                     | t          | t
+ adr_street | _xxx_adr_street_ie2               | ON %I.adr_street USING btree (nm_fias_guid ASC NULLS LAST) WHERE id_data_etalon IS NULL AND dt_data_del IS NULL                                                                                                     | f          | t
+ adr_street | _xxx_adr_street_ak1               | ON %I.adr_street USING btree (id_area ASC NULLS LAST, upper(nm_street::text) ASC NULLS LAST, id_street_type ASC NULLS LAST) WHERE (id_data_etalon IS NULL) AND (dt_data_del IS NULL)                                | f          | t
+ adr_house  | adr_house_i1                      | ON %I.adr_house USING btree (id_area)                                                                                                                                                                               | t          | f
+ adr_house  | adr_house_i2                      | ON %I.adr_house USING btree (id_street)                                                                                                                                                                             | t          | f
+ adr_house  | adr_house_i3                      | ON %I.adr_house USING btree (id_house_type_1)                                                                                                                                                                       | t          | f
+ adr_house  | adr_house_i4                      | ON %I.adr_house USING btree (id_house_type_2)                                                                                                                                                                       | t          | f
+ adr_house  | adr_house_i5                      | ON %I.adr_house USING btree (id_house_type_3)                                                                                                                                                                       | t          | f
+ adr_house  | adr_house_i7                      | ON %I.adr_house USING btree (nm_fias_guid)                                                                                                                                                                          | t          | f
+ adr_house  | adr_house_idx1                    | ON %I.adr_house USING btree (id_area) WHERE (id_street IS NULL)                                                                                                                                                     | t          | f
+ adr_house  | adr_house_ak1                     | ON %I.adr_house USING btree (id_area, upper((nm_house_full)::text), id_street) WHERE (id_data_etalon IS NULL)                                                                                                       | t          | t
+ adr_house  | _xxx_adr_house_ie2                | ON %I.adr_house USING btree (nm_fias_guid ASC NULLS LAST) WHERE (id_data_etalon IS NULL) AND (dt_data_del IS NULL)                                                                                                  | f          | t
+ adr_house  | _xxx_adr_house_ak1                | ON %I.adr_house USING btree (id_area ASC NULLS LAST, upper (nm_house_full::text) ASC NULLS LAST, id_street ASC NULLS LAST,id_house_type_1 ASC NULLS LAST)  WHERE (id_data_etalon IS NULL) AND (dt_data_del IS NULL) | f          | t
+(30 строк)
+
+CREATE VIEW
+DROP FUNCTION
+CREATE FUNCTION
+COMMENT
+DROP FUNCTION
+CREATE FUNCTION
+COMMENT
+DROP FUNCTION
+DROP FUNCTION
+CREATE FUNCTION
+COMMENT
+DROP FUNCTION
+DROP FUNCTION
+CREATE FUNCTION
+COMMENT
+DROP FUNCTION
+CREATE FUNCTION
+COMMENT
+DROP FUNCTION
+CREATE FUNCTION
+COMMENT
+DROP VIEW
+CREATE VIEW
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+DROP FUNCTION
+CREATE FUNCTION
+COMMENT
+DROP PROCEDURE
+CREATE PROCEDURE
+COMMENT
+DROP PROCEDURE
+CREATE PROCEDURE
+COMMENT
+DROP PROCEDURE
+CREATE PROCEDURE
+COMMENT
+DROP PROCEDURE
+CREATE PROCEDURE
+COMMENT
+DROP PROCEDURE
+CREATE PROCEDURE
+COMMENT
+DROP PROCEDURE
+CREATE PROCEDURE
+COMMENT
+DROP PROCEDURE
+CREATE PROCEDURE
+COMMENT

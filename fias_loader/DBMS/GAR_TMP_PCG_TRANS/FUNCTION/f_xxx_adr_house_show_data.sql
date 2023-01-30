@@ -1,5 +1,3 @@
-DROP FUNCTION IF EXISTS gar_tmp.f_xxx_adr_house_show_data (date, bigint);
-
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_adr_house_show_data (date, bigint);
 CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_house_show_data (
        p_date           date   = current_date
@@ -15,6 +13,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_house_show_data (
     --  2021-12-09/2021-12-20 Ревизия функции. 
     --  2022-09-26 
     --   Тип дома принимается всегда, диапазон актуальности и признак активности - игнорируются.
+    --  2022-12-29 Убрана проверка -- (gar_fias.as_addr_obj_type.is_active) 
+    --                  В ФИАС полно противоречий, эта проверка углубляет их.
     -- ---------------------------------------------------------------------------------------
     --   p_date          date   -- Дата на которую формируется выборка    
     --   p_parent_obj_id bigint -- Идентификатор родительского объекта, если NULL то все дома
@@ -127,7 +127,7 @@ WITH aa (
           LEFT OUTER  JOIN gar_fias.as_object_level z ON (z.level_id = y.obj_level) AND (z.is_active) 
                                                      AND ((z.end_date > p_date) AND (z.start_date <= p_date)
                                                      )
-          LEFT OUTER JOIN gar_fias.as_addr_obj_type x ON (x.id = y.type_id) AND (x.is_active)
+          LEFT OUTER JOIN gar_fias.as_addr_obj_type x ON (x.id = y.type_id) -- AND (x.is_active) -- 2022-12-29
                                                       AND ((x.end_date > p_date) AND (x.start_date <= p_date)
                                                       )
           LEFT OUTER JOIN gar_fias.as_add_house_type a1 ON (a1.add_type_id = h.add_type1) 
@@ -198,5 +198,5 @@ COMMENT ON FUNCTION gar_tmp_pcg_trans.f_xxx_adr_house_show_data (date, bigint)
 IS 'Функция для формирования таблицы-прототипа "gar_tmp.xxx_adr_house"';
 ----------------------------------------------------------------------------------
 -- USE CASE:
---    EXPLAIN ANALyZE SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_house_show_data (); -- 2 sec 96'167 rows
+--    EXPLAIN ANALyZE SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_house_show_data (); -- 9 sec 487'828 rows
 -- SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_house_show_data (p_parent_obj_id := 1260);

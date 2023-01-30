@@ -64,9 +64,9 @@ CREATE TABLE gar_tmp.xxx_adr_street_type
      fias_ids             bigint[] 
     ,id_street_type       integer 
     ,fias_type_name       varchar(250)
-    ,nm_street_type       varchar(50) 
+    ,nm_street_type       varchar(250) -- 2022-11-15
     ,fias_type_shortname  varchar(50) 
-    ,nm_street_type_short varchar(10) 
+    ,nm_street_type_short varchar(50)  -- 2022-11-15 
     ,fias_row_key         text        
     ,is_twin              boolean
 );
@@ -125,9 +125,9 @@ CREATE TABLE gar_tmp.xxx_adr_area_type
      fias_ids            bigint[]
     ,id_area_type        integer 
     ,fias_type_name      varchar(250)
-    ,nm_area_type        varchar(50) 
-    ,fias_type_shortname varchar(50) 
-    ,nm_area_type_short  varchar(10) 
+    ,nm_area_type        varchar(250) -- Nick 2022-11-15 
+    ,fias_type_shortname varchar(50)  -- Nick 2022-11-15
+    ,nm_area_type_short  varchar(50) 
     ,pr_lead             smallint DEFAULT 0
     ,fias_row_key        text
     ,is_twin             boolean DEFAULT false
@@ -509,7 +509,7 @@ COMMENT ON TABLE gar_tmp.adr_street IS 'С_Улицы (!)';
 alter table gar_tmp.adr_street
    add constraint PK_TMP_ADR_STREET primary key (id_street);
 -- ---------------------------------------------------------
-ALTER TABLE gar_tmp.adr_area    SET UNLOGGED;
-ALTER TABLE gar_tmp.adr_house   SET UNLOGGED;
-ALTER TABLE gar_tmp.adr_objects SET UNLOGGED;
-ALTER TABLE gar_tmp.adr_street  SET UNLOGGED;
+-- ALTER TABLE gar_tmp.adr_area    SET UNLOGGED;
+-- ALTER TABLE gar_tmp.adr_house   SET UNLOGGED;
+-- ALTER TABLE gar_tmp.adr_objects SET UNLOGGED;
+-- ALTER TABLE gar_tmp.adr_street  SET UNLOGGED;

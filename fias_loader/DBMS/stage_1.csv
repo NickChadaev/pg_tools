@@ -20,17 +20,34 @@
 #       1;0_COM/4_com_crt_errors.sql;;-- Creating the tables for errors;
 #-------------------------------------------------------------------------------
 X;;;Start process;
-
-1;createSchemas.sql;; -- createSchemas.sql;
-1;CreateExtensions.sql;; -- CreateExtensions.sql;
-1;createFdw.sql;; -- createFdw.sql;
 #
+1;GAR_FIAS/gar_fias_types_crt.sql;; -- gar_fias_types_crt.sql;
 1;GAR_FIAS/createTablesGarFias.sql;; -- createTablesGarFias.sql;
+1;GAR_FIAS/gar_fias_crt_tbl_gap.sql;; -- gar_fias_crt_tbl_gap.sql;
+1;GAR_FIAS/gar_fias_crt_tbl_black_list.sql;; -- gar_fias_crt_tbl_black_list.sql;
+1;GAR_FIAS/gar_fias_ins_tbl_as_adr_objects_type_black_list.sql;; -- gar_fias_ins_tbl_as_adr_objects_type_black_list.sql;
+1;GAR_FIAS/gar_fias_ins_tbl_as_house_type_black_list.sql;; -- gar_fias_ins_tbl_as_house_type_black_list.sql;
+#
 1;GAR_VERSION/CreateTablesGarVersion.sql;; -- CreateTablesGarVersion.sql;    
-1;GAR_LINK/CreateTableGarLink.sql;; -- CreateTableGarLink;                
-1;GAR_TMP/CreateTableGarTmp.sql;; -- CreateTableGarTmp.sql;
-1;GAR_TMP/CreateTableGarTmpHist.sql;; -- CreateTableGarTmpHist.sql;
+#
+1;GAR_LINK/CreateTableGarLink.sql;; -- CreateTableGarLink;   
+1;GAR_LINK/CreateTableGarLink_1.sql;; -- CreateTableGarLink_1.sql;
+#
+1;GAR_EXPORT_VERSION/CreateTablesUnnsiVersion.sql;; -- CreateTablesUnnsiVersion.sql;
+#
 1;GAR_TMP/CreateTypesGarTmp.sql;; -- CreateTypesGarTmp.sql;
+1;GAR_TMP/CreateTypesGarTmp_2.sql;; -- CreateTypesGarTmp_2.sql;
+#
+1;GAR_TMP/CreateTableGarTmp.sql;; -- CreateTableGarTmp.sql;
+1;GAR_TMP/PATCHES/xxx_adr_area_type.sql;; -- xxx_adr_area_type.sql;
+1;GAR_TMP/PATCHES/xxx_adr_street_type.sql;; -- xxx_adr_street_type.sql;
+1;GAR_TMP/CreateTableGarTmpHist.sql;; -- CreateTableGarTmpHist.sql;
+1;GAR_TMP/CreateTableGarTmpAux.sql;; -- CreateTableGarTmpAux.sql;
+#
+1;GAR_TMP/CreateTableGarTmp_1.sql;; -- CreateTableGarTmp_1.sql;
+1;GAR_TMP/CreateTableGarTmp_2.sql;; -- CreateTableGarTmp_2.sql;
+1;GAR_TMP/CreateTableGarTmp_3.sql;; -- CreateTableGarTmp_3.sql;
 #
 X;;;Stop process;
 #-------------------------------------------------------------------------------
+

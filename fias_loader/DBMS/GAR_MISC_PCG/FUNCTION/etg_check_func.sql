@@ -29,7 +29,9 @@ $$
         END LOOP; 
         
         -- Зависимости в коде
-        FOR _z IN SELECT public.plpgsql_show_dependency_tb (_x)
+        FOR _z IN SELECT type || ' | ' || oid::text || ' | ' || schema || ' | ' || 
+                         name || COALESCE ((' | ' || params), '')   
+                  FROM public.plpgsql_show_dependency_tb (_x)
             LOOP                
                  RAISE NOTICE '%', _z;
          END LOOP;   

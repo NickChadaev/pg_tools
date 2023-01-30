@@ -1,0 +1,38 @@
+#-------------------------------------------------------------------------------
+# 2009-04-21/2020-05-10 Nick (nick-ch58@yandex.ru).
+#-------------------------------------------------------------------------------
+# The structure of bathc-file. It consists:
+#    0 - Type action 
+#    1 - SQL-command/The SQL-file name/The <1*.conf> file name
+#    2 - DB name 
+#    3 - The text of message
+#    The DB-name may be ommited. But if it is present, the it 
+#    cancels the name specified in the parameter list.
+#-------------------------------------------------------------------------------
+# For example: 
+#       0;DROP DATABASE IF EXISTS db_k2;;Remove old DB; 
+#       1;1_crt_domain.sql;db_k2;Creating domains; 
+#       X;;;Schema COM; 
+#       1;0_COM/2_com_crt_tables.sql;;-- Creating the base tables; 
+#       1;0_COM/4_com_crt_errors.sql;;-- Creating the tables for errors;
+#-------------------------------------------------------------------------------
+X;;;Start process, Создание нового внешнего сервера;
+#
+0;DROP SERVER IF EXISTS unnsi_m10l CASCADE;; -- DROP unnsi_m10l;
+0;SELECT gar_link.f_server_crt('unnsi_m10l', '127.0.0.1', 'unnsi_m10', 5435, 'postgres', 'postgres', '');;-- gar_link.f_server_crt m10l;
+0;SELECT gar_link.f_schema_import('unnsi_m10l','unnsi','unnsi','ЕС НСИ. Эталон  от 2022-08-05');;-- gar_link.f_schema_import m10l;
+#
+0;SELECT gar_link.f_server_is();; -- gar_link.f_server_is;
+0;SELECT * FROM gar_link.v_servers_active;; -- Active servers;
+#
+
+0;SELECT gar_link.f_server_crt ('unnsi_pp2l','127.0.0.1','unnsi_pp2',5435,'postgres','postgres','');;-- gar_link.f_server_crt();
+### 0;SELECT gar_link.f_schema_import ('unnsi_pp2l','unnsi','unnsi','UNNSI_PP2 2022-12-12');;-- gar_link.f_schema_import();	
+0;SELECT * FROM gar_link.f_conn_set((SELECT gar_link.f_schema_import ('unnsi_pp2l','unnsi','unnsi','UNNSI_PP2 2022-12-12')));;-- gar_link.f_conn_set();	
+0;SELECT gar_link.f_server_is();;-- gar_link.f_server_is();
+0;SELECT * FROM gar_link.v_servers_active;;-- gar_link.v_servers_active;
+
+X;;;Stop process;
+#-------------------------------------------------------------------------------
+#  Пример вызова
+# load_mainGar.py 127.0.0.1 5434 xxx_test postgres stage_2_ver_build.csv ../ '2021-09-27'

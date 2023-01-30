@@ -1,0 +1,141 @@
+#-------------------------------------------------------------------------------
+# 2009-04-21/2020-05-10 Nick (nick-ch58@yandex.ru).
+#-------------------------------------------------------------------------------
+# The structure of bathc-file. It consists:
+#    0 - Type action 
+#    1 - SQL-command/The SQL-file name/The <1*.conf> file name
+#    2 - DB name 
+#    3 - The text of message
+#    The DB-name may be ommited. But if it is present, the it 
+#    cancels the name specified in the parameter list.
+#-------------------------------------------------------------------------------
+# Type action is: 0 - Direct performing SQL-command
+#                 1 - Perform SQL-command from SQL-file
+#                 2 - Direct loading into DB
+#                 3 - Deferred loading into DB
+#                 4 - Direct unloading from DB
+#                 5 - Defrred unloading from DB
+#                 X - Message for user (The fields ##1,2 - are empty )
+#-------------------------------------------------------------------------------
+# For example: 
+#       0;DROP DATABASE IF EXISTS db_k2;;Remove old DB; 
+#       1;1_crt_domain.sql;db_k2;Creating domains; 
+#       X;;;Schema COM; 
+#       1;0_COM/2_com_crt_tables.sql;;-- Creating the base tables; 
+#       1;0_COM/4_com_crt_errors.sql;;-- Creating the tables for errors;
+#-------------------------------------------------------------------------------
+X;;;Start process, Установка версии БД;
+#
+1;01/commentDb_01.sql;; -- 01 Адыгея Респ;
+1;02/commentDb_02.sql;; -- 02 Башкортостан Респ;
+### 1;03/commentDb_03.sql;; -- 03 Бурятия Респ;
+1;04/commentDb_04.sql;; -- 04 Алтай Респ;
+1;05/commentDb_05.sql;; -- 05 Дагестан Респ;
+1;06/commentDb_06.sql;; -- 06 Ингушетия Респ;
+1;07/commentDb_07.sql;; -- 07 Кабардино-Балкарская Респ;
+1;08/commentDb_08.sql;; -- 08 Калмыкия Респ;
+1;09/commentDb_09.sql;; -- 09 Карачаево-Черкесская Респ;
+1;10/commentDb_10.sql;; -- 10 Карелия Респ;
+1;11/commentDb_11.sql;; -- 11 Коми Респ;
+1;12/commentDb_12.sql;; -- 12 Марий Эл Респ;
+1;13/commentDb_13.sql;; -- 13 Мордовия Респ;
+1;14/commentDb_14.sql;; -- 14 Саха /Якутия/ Респ;
+1;15/commentDb_15.sql;; -- 15 Северная Осетия - Алания Респ;
+1;16/commentDb_16.sql;; -- 16 Татарстан Респ;
+1;17/commentDb_17.sql;; -- 17 Тыва Респ;
+1;18/commentDb_18.sql;; -- 18 Удмуртская Респ;
+### 1;19/commentDb_19.sql;; -- 19 Хакасия Респ;
+1;20/commentDb_20.sql;; -- 20 Чеченская Респ;
+#
+1;21/commentDb_21.sql;; -- 21 Чувашская Респ;
+1;22/commentDb_22.sql;; -- 22 Алтайский край;
+1;23/commentDb_23.sql;; -- 23 Краснодарский край;
+1;24/commentDb_24.sql;; -- 24 Красноярский край;
+1;25/commentDb_25.sql;; -- 25 Приморский край;
+1;26/commentDb_26.sql;; -- 26 Ставропольский край;
+1;27/commentDb_27.sql;; -- 27 Хабаровский край;
+1;28/commentDb_28.sql;; -- 28 Амурская обл.;
+1;29/commentDb_29.sql;; -- 29 Архангельская обл.;
+1;30/commentDb_30.sql;; -- 30 Астраханская обл.;
+1;31/commentDb_31.sql;; -- 31 Белгородская обл.;
+1;32/commentDb_32.sql;; -- 32 Брянская обл.;
+1;33/commentDb_33.sql;; -- 33 Владимирская обл.;
+1;34/commentDb_34.sql;; -- 34 Волгоградская обл.;
+1;36/commentDb_36.sql;; -- 36 Воронежская обл.;
+1;38/commentDb_38.sql;; -- 38 Иркутская обл.;
+1;39/commentDb_39.sql;; -- 39 Калининградская обл.;
+1;40/commentDb_40.sql;; -- 40 Калужская обл.;
+1;41/commentDb_41.sql;; -- 41 Камчатский край;
+1;42/commentDb_42.sql;; -- 42 Кемеровская обл.;
+1;43/commentDb_43.sql;; -- 43 Кировская обл.;
+1;44/commentDb_44.sql;; -- 44 Костромская обл.;
+#
+1;45/commentDb_45.sql;; -- 45 Курганская обл.;
+1;46/commentDb_46.sql;; -- 46 Курская обл.;
+1;47/commentDb_47.sql;; -- 47 Ленинградская обл.;
+1;35/commentDb_35.sql;; -- 35 Вологодская обл.;
+1;48/commentDb_48.sql;; -- 48 Липецкая обл.;
+1;49/commentDb_49.sql;; -- 49 Магаданская обл.;
+1;50/commentDb_50.sql;; -- 50 Московская обл.;
+1;51/commentDb_51.sql;; -- 51 Мурманская обл.;
+1;52/commentDb_52.sql;; -- 52 Нижегородская обл.;
+1;53/commentDb_53.sql;; -- 53 Новгородская обл.;
+1;54/commentDb_54.sql;; -- 54 Новосибирская обл.;
+1;55/commentDb_55.sql;; -- 55 Омская обл.;
+1;56/commentDb_56.sql;; -- 56 Оренбургская обл.;
+1;57/commentDb_57.sql;; -- 57 Орловская обл.;
+1;58/commentDb_58.sql;; -- 58 Пензенская обл.;
+1;59/commentDb_59.sql;; -- 59 Пермский край;
+1;60/commentDb_60.sql;; -- 60 Псковская обл.;
+1;61/commentDb_61.sql;; -- 61 Ростовская обл.;
+1;62/commentDb_62.sql;; -- 62 Рязанская обл.;
+1;63/commentDb_63.sql;; -- 63 Самарская обл.;
+1;37/commentDb_37.sql;; -- 37 Ивановская обл.;
+1;64/commentDb_64.sql;; -- 64 Саратовская обл.;
+#
+1;65/commentDb_65.sql;; -- 65 Сахалинская обл.;
+1;66/commentDb_66.sql;; -- 66 Свердловская обл.;
+1;67/commentDb_67.sql;; -- 67 Смоленская обл.;
+1;68/commentDb_68.sql;; -- 68 Тамбовская обл.;
+1;69/commentDb_69.sql;; -- 69 Тверская обл.;
+1;70/commentDb_70.sql;; -- 70 Томская обл.;
+1;71/commentDb_71.sql;; -- 71 Тульская обл.;
+1;72/commentDb_72.sql;; -- 72 Тюменская обл.;
+1;73/commentDb_73.sql;; -- 73 Ульяновская обл.;
+1;74/commentDb_74.sql;; -- 74 Челябинская обл.;
+1;75/commentDb_75.sql;; -- 75 Забайкальский край;
+### 1;76/commentDb_76.sql;; -- 76 Ярославская обл.;
+1;78/commentDb_78.sql;; -- 78 Санкт-Петербург г.;
+1;79/commentDb_79.sql;; -- 79 Еврейская Аобл;
+1;83/commentDb_83.sql;; -- 83 Ненецкий АО;
+1;86/commentDb_86.sql;; -- 86 Ханты-Мансийский АО;
+1;89/commentDb_89.sql;; -- 89 Ямало-Ненецкий АО;
+1;87/commentDb_87.sql;; -- 87 Чукотский АО;
+1;91/commentDb_91.sql;; -- 91 Крым Респ;
+1;77/commentDb_77.sql;; -- 77 Москва г.;
+1;92/commentDb_92.sql;; -- 92 Севастополь г.;
+#
+X;;;Stop process;
+#-------------------------------------------------------------------------------
+#  Пример вызова
+# load_mainGar.py 127.0.0.1 5434 xxx_test postgres stage_z.csv .. '2021-09-27'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

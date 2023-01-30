@@ -1,81 +1,100 @@
 #
 #  2022-05-19. Stage_6. Новая реализация, только управление процессами, вызовы функций 
 #                       в коде "stage_6_proc.py"
+#            "  Version 0.2.0 Build 2023-01-09"
 #
 control_params:
-    stage_6_0: True
-    stage_6_1: True
-    stage_6_2: True
-    stage_6_3: True
+    stage_6_0: True   # Начальная отметка в log (master - запись).
+    stage_6_1: True   # adr_area   - постобработка и выгрузка + отметка в LOG
+    stage_6_2: True   # adr_street - постобработка и выгрузка + отметка в LOG
+    stage_6_3: False    # adr_house  - постобработка и выгрузка + отметка в LOG
     #
-    mogrify_6_0: True
-    mogrify_6_1: True
-    mogrify_6_2: True
-    mogrify_6_3: True
+    mogrify_6_0: False
+    mogrify_6_1: False
+    mogrify_6_2: False
+    mogrify_6_3: False
     
 global_params:
-#    g_regions: [1,3,40,52]    # Все регионы, если не заданы явно: [1,3,40,52]  None
-    g_regions: None    # Все регионы, если не заданы явно: [1,3,40,52]  None
-    g_fserver_nmb: 12   
-    g_adr_area_sch: unnsi
+    g_region_id: 2                # Адыгея        --  p_node_id  
+    g_fserver_nmb: 12             # На 5434 unnsi_12l --  p_id_region
+    g_kd_export_type: True        # True: с использованием FDW, False: текстовый файл
+    g_seq_name: gar_tmp.obj_seq   # Региональная последовательность
+    g_file_path: ../tmp/up           # Путь для хранения экспортируемых файлов
+#----------------------------------------------------
+#         ,p_dt_gar_version := {0}::date 
+#----------------------------------------------------  
+    #
+    g_adr_area_sch: unnsi        # Удалённые/Общие схемы. Общая база. 
     g_adr_street_sch: unnsi
     g_adr_house_sch: unnsi
-    g_history_sch: gar_tmp
+    #
+    g_adr_area_sch_l: gar_tmp    # Локальные схемы, каждая для своей региональной базы.
+    g_adr_street_sch_l: gar_tmp
+    g_adr_house_sch_l: gar_tmp    
+    #
+    g_adr_hist_sch: gar_tmp
 #  
-# stage_6_0
+# stage_6_0 
 #
-gar_drop_load_indexies:                                      
-    descr: Смена индексного покрытия в целевых таблицах. Удаление загрузочных.
-    params_area:
-        p_skip: False
-    params_street:
-        p_skip: False
-    params_house:
-        p_skip: False
-    param_objects:
-         p_skip: False
-#
-gar_create_work_indexies:                                      
-    descr: Смена индексного покрытия в целевых таблицах. Создание эксплуатационных.
-    params_area:
-        p_skip: False
-    params_street:
-        p_skip: False
-        p_uniq_sw: False  # False - Неуникальный индекс, в конце необходимо пересоздать
-    params_house:
-        p_skip: False
-        p_uniq_sw: False  # False - Неуникальный индекс, в конце необходимо пересоздать      
-    param_objects:
-         p_skip: True
+unnsi_save_version:                                      
+    descr: Сохранение записи в журнале выгрузок (master-запись).
+    #  --  ,p_nm_object := {2}::text 
+    #  --  ,p_qty_main  := {3}::integer 
+    #  --  ,p_qty_aux   := {4}::integer     
 #  
 # stage_6_1
 #
-adr_street_check_twins:
-    descr: Поиск дублей, таблица ADR_STREET
-    params:
-        p_bound_date: DATE('2022-01-01') 
-        p_init_value: 100000000 
-    cquery: SELECT * FROM gar_tmp.adr_street_hist WHERE (id_region = -1) AND ( date_create >= now() - INTERVAL '1 DAY');    
-#      
+unnsi_adr_area_upload:                                      
+    descr: Постанализ и выгрузка адресных пространств.
+    params_proc:
+        p_bound_date: 2022-01-01  # НЕ ИСПОЛЬЗУЕТСЯ
+        p_post_proc_skip: False   # Пропустили постобработку, (-отслеживание дубликатов, +реиндексация).
+        p_post_script: SELECT * FROM gar_tmp.adr_area WHERE (id_area_parent IS NULL) AND (id_area > 87); 
+        p_post_upload_skip: False # Пропустили выгрузку, (в любом из двух видов).
+        p_sch_type: True          # Только для выгрузки в файл, при "g_kd_export_type": False 
+                           # False - использование локальной схемы (g_adr_area_sch_l)
+                           # True  -  -- "" --удалённой/общей --   (g_adr_area_sch)
+                           #
+        p_drop_remote_idxs: True   # Только при  "g_kd_export_type: True"
+                                   # Не забыть создать индесное покрытие после обработки.
+                           
+        #  p_post_script: ../../A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_area_post_proc_1.sql
+        #  p_post_script: A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_area_post_proc_1.sql
+        #  
 # stage_6_2
 #
-adr_house_check_twins:
-    descr: Поиск дублей, таблица ADR_HOUSE
-    params:
-        p_skip_1: False  # По регионам, используя список регионов (g_regions + p_init_value)
-        p_skip_2: False  # Вычищает всё, что осталось.
-        p_bound_date: DATE('2022-01-01') 
-        p_init_value: 100000000  
-    cquery: SELECT * FROM gar_tmp.adr_house_hist WHERE (id_region = -1) AND ( date_create >= now() - INTERVAL '1 DAY');    
-#  
+unnsi_adr_street_upload:
+    descr: Постанализ и выгрузка элементов уличной-дорожной сети.
+    params_proc:
+        p_bound_date: 2022-01-01
+        p_post_proc_skip: False    # Пропустили постобработку, (отслеживание дубликатов, реиндексация).
+        p_post_script:
+        p_post_upload_skip: False # Пропустили выгрузку, (в любом из двух видов).
+        p_sch_type: True          # Только для выгрузки в файл, при "g_kd_export_type": False 
+                           # False - использование локальной схемы (g_adr_street_sch_l)
+                           # True  -  -- "" --удалённой/общей  --  (g_adr_street_sch)
+                           #        
+        p_drop_remote_idxs: True   # Только при  "g_kd_export_type: True"
+                                   # Не забыть создать индесное покрытие после обработки.
+                           
+        #  p_post_script: ../../A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_street_post_proc_1.sql
+        #  p_post_script: A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_street_post_proc_1.sql
+#      
 # stage_6_3
 #
-gar_crt_unique_indexies:                                      
-    descr: Смена индексного покрытия (Создание УНИКАЛЬНЫХ эксплуатационных).
-    params:                       
-        params_street:
-            p_skip: False      
-            p_uniq_sw: True   # Уникальный индекс, создаётся после контроля двойников.
-        params_house:
-            p_skip: False
-            p_uniq_sw: True   # Уникальный индекс, создаётся после контроля двойников.
+unnsi_adr_house_upload:
+    descr: Постанализ и выгрузка строений (дома и пр.).
+    params_proc:
+        p_bound_date: 2022-01-01
+        p_post_proc_skip: False    # Пропустили постобработку, (отслеживание дубликатов, реиндексация).        
+        p_post_script:
+        p_post_upload_skip: False  # Пропустили выгрузку, (в любом из двух видов).
+        p_sch_type: True           # Только для выгрузки в файл, при "g_kd_export_type": False 
+                           # False - использование локальной схемы (g_adr_house_sch_l)
+                           # True  -  -- "" --удалённой/общей  --  (g_adr_house_sch)
+                           #        
+        p_drop_remote_idxs: True   # Только при  "g_kd_export_type: True"
+                                   # Не забыть создать индесное покрытие после обработки.
+                           
+#        p_post_script: ../../A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_house_post_proc_1.sql
+#        p_post_script: A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_house_post_proc_1.sql

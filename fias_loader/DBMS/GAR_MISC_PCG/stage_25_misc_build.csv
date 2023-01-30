@@ -26,7 +26,7 @@
 #-------------------------------------------------------------------------------
 X;;;Start process, Сборка misc-пакета;
 #
-5;version.sql;;-- Версия 322 2021-11-30;
+5;version.sql;;-- Версия 213568b 2022-10-24;
 5;FUNCTION/etg_check_func.sql;; -- etg_check_func.sql;
 5;FUNCTION/f_check_uuid_1.sql;; -- f_check_uuid_1.sql;
 5;FUNCTION/4_plpgsql_complex_check_3.sql;; -- plpgsql_show_dependency_tb_1;

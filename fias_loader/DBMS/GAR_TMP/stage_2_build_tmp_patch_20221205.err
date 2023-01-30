@@ -1,0 +1,12 @@
+psql:./CreateTableGarTmp_3.sql:8: ЗАМЕЧАНИЕ:  таблица "xxx_adr_area_gap" не существует, пропускается
+psql:./CreateTableGarTmp_3.sql:24: ЗАМЕЧАНИЕ:  ограничение "chk_xxx_adr_area_gap" в таблице "xxx_adr_area_gap" не существует, пропускается
+psql:./CreateTableGarTmp_3.sql:57: ЗАМЕЧАНИЕ:  таблица "xxx_adr_street_gap" не существует, пропускается
+psql:./CreateTableGarTmp_3.sql:73: ЗАМЕЧАНИЕ:  ограничение "chk_xxx_adr_street_gap" в таблице "xxx_adr_street_gap" не существует, пропускается
+psql:./CreateTableGarTmp_3.sql:103: ЗАМЕЧАНИЕ:  таблица "xxx_adr_house_gap" не существует, пропускается
+psql:./CreateTableGarTmp_3.sql:119: ЗАМЕЧАНИЕ:  ограничение "chk_xxx_adr_house_gap" в таблице "xxx_adr_house_gap" не существует, пропускается
+psql:./CreateTableGarTmp_3.sql:8: ЗАМЕЧАНИЕ:  таблица "xxx_adr_area_gap" не существует, пропускается
+psql:./CreateTableGarTmp_3.sql:24: ЗАМЕЧАНИЕ:  ограничение "chk_xxx_adr_area_gap" в таблице "xxx_adr_area_gap" не существует, пропускается
+psql:./CreateTableGarTmp_3.sql:57: ЗАМЕЧАНИЕ:  таблица "xxx_adr_street_gap" не существует, пропускается
+psql:./CreateTableGarTmp_3.sql:73: ЗАМЕЧАНИЕ:  ограничение "chk_xxx_adr_street_gap" в таблице "xxx_adr_street_gap" не существует, пропускается
+psql:./CreateTableGarTmp_3.sql:103: ЗАМЕЧАНИЕ:  таблица "xxx_adr_house_gap" не существует, пропускается
+psql:./CreateTableGarTmp_3.sql:119: ЗАМЕЧАНИЕ:  ограничение "chk_xxx_adr_house_gap" в таблице "xxx_adr_house_gap" не существует, пропускается

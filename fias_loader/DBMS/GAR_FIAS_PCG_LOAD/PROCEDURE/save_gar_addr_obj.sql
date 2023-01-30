@@ -23,8 +23,10 @@ CREATE OR REPLACE PROCEDURE gar_fias_pcg_load.save_gar_addr_obj (
     -- ====================================================================================================
     -- Author: Nick
     -- Create date: 2021-10-07
-    -- Updates:  2021-10-28 Модификация под загрузчик ГИС Интеграция.
-    --           2022-01-26/2022-09-19 Неоднозначность в определении типов
+    -- Updates: 2021-10-28 Модификация под загрузчик ГИС Интеграция.
+    --          2022-01-26/2022-09-19 Неоднозначность в определении типов
+    --          2022-12-29 Убрана проверка -- (gar_fias.as_addr_obj_type.is_active) 
+    --                     В ФИАС полно противоречий, эта проверка углубляет их.
     -- ----------------------------------------------------------------------------------------------------  
     -- Загрузка классификатора адресных объектов. Источник: внешний парсер.
     --  Предварительно должны быть загружены: "as_operation_type", "as_reestr_objects", "as_object_level".
@@ -35,6 +37,7 @@ CREATE OR REPLACE PROCEDURE gar_fias_pcg_load.save_gar_addr_obj (
     -- ====================================================================================================
    
     BEGIN
+    
         INSERT INTO gar_fias.as_addr_obj AS i (
         
                             id            
@@ -92,8 +95,9 @@ CREATE OR REPLACE PROCEDURE gar_fias_pcg_load.save_gar_addr_obj (
         --
         WITH x AS (
                     SELECT z.id AS type_id, z.type_shortname 
-                        FROM gar_fias.as_addr_obj_type z WHERE (z.type_shortname = i_type_name) AND 
-               			      (z.is_active) AND (z.type_level::bigint = i_obj_level)            
+                        FROM gar_fias.as_addr_obj_type z 
+                           WHERE (z.type_shortname = i_type_name) AND 
+               			         (z.type_level::bigint = i_obj_level)  
         )
         UPDATE gar_fias.as_addr_obj u SET type_id = x.type_id 
            FROM x  

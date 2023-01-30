@@ -12,17 +12,27 @@ import string
 import datetime
 import psycopg2    
 
-VERSION_STR_0 = "  Version 0.1.0 Build 2022-07-18"
+VERSION_STR_0 = "  Version 0.4.2 Build 2023-01-23"
 VERSION_STR_1 = "  ------------------------------"
 
-#            1            2             3           4          5       
-SA = " <CSV_pattern> <Target_Dir> <XML-dir-1> <ZIP-name> <XML-dir-2>\
-<Version> <F-server-nmb> <Del-Sw (optional)>"
-#      6         7              8
+#            1            2           3           4          5         6          7 
+SA = " <CSV_pattern> <Target_Dir> <Host_Path> <Git_Path> <XML-dir> <XML-path> <ZIP-name> \
+ <Version> <Del-Sw(optional)>"
+#    8          9               
 
 USE_CASE = "  USE CASE: "
-US ="    load_mainCrtScripts.py pattern.csv ~/tmp '/media/rootadmin/Transcend' 'gar_xml.zip' 'FIAS_GAR_2022_03_10' '2022-03-10' 10"
-#
+US ="""  load_mainCrtScripts.py pattern_may_0.csv ~/Y_BUILD ../Y_BUILD ../A_FIAS_LOADER ../7_DATA
+            FIAS_GAR_2022_12_26 gar_xml_2022_09_30.zip 2022-03-10 <True>
+  Где:
+          pattern_may_0.csv    -- Шаблон
+          ~/Y_BUILD            -- Каталог цель   
+          ../Y_BUILD           -- Путь в целевом каталоге       
+          ../A_FIAS_LOADER     -- GIT каталог                   
+          ../7_DATA            -- каталог с XML-данными. 
+          FIAS_GAR_2022_12_26  -- Путь в каталоге с XML-данными  
+          gar_xml_12_26.zip    -- Имя архива
+          2022-12-26           -- Версия
+          True                 -- Опция"""   
 
 FILE_NOT_OPENED_0 = "... File not opened: '"
 FILE_NOT_OPENED_1 = "'."
@@ -62,16 +72,16 @@ class m_stage_0 ():
         self.stage_body_p = """#------------------------------------------------------------------------
 X;;;Start process;
 0;DROP DATABASE IF EXISTS unsi_test_{0:02d};; -- Remove old DB;
-1;Y_BUILD/{0:02d}/createDb_{0:02d}.sql;; -- DB creating;
-1;5_FIAS_LOADER/DBMS/Scripts/createSchemas.sql;unsi_test_{0:02d}; -- Schemas creating;
-1;5_FIAS_LOADER/DBMS/Scripts/CreateExtensions.sql;unsi_test_{0:02d}; -- Extension creating;
+1;{1}/{0:02d}/createDb_{0:02d}.sql;; -- DB creating;
+1;{2}/createSchemas.sql;unsi_test_{0:02d}; -- Schemas creating;
+1;{2}/CreateExtensions.sql;unsi_test_{0:02d}; -- Extension creating;
 X;;;Stop process;
 """
-    def b_stage_0 (self, p_fias_id):
+    def b_stage_0 (self, p_fias_id, p_path, p_git_path):
         
         self.file_name_st0 = self.file_name_p.format (int (p_fias_id))
         self.db_name_0 = self.db_name_p.format (int (p_fias_id))
-        self.stage_body_0 = self.stage_body_p.format (int (p_fias_id))
+        self.stage_body_0 = self.stage_body_p.format (int (p_fias_id), p_path, p_git_path)
           
 class m_db_script_0 ():
     """
@@ -83,23 +93,21 @@ class m_db_script_0 ():
         self.file_name_c = p_path + "{0:02d}/commentDb_{0:02d}.sql"
         
         self.scipt_body_p = """/*==============================================================*/
-/* DBMS name:      PostgreSQL 13.4                              */
+/* DBMS name:      PostgreSQL 13.9                              */
 /*==============================================================*/
 
 CREATE DATABASE {0}
     WITH 
     OWNER = postgres
     ENCODING = 'UTF8'
-    LC_COLLATE = 'ru_RU.UTF-8'
-    LC_CTYPE = 'ru_RU.UTF-8'
     TABLESPACE = pg_default
     CONNECTION LIMIT = -1;
 
 COMMENT ON DATABASE {0}
-    IS '{1} Нормативно-справочная информация. v. 0.2. {2}';"""
+    IS '{1}. {2}';"""
 
         self.scipt_body_c = """COMMENT ON DATABASE {0}
-    IS '{1} Нормативно-справочная информация. v. 0.2. {2}';"""
+    IS '{1}. {2}';"""
 
            
     def b_db_script_0 (self, p_fias_id, p_db_name, p_nm_area_full, p_version_date):
@@ -121,12 +129,12 @@ class m_stage_parse ():
         self.file_name_p  = p_path + "{0:02d}/stage_gar_c_{0:02d}.csv"  
         
         self.stage_body_p = """X;;;Start process;
-0;SELECT gar_version_pcg_support.save_gar_version (i_nm_garfias_version := '{1}'::date,i_kd_download_type := FALSE ::boolean,i_dt_download := now()::timestamp without time zone,i_arc_path := '{2}/{3}'::text);; -- Version;
+0;SELECT gar_version_pcg_support.save_gar_version (i_nm_garfias_version := '{1}'::date,i_kd_download_type := FALSE ::boolean,i_dt_download := now()::timestamp without time zone,i_arc_path := '{2}{3}'::text);; -- Version;
 0;CALL gar_fias_pcg_load.del_gar_all();; -- Очистка от данных;
 0;CALL gar_fias_pcg_load.p_alt_tbl (FALSE);; -- Set UNLOGGED;
 #
-2;{4}/{5};; -- Common XML-file;
-2;{4}/{5}/{0:02d};; -- Region XML-file;  # {6}
+2;{4}{5};; -- Common XML-file;
+2;{4}{5}/{0:02d};; -- Region XML-file;  # {6}
 #
 0;SELECT gar_version_pcg_support.set_gar_dt_create ('{1}'::date, now()::timestamp without time zone);; -- Data finish;
 0;CALL gar_fias_pcg_load.p_alt_tbl (TRUE);; -- Set LOGGED;  # in 4 min 30 secs.
@@ -143,18 +151,31 @@ X;;;Stop process;"""
 
 class make_main ():    # m_db_script_0, m_db_script_0, m_stage_parse
  """
-  Это самый главный 
+   This is main. DONT forget please
+           rc = mm.to_do ( sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5],\
+            sys.argv[6], sys.argv[7], sys.argv[8], del_sign)
+    ----------------------------------------------------------------------------------------
+                1            2           3           4          5         6          7 
+    SA = " <CSV_pattern> <Target_Dir> <Host_Path> <Git_Path> <XML-dir> <XML-path> <ZIP-name> \
+     <Version> <Del-Sw(optional)
+        8            9               
+    -----------------------------------------------------------------------------------------    
  """
  #
- def to_do ( self, p_csv_pattern, p_target_dir, p_xml_dir_1, p_zip_name, p_xml_dir_2,\
-     p_version, p_fserver_nmb, p_sel_sign = False):
-     
-    path = string.strip (p_target_dir) + PATH_DELIMITER
+ def to_do ( self, p_csv_pattern, p_target_dir, p_host_path, p_git_path, p_xml_dir, p_xml_path,\
+     p_zip_name, p_version, p_del_sign = False):
+
+    target_dir = string.strip (p_target_dir) + PATH_DELIMITER
+    xml_dir = string.strip (p_xml_dir)       + PATH_DELIMITER
     
-    mc  = m_catalog(path)      # Рабочий каталог 
-    ms0 = m_stage_0(path)      # Начальный stage, создание БД 
-    mdb = m_db_script_0(path)  # Собственно скрипт создающий БД.
-    msp = m_stage_parse(path)  # Stage parsing
+    host_path = string.strip (p_host_path)
+    git_path  = string.strip (p_git_path)
+    xml_path  = string.strip (p_xml_path)
+    
+    mc  = m_catalog (target_dir)      # Рабочий каталог 
+    ms0 = m_stage_0 (target_dir)      # Начальный stage, создание БД 
+    mdb = m_db_script_0 (target_dir)  # Собственно скрипт создающий БД.
+    msp = m_stage_parse (target_dir)  # Stage parsing
 
     try:
         fd = open ( p_csv_pattern, "r" )
@@ -181,7 +202,7 @@ class make_main ():    # m_db_script_0, m_db_script_0, m_stage_parse
             #
             mc.b_catalog (fias_id)
             
-            if p_sel_sign:
+            if p_del_sign:
                 rc = ( os.system ("rm -d -R " + mc.catalog_name ))
                 
             rc = ( os.system ("mkdir " + mc.catalog_name ))
@@ -189,7 +210,7 @@ class make_main ():    # m_db_script_0, m_db_script_0, m_stage_parse
             #
             #   2) Создать stage_0
             #            
-            ms0.b_stage_0 (fias_id)
+            ms0.b_stage_0 (fias_id, host_path, git_path)
             try:
                 fs0 = open ( ms0.file_name_st0, "w" )
             
@@ -198,7 +219,7 @@ class make_main ():    # m_db_script_0, m_db_script_0, m_stage_parse
                 return 1
             
             fs0.write (ms0.stage_body_0)
-            fs0.close ()            
+            fs0.close ()             
             #
             #   3) Создать db_scipt_0
             #
@@ -228,7 +249,7 @@ class make_main ():    # m_db_script_0, m_db_script_0, m_stage_parse
             #
             #   4) Создать parse script
             #
-            msp.b_stage_parse (fias_id, p_version, p_xml_dir_1, p_zip_name, p_xml_dir_1, p_xml_dir_2, nm_area_full)
+            msp.b_stage_parse (fias_id, p_version, xml_dir, p_zip_name, xml_dir, xml_path, nm_area_full)
             try:
                 fsp = open ( msp.file_name_parse, "w" )
             
@@ -247,7 +268,7 @@ if __name__ == '__main__':
         """
              Main entrypoint for the class
         """
-        if ( len( sys.argv ) - 1 ) < 7:
+        if ( len( sys.argv ) - 1 ) < 8:
             print VERSION_STR_0
             print VERSION_STR_1 
             print "  Usage: " + str ( sys.argv [0] ) + SA            
@@ -258,23 +279,20 @@ if __name__ == '__main__':
 #
         del_sign = False
 
-        if ( len( sys.argv ) - 1 ) == 8:
-            del_sign = sys.argv[8]
-            if sys.argv[8] == 'True':
+        if ( len( sys.argv ) - 1 ) == 9:
+            if sys.argv[9] == 'True':
                 del_sign = True
             else:
                 del_sign = False
 
         mm = make_main ()
         rc = mm.to_do ( sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5],\
-            sys.argv[6], sys.argv[7], del_sign)
+            sys.argv[6], sys.argv[7], sys.argv[8], del_sign)
+        
         sys.exit ( rc )
 
 #---------------------------------------
     except KeyboardInterrupt, e:
         print "... Terminated by user: "
         sys.exit (1)
-
-## -------------------------------------------------------------------------------------------------------------------------
-##  USE CASE:
-##./load_mainCrtScripts.py pattern.csv ~/tmp '/media/rootadmin/Transcend' 'gar_xml.zip' 'FIAS_GAR_2022_03_10' '2022-03-10' 3
+  

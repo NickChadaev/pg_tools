@@ -9,7 +9,7 @@
 import sys
 ## import string
 
-VERSION_STR = "  Version 0.1.0 Build 2022-09-02"
+VERSION_STR = "  Version 0.3.0 Build 2022-12-06"
 
 class proc_patterns ():
     """
@@ -17,6 +17,9 @@ class proc_patterns ():
     """
     def __init__ (self):
         
+        # Проверка региона
+        self.get_region_info = """SELECT * FROM {0}.adr_area WHERE (id_area = {1}::bigint);   
+        """
         # Заполнение таблицы с дефектными данными.
         self.gar_fias_set_adr_data = """SELECT gar_fias_pcg_load.f_adr_area_set_data (
               p_fias_guid := (gar_tmp_pcg_trans.f_adr_area_get('{0}',{1})).nm_fias_guid::uuid
@@ -37,8 +40,8 @@ class proc_patterns ():
         self.gar_tmp_p_gar_fias_crt_idx = """CALL gar_tmp_pcg_trans.p_gar_fias_crt_idx (
                                                 p_sw := {0}::boolean);"""
         #
-        # Очистка данных во временной схеме. True - вычищаем всё.
-        self.gar_tmp_p_clear_tbl = """CALL gar_tmp_pcg_trans.p_clear_tbl (p_all := {0}::boolean);
+        # Очистка данных во временной схеме.  
+        self.gar_tmp_p_clear_tbl = """CALL gar_tmp_pcg_trans.p_clear_tbl (p_op_type := ARRAY{0}::integer[]);
         """
         #
         # Смена индексного покрытия в целевых таблицах
@@ -74,9 +77,39 @@ class proc_patterns ():
             );
         """     
         #
-        # Проверка региона
-        self.get_region_info = """SELECT * FROM unnsi.adr_area WHERE (id_area = {0}::bigint);   
+        #  Загрузка данных из таблицы ADR_AREA_TYPE
+        self.gar_tmp_p_adr_area_type_unload = """CALL gar_tmp_pcg_trans.p_adr_area_type_unload (
+	                                                    p_sch_local  := '{0}'::text
+	                                                   ,p_sch_remote := '{1}'::text
+        );        
         """
+        #  Загрузка данных из таблицы ADR_STREET_TYPE
+        self.gar_tmp_p_adr_street_type_unload = """CALL gar_tmp_pcg_trans.p_adr_street_type_unload (
+	                                                    p_sch_local  := '{0}'::text
+	                                                   ,p_sch_remote := '{1}'::text
+        );        
+        """
+        #  Загрузка данных из таблицы ADR_HOUSE_TYPE
+        self.gar_tmp_p_adr_house_type_unload = """CALL gar_tmp_pcg_trans.p_adr_house_type_unload (
+	                                                    p_sch_local  := '{0}'::text
+	                                                   ,p_sch_remote := '{1}'::text
+        );
+	     """
+        # Загрузка регионального фрагмента из таблицы ADR_AREA
+        self.gar_tmp_p_adr_area_unload = """CALL gar_tmp_pcg_trans.p_adr_area_unload (
+              p_schema_name := '{0}'::text  
+             ,p_id_region   := {1}::bigint
+             ,p_conn        := (gar_link.f_conn_set({2}::numeric(3)))::text -- Именованное dblink-соединение    
+           );
+        """
+         #
+        # Загрузка регионального фрагмента из таблицы ADR_STREET
+        self.gar_tmp_p_adr_street_unload = """CALL gar_tmp_pcg_trans.p_adr_street_unload (
+              p_schema_name := '{0}'::text  
+             ,p_id_region   := {1}::bigint
+             ,p_conn        := (gar_link.f_conn_set({2}::numeric(3)))::text -- Именованное dblink-соединение    
+           );
+        """       
         #
         # Загрузка регионального фрагмента из таблицы ADR_HOUSE
         self.gar_tmp_p_adr_house_unload = """CALL gar_tmp_pcg_trans.p_adr_house_unload (
@@ -110,28 +143,22 @@ class proc_patterns ():
         # Актуализация справочников (адресные пространства).
         self.gar_tmp_f_xxx_adr_area_type_set = """SELECT gar_tmp_pcg_trans.f_xxx_adr_area_type_set (
               p_schema_etalon := '{0}'::text      -- Схема с эталонными справочниками.   
-             ,p_schemas       := ARRAY{1}::text[]  -- Список обновляемых схем (Здесь может быть эталон).
+             ,p_schemas       := {1}::text[]  -- Список обновляемых схем (Здесь может быть эталон).
              ,p_op_type       := ARRAY{2}::integer[] -- Список выполняемых операций, пока только две.     
-             ,p_date          := {3}::date     -- Дата на которую формируется выборка из "gar_fias".
-             ,p_stop_list     := ARRAY{4}::text[]    -- Стоп-лист
         );        
         """
         # Улицы, частный случай адресного пространства
         self.gar_tmp_f_xxx_street_type_set = """SELECT gar_tmp_pcg_trans.f_xxx_street_type_set (
               p_schema_etalon := '{0}'::text 
-             ,p_schemas       := ARRAY{1}::text[]
+             ,p_schemas       := {1}::text[]
              ,p_op_type       := ARRAY{2}::integer[]
-             ,p_date          := {3}::date     
-             ,p_stop_list     := ARRAY{4}::text[]   
         );
         """
         # Дома
         self.gar_tmp_f_xxx_house_type_set = """SELECT gar_tmp_pcg_trans.f_xxx_house_type_set (
                 p_schema_etalon := '{0}'::text 
-               ,p_schemas       := ARRAY{1}::text[]
+               ,p_schemas       := {1}::text[]
                ,p_op_type       := ARRAY{2}::integer[]
-               ,p_date          := {3}::date     
-               ,p_stop_list     := ARRAY{4}::text[]   
         );        
         """
         # -----------------------------------------------------------------
@@ -168,6 +195,11 @@ if __name__ == '__main__':
         print pp.gar_fias_set_adr_data
         print
         print pp.gar_fias_addr_obj_update_children
+        print
+        print pp.gar_tmp_p_adr_area_unload
+        print pp.gar_tmp_p_adr_street_unload
+        print pp.gar_tmp_p_adr_house_unload
+        
         sys.exit (0)
 
 #---------------------------------------

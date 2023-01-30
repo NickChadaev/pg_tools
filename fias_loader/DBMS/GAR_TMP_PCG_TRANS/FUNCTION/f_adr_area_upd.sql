@@ -1,7 +1,3 @@
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_area_upd (text);
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_area_upd (text,uuid[]);
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_area_upd (text[],uuid[]);
-
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_area_upd (text, text, text, uuid[], boolean);
 CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_upd (
            p_schema_data    text -- Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
@@ -9,15 +5,18 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_upd (
           ,p_schema_hist    text -- Схема для хранения исторических данных 
           ,p_nm_guids_fias  uuid[]  = NULL -- Список обрабатываемых GUID, NULL - все.
           ,p_sw_hist        boolean = TRUE -- Создаётся историческая запись.
+           --
+          ,OUT total_row  integer  -- Общее количество обработанных строк.
+          ,OUT upd_row    integer  -- Из них обновлено.
 )
-    RETURNS integer
+    RETURNS setof record
     LANGUAGE plpgsql
  AS
   $$
    DECLARE
      _r_upd   integer := 0;   
      
-     _data   RECORD;  
+     _data   gar_tmp.xxx_adr_area_proc_t;  
      _parent gar_tmp.adr_area_t;
      
      _id_area_type         bigint;
@@ -27,11 +26,16 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_upd (
      --
      _schema_name  text;
      _id_area      bigint;
-           
+     --
+     -- 2022-10-18
+     UPD_OP CONSTANT char(1) := 'U';     
+     --
    BEGIN
     -- ---------------------------------------------------------------------------------
     --  2021-12-10/2022-02-10 Nick  Обновление адресных георегионов.
-    --  2022-02-21 - фильтрация данных по справочнику типов.  
+    --  2022-02-21 - Фильтрация данных по справочнику типов.  
+    --  2022-10-19 - Вспомогательные таблицы.
+    --  2022-11-21 - Преобразование типов ФИАС -> ЕС НСИ.      
     -- ---------------------------------------------------------------------------------
     --     p_schema_data   -- Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
     --    ,p_schema_etl    -- Схема эталон, обычно локальный сервер, копия p_schema_data 
@@ -41,10 +45,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_upd (
     -- ---------------------------------------------------------------------------------
     FOR _data IN 
            SELECT 
-                f.id_obj 
-               ,id_obj_fias
-                --
-               ,x.id_addr_obj AS id_area     
+                x.id_addr_obj AS id_area     
                 --
                ,x.nm_addr_obj AS nm_area     
                ,x.nm_addr_obj AS nm_area_full
@@ -84,27 +85,48 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_upd (
 	        ORDER BY x.tree_d 
      
        LOOP
-           SELECT id_area_type, nm_area_type_short 
-              INTO _id_area_type, _area_type_short_name
-           FROM gar_tmp.xxx_adr_area_type WHERE (_data.id_area_type = ANY (fias_ids));
+           -- Nick 2022-11-21/2022-12-05
+           _id_area_type := NULL;
+           _area_type_short_name := NULL;
+           
+           IF (EXISTS (SELECT 1 FROM gar_tmp.xxx_adr_area_type 
+                                  WHERE (_data.id_area_type = ANY (fias_ids))
+                      )
+               ) 
+             THEN  
+                SELECT id_area_type, nm_area_type_short 
+                          INTO _id_area_type, _area_type_short_name
+                FROM gar_tmp_pcg_trans.f_adr_type_get (p_schema_etl, _data.id_area_type);
+                
+             ELSIF (_data.id_area_type IS NOT NULL) 
+                 THEN
+                      CALL gar_tmp_pcg_trans.p_xxx_adr_area_gap_put (_data);
+           END IF;
            --
            CONTINUE WHEN ((_id_area_type IS NULL) OR (_area_type_short_name IS NULL) OR
                           (_data.nm_area IS NULL) 
-           ); -- 2022-02-21
+           ); -- 2022-11-21/2022-12-05
            --         
-           _parent := gar_tmp_pcg_trans.f_adr_area_get (p_schema_etl, _data.nm_fias_guid_parent);
-         
-           CALL gar_tmp_pcg_trans.p_adr_area_upd (
+          _parent := gar_tmp_pcg_trans.f_adr_area_get (p_schema_etl, _data.nm_fias_guid_parent);
+          -- 
+          -- 2022-12-27 Такая ситуация может возникнуть крайне редко.
+          --
+          CONTINUE WHEN ((_data.nm_fias_guid_parent IS NOT NULL) AND 
+                         (_parent.id_area IS NULL) AND
+                         (_data.level_d > 1)
+                        );  
+                        
+          CALL gar_tmp_pcg_trans.p_adr_area_upd (
                   p_schema_name       := p_schema_data                    --  text  
                  ,p_schema_h          := p_schema_hist   
                   --   ID сохраняется 
                  ,p_id_area           := _id_area --  bigint                           --  NOT NULL
                  ,p_id_country        := COALESCE (_parent.id_country, 185)::integer   --  NOT NULL
                  ,p_nm_area           := _data.nm_area::varchar(120)                   --  NOT NULL
-                 ,p_nm_area_full      := btrim ((COALESCE (_parent.nm_area_full, '') ||  ', ' || 
-                                                   _data.nm_area || ' ' ||
-                                                   _area_type_short_name
-                                               ), ',')::varchar(4000)                  
+                 ,p_nm_area_full      := trim((COALESCE (_parent.nm_area_full, '') ||  ', ' || 
+                                                   _data.nm_area || ' ' || _area_type_short_name
+                                              ), ', '
+                                          )::varchar(4000)                  
                  ,p_id_area_type      := _id_area_type       ::integer       --    NULL
                  ,p_id_area_parent    := _parent.id_area     ::bigint        --    NULL
                  ,p_kd_timezone       := _parent.kd_timezone ::integer       --    NULL
@@ -120,12 +142,16 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_upd (
                  ,p_oper_type_id      := _data.oper_type_id
                   --
                  ,p_sw                := p_sw_hist                 
-           );
+          );
                 
-           _r_upd := _r_upd + 1; 
+          _r_upd := _r_upd + 1; 
        END LOOP;
    
-    RETURN _r_upd;
+    total_row := _r_upd;
+    upd_row := (SELECT count(1) FROM gar_tmp.adr_area_aux WHERE (op_sign = UPD_OP));
+    
+    RETURN NEXT;    
+    
    END;                   
   $$;
  

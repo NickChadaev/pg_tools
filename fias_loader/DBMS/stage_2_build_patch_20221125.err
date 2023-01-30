@@ -1,0 +1,28 @@
+psql:./GAR_FIAS/gar_fias_crt_tbl_black_list.sql:63: ЗАМЕЧАНИЕ:  ограничение "chk_as_addr_obj_type_black_list_object_kind" в таблице "as_addr_obj_type_black_list" не существует, пропускается
+psql:./GAR_TMP/CreateTypesGarTmp.sql:35: ПРЕДУПРЕЖДЕНИЕ:  42710, тип "adr_objects_t" уже существует
+psql:./GAR_TMP/CreateTypesGarTmp.sql:68: ПРЕДУПРЕЖДЕНИЕ:  42710, тип "adr_area_t" уже существует
+psql:./GAR_TMP/CreateTypesGarTmp.sql:93: ПРЕДУПРЕЖДЕНИЕ:  42710, тип "adr_street_t" уже существует
+psql:./GAR_TMP/CreateTypesGarTmp.sql:125: ПРЕДУПРЕЖДЕНИЕ:  42710, тип "adr_house_t" уже существует
+psql:./GAR_TMP/CreateTypesGarTmp.sql:129: ЗАМЕЧАНИЕ:  тип "gar_tmp.zzz_adr_area_t" не существует, пропускается
+psql:./GAR_TMP/CreateTypesGarTmp.sql:156: ПРЕДУПРЕЖДЕНИЕ:  42710, тип "zzz_adr_area_type_t" уже существует
+psql:./GAR_TMP/CreateTypesGarTmp.sql:158: ЗАМЕЧАНИЕ:  тип "gar_tmp.zzz_adr_street_t" не существует, пропускается
+psql:./GAR_TMP/CreateTypesGarTmp.sql:185: ПРЕДУПРЕЖДЕНИЕ:  42710, тип "zzz_adr_street_type_t" уже существует
+psql:./GAR_TMP/CreateTypesGarTmp.sql:187: ЗАМЕЧАНИЕ:  тип "gar_tmp.zzz_adr_house_t" не существует, пропускается
+psql:./GAR_TMP/CreateTypesGarTmp.sql:214: ПРЕДУПРЕЖДЕНИЕ:  42710, тип "zzz_adr_house_type_t" уже существует
+psql:./GAR_TMP/CreateTableGarTmp_2.sql:20: ЗАМЕЧАНИЕ:  ограничение "chk_xxx_object_type_alias_object_kind" в таблице "xxx_object_type_alias" не существует, пропускается
+--
+psql:./GAR_FIAS/gar_fias_crt_tbl_black_list.sql:11: ЗАМЕЧАНИЕ:  таблица "as_addr_obj_type_black_list" не существует, пропускается
+psql:./GAR_FIAS/gar_fias_crt_tbl_black_list.sql:63: ЗАМЕЧАНИЕ:  ограничение "chk_as_addr_obj_type_black_list_object_kind" в таблице "as_addr_obj_type_black_list" не существует, пропускается
+psql:./GAR_FIAS/gar_fias_crt_tbl_black_list.sql:74: ЗАМЕЧАНИЕ:  таблица "as_house_type_black_list" не существует, пропускается
+psql:./GAR_TMP/CreateTypesGarTmp.sql:35: ПРЕДУПРЕЖДЕНИЕ:  42710, тип "adr_objects_t" уже существует
+psql:./GAR_TMP/CreateTypesGarTmp.sql:68: ПРЕДУПРЕЖДЕНИЕ:  42710, тип "adr_area_t" уже существует
+psql:./GAR_TMP/CreateTypesGarTmp.sql:93: ПРЕДУПРЕЖДЕНИЕ:  42710, тип "adr_street_t" уже существует
+psql:./GAR_TMP/CreateTypesGarTmp.sql:125: ПРЕДУПРЕЖДЕНИЕ:  42710, тип "adr_house_t" уже существует
+psql:./GAR_TMP/CreateTypesGarTmp.sql:129: ЗАМЕЧАНИЕ:  тип "gar_tmp.zzz_adr_area_t" не существует, пропускается
+psql:./GAR_TMP/CreateTypesGarTmp.sql:158: ЗАМЕЧАНИЕ:  тип "gar_tmp.zzz_adr_street_t" не существует, пропускается
+psql:./GAR_TMP/CreateTypesGarTmp.sql:187: ЗАМЕЧАНИЕ:  тип "gar_tmp.zzz_adr_house_t" не существует, пропускается
+psql:./GAR_TMP/CreateTableGarTmp_1.sql:9: ЗАМЕЧАНИЕ:  таблица "adr_area_type" не существует, пропускается
+psql:./GAR_TMP/CreateTableGarTmp_1.sql:46: ЗАМЕЧАНИЕ:  таблица "adr_street_type" не существует, пропускается
+psql:./GAR_TMP/CreateTableGarTmp_1.sql:79: ЗАМЕЧАНИЕ:  таблица "adr_house_type" не существует, пропускается
+psql:./GAR_TMP/CreateTableGarTmp_2.sql:8: ЗАМЕЧАНИЕ:  таблица "xxx_object_type_alias" не существует, пропускается
+psql:./GAR_TMP/CreateTableGarTmp_2.sql:20: ЗАМЕЧАНИЕ:  ограничение "chk_xxx_object_type_alias_object_kind" в таблице "xxx_object_type_alias" не существует, пропускается

@@ -123,3 +123,93 @@ DO
            RAISE WARNING '%, %', SQLSTATE, SQLERRM;
    END;
   $$;
+-- ====================================================================================
+--   2022-11-14 Промежуточные типы: 1) - адресные пространства, 2) - улицы, 3) - дома.
+--                               TRIAL version.
+-- ====================================================================================
+DROP TYPE IF EXISTS gar_tmp.zzz_adr_area_t CASCADE;
+DO
+  $$
+   BEGIN
+     CREATE TYPE gar_tmp.zzz_adr_area_type_t AS (
+   
+       id_area_type       integer     -- ID типа, ОСНОВНОЙ	
+      ,nm_area_type       varchar(50) -- Наименованиек типа, ОСНОВНОЕ
+      ,nm_area_type_short varchar(10) -- Краткое наименованиек типа, ОСНОВНОЕ
+      ,pr_lead            smallint    -- Признак
+      ,dt_data_del	      timestamp without time zone -- Дата удаления ОСНОВНАЯ
+       ----
+      ,fias_ids               bigint[]    -- Исходные идентификаторы ГАР-ФИАС 
+      ,id_area_type_tmp       integer     -- ID типа, ПРОМЕЖУТОЧНЫЙ
+      ,fias_type_name	      varchar(50) -- Наименованиек типа, ГАР-ФИАС
+      ,nm_area_type_tmp  	  varchar(50) -- Наименованиек типа, ПРОМЕЖУТОЧНОЕ
+      ,fias_type_shortname    varchar(20) -- Краткое имя типа, ГАР-ФИАС
+      ,nm_area_type_short_tmp varchar(10) -- Краткое наименованиек типа ПРОМЕЖУТОЧНОЕ,
+      ,fias_row_key	          text        -- Уникальный идентификатор строки
+     );
+     
+     COMMENT ON TYPE gar_tmp.zzz_adr_area_type_t IS 'С_Адреса #1 (adr_area_type), промежуточная структура';
+
+    EXCEPTION           
+       WHEN OTHERS THEN 
+           RAISE WARNING '%, %', SQLSTATE, SQLERRM;
+   END;
+  $$;
+
+DROP TYPE IF EXISTS gar_tmp.zzz_adr_street_t CASCADE;
+DO
+  $$
+   BEGIN
+     CREATE TYPE gar_tmp.zzz_adr_street_type_t AS (
+     
+         id_street_type       integer      
+        ,nm_street_type       varchar(50)  
+        ,nm_street_type_short varchar(10)  
+        ,dt_data_del          timestamp without time zone    
+        --
+        ,fias_ids                 bigint[] 
+        ,id_street_type_tmp       integer 
+        ,fias_type_name           varchar(250) 
+        ,nm_street_type_tmp       varchar(50) 
+        ,fias_type_shortname      varchar(50) 
+        ,nm_street_type_short_tmp varchar(10) 
+        ,fias_row_key             text   
+        
+     );
+     
+     COMMENT ON TYPE gar_tmp.zzz_adr_street_type_t IS 'С_Адреса #2 (adr_street_type), промежуточная структура';
+
+    EXCEPTION           
+       WHEN OTHERS THEN 
+           RAISE WARNING '%, %', SQLSTATE, SQLERRM;
+   END;
+  $$;
+  
+DROP TYPE IF EXISTS gar_tmp.zzz_adr_house_t CASCADE;
+DO
+  $$
+   BEGIN
+     CREATE TYPE gar_tmp.zzz_adr_house_type_t AS (
+         
+       id_house_type       integer     -- ID типа, ОСНОВНОЙ	
+      ,nm_house_type       varchar(50) -- Наименованиек типа, ОСНОВНОЕ
+      ,nm_house_type_short varchar(10) -- Краткое наименованиек типа, ОСНОВНОЕ
+      ,kd_house_type_lvl   integer     -- Код уровня ОСНОВНОЙ
+      ,dt_data_del	       timestamp without time zone -- Дата удаления ОСНОВНАЯ
+       ----
+      ,fias_ids                bigint[]    -- Исходные идентификаторы ГАР-ФИАС 
+      ,id_house_type_tmp       integer     -- ID типа, ПРОМЕЖУТОЧНЫЙ
+      ,fias_type_name	       varchar(50) -- Наименованиек типа, ГАР-ФИАС
+      ,nm_house_type_tmp  	   varchar(50) -- Наименованиек типа, ПРОМЕЖУТОЧНОЕ
+      ,fias_type_shortname     varchar(20) -- Краткое имя типа, ГАР-ФИАС
+      ,nm_house_type_short_tmp varchar(10) -- Краткое наименованиек типа ПРОМЕЖУТОЧНОЕ,
+      ,fias_row_key	           text        -- Уникальный идентификатор строки
+     );
+     
+     COMMENT ON TYPE gar_tmp.zzz_adr_house_type_t IS 'С_Адреса_#3 (adr_house_type), промежуточная структура';
+
+    EXCEPTION           
+       WHEN OTHERS THEN 
+           RAISE WARNING '%, %', SQLSTATE, SQLERRM;
+   END;
+  $$;

@@ -1,0 +1,162 @@
+hosts:
+       -                   
+           name: init_01
+           descr: Адыгея Респ
+           conninfo: host=10.196.35.165 port=5432 dbname=postgres user=postgres password=postgres1
+           params:
+               id_region: 2
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/01/stage_0_01.csv
+       -                   
+           name: init_03
+           descr: Бурятия Респ
+           conninfo: host=10.196.35.165 port=5432 dbname=postgres user=postgres password=postgres1
+           params:
+               id_region: 3
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/03/stage_0_03.csv
+       -                   
+           name: init_02
+           descr: Башкортостан Респ
+           conninfo: host=10.196.35.165 port=5432 dbname=postgres user=postgres password=postgres1
+           params:
+               id_region: 4
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/02/stage_0_02.csv
+       -                   
+           name: init_04
+           descr: Алтай Респ
+           conninfo: host=10.196.35.165 port=5432 dbname=postgres user=postgres password=postgres1
+           params:
+               id_region: 5
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/04/stage_0_04.csv
+       -                   
+           name: init_05
+           descr: Дагестан Респ
+           conninfo: host=10.196.35.165 port=5432 dbname=postgres user=postgres password=postgres1
+           params:
+               id_region: 6
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/05/stage_0_05.csv
+       -                   
+           name: init_06
+           descr: Ингушетия Респ
+           conninfo: host=10.196.35.165 port=5432 dbname=postgres user=postgres password=postgres1
+           params:
+               id_region: 7
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/06/stage_0_06.csv
+       -                   
+           name: init_07
+           descr: Кабардино-Балкарская Респ
+           conninfo: host=10.196.35.165 port=5432 dbname=postgres user=postgres password=postgres1
+           params:
+               id_region: 8
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/07/stage_0_07.csv
+       -                   
+           name: init_08
+           descr: Калмыкия Респ
+           conninfo: host=10.196.35.165 port=5432 dbname=postgres user=postgres password=postgres1
+           params:
+               id_region: 9
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/08/stage_0_08.csv
+       -                   
+           name: init_09
+           descr: Карачаево-Черкесская Респ
+           conninfo: host=10.196.35.165 port=5432 dbname=postgres user=postgres password=postgres1
+           params:
+               id_region: 10
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/09/stage_0_09.csv
+       -                   
+           name: init_10
+           descr: Карелия Респ
+           conninfo: host=10.196.35.165 port=5432 dbname=postgres user=postgres password=postgres1
+           params:
+               id_region: 11
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/10/stage_0_10.csv
+       -                   
+           name: init_11
+           descr: Коми Респ
+           conninfo: host=10.196.35.165 port=5432 dbname=postgres user=postgres password=postgres1
+           params:
+               id_region: 12
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/11/stage_0_11.csv
+       -                   
+           name: init_12
+           descr: Марий Эл Респ
+           conninfo: host=10.196.35.165 port=5432 dbname=postgres user=postgres password=postgres1
+           params:
+               id_region: 13
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/12/stage_0_12.csv
+       -                   
+           name: init_13
+           descr: Мордовия Респ
+           conninfo: host=10.196.35.165 port=5432 dbname=postgres user=postgres password=postgres1
+           params:
+               id_region: 14
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/13/stage_0_13.csv
+       -                   
+           name: init_14
+           descr: Саха /Якутия/ Респ
+           conninfo: host=10.196.35.165 port=5432 dbname=postgres user=postgres password=postgres1
+           params:
+               id_region: 15
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/14/stage_0_14.csv
+       -                   
+           name: init_15
+           descr: Северная Осетия - Алания Респ
+           conninfo: host=10.196.35.165 port=5432 dbname=postgres user=postgres password=postgres1
+           params:
+               id_region: 16
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/15/stage_0_15.csv
+       -                   
+           name: init_16
+           descr: Татарстан Респ
+           conninfo: host=10.196.35.165 port=5432 dbname=postgres user=postgres password=postgres1
+           params:
+               id_region: 17
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/16/stage_0_16.csv
+       -                   
+           name: init_17
+           descr: Тыва Респ
+           conninfo: host=10.196.35.165 port=5432 dbname=postgres user=postgres password=postgres1
+           params:
+               id_region: 18
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/17/stage_0_17.csv
+       -                   
+           name: init_18
+           descr: Удмуртская Респ
+           conninfo: host=10.196.35.165 port=5432 dbname=postgres user=postgres password=postgres1
+           params:
+               id_region: 19
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/18/stage_0_18.csv
+       -                   
+           name: init_19
+           descr: Хакасия Респ
+           conninfo: host=10.196.35.165 port=5432 dbname=postgres user=postgres password=postgres1
+           params:
+               id_region: 20
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/19/stage_0_19.csv
+       -                   
+           name: init_20
+           descr: Чеченская Респ
+           conninfo: host=10.196.35.165 port=5432 dbname=postgres user=postgres password=postgres1
+           params:
+               id_region: 21
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/20/stage_0_20.csv
+        

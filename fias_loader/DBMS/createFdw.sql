@@ -14,42 +14,15 @@ DROP SERVER IF EXISTS unnsi_l CASCADE;
 CREATE SERVER IF NOT EXISTS unnsi_l FOREIGN DATA WRAPPER postgres_fdw OPTIONS (host '127.0.0.1', dbname 'unnsi', port '5434');
 CREATE USER MAPPING IF NOT EXISTS FOR postgres SERVER unnsi_l OPTIONS (user 'postgres', password '');
 --
-DROP SERVER IF EXISTS unnsi_nl CASCADE;
-CREATE SERVER IF NOT EXISTS unnsi_nl FOREIGN DATA WRAPPER postgres_fdw OPTIONS (host '127.0.0.1', dbname 'unnsi_n', port '5434');
-CREATE USER MAPPING IF NOT EXISTS FOR postgres SERVER unnsi_nl OPTIONS (user 'postgres', password '');
+DROP SERVER IF EXISTS unnsi_m10l CASCADE;
+CREATE SERVER IF NOT EXISTS unnsi_m10l FOREIGN DATA WRAPPER postgres_fdw OPTIONS (dbname 'unnsi_m10', host '127.0.0.1', port '5435');
+CREATE USER MAPPING IF NOT EXISTS FOR postgres SERVER unnsi_m10l OPTIONS (user 'postgres', password '');
 --
-DROP SERVER IF EXISTS unnsi_m6l CASCADE;
-CREATE SERVER IF NOT EXISTS unnsi_m6l FOREIGN DATA WRAPPER postgres_fdw OPTIONS (host '127.0.0.1', dbname 'unnsi_m6', port '5434');
-CREATE USER MAPPING IF NOT EXISTS FOR postgres SERVER unnsi_m6l OPTIONS (user 'postgres', password '');
---
-DROP SERVER IF EXISTS unnsi_m7l CASCADE;
-CREATE SERVER IF NOT EXISTS unnsi_m7l FOREIGN DATA WRAPPER postgres_fdw OPTIONS (host '127.0.0.1', dbname 'unnsi_m7', port '5434');
-CREATE USER MAPPING IF NOT EXISTS FOR postgres SERVER unnsi_m7l OPTIONS (user 'postgres', password '');
---
-DROP SERVER IF EXISTS unnsi_m8l CASCADE;
-CREATE SERVER IF NOT EXISTS unnsi_m8l FOREIGN DATA WRAPPER postgres_fdw OPTIONS (host '127.0.0.1', dbname 'unnsi_m8', port '5434');
-CREATE USER MAPPING IF NOT EXISTS FOR postgres SERVER unnsi_m8l OPTIONS (user 'postgres', password '');
---
-DROP SERVER IF EXISTS unnsi_m9l CASCADE;
-CREATE SERVER IF NOT EXISTS unnsi_m9l FOREIGN DATA WRAPPER postgres_fdw OPTIONS (host '127.0.0.1', dbname 'unnsi_m9', port '5434');
-CREATE USER MAPPING IF NOT EXISTS FOR postgres SERVER unnsi_m9l OPTIONS (user 'postgres', password '');
+DROP SERVER IF EXISTS unnsi_m12l CASCADE;
+CREATE SERVER IF NOT EXISTS unnsi_m12l FOREIGN DATA WRAPPER postgres_fdw OPTIONS (dbname 'unnsi_m12', host '127.0.0.1', port '5434');
+CREATE USER MAPPING IF NOT EXISTS FOR postgres SERVER unnsi_m12l OPTIONS (user 'postgres', password '');
 --
 DROP SERVER IF EXISTS unnsi_dev CASCADE;
 CREATE SERVER IF NOT EXISTS unnsi_dev FOREIGN DATA WRAPPER postgres_fdw OPTIONS (host '10.196.35.11', dbname 'ccrm_dev', port '5432');
 CREATE USER MAPPING IF NOT EXISTS FOR postgres SERVER unnsi_dev OPTIONS (user 'postgres', password 'postgres1');
--- --
--- CREATE SERVER IF NOT EXISTS unnsi_p2 FOREIGN DATA WRAPPER postgres_fdw OPTIONS (host '10.196.35.45', dbname 'unsi', port '5432');
--- CREATE USER MAPPING IF NOT EXISTS FOR postgres SERVER unnsi_p2 OPTIONS (user 'crm', password 'crm105005'); -- ???
---
--- CREATE SCHEMA IF NOT EXISTS unsi;
--- COMMENT ON SCHEMA unsi IS 'N Отдалённые Справочники';
---
--- DROP SCHEMA IF EXISTS unnsi CASCADE;
--- CREATE SCHEMA IF NOT EXISTS unnsi; 
--- COMMENT ON SCHEMA unnsi IS 'NN ОТдалённые Справочники НН';
---
--- IMPORT FOREIGN SCHEMA unsi FROM SERVER unsi_l INTO unsi;   -- unnsi_l
--- IMPORT FOREIGN SCHEMA unnsi FROM SERVER unnsi_m2l INTO unnsi;
--- IMPORT FOREIGN SCHEMA unnsi FROM SERVER unnsi_dev INTO unnsi;
--- IMPORT FOREIGN SCHEMA unnsi FROM SERVER unnsi_l INTO unnsi; 
---
+-- 

@@ -32,6 +32,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_unload_data (
   --  2021-12-31/2022-01-28  Загрузка регионального фрагмента из ОТДАЛЁННОГО справочника 
   --                         адресов домов.
   --  2022-10-14 Выгружаю всё, имеющее значимый uuid.
+  --  2022-12-13 Отмена выгрузки значимого UUID.   
   -- -------------------------------------------------------------------------------------
   DECLARE
     _exec text;
@@ -97,8 +98,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_unload_data (
                      
                FROM aa1 
                    INNER JOIN %I.adr_house h ON (h.id_area = aa1.id_area)
-              
-               WHERE (h.nm_fias_guid IS NOT NULL); 
+              ;
+              -- WHERE (h.nm_fias_guid IS NOT NULL); -- 2022-12-13
     $_$;
   
     -- (h.dt_data_del IS NULL) AND (h.id_data_etalon IS NULL) AND 

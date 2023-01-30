@@ -1,0 +1,122 @@
+hosts:
+       -                   
+           name: unnsi_01
+           descr: Адыгея Респ
+           conninfo: host=10.196.35.165 port=5432 dbname=unsi_test_01 user=postgres password=postgres1
+           params:
+               id_region: 2
+       -                   
+           name: unnsi_03
+           descr: Бурятия Респ
+           conninfo: host=10.196.35.165 port=5432 dbname=unsi_test_03 user=postgres password=postgres1
+           params:
+               id_region: 3
+       -                   
+           name: unnsi_02
+           descr: Башкортостан Респ
+           conninfo: host=10.196.35.165 port=5432 dbname=unsi_test_02 user=postgres password=postgres1
+           params:
+               id_region: 4
+       -                   
+           name: unnsi_04
+           descr: Алтай Респ
+           conninfo: host=10.196.35.165 port=5432 dbname=unsi_test_04 user=postgres password=postgres1
+           params:
+               id_region: 5
+       -                   
+           name: unnsi_05
+           descr: Дагестан Респ
+           conninfo: host=10.196.35.165 port=5432 dbname=unsi_test_05 user=postgres password=postgres1
+           params:
+               id_region: 6
+       -                   
+           name: unnsi_06
+           descr: Ингушетия Респ
+           conninfo: host=10.196.35.165 port=5432 dbname=unsi_test_06 user=postgres password=postgres1
+           params:
+               id_region: 7
+       -                   
+           name: unnsi_07
+           descr: Кабардино-Балкарская Респ
+           conninfo: host=10.196.35.165 port=5432 dbname=unsi_test_07 user=postgres password=postgres1
+           params:
+               id_region: 8
+       -                   
+           name: unnsi_08
+           descr: Калмыкия Респ
+           conninfo: host=10.196.35.165 port=5432 dbname=unsi_test_08 user=postgres password=postgres1
+           params:
+               id_region: 9
+       -                   
+           name: unnsi_09
+           descr: Карачаево-Черкесская Респ
+           conninfo: host=10.196.35.165 port=5432 dbname=unsi_test_09 user=postgres password=postgres1
+           params:
+               id_region: 10
+       -                   
+           name: unnsi_10
+           descr: Карелия Респ
+           conninfo: host=10.196.35.165 port=5432 dbname=unsi_test_10 user=postgres password=postgres1
+           params:
+               id_region: 11
+       -                   
+           name: unnsi_11
+           descr: Коми Респ
+           conninfo: host=10.196.35.165 port=5432 dbname=unsi_test_11 user=postgres password=postgres1
+           params:
+               id_region: 12
+       -                   
+           name: unnsi_12
+           descr: Марий Эл Респ
+           conninfo: host=10.196.35.165 port=5432 dbname=unsi_test_12 user=postgres password=postgres1
+           params:
+               id_region: 13
+       -                   
+           name: unnsi_13
+           descr: Мордовия Респ
+           conninfo: host=10.196.35.165 port=5432 dbname=unsi_test_13 user=postgres password=postgres1
+           params:
+               id_region: 14
+       -                   
+           name: unnsi_14
+           descr: Саха /Якутия/ Респ
+           conninfo: host=10.196.35.165 port=5432 dbname=unsi_test_14 user=postgres password=postgres1
+           params:
+               id_region: 15
+       -                   
+           name: unnsi_15
+           descr: Северная Осетия - Алания Респ
+           conninfo: host=10.196.35.165 port=5432 dbname=unsi_test_15 user=postgres password=postgres1
+           params:
+               id_region: 16
+       -                   
+           name: unnsi_16
+           descr: Татарстан Респ
+           conninfo: host=10.196.35.165 port=5432 dbname=unsi_test_16 user=postgres password=postgres1
+           params:
+               id_region: 17
+       -                   
+           name: unnsi_17
+           descr: Тыва Респ
+           conninfo: host=10.196.35.165 port=5432 dbname=unsi_test_17 user=postgres password=postgres1
+           params:
+               id_region: 18
+       -                   
+           name: unnsi_18
+           descr: Удмуртская Респ
+           conninfo: host=10.196.35.165 port=5432 dbname=unsi_test_18 user=postgres password=postgres1
+           params:
+               id_region: 19
+       -                   
+           name: unnsi_19
+           descr: Хакасия Респ
+           conninfo: host=10.196.35.165 port=5432 dbname=unsi_test_19 user=postgres password=postgres1
+           params:
+               id_region: 20
+       -                   
+           name: unnsi_20
+           descr: Чеченская Респ
+           conninfo: host=10.196.35.165 port=5432 dbname=unsi_test_20 user=postgres password=postgres1
+           params:
+               id_region: 21
+        

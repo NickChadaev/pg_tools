@@ -14,7 +14,7 @@ from GarProcess import stage_3_yaml as Yaml3
 from MainProcess import fd_0 as Fd0
 from MainProcess import fd_log as FdLog
 
-VERSION_STR = "  Version 0.1.0 Build 2022-09-02"
+VERSION_STR = "  Version 0.3.0 Build 2022-12-06"
 
 CONN_ABORTED = "... Connection aborted: "
 OP_ABORTED = "... Operation aborted: "
@@ -118,17 +118,30 @@ class make_main (Proc3.proc_patterns, Yaml3.yaml_patterns, Fd0.fd_0, fd_log_z):
          
      return rc           
 
+ def stage_3_I ( self, p_MOGRIFY ): 
+    """
+     Начальные установки.
+    """
+    self.MOGRIFY = p_MOGRIFY
+    rc = 0
+    
+    # Проверка региона 
+    rc = self.stage_3 (self.get_region_info.format (self.g_adr_area_sch, self.region_id))
+
+    # Установка индексного покрытия в схеме gar_fias;
+    if not self.gf_cidx_skip:  
+        rc = self.stage_3 (self.gar_tmp_p_gar_fias_crt_idx.format (self.gf_cidx_sw),\
+            self.gf_cidx_descr)
+                    
+    return rc
+
+
  def stage_3_9 ( self, p_MOGRIFY ): 
     """
      Дефектные данные
     """
     self.MOGRIFY = p_MOGRIFY
     rc = 0
-    
-    # Установка индексного покрытия в схеме gar_fias;
-    if not self.gf_cidx_skip:  
-        rc = self.stage_3 (self.gar_tmp_p_gar_fias_crt_idx.format (self.gf_cidx_sw),\
-            self.gf_cidx_descr)
      
     # Адресные регионы, заполнение таблицы дефектов.
     if not self.gar_fias_set_gap_adr_area_skip:     
@@ -209,16 +222,44 @@ class make_main (Proc3.proc_patterns, Yaml3.yaml_patterns, Fd0.fd_0, fd_log_z):
     """
     self.MOGRIFY = p_MOGRIFY
     rc = 0
-    # Проверка региона 
-    rc = self.stage_3 (self.get_region_info.format (self.region_id))
+
+    # Загрузка данных из таблицы ADR_AREA_TYPE (unload_data) 
+    if not self.unload_adr_area_type_skip: 
+
+        rc = self.stage_3 (self.gar_tmp_p_adr_area_type_unload.format\
+                (self.g_adr_area_sch_l, self.g_adr_area_sch), self.unload_adr_area_type_descr)
+
+    # Загрузка данных из таблицы ADR_STREET_TYPE (unload_data) 
+    if not self.unload_adr_street_type_skip: 
+
+        rc = self.stage_3 (self.gar_tmp_p_adr_street_type_unload.format\
+                (self.g_adr_street_sch_l, self.g_adr_street_sch), self.unload_adr_street_type_descr)
+
+    # Загрузка данных из таблицы ADR_HOUSE_TYPE (unload_data) 
+    if not self.unload_adr_house_type_skip: 
+
+        rc = self.stage_3 (self.gar_tmp_p_adr_house_type_unload.format\
+                (self.g_adr_house_sch_l, self.g_adr_house_sch), self.unload_adr_house_type_descr)
+
+    # Загрузка регионального фрагмента из таблицы ADR_AREA (unload_data) 
+    if not self.unload_adr_area_skip: 
+
+        rc = self.stage_3 (self.gar_tmp_p_adr_area_unload.format\
+                (self.g_adr_area_sch, self.region_id, self.g_fhost_id), self.unload_adr_area_descr)
+
+    # Загрузка регионального фрагмента из таблицы ADR_STREET (unload_data) 
+    if not self.unload_adr_street_skip: 
+
+        rc = self.stage_3 (self.gar_tmp_p_adr_street_unload.format\
+                (self.g_adr_street_sch, self.region_id, self.g_fhost_id), self.unload_adr_street_descr)
     
     # Загрузка регионального фрагмента из таблицы ADR_HOUSE (unload_data) 
-    if not self.gt_und_skip: 
+    if not self.unload_adr_house_skip: 
 
         rc = self.stage_3 (self.gar_tmp_p_adr_house_unload.format\
-                (self.g_adr_house_sch, self.region_id, self.g_fhost_id), self.gt_und_descr)
+                (self.g_adr_house_sch, self.region_id, self.g_fhost_id), self.unload_adr_house_descr)
 
-        if not self.gt_und_skip_adr_object:
+        if not self.unload_adr_house_skip_adr_object:
             self.write_log_1 ('NOT Skip_adr_object')
 
             rc = self.stage_3 (self.gar_tmp_p_adr_object_unload.format\
@@ -229,14 +270,22 @@ class make_main (Proc3.proc_patterns, Yaml3.yaml_patterns, Fd0.fd_0, fd_log_z):
 
         rc = self.stage_3 (self.gar_tmp_f_xxx_obj_seq_crt.format\
                 (self.seq_set_seq_name, self.region_id, self.seq_set_init_val,\
-                    self.g_adr_area_sch, self.g_adr_street_sch, self.g_adr_house_sch,\
-                        self.seq_set_seq_hist_name), self.seq_set_descr)
+                    self.seq_set_adr_area_sch, self.seq_set_adr_street_sch,\
+                        self.seq_set_adr_house_sch, self.seq_set_seq_hist_name),\
+                            self.seq_set_descr)
 
     return rc
 
  def stage_3_2 ( self, p_MOGRIFY): 
     """
       Актуализация справочников
+        ##
+        #0;SELECT gar_tmp_pcg_trans.f_xxx_adr_area_type_set ('gar_tmp'::text,NULL, ARRAY [1]);; -- Установка xxx_adr_area_type;
+        #0;; -- Update xxx_adr_area_type;
+        ##
+        #0;SELECT gar_tmp_pcg_trans.f_xxx_street_type_set ('gar_tmp',NULL, ARRAY [1]);; -- Установка xxx_adr_street_type;
+        #0;SELECT gar_tmp_pcg_trans.f_xxx_house_type_set ('gar_tmp',NULL, ARRAY [1]);;  -- Установка xxx_adr_house_type;
+        ##      
     """
     self.MOGRIFY = p_MOGRIFY
     rc = 0
@@ -244,40 +293,50 @@ class make_main (Proc3.proc_patterns, Yaml3.yaml_patterns, Fd0.fd_0, fd_log_z):
     # Актуализация справочников
     self.write_log_1 (self.dict_upgr_descr)
     
+    if self.dict_upgr_schs.__len__() == 0:
+        dict_upgr_schs = 'NULL'
+    else:
+        dict_upgr_schs = "ARRAY " + str(self.dict_upgr_schs)
+            
     # Актуализация справочников (адресные пространства).
     if not self.dict_upgr_aa_skip_1:
-        
-        self.dict_upgr_aa_stop_11 = []
-        for stop_1 in self.dict_upgr_aa_stop_1:
-            self.dict_upgr_aa_stop_11.append(stop_1.encode(bCP))
             
         rc = self.stage_3 (self.gar_tmp_f_xxx_adr_area_type_set.format\
-            (self.dict_upgr_sch_etalon, self.dict_upgr_schs, self.dict_upgr_op_type,\
-                self.dict_upgr_date, self.dict_upgr_aa_stop_11), self.dict_upgr_aa_descr_1)
+            (self.g_adr_area_sch_l, dict_upgr_schs, self.dict_upgr_op_type),\
+                self.dict_upgr_aa_descr_1)
+
+        if not (self.dict_upgr_aa_add_query_1 == None):
+            rc = self.stage_3 (self.dict_upgr_aa_add_query_1)    
+            
+        if not (self.dict_upgr_aa_control_query_1 == None):    
+            rc = self.stage_3 (self.dict_upgr_aa_control_query_1)
 
     # Актуализация справочников (улицы, частный случай адресных пространств).
-    # Пересечение справочников !!!  Обновлять их в процессе обработки.
     if not self.dict_upgr_as_skip_2:
-        
-        self.dict_upgr_as_stop_21 = []
-        for stop_2 in self.dict_upgr_as_stop_2:
-            self.dict_upgr_as_stop_21.append(stop_2.encode(bCP))
             
         rc = self.stage_3 (self.gar_tmp_f_xxx_street_type_set.format\
-            (self.dict_upgr_sch_etalon, self.dict_upgr_schs, self.dict_upgr_op_type,\
-                self.dict_upgr_date, self.dict_upgr_as_stop_21), self.dict_upgr_as_descr_2)
+            (self.g_adr_area_sch_l, dict_upgr_schs, self.dict_upgr_op_type),\
+                self.dict_upgr_as_descr_2)
+
+        if not (self.dict_upgr_as_add_query_2 == None):
+            rc = self.stage_3 (self.dict_upgr_as_add_query_2)    
+            
+        if not (self.dict_upgr_as_control_query_2 == None):    
+            rc = self.stage_3 (self.dict_upgr_as_control_query_2)        
         
     # Дома
     if not self.dict_upgr_ah_skip_3:
         
-        self.dict_upgr_ah_stop_31 = []
-        for stop_3 in self.dict_upgr_ah_stop_3:
-            self.dict_upgr_ah_stop_31.append(stop_3.encode(bCP))
-            
         rc = self.stage_3 (self.gar_tmp_f_xxx_house_type_set.format\
-            (self.dict_upgr_sch_etalon, self.dict_upgr_schs, self.dict_upgr_op_type,\
-                self.dict_upgr_date, self.dict_upgr_ah_stop_31), self.dict_upgr_ah_descr_3)
-        
+            (self.g_adr_area_sch_l, dict_upgr_schs, self.dict_upgr_op_type),\
+                self.dict_upgr_ah_descr_3)
+
+        if not (self.dict_upgr_ah_add_query_3 == None):
+            rc = self.stage_3 (self.dict_upgr_ah_add_query_3)    
+            
+        if not (self.dict_upgr_ah_control_query_3 == None):    
+            rc = self.stage_3 (self.dict_upgr_ah_control_query_3)        
+
     return rc
 
  def stage_3_3 ( self, p_MOGRIFY): 
@@ -312,14 +371,21 @@ class make_main (Proc3.proc_patterns, Yaml3.yaml_patterns, Fd0.fd_0, fd_log_z):
             
     # Заполнение таблицы "gar_tmp.xxx_obj_fias"        
     if not self.skip_obj_fias:
+
+        l_area_sch = self.g_adr_area_sch           # Установлена отдалённая схема.
+        if self.switch_adr_area_sch:
+            l_area_sch = self.g_adr_area_sch_l     # Установлена локальная схема.
+        
+        l_street_sch = self.g_adr_street_sch           # Установлена отдалённая схема.
+        if self.switch_adr_street_sch:
+            l_street_sch = self.g_adr_street_sch_l     # Установлена локальная схема.
         
         l_house_sch = self.g_adr_house_sch           # Установлена отдалённая схема.
-        if self.switch_house_sch:
+        if self.switch_adr_house_sch:
             l_house_sch = self.g_adr_house_sch_l     # Установлена локальная схема.
 
         rc = self.stage_3 (self.gar_tmp_f_xxx_obj_fias_set_data.format\
-            (self.g_adr_area_sch, self.g_adr_street_sch, l_house_sch),\
-                self.obj_fias_descr)
+            (l_area_sch, l_street_sch, l_house_sch), self.obj_fias_descr)
                
     return rc
 
@@ -330,7 +396,7 @@ if __name__ == '__main__':
              Main entrypoint for the class
         """
 #                  1       2        3          4            5             6        7        8    
-        sa = " <Host_IP> <Port> <DB_name> <User_name> <YAML_file_name> <Path> <Id_region> <Дата>"
+        sa = " <Host_IP> <Port> <DB_name> <User_name> <YAML_file_name> <Path> <Id_region> <Date>"
         if ( len( sys.argv ) - 1 ) < 8:
             print VERSION_STR 
             print "  Usage: " + str ( sys.argv [0] ) + sa
@@ -345,6 +411,9 @@ if __name__ == '__main__':
      
         mm.open_log (bLOG_NAME, sys.argv[6], s_lp)
         mm.write_log_first ()
+
+        if mm.stage_3_I_on: 
+            rc = mm.stage_3_I ( mm.mogrify_3_I )
 
         if mm.stage_3_9_on: 
             rc = mm.stage_3_9 ( mm.mogrify_3_9 )

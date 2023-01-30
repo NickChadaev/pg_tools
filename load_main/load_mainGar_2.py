@@ -20,7 +20,7 @@ from yaml.loader import SafeLoader
 
 import load_mainGar as LoadGar
 
-VERSION_STR = "  Version 0.3.0 Build 2022-05-11"
+VERSION_STR = "  Version 0.5.5 Build 2023-01-13"
 
 YAML_NOT_OPENED_0 = "... Yaml file not opened: '"
 YAML_NOT_OPENED_1 = "'."

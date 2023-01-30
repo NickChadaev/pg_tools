@@ -49,20 +49,20 @@ COMMENT ON COLUMN gar_link.foreign_servers.date_create    IS 'Дата созд�
 /*     СВОДИМ в единое целое все внешие сервера.                */
 /*==============================================================*/
 
-SET search_path=gar_link;
+-- SET search_path=gar_link;
 
 /*==============================================================*/
 /* Table: gar_link.foreign_servers                              */
 /*==============================================================*/
-INSERT INTO gar_link.foreign_servers (node_id, fserver_name, host
-                         , dbname, port, db_conn_name, local_sch_name, active_sign
-)
- VALUES (1,'unnsi_dev','10.196.35.11','ccrm_dev',  5432, 'c_ccrm_dev',  'unnsi', true)
-       ,(2,'unnsi_l',  '127.0.0.1',   'unnsi',     5434, 'c_unnsi_l',   'unnsi', false)
-       ,(9,'unnsi_ml', '127.0.0.1',   'unnsi_m',   5434, 'c_unnsi_ml',  'unnsi', false)
-       ,(4,'unnsi_nl', '127.0.0.1',   'unnsi_n',   5434, 'c_unnsi_nl',  'unnsi', false)
-       ,(5,'unnsi_p2', '10.196.35.45','unsi',      5432, 'c_unsi_p2',   'unsi' , false)
-       ,(6,'unsi_l',   '127.0.0.1',   'unsi',      5434, 'c_unsi_l',    'unsi' , false)
-       ,(3,'unnsi_m2l','127.0.0.1',   'unnsi_m2',  5434, 'c_unnsi_m2l', 'unnsi', true)       
-;
+-- INSERT INTO gar_link.foreign_servers (node_id, fserver_name, host
+--                         , dbname, port, db_conn_name, local_sch_name, active_sign
+--)
+-- VALUES (1,'unnsi_dev','10.196.35.11','ccrm_dev',  5432, 'c_ccrm_dev',  'unnsi', true)
+--       ,(2,'unnsi_l',  '127.0.0.1',   'unnsi',     5434, 'c_unnsi_l',   'unnsi', false)
+--       ,(9,'unnsi_ml', '127.0.0.1',   'unnsi_m',   5434, 'c_unnsi_ml',  'unnsi', false)
+--       ,(4,'unnsi_nl', '127.0.0.1',   'unnsi_n',   5434, 'c_unnsi_nl',  'unnsi', false)
+--       ,(5,'unnsi_p2', '10.196.35.45','unsi',      5432, 'c_unsi_p2',   'unsi' , false)
+--       ,(6,'unsi_l',   '127.0.0.1',   'unsi',      5434, 'c_unsi_l',    'unsi' , false)
+--       ,(3,'unnsi_m2l','127.0.0.1',   'unnsi_m2',  5434, 'c_unnsi_m2l', 'unnsi', true)       
+-- ;
 -- SELECT * FROM gar_link.foreign_servers;

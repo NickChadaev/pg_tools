@@ -1,6 +1,3 @@
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_street_upd (text[], uuid[]);
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_street_upd (text, text, text, uuid[], boolean);
-
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_street_upd (text, text, text, uuid[], boolean, boolean);
 CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_upd (
            p_schema_data    text -- Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
@@ -9,15 +6,18 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_upd (
           ,p_nm_guids_fias  uuid[]  = NULL -- Список обрабатываемых GUID, NULL - все.
           ,p_sw_hist        boolean = TRUE  -- Создаётся историческая запись.  
           ,p_sw_duble       boolean = FALSE -- Обязательное выявление дубликатов
+           --
+          ,OUT total_row  integer  -- Общее количество обработанных строк.
+          ,OUT upd_row    integer  -- Из них обновлено.
 )
-    RETURNS integer
+    RETURNS setof record
     LANGUAGE plpgsql
  AS
   $$
    DECLARE
      _r_upd   integer := 0;  
      
-     _data   RECORD;  
+     _data   gar_tmp.xxx_adr_street_proc_t;  
      _parent gar_tmp.adr_area_t;
      
      _id_street_type          bigint;
@@ -25,12 +25,17 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_upd (
      --
      --  2021-12-20
      --
-     _id_street   bigint; 
+     _id_street   bigint;
+     --
+     -- 2022-10-18
+     --
+     UPD_OP CONSTANT char(1) := 'U';
      
    BEGIN
     -- --------------------------------------------------------------------------
     --  2021-12-14/2022-02-10 Nick  Обновление адресов улиц.
-    --  2022-02-21 - фильтрация данных по справочнику типов.  
+    --  2022-10-18 - Вспомогательные таблицы.
+    --  2022-11-21 - Преобразование типов ФИАС -> ЕС НСИ.  
     -- --------------------------------------------------------------------------
     --  p_schema_data   -- Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
     --  p_schema_etl    -- Схема эталон, обычно локальный сервер, копия p_schema_data 
@@ -75,10 +80,25 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_upd (
 	              )          
           ORDER BY x.tree_d 
        LOOP
-       
-          SELECT id_street_type, nm_street_type_short 
-              INTO _id_street_type, _street_type_short_name
-           FROM gar_tmp.xxx_adr_street_type WHERE (_data.id_street_type = ANY (fias_ids));
+          -- Nick 2022-11-21/2022-12-05
+          _id_street_type := NULL;
+          _street_type_short_name := NULL;
+          
+          IF (EXISTS (SELECT 1 FROM gar_tmp.xxx_adr_street_type 
+                                 WHERE (_data.id_street_type = ANY (fias_ids))
+                     )
+              ) 
+            THEN  
+                 SELECT id_street_type, nm_street_type_short 
+                     INTO _id_street_type, _street_type_short_name
+                  FROM gar_tmp_pcg_trans.f_street_type_get (p_schema_etl, _data.id_street_type);
+               
+            ELSIF (_data.id_street_type IS NOT NULL) 
+                THEN
+                     CALL gar_tmp_pcg_trans.p_xxx_adr_street_gap_put(_data);
+          END IF;           
+          --  Nick 2022-11-21/2022-12-05           
+          
           CONTINUE WHEN ((_id_street_type IS NULL) OR (_street_type_short_name IS NULL)); -- 2022-02-21     
          
           _parent := gar_tmp_pcg_trans.f_adr_area_get (p_schema_etl, _data.nm_fias_guid_area);
@@ -107,7 +127,10 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_upd (
           _r_upd := _r_upd + 1; 
        END LOOP;
    
-    RETURN _r_upd;
+    total_row := _r_upd;
+    upd_row := (SELECT count(1) FROM gar_tmp.adr_street_aux WHERE (op_sign = UPD_OP));
+    
+    RETURN NEXT;       
     
    END;                   
   $$;

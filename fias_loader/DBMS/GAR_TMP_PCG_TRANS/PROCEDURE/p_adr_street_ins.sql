@@ -1,9 +1,4 @@
 DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_street_ins (
-                text, bigint, bigint, varchar(120), integer, varchar(255)      
-               ,uuid, bigint, varchar(15), numeric, numeric                             
- ); 
- 
-DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_street_ins (
                 text, text, bigint, bigint, varchar(120), integer, varchar(255)      
                ,uuid, bigint, varchar(15), numeric, numeric, boolean                             
  );  
@@ -44,7 +39,10 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_ins (
     --  "adr_area", "adr_street".     
     -- ----------------------------------------------------------------------
     --  2022-05-31 COALESCE только для NOT NULL полей.    
-    -- -----------------------------------------------------------------------    
+    -- -------------------------------------------------------------------------
+    --   2022-10-18 Вспомогательные таблицы..
+    -- -------------------------------------------------------------------------    
+    
     DECLARE
       _exec  text;
       
@@ -73,7 +71,7 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_ins (
                            ,%L::varchar(15)               
                            ,%L::numeric                    
                            ,%L::numeric                   
-                 );      
+                 ) RETURNING id_street;      
               $_$;
               
      _ins_hist text = $_$
@@ -123,7 +121,12 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_ins (
        $_$;        
        -- 2022-05-31
         
-      _rr  gar_tmp.adr_street_t;   
+      _rr  gar_tmp.adr_street_t; 
+      
+       -- 2022-10-18
+      _id_street bigint; 
+      INS_OP CONSTANT char(1) := 'I';
+      UPD_OP CONSTANT char(1) := 'U';      
       
     BEGIN
     --
@@ -142,7 +145,12 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_ins (
                        ,p_vl_addr_latitude 
                        ,p_vl_addr_longitude
       );            
-      EXECUTE _exec;      
+      EXECUTE _exec INTO _id_street;
+      
+      INSERT INTO gar_tmp.adr_street_aux (id_street, op_sign)
+       VALUES (_id_street, INS_OP)
+          ON CONFLICT (id_street) DO UPDATE SET op_sign = INS_OP
+              WHERE (gar_tmp.adr_street_aux.id_street = excluded.id_street);
       
     EXCEPTION  -- Возникает на отдалённоми сервере, уникальность AK.            
        WHEN unique_violation THEN 
@@ -189,6 +197,11 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_ins (
                                        ,_rr.id_street
                 );
                 EXECUTE _exec; -- Смена значения UUID
+                
+                INSERT INTO gar_tmp.adr_street_aux (id_street, op_sign)
+                  VALUES (_rr.id_street, UPD_OP)
+                    ON CONFLICT (id_street) DO UPDATE SET op_sign = UPD_OP
+                        WHERE (gar_tmp.adr_street_aux.id_street = excluded.id_street);                
             
             END IF; -- _rr.id_street IS NOT NULL
  		  END;  -- unique_violation

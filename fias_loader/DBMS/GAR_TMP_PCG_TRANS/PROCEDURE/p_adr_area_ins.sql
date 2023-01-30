@@ -1,10 +1,4 @@
 DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_area_ins (
-                text, bigint, integer, varchar(120), varchar(4000), integer, bigint, integer
-               ,smallint, varchar(11), uuid, bigint, varchar(11), varchar(20), varchar(15)
-               ,numeric, numeric                        
-);
-
-DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_area_ins (
                 text, text, bigint, integer, varchar(120), varchar(4000), integer, bigint, integer
                ,smallint, varchar(11), uuid, bigint, varchar(11), varchar(20), varchar(15)
                ,numeric, numeric, boolean                        
@@ -54,6 +48,9 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_ins (
     --  "adr_area", "adr_street". 
     -- -------------------------------------------------------------------------
     --   2022-05-31 COALESCE только для NOT NULL полей.    
+    -- -------------------------------------------------------------------------
+    --  2022-10-18 Вспомогательные таблицы.
+    --  2022-11-07 Увеличено количество защищённых (от обновления NULL) столбцов    
     -- -------------------------------------------------------------------------    
     DECLARE
       _exec text;
@@ -96,7 +93,7 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_ins (
                            ,%L::varchar(15)                 
                            ,%L::numeric                    
                            ,%L::numeric                     
-                 );      
+                 ) RETURNING id_area;      
               $_$;
 
       _ins_hist text = $_$
@@ -145,32 +142,38 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_ins (
         -- 2022-05-19/2022-05-31
       _upd_id text = $_$
             UPDATE ONLY %I.adr_area SET  
+            
                  id_country     = COALESCE (%L, id_country    )::integer       -- NOT NULL  
                 ,nm_area        = COALESCE (%L, nm_area       )::varchar(120)  -- NOT NULL
                 ,nm_area_full   = COALESCE (%L, nm_area_full  )::varchar(4000) -- NOT NULL                         
                 ,id_area_type   = %L::integer
                 ,id_area_parent = %L::bigint
                  --
-                ,kd_timezone  = %L::integer                               
-                ,pr_detailed  = COALESCE (%L, pr_detailed )::smallint          -- NOT NULL                          
-                ,kd_oktmo     = %L::varchar(11)  
+                ,kd_timezone  = COALESCE (%L, kd_timezone)::integer       -- 2022-11-07                   
+                ,pr_detailed  = COALESCE (%L, pr_detailed)::smallint      -- NOT NULL                          
+                ,kd_oktmo     = COALESCE (%L, kd_oktmo)::varchar(11)  
                 ,nm_fias_guid = %L::uuid
                 
                 ,dt_data_del    = %L::timestamp without time zone
                 ,id_data_etalon = %L::bigint
                  --
-                ,kd_okato          = %L::varchar(11)                           
-                ,nm_zipcode        = %L::varchar(20)                           
-                ,kd_kladr          = %L::varchar(15)                
+                ,kd_okato   = COALESCE (%L, kd_okato)::varchar(11)         -- 2022-11-07                      
+                ,nm_zipcode = COALESCE (%L, nm_zipcode)::varchar(20)                           
+                ,kd_kladr   = COALESCE (%L, kd_kladr)::varchar(15)                
                 ,vl_addr_latitude  = %L::numeric                               
-                ,vl_addr_longitude = %L::numeric                               
+                ,vl_addr_longitude = %L::numeric  
                     
             WHERE (id_area = %L::bigint);         
         $_$;          
         -- 2022-05-19/2022-05-31
         
-      _rr  gar_tmp.adr_area_t;   
-
+      _rr  gar_tmp.adr_area_t; 
+       
+       -- 2022-10-18
+      _id_area bigint; 
+      INS_OP CONSTANT char(1) := 'I';
+      UPD_OP CONSTANT char(1) := 'U';
+      
     BEGIN
     --
     --  2022-05-19 Значения "p_nm_fias_guid" нет в базе.
@@ -194,7 +197,12 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_ins (
                              ,p_vl_addr_latitude 
                              ,p_vl_addr_longitude                           
        );            
-       EXECUTE _exec;
+       EXECUTE _exec INTO _id_area;
+       --
+       INSERT INTO gar_tmp.adr_area_aux (id_area, op_sign)
+       VALUES (_id_area, INS_OP)
+        ON CONFLICT (id_area) DO UPDATE SET op_sign = INS_OP
+              WHERE (gar_tmp.adr_area_aux.id_area = excluded.id_area);
     
     EXCEPTION  -- Возникает на отдалённом сервере    Повторяю сделанное ???        
        WHEN unique_violation THEN 
@@ -256,6 +264,12 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_ins (
                                       ,_rr.id_area
                   );            
                   EXECUTE _exec;   -- Возможна смена UUID.
+                  
+                  INSERT INTO gar_tmp.adr_area_aux (id_area, op_sign)
+                  VALUES (_rr.id_area, UPD_OP)
+                   ON CONFLICT (id_area) DO UPDATE SET op_sign = UPD_OP
+                         WHERE (gar_tmp.adr_area_aux.id_area = excluded.id_area);                  
+                  
             END IF; -- _rr.id_area IS NOT NULL
           END; -- unique_violation
     END;

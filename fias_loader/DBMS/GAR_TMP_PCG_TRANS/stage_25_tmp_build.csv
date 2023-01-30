@@ -26,7 +26,8 @@
 #-------------------------------------------------------------------------------
 X;;;Start process, Сборка процессингового пакета;
 #
-5;version.sql;;-- Версия 0ea120c/2022-10-14;
+5;version.sql;;-- Версия b1d8909/2023-01-25; 
+5;drop_objects.sql;;-- drop_objects.sql;
 #
 5;FUNCTION/f_xxx_ob_seq_crt.sql  ;;-- f_xxx_ob_seq_crt.sql  ;
 5;FUNCTION/f_xxx_replace_char.sql;;-- f_xxx_replace_char.sql;
@@ -34,6 +35,13 @@ X;;;Start process, Сборка процессингового пакета;
 5;PROCEDURE/p_adr_area_type_set.sql  ;;-- p_adr_area_type_set.sql  ;
 5;PROCEDURE/p_adr_street_type_set.sql;;-- p_adr_street_type_set.sql;
 5;PROCEDURE/p_adr_house_type_set.sql ;;-- p_adr_house_type_set.sql ;
+#
+5;PROCEDURE/p_adr_area_type_unload.sql  ;;-- p_adr_area_type_unload.sql;
+5;PROCEDURE/p_adr_street_type_unload.sql;;-- p_adr_street_type_unload.sql;
+5;PROCEDURE/p_adr_house_type_unload.sql ;;-- p_adr_house_type_unload.sql;
+5;PROCEDURE/p_xxx_adr_house_gap_put.sql ;;-- p_xxx_adr_house_gap_put.sql;
+5;PROCEDURE/p_xxx_adr_street_gap_put.sql;;-- p_xxx_adr_street_gap_put.sql;
+5;PROCEDURE/p_xxx_adr_area_gap_put.sql  ;;-- p_xxx_adr_area_gap_put.sql;
 #
 5;FUNCTION/f_xxx_adr_area_type_show_data.sql  ;;-- f_xxx_adr_area_type_show_data.sql  ;
 5;FUNCTION/f_xxx_adr_area_type_set.sql        ;;-- f_xxx_adr_area_type_set.sql        ;
@@ -43,6 +51,14 @@ X;;;Start process, Сборка процессингового пакета;
 5;FUNCTION/f_xxx_house_type_set.sql           ;;-- f_xxx_house_type_set.sql           ;
 5;FUNCTION/f_xxx_adr_house_show_data.sql      ;;-- f_xxx_adr_house_show_data.sql      ;
 5;FUNCTION/f_xxx_adr_house_set_data.sql       ;;-- f_xxx_adr_house_set_data.sql       ;
+#
+5;FUNCTION/f_adr_house_type_get.sql ;;-- f_adr_house_type_get.sql ;
+5;FUNCTION/f_adr_street_type_get.sql;;-- f_adr_street_type_get.sql;
+5;FUNCTION/f_adr_area_type_get.sql  ;;-- f_adr_area_type_get.sql  ;
+#
+5;FUNCTION/f_zzz_adr_area_type_show_tmp_data.sql;;-- f_zzz_adr_area_type_show_tmp_data.sql;
+5;FUNCTION/f_zzz_street_type_show_tmp_data.sql  ;;-- f_zzz_street_type_show_tmp_data.sql  ;
+5;FUNCTION/f_zzz_house_type_show_tmp_data.sql   ;;-- f_zzz_house_type_show_tmp_data.sql   ;
 #
 5;FUNCTION/f_xxx_obj_fias_0.sql       ;;-- f_xxx_obj_fias_0.sql;
 5;FUNCTION/f_xxx_obj_fias_1.sql       ;;-- f_xxx_obj_fias_1.sql;
@@ -64,19 +80,19 @@ X;;;Start process, Сборка процессингового пакета;
 5;FUNCTION/f_adr_object_get.sql  ;;-- f_adr_object_get.sql  ;
 5;FUNCTION/f_adr_object_get_m.sql;;-- f_adr_object_get_m.sql;
 #
-5;PROCEDURE/p_alt_tbl.sql         ;;-- p_alt_tbl.sql         ;
-5;PROCEDURE/p_clear_tbl.sql       ;;-- p_clear_tbl.sql       ;
+5;PROCEDURE/p_alt_tbl.sql;;-- p_alt_tbl.sql;
+5;PROCEDURE/p_clear_tbl.sql;;-- p_clear_tbl.sql;
 5;PROCEDURE/p_gar_fias_crt_idx.sql;;-- p_gar_fias_crt_idx.sql;
 #
-5;PROCEDURE/p_adr_street_del_twins.sql  ;;-- p_adr_street_del_twins.sql  ; 
-5;PROCEDURE/p_adr_street_check_twins.sql;;-- p_adr_street_check_twins.sql;
+5;FUNCTION/fp_adr_area_del_twins_local.sql;;-- fp_adr_area_del_twins_local.sql;
+5;FUNCTION/fp_adr_area_check_twins_local.sql;;-- fp_adr_area_check_twins_local.sql;
 #
-5;FUNCTION/fp_adr_house_del_twins_0.sql;;-- fp_adr_house_del_twins_0.sql;
-5;FUNCTION/fp_adr_house_del_twins_1.sql;;-- fp_adr_house_del_twins_1.sql;
-5;FUNCTION/fp_adr_house_del_twins_2.sql;;-- fp_adr_house_del_twins_2.sql;
+5;FUNCTION/fp_adr_street_del_twins_local.sql;;-- fp_adr_street_del_twins_local.sql;
+5;FUNCTION/fp_adr_street_check_twins_local.sql;;-- fp_adr_street_check_twins_local.sql;
 #
-5;PROCEDURE/p_adr_house_check_twins_1.sql;;-- p_adr_house_check_twins_1.sql;
-5;PROCEDURE/p_adr_house_check_twins_2.sql;;-- p_adr_house_check_twins_2.sql;
+5;FUNCTION/fp_adr_house_del_twins_local_0.sql;;-- fp_adr_house_del_twins_local_0.sql;
+### 5;FUNCTION/fp_adr_house_del_twins_local_1.sql;;-- fp_adr_house_del_twins_local_1.sql;
+5;FUNCTION/fp_adr_house_check_twins_local.sql;;-- fp_adr_house_check_twins_local.sql;
 #
 5;PROCEDURE/p_adr_house_del_twins.sql;;-- p_adr_house_del_twins.sql УСТАРЕЛО, нужно для: "p_adr_house_ins", "fp_adr_house_upd"; 
 #
@@ -93,7 +109,9 @@ X;;;Start process, Сборка процессингового пакета;
 5;FUNCTION/fp_adr_house_upd.sql   ;;-- fp_adr_house_upd.sql   ;
 #
 5;PROCEDURE/p_adr_area_unload.sql  ;;-- p_adr_area_unload.sql  ;
+5;PROCEDURE/p_adr_area_upload.sql  ;;-- p_adr_area_upload.sql  ;
 5;PROCEDURE/p_adr_street_unload.sql;;-- p_adr_street_unload.sql;
+5;PROCEDURE/p_adr_street_upload.sql;;-- p_adr_street_upload.sql;
 5;PROCEDURE/p_adr_house_unload.sql ;;-- p_adr_house_unload.sql ;
 5;PROCEDURE/p_adr_house_upload.sql ;;-- p_adr_house_upload.sql ;
 5;PROCEDURE/p_adr_object_ins.sql   ;;-- p_adr_object_ins.sql   ;

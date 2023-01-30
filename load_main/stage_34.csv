@@ -27,8 +27,8 @@
 X;;;Start process, Обработка;
 #
 0;SELECT gar_link.f_server_is();; -- gar_link.f_server_is;
-### 3;stage_3.yaml;; -- stage_3 (Предобработка данных);
-4;stage_4.yaml;; -- stage_4 (Обработка данных);
+3;stage_31r.yaml;; -- stage_31r (Предобработка данных);
+4;stage_41r.yaml;; -- stage_41r (Обработка данных);
 #
 X;;;Stop process;
 #-------------------------------------------------------------------------------

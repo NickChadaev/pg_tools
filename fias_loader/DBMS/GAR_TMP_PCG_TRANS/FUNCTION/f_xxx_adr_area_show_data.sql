@@ -12,13 +12,14 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_show_data (
     -- ---------------------------------------------------------------------------------------
     --  2021-10-19/2021-11-19/2022-08-17 Nick 
     --    Функция подготавливает исходные данные для таблицы-прототипа "gar_tmp.xxx_adr_area"
-    --  2021-12-20 - Могут быть несколько активных записей с различными UUID, описывающих
-    --  один и тот-же адресный объект. Выбираю самую свежую (по максимальнлому ID изменения).
-    -- ---------------------------------------------------------------------------------------
+    -- --------------------------------------------------------------------------------------
     --   p_date      date         -- Дата на которую формируется выборка    
     --   p_obj_level bigint       -- Предельный уровень адресных объектов в иерархии.
     --   p_oper_type_ids bigint[] -- Необходимые типы операций  
     -- ---------------------------------------------------------------------------------------
+    --  2021-12-20 - Могут быть несколько активных записей с различными UUID, описывающих
+    --  один и тот-же адресный объект. Выбираю самую свежую (по максимальнлому ID изменения).
+    -- --------------------------------------------------------------------------------------
     
     WITH RECURSIVE aa1 (
                          id_addr_obj       
@@ -281,7 +282,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_show_data (
                                      z.fias_row_key
                                     ) 
                                            AND 
-                                    (r.type_level = z.type_level) AND (r.is_active) 
+                                    (r.type_level = z.type_level) AND (r.is_active) -- 2022-12-29 
                            )  
                              SELECT 
                                  CASE 
@@ -321,7 +322,7 @@ COMMENT ON FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_show_data (date, bigint, bi
 IS 'Функция подготавливает исходные данные для таблицы-прототипа "gar_tmp.xxx_adr_area"';
 ----------------------------------------------------------------------------------
 -- USE CASE:
---    EXPLAIN ANALyZE SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data () WHERE (fias_guid = '22f712f4-091f-4adf-af7f-129ee95b4468'); -- 1184
+--    EXPLAIN ANALyZE SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data () WHERE (nm_addr_obj IN ('Ивушка','Лазарево')); -- 1184
 -- CALL gar_tmp_pcg_trans.p_gar_fias_crt_idx ();
 -- SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data (p_obj_level := 22); 
 -- SELECT count (1) FROM gar_tmp_pcg_trans.as_addr_obj; --7345  --- 1312 ?

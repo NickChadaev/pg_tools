@@ -114,7 +114,7 @@ CREATE OR REPLACE FUNCTION gar_link.f_schema_import (
                        ,local_sch_name
                        ,active_sign
            )
-              VALUES ( (SELECT (max (node_id) +1) FROM gar_link.foreign_servers)
+              VALUES ( COALESCE ((SELECT (max (node_id) +1) FROM gar_link.foreign_servers), 1)
                      ,_fserver_name
                      ,(SELECT option_value::inet FROM information_schema.foreign_server_options 
                           WHERE (foreign_server_name = _fserver_name) AND (option_name = HOST)
@@ -128,7 +128,7 @@ CREATE OR REPLACE FUNCTION gar_link.f_schema_import (
                      , ('c_' || _fserver_name) 
                      ,_lschema_name
                      , TRUE
-                     )
+                    )
                RETURNING node_id INTO _node_id;   
     END IF; -- node_id IS NOT NULL
             

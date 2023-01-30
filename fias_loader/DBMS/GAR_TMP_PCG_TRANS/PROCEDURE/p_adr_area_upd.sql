@@ -1,11 +1,4 @@
 DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_area_upd (
-                text, bigint, integer, varchar(120), varchar(4000), integer, bigint, integer
-               ,smallint, varchar(11), uuid, bigint, varchar(11), varchar(20), varchar(15)
-               ,numeric, numeric 
-               ,bigint
-);
---
-DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_area_upd (
                 text, text, bigint, integer, varchar(120), varchar(4000), integer, bigint, integer
                ,smallint, varchar(11), uuid, bigint, varchar(11), varchar(20), varchar(15)
                ,numeric, numeric 
@@ -59,6 +52,9 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_upd (
     --  "adr_area", "adr_street". 
     -- -------------------------------------------------------------------------------
     --   2022-05-31 COALESCE только для NOT NULL полей.    
+    -- -------------------------------------------------------------------------------
+    --   2022-10-18 Вспомогательные таблицы..
+    --   2022-11-07 Увеличено количество защищённых (от обновления NULL) столбцов
     -- -------------------------------------------------------------------------------     
     DECLARE
       _exec text;
@@ -115,17 +111,17 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_upd (
                 ,id_area_type   = %L::integer
                 ,id_area_parent = %L::bigint
                  --
-                ,kd_timezone  = %L::integer                               
-                ,pr_detailed  = COALESCE (%L, pr_detailed )::smallint          -- NOT NULL                          
-                ,kd_oktmo     = %L::varchar(11)  
+                ,kd_timezone  = COALESCE (%L, kd_timezone)::integer       -- 2022-11-07                   
+                ,pr_detailed  = COALESCE (%L, pr_detailed)::smallint      -- NOT NULL                          
+                ,kd_oktmo     = COALESCE (%L, kd_oktmo)::varchar(11)  
                 ,nm_fias_guid = %L::uuid
                 
                 ,dt_data_del    = %L::timestamp without time zone
                 ,id_data_etalon = %L::bigint
                  --
-                ,kd_okato          = %L::varchar(11)                           
-                ,nm_zipcode        = %L::varchar(20)                           
-                ,kd_kladr          = %L::varchar(15)                
+                ,kd_okato   = COALESCE (%L, kd_okato)::varchar(11)         -- 2022-11-07                      
+                ,nm_zipcode = COALESCE (%L, nm_zipcode)::varchar(20)                           
+                ,kd_kladr   = COALESCE (%L, kd_kladr)::varchar(15)                
                 ,vl_addr_latitude  = %L::numeric                               
                 ,vl_addr_longitude = %L::numeric                               
                     
@@ -135,21 +131,9 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_upd (
         
       _rr   gar_tmp.adr_area_t; 
       _rr1  gar_tmp.adr_area_t;   
-
-      -- _nm_fias_guid uuid;
       
-      -- 2022-02-01 -- Общий родитель, одинаковые UUID но различные названия.
-      --               Ту запись, которая уже была, ПЕРЕМЕЩАЕМ в историю со значением ID_REGION = 0
-      --               (удаляем её из базы).
-      _select_twin  text = $_$
-          SELECT * FROM ONLY %I.adr_area 
-                              WHERE ((nm_fias_guid = %L) AND (id_data_etalon IS NULL) AND (dt_data_del IS NULL));
-      $_$;     
-      
-      _del_twins  text = $_$
-          DELETE FROM ONLY %I.adr_area WHERE (id_area = %L); 
-      $_$;        
-      -- 2022-02-01   
+      -- 2022-10-18
+      UPD_OP CONSTANT char(1) := 'U';      
       
     BEGIN
     --
@@ -228,6 +212,11 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_upd (
                                     ,_rr.id_area 
            );                       
            EXECUTE _exec;
+           --
+           INSERT INTO gar_tmp.adr_area_aux (id_area, op_sign)
+           VALUES (_rr.id_area, UPD_OP)
+            ON CONFLICT (id_area) DO UPDATE SET op_sign = UPD_OP
+                  WHERE (gar_tmp.adr_area_aux.id_area = excluded.id_area);           
            
         END IF; -- compare
         
@@ -239,10 +228,6 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_upd (
     
       WHEN unique_violation THEN 
        BEGIN
-        -- _exec := format (_select_twin, p_schema_name, p_nm_fias_guid);
-        -- EXECUTE _exec INTO _rr1;  -- Дублёр
-        -- Допустим, что это будет возможным. 
-        
         _rr =  gar_tmp_pcg_trans.f_adr_area_get (p_schema_name, p_nm_fias_guid);  -- Основная запись
         _rr1 =  gar_tmp_pcg_trans.f_adr_area_get (p_schema_name, p_id_country
                                             ,p_id_area_parent, p_id_area_type, p_nm_area
@@ -273,9 +258,6 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_upd (
              );            
              EXECUTE _exec;      
              --
-             --  _exec := format (_del_twins, p_schema_name, _rr1.id_area);
-             --  EXECUTE _exec;
-             --
              _exec := format (_upd_id, p_schema_name 
                                        ,_rr1.id_country       
                                        ,_rr1.nm_area          
@@ -300,6 +282,12 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_upd (
                                        ,_rr1.id_area 
              );                       
              EXECUTE _exec;
+             --
+             INSERT INTO gar_tmp.adr_area_aux (id_area, op_sign)
+             VALUES (_rr1.id_area, UPD_OP)
+              ON CONFLICT (id_area) DO UPDATE SET op_sign = UPD_OP
+                    WHERE (gar_tmp.adr_area_aux.id_area = excluded.id_area);               
+             
         END IF; -- _rr1.id_area IS NOT NULL
         
         -- Поскольку процесс обновления прервался, повторяю его.
@@ -331,7 +319,8 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_upd (
                                         --
                                         , NULL  -- id_region
                   );            
-                  EXECUTE _exec;               
+                  EXECUTE _exec;      
+
              END IF;
                
               -- update,  
@@ -358,7 +347,12 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_upd (
                                       --
                                      ,_rr.id_area 
              );                       
-             EXECUTE _exec;             
+             EXECUTE _exec;    
+             --
+             INSERT INTO gar_tmp.adr_area_aux (id_area, op_sign)
+             VALUES (_rr.id_area, UPD_OP)
+              ON CONFLICT (id_area) DO UPDATE SET op_sign = UPD_OP
+                    WHERE (gar_tmp.adr_area_aux.id_area = excluded.id_area);               
         --
         END IF; -- _rr.id_area IS NOT NULL    
        END;  -- unique_violation

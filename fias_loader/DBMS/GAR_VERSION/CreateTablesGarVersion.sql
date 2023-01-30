@@ -8,8 +8,8 @@ SET search_path=gar_version;
 --  Взято из Сети, регионы для автомобильных номеров.
 --  Неопределён (82, '82', 'XXXX')
 ------------------------------------------------------
-DROP TABLE IF EXISTS gar_version.rcl_region;
-CREATE TABLE gar_version.rcl_region
+DROP TABLE IF EXISTS gar_version.rcl_region CASCADE;
+CREATE TABLE IF NOT EXISTS gar_version.rcl_region
 (
      id_region    integer      NOT NULL
     ,nm_region    varchar(250) NOT NULL
@@ -137,10 +137,10 @@ INSERT INTO gar_version.rcl_region (id_region, kd_region, nm_region)
 /*==============================================================*/
 /* Table: garfias_version                                    */
 /*==============================================================*/
-drop table if exists garfias_version cascade;
-CREATE SEQUENCE IF NOT EXISTS garfias_version_id_seq INCREMENT 1 START 1;   
+DROP TABLE IF EXISTS gar_version.garfias_version CASCADE;
+CREATE SEQUENCE IF NOT EXISTS gar_version.garfias_version_id_seq INCREMENT 1 START 1;   
 
-create table if not exists garfias_version (
+create table if not exists gar_version.garfias_version (
    ID_GARFIAS_VERSION   INT8 not null DEFAULT nextval('gar_version.garfias_version_id_seq'::regclass),
    NM_GARFIAS_VERSION   DATE        not null,
    KD_DOWNLOAD_TYPE     BOOL        not null default true,
@@ -187,10 +187,10 @@ ALTER TABLE gar_version.garfias_version
 /*==============================================================*/
 /* Table: garfias_files_by_region                               */
 /*==============================================================*/
-drop table if exists garfias_files_by_region cascade;
-CREATE SEQUENCE IF NOT EXISTS garfias_files_by_region_id_seq INCREMENT 1 START 1;  
+drop table if exists gar_version.garfias_files_by_region cascade;
+CREATE SEQUENCE IF NOT EXISTS gar_version.garfias_files_by_region_id_seq INCREMENT 1 START 1;  
 
-create table if not exists garfias_files_by_region (
+create table if not exists gar_version.garfias_files_by_region (
    id_file_version     INT8 NOT NULL DEFAULT nextval('gar_version.garfias_files_by_region_id_seq'::regclass),
    id_garfias_version  INT8      not null,
    id_region           integer   null,
@@ -217,7 +217,6 @@ alter table garfias_files_by_region
 
 ALTER TABLE garfias_files_by_region
    ADD CONSTRAINT ak1_garfias_files_by_region UNIQUE (file_path);   
-   
 --
 --
 --

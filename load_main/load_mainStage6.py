@@ -17,7 +17,7 @@ from MainProcess import fd_log as FdLog
 
 import load_mainAdrUpload as AdrUpTxt
 
-VERSION_STR = "  Version 0.2.2 Build 2023-01-17" 
+VERSION_STR = "  Version 0.3.0 Build 2023-01-28" 
 
 CONN_ABORTED = "... Connection aborted: "
 OP_ABORTED = "... Operation aborted: "
@@ -95,8 +95,8 @@ class make_main (Proc6.proc_patterns, Yaml6.yaml_patterns, Fd0.fd_0, fd_log_z, A
      Fd0.fd_0.__init__(self, 0, p_host_ip, p_port, p_db_name, p_user_name, bOUT_NAME, bERR_NAME)
      
      AdrUpTxt.AdrUpload.__init__(self, p_host_ip, p_port, p_db_name, p_user_name, p_path,\
-         p_yaml_file, self.file_path, p_id_region, p_fserver_nmb)
-
+         p_yaml_file, p_id_region, p_dt_gar_version, p_fserver_nmb)
+     
      # 2022-05-11
      try:
          self.f_err = open ( bERR_NAME, "a" )   
@@ -233,8 +233,8 @@ class make_main (Proc6.proc_patterns, Yaml6.yaml_patterns, Fd0.fd_0, fd_log_z, A
        
         if not self.kd_export_type:
             # Adr_areas,  "Выгрузка в файл"
-            file_path = self.file_path + PATH_DELIMITER + ADR_AREA_FILE.format(self.region_id)
-            self.to_do (file_path)
+            file_path = self.to_do (ADR_AREA_FILE.format (self.region_id))            
+
             self.stage_up (self.adr_area_sch_l,\
                 (self.adr_area_sch if self.aa_sch_type else self.adr_area_sch_l),\
                 ADR_AREA, ADR_AREA_AUX, self.MOGRIFY)
@@ -335,8 +335,7 @@ class make_main (Proc6.proc_patterns, Yaml6.yaml_patterns, Fd0.fd_0, fd_log_z, A
         if not self.kd_export_type:
             
             # Adr_streets  Выгрузка в файл.
-            file_path = self.file_path + PATH_DELIMITER + ADR_STREET_FILE.format(self.region_id)
-            self.to_do (file_path)
+            file_path = self.to_do (ADR_STREET_FILE.format(self.region_id))
 
             self.stage_up (self.adr_street_sch_l,\
                 (self.adr_street_sch if self.as_sch_type else self.adr_street_sch_l),\
@@ -438,8 +437,7 @@ class make_main (Proc6.proc_patterns, Yaml6.yaml_patterns, Fd0.fd_0, fd_log_z, A
         
         if not self.kd_export_type:
             # Adr_houses Выгрузка в файл.
-            file_path = self.file_path + PATH_DELIMITER + ADR_HOUSE_FILE.format(self.region_id)
-            self.to_do (file_path)
+            file_path = self.to_do (ADR_HOUSE_FILE.format(self.region_id))
             self.stage_up (self.adr_house_sch_l,\
                 (self.adr_house_sch if self.ah_sch_type else self.adr_house_sch_l),\
                 ADR_HOUSE, ADR_HOUSE_AUX, self.MOGRIFY)

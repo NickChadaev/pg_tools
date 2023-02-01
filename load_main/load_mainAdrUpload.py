@@ -6,9 +6,14 @@
 # DESC: Utilities.  
 # -----------------------------------------------------------------------------------------
 
+import os
 import sys
 import psycopg2  
 import string
+
+from os import stat
+from stat import S_ISDIR
+from os import listdir
 
 from GarProcess import stage_6_proc as Proc6
 from GarProcess import stage_6_yaml as Yaml6
@@ -16,7 +21,7 @@ from GarProcess import stage_6_yaml as Yaml6
 from MainProcess import fd_0 as Fd0
 from MainProcess import fd_log as FdLog
 
-VERSION_STR = "  Version 0.2.3 Build 2023-01-20" 
+VERSION_STR = "  Version 0.3.0 Build 2023-01-28" 
 
 CONN_ABORTED = "... Connection aborted: "
 OP_ABORTED = "... Operation aborted: "
@@ -50,11 +55,21 @@ bNCAT = "N"
 bNone = "None" 
 bNULL = "\N"
 bDL = "|"
+bMN = "-"
 
 bCP = "utf8"
+
+cMKDIR = "mkdir "
+cIDX   = "IDX"
+cDATA  = "DATA"
+
+cOP0 = "cp "
+cOP1 = "/GAR_TMP_PCG_TRANS/INDICES/[dc]*.sql "
+cOP2 = "/GAR_TMP_PCG_TRANS/SH/load_upd[._][ws]* "
+
 #-----------------------------------
-#          1       2        3          4          5             6               7           8
-SA = " <Host_IP> <Port> <DB_name> <User_name> <YAML_path> <YAML_file_name> <Data_dir> <Id_region>"
+#          1       2        3          4          5             6              7           8          
+SA = " <Host_IP> <Port> <DB_name> <User_name> <YAML_path> <YAML_file_name> <Id_region> <Data-version>"
 IA = 8
 #
 ADR_AREA = "adr_area"
@@ -99,14 +114,14 @@ class fd_log_z ( FdLog.fd_log ):
 class AdrUpload (Proc6.proc_patterns, Yaml6.yaml_patterns, Fd0.fd_0, fd_log_z):     
  """
      It executes the functionality previously defined in stage_6_proc/yaml.py
-#          1       2        3          4          5             6               7         8
-SA = " <Host_IP> <Port> <DB_name> <User_name> <YAML_path> <YAML_file_name> <Data_dir> <Id_region>""
+#          1       2        3          4          5             6              7            8
+SA = " <Host_IP> <Port> <DB_name> <User_name> <YAML_path> <YAML_file_name> <Id_region> <data_version>"
 IA = 7     
      
  """
 
  def __init__(self, p_host_ip, p_port, p_db_name, p_user_name, p_yaml_path, p_yaml_file\
-     ,p_data_dir, p_id_region, p_fserver_nmb = None):
+     ,p_id_region, p_data_version, p_fserver_nmb = None):
      
      Proc6.proc_patterns.__init__(self)
      Yaml6.yaml_patterns.__init__(self, p_yaml_path, p_yaml_file, p_fserver_nmb, p_id_region)
@@ -121,7 +136,7 @@ IA = 7
 
      # 2022-05-11
      try:
-         self.f_err = open ( bERR_NAME, "a" )   
+         self.f_err = open ( bERR_NAME, "a" )  
      except IOError, ex:
          print ERR_NOT_OPENED_0 + bERR_NAME + ERR_NOT_OPENED_1
          sys.exit (1)
@@ -133,7 +148,8 @@ IA = 7
          sys.exit (1)
      # 2022-05-11
  
-     self.data_dir = p_data_dir
+     # + 1) Версия добавляется к имени каталога данными    
+     self.file_path = self.file_path + string.replace (p_data_version, bMN, bEMP)
      #------------------------------------------------------------
  
  def to_do (self, p_ADR_FILE_NAME):
@@ -141,15 +157,52 @@ IA = 7
              aaup.to_do(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], aaup.adr_area_sch_l,\
                 ADR_AREA, ADR_AREA_AUX, ADR_AREA_FILE.format(str(sys.argv[8]))
      """
- 
-     # Элемент "костылестроения", но что делать ?
-     if (string.find (p_ADR_FILE_NAME, self.data_dir) < 0):
-         data_name = self.data_dir + PATH_DELIMITER + p_ADR_FILE_NAME
-     else:
-         data_name = p_ADR_FILE_NAME
-         
+     #
+     # Try to make output dir
+     #
      try:
-         self.f_data = open ( data_name, "a" )   
+         x = S_ISDIR (os.stat (self.file_path)[0] )
+                     
+     except  OSError, ex:
+         os.system ( cMKDIR + self.file_path )
+                    
+     idx_dir = self.file_path + PATH_DELIMITER + cIDX
+     try:
+         x = S_ISDIR ( os.stat (idx_dir)[0] )
+                     
+     except  OSError, ex:
+         os.system ( cMKDIR + idx_dir )
+
+     dat_dir = self.file_path + PATH_DELIMITER + cDATA
+     try:
+         x = S_ISDIR ( os.stat (dat_dir)[0] )
+                     
+     except  OSError, ex:
+         os.system ( cMKDIR + dat_dir )
+     
+     data_name = dat_dir + PATH_DELIMITER + p_ADR_FILE_NAME
+     
+     # проверить все dir на пустоту !!!!
+     if (len (listdir(idx_dir)) == 0):
+         try:
+             l_cmd = cOP0 + self.git_path + cOP1 + idx_dir + "/."
+             os.system (l_cmd)
+         
+         except  OSError, ex:
+             print ex
+             sys.exit(1)
+         
+     if (len (listdir(self.file_path)) == 2):    
+         try:
+             l_cmd = cOP0 + self.git_path + cOP2 + self.file_path + "/."
+             os.system (l_cmd)
+         
+         except  OSError, ex:
+             print ex
+             sys.exit(1)
+
+     try:
+         self.f_data = open ( data_name, "w+" )   #  Truncate file
      except IOError, ex:
          print DATA_NOT_OPENED_0 + data_name + DATA_NOT_OPENED_1
          sys.exit (1)
@@ -176,6 +229,7 @@ IA = 7
      
      self.cur7.arraysize = FETCH_COUNT 
      # -------------------------------
+     return data_name
  
  def write_log_1 ( self, p_mess ):
      self.write_log (SPACE_7 + p_mess)
@@ -204,7 +258,7 @@ IA = 7
      for row in rows:
          self.column_names.append(row[5])      
          self.column_categories.append(row[10])
-       
+     
      self.conn7.commit()  
    
      return rc
@@ -350,8 +404,8 @@ if __name__ == '__main__':
         """
             Main entrypoint for the class
             #-----------------------------------
-            #          1       2        3          4          5             6               7           8
-            SA = " <Host_IP> <Port> <DB_name> <User_name> <YAML_path> <YAML_file_name> <Data_dir> <Id_region>"
+            #          1       2        3          4          5             6               7           8           
+            SA = " <Host_IP> <Port> <DB_name> <User_name> <YAML_path> <YAML_file_name> <Id_region> <Data-version>"
             IA = 8
         """
         rc = 0
@@ -366,7 +420,7 @@ if __name__ == '__main__':
             sys.argv[5], sys.argv[6], sys.argv[7], sys.argv[8] ) 
 
         if aaup.stage_6_1_on:   
-            aaup.to_do (ADR_AREA_FILE.format(int(sys.argv[8]))) # str
+            aaup.to_do (ADR_AREA_FILE.format(int(sys.argv[7]))) # str
             aaup.stage_up (aaup.adr_area_sch_l, aaup.adr_area_sch, ADR_AREA, ADR_AREA_AUX, aaup.mogrify_6_1) #  "Выгрузка в файл"
         
         # Adr_streets
@@ -374,7 +428,7 @@ if __name__ == '__main__':
             sys.argv[5], sys.argv[6], sys.argv[7], sys.argv[8] ) 
         
         if asup.stage_6_2_on:
-            asup.to_do (ADR_STREET_FILE.format (int(sys.argv[8])))  # str
+            asup.to_do (ADR_STREET_FILE.format (int(sys.argv[7])))  # str
             asup.stage_up (asup.adr_street_sch_l, asup.adr_street_sch, ADR_STREET, ADR_STREET_AUX, asup.mogrify_6_2)
         
         # Adr_houses
@@ -382,7 +436,7 @@ if __name__ == '__main__':
             sys.argv[5], sys.argv[6], sys.argv[7], sys.argv[8] ) 
         
         if ahup.stage_6_3_on:
-            ahup.to_do (ADR_HOUSE_FILE.format (int(sys.argv[8]))) # str
+            ahup.to_do (ADR_HOUSE_FILE.format (int(sys.argv[7]))) # str
             ahup.stage_up (ahup.adr_house_sch_l, ahup.adr_house_sch, ADR_HOUSE, ADR_HOUSE_AUX, ahup.mogrify_6_3)
         
         sys.exit ( rc )

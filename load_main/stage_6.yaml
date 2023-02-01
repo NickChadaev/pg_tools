@@ -1,13 +1,13 @@
 #
 #  2022-05-19. Stage_6. Новая реализация, только управление процессами, вызовы функций 
 #                       в коде "stage_6_proc.py"
-#            "  Version 0.2.0 Build 2023-01-09"
+#            "  Version 0.3.0 Build 2023-01-28"
 #
 control_params:
     stage_6_0: True   # Начальная отметка в log (master - запись).
     stage_6_1: True   # adr_area   - постобработка и выгрузка + отметка в LOG
     stage_6_2: True   # adr_street - постобработка и выгрузка + отметка в LOG
-    stage_6_3: False    # adr_house  - постобработка и выгрузка + отметка в LOG
+    stage_6_3: True   # adr_house  - постобработка и выгрузка + отметка в LOG
     #
     mogrify_6_0: False
     mogrify_6_1: False
@@ -15,11 +15,12 @@ control_params:
     mogrify_6_3: False
     
 global_params:
-    g_region_id: 2                # Адыгея        --  p_node_id  
-    g_fserver_nmb: 12             # На 5434 unnsi_12l --  p_id_region
-    g_kd_export_type: True        # True: с использованием FDW, False: текстовый файл
+    g_region_id: 2                # Адыгея             --  p_node_id  
+    g_fserver_nmb: 13             # На 5435 unnsi_prdl --  p_id_region
+    g_kd_export_type: False       # True: с использованием FDW, False: текстовый файл
     g_seq_name: gar_tmp.obj_seq   # Региональная последовательность
-    g_file_path: ../tmp/up           # Путь для хранения экспортируемых файлов
+    g_file_path: ../tmp/up_prd_   # Путь для хранения экспортируемых файлов
+    g_git_path: ../abr_upload/A_FIAS_LOADER   # Источник для копирования IDX-файлов, SH-скриптов.
 #----------------------------------------------------
 #         ,p_dt_gar_version := {0}::date 
 #----------------------------------------------------  
@@ -47,9 +48,9 @@ unnsi_save_version:
 unnsi_adr_area_upload:                                      
     descr: Постанализ и выгрузка адресных пространств.
     params_proc:
-        p_bound_date: 2022-01-01  # НЕ ИСПОЛЬЗУЕТСЯ
-        p_post_proc_skip: False   # Пропустили постобработку, (-отслеживание дубликатов, +реиндексация).
-        p_post_script: SELECT * FROM gar_tmp.adr_area WHERE (id_area_parent IS NULL) AND (id_area > 87); 
+        p_bound_date: 2022-01-01   # 
+        p_post_proc_skip: False    # Пропустили постобработку, (-отслеживание дубликатов, +реиндексация).
+        p_post_script: ../../A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/check_parent_less.sql 
         p_post_upload_skip: False # Пропустили выгрузку, (в любом из двух видов).
         p_sch_type: True          # Только для выгрузки в файл, при "g_kd_export_type": False 
                            # False - использование локальной схемы (g_adr_area_sch_l)
@@ -67,7 +68,7 @@ unnsi_adr_street_upload:
     descr: Постанализ и выгрузка элементов уличной-дорожной сети.
     params_proc:
         p_bound_date: 2022-01-01
-        p_post_proc_skip: False    # Пропустили постобработку, (отслеживание дубликатов, реиндексация).
+        p_post_proc_skip: False   # Пропустили постобработку, (отслеживание дубликатов, реиндексация).
         p_post_script:
         p_post_upload_skip: False # Пропустили выгрузку, (в любом из двух видов).
         p_sch_type: True          # Только для выгрузки в файл, при "g_kd_export_type": False 

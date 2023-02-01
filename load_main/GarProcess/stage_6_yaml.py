@@ -14,7 +14,7 @@ import yaml
 from yaml.loader import SafeLoader
 
 PATH_DELIMITER = '/'  
-VERSION_STR = "  Version 0.2.2 Build 2023-01-16"
+VERSION_STR = "  Version 0.3.0 Build 2023-01-28"
 
 YAML_NOT_OPENED_0 = "... YAML file not opened: '"
 YAML_NOT_OPENED_1 = "'."
@@ -54,8 +54,9 @@ class yaml_patterns ():
         self.region_id   = stage_6 ['global_params']['g_region_id'] 
         self.fserver_nmb = stage_6 ['global_params']['g_fserver_nmb']   
         self.kd_export_type = stage_6 ['global_params']['g_kd_export_type'] 
-        self.seq_name       = stage_6 ['global_params']['g_seq_name']
-        self.file_path      = stage_6 ['global_params']['g_file_path']
+        self.seq_name  = stage_6 ['global_params']['g_seq_name']
+        self.file_path = stage_6 ['global_params']['g_file_path']
+        self.git_path  = stage_6 ['global_params']['g_git_path']
         #
         self.adr_area_sch     = stage_6 ['global_params']['g_adr_area_sch']
         self.adr_street_sch   = stage_6 ['global_params']['g_adr_street_sch']

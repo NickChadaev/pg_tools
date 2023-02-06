@@ -60,7 +60,7 @@ bMN = "-"
 bCP = "utf8"
 
 cMKDIR = "mkdir "
-cIDX   = "IDX"
+cIDX   = "IDXS"
 cDATA  = "DATA"
 
 cOP0 = "cp "

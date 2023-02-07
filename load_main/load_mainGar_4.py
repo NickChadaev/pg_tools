@@ -20,7 +20,7 @@ from yaml.loader import SafeLoader
 
 import load_mainGar as LoadGar
 
-VERSION_STR = "  Version 0.5.5 Build 2023-01-13"
+VERSION_STR = "  Version 0.5.6 Build 2023-02-07"
 
 YAML_NOT_OPENED_0 = "... Yaml file not opened: '"
 YAML_NOT_OPENED_1 = "'."
@@ -98,6 +98,8 @@ if __name__ == '__main__':
             batch_file_name = h_params ['exec']
             path            = h_params ['path']
             # 
+            batch_file_name = path + PATH_DELIMITER + batch_file_name
+            
             cinfos = string.split (h_conninfo, SPACE_0)
             for cinfo in cinfos:
                 

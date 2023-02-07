@@ -1,0 +1,178 @@
+hosts:
+       -                   
+           name: init_21
+           descr: Чувашская Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=postgres user=postgres password=postgres1
+           params:
+               id_region: 22
+               path: /home/n.chadaev@abrr.local
+               exec: Y_BUILD/21/stage_0_21.csv
+       -                   
+           name: init_22
+           descr: Алтайский край
+           conninfo: host=127.0.0.1 port=5432 dbname=postgres user=postgres password=postgres1
+           params:
+               id_region: 23
+               path: /home/n.chadaev@abrr.local
+               exec: Y_BUILD/22/stage_0_22.csv
+       -                   
+           name: init_23
+           descr: Краснодарский край
+           conninfo: host=127.0.0.1 port=5432 dbname=postgres user=postgres password=postgres1
+           params:
+               id_region: 24
+               path: /home/n.chadaev@abrr.local
+               exec: Y_BUILD/23/stage_0_23.csv
+       -                   
+           name: init_24
+           descr: Красноярский край
+           conninfo: host=127.0.0.1 port=5432 dbname=postgres user=postgres password=postgres1
+           params:
+               id_region: 25
+               path: /home/n.chadaev@abrr.local
+               exec: Y_BUILD/24/stage_0_24.csv
+       -                   
+           name: init_25
+           descr: Приморский край
+           conninfo: host=127.0.0.1 port=5432 dbname=postgres user=postgres password=postgres1
+           params:
+               id_region: 26
+               path: /home/n.chadaev@abrr.local
+               exec: Y_BUILD/25/stage_0_25.csv
+       -                   
+           name: init_26
+           descr: Ставропольский край
+           conninfo: host=127.0.0.1 port=5432 dbname=postgres user=postgres password=postgres1
+           params:
+               id_region: 27
+               path: /home/n.chadaev@abrr.local
+               exec: Y_BUILD/26/stage_0_26.csv
+       -                   
+           name: init_27
+           descr: Хабаровский край
+           conninfo: host=127.0.0.1 port=5432 dbname=postgres user=postgres password=postgres1
+           params:
+               id_region: 28
+               path: /home/n.chadaev@abrr.local
+               exec: Y_BUILD/27/stage_0_27.csv
+       -                   
+           name: init_28
+           descr: Амурская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=postgres user=postgres password=postgres1
+           params:
+               id_region: 29
+               path: /home/n.chadaev@abrr.local
+               exec: Y_BUILD/28/stage_0_28.csv
+       -                   
+           name: init_29
+           descr: Архангельская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=postgres user=postgres password=postgres1
+           params:
+               id_region: 30
+               path: /home/n.chadaev@abrr.local
+               exec: Y_BUILD/29/stage_0_29.csv
+       -                   
+           name: init_30
+           descr: Астраханская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=postgres user=postgres password=postgres1
+           params:
+               id_region: 31
+               path: /home/n.chadaev@abrr.local
+               exec: Y_BUILD/30/stage_0_30.csv
+       -                   
+           name: init_31
+           descr: Белгородская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=postgres user=postgres password=postgres1
+           params:
+               id_region: 32
+               path: /home/n.chadaev@abrr.local
+               exec: Y_BUILD/31/stage_0_31.csv
+       -                   
+           name: init_32
+           descr: Брянская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=postgres user=postgres password=postgres1
+           params:
+               id_region: 33
+               path: /home/n.chadaev@abrr.local
+               exec: Y_BUILD/32/stage_0_32.csv
+       -                   
+           name: init_33
+           descr: Владимирская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=postgres user=postgres password=postgres1
+           params:
+               id_region: 34
+               path: /home/n.chadaev@abrr.local
+               exec: Y_BUILD/33/stage_0_33.csv
+       -                   
+           name: init_34
+           descr: Волгоградская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=postgres user=postgres password=postgres1
+           params:
+               id_region: 35
+               path: /home/n.chadaev@abrr.local
+               exec: Y_BUILD/34/stage_0_34.csv
+       -                   
+           name: init_36
+           descr: Воронежская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=postgres user=postgres password=postgres1
+           params:
+               id_region: 36
+               path: /home/n.chadaev@abrr.local
+               exec: Y_BUILD/36/stage_0_36.csv
+       -                   
+           name: init_38
+           descr: Иркутская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=postgres user=postgres password=postgres1
+           params:
+               id_region: 37
+               path: /home/n.chadaev@abrr.local
+               exec: Y_BUILD/38/stage_0_38.csv
+       -                   
+           name: init_39
+           descr: Калининградская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=postgres user=postgres password=postgres1
+           params:
+               id_region: 38
+               path: /home/n.chadaev@abrr.local
+               exec: Y_BUILD/39/stage_0_39.csv
+       -                   
+           name: init_40
+           descr: Калужская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=postgres user=postgres password=postgres1
+           params:
+               id_region: 39
+               path: /home/n.chadaev@abrr.local
+               exec: Y_BUILD/40/stage_0_40.csv
+       -                   
+           name: init_41
+           descr: Камчатский край
+           conninfo: host=127.0.0.1 port=5432 dbname=postgres user=postgres password=postgres1
+           params:
+               id_region: 40
+               path: /home/n.chadaev@abrr.local
+               exec: Y_BUILD/41/stage_0_41.csv
+       -                   
+           name: init_42
+           descr: Кемеровская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=postgres user=postgres password=postgres1
+           params:
+               id_region: 41
+               path: /home/n.chadaev@abrr.local
+               exec: Y_BUILD/42/stage_0_42.csv
+       -                   
+           name: init_43
+           descr: Кировская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=postgres user=postgres password=postgres1
+           params:
+               id_region: 42
+               path: /home/n.chadaev@abrr.local
+               exec: Y_BUILD/43/stage_0_43.csv
+       -                   
+           name: init_44
+           descr: Костромская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=postgres user=postgres password=postgres1
+           params:
+               id_region: 43
+               path: /home/n.chadaev@abrr.local
+               exec: Y_BUILD/44/stage_0_44.csv
+        

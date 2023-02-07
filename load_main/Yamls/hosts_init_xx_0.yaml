@@ -2,7 +2,7 @@ hosts:
        -                   
            name: init_01
            descr: Адыгея Респ
-           conninfo: host=10.196.35.165 port=5432 dbname=postgres user=postgres password=postgres1
+           conninfo: host=127.0.0.1 port=5432 dbname=postgres user=postgres password=postgres1
            params:
                id_region: 2
                path: /home/n.chadaev@abrr.local
@@ -10,7 +10,7 @@ hosts:
        -                   
            name: init_03
            descr: Бурятия Респ
-           conninfo: host=10.196.35.165 port=5432 dbname=postgres user=postgres password=postgres1
+           conninfo: host=127.0.0.1 port=5432 dbname=postgres user=postgres password=postgres1
            params:
                id_region: 3
                path: /home/n.chadaev@abrr.local
@@ -18,7 +18,7 @@ hosts:
        -                   
            name: init_02
            descr: Башкортостан Респ
-           conninfo: host=10.196.35.165 port=5432 dbname=postgres user=postgres password=postgres1
+           conninfo: host=127.0.0.1 port=5432 dbname=postgres user=postgres password=postgres1
            params:
                id_region: 4
                path: /home/n.chadaev@abrr.local
@@ -26,7 +26,7 @@ hosts:
        -                   
            name: init_04
            descr: Алтай Респ
-           conninfo: host=10.196.35.165 port=5432 dbname=postgres user=postgres password=postgres1
+           conninfo: host=127.0.0.1 port=5432 dbname=postgres user=postgres password=postgres1
            params:
                id_region: 5
                path: /home/n.chadaev@abrr.local
@@ -34,7 +34,7 @@ hosts:
        -                   
            name: init_05
            descr: Дагестан Респ
-           conninfo: host=10.196.35.165 port=5432 dbname=postgres user=postgres password=postgres1
+           conninfo: host=127.0.0.1 port=5432 dbname=postgres user=postgres password=postgres1
            params:
                id_region: 6
                path: /home/n.chadaev@abrr.local
@@ -42,7 +42,7 @@ hosts:
        -                   
            name: init_06
            descr: Ингушетия Респ
-           conninfo: host=10.196.35.165 port=5432 dbname=postgres user=postgres password=postgres1
+           conninfo: host=127.0.0.1 port=5432 dbname=postgres user=postgres password=postgres1
            params:
                id_region: 7
                path: /home/n.chadaev@abrr.local
@@ -50,7 +50,7 @@ hosts:
        -                   
            name: init_07
            descr: Кабардино-Балкарская Респ
-           conninfo: host=10.196.35.165 port=5432 dbname=postgres user=postgres password=postgres1
+           conninfo: host=127.0.0.1 port=5432 dbname=postgres user=postgres password=postgres1
            params:
                id_region: 8
                path: /home/n.chadaev@abrr.local
@@ -58,7 +58,7 @@ hosts:
        -                   
            name: init_08
            descr: Калмыкия Респ
-           conninfo: host=10.196.35.165 port=5432 dbname=postgres user=postgres password=postgres1
+           conninfo: host=127.0.0.1 port=5432 dbname=postgres user=postgres password=postgres1
            params:
                id_region: 9
                path: /home/n.chadaev@abrr.local
@@ -66,7 +66,7 @@ hosts:
        -                   
            name: init_09
            descr: Карачаево-Черкесская Респ
-           conninfo: host=10.196.35.165 port=5432 dbname=postgres user=postgres password=postgres1
+           conninfo: host=127.0.0.1 port=5432 dbname=postgres user=postgres password=postgres1
            params:
                id_region: 10
                path: /home/n.chadaev@abrr.local
@@ -74,7 +74,7 @@ hosts:
        -                   
            name: init_10
            descr: Карелия Респ
-           conninfo: host=10.196.35.165 port=5432 dbname=postgres user=postgres password=postgres1
+           conninfo: host=127.0.0.1 port=5432 dbname=postgres user=postgres password=postgres1
            params:
                id_region: 11
                path: /home/n.chadaev@abrr.local
@@ -82,7 +82,7 @@ hosts:
        -                   
            name: init_11
            descr: Коми Респ
-           conninfo: host=10.196.35.165 port=5432 dbname=postgres user=postgres password=postgres1
+           conninfo: host=127.0.0.1 port=5432 dbname=postgres user=postgres password=postgres1
            params:
                id_region: 12
                path: /home/n.chadaev@abrr.local
@@ -90,7 +90,7 @@ hosts:
        -                   
            name: init_12
            descr: Марий Эл Респ
-           conninfo: host=10.196.35.165 port=5432 dbname=postgres user=postgres password=postgres1
+           conninfo: host=127.0.0.1 port=5432 dbname=postgres user=postgres password=postgres1
            params:
                id_region: 13
                path: /home/n.chadaev@abrr.local
@@ -98,7 +98,7 @@ hosts:
        -                   
            name: init_13
            descr: Мордовия Респ
-           conninfo: host=10.196.35.165 port=5432 dbname=postgres user=postgres password=postgres1
+           conninfo: host=127.0.0.1 port=5432 dbname=postgres user=postgres password=postgres1
            params:
                id_region: 14
                path: /home/n.chadaev@abrr.local
@@ -106,7 +106,7 @@ hosts:
        -                   
            name: init_14
            descr: Саха /Якутия/ Респ
-           conninfo: host=10.196.35.165 port=5432 dbname=postgres user=postgres password=postgres1
+           conninfo: host=127.0.0.1 port=5432 dbname=postgres user=postgres password=postgres1
            params:
                id_region: 15
                path: /home/n.chadaev@abrr.local
@@ -114,7 +114,7 @@ hosts:
        -                   
            name: init_15
            descr: Северная Осетия - Алания Респ
-           conninfo: host=10.196.35.165 port=5432 dbname=postgres user=postgres password=postgres1
+           conninfo: host=127.0.0.1 port=5432 dbname=postgres user=postgres password=postgres1
            params:
                id_region: 16
                path: /home/n.chadaev@abrr.local
@@ -122,7 +122,7 @@ hosts:
        -                   
            name: init_16
            descr: Татарстан Респ
-           conninfo: host=10.196.35.165 port=5432 dbname=postgres user=postgres password=postgres1
+           conninfo: host=127.0.0.1 port=5432 dbname=postgres user=postgres password=postgres1
            params:
                id_region: 17
                path: /home/n.chadaev@abrr.local
@@ -130,7 +130,7 @@ hosts:
        -                   
            name: init_17
            descr: Тыва Респ
-           conninfo: host=10.196.35.165 port=5432 dbname=postgres user=postgres password=postgres1
+           conninfo: host=127.0.0.1 port=5432 dbname=postgres user=postgres password=postgres1
            params:
                id_region: 18
                path: /home/n.chadaev@abrr.local
@@ -138,7 +138,7 @@ hosts:
        -                   
            name: init_18
            descr: Удмуртская Респ
-           conninfo: host=10.196.35.165 port=5432 dbname=postgres user=postgres password=postgres1
+           conninfo: host=127.0.0.1 port=5432 dbname=postgres user=postgres password=postgres1
            params:
                id_region: 19
                path: /home/n.chadaev@abrr.local
@@ -146,7 +146,7 @@ hosts:
        -                   
            name: init_19
            descr: Хакасия Респ
-           conninfo: host=10.196.35.165 port=5432 dbname=postgres user=postgres password=postgres1
+           conninfo: host=127.0.0.1 port=5432 dbname=postgres user=postgres password=postgres1
            params:
                id_region: 20
                path: /home/n.chadaev@abrr.local
@@ -154,7 +154,7 @@ hosts:
        -                   
            name: init_20
            descr: Чеченская Респ
-           conninfo: host=10.196.35.165 port=5432 dbname=postgres user=postgres password=postgres1
+           conninfo: host=127.0.0.1 port=5432 dbname=postgres user=postgres password=postgres1
            params:
                id_region: 21
                path: /home/n.chadaev@abrr.local

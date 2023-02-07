@@ -1,0 +1,512 @@
+hosts:
+       -                   
+           name: unnsi_01
+           descr: Адыгея Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_01 user=postgres password=postgres1
+           params:
+               id_region: 2
+       -                   
+           name: unnsi_03
+           descr: Бурятия Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_03 user=postgres password=postgres1
+           params:
+               id_region: 3
+       -                   
+           name: unnsi_02
+           descr: Башкортостан Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_02 user=postgres password=postgres1
+           params:
+               id_region: 4
+       -                   
+           name: unnsi_04
+           descr: Алтай Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_04 user=postgres password=postgres1
+           params:
+               id_region: 5
+       -                   
+           name: unnsi_05
+           descr: Дагестан Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_05 user=postgres password=postgres1
+           params:
+               id_region: 6
+       -                   
+           name: unnsi_06
+           descr: Ингушетия Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_06 user=postgres password=postgres1
+           params:
+               id_region: 7
+       -                   
+           name: unnsi_07
+           descr: Кабардино-Балкарская Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_07 user=postgres password=postgres1
+           params:
+               id_region: 8
+       -                   
+           name: unnsi_08
+           descr: Калмыкия Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_08 user=postgres password=postgres1
+           params:
+               id_region: 9
+       -                   
+           name: unnsi_09
+           descr: Карачаево-Черкесская Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_09 user=postgres password=postgres1
+           params:
+               id_region: 10
+       -                   
+           name: unnsi_10
+           descr: Карелия Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_10 user=postgres password=postgres1
+           params:
+               id_region: 11
+       -                   
+           name: unnsi_11
+           descr: Коми Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_11 user=postgres password=postgres1
+           params:
+               id_region: 12
+       -                   
+           name: unnsi_12
+           descr: Марий Эл Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_12 user=postgres password=postgres1
+           params:
+               id_region: 13
+       -                   
+           name: unnsi_13
+           descr: Мордовия Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_13 user=postgres password=postgres1
+           params:
+               id_region: 14
+       -                   
+           name: unnsi_14
+           descr: Саха /Якутия/ Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_14 user=postgres password=postgres1
+           params:
+               id_region: 15
+       -                   
+           name: unnsi_15
+           descr: Северная Осетия - Алания Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_15 user=postgres password=postgres1
+           params:
+               id_region: 16
+       -                   
+           name: unnsi_16
+           descr: Татарстан Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_16 user=postgres password=postgres1
+           params:
+               id_region: 17
+       -                   
+           name: unnsi_17
+           descr: Тыва Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_17 user=postgres password=postgres1
+           params:
+               id_region: 18
+       -                   
+           name: unnsi_18
+           descr: Удмуртская Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_18 user=postgres password=postgres1
+           params:
+               id_region: 19
+       -                   
+           name: unnsi_19
+           descr: Хакасия Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_19 user=postgres password=postgres1
+           params:
+               id_region: 20
+       -                   
+           name: unnsi_20
+           descr: Чеченская Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_20 user=postgres password=postgres1
+           params:
+               id_region: 21
+       -                   
+           name: unnsi_21
+           descr: Чувашская Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_21 user=postgres password=postgres1
+           params:
+               id_region: 22
+       -                   
+           name: unnsi_22
+           descr: Алтайский край
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_22 user=postgres password=postgres1
+           params:
+               id_region: 23
+       -                   
+           name: unnsi_23
+           descr: Краснодарский край
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_23 user=postgres password=postgres1
+           params:
+               id_region: 24
+       -                   
+           name: unnsi_24
+           descr: Красноярский край
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_24 user=postgres password=postgres1
+           params:
+               id_region: 25
+       -                   
+           name: unnsi_25
+           descr: Приморский край
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_25 user=postgres password=postgres1
+           params:
+               id_region: 26
+       -                   
+           name: unnsi_26
+           descr: Ставропольский край
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_26 user=postgres password=postgres1
+           params:
+               id_region: 27
+       -                   
+           name: unnsi_27
+           descr: Хабаровский край
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_27 user=postgres password=postgres1
+           params:
+               id_region: 28
+       -                   
+           name: unnsi_28
+           descr: Амурская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_28 user=postgres password=postgres1
+           params:
+               id_region: 29
+       -                   
+           name: unnsi_29
+           descr: Архангельская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_29 user=postgres password=postgres1
+           params:
+               id_region: 30
+       -                   
+           name: unnsi_30
+           descr: Астраханская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_30 user=postgres password=postgres1
+           params:
+               id_region: 31
+       -                   
+           name: unnsi_31
+           descr: Белгородская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_31 user=postgres password=postgres1
+           params:
+               id_region: 32
+       -                   
+           name: unnsi_32
+           descr: Брянская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_32 user=postgres password=postgres1
+           params:
+               id_region: 33
+       -                   
+           name: unnsi_33
+           descr: Владимирская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_33 user=postgres password=postgres1
+           params:
+               id_region: 34
+       -                   
+           name: unnsi_34
+           descr: Волгоградская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_34 user=postgres password=postgres1
+           params:
+               id_region: 35
+       -                   
+           name: unnsi_36
+           descr: Воронежская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_36 user=postgres password=postgres1
+           params:
+               id_region: 36
+       -                   
+           name: unnsi_38
+           descr: Иркутская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_38 user=postgres password=postgres1
+           params:
+               id_region: 37
+       -                   
+           name: unnsi_39
+           descr: Калининградская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_39 user=postgres password=postgres1
+           params:
+               id_region: 38
+       -                   
+           name: unnsi_40
+           descr: Калужская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_40 user=postgres password=postgres1
+           params:
+               id_region: 39
+       -                   
+           name: unnsi_41
+           descr: Камчатский край
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_41 user=postgres password=postgres1
+           params:
+               id_region: 40
+       -                   
+           name: unnsi_42
+           descr: Кемеровская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_42 user=postgres password=postgres1
+           params:
+               id_region: 41
+       -                   
+           name: unnsi_43
+           descr: Кировская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_43 user=postgres password=postgres1
+           params:
+               id_region: 42
+       -                   
+           name: unnsi_44
+           descr: Костромская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_44 user=postgres password=postgres1
+           params:
+               id_region: 43
+       -                   
+           name: unnsi_45
+           descr: Курганская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_45 user=postgres password=postgres1
+           params:
+               id_region: 44
+       -                   
+           name: unnsi_46
+           descr: Курская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_46 user=postgres password=postgres1
+           params:
+               id_region: 45
+       -                   
+           name: unnsi_47
+           descr: Ленинградская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_47 user=postgres password=postgres1
+           params:
+               id_region: 46
+       -                   
+           name: unnsi_35
+           descr: Вологодская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_35 user=postgres password=postgres1
+           params:
+               id_region: 47
+       -                   
+           name: unnsi_48
+           descr: Липецкая обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_48 user=postgres password=postgres1
+           params:
+               id_region: 48
+       -                   
+           name: unnsi_49
+           descr: Магаданская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_49 user=postgres password=postgres1
+           params:
+               id_region: 49
+       -                   
+           name: unnsi_50
+           descr: Московская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_50 user=postgres password=postgres1
+           params:
+               id_region: 50
+       -                   
+           name: unnsi_51
+           descr: Мурманская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_51 user=postgres password=postgres1
+           params:
+               id_region: 51
+       -                   
+           name: unnsi_52
+           descr: Нижегородская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_52 user=postgres password=postgres1
+           params:
+               id_region: 52
+       -                   
+           name: unnsi_53
+           descr: Новгородская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_53 user=postgres password=postgres1
+           params:
+               id_region: 53
+       -                   
+           name: unnsi_54
+           descr: Новосибирская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_54 user=postgres password=postgres1
+           params:
+               id_region: 54
+       -                   
+           name: unnsi_55
+           descr: Омская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_55 user=postgres password=postgres1
+           params:
+               id_region: 55
+       -                   
+           name: unnsi_56
+           descr: Оренбургская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_56 user=postgres password=postgres1
+           params:
+               id_region: 56
+       -                   
+           name: unnsi_57
+           descr: Орловская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_57 user=postgres password=postgres1
+           params:
+               id_region: 57
+       -                   
+           name: unnsi_58
+           descr: Пензенская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_58 user=postgres password=postgres1
+           params:
+               id_region: 58
+       -                   
+           name: unnsi_59
+           descr: Пермский край
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_59 user=postgres password=postgres1
+           params:
+               id_region: 59
+       -                   
+           name: unnsi_60
+           descr: Псковская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_60 user=postgres password=postgres1
+           params:
+               id_region: 60
+       -                   
+           name: unnsi_61
+           descr: Ростовская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_61 user=postgres password=postgres1
+           params:
+               id_region: 61
+       -                   
+           name: unnsi_62
+           descr: Рязанская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_62 user=postgres password=postgres1
+           params:
+               id_region: 62
+       -                   
+           name: unnsi_63
+           descr: Самарская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_63 user=postgres password=postgres1
+           params:
+               id_region: 63
+       -                   
+           name: unnsi_37
+           descr: Ивановская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_37 user=postgres password=postgres1
+           params:
+               id_region: 64
+       -                   
+           name: unnsi_64
+           descr: Саратовская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_64 user=postgres password=postgres1
+           params:
+               id_region: 65
+       -                   
+           name: unnsi_65
+           descr: Сахалинская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_65 user=postgres password=postgres1
+           params:
+               id_region: 66
+       -                   
+           name: unnsi_66
+           descr: Свердловская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_66 user=postgres password=postgres1
+           params:
+               id_region: 67
+       -                   
+           name: unnsi_67
+           descr: Смоленская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_67 user=postgres password=postgres1
+           params:
+               id_region: 68
+       -                   
+           name: unnsi_68
+           descr: Тамбовская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_68 user=postgres password=postgres1
+           params:
+               id_region: 69
+       -                   
+           name: unnsi_69
+           descr: Тверская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_69 user=postgres password=postgres1
+           params:
+               id_region: 70
+       -                   
+           name: unnsi_70
+           descr: Томская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_70 user=postgres password=postgres1
+           params:
+               id_region: 71
+       -                   
+           name: unnsi_71
+           descr: Тульская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_71 user=postgres password=postgres1
+           params:
+               id_region: 72
+       -                   
+           name: unnsi_72
+           descr: Тюменская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_72 user=postgres password=postgres1
+           params:
+               id_region: 73
+       -                   
+           name: unnsi_73
+           descr: Ульяновская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_73 user=postgres password=postgres1
+           params:
+               id_region: 74
+       -                   
+           name: unnsi_74
+           descr: Челябинская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_74 user=postgres password=postgres1
+           params:
+               id_region: 75
+       -                   
+           name: unnsi_75
+           descr: Забайкальский край
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_75 user=postgres password=postgres1
+           params:
+               id_region: 76
+       -                   
+           name: unnsi_76
+           descr: Ярославская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_76 user=postgres password=postgres1
+           params:
+               id_region: 77
+       -                   
+           name: unnsi_78
+           descr: Санкт-Петербург г.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_78 user=postgres password=postgres1
+           params:
+               id_region: 78
+       -                   
+           name: unnsi_79
+           descr: Еврейская Аобл
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_79 user=postgres password=postgres1
+           params:
+               id_region: 79
+       -                   
+           name: unnsi_83
+           descr: Ненецкий АО
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_83 user=postgres password=postgres1
+           params:
+               id_region: 80
+       -                   
+           name: unnsi_86
+           descr: Ханты-Мансийский АО
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_86 user=postgres password=postgres1
+           params:
+               id_region: 81
+       -                   
+           name: unnsi_89
+           descr: Ямало-Ненецкий АО
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_89 user=postgres password=postgres1
+           params:
+               id_region: 82
+       -                   
+           name: unnsi_87
+           descr: Чукотский АО
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_87 user=postgres password=postgres1
+           params:
+               id_region: 83
+       -                   
+           name: unnsi_91
+           descr: Крым Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_91 user=postgres password=postgres1
+           params:
+               id_region: 84
+       -                   
+           name: unnsi_77
+           descr: Москва г.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_77 user=postgres password=postgres1
+           params:
+               id_region: 86
+       -                   
+           name: unnsi_92
+           descr: Севастополь г.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_92 user=postgres password=postgres1
+           params:
+               id_region: 87
+        

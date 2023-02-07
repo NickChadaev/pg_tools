@@ -1,0 +1,522 @@
+hosts:
+       -                   
+           name: parse_21
+           descr: Чувашская Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_21 user=postgres password=postgres1
+           params:
+               id_region: 22
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/21/stage_gar_c_21.csv
+       -                   
+           name: parse_22
+           descr: Алтайский край
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_22 user=postgres password=postgres1
+           params:
+               id_region: 23
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/22/stage_gar_c_22.csv
+       -                   
+           name: parse_23
+           descr: Краснодарский край
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_23 user=postgres password=postgres1
+           params:
+               id_region: 24
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/23/stage_gar_c_23.csv
+       -                   
+           name: parse_24
+           descr: Красноярский край
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_24 user=postgres password=postgres1
+           params:
+               id_region: 25
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/24/stage_gar_c_24.csv
+       -                   
+           name: parse_25
+           descr: Приморский край
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_25 user=postgres password=postgres1
+           params:
+               id_region: 26
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/25/stage_gar_c_25.csv
+       -                   
+           name: parse_26
+           descr: Ставропольский край
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_26 user=postgres password=postgres1
+           params:
+               id_region: 27
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/26/stage_gar_c_26.csv
+       -                   
+           name: parse_27
+           descr: Хабаровский край
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_27 user=postgres password=postgres1
+           params:
+               id_region: 28
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/27/stage_gar_c_27.csv
+       -                   
+           name: parse_28
+           descr: Амурская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_28 user=postgres password=postgres1
+           params:
+               id_region: 29
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/28/stage_gar_c_28.csv
+       -                   
+           name: parse_29
+           descr: Архангельская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_29 user=postgres password=postgres1
+           params:
+               id_region: 30
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/29/stage_gar_c_29.csv
+       -                   
+           name: parse_30
+           descr: Астраханская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_30 user=postgres password=postgres1
+           params:
+               id_region: 31
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/30/stage_gar_c_30.csv
+       -                   
+           name: parse_31
+           descr: Белгородская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_31 user=postgres password=postgres1
+           params:
+               id_region: 32
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/31/stage_gar_c_31.csv
+       -                   
+           name: parse_32
+           descr: Брянская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_32 user=postgres password=postgres1
+           params:
+               id_region: 33
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/32/stage_gar_c_32.csv
+       -                   
+           name: parse_33
+           descr: Владимирская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_33 user=postgres password=postgres1
+           params:
+               id_region: 34
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/33/stage_gar_c_33.csv
+       -                   
+           name: parse_34
+           descr: Волгоградская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_34 user=postgres password=postgres1
+           params:
+               id_region: 35
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/34/stage_gar_c_34.csv
+       -                   
+           name: parse_36
+           descr: Воронежская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_36 user=postgres password=postgres1
+           params:
+               id_region: 36
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/36/stage_gar_c_36.csv
+       -                   
+           name: parse_38
+           descr: Иркутская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_38 user=postgres password=postgres1
+           params:
+               id_region: 37
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/38/stage_gar_c_38.csv
+       -                   
+           name: parse_39
+           descr: Калининградская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_39 user=postgres password=postgres1
+           params:
+               id_region: 38
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/39/stage_gar_c_39.csv
+       -                   
+           name: parse_40
+           descr: Калужская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_40 user=postgres password=postgres1
+           params:
+               id_region: 39
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/40/stage_gar_c_40.csv
+       -                   
+           name: parse_41
+           descr: Камчатский край
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_41 user=postgres password=postgres1
+           params:
+               id_region: 40
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/41/stage_gar_c_41.csv
+       -                   
+           name: parse_42
+           descr: Кемеровская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_42 user=postgres password=postgres1
+           params:
+               id_region: 41
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/42/stage_gar_c_42.csv
+       -                   
+           name: parse_43
+           descr: Кировская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_43 user=postgres password=postgres1
+           params:
+               id_region: 42
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/43/stage_gar_c_43.csv
+       -                   
+           name: parse_44
+           descr: Костромская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_44 user=postgres password=postgres1
+           params:
+               id_region: 43
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/44/stage_gar_c_44.csv
+       -                   
+           name: parse_45
+           descr: Курганская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_45 user=postgres password=postgres1
+           params:
+               id_region: 44
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/45/stage_gar_c_45.csv
+       -                   
+           name: parse_46
+           descr: Курская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_46 user=postgres password=postgres1
+           params:
+               id_region: 45
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/46/stage_gar_c_46.csv
+       -                   
+           name: parse_47
+           descr: Ленинградская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_47 user=postgres password=postgres1
+           params:
+               id_region: 46
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/47/stage_gar_c_47.csv
+       -                   
+           name: parse_35
+           descr: Вологодская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_35 user=postgres password=postgres1
+           params:
+               id_region: 47
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/35/stage_gar_c_35.csv
+       -                   
+           name: parse_48
+           descr: Липецкая обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_48 user=postgres password=postgres1
+           params:
+               id_region: 48
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/48/stage_gar_c_48.csv
+       -                   
+           name: parse_49
+           descr: Магаданская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_49 user=postgres password=postgres1
+           params:
+               id_region: 49
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/49/stage_gar_c_49.csv
+       -                   
+           name: parse_50
+           descr: Московская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_50 user=postgres password=postgres1
+           params:
+               id_region: 50
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/50/stage_gar_c_50.csv
+       -                   
+           name: parse_51
+           descr: Мурманская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_51 user=postgres password=postgres1
+           params:
+               id_region: 51
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/51/stage_gar_c_51.csv
+       -                   
+           name: parse_52
+           descr: Нижегородская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_52 user=postgres password=postgres1
+           params:
+               id_region: 52
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/52/stage_gar_c_52.csv
+       -                   
+           name: parse_53
+           descr: Новгородская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_53 user=postgres password=postgres1
+           params:
+               id_region: 53
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/53/stage_gar_c_53.csv
+       -                   
+           name: parse_54
+           descr: Новосибирская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_54 user=postgres password=postgres1
+           params:
+               id_region: 54
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/54/stage_gar_c_54.csv
+       -                   
+           name: parse_55
+           descr: Омская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_55 user=postgres password=postgres1
+           params:
+               id_region: 55
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/55/stage_gar_c_55.csv
+       -                   
+           name: parse_56
+           descr: Оренбургская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_56 user=postgres password=postgres1
+           params:
+               id_region: 56
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/56/stage_gar_c_56.csv
+       -                   
+           name: parse_57
+           descr: Орловская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_57 user=postgres password=postgres1
+           params:
+               id_region: 57
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/57/stage_gar_c_57.csv
+       -                   
+           name: parse_58
+           descr: Пензенская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_58 user=postgres password=postgres1
+           params:
+               id_region: 58
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/58/stage_gar_c_58.csv
+       -                   
+           name: parse_59
+           descr: Пермский край
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_59 user=postgres password=postgres1
+           params:
+               id_region: 59
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/59/stage_gar_c_59.csv
+       -                   
+           name: parse_60
+           descr: Псковская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_60 user=postgres password=postgres1
+           params:
+               id_region: 60
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/60/stage_gar_c_60.csv
+       -                   
+           name: parse_61
+           descr: Ростовская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_61 user=postgres password=postgres1
+           params:
+               id_region: 61
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/61/stage_gar_c_61.csv
+       -                   
+           name: parse_62
+           descr: Рязанская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_62 user=postgres password=postgres1
+           params:
+               id_region: 62
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/62/stage_gar_c_62.csv
+       -                   
+           name: parse_63
+           descr: Самарская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_63 user=postgres password=postgres1
+           params:
+               id_region: 63
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/63/stage_gar_c_63.csv
+       -                   
+           name: parse_37
+           descr: Ивановская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_37 user=postgres password=postgres1
+           params:
+               id_region: 64
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/37/stage_gar_c_37.csv
+       -                   
+           name: parse_64
+           descr: Саратовская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_64 user=postgres password=postgres1
+           params:
+               id_region: 65
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/64/stage_gar_c_64.csv
+       -                   
+           name: parse_65
+           descr: Сахалинская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_65 user=postgres password=postgres1
+           params:
+               id_region: 66
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/65/stage_gar_c_65.csv
+       -                   
+           name: parse_66
+           descr: Свердловская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_66 user=postgres password=postgres1
+           params:
+               id_region: 67
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/66/stage_gar_c_66.csv
+       -                   
+           name: parse_67
+           descr: Смоленская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_67 user=postgres password=postgres1
+           params:
+               id_region: 68
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/67/stage_gar_c_67.csv
+       -                   
+           name: parse_68
+           descr: Тамбовская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_68 user=postgres password=postgres1
+           params:
+               id_region: 69
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/68/stage_gar_c_68.csv
+       -                   
+           name: parse_69
+           descr: Тверская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_69 user=postgres password=postgres1
+           params:
+               id_region: 70
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/69/stage_gar_c_69.csv
+       -                   
+           name: parse_70
+           descr: Томская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_70 user=postgres password=postgres1
+           params:
+               id_region: 71
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/70/stage_gar_c_70.csv
+       -                   
+           name: parse_71
+           descr: Тульская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_71 user=postgres password=postgres1
+           params:
+               id_region: 72
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/71/stage_gar_c_71.csv
+       -                   
+           name: parse_72
+           descr: Тюменская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_72 user=postgres password=postgres1
+           params:
+               id_region: 73
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/72/stage_gar_c_72.csv
+       -                   
+           name: parse_73
+           descr: Ульяновская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_73 user=postgres password=postgres1
+           params:
+               id_region: 74
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/73/stage_gar_c_73.csv
+       -                   
+           name: parse_74
+           descr: Челябинская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_74 user=postgres password=postgres1
+           params:
+               id_region: 75
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/74/stage_gar_c_74.csv
+       -                   
+           name: parse_75
+           descr: Забайкальский край
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_75 user=postgres password=postgres1
+           params:
+               id_region: 76
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/75/stage_gar_c_75.csv
+       -                   
+           name: parse_76
+           descr: Ярославская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_76 user=postgres password=postgres1
+           params:
+               id_region: 77
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/76/stage_gar_c_76.csv
+       -                   
+           name: parse_78
+           descr: Санкт-Петербург г.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_78 user=postgres password=postgres1
+           params:
+               id_region: 78
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/78/stage_gar_c_78.csv
+       -                   
+           name: parse_79
+           descr: Еврейская Аобл
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_79 user=postgres password=postgres1
+           params:
+               id_region: 79
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/79/stage_gar_c_79.csv
+       -                   
+           name: parse_83
+           descr: Ненецкий АО
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_83 user=postgres password=postgres1
+           params:
+               id_region: 80
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/83/stage_gar_c_83.csv
+       -                   
+           name: parse_86
+           descr: Ханты-Мансийский АО
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_86 user=postgres password=postgres1
+           params:
+               id_region: 81
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/86/stage_gar_c_86.csv
+       -                   
+           name: parse_89
+           descr: Ямало-Ненецкий АО
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_89 user=postgres password=postgres1
+           params:
+               id_region: 82
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/89/stage_gar_c_89.csv
+       -                   
+           name: parse_87
+           descr: Чукотский АО
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_87 user=postgres password=postgres1
+           params:
+               id_region: 83
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/87/stage_gar_c_87.csv
+       -                   
+           name: parse_91
+           descr: Крым Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_91 user=postgres password=postgres1
+           params:
+               id_region: 84
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/91/stage_gar_c_91.csv
+       -                   
+           name: parse_77
+           descr: Москва г.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_77 user=postgres password=postgres1
+           params:
+               id_region: 86
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/77/stage_gar_c_77.csv
+       -                   
+           name: parse_92
+           descr: Севастополь г.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_92 user=postgres password=postgres1
+           params:
+               id_region: 87
+               path: /home/n.chadaev@abrr.local
+               exec: /home/n.chadaev@abrr.local/Y_BUILD/92/stage_gar_c_92.csv
+        

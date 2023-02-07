@@ -12,7 +12,7 @@ import string
 #           1          2         3              4             5        6      7        8
 SA = " <CSV_pattern> <Nmb> <Target_Dir_1> <Target_Path_2> <Host_IP> <Port> <login> <passwd>"
 LSA = 8
-VERSION_STR_0 = "  Version 0.4.0 Build 2022-12-30"
+VERSION_STR_0 = "  Version 0.4.1 Build 2023-02-07"
 VERSION_STR_1 = "  ------------------------------"
 
 USE_CASE = "  USE CASE: "
@@ -21,7 +21,7 @@ US ="""    load_mainCrtYaml.py pattern_may_2.csv 02 ~/tmp Y_BUILD 127.0.0.1 5434
            pattern_may_2.csv - Шаблон
            02                - Номер шаблона в имени YAML-файла
            ~/tmp             - Целевой каталог
-           Y_BUILD           - Путь (только для init, parse yamls)
+           Y_BUILD           - Путь (только для init, parse YAMLS)
            127.0.0.1         - IP
            5434              - порт
            postgres          - login
@@ -172,12 +172,12 @@ class make_main (m_yamls):
             
             print SPACES + "Init"
             f_init.write (self.init_yaml.format (int (fias_id), int(id_area),\
-                nm_area_full, host_ip, port, target_dir_1, (target_dir_1 + PATH_DELIMITER + target_path_2),\
+                nm_area_full, host_ip, port, target_dir_1, target_path_2,\
                     string.strip(p_login), string.strip(p_passwd)))
             
             print SPACES + "Parse"
             f_parse.write (self.parse_yaml.format (int (fias_id), int (id_area),\
-                nm_area_full, host_ip, port, target_dir_1,(target_dir_1 + PATH_DELIMITER + target_path_2),\
+                nm_area_full, host_ip, port, target_dir_1, target_path_2,\
                     string.strip(p_login), string.strip(p_passwd)))
             
             print SPACES + "Total"

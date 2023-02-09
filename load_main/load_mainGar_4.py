@@ -104,7 +104,7 @@ class make_load_4 ():
                  self.password = z[1]
 
          first_str = POINTS + self.h_descr + ", id_region: " + str(self.id_region)\
-             + ", Execute: " + self.batch_file_name + ', process_id:' + str (os.getpid ())
+             + ", Execute: " + self.batch_file_name + ", process_id:" + str (os.getpid ())
          if not p_sw:
              print first_str 
                 

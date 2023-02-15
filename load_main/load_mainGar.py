@@ -92,7 +92,7 @@ bAS_ROOMS_PARAMS      = "ASROOMSPARAMS"
 bAS_STEADS            = "ASSTEADS"
 bAS_STEADS_PARAMS     = "ASSTEADSPARAMS"
 
-VERSION_STR = "  Version 0.5.5 Build 2023-01-13"
+VERSION_STR = "  Version 0.7.1 Build 2023-02-15"
 
 GET_DT = "SELECT now()::TIMESTAMP without time zone FROM current_timestamp;"
 
@@ -272,8 +272,9 @@ class make_load ( fd_log_s ):
  #
  # Nick 2010-04-05 --------------------------------------------------------------------------------------------------
  #                    1          2         3          4            5          6            7          8        9
- def to_do ( self, p_host_ip, p_port, p_db_name, p_user_name, p_batch_name,  p_std_out,\
-     p_std_err, p_path, p_version, p_fserver_nmb = None, p_schemas = None, p_id_region = None):
+ def to_do ( self, p_host_ip, p_port, p_db_name, p_user_name, p_batch_name, p_std_log, p_std_out,\
+     p_std_err, p_std_sql, p_path, p_version, p_fserver_nmb = None, p_schemas = None,\
+         p_id_region = None, p_first_message = None):
 
     self.version = string.strip(p_version)
 
@@ -293,11 +294,11 @@ class make_load ( fd_log_s ):
         str ( p_user_name )
     s_lp = s_lp + SPACE_0 + str ( p_batch_name ) + SPACE_0 + str ( self.version )
 
-    self.open_log ( bLOG_NAME, self.path, s_lp )
+    self.open_log ( p_std_log, self.path, s_lp )
     self.write_log_first ()
     
     # 2022-02-27
-    self.open_sql_log (bSQL_NAME)
+    self.open_sql_log (p_std_sql)
 
     rc = 0
 
@@ -309,6 +310,9 @@ class make_load ( fd_log_s ):
             l_db_name = string.strip (l_words [2])
             if len (l_db_name) == 0:
                 l_db_name = p_db_name
+            
+            if not (p_first_message is None):
+                self.write_log ((p_first_message).decode (bCP))
             
             #----------------------------------------------------------------------------
             if l_words [0] == MESSAGE:  # Message
@@ -626,8 +630,8 @@ if __name__ == '__main__':
 #
         ml = make_load ( sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4] )
         rc = ml.to_do  ( sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4],\
-                                   sys.argv[5], bOUT_NAME, bERR_NAME, sys.argv[6], sys.argv[7])
-        
+                                   sys.argv[5], bLOG_NAME, bOUT_NAME, bERR_NAME, bSQL_NAME,\
+                                       sys.argv[6], sys.argv[7] )
         sys.exit ( rc )
 
 #---------------------------------------

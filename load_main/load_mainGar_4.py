@@ -20,7 +20,7 @@ from yaml.loader import SafeLoader
 
 import load_mainGar as LoadGar
 
-VERSION_STR = "  Version 0.7.0 Build 2023-02-07"
+VERSION_STR = "  Version 0.7.1 Build 2023-02-15"
 
 YAML_NOT_OPENED_0 = "... Yaml file not opened: '"
 YAML_NOT_OPENED_1 = "'."
@@ -110,8 +110,8 @@ class make_load_4 ():
                 
          ml = LoadGar.make_load (self.host_ip, self.port, self.db_name, self.user_name)
          rc = ml.to_do (self.host_ip, self.port, self.db_name, self.user_name, self.batch_file_name,\
-             bOUT_NAME, bERR_NAME, self.path, self.version_date, self.fserver_nmb, self.schemas,\
-                 self.id_region)     
+             bLOG_NAME, bOUT_NAME, bERR_NAME, bSQL_NAME, self.path, self.version_date, self.fserver_nmb,\
+                 self.schemas, self.id_region)     
          
          if not (rc == 0):
              sys.exit (rc)    

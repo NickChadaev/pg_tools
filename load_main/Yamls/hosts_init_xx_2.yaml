@@ -6,7 +6,7 @@ hosts:
            params:
                id_region: 44
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/45/stage_0_45.csv
+               exec: Y_BUILD/45/stage_0_45.csv
        -                   
            name: init_46
            descr: Курская обл.
@@ -14,7 +14,7 @@ hosts:
            params:
                id_region: 45
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/46/stage_0_46.csv
+               exec: Y_BUILD/46/stage_0_46.csv
        -                   
            name: init_47
            descr: Ленинградская обл.
@@ -22,7 +22,7 @@ hosts:
            params:
                id_region: 46
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/47/stage_0_47.csv
+               exec: Y_BUILD/47/stage_0_47.csv
        -                   
            name: init_35
            descr: Вологодская обл.
@@ -30,7 +30,7 @@ hosts:
            params:
                id_region: 47
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/35/stage_0_35.csv
+               exec: Y_BUILD/35/stage_0_35.csv
        -                   
            name: init_48
            descr: Липецкая обл.
@@ -38,7 +38,7 @@ hosts:
            params:
                id_region: 48
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/48/stage_0_48.csv
+               exec: Y_BUILD/48/stage_0_48.csv
        -                   
            name: init_49
            descr: Магаданская обл.
@@ -46,7 +46,7 @@ hosts:
            params:
                id_region: 49
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/49/stage_0_49.csv
+               exec: Y_BUILD/49/stage_0_49.csv
        -                   
            name: init_50
            descr: Московская обл.
@@ -54,7 +54,7 @@ hosts:
            params:
                id_region: 50
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/50/stage_0_50.csv
+               exec: Y_BUILD/50/stage_0_50.csv
        -                   
            name: init_51
            descr: Мурманская обл.
@@ -62,7 +62,7 @@ hosts:
            params:
                id_region: 51
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/51/stage_0_51.csv
+               exec: Y_BUILD/51/stage_0_51.csv
        -                   
            name: init_52
            descr: Нижегородская обл.
@@ -70,7 +70,7 @@ hosts:
            params:
                id_region: 52
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/52/stage_0_52.csv
+               exec: Y_BUILD/52/stage_0_52.csv
        -                   
            name: init_53
            descr: Новгородская обл.
@@ -78,7 +78,7 @@ hosts:
            params:
                id_region: 53
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/53/stage_0_53.csv
+               exec: Y_BUILD/53/stage_0_53.csv
        -                   
            name: init_54
            descr: Новосибирская обл.
@@ -86,7 +86,7 @@ hosts:
            params:
                id_region: 54
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/54/stage_0_54.csv
+               exec: Y_BUILD/54/stage_0_54.csv
        -                   
            name: init_55
            descr: Омская обл.
@@ -94,7 +94,7 @@ hosts:
            params:
                id_region: 55
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/55/stage_0_55.csv
+               exec: Y_BUILD/55/stage_0_55.csv
        -                   
            name: init_56
            descr: Оренбургская обл.
@@ -102,7 +102,7 @@ hosts:
            params:
                id_region: 56
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/56/stage_0_56.csv
+               exec: Y_BUILD/56/stage_0_56.csv
        -                   
            name: init_57
            descr: Орловская обл.
@@ -110,7 +110,7 @@ hosts:
            params:
                id_region: 57
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/57/stage_0_57.csv
+               exec: Y_BUILD/57/stage_0_57.csv
        -                   
            name: init_58
            descr: Пензенская обл.
@@ -118,7 +118,7 @@ hosts:
            params:
                id_region: 58
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/58/stage_0_58.csv
+               exec: Y_BUILD/58/stage_0_58.csv
        -                   
            name: init_59
            descr: Пермский край
@@ -126,7 +126,7 @@ hosts:
            params:
                id_region: 59
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/59/stage_0_59.csv
+               exec: Y_BUILD/59/stage_0_59.csv
        -                   
            name: init_60
            descr: Псковская обл.
@@ -134,7 +134,7 @@ hosts:
            params:
                id_region: 60
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/60/stage_0_60.csv
+               exec: Y_BUILD/60/stage_0_60.csv
        -                   
            name: init_61
            descr: Ростовская обл.
@@ -142,7 +142,7 @@ hosts:
            params:
                id_region: 61
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/61/stage_0_61.csv
+               exec: Y_BUILD/61/stage_0_61.csv
        -                   
            name: init_62
            descr: Рязанская обл.
@@ -150,7 +150,7 @@ hosts:
            params:
                id_region: 62
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/62/stage_0_62.csv
+               exec: Y_BUILD/62/stage_0_62.csv
        -                   
            name: init_63
            descr: Самарская обл.
@@ -158,7 +158,7 @@ hosts:
            params:
                id_region: 63
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/63/stage_0_63.csv
+               exec: Y_BUILD/63/stage_0_63.csv
        -                   
            name: init_37
            descr: Ивановская обл.
@@ -166,7 +166,7 @@ hosts:
            params:
                id_region: 64
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/37/stage_0_37.csv
+               exec: Y_BUILD/37/stage_0_37.csv
        -                   
            name: init_64
            descr: Саратовская обл.
@@ -174,5 +174,5 @@ hosts:
            params:
                id_region: 65
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/64/stage_0_64.csv
+               exec: Y_BUILD/64/stage_0_64.csv
         

@@ -114,12 +114,6 @@ hosts:
            params:
                id_region: 84
        -                   
-           name: unnsi_77
-           descr: Москва г.
-           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_77 user=postgres password=postgres1
-           params:
-               id_region: 86
-       -                   
            name: unnsi_92
            descr: Севастополь г.
            conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_92 user=postgres password=postgres1

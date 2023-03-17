@@ -6,7 +6,7 @@ hosts:
            params:
                id_region: 32
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/31/stage_gar_c_31.csv
+               exec: Y_BUILD/31/stage_gar_c_31.csv
        -                   
            name: parse_32
            descr: Брянская обл.
@@ -14,7 +14,7 @@ hosts:
            params:
                id_region: 33
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/32/stage_gar_c_32.csv
+               exec: Y_BUILD/32/stage_gar_c_32.csv
        -                   
            name: parse_33
            descr: Владимирская обл.
@@ -22,7 +22,7 @@ hosts:
            params:
                id_region: 34
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/33/stage_gar_c_33.csv
+               exec: Y_BUILD/33/stage_gar_c_33.csv
        -                   
            name: parse_34
            descr: Волгоградская обл.
@@ -30,7 +30,7 @@ hosts:
            params:
                id_region: 35
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/34/stage_gar_c_34.csv
+               exec: Y_BUILD/34/stage_gar_c_34.csv
        -                   
            name: parse_36
            descr: Воронежская обл.
@@ -38,7 +38,7 @@ hosts:
            params:
                id_region: 36
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/36/stage_gar_c_36.csv
+               exec: Y_BUILD/36/stage_gar_c_36.csv
        -                   
            name: parse_38
            descr: Иркутская обл.
@@ -46,7 +46,7 @@ hosts:
            params:
                id_region: 37
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/38/stage_gar_c_38.csv
+               exec: Y_BUILD/38/stage_gar_c_38.csv
        -                   
            name: parse_39
            descr: Калининградская обл.
@@ -54,15 +54,7 @@ hosts:
            params:
                id_region: 38
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/39/stage_gar_c_39.csv
-       -                   
-           name: parse_50
-           descr: Московская обл.
-           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_50 user=postgres password=postgres1
-           params:
-               id_region: 50
-               path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/50/stage_gar_c_50.csv
+               exec: Y_BUILD/39/stage_gar_c_39.csv
        -                   
            name: parse_51
            descr: Мурманская обл.
@@ -70,7 +62,7 @@ hosts:
            params:
                id_region: 51
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/51/stage_gar_c_51.csv
+               exec: Y_BUILD/51/stage_gar_c_51.csv
        -                   
            name: parse_52
            descr: Нижегородская обл.
@@ -78,7 +70,7 @@ hosts:
            params:
                id_region: 52
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/52/stage_gar_c_52.csv
+               exec: Y_BUILD/52/stage_gar_c_52.csv
        -                   
            name: parse_53
            descr: Новгородская обл.
@@ -86,7 +78,7 @@ hosts:
            params:
                id_region: 53
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/53/stage_gar_c_53.csv
+               exec: Y_BUILD/53/stage_gar_c_53.csv
        -                   
            name: parse_54
            descr: Новосибирская обл.
@@ -94,7 +86,7 @@ hosts:
            params:
                id_region: 54
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/54/stage_gar_c_54.csv
+               exec: Y_BUILD/54/stage_gar_c_54.csv
        -                   
            name: parse_55
            descr: Омская обл.
@@ -102,7 +94,7 @@ hosts:
            params:
                id_region: 55
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/55/stage_gar_c_55.csv
+               exec: Y_BUILD/55/stage_gar_c_55.csv
        -                   
            name: parse_56
            descr: Оренбургская обл.
@@ -110,5 +102,5 @@ hosts:
            params:
                id_region: 56
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/56/stage_gar_c_56.csv
+               exec: Y_BUILD/56/stage_gar_c_56.csv
        

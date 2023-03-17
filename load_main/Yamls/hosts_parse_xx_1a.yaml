@@ -6,7 +6,7 @@ hosts:
            params:
                id_region: 22
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/21/stage_gar_c_21.csv
+               exec: Y_BUILD/21/stage_gar_c_21.csv
        -                   
            name: parse_22
            descr: Алтайский край
@@ -14,7 +14,7 @@ hosts:
            params:
                id_region: 23
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/22/stage_gar_c_22.csv
+               exec: Y_BUILD/22/stage_gar_c_22.csv
        -                   
            name: parse_23
            descr: Краснодарский край
@@ -22,7 +22,7 @@ hosts:
            params:
                id_region: 24
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/23/stage_gar_c_23.csv
+               exec: Y_BUILD/23/stage_gar_c_23.csv
        -                   
            name: parse_24
            descr: Красноярский край
@@ -30,7 +30,7 @@ hosts:
            params:
                id_region: 25
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/24/stage_gar_c_24.csv
+               exec: Y_BUILD/24/stage_gar_c_24.csv
        -                   
            name: parse_25
            descr: Приморский край
@@ -38,7 +38,7 @@ hosts:
            params:
                id_region: 26
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/25/stage_gar_c_25.csv
+               exec: Y_BUILD/25/stage_gar_c_25.csv
        -                   
            name: parse_26
            descr: Ставропольский край
@@ -46,7 +46,7 @@ hosts:
            params:
                id_region: 27
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/26/stage_gar_c_26.csv
+               exec: Y_BUILD/26/stage_gar_c_26.csv
        -                   
            name: parse_27
            descr: Хабаровский край
@@ -54,7 +54,7 @@ hosts:
            params:
                id_region: 28
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/27/stage_gar_c_27.csv
+               exec: Y_BUILD/27/stage_gar_c_27.csv
        -                   
            name: parse_28
            descr: Амурская обл.
@@ -62,7 +62,7 @@ hosts:
            params:
                id_region: 29
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/28/stage_gar_c_28.csv
+               exec: Y_BUILD/28/stage_gar_c_28.csv
        -                   
            name: parse_29
            descr: Архангельская обл.
@@ -70,7 +70,7 @@ hosts:
            params:
                id_region: 30
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/29/stage_gar_c_29.csv
+               exec: Y_BUILD/29/stage_gar_c_29.csv
        -                   
            name: parse_30
            descr: Астраханская обл.
@@ -78,7 +78,7 @@ hosts:
            params:
                id_region: 31
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/30/stage_gar_c_30.csv
+               exec: Y_BUILD/30/stage_gar_c_30.csv
        -                   
            name: parse_40
            descr: Калужская обл.
@@ -86,7 +86,7 @@ hosts:
            params:
                id_region: 39
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/40/stage_gar_c_40.csv
+               exec: Y_BUILD/40/stage_gar_c_40.csv
        -                   
            name: parse_41
            descr: Камчатский край
@@ -94,7 +94,7 @@ hosts:
            params:
                id_region: 40
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/41/stage_gar_c_41.csv
+               exec: Y_BUILD/41/stage_gar_c_41.csv
        -                   
            name: parse_42
            descr: Кемеровская обл.
@@ -102,7 +102,7 @@ hosts:
            params:
                id_region: 41
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/42/stage_gar_c_42.csv
+               exec: Y_BUILD/42/stage_gar_c_42.csv
        -                   
            name: parse_43
            descr: Кировская обл.
@@ -110,7 +110,7 @@ hosts:
            params:
                id_region: 42
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/43/stage_gar_c_43.csv
+               exec: Y_BUILD/43/stage_gar_c_43.csv
        -                   
            name: parse_44
            descr: Костромская обл.
@@ -118,5 +118,5 @@ hosts:
            params:
                id_region: 43
                path: /home/n.chadaev@abrr.local
-               exec: /home/n.chadaev@abrr.local/Y_BUILD/44/stage_gar_c_44.csv
+               exec: Y_BUILD/44/stage_gar_c_44.csv
         

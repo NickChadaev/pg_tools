@@ -42,12 +42,6 @@ hosts:
            params:
                id_region: 38
        -                   
-           name: unnsi_50
-           descr: Московская обл.
-           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_50 user=postgres password=postgres1
-           params:
-               id_region: 50
-       -                   
            name: unnsi_51
            descr: Мурманская обл.
            conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_51 user=postgres password=postgres1

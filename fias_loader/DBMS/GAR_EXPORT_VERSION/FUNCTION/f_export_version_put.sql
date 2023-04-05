@@ -15,7 +15,8 @@ CREATE OR REPLACE FUNCTION export_version.f_version_put (
     -- ========================================================================
     -- Author: Nick
     -- Create date: 2022-12-09
-    -- ------------------------------------------------------------------------  
+    -- ------------------------------------------------------------------------
+    --  2023-04-05 Обновление, добавлены: "dt_export", "nm_user"
     -- ========================================================================
     DECLARE
        _id_un_export bigint;
@@ -45,8 +46,9 @@ CREATE OR REPLACE FUNCTION export_version.f_version_put (
                       kd_export_type = excluded.kd_export_type  
                      ,id_region      = excluded.id_region  
                      ,seq_value      = excluded.seq_value
-                     ,node_id        = excluded.node_id                   
-
+                     ,node_id        = excluded.node_id 
+                     ,dt_export      = now()
+                     ,nm_user        = SESSION_USER
                  WHERE (export_version.un_export.dt_gar_version = excluded.dt_gar_version)
              
         RETURNING id_un_export INTO _id_un_export;   

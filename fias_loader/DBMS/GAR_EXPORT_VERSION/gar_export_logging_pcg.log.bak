@@ -1,10 +1,10 @@
-2022-12-15 17:39:11 ./
-127.0.0.1 5434 unsi_test_76 postgres stage_25_export_build.csv 
+2022-12-21 20:06:55 ./
+127.0.0.1 5435 unsi_test_01 postgres stage_25_export_build.csv 
 --------------------------------------------------------
-[17:39:11] ... Start process, Сборка контрольного пакета
-[17:39:11] ... -- Версия 0cb98a3/2022-12-15
-[17:39:12] ... -- f_export_version_put.sql
-[17:39:12] ... -- f_export_by_obj_put.sql
-[17:39:12] ... -- v_export_versions.sql
-[17:39:12] ... Stop process
+[20:06:55] ... Start process, Сборка контрольного пакета
+[20:06:55] ... -- Версия cd7dfd6/2022-12-21
+[20:07:02] ... -- f_export_version_put.sql
+[20:07:12] ... -- f_export_by_obj_put.sql
+[20:07:15] ... -- v_export_versions.sql
+[20:07:19] ... Stop process
 --------------------------------------------------------

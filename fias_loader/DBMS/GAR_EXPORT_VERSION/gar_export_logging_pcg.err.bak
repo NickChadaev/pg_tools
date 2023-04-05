@@ -1,3 +1,3 @@
-psql:./FUNCTION/f_export_version_put.sql:56: ЗАМЕЧАНИЕ:  RELATION | 127209 | export_version | un_export
-psql:./FUNCTION/f_export_by_obj_put.sql:62: ЗАМЕЧАНИЕ:  RELATION | 127209 | export_version | un_export
-psql:./FUNCTION/f_export_by_obj_put.sql:62: ЗАМЕЧАНИЕ:  RELATION | 127223 | export_version | un_export_by_obj
+psql:./FUNCTION/f_export_version_put.sql:56: ЗАМЕЧАНИЕ:  RELATION | 842516 | export_version | un_export
+psql:./FUNCTION/f_export_by_obj_put.sql:62: ЗАМЕЧАНИЕ:  RELATION | 842516 | export_version | un_export
+psql:./FUNCTION/f_export_by_obj_put.sql:62: ЗАМЕЧАНИЕ:  RELATION | 842532 | export_version | un_export_by_obj

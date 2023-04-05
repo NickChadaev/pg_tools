@@ -26,7 +26,7 @@
 #-------------------------------------------------------------------------------
 X;;;Start process, Сборка контрольного пакета;
 #  
-5;version.sql;;-- Версия cd7dfd6/2023-04-05; 
+5;version.sql;;-- Версия 6d19d8d/2023-04-05; 
 #
 5;FUNCTION/f_export_version_put.sql;;-- f_export_version_put.sql;
 5;FUNCTION/f_export_by_obj_put.sql ;;-- f_export_by_obj_put.sql;

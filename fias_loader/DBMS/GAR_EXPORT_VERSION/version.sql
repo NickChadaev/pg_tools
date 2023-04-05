@@ -3,6 +3,6 @@
 --
 CREATE OR REPLACE VIEW export_version.version
  AS
- SELECT '$Revision:cd7dfd6$ modified $RevDate:2022-12-21$'::text AS version; 
+ SELECT '$Revision:6d19d8d$ modified $RevDate:2023-04-05$'::text AS version; 
 
--- SELECT * FROM export_version.version;  
+-- SELECT * FROM export_version.version;   

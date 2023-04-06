@@ -1,0 +1,2 @@
+SELECT service_id, service_type, service_uuid, service_name, send_queue, send_queue_attr, recieve_queue, recieve_queue_attr, service_descr, data_create, service_node_num, cluster_name
+	FROM uio.service_config;

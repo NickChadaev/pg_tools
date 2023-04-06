@@ -1,0 +1,12 @@
+[Unit]
+Description=pg-perfect-ticker (%i) daemon
+After=network.target postgresql@10-main.service
+
+[Service]
+Type=notify
+Environment=PYTHONPATH=/opt/pg-perfect-ticker/python-lib
+ExecStart=/opt/pg-perfect-ticker/pg-perfect-ticker.sh --log-config=/opt/pg-perfect-ticker/%i-new-logging.json -- /opt/pg-perfect-ticker/%i-new-tasks.cfg /opt/pg-perfect-ticker/%i-new-params.cfg
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

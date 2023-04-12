@@ -12,7 +12,7 @@ import string
 import datetime
 import psycopg2    
 
-VERSION_STR_0 = "  Version 0.4.2 Build 2023-01-23"
+VERSION_STR_0 = "  Version 0.4.3 Build 2023-04-12"
 VERSION_STR_1 = "  ------------------------------"
 
 #            1            2           3           4          5         6          7 
@@ -203,7 +203,7 @@ class make_main ():    # m_db_script_0, m_db_script_0, m_stage_parse
             mc.b_catalog (fias_id)
             
             if p_del_sign:
-                rc = ( os.system ("rm -d -R " + mc.catalog_name ))
+                rc = ( os.system ("rm -d -R -f " + mc.catalog_name ))
                 
             rc = ( os.system ("mkdir " + mc.catalog_name ))
             print ( mc.catalog_name + " " + nm_area_full )  

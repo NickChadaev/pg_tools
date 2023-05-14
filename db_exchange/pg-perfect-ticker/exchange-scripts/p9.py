@@ -3,19 +3,19 @@
 # PROJ: DataBase, service function.
 # FILE: load_mainCar.py
 # AUTH: NickChadaev (nick-ch58@yandex.ru)
-# DESC: Load data into database
-# HIST: 2023--03-08 - created
+# DESC: pg-perfect-ticker's worker. 
+# HIST: 2023-03-08 - created
 # NOTS: 
 # -------------------------------------------------------------------------------------------
 
 import shlex
 import psycopg2 
 from lib_pg_perfect_ticker import simple_db_pool
-import pgqueue
+#import pgqueue
 import time
 import load_mainGar as LoadGar
 
-bPN = "r2_"
+bPN = "p9_"
 
 #------------------------------
 bLOG_NAME = "{0}process{1}.log"
@@ -30,10 +30,11 @@ bLBR = "("
 bRBR = ")"
 bCM  = ","
 EMP = ""
-bU  = "_"
 
-QUEUE_PROC = "QR"
-QUEUE_LOG = "QL"
+QUEUE_PARSE = "QP"
+QUEUE_PROC  = "QR"
+QUEUE_CONT  = "QP9"
+
 QUEUE_CONSUMER = "cons_p0"
 
 NEXT_EVENTS = """SELECT 
@@ -62,24 +63,52 @@ CALL uio.p_event_ins (
 );
 """
 
-### con = psycopg2.connect("dbname=db_exchange user=postgres port=5433")
+## con = psycopg2.connect("dbname=db_exchange user=postgres port=5433")
 
+# Есть ли незаверщённый ранее процесс ( смотрю контекст).
 cur1 = con.cursor()
-cur1.execute (NEXT_EVENTS, (QUEUE_PROC, QUEUE_CONSUMER))
-event = cur1.fetchone() 
+cur1.execute (NEXT_EVENTS, (QUEUE_CONT, QUEUE_CONSUMER))
+event_с = cur1.fetchone()  
+
+if ( event_с [0] ):
+    event = event_с
+else:    
+    cur2 = con.cursor()
+    cur2.execute (NEXT_EVENTS, (QUEUE_PARSE, QUEUE_CONSUMER))
+    event = cur2.fetchone() 
+    
 con.commit()
 
-if (event [0]):
+if ( event[0] ):
+    
+    # Формирую контекст.
+    cur1.execute (INSERT_EVENT, (QUEUE_CONT, event[2], event[3], event[4], event[5], event[6], event[7]))      
+    con.commit()
         
     ev_id   = event[0]
     ev_time = event[1]
     #--
-    ev_type = event[2]                 # ev_type
-    ev_data = event[3]
-    first_mess_proc = event[4]         #  ev_extra1
-    log_pref_proc = event[5]           #  ev_extra2
+    ev_type = event[2].split(bDL)       # ev_type
+    ev_type_parse = ev_type[0]
+    ev_type_proc = ev_type[1]
     
-    dp = ((ev_data.replace(bLBR, EMP)).replace(bRBR,EMP)).split(bCM)
+    ev_data = event[3].split(bDL)       # ev_data
+    ev_data_parse = ev_data[0]
+    log_pref_parse = ev_data[1]
+    
+    first_mess_parse = event[4]         #  ev_extra1
+    
+    ev_extra2 = event[5].split(bDL)     #  ev_extra2
+    ev_data_proc = ev_extra2[0]
+    log_pref_proc = ev_extra2[1]
+    
+    first_mess_proc = event[6]          #  ev_extra3
+    
+    #print (ev_id)     
+    #print (ev_type_parse)
+    #print (ev_type_proc)
+   
+    dp = ((ev_data_parse.replace(bLBR, EMP)).replace(bRBR,EMP)).split(bCM)
   
     host_ip         = dp[0].strip()
     port            = dp[1].strip()                      
@@ -93,13 +122,22 @@ if (event [0]):
     id_region       = dp[9].strip()
     
     rc = 0
-    proc_mr = log_pref_proc + PATH_DELIMITER + bPN
-    ml = LoadGar.make_load (host_ip, port, db_name, user_name, False, proc_mr) #### !!!!
+    proc_mp = log_pref_parse + PATH_DELIMITER + bPN
+    ml = LoadGar.make_load (host_ip, port, db_name, user_name, False, proc_mp) #### !!!!
     rc = ml.to_do (host_ip, port, db_name, user_name, batch_file_name,\
         bLOG_NAME, bOUT_NAME, bERR_NAME, bSQL_NAME, path, version_date,\
                 p_fserver_nmb = fserver_nmb, p_schemas = schemas, p_id_region = id_region,\
-                    p_first_message = first_mess_proc)   
+                    p_first_message = first_mess_parse)   
     if (rc == 0):
-        cur2 = con.cursor()
-        cur2.execute (INSERT_EVENT,(QUEUE_LOG, ev_type, first_mess_proc, bPN.strip(bU), EMP, EMP, EMP))         
+        #----------------------------------------    
+        # Убираю контекст.
+        cur1.execute (NEXT_EVENTS, (QUEUE_CONT, QUEUE_CONSUMER))
+        event_с = cur1.fetchone()         
+        
+        # Готовлю задание для processing
+        cur3 = con.cursor()
+        cur3.execute (INSERT_EVENT, (QUEUE_PROC, ev_type_proc, ev_data_proc, first_mess_proc,\
+            log_pref_proc, EMP, EMP))  
+        ## psycopg2.errors.FeatureNotSupported:
+        
         con.commit()

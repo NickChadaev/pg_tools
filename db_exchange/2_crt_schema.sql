@@ -5,6 +5,7 @@
 --  2018-12-14 Nick - Новое деление на схемы
 --  2020-08-14 Nick - Единый скрипт разделяется на части, для каждой функциональной группы - свой скрипт
 --  2020-11-14 Nick - Дополнительные функциональные схемы.
+--  2023-05-23 Nick - Две схемы, 10+10
 -- =======================================================================================================
 -- 
 DROP SCHEMA IF EXISTS uio CASCADE;
@@ -15,6 +16,4 @@ DROP SCHEMA IF EXISTS uio_pgq CASCADE;
 CREATE SCHEMA uio_pgq;
 COMMENT ON SCHEMA uio_pgq IS 'Функции, обеспечивающие взаимодействие с PGQ';
 --
-DROP SCHEMA IF EXISTS uio_func CASCADE;
-CREATE SCHEMA uio_func;
-COMMENT ON SCHEMA uio_func IS 'Обменные функции общего назначения';
+

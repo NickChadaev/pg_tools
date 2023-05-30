@@ -1,0 +1,123 @@
+#
+#  2022-03-11/2022-06-09
+#  VERSION_STR = "  Version 0.3.0 Build 2022-12-06"
+#
+control_params:
+    stage_4_1: True
+    stage_4_2: True
+    stage_a_p: False  
+    #
+    stage_4_3: True
+    stage_4_4: True
+    stage_s_p: False
+    #
+    stage_4_5: True
+    stage_4_6: True
+    stage_h_p: False    
+    #
+    mogrify_4_1: False
+    mogrify_4_2: False
+    mogrify_a_p: False
+    #
+    mogrify_4_3: False
+    mogrify_4_4: False
+    mogrify_s_p: False
+    #
+    mogrify_4_5: False
+    mogrify_4_6: False
+    mogrify_h_p: False
+    
+global_params:
+    g_history_sch: gar_tmp    
+
+adr_area:
+    #  
+    # stage_4_1
+    #
+    op_ins:
+        p_descr: Адресные регионы, дополнение
+        params:                       
+            p_schema_data: gar_tmp   # Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
+            p_schema_etl: gar_tmp    # Схема эталон, обычно локальный сервер, копия p_schema_data
+            p_sw_hist: TRUE        # Создаётся историческая запись.
+            p_check_query: SELECT * FROM gar_tmp.adr_area_hist WHERE (id_region = 0) AND (date_create >= (now() - INTERVAL '1 DAY')) ORDER BY date_create;
+    #  
+    # stage_4_2
+    #    
+    op_upd:                  
+        p_descr: Адресные регионы, обновление
+        params:                       
+            p_schema_data: gar_tmp   #  Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
+            p_schema_etl: gar_tmp    #  Схема эталон, обычно локальный сервер, копия p_schema_data
+            p_sw_hist: TRUE        #  Создаётся историческая запись.
+            p_check_query: SELECT * FROM gar_tmp.adr_area_hist WHERE (id_region = 0) AND (date_create >= (now() - INTERVAL '1 DAY')) ORDER BY date_create;
+    #  
+    # stage_a_p
+    #       
+    post_proc:
+        p_descr: Постобработка списка адресных регионов
+        p_query_1: ../../A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_area_post_proc.sql # Имя сценария
+#            
+adr_street:
+    #  
+    # stage_4_3
+    #
+    op_ins:  
+        p_descr: Элемент улично-дорожной сети, дополнение    
+        params:                       
+            p_schema_data: gar_tmp   # Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
+            p_schema_etl: gar_tmp    # Схема эталон, обычно локальный сервер, копия p_schema_data 
+            p_sw_hist: TRUE        # Создаётся историческая запись
+            p_check_query: SELECT * FROM gar_tmp.adr_street_hist WHERE (id_region = 0) AND (date_create >= (now() - INTERVAL '1 DAY')) ORDER BY date_create;
+    # 
+    #  
+    # stage_4_4
+    #    
+    op_upd:
+        p_descr: Элемент улично-дорожной сети, обновление         
+        params:                       
+            p_schema_data: gar_tmp   # Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
+            p_schema_etl: gar_tmp    # Схема эталон, обычно локальный сервер, копия p_schema_data
+            p_schema_hist: gar_tmp # Схема для хранения исторических данных 
+            p_sw_hist: TRUE        # Создаётся историческая запись                
+            p_sw_twin: FALSE       # Обязательное выявление дубликатов
+            p_check_query: SELECT * FROM gar_tmp.adr_street_hist WHERE (id_region = 0) AND (date_create >= (now() - INTERVAL '1 DAY')) ORDER BY date_create;
+    #  
+    # stage_s_p
+    #       
+    post_proc:
+        p_descr: Постобработка списка улиц
+        p_query_1: ../../A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_street_post_proc.sql # Имя сценария
+# 
+adr_house:
+    #  
+    # stage_4_5
+    #    
+    op_ins:   
+        p_descr: Здания (сооружения), дополнение 
+        params:                       
+            p_schema_data: gar_tmp # Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
+            p_schema_etl: gar_tmp  # Схема эталон, обычно локальный сервер, копия p_schema_data
+            p_sw: FALSE            # Включить дополнение/обновление adr_objects
+            p_sw_twin: FALSE       # Включается поиск двойников        
+            p_check_query: SELECT * FROM gar_tmp.adr_house_hist WHERE (id_region = 0) AND (date_create >= (now() - INTERVAL '1 DAY')) ORDER BY date_create;  
+    #  
+    # stage_4_6
+    #    
+    op_upd:   
+        p_descr: Здания (сооружения), обновление         
+        params:          
+            p_schema_data: gar_tmp # Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
+            p_schema_etl: gar_tmp  # Схема эталон, обычно локальный сервер, копия p_schema_data
+            p_sw_hist: TRUE        # Создаётся историческая запись.  
+            p_sw_twin: FALSE       # Обязательное выявление дубликатов
+            p_del: FALSE           # Убираю дубли при обработки EXCEPTION 
+            p_sw: FALSE            # Включить дополнение/обновление adr_objects
+            p_check_query: SELECT * FROM gar_tmp.adr_house_hist WHERE (id_region = 0) AND (date_create >= (now() - INTERVAL '1 DAY')) ORDER BY date_create;     
+    #  
+    # stage_h_p
+    #       
+    post_proc:
+        p_descr:  Постобработка списка домов
+        p_query_1: ../../A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_house_post_proc.sql # Имя сценария
+#

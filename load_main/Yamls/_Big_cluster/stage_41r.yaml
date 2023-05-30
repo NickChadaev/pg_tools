@@ -56,7 +56,7 @@ adr_area:
     #       
     post_proc:
         p_descr: Постобработка списка адресных регионов
-        p_query_1: ../../A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_area_post_proc.sql # Имя сценария
+        p_query_1: /home/n.chadaev@abrr.local/A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_area_post_proc.sql # Имя сценария
 #            
 adr_street:
     #  
@@ -87,7 +87,7 @@ adr_street:
     #       
     post_proc:
         p_descr: Постобработка списка улиц
-        p_query_1: ../../A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_street_post_proc.sql # Имя сценария
+        p_query_1: /home/n.chadaev@abrr.local/A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_street_post_proc.sql # Имя сценария
 # 
 adr_house:
     #  
@@ -119,5 +119,5 @@ adr_house:
     #       
     post_proc:
         p_descr:  Постобработка списка домов
-        p_query_1: ../../A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_house_post_proc.sql # Имя сценария
+        p_query_1: /home/n.chadaev@abrr.local/A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_house_post_proc.sql # Имя сценария
 #

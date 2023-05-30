@@ -58,9 +58,6 @@ unnsi_adr_area_upload:
                            #
         p_drop_remote_idxs: True   # Только при  "g_kd_export_type: True"
                                    # Не забыть создать индесное покрытие после обработки.
-                           
-        #  p_post_script: ../../A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_area_post_proc_1.sql
-        #  p_post_script: A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_area_post_proc_1.sql
         #  
 # stage_6_2
 #
@@ -77,9 +74,6 @@ unnsi_adr_street_upload:
                            #        
         p_drop_remote_idxs: True   # Только при  "g_kd_export_type: True"
                                    # Не забыть создать индесное покрытие после обработки.
-                           
-        #  p_post_script: ../../A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_street_post_proc_1.sql
-        #  p_post_script: A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_street_post_proc_1.sql
 #      
 # stage_6_3
 #
@@ -96,6 +90,3 @@ unnsi_adr_house_upload:
                            #        
         p_drop_remote_idxs: True   # Только при  "g_kd_export_type: True"
                                    # Не забыть создать индесное покрытие после обработки.
-                           
-#        p_post_script: ../../A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_house_post_proc_1.sql
-#        p_post_script: A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_house_post_proc_1.sql

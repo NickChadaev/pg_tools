@@ -19,8 +19,8 @@ global_params:
     g_fserver_nmb: 1              # На 5432 unnsi_prd_test --  p_id_region
     g_kd_export_type: False       # True: с использованием FDW, False: текстовый файл
     g_seq_name: gar_tmp.obj_seq   # Региональная последовательность
-    g_file_path: ../../tmp/up_prds_  # Путь для хранения экспортируемых файлов   
-    g_git_path:  ../../A_FIAS_LOADER   # Источник для копирования IDX-файлов, SH-скриптов.
+    g_file_path: /home/n.chadaev@abrr.local/tmp/up_prds_  # Путь для хранения экспортируемых файлов   
+    g_git_path: /home/n.chadaev@abrr.local/A_FIAS_LOADER   # Источник для копирования IDX-файлов, SH-скриптов.
 #----------------------------------------------------
 #         ,p_dt_gar_version := {0}::date 
 #----------------------------------------------------  
@@ -50,7 +50,7 @@ unnsi_adr_area_upload:
     params_proc:
         p_bound_date: 2022-01-01  # 
         p_post_proc_skip: False   # Пропустили постобработку, (-отслеживание дубликатов, +реиндексация).
-        p_post_script: ../../pg_tools/fias_loader/DBMS/GAR_TMP_PCG_TRANS/DO/check_parent_less.sql     
+        p_post_script: /home/n.chadaev@abrr.local/pg_tools/fias_loader/DBMS/GAR_TMP_PCG_TRANS/DO/check_parent_less.sql     
         p_post_upload_skip: False # Пропустили выгрузку, (в любом из двух видов).
         p_sch_type: True          # Только для выгрузки в файл, при "g_kd_export_type": False 
                            # False - использование локальной схемы (g_adr_area_sch_l)
@@ -58,10 +58,6 @@ unnsi_adr_area_upload:
                            #
         p_drop_remote_idxs: True   # Только при  "g_kd_export_type: True"
                                    # Не забыть создать индесное покрытие после обработки.
-                           
-        #  p_post_script: ../../A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_area_post_proc_1.sql
-        #  p_post_script: A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_area_post_proc_1.sql
-        #  
 # stage_6_2
 #
 unnsi_adr_street_upload:
@@ -77,9 +73,6 @@ unnsi_adr_street_upload:
                            #        
         p_drop_remote_idxs: True   # Только при  "g_kd_export_type: True"
                                    # Не забыть создать индесное покрытие после обработки.
-                           
-        #  p_post_script: ../../A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_street_post_proc_1.sql
-        #  p_post_script: A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_street_post_proc_1.sql
 #      
 # stage_6_3
 #
@@ -96,6 +89,3 @@ unnsi_adr_house_upload:
                            #        
         p_drop_remote_idxs: True   # Только при  "g_kd_export_type: True"
                                    # Не забыть создать индесное покрытие после обработки.
-                           
-#        p_post_script: ../../A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_house_post_proc_1.sql
-#        p_post_script: A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_house_post_proc_1.sql

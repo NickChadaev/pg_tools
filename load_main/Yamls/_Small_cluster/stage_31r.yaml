@@ -1,0 +1,201 @@
+#
+#  2022-03-11 - Stage_3. Новая реализация, только управление процессами, вызовы функций 
+#                             в коде "stage_3_proc.py".
+#  Version 0.3.0 Build 2022-12-06. 
+#
+control_params:
+    stage_3_I: True
+    stage_3_9: True
+    stage_3_0: True
+    stage_3_1: True
+    stage_3_2: False
+    stage_3_3: True    
+    #
+    mogrify_3_I: False # True            
+    mogrify_3_9: False # True     
+    mogrify_3_0: False # True    
+    mogrify_3_1: False # True    
+    mogrify_3_2: False # True    
+    mogrify_3_3: False # True     
+    
+global_params:
+    g_region_id: 01   # Адыгея
+    g_fserver_nmb: 13 # На 5432 unnsi_prd_test
+    #
+    g_adr_area_sch: unnsi
+    g_adr_street_sch: unnsi
+    g_adr_house_sch: unnsi
+    #
+    g_adr_area_sch_l: gar_tmp
+    g_adr_street_sch_l: gar_tmp
+    g_adr_house_sch_l: gar_tmp    
+    #
+    g_adr_hist_sch: gar_tmp
+#  
+# stage_3_I
+#
+gar_fias_crt_idx:   
+    descr: Создание рабочих индексов в схеме gar_fias. False-удаление, True-удаление,создание.
+    params:                       
+        p_skip: False            
+        p_sw: True
+#  
+# stage_3_9
+#
+gar_fias_set_gap:
+    descr: Заполнение таблицы с активными предшественниками
+    params_adr_area:                       
+        p_skip: False
+    params_adr_house:                       
+        p_skip: True
+#
+gar_fias_update_children:  
+    descr: Обработка таблицы с активными предшественниками, переподчинение и деактивация
+    param_adr_area:
+        p_skip: False
+        p_date_1: DATE(current_date)    # НЕ ИСПОЛЬЗУЕТСЯ.
+        p_obj_level: [6,7,8] 
+        p_date_2: DATE(current_date)  # Дата, на которую выбираются данные !!!
+#  
+# stage_3_0
+#
+gar_tmp_set_logged:
+    descr: Установка признака LOGGED/UNLOGGED у таблиц в схеме gar_tmp
+    params:                       
+        p_skip: False
+        p_sw: True      # False - unlogged
+# 
+# 2022-12-15 Изменилась сигнатура функции, константы, управляющие процессом очистки.
+# ----------------------------------------------------------------------------------
+#   1 - Только временные/вспомогательный таблицы.   ВСЕГДА
+#   2 - Только таблицы-секции                       ТОЛЬКО ПЕРЕД ЗАГРУЗКОЙ ИЗ ОТДАЛЁННОЙ БАЗЫ
+#   6 - logging выгрузки.
+#   7 - GAP-таблицы
+#   8 - Исторические таблицы     В СЛУЧАЕ КРАЙНЕЙ НЕОБХОДИМОСТИ.
+#   9 - Прототипы справочников   В СЛУЧАЕ КРАЙНЕЙ НЕОБХОДИМОСТИ.
+
+gar_tmp_clear_tbl:   
+    descr: Очистка данных во временной схеме.
+    params:                       
+        p_skip: False
+        p_sw: [1,2] 
+#    
+gar_tmp_switch_indexies:   
+    descr: Смена индексного покрытия в отдалённых таблицах
+    params:                       
+        p_skip: True                                
+        p_skip_adr_object: True  
+        params_street:
+            p_uniq_sw: True
+        params_house:
+            p_uniq_sw: True
+        params_objects:
+            p_uniq_x2: True
+#  
+# stage_3_1  
+#
+unload_data_adr_area_type:
+    descr: Загрузка данных из таблицы ADR_AREA_TYPE
+    params:
+        p_skip: False
+#
+unload_data_adr_street_type:
+    descr: Загрузка данных из таблицы ADR_STREET_TYPE
+    params:
+        p_skip: False
+#
+unload_data_adr_house_type:
+    descr: Загрузка данных из таблицы ADR_HOUSE_TYPE
+    params:
+        p_skip: False
+#
+unload_data_adr_area:
+    descr: Загрузка регионального фрагмента из таблицы ADR_AREA
+    params:
+        p_skip: False
+#
+unload_data_adr_street:
+    descr: Загрузка регионального фрагмента из таблицы ADR_STREET
+    params:
+        p_skip: False
+#
+unload_data_adr_house:
+    descr: Загрузка регионального фрагмента из таблицы ADR_HOUSE
+    params:
+        p_skip: False
+        p_skip_adr_object: True             
+# 
+seq_settings:
+    descr: Установка последовательностей
+    params:
+        p_skip: False
+        p_seq_name: gar_tmp.obj_seq 
+        p_seq_hist_name: gar_tmp.obj_hist_seq   
+        p_init_value: 100000000  
+        #
+        sq_adr_area_sch: gar_tmp
+        sq_adr_street_sch: gar_tmp
+        sq_adr_house_sch: gar_tmp        
+#
+# stage_3_2
+#
+dict_upgrading:
+    descr: Актуализация справочников (промежуточные XXX структуры)
+    dict_params:
+        p_schemas: []            # Список обновляемых схем (Здесь может быть эталон).
+        p_op_type: [1]           # Список выполняемых операций.     
+        #             
+        params:   
+           descr_1: Промежуточный справочник типов адресных пространств 
+           p_skip_1: True   
+           p_stop_list_1: []
+           p_add_query_1: UPDATE gar_tmp.xxx_adr_area_type SET fias_ids = fias_ids || 340::bigint WHERE (id_area_type = 51); 
+           p_control_query_1: SELECT * FROM gar_tmp.xxx_adr_area_type ORDER BY 2;
+           #                  
+           descr_2: Промежуточный справочник типов улиц
+           p_skip_2: True             
+           p_stop_list_2: []
+           p_add_query_2: 
+           p_control_query_2: SELECT * FROM gar_tmp.xxx_adr_street_type ORDER BY 2;
+           #                  
+           descr_3: Промежуточный справочник типов домовладений
+           p_skip_3: True  
+           p_stop_list_3: []
+           p_add_query_3:
+           p_control_query_3: SELECT * FROM gar_tmp.xxx_adr_house_type ORDER BY 2;
+           # 
+#
+# stage_3_3
+#           
+data_aggregation:
+    descr: Агрегация данных
+    agg_params:   
+           p_skip_agg: False                  
+           p_descr_agg: Агрегация параметров
+           p_param_list: [5,6,7,8,10,11]
+    #             
+    agg_adr_area:
+           p_skip_adr_area: False
+           p_descr_adr_area: Агрегация адресных пространств
+           params_aa:
+                  # "p_date" - Не ИСПОЛЬЗОВАТЬ СЕЙЧАС.!!!           
+                  p_date:  DATE(current_date)  # Дата, на которую выбираются данные НЕТ
+                  p_obj_level: 10              # Уровень объекта
+                  p_oper_type_ids: Null        # ARRAY [1,2,3,5]       # Типы операций.                     НЕТ                                 
+    #
+    agg_adr_house:
+           p_skip_adr_house: False
+           p_descr_adr_house: Агрегация домовладений
+           params_ah:
+                  # "p_date" - Не ИСПОЛЬЗОВАТЬ СЕЙЧАС.!!!           
+                  p_date:  DATE(current_date)  # Дата, на которую выбираются данные НЕТ
+                  p_parent_obj: Null           # Родительский объект                НЕТ
+    #
+    obj_fias:
+           p_skip_obj_fias: False
+           # 2022-09-28
+           p_switch_adr_area_sch: True   #  True - Локальная схема, False - Отдалённая 
+           p_switch_adr_street_sch: True #  True - Локальная схема, False - Отдалённая 
+           # 2022-09-28           
+           p_switch_adr_house_sch: True  #  True - Локальная схема, False - Отдалённая 
+           p_descr_obj_fias: Заполнение управляющей таблицы "gar_tmp.xxx_obj_fias"

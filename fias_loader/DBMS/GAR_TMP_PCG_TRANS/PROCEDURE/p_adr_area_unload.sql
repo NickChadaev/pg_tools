@@ -9,10 +9,16 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_unload (
     -- -------------------------------------------------------------------------------------
     --  2022-09-08  Загрузка фрагмента из ОТДАЛЁННОГО справочника адресных регионов.
     --  2022-11-28  Переход к использованию индексного хранилища.
+    --  2023-06-14  Фильтрация дублей и прерывание в случае ошибки создания уникального 
+    --              индекса      
     -- -------------------------------------------------------------------------------------
+    DECLARE
+      TMP_SCH constant text = 'gar_tmp'; 
+      -- __check  record;
+          
     BEGIN
-      CALL gar_link.p_adr_area_idx ('gar_tmp', NULL, true, false); -- Убираю эксплуатационные
-      CALL gar_link.p_adr_area_idx ('gar_tmp', NULL, false, false); -- Убираю загрузочные
+      CALL gar_link.p_adr_area_idx (TMP_SCH, NULL, true, false); -- Убираю эксплуатационные
+      CALL gar_link.p_adr_area_idx (TMP_SCH, NULL, false, false); -- Убираю загрузочные
       --
       DELETE FROM ONLY gar_tmp.adr_area;   -- 2022-02-17
       
@@ -39,15 +45,21 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_unload (
                            p_schema_name
                           ,p_id_region
                           ,p_conn
-       );                
+       );     
        
-      CALL gar_link.p_adr_area_idx ('gar_tmp', NULL, false, true); -- Создаю загрузочные
+      -- Процессинговое уникальное покрытие      
+      CALL gar_link.p_adr_area_idx (TMP_SCH, NULL, false, true);    
+      
+     ---  -- Фильрация, бесполезное занятие.
+     ---  SELECT * FROM gar_tmp_pcg_trans.fp_adr_area_check_twins_local (TMP_SCH)
+     ---       INTO  __check;
+     ---  RAISE NOTICE 'CHECK_AREA: %', __check;      
       
     -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++    
     EXCEPTION           
        WHEN OTHERS THEN 
         BEGIN
-          RAISE WARNING 'P_ADR_AREA_LOAD: % -- %', SQLSTATE, SQLERRM;
+          RAISE 'P_ADR_AREA_LOAD: % -- %', SQLSTATE, SQLERRM;
         END;
     END;
   $$;

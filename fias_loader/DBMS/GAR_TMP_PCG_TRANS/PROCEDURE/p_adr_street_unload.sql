@@ -9,10 +9,16 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_unload (
     -- -------------------------------------------------------------------------------------
     --  2022-09-28  Загрузка фрагмента из ОТДАЛЁННОГО справочника адресов улиц.
     --  2022-11-28  Переход к использованию индексного хранилища.
+    --  2023-06-14  Фильтрация дублей и прерывание в случае ошибки создания уникального 
+    --              индекса    
     -- -------------------------------------------------------------------------------------
+    DECLARE
+      TMP_SCH constant text = 'gar_tmp'; 
+      __check  record;
+      
     BEGIN
-      CALL gar_link.p_adr_street_idx ('gar_tmp', NULL, true, false); 
-      CALL gar_link.p_adr_street_idx ('gar_tmp', NULL, false, false); 
+      CALL gar_link.p_adr_street_idx (TMP_SCH, NULL, true, false); 
+      CALL gar_link.p_adr_street_idx (TMP_SCH, NULL, false, false); 
       --
       DELETE FROM ONLY gar_tmp.adr_street;   -- 2022-02-17
       
@@ -35,13 +41,25 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_unload (
                        ,p_conn
           );           
       
-      CALL gar_link.p_adr_street_idx ('gar_tmp', NULL, false, true); 
+      -- Неуникальное процессинговое покрытие      
+      CALL gar_link.p_adr_street_idx (TMP_SCH, NULL, false, true, false);    
+      
+      -- Фильрация
+      FOR __check IN 
+            SELECT * FROM gar_tmp_pcg_trans.fp_adr_street_check_twins_local (TMP_SCH)
+         LOOP 
+             RAISE NOTICE 'CHECK_STREET: %', __check;      
+         END LOOP;
+      
+      -- Неуникальное процессинговое покрытие ДОЛОЙ     
+      CALL gar_link.p_adr_street_idx (TMP_SCH, NULL, false, false);    
+      CALL gar_link.p_adr_street_idx (TMP_SCH, NULL, false, true);       
       
     -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++    
     EXCEPTION           
        WHEN OTHERS THEN 
         BEGIN
-          RAISE WARNING 'P_ADR_STREET_LOAD: % -- %', SQLSTATE, SQLERRM;
+          RAISE 'P_ADR_STREET_LOAD: % -- %', SQLSTATE, SQLERRM;
         END;
     END;
   $$;

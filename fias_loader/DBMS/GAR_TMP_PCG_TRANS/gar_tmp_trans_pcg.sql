@@ -5,7 +5,7 @@
 --
 CREATE OR REPLACE VIEW gar_tmp_pcg_trans.version
  AS
- SELECT '$Revision:0ce4d91$ modified $RevDate:2023-03-15$'::text AS version; 
+ SELECT '$Revision:42e3600$ modified $RevDate:2023-06-14$'::text AS version; 
                     
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -8947,10 +8947,16 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_unload (
     -- -------------------------------------------------------------------------------------
     --  2022-09-08  Загрузка фрагмента из ОТДАЛЁННОГО справочника адресных регионов.
     --  2022-11-28  Переход к использованию индексного хранилища.
+    --  2023-06-14  Фильтрация дублей и прерывание в случае ошибки создания уникального 
+    --              индекса      
     -- -------------------------------------------------------------------------------------
+    DECLARE
+      TMP_SCH constant text = 'gar_tmp'; 
+      -- __check  record;
+          
     BEGIN
-      CALL gar_link.p_adr_area_idx ('gar_tmp', NULL, true, false); -- Убираю эксплуатационные
-      CALL gar_link.p_adr_area_idx ('gar_tmp', NULL, false, false); -- Убираю загрузочные
+      CALL gar_link.p_adr_area_idx (TMP_SCH, NULL, true, false); -- Убираю эксплуатационные
+      CALL gar_link.p_adr_area_idx (TMP_SCH, NULL, false, false); -- Убираю загрузочные
       --
       DELETE FROM ONLY gar_tmp.adr_area;   -- 2022-02-17
       
@@ -8977,15 +8983,21 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_unload (
                            p_schema_name
                           ,p_id_region
                           ,p_conn
-       );                
+       );     
        
-      CALL gar_link.p_adr_area_idx ('gar_tmp', NULL, false, true); -- Создаю загрузочные
+      -- Процессинговое уникальное покрытие      
+      CALL gar_link.p_adr_area_idx (TMP_SCH, NULL, false, true);    
+      
+     ---  -- Фильрация, бесполезное занятие.
+     ---  SELECT * FROM gar_tmp_pcg_trans.fp_adr_area_check_twins_local (TMP_SCH)
+     ---       INTO  __check;
+     ---  RAISE NOTICE 'CHECK_AREA: %', __check;      
       
     -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++    
     EXCEPTION           
        WHEN OTHERS THEN 
         BEGIN
-          RAISE WARNING 'P_ADR_AREA_LOAD: % -- %', SQLSTATE, SQLERRM;
+          RAISE 'P_ADR_AREA_LOAD: % -- %', SQLSTATE, SQLERRM;
         END;
     END;
   $$;
@@ -9083,10 +9095,16 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_unload (
     -- -------------------------------------------------------------------------------------
     --  2022-09-28  Загрузка фрагмента из ОТДАЛЁННОГО справочника адресов улиц.
     --  2022-11-28  Переход к использованию индексного хранилища.
+    --  2023-06-14  Фильтрация дублей и прерывание в случае ошибки создания уникального 
+    --              индекса    
     -- -------------------------------------------------------------------------------------
+    DECLARE
+      TMP_SCH constant text = 'gar_tmp'; 
+      __check  record;
+      
     BEGIN
-      CALL gar_link.p_adr_street_idx ('gar_tmp', NULL, true, false); 
-      CALL gar_link.p_adr_street_idx ('gar_tmp', NULL, false, false); 
+      CALL gar_link.p_adr_street_idx (TMP_SCH, NULL, true, false); 
+      CALL gar_link.p_adr_street_idx (TMP_SCH, NULL, false, false); 
       --
       DELETE FROM ONLY gar_tmp.adr_street;   -- 2022-02-17
       
@@ -9109,13 +9127,25 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_unload (
                        ,p_conn
           );           
       
-      CALL gar_link.p_adr_street_idx ('gar_tmp', NULL, false, true); 
+      -- Неуникальное процессинговое покрытие      
+      CALL gar_link.p_adr_street_idx (TMP_SCH, NULL, false, true, false);    
+      
+      -- Фильрация
+      FOR __check IN 
+            SELECT * FROM gar_tmp_pcg_trans.fp_adr_street_check_twins_local (TMP_SCH)
+         LOOP 
+             RAISE NOTICE 'CHECK_STREET: %', __check;      
+         END LOOP;
+      
+      -- Неуникальное процессинговое покрытие ДОЛОЙ     
+      CALL gar_link.p_adr_street_idx (TMP_SCH, NULL, false, false);    
+      CALL gar_link.p_adr_street_idx (TMP_SCH, NULL, false, true);       
       
     -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++    
     EXCEPTION           
        WHEN OTHERS THEN 
         BEGIN
-          RAISE WARNING 'P_ADR_STREET_LOAD: % -- %', SQLSTATE, SQLERRM;
+          RAISE 'P_ADR_STREET_LOAD: % -- %', SQLSTATE, SQLERRM;
         END;
     END;
   $$;
@@ -9205,14 +9235,25 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_house_unload (
     -- -------------------------------------------------------------------------------------
     --  2021-12-31/2022-01-28  Загрузка фрагмента из ОТДАЛЁННОГО справочника адресов домов.
     --  2022-11-28  Переход к использованию индексного хранилища.
+    --  2023-06-14  Фильтрация дублей и прерывание в случае ошибки создания уникального 
+    --              индекса
     -- -------------------------------------------------------------------------------------
+    DECLARE
+      TMP_SCH constant text = 'gar_tmp'; 
+      __check  record;
+      
     BEGIN
-      CALL gar_link.p_adr_house_idx ('gar_tmp', NULL, true, false); 
-      CALL gar_link.p_adr_house_idx ('gar_tmp', NULL, false, false); 
+      CALL gar_link.p_adr_house_idx (TMP_SCH, NULL, true, false); 
+      CALL gar_link.p_adr_house_idx (TMP_SCH, NULL, false, false); 
       --
       DELETE FROM ONLY gar_tmp.adr_house;   -- 2022-02-17
       
+      -- ЗАМЕЧАНИЕ:  unnsi -- 47 -- c_unnsi_prd_s
+      -- ПРЕДУПРЕЖДЕНИЕ:  P_ADR_HOUSE_LOAD: 23505 -- повторяющееся значение ключа нарушает ограничение уникальности "_xxx_adr_house_ie2"
+      -- CALL
+
       INSERT INTO gar_tmp.adr_house (
+      
                              id_house           
                             ,id_area            
                             ,id_street          
@@ -9238,13 +9279,24 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_house_unload (
                                ,p_conn
           );           
       
-      CALL gar_link.p_adr_house_idx ('gar_tmp', NULL, false, true);    
+      -- Неуникальное процессинговое покрытие      
+      CALL gar_link.p_adr_house_idx (TMP_SCH, NULL, false, true, false);    
       
+      -- Фильрация
+      FOR __check IN 
+            SELECT * FROM gar_tmp_pcg_trans.fp_adr_house_check_twins_local (TMP_SCH)
+         LOOP 
+             RAISE NOTICE 'CHECK_HOUSE: %', __check;      
+         END LOOP;
+      
+      -- Неуникальное процессинговое покрытие ДОЛОЙ     
+      CALL gar_link.p_adr_house_idx (TMP_SCH, NULL, false, false);    
+      CALL gar_link.p_adr_house_idx (TMP_SCH, NULL, false, true); 
     -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++    
     EXCEPTION           
        WHEN OTHERS THEN 
         BEGIN
-          RAISE WARNING 'P_ADR_HOUSE_LOAD: % -- %', SQLSTATE, SQLERRM;
+          RAISE 'P_ADR_HOUSE_LOAD: % -- %', SQLSTATE, SQLERRM;
         END;
     END;
   $$;
@@ -9253,9 +9305,96 @@ COMMENT ON PROCEDURE gar_tmp_pcg_trans.p_adr_house_unload (text, bigint, text)
          IS 'Загрузка фрагмента ОТДАЛЁННОМ справочника адресов домов';
 -- -----------------------------------------------------------------------------------------------
 --  USE CASE:
---    CALL gar_tmp_pcg_trans.p_adr_house_unload ('unnsi', 77, (gar_link.f_conn_set (12)));
---    SELECT count(1) AS qty_adr_house FROM gar_tmp.adr_house; --  265324
---    SELECT * FROM gar_tmp.adr_house; -- 
+-- 
+-- ЗАМЕЧАНИЕ:  Point 0
+-- ЗАМЕЧАНИЕ:  индекс "adr_house_i1" не существует, пропускается
+-- ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_house_i1; 
+-- ЗАМЕЧАНИЕ:  индекс "adr_house_i2" не существует, пропускается
+-- ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_house_i2; 
+-- ЗАМЕЧАНИЕ:  индекс "adr_house_i3" не существует, пропускается
+-- ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_house_i3; 
+-- ЗАМЕЧАНИЕ:  индекс "adr_house_i4" не существует, пропускается
+-- ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_house_i4; 
+-- ЗАМЕЧАНИЕ:  индекс "adr_house_i5" не существует, пропускается
+-- ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_house_i5; 
+-- ЗАМЕЧАНИЕ:  индекс "adr_house_i7" не существует, пропускается
+-- ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_house_i7; 
+-- ЗАМЕЧАНИЕ:  индекс "adr_house_idx1" не существует, пропускается
+-- ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_house_idx1; 
+-- ЗАМЕЧАНИЕ:  индекс "adr_house_ak1" не существует, пропускается
+-- ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_house_ak1; 
+-- ЗАМЕЧАНИЕ:  Point 1
+-- ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp._xxx_adr_house_ie2; 
+-- ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp._xxx_adr_house_ak1; 
+-- ЗАМЕЧАНИЕ:  Point 2
+-- ЗАМЕЧАНИЕ:  unnsi -- 47 -- c_unnsi_prd_s
+-- ЗАМЕЧАНИЕ:  Point 3
+-- ЗАМЕЧАНИЕ:  Point 4
+-- ПРЕДУПРЕЖДЕНИЕ:  P_ADR_HOUSE_LOAD: 23505 -- создать уникальный
+
+
+
+-- ЗАМЕЧАНИЕ:  Point 0
+-- ЗАМЕЧАНИЕ:  индекс "adr_house_i1" не существует, пропускается
+-- ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_house_i1; 
+-- ЗАМЕЧАНИЕ:  индекс "adr_house_i2" не существует, пропускается
+-- ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_house_i2; 
+-- ЗАМЕЧАНИЕ:  индекс "adr_house_i3" не существует, пропускается
+-- ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_house_i3; 
+-- ЗАМЕЧАНИЕ:  индекс "adr_house_i4" не существует, пропускается
+-- ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_house_i4; 
+-- ЗАМЕЧАНИЕ:  индекс "adr_house_i5" не существует, пропускается
+-- ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_house_i5; 
+-- ЗАМЕЧАНИЕ:  индекс "adr_house_i7" не существует, пропускается
+-- ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_house_i7; 
+-- ЗАМЕЧАНИЕ:  индекс "adr_house_idx1" не существует, пропускается
+-- ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_house_idx1; 
+-- ЗАМЕЧАНИЕ:  индекс "adr_house_ak1" не существует, пропускается
+-- ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_house_ak1; 
+-- ЗАМЕЧАНИЕ:  Point 1
+-- ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp._xxx_adr_house_ie2; 
+-- ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp._xxx_adr_house_ak1; 
+-- ЗАМЕЧАНИЕ:  Point 2
+-- ЗАМЕЧАНИЕ:  unnsi -- 47 -- c_unnsi_prd_s
+-- ЗАМЕЧАНИЕ:  Point 3
+-- ЗАМЕЧАНИЕ:  Point 4
+-- ПРЕДУПРЕЖДЕНИЕ:  P_ADR_HOUSE_LOAD: 23505 -- создать уникальный индекс "_xxx_adr_house_ie2" не удалось
+-- CALL
+-- 
+-- Query returned successfully in 2 secs 633 msec.
+
+
+-- ЗАМЕЧАНИЕ:  Point 0
+-- ЗАМЕЧАНИЕ:  индекс "adr_house_i1" не существует, пропускается
+-- ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_house_i1; 
+-- ЗАМЕЧАНИЕ:  индекс "adr_house_i2" не существует, пропускается
+-- ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_house_i2; 
+-- ЗАМЕЧАНИЕ:  индекс "adr_house_i3" не существует, пропускается
+-- ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_house_i3; 
+-- ЗАМЕЧАНИЕ:  индекс "adr_house_i4" не существует, пропускается
+-- ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_house_i4; 
+-- ЗАМЕЧАНИЕ:  индекс "adr_house_i5" не существует, пропускается
+-- ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_house_i5; 
+-- ЗАМЕЧАНИЕ:  индекс "adr_house_i7" не существует, пропускается
+-- ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_house_i7; 
+-- ЗАМЕЧАНИЕ:  индекс "adr_house_idx1" не существует, пропускается
+-- ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_house_idx1; 
+-- ЗАМЕЧАНИЕ:  индекс "adr_house_ak1" не существует, пропускается
+-- ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_house_ak1; 
+-- ЗАМЕЧАНИЕ:  Point 1
+-- ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp._xxx_adr_house_ie2; 
+-- ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp._xxx_adr_house_ak1; 
+-- ЗАМЕЧАНИЕ:  Point 2
+-- ЗАМЕЧАНИЕ:  unnsi -- 47 -- c_unnsi_prd_s
+-- ЗАМЕЧАНИЕ:  Point 3
+-- ЗАМЕЧАНИЕ:  Point 4
+-- ЗАМЕЧАНИЕ:   CREATE INDEX IF NOT EXISTS _xxx_adr_house_ie2 ON gar_tmp.adr_house USING btree (nm_fias_guid ASC NULLS LAST) WHERE (id_data_etalon IS NULL) AND (dt_data_del IS NULL); 
+-- ЗАМЕЧАНИЕ:   CREATE UNIQUE INDEX IF NOT EXISTS _xxx_adr_house_ak1 ON gar_tmp.adr_house USING btree (id_area ASC NULLS LAST, upper (nm_house_full::text) ASC NULLS LAST, id_street ASC NULLS LAST,id_house_type_1 ASC NULLS LAST)  WHERE (id_data_etalon IS NULL) AND (dt_data_del IS NULL); 
+-- ЗАМЕЧАНИЕ:  Point 5
+-- CALL
+-- 
+-- Query returned successfully in 2 secs 892 msec.
+
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_house_upload (text, date, boolean); 

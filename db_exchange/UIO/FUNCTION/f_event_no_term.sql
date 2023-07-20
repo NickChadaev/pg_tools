@@ -17,8 +17,11 @@ CREATE OR REPLACE FUNCTION uio.f_event_no_term (
 
 AS 
  $$
-      WITH z AS (
-                  SELECT ev_type FROM uio.event_first
+ -- =============================================================================
+ --     2023-07-20  Изменено условие выборки событий, ожидающих обработки. 
+ -- =============================================================================
+       WITH z AS (
+                  SELECT ev_type FROM uio.event_first WHERE (ev_time >= p_ev_time)
                     EXCEPT 	
                   SELECT ev_type FROM uio.event_last WHERE (ev_time >= p_ev_time) 
       )
@@ -38,7 +41,8 @@ AS
 --
 COMMENT ON FUNCTION uio.f_event_no_term (timestamp(0) WITHOUT TIME ZONE) IS  'Список событий, ожидающих обработки';
 -- USE CASE                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
---     SELECT * FROM  uio.f_event_no_term ('2023-05-03');
+--     SELECT * FROM  uio.f_event_no_term ('2023-07-18 13:30:00');
 --     SELECT * FROM  uio.event_parse;
 --     SELECT * FROM  uio.event_proc;
 --     SELECT * FROM  uio.event_last;
+--     UPDATE uio.event_last SET ev_extra4 = '+'

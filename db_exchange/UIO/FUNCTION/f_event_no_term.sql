@@ -36,12 +36,14 @@ AS
                   ,f.ev_extra4
 
           FROM uio.event_first f 
-                 INNER JOIN z ON (z.ev_type = f.ev_type);
+                 INNER JOIN z ON (z.ev_type = f.ev_type)
+		  WHERE (ev_time >= p_ev_time) ORDER BY f.ev_time, f.ev_type;
  $$;   
 --
 COMMENT ON FUNCTION uio.f_event_no_term (timestamp(0) WITHOUT TIME ZONE) IS  'Список событий, ожидающих обработки';
 -- USE CASE                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
---     SELECT * FROM  uio.f_event_no_term ('2023-07-18 13:30:00');
+--     SELECT * FROM  uio.f_event_no_term ('2023-07-21 14:15:00');
+--     SELECT * FROM  uio.f_event_no_term ();
 --     SELECT * FROM  uio.event_parse;
 --     SELECT * FROM  uio.event_proc;
 --     SELECT * FROM  uio.event_last;

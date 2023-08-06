@@ -20,5 +20,5 @@
 # For more information see the manual pages of crontab(5) and cron(8)
 # 
 # m h  dom mon dow   command
-0 22 * * * /usr/local/bin/load_updates.sh 1>> /var/log/db_upgrade/upgrade.out 2>> /var/log/db_upgrade/upgrade.err
+0 1,4,7,10,13,16,19,22 * * * /usr/local/bin/load_updates.sh 1>> /var/log/db_upgrade/upgrade.out 2>> /var/log/db_upgrade/upgrade.err
 

@@ -1,0 +1,38 @@
+psql:./FUNCTION/fsc_receive_payments_operators_crt_3.sql:25: ЗАМЕЧАНИЕ:  warning extra:00000:7:DECLARE:never read variable "jkey"
+psql:./FUNCTION/fsc_mark_quantity_crt_2.sql:48: ЗАМЕЧАНИЕ:  warning extra:00000:7:DECLARE:never read variable "jkey"
+psql:./FUNCTION/fsc_agent_info_crt_2.sql:36: ЗАМЕЧАНИЕ:  warning extra:00000:9:DECLARE:never read variable "jkey2"
+psql:./FUNCTION/fsc_sectoral_item_props_crt_2.sql:67: ЗАМЕЧАНИЕ:  warning extra:00000:10:DECLARE:never read variable "dd_mm_yyyy_pattern"
+psql:./FUNCTION/fsc_sectoral_check_props_1.sql:67: ЗАМЕЧАНИЕ:  warning extra:00000:10:DECLARE:never read variable "dd_mm_yyyy_pattern"
+psql:./FUNCTION/fsc_payments_crt_1.sql:41: ЗАМЕЧАНИЕ:  warning extra:00000:7:DECLARE:never read variable "jkey"
+psql:./FUNCTION/fsc_items_crt_1.sql:164: ЗАМЕЧАНИЕ:  warning:42804:76:блок операторов:target type is different type than source type
+psql:./FUNCTION/fsc_items_crt_1.sql:164: ЗАМЕЧАНИЕ:  Detail: cast "text[]" value to "numeric[]" type
+psql:./FUNCTION/fsc_items_crt_1.sql:164: ЗАМЕЧАНИЕ:  Hint: The input expression type does not have an assignment cast to the target type.
+psql:./FUNCTION/fsc_items_crt_1.sql:164: ЗАМЕЧАНИЕ:  Context: during statement block local variable "jmax" initialization on line 41
+psql:./FUNCTION/fsc_company_crt_1.sql:59: ЗАМЕЧАНИЕ:  warning extra:00000:14:DECLARE:never read variable "__eqs_mess"
+psql:./FUNCTION/fsc_company_crt_1.sql:59: ЗАМЕЧАНИЕ:  warning extra:00000:15:DECLARE:never read variable "__eqn_mess"
+psql:./FUNCTION/fsc_client_crt_1.sql:87: ЗАМЕЧАНИЕ:  warning extra:00000:16:DECLARE:never read variable "__eqn_mess"
+psql:./FUNCTION/fsc_client_crt_1.sql:87: ЗАМЕЧАНИЕ:  warning extra:00000:17:DECLARE:never read variable "__null_mess"
+psql:./FUNCTION/fsc_order_crt_NEXT.sql:2: ЗАМЕЧАНИЕ:  функция fsc_receipt_pcg.fsc_order_crt(pg_catalog.timestamp,text,operation_t,json,pg_catalog.bool,text) не существует, пропускается
+psql:./FUNCTION/fsc_order_crt_NEXT.sql:140: ЗАМЕЧАНИЕ:  FUNCTION | 442107 | fsc_receipt_pcg | fsc_correction_crt_0 | (json,json,json,json,json,numeric,json,text,text,text,json,json,json)
+psql:./FUNCTION/fsc_order_crt_NEXT.sql:140: ЗАМЕЧАНИЕ:  FUNCTION | 442106 | fsc_receipt_pcg | fsc_receipt_crt_0 | (json,json,json,json,numeric,json,text,text,text,json,json,json)
+psql:./FUNCTION/fsc_orders_load.sql:3: ЗАМЕЧАНИЕ:  функция fsc_receipt_pcg.fsc_orders_load(pg_catalog.int4,pg_catalog.int4,date,date,agent_info_t,text,pg_catalog.int4,text,operation_t) не существует, пропускается
+psql:./FUNCTION/fsc_orders_load.sql:252: ЗАМЕЧАНИЕ:  warning:42804:84:присваивание:target type is different type than source type
+psql:./FUNCTION/fsc_orders_load.sql:252: ЗАМЕЧАНИЕ:  Detail: cast "text" value to "uuid" type
+psql:./FUNCTION/fsc_orders_load.sql:252: ЗАМЕЧАНИЕ:  Hint: The input expression type does not have an assignment cast to the target type.
+psql:./FUNCTION/fsc_orders_load.sql:252: ЗАМЕЧАНИЕ:  Context: at assignment to variable "__external_id" declared on line 17
+psql:./FUNCTION/fsc_orders_load.sql:252: ЗАМЕЧАНИЕ:  FUNCTION | 442092 | fsc_receipt_pcg | fsc_agent_info_crt_2 | (agent_info_t,json,json,json)
+psql:./FUNCTION/fsc_orders_load.sql:252: ЗАМЕЧАНИЕ:  FUNCTION | 442103 | fsc_receipt_pcg | fsc_client_crt_1 | (text,text)
+psql:./FUNCTION/fsc_orders_load.sql:252: ЗАМЕЧАНИЕ:  FUNCTION | 442102 | fsc_receipt_pcg | fsc_company_crt_1 | (text,sno_t,text,text)
+psql:./FUNCTION/fsc_orders_load.sql:252: ЗАМЕЧАНИЕ:  FUNCTION | 442100 | fsc_receipt_pcg | fsc_items_crt_1 | (item_t[])
+psql:./FUNCTION/fsc_orders_load.sql:252: ЗАМЕЧАНИЕ:  FUNCTION | 442089 | fsc_receipt_pcg | fsc_money_transfer_operator_crt_3 | (text[],text,text,text)
+psql:./FUNCTION/fsc_orders_load.sql:252: ЗАМЕЧАНИЕ:  FUNCTION | 442108 | fsc_receipt_pcg | fsc_order_crt | (timestamp without time zone,text,operation_t,json,json,json,json,json,numeric,boolean,text)
+psql:./FUNCTION/fsc_orders_load.sql:252: ЗАМЕЧАНИЕ:  FUNCTION | 442088 | fsc_receipt_pcg | fsc_paying_agent_crt_3 | (text,text[])
+psql:./FUNCTION/fsc_orders_load.sql:252: ЗАМЕЧАНИЕ:  FUNCTION | 442098 | fsc_receipt_pcg | fsc_payments_crt_1 | (pmt_type_sum_t[])
+psql:./FUNCTION/fsc_orders_load.sql:252: ЗАМЕЧАНИЕ:  FUNCTION | 442087 | fsc_receipt_pcg | fsc_receive_payments_operators_crt_3 | (text[])
+psql:./FUNCTION/fsc_orders_load.sql:252: ЗАМЕЧАНИЕ:  FUNCTION | 442093 | fsc_receipt_pcg | fsc_supplier_info_crt_2 | (text[],text,text)
+psql:./FUNCTION/fsc_orders_load.sql:252: ЗАМЕЧАНИЕ:  FUNCTION | 442094 | fsc_receipt_pcg | fsc_vat_crt_2 | (vat_t)
+psql:./FUNCTION/fsc_orders_load.sql:252: ЗАМЕЧАНИЕ:  FUNCTION | 442085 | fsc_receipt_pcg | f_xxx_replace_char | (text)
+psql:./FUNCTION/fsc_orders_load.sql:252: ЗАМЕЧАНИЕ:  RELATION | 439179 | fiscalization | fsc_org
+psql:./FUNCTION/fsc_orders_load.sql:252: ЗАМЕЧАНИЕ:  RELATION | 439190 | fiscalization | fsc_org_app
+psql:./FUNCTION/fsc_orders_load.sql:252: ЗАМЕЧАНИЕ:  RELATION | 439217 | fiscalization | fsc_receipt
+psql:./FUNCTION/fsc_orders_load.sql:252: ЗАМЕЧАНИЕ:  RELATION | 439402 | fiscalization | fsc_source_reestr

@@ -1,0 +1,37 @@
+total_params:
+    conninfo: host=10.196.35.119 port=5432 dbname=kktgate user=postgres   ##  password=postgres1
+    base_codec: cp1251
+    target_codec: utf8
+    #
+    len_rec:   13
+    meta_code: ABR0
+    dBAD:      .bad
+    dUTF8:     .utf8
+    #
+    cash_receipt_type: sell  ## Тип операции чека:    
+    
+    #  sell                 buy,                sell_refund,                 buy_refund, 
+    # «Приход»,            «Расход»,            «Возврат прихода»,            «Возврат расхода»
+    #  sell_correction,     buy_correction,     sell_refund_correction,      buy_refund_correction
+    # «Коррекция прихода», «Коррекция расхода», «Коррекция возврата прихода»,  «Коррекция возврата расхода»
+    
+    
+atol_param:
+    company:    
+        company_email: email@ofd.ru  ## 1
+        company_sno:   osn           ## 2   Общая система налогообложения
+        
+    payment:        
+        pmt_type: 1                  ## 3   Безналичный  
+
+    item:
+        item_measure:                   0 ## 4  Единица измерения 
+        item_payment_method: full_payment ## 5  Полный расчет
+        payment_object:                 1 ## 6  Признак предмета расчёта (о реализуемом товаре)
+        item_vat:            vat20        ## 7
+        
+    optional:    
+        type_source_reestr: 0  ##  9   Тип исходного реестра
+
+sql_params:
+        where_value: True   ## 12    Общеее условите для загрузки в реестр исх. данных.

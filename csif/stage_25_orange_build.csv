@@ -1,0 +1,60 @@
+#-------------------------------------------------------------------------------
+# 2009-04-21/2020-05-10 Nick (nick-ch58@yandex.ru).
+#-------------------------------------------------------------------------------
+# The structure of bathc-file. It consists:
+#    0 - Type action 
+#    1 - SQL-command/The SQL-file name/The <1*.conf> file name
+#    2 - DB name 
+#    3 - The text of message
+#    The DB-name may be ommited. But if it is present, the it 
+#    cancels the name specified in the parameter list.
+#-------------------------------------------------------------------------------
+# Type action is: 0 - Direct performing SQL-command
+#                 1 - Perform SQL-command from SQL-file
+#                 2 - Direct loading into DB
+#                 3 - Deferred loading into DB
+#                 4 - Direct unloading from DB
+#                 5 - Defrred unloading from DB
+#                 X - Message for user (The fields ##1,2 - are empty )
+#-------------------------------------------------------------------------------
+# For example: 
+#       0;DROP DATABASE IF EXISTS db_k2;;Remove old DB; 
+#       1;1_crt_domain.sql;db_k2;Creating domains; 
+#       X;;;Schema COM; 
+#       1;0_COM/2_com_crt_tables.sql;;-- Creating the base tables; 
+#       1;0_COM/4_com_crt_errors.sql;;-- Creating the tables for errors;
+#-------------------------------------------------------------------------------
+X;;;Start process, Сборка функционального пакета;
+#
+5;version_orange.sql;;-- Ветка "all_prov", Версия: 5eed275/2023-08-17;          
+#
+5;FUNCTION/ORANGE/c_agent_type.sql;; -- c_agent_type.sql;
+5;FUNCTION/ORANGE/c_payment_method_type.sql;; -- c_payment_method_type.sql;
+5;FUNCTION/ORANGE/c_payment_subject_type.sql;; -- c_payment_subject_type.sql;
+5;FUNCTION/ORANGE/c_pmt_type.sql;; -- c_pmt_type.sql;
+5;FUNCTION/ORANGE/c_quantity_measurement_unit.sql;; -- c_quantity_measurement_unit.sql;
+5;FUNCTION/ORANGE/c_taxationSystem.sql;; -- c_taxationSystem.sql;
+5;FUNCTION/ORANGE/c_vat.sql;; -- c_vat.sql;
+#
+5;FUNCTION/ORANGE/fsc_payments_crt_3.sql;;-- fsc_payments_crt_3.sql;
+5;FUNCTION/ORANGE/fsc_check_close_crt_2.sql;;-- fsc_check_close_crt_2.sql;
+5;FUNCTION/ORANGE/fsc_positions_crt_2.sql;;-- fsc_positions_crt_2.sql;
+#
+## 5;FUNCTION/ORANGE/;;-- ;
+## 5;FUNCTION/ORANGE/;;-- ;
+## 5;FUNCTION/ORANGE/;;-- ;
+## 5;FUNCTION/ORANGE/;;-- ;
+#
+## fsc_correction_crt_0.sql
+## fsc_order_crt_NEXT.sql
+## fsc_receipt_crt_0.sql
+#
+X;;;Stop process;
+#-------------------------------------------------------------------------------
+#  Пример вызова
+# load_mainGar.py 127.0.0.1 5434 xxx_test postgres stage_2_link_build.csv ../ '2021-09-27'
+
+
+
+
+

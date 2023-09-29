@@ -1,0 +1,2 @@
+psql:./FUNCTION/ATOL/fsc_order_crt_NEXT.sql:2: NOTICE:  function fsc_receipt_pcg.fsc_order_crt(pg_catalog.timestamp,text,operation_t,json,pg_catalog.bool,text) does not exist, skipping
+psql:./FUNCTION/ATOL/fsc_receipt_status_upd.sql:2: NOTICE:  function fsc_receipt_pcg.fsc_receipt_status_upd(pg_catalog.int4,pg_catalog.int4,pg_catalog.timestamptz,pg_catalog.timestamptz) does not exist, skipping

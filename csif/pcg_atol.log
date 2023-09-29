@@ -1,0 +1,35 @@
+2023-08-22 18:19:24 ./
+10.196.35.119 5432 kktgate postgres stage_25_atol_build.csv 
+--------------------------------------------------------
+[18:19:24] ... Start process, Сборка функционального пакета
+[18:19:24] ... -- Ветка "all_prov", Версия: 5a571ff/2023-08-22
+[18:19:26] ... -- f_xxx_replace_char.sql
+[18:19:27] ... -- f_get_notification_url.sql
+[18:19:27] ... -- fsc_receive_payments_operators_crt_3.sql
+[18:19:28] ... -- fsc_paying_agent_crt_3.sql
+[18:19:28] ... -- fsc_money_transfer_operator_crt_3.sql
+[18:19:29] ... -- fsc_mark_quantity_crt_2.sql
+[18:19:30] ... -- fsc_mark_code_crt_2.sql
+[18:19:30] ... -- fsc_agent_info_crt_2.sql
+[18:19:31] ... -- fsc_supplier_info_2.sql
+[18:19:32] ... -- fsc_vat_crt_2.sql
+[18:19:32] ... -- fsc_sectoral_item_props_crt_2.sql
+[18:19:33] ... -- fsc_vats_crt_1.sql
+[18:19:34] ... -- fsc_sectoral_check_props_1.sql
+[18:19:34] ... -- fsc_payments_crt_1.sql
+[18:19:35] ... -- fsc_operating_check_props_crt_1.sql
+[18:19:36] ... -- fsc_items_crt_1.sql
+[18:19:36] ... -- fsc_company_crt_1.sql
+[18:19:37] ... -- fsc_client_crt_1.sql
+[18:19:37] ... -- fsc_additional_user_props_crt_1.sql
+[18:19:38] ... -- fsc_correction_info_crt_1.sql
+[18:19:39] ... -- fsc_receipt_crt_0.sql
+[18:19:40] ... -- fsc_correction_crt_0.sql
+[18:19:40] ... -- fsc_order_crt_NEXT.sql
+[18:19:41] ... -- fsc_orders_load.sql
+[18:19:42] ... -- fsc_orders_load_on_line.sql
+[18:19:42] ... -- fsc_range_part_crt.sql
+[18:19:43] ... -- fsc_receipt_status_upd.sql
+[18:19:44] ... -- fsc_receipt_upd.sql
+[18:19:44] ... Stop process
+--------------------------------------------------------

@@ -1,0 +1,31 @@
+total_params:
+    conninfo: host=10.196.35.119 port=5432 dbname=kktgate user=postgres   ##  password=postgres1
+    base_codec: cp1251
+    target_codec: utf8
+    #
+    len_rec:   11
+    meta_code: PAY1
+    dBAD:      .bad
+
+atol_param:
+    company:    
+        company_email: email@ofd.ru  ## 1
+        company_sno:   osn           ## 2   Общая система налогообложения
+        
+    payment:        
+        pmt_type: 1                  ## 3   Безналичный  
+
+    item:
+        item_measure:                   0 ## 4  Единица измерения 
+        item_payment_method: full_payment ## 5  Полный расчет
+        payment_object:                 1 ## 6  Признак предмета расчёта (о реализуемом товаре)
+        item_vat:            vat20        ## 7
+        
+    optional:    
+        is_company_paying_agent: True  ##  8   Компания платёжный агент.
+        type_source_reestr:         1  ##  9   Тип исходного реестра
+        id_agent:                 136  ## 10   ID платёжного агента
+        id_bank:                  135  ## 11   ID банка
+        
+sql_params:
+        where_value: True   ## 12    Общеее условите для загрузки в реестр исх. данных.

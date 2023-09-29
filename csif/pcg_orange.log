@@ -1,0 +1,17 @@
+2023-08-17 16:08:31 ./
+10.196.35.119 5432 kktgate postgres stage_25_orange_build.csv 
+--------------------------------------------------------
+[16:08:31] ... Start process, Сборка функционального пакета
+[16:08:31] ... -- Ветка "all_prov", Версия: 5eed275/2023-08-17
+[16:08:32] ...  -- c_agent_type.sql
+[16:08:33] ...  -- c_payment_method_type.sql
+[16:08:34] ...  -- c_payment_subject_type.sql
+[16:08:34] ...  -- c_pmt_type.sql
+[16:08:35] ...  -- c_quantity_measurement_unit.sql
+[16:08:35] ...  -- c_taxationSystem.sql
+[16:08:36] ...  -- c_vat.sql
+[16:08:37] ... -- fsc_payments_crt_3.sql
+[16:08:37] ... -- fsc_check_close_crt_2.sql
+[16:08:38] ... -- fsc_positions_crt_2.sql
+[16:08:39] ... Stop process
+--------------------------------------------------------

@@ -1,25 +1,5 @@
-DROP FUNCTION IF EXISTS gar_tmp_pcg_trans."_OLD_f_xxx_adr_house_show_data" (date, bigint);
-CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans."_OLD_f_xxx_adr_house_show_data" (
-       p_date           date   = current_date
-      ,p_parent_obj_id  bigint = NULL
-)
-    RETURNS SETOF gar_tmp.xxx_adr_house
-    STABLE
-    LANGUAGE sql
- AS
-  $$
-    -- ---------------------------------------------------------------------------------------
-    --  2021-10-20 Nick Функция для формирования таблицы-прототипа "gar_tmp.xxx_adr_house"
-    --  2021-12-09/2021-12-20 Ревизия функции. 
-    --  2022-09-26 
-    --   Тип дома принимается всегда, диапазон актуальности и признак активности - игнорируются.
-    --  2022-12-29 Убрана проверка -- (gar_fias.as_addr_obj_type.is_active) 
-    --                  В ФИАС полно противоречий, эта проверка углубляет их.
-    -- ---------------------------------------------------------------------------------------
-    --   p_date          date   -- Дата на которую формируется выборка    
-    --   p_parent_obj_id bigint -- Идентификатор родительского объекта, если NULL то все дома
-    -- ---------------------------------------------------------------------------------------
-    
+DROP VIEW if EXISTS public.hh4;
+CREATE OR REPLACE VIEW  public.hh4 AS
 WITH aa (
              id_house       
             ,id_addr_parent 
@@ -113,36 +93,23 @@ WITH aa (
           INNER JOIN gar_fias.as_reestr_objects r ON ((r.object_id = h.object_id) AND (r.is_active))
           --
           INNER JOIN gar_fias.as_house_type t ON ((t.house_type_id = h.house_type) 
-                                                   --  AND (t.is_active)
-                                                   --  AND (t.end_date > p_date) AND (t.start_date <= p_date)
                                                  )
           --    Проверить      -- LEFT OUTER                             
           INNER JOIN gar_fias.as_adm_hierarchy ia ON ((ia.object_id = r.object_id) AND (ia.is_active) 
-                                                           AND (ia.end_date > p_date) AND (ia.start_date <= p_date)
                                                      )
 	      --  LEFT OUTER
           INNER JOIN gar_fias.as_addr_obj y ON (y.object_id = ia.parent_obj_id)  
-                              AND ((y.is_actual AND y.is_active) AND (y.end_date > p_date) AND (y.start_date <= p_date)
+                              AND ((y.is_actual AND y.is_active)
                               )
           LEFT OUTER  JOIN gar_fias.as_object_level z ON (z.level_id = y.obj_level) AND (z.is_active) 
-                                                     AND ((z.end_date > p_date) AND (z.start_date <= p_date)
-                                                     )
+                                                         
           LEFT OUTER JOIN gar_fias.as_addr_obj_type x ON (x.id = y.type_id) -- AND (x.is_active) -- 2022-12-29
-                                                      AND ((x.end_date > p_date) AND (x.start_date <= p_date)
-                                                      )
           LEFT OUTER JOIN gar_fias.as_add_house_type a1 ON (a1.add_type_id = h.add_type1) 
-                                                      -- AND (a1.is_active)
-                                                      -- AND ((a1.end_date > p_date) AND (a1.start_date <= p_date)
-                                                      --)
           LEFT OUTER JOIN gar_fias.as_add_house_type a2 ON (a2.add_type_id = h.add_type2)  
-                                                      -- AND (a2.is_active)
-                                                      -- AND ((a2.end_date > p_date) AND (a2.start_date <= p_date)
-                                                      --)
           --
           LEFT OUTER JOIN gar_fias.as_operation_type ot ON (ot.oper_type_id = h.oper_type_id) AND (ot.is_active)
-                                                      AND ((ot.end_date > p_date) AND (ot.start_date <= p_date)
-                                                      ) 
-       WHERE ((h.is_actual AND h.is_active) AND (h.end_date > p_date) AND (h.start_date <= p_date)
+          
+       WHERE ((h.is_actual AND h.is_active)
                 ) 
  )
    SELECT 
@@ -183,20 +150,23 @@ WITH aa (
             ,aa.oper_type_name     
             --
             ,aa.user_id
+			,aa.change_id
+			--,aa.rn
    
    FROM aa 
-        WHERE (((aa.id_addr_parent = p_parent_obj_id) AND (p_parent_obj_id IS NOT NULL))
-                                OR
-                          (p_parent_obj_id IS NULL)
-              ) AND (aa.rn = 1) 
-        ORDER BY aa.id_addr_parent, aa.id_house; 
-  $$;
- 
-ALTER FUNCTION gar_tmp_pcg_trans."_OLD_f_xxx_adr_house_show_data" (date, bigint) OWNER TO postgres;  
+       WHERE (aa.rn = 1) -- 617502
+        ORDER BY aa.rn DESC, aa.id_addr_parent, aa.house_num; 
 
-COMMENT ON FUNCTION gar_tmp_pcg_trans."_OLD_f_xxx_adr_house_show_data" (date, bigint) 
-IS 'Функция для формирования таблицы-прототипа "gar_tmp.xxx_adr_house"';
-----------------------------------------------------------------------------------
--- USE CASE:
---    EXPLAIN ANALyZE SELECT * FROM gar_tmp_pcg_trans."_OLD_f_xxx_adr_house_show_data" (); -- 9 sec 487'828 rows
--- SELECT * FROM gar_tmp_pcg_trans."_OLD_f_xxx_adr_house_show_data" (p_parent_obj_id := 1260);
+--------------------------------------------------------
+SELECT * FROM public.hh4  -- 617502
+   except
+SELECT * FROM public.hh5 ; -- 617502   
+
+
+SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_house_show_data ()
+   EXCEPT
+SELECT * FROM gar_tmp_pcg_trans."_OLD_f_xxx_adr_house_show_data" (); 
+
+SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_house_show_data () where (ID_HOUSE = 36506749)
+   UNION ALL
+SELECT * FROM gar_tmp_pcg_trans."_OLD_f_xxx_adr_house_show_data" ()  where (ID_HOUSE = 36506749);    

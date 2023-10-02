@@ -175,7 +175,24 @@ CREATE OR REPLACE VIEW  public.zz2 AS
             FROM public.zz2 AS aa1 ;  -- 26514
 			
 -- ================================================================================
-
+       SELECT  
+	                count(1)
+                   ,aa1.id_addr_parent 
+                   ,aa1.addr_obj_type  				   
+                   ,aa1.nm_addr_obj    
+                  
+            FROM public.zz2 AS aa1 GROUP BY aa1.id_addr_parent, aa1.addr_obj_type, aa1.nm_addr_obj -- 26514
+               ORDER BY 1 DESC;
+			   
+SELECT aa1.* FROM public.zz2 AS aa1 WHERE (aa1.nm_addr_obj IN 			   
+('Садовод', 'Нефтекачка', 'Пинхаскала', 'Урожай', 'Локомотив')
+) ORDER BY aa1.nm_addr_obj, aa1.addr_obj_type, aa1.change_id DESC;			-- 26514 -5 = 26509							   
+			   
+			   
+			   
+--
+-- ================================================================================
+--
    WITH z AS (
             SELECT  
                --

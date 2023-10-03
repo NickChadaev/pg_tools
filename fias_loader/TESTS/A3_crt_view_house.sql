@@ -167,6 +167,6 @@ SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_house_show_data ()
    EXCEPT
 SELECT * FROM gar_tmp_pcg_trans."_OLD_f_xxx_adr_house_show_data" (); 
 
-SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_house_show_data () where (ID_HOUSE = 36506749)
+SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_house_show_data () where (ID_HOUSE IN ( 36506749, 79571913))
    UNION ALL
-SELECT * FROM gar_tmp_pcg_trans."_OLD_f_xxx_adr_house_show_data" ()  where (ID_HOUSE = 36506749);    
+SELECT * FROM gar_tmp_pcg_trans."_OLD_f_xxx_adr_house_show_data" ()  where (ID_HOUSE IN ( 36506749, 79571913));    

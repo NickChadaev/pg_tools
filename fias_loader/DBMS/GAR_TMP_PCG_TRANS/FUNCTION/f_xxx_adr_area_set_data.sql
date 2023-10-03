@@ -2,7 +2,7 @@ DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_adr_area_set_data (date, bigint,
 CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_set_data (
 
        p_date          date     = current_date
-      ,p_obj_level     bigint   = 10
+      ,p_obj_level     bigint   = 14
       ,p_oper_type_ids bigint[] = NULL::bigint[]
       
 ) RETURNS integer

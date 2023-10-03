@@ -7,7 +7,7 @@ BEGIN;
 
  \timing 
 
-  SELECT gar_tmp_pcg_trans.f_adr_house_ins ('gar_tmp', 'unnsi', 'gar_tmp', p_sw := FALSE);
+  SELECT * FROM gar_tmp_pcg_trans.f_adr_house_ins ('gar_tmp', 'gar_tmp', 'gar_tmp', p_sw := FALSE);
   -- Без adr_objects
   
   SELECT * FROM gar_tmp.adr_house_hist WHERE (id_region = 0) AND (date_create >= (now() - INTERVAL '1 DAY'))

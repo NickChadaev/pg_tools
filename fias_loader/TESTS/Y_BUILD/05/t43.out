@@ -1,0 +1,19 @@
+BEGIN
+SET
+SET
+SET
+SET
+Секундомер включён.
+ total_row | ins_row | upd_row 
+-----------+---------+---------
+         0 |       0 |       0
+(1 строка)
+
+Время: 506,790 мс
+ id_street | id_area | nm_street | id_street_type | nm_street_full | nm_fias_guid | dt_data_del | id_data_etalon | kd_kladr | vl_addr_latitude | vl_addr_longitude | id_street_hist | date_create | f_server_name | id_region 
+-----------+---------+-----------+----------------+----------------+--------------+-------------+----------------+----------+------------------+-------------------+----------------+-------------+---------------+-----------
+(0 строк)
+
+Время: 55,195 мс
+COMMIT
+Время: 27,354 мс

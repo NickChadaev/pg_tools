@@ -1,0 +1,19 @@
+BEGIN
+SET
+SET
+SET
+SET
+Секундомер включён.
+ total_row | ins_row | upd_row 
+-----------+---------+---------
+         0 |       0 |       0
+(1 строка)
+
+Время: 1570,349 мс (00:01,570)
+ id_house | id_area | id_street | id_house_type_1 | nm_house_1 | id_house_type_2 | nm_house_2 | id_house_type_3 | nm_house_3 | nm_zipcode | nm_house_full | kd_oktmo | nm_fias_guid | dt_data_del | id_data_etalon | kd_okato | vl_addr_latitude | vl_addr_longitude | id_house_hist | date_create | f_server_name | id_region 
+----------+---------+-----------+-----------------+------------+-----------------+------------+-----------------+------------+------------+---------------+----------+--------------+-------------+----------------+----------+------------------+-------------------+---------------+-------------+---------------+-----------
+(0 строк)
+
+Время: 92,720 мс
+COMMIT
+Время: 0,184 мс

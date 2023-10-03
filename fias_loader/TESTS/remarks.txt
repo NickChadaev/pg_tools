@@ -170,6 +170,26 @@ DELETE FROM ONLY gar_tmp.xxx_adr_house;	       --  617502
 DELETE FROM ONLY gar_tmp.xxx_obj_fias;         --  637872
 DELETE FROM ONLY gar_tmp.xxx_type_param_value; -- 1065890
 
+-- Идиот, обновлять aux !!!
+SELECT * FROM gar_tmp.adr_area_aux;
+------------------------------------
+id_area	op_sign
+192259	U
+192263	U     <----- Старьё  
+192331	U
+22872	U
+----------
+208140	U
+208184	U
+208173	U
+
+SELECT * FROM gar_tmp.adr_street_aux;
+DELETE FROM gar_tmp.adr_street_aux;
+--
+SELECT * FROM gar_tmp.adr_house_aux;
+DELETE FROM gar_tmp.adr_house_aux;
+
+
 
 SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_set_data();   --  26509
 SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_house_set_data();  -- 617502
@@ -194,8 +214,38 @@ SELECT * FROM public.fias_not_found_06u; -- 220
 --
 --  Установка последовательностей.
 --
---            ????
-0;SELECT setval('gar_tmp.obj_seq'::regclass,        2100000000);; -- Установка gar_tmp.obj_seq;
-0;SELECT setval('gar_tmp.obj_hist_seq'::regclass,  12100000000);; -- Установка gar_tmp.obj_hist_seq;
---
+SELECT gar_tmp_pcg_trans.f_xxx_obj_seq_crt (
+              p_seq_name      := 'gar_tmp.obj_seq' -- Имя последовательности
+             ,p_id_region     := 6                 -- ID региона
+             ,p_init_value    := 100000000         -- Начальное значение
+);
 
+Что произошло с функционалом обновления/дополнения.
+
+SELECT * FROM gar_tmp.xxx_obj_fias WHERE (type_object = 2) AND (id_obj IS NULL); -- 6494
+SELECT * FROM gar_tmp.xxx_obj_fias WHERE (type_object = 1) AND (id_obj IS NULL); --  298
+SELECT * FROM gar_tmp.xxx_obj_fias WHERE (type_object = 0) AND (id_obj IS NULL); --   19
+
+
+Почему не дополнились, не обновились ???
+----------------------------------------
+SELECT * FROM gar_tmp.xxx_obj_fias WHERE (type_object = 2) AND (id_obj IS NULL); -- 6494
+SELECT * FROM gar_tmp.xxx_obj_fias WHERE (type_object = 1) AND (id_obj IS NULL); --  298
+SELECT * FROM gar_tmp.xxx_obj_fias WHERE (type_object = 0) AND (id_obj IS NULL); --   19
+
+SELECT aa.* FROM gar_tmp.xxx_adr_area aa --  19
+   INNER JOIN gar_tmp.xxx_obj_fias xx ON (aa.fias_guid = xx.obj_guid) 
+WHERE ((xx.type_object = 0) AND (xx.id_obj IS NULL));   
+
+SELECT aa.* FROM gar_tmp.xxx_adr_area aa -- 298
+   INNER JOIN gar_tmp.xxx_obj_fias xx ON (aa.fias_guid = xx.obj_guid) 
+WHERE ((xx.type_object = 1) AND (xx.id_obj IS NULL))-- and (nm_addr_obj = 'Юннатов');
+
+SELECT hh.* FROM gar_tmp.xxx_adr_house hh -- 6494
+   INNER JOIN gar_tmp.xxx_obj_fias xx ON (hh.fias_guid = xx.obj_guid) 
+WHERE ((xx.type_object = 2) AND (xx.id_obj IS NULL)) ;
+
+SELECT hh.* FROM gar_tmp.xxx_adr_house hh -- 111 !!!  и ДОЛЖНЫ ОБНОВЛЯТЬСЯ
+   INNER JOIN gar_tmp.xxx_obj_fias xx ON (hh.fias_guid = xx.obj_guid) 
+   INNER JOIN public.fias_not_found_06u n ON (hh.fias_guid = n.guid)    
+WHERE ((xx.type_object = 2) AND (xx.id_obj IS NULL)) ;

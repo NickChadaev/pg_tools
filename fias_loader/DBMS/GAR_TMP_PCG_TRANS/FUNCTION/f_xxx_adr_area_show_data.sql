@@ -1,7 +1,7 @@
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_adr_area_show_data (date, bigint, bigint[]);
 CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_show_data (
        p_date          date     = current_date
-      ,p_obj_level     bigint   = 14
+      ,p_obj_level     bigint   = 16
       ,p_oper_type_ids bigint[] = NULL::bigint[]
 )
     RETURNS SETOF gar_tmp.xxx_adr_area
@@ -306,6 +306,9 @@ IS 'Функция подготавливает исходные данные д
 ----------------------------------------------------------------------------------
 -- USE CASE:
 --    EXPLAIN ANALyZE SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data () WHERE (nm_addr_obj IN ('Ивушка','Лазарево')); -- 1184
+--  SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data () ORDER BY obj_level DESC;
+--  SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data () WHERE (obj_level <> 8) ORDER BY obj_level DESC;  --2082
+--  SELECT aa.* FROM gar_tmp.xxx_adr_area aa WHERE (aa.obj_level <> 8)  ORDER BY tree_d   -- 2076    6 ??
 -- CALL gar_tmp_pcg_trans.p_gar_fias_crt_idx ();
 -- SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data (p_obj_level := 22); 
 -- SELECT count (1) FROM gar_tmp_pcg_trans.as_addr_obj; --7345  --- 1312 ?

@@ -19,7 +19,7 @@ WHERE ((xx.type_object = 0) AND (xx.id_obj IS NULL));
                ,x.id_addr_parent   AS id_area_parent     
                ,x.parent_fias_guid AS nm_fias_guid_parent
 			   
-			   ,(SELECT (id_area IS not NULL) FROM gar_tmp_pcg_trans.f_adr_area_get ('unnsi'::text, x.parent_fias_guid)) AS parent_exists
+			   ,(SELECT (id_area IS not NULL) FROM gar_tmp_pcg_trans.f_adr_area_get ('gar_tmp'::text, x.parent_fias_guid)) AS parent_exists
                --
                ,(p.type_param_value -> '7'::text)  AS kd_oktmo
                --
@@ -55,3 +55,47 @@ SELECT id_area_type, nm_area_type_short -- 30 мкр
 FROM gar_tmp_pcg_trans.f_adr_type_get ('gar_tmp', 270);
 
 SELECT 1 FROM gar_tmp_pcg_trans.f_adr_area_get ('gar_tmp'::text, '19e29ea6-2bb0-48ba-86e6-aa9d4b88bc14'::uuid);
+--
+--   2023-10-04
+--
+SELECT * FROM public.hh5 ; -- 617502   
+--
+SELECT * FROM gar_tmp.xxx_adr_area WHERE (fias_guid IN ('19e29ea6-2bb0-48ba-86e6-aa9d4b88bc14'--   ??? -- 14
+,'c0856292-889c-4bb9-8141-561f1aee19e3'));
+
+SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data() WHERE (fias_guid = '19e29ea6-2bb0-48ba-86e6-aa9d4b88bc14');   -- 14
+SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data() WHERE (fias_guid = '727cdf1e-1b70-4e07-8995-9bf7ca9abefb');   -- 5
+
+          SELECT   x.id_addr_obj      
+                  ,x.id_addr_parent   
+                  ,x.fias_guid        
+                  ,x.parent_fias_guid 
+                  ,x.nm_addr_obj  
+                  ,x.addr_obj_type_id     
+                  ,x.addr_obj_type    
+                  ,x.obj_level        
+                  ,x.level_name
+                   --
+                  ,x.region_code  -- 2021-12-01
+                  ,x.area_code    
+                  ,x.city_code    
+                  ,x.place_code   
+                  ,x.plan_code    
+                  ,x.street_code    
+                   --                                 
+                  ,x.oper_type_id     
+                  ,x.oper_type_name  
+                   --
+                  ,x.start_date 
+                  ,x.end_date  
+                   --                  
+                  ,x.tree_d           
+                  ,x.level_d          
+          
+          FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data (
+                  p_date          := current_date
+                 ,p_obj_level     := 14
+                 ,p_oper_type_ids := NULL::bigint[]
+          ) x -- 26515
+     WHERE (x.obj_level >= 10) --    26509 + 6 = 26515
+-----------------------------------------------------------------

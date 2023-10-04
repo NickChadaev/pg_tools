@@ -26,9 +26,9 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_obj_fias_show_data_1 (
 		        ,aa.tree_d
 		        ,aa.level_d
                 
-             FROM gar_tmp.xxx_adr_area aa 
-                    WHERE (aa.obj_level = 8)  
-		        ORDER BY tree_d
+             FROM gar_tmp.xxx_adr_area aa  
+                    WHERE (aa.obj_level = 8)  -- 2023-10-04 ..  Х ....тень была
+		     ORDER BY tree_d
       )
                 INSERT INTO %I
                        SELECT 
@@ -77,7 +77,7 @@ IS 'Функция подготавливает исходные данные д
 ----------------------------------------------------------------------------------
 -- USE CASE:
 --    EXPLAIN ANALyZE 
---     SELECT * FROM gar_tmp_pcg_trans.f_xxx_obj_fias_show_data_1 ('unsi') -- 5611
+--     SELECT * FROM gar_tmp_pcg_trans.f_xxx_obj_fias_show_data_1 ('gar_tmp') -- 5611
 --     INSERT INTO gar_tmp.xxx_obj_fias 
 --           SELECT * FROM gar_tmp_pcg_trans.f_xxx_obj_fias_show_data_1 ('unnsi'); 
 --   SELECT * FROM gar_tmp.xxx_obj_fias; -- 6031

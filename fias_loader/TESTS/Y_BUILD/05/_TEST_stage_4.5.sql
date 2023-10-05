@@ -13,8 +13,8 @@ WHERE ((xx.type_object = 2) AND (xx.id_obj IS NULL)) ;
               , h.fias_guid         AS nm_fias_guid
               , h.parent_fias_guid  AS nm_fias_guid_parent
         
-              , (SELECT (id_area is not null)  from gar_tmp_pcg_trans.f_adr_street_get ('unnsi', h.parent_fias_guid)) as P1
-              , (SELECT (id_area is not null)  from gar_tmp_pcg_trans.f_adr_AREA_get ('unnsi', h.parent_fias_guid)) as P1			  
+              , (SELECT (id_area is not null)  from gar_tmp_pcg_trans.f_adr_street_get ('gar_tmp', h.parent_fias_guid)) as Ps
+              , (SELECT (id_area is not null)  from gar_tmp_pcg_trans.f_adr_AREA_get ('gar_tmp', h.parent_fias_guid)) as Pa		  
 
               , h.nm_parent_obj
               , h.region_code
@@ -57,4 +57,11 @@ WHERE ((xx.type_object = 2) AND (xx.id_obj IS NULL)) ;
                     AND
                   (((h.fias_guid = ANY (NULL)) AND 
 	               (NULL IS NOT NULL)) OR (NULL IS NULL)
-	              )                     
+	              ) ;
+				  
+SELECT * FROM gar_tmp.xxx_adr_area WHERE (fias_guid IN ('97299168-9004-412a-ae9c-558d4356c606'
+														,'43c3311c-9cc2-494c-8065-98f62396d78c'
+,'b7164310-656d-4b9c-9398-df6d57d3e0ac'
+,'7578b094-b39c-470c-871a-a3285a631a0c'));
+														
+														))

@@ -12,5 +12,5 @@ BEGIN;
         ORDER BY date_create;
 
  --
--- ROLLBACK;
-COMMIT;
+ROLLBACK;
+-- COMMIT;

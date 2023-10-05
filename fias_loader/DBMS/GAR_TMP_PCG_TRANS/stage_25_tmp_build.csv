@@ -26,8 +26,9 @@
 #-------------------------------------------------------------------------------
 X;;;Start process, Сборка процессингового пакета;
 #
-5;version.sql;;-- Версия 42e3600/2023-06-14; 
+5;version.sql;;-- Версия 636a458/2023-10-04; 
 5;drop_objects.sql;;-- drop_objects.sql;
+5;../GAR_TMP/CreateViewGarTmp.sql;;-- CreateViewGarTmp.sql;
 #
 5;FUNCTION/f_xxx_ob_seq_crt.sql  ;;-- f_xxx_ob_seq_crt.sql  ;
 5;FUNCTION/f_xxx_replace_char.sql;;-- f_xxx_replace_char.sql;

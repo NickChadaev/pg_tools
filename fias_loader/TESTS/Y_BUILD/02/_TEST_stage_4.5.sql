@@ -6,7 +6,7 @@ SELECT hh.* FROM gar_tmp.xxx_adr_house hh -- 111 !!!  и ДОЛЖНЫ ОБНОВ
    INNER JOIN gar_tmp.xxx_obj_fias xx ON (hh.fias_guid = xx.obj_guid) 
    INNER JOIN public.fias_not_found_06u n ON (hh.fias_guid = n.guid)    
 WHERE ((xx.type_object = 2) AND (xx.id_obj IS NULL)) ;
--- 6494
+
         SELECT 
                 h.id_house
               , h.id_addr_parent

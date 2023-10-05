@@ -6,9 +6,13 @@ psql:./drop_objects.sql:9: ЗАМЕЧАНИЕ:  процедура gar_tmp_pcg_t
 psql:./drop_objects.sql:15: ЗАМЕЧАНИЕ:  процедура gar_tmp_pcg_trans.p_adr_street_check_twins(text,text,pg_catalog.int8[],pg_catalog.bool,date,text) не существует, пропускается
 psql:./drop_objects.sql:18: ЗАМЕЧАНИЕ:  процедура gar_tmp_pcg_trans.p_adr_street_del_twin(text,pg_catalog.int8,pg_catalog.int8,pg_catalog.varchar,pg_catalog.int4,uuid,pg_catalog.bool,date,text) не существует, пропускается
 psql:./drop_objects.sql:24: ЗАМЕЧАНИЕ:  функция gar_tmp_pcg_trans.fp_adr_house_del_twin_local_1(text,pg_catalog.int8,pg_catalog.int8,pg_catalog.int8,pg_catalog.varchar,uuid,date,text) не существует, пропускается
-psql:./PROCEDURE/p_xxx_adr_house_gap_put.sql:117: ЗАМЕЧАНИЕ:  RELATION | 793524 | gar_tmp | xxx_adr_house_gap
-psql:./PROCEDURE/p_xxx_adr_street_gap_put.sql:74: ЗАМЕЧАНИЕ:  RELATION | 793513 | gar_tmp | xxx_adr_street_gap
-psql:./PROCEDURE/p_xxx_adr_area_gap_put.sql:82: ЗАМЕЧАНИЕ:  RELATION | 793502 | gar_tmp | xxx_adr_area_gap
+psql:./FUNCTION/f_xxx_replace_char.sql:1: ОШИБКА:  удалить объект функция gar_tmp_pcg_trans.f_xxx_replace_char(text,character[]) нельзя, так как от него зависят другие объекты
+ПОДРОБНОСТИ:  представление zz4 зависит от объекта функция gar_tmp_pcg_trans.f_xxx_replace_char(text,character[])
+представление zz5 зависит от объекта функция gar_tmp_pcg_trans.f_xxx_replace_char(text,character[])
+ПОДСКАЗКА:  Для удаления зависимых объектов используйте DROP ... CASCADE.
+psql:./PROCEDURE/p_xxx_adr_house_gap_put.sql:117: ЗАМЕЧАНИЕ:  RELATION | 177076 | gar_tmp | xxx_adr_house_gap
+psql:./PROCEDURE/p_xxx_adr_street_gap_put.sql:74: ЗАМЕЧАНИЕ:  RELATION | 177085 | gar_tmp | xxx_adr_street_gap
+psql:./PROCEDURE/p_xxx_adr_area_gap_put.sql:82: ЗАМЕЧАНИЕ:  RELATION | 177067 | gar_tmp | xxx_adr_area_gap
 psql:./FUNCTION/f_xxx_adr_area_type_show_data.sql:1: ЗАМЕЧАНИЕ:  функция gar_tmp_pcg_trans.f_xxx_adr_area_type_show_data(text,date,text[]) не существует, пропускается
 psql:./FUNCTION/f_xxx_adr_area_type_show_data.sql:140: ЗАМЕЧАНИЕ:  error:42P01:123:SQL-оператор:отношение "__adr_area_type_x" не существует
 psql:./FUNCTION/f_xxx_adr_area_type_show_data.sql:140: ЗАМЕЧАНИЕ:  Query: DELETE FROM __adr_area_type_x
@@ -19,8 +23,8 @@ psql:./FUNCTION/f_xxx_adr_area_type_set.sql:161: ЗАМЕЧАНИЕ:  Query: SEL
 psql:./FUNCTION/f_xxx_adr_area_type_set.sql:161: ЗАМЕЧАНИЕ:  --                   ^
 psql:./FUNCTION/f_xxx_adr_area_type_set.sql:161: ЗАМЕЧАНИЕ:         		          ,(SELECT MAX (z.id_area_type) FROM gar_tmp.xxx_adr_area_type z 
 psql:./FUNCTION/f_xxx_adr_area_type_set.sql:161: ЗАМЕЧАНИЕ:                              WHERE (z.id_area_type < _LD)) , true)
-psql:./FUNCTION/f_xxx_adr_area_type_set.sql:161: ЗАМЕЧАНИЕ:  FUNCTION | 1350574 | gar_tmp_pcg_trans | f_xxx_adr_area_type_show_data | (text)
-psql:./FUNCTION/f_xxx_adr_area_type_set.sql:161: ЗАМЕЧАНИЕ:  RELATION | 54518 | gar_tmp | xxx_adr_area_type
+psql:./FUNCTION/f_xxx_adr_area_type_set.sql:161: ЗАМЕЧАНИЕ:  FUNCTION | 204239 | gar_tmp_pcg_trans | f_xxx_adr_area_type_show_data | (text)
+psql:./FUNCTION/f_xxx_adr_area_type_set.sql:161: ЗАМЕЧАНИЕ:  RELATION | 176675 | gar_tmp | xxx_adr_area_type
 psql:./FUNCTION/f_xxx_adr_street_type_show_data.sql:1: ЗАМЕЧАНИЕ:  функция gar_tmp_pcg_trans.f_xxx_street_type_show_data(text,date,text[]) не существует, пропускается
 psql:./FUNCTION/f_xxx_adr_street_type_show_data.sql:126: ЗАМЕЧАНИЕ:  error:42P01:110:SQL-оператор:отношение "__adr_street_type_x" не существует
 psql:./FUNCTION/f_xxx_adr_street_type_show_data.sql:126: ЗАМЕЧАНИЕ:  Query: DELETE FROM __adr_street_type_x
@@ -31,8 +35,8 @@ psql:./FUNCTION/f_xxx_street_type_set.sql:146: ЗАМЕЧАНИЕ:  Query: SELEC
 psql:./FUNCTION/f_xxx_street_type_set.sql:146: ЗАМЕЧАНИЕ:  --                   ^
 psql:./FUNCTION/f_xxx_street_type_set.sql:146: ЗАМЕЧАНИЕ:         		         ,(SELECT MAX (z.id_street_type) FROM gar_tmp.xxx_adr_street_type z 
 psql:./FUNCTION/f_xxx_street_type_set.sql:146: ЗАМЕЧАНИЕ:                             WHERE (z.id_street_type < _LD)), true)
-psql:./FUNCTION/f_xxx_street_type_set.sql:146: ЗАМЕЧАНИЕ:  FUNCTION | 1350578 | gar_tmp_pcg_trans | f_xxx_street_type_show_data | (text)
-psql:./FUNCTION/f_xxx_street_type_set.sql:146: ЗАМЕЧАНИЕ:  RELATION | 54500 | gar_tmp | xxx_adr_street_type
+psql:./FUNCTION/f_xxx_street_type_set.sql:146: ЗАМЕЧАНИЕ:  FUNCTION | 204243 | gar_tmp_pcg_trans | f_xxx_street_type_show_data | (text)
+psql:./FUNCTION/f_xxx_street_type_set.sql:146: ЗАМЕЧАНИЕ:  RELATION | 176719 | gar_tmp | xxx_adr_street_type
 psql:./FUNCTION/f_xxx_house_type_show_data.sql:1: ЗАМЕЧАНИЕ:  функция gar_tmp_pcg_trans.f_xxx_house_type_show_data(text,date,text[]) не существует, пропускается
 psql:./FUNCTION/f_xxx_house_type_show_data.sql:131: ЗАМЕЧАНИЕ:  error:42P01:115:SQL-оператор:отношение "__adr_house_type_x" не существует
 psql:./FUNCTION/f_xxx_house_type_show_data.sql:131: ЗАМЕЧАНИЕ:  Query: DELETE FROM __adr_house_type_x
@@ -43,12 +47,12 @@ psql:./FUNCTION/f_xxx_house_type_set.sql:156: ЗАМЕЧАНИЕ:  Query: SELECT
 psql:./FUNCTION/f_xxx_house_type_set.sql:156: ЗАМЕЧАНИЕ:  --                   ^
 psql:./FUNCTION/f_xxx_house_type_set.sql:156: ЗАМЕЧАНИЕ:         		         ,(SELECT MAX (z.id_house_type) FROM gar_tmp.xxx_adr_house_type z 
 psql:./FUNCTION/f_xxx_house_type_set.sql:156: ЗАМЕЧАНИЕ:                             WHERE (z.id_house_type < _LD)), true)
-psql:./FUNCTION/f_xxx_house_type_set.sql:156: ЗАМЕЧАНИЕ:  FUNCTION | 1350581 | gar_tmp_pcg_trans | f_xxx_house_type_show_data | (text)
-psql:./FUNCTION/f_xxx_house_type_set.sql:156: ЗАМЕЧАНИЕ:  RELATION | 54508 | gar_tmp | xxx_adr_house_type
+psql:./FUNCTION/f_xxx_house_type_set.sql:156: ЗАМЕЧАНИЕ:  FUNCTION | 204246 | gar_tmp_pcg_trans | f_xxx_house_type_show_data | (text)
+psql:./FUNCTION/f_xxx_house_type_set.sql:156: ЗАМЕЧАНИЕ:  RELATION | 176696 | gar_tmp | xxx_adr_house_type
 psql:./FUNCTION/f_xxx_adr_house_set_data.sql:1: ЗАМЕЧАНИЕ:  функция gar_tmp.f_xxx_adr_house_load_data(date,pg_catalog.int8) не существует, пропускается
 psql:./FUNCTION/f_xxx_adr_house_set_data.sql:2: ЗАМЕЧАНИЕ:  функция gar_tmp.f_xxx_adr_house_set_data(date,pg_catalog.int8) не существует, пропускается
-psql:./FUNCTION/f_xxx_adr_house_set_data.sql:125: ЗАМЕЧАНИЕ:  FUNCTION | 1350584 | gar_tmp_pcg_trans | f_xxx_adr_house_show_data | (date,bigint)
-psql:./FUNCTION/f_xxx_adr_house_set_data.sql:125: ЗАМЕЧАНИЕ:  RELATION | 54537 | gar_tmp | xxx_adr_house
+psql:./FUNCTION/f_xxx_adr_house_set_data.sql:125: ЗАМЕЧАНИЕ:  FUNCTION | 204249 | gar_tmp_pcg_trans | f_xxx_adr_house_show_data | (date,bigint)
+psql:./FUNCTION/f_xxx_adr_house_set_data.sql:125: ЗАМЕЧАНИЕ:  RELATION | 176686 | gar_tmp | xxx_adr_house
 psql:./FUNCTION/f_zzz_adr_area_type_show_tmp_data.sql:49: ЗАМЕЧАНИЕ:  error:42P01:34:SQL-оператор:отношение "__adr_area_type_z" не существует
 psql:./FUNCTION/f_zzz_adr_area_type_show_tmp_data.sql:49: ЗАМЕЧАНИЕ:  Query: DELETE FROM __adr_area_type_z
 psql:./FUNCTION/f_zzz_adr_area_type_show_tmp_data.sql:49: ЗАМЕЧАНИЕ:  --                 ^
@@ -58,19 +62,19 @@ psql:./FUNCTION/f_zzz_street_type_show_tmp_data.sql:48: ЗАМЕЧАНИЕ:  -- 
 psql:./FUNCTION/f_zzz_house_type_show_tmp_data.sql:49: ЗАМЕЧАНИЕ:  error:42P01:34:SQL-оператор:отношение "__adr_house_type_z" не существует
 psql:./FUNCTION/f_zzz_house_type_show_tmp_data.sql:49: ЗАМЕЧАНИЕ:  Query: DELETE FROM __adr_house_type_z
 psql:./FUNCTION/f_zzz_house_type_show_tmp_data.sql:49: ЗАМЕЧАНИЕ:  --                 ^
-psql:./FUNCTION/f_xxx_obj_fias_0.sql:73: ЗАМЕЧАНИЕ:  error:42P01:63:RETURN QUERY:отношение "__adr_area_fias" не существует
-psql:./FUNCTION/f_xxx_obj_fias_0.sql:73: ЗАМЕЧАНИЕ:  Query: SELECT * FROM __adr_area_fias
-psql:./FUNCTION/f_xxx_obj_fias_0.sql:73: ЗАМЕЧАНИЕ:  --                   ^
+psql:./FUNCTION/f_xxx_obj_fias_0.sql:74: ЗАМЕЧАНИЕ:  error:42P01:64:RETURN QUERY:отношение "__adr_area_fias" не существует
+psql:./FUNCTION/f_xxx_obj_fias_0.sql:74: ЗАМЕЧАНИЕ:  Query: SELECT * FROM __adr_area_fias
+psql:./FUNCTION/f_xxx_obj_fias_0.sql:74: ЗАМЕЧАНИЕ:  --                   ^
 psql:./FUNCTION/f_xxx_obj_fias_1.sql:71: ЗАМЕЧАНИЕ:  error:42P01:61:RETURN QUERY:отношение "__adr_area_fias" не существует
 psql:./FUNCTION/f_xxx_obj_fias_1.sql:71: ЗАМЕЧАНИЕ:  Query: SELECT * FROM __adr_area_fias
 psql:./FUNCTION/f_xxx_obj_fias_1.sql:71: ЗАМЕЧАНИЕ:  --                   ^
 psql:./FUNCTION/f_xxx_obj_fias_2.sql:76: ЗАМЕЧАНИЕ:  error:42P01:66:RETURN QUERY:отношение "__adr_area_fias" не существует
 psql:./FUNCTION/f_xxx_obj_fias_2.sql:76: ЗАМЕЧАНИЕ:  Query: SELECT * FROM __adr_area_fias
 psql:./FUNCTION/f_xxx_obj_fias_2.sql:76: ЗАМЕЧАНИЕ:  --                   ^
-psql:./FUNCTION/f_xxx_obj_fias_set_data.sql:101: ЗАМЕЧАНИЕ:  FUNCTION | 1350593 | gar_tmp_pcg_trans | f_xxx_obj_fias_show_data_0 | (text)
-psql:./FUNCTION/f_xxx_obj_fias_set_data.sql:101: ЗАМЕЧАНИЕ:  FUNCTION | 1350594 | gar_tmp_pcg_trans | f_xxx_obj_fias_show_data_1 | (text)
-psql:./FUNCTION/f_xxx_obj_fias_set_data.sql:101: ЗАМЕЧАНИЕ:  FUNCTION | 1350595 | gar_tmp_pcg_trans | f_xxx_obj_fias_show_data_2 | (text)
-psql:./FUNCTION/f_xxx_obj_fias_set_data.sql:101: ЗАМЕЧАНИЕ:  RELATION | 54492 | gar_tmp | xxx_obj_fias
+psql:./FUNCTION/f_xxx_obj_fias_set_data.sql:101: ЗАМЕЧАНИЕ:  FUNCTION | 204258 | gar_tmp_pcg_trans | f_xxx_obj_fias_show_data_0 | (text)
+psql:./FUNCTION/f_xxx_obj_fias_set_data.sql:101: ЗАМЕЧАНИЕ:  FUNCTION | 204259 | gar_tmp_pcg_trans | f_xxx_obj_fias_show_data_1 | (text)
+psql:./FUNCTION/f_xxx_obj_fias_set_data.sql:101: ЗАМЕЧАНИЕ:  FUNCTION | 204260 | gar_tmp_pcg_trans | f_xxx_obj_fias_show_data_2 | (text)
+psql:./FUNCTION/f_xxx_obj_fias_set_data.sql:101: ЗАМЕЧАНИЕ:  RELATION | 176706 | gar_tmp | xxx_obj_fias
 psql:./FUNCTION/f_adr_area_get.sql:50: ЗАМЕЧАНИЕ:  warning:00000:37:EXECUTE:cannot determinate a result of dynamic SQL
 psql:./FUNCTION/f_adr_area_get.sql:50: ЗАМЕЧАНИЕ:  Detail: There is a risk of related false alarms.
 psql:./FUNCTION/f_adr_area_get.sql:50: ЗАМЕЧАНИЕ:  Hint: Don't use dynamic SQL and record type together, when you would check function.
@@ -109,53 +113,53 @@ psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  warning extra:00000:14
 psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  warning extra:00000:17:DECLARE:never read variable "_op_3"
 psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  warning extra:00000:18:DECLARE:never read variable "_op_4"
 psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  warning extra:00000:19:DECLARE:never read variable "_op_5"
-psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 844676 | export_version | un_export
-psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 844692 | export_version | un_export_by_obj
-psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 54554 | gar_tmp | adr_area
-psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 631278 | gar_tmp | adr_area_aux
-psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 54616 | gar_tmp | adr_area_hist
-psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 54562 | gar_tmp | adr_house
-psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 631284 | gar_tmp | adr_house_aux
-psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 54628 | gar_tmp | adr_house_hist
-psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 54570 | gar_tmp | adr_objects
-psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 54640 | gar_tmp | adr_objects_hist
-psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 54578 | gar_tmp | adr_street
-psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 631290 | gar_tmp | adr_street_aux
-psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 54652 | gar_tmp | adr_street_hist
-psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 54528 | gar_tmp | xxx_adr_area
-psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 793502 | gar_tmp | xxx_adr_area_gap
-psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 54518 | gar_tmp | xxx_adr_area_type
-psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 54537 | gar_tmp | xxx_adr_house
-psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 793524 | gar_tmp | xxx_adr_house_gap
-psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 54508 | gar_tmp | xxx_adr_house_type
-psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 793513 | gar_tmp | xxx_adr_street_gap
-psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 54500 | gar_tmp | xxx_adr_street_type
-psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 54492 | gar_tmp | xxx_obj_fias
-psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 54546 | gar_tmp | xxx_type_param_value
+psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 176787 | export_version | un_export
+psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 176799 | export_version | un_export_by_obj
+psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 176817 | gar_tmp | adr_area
+psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 176988 | gar_tmp | adr_area_aux
+psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 176992 | gar_tmp | adr_area_hist
+psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 177004 | gar_tmp | adr_house
+psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 177010 | gar_tmp | adr_house_aux
+psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 177014 | gar_tmp | adr_house_hist
+psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 177026 | gar_tmp | adr_objects
+psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 177032 | gar_tmp | adr_objects_hist
+psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 177041 | gar_tmp | adr_street
+psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 177047 | gar_tmp | adr_street_aux
+psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 177051 | gar_tmp | adr_street_hist
+psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 176665 | gar_tmp | xxx_adr_area
+psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 177067 | gar_tmp | xxx_adr_area_gap
+psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 176675 | gar_tmp | xxx_adr_area_type
+psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 176686 | gar_tmp | xxx_adr_house
+psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 177076 | gar_tmp | xxx_adr_house_gap
+psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 176696 | gar_tmp | xxx_adr_house_type
+psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 177085 | gar_tmp | xxx_adr_street_gap
+psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 176719 | gar_tmp | xxx_adr_street_type
+psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 176706 | gar_tmp | xxx_obj_fias
+psql:./PROCEDURE/p_clear_tbl.sql:89: ЗАМЕЧАНИЕ:  RELATION | 177102 | gar_tmp | xxx_type_param_value
 psql:./FUNCTION/fp_adr_area_del_twins_local.sql:459: ЗАМЕЧАНИЕ:  warning:00000:119:EXECUTE:cannot determinate a result of dynamic SQL
 psql:./FUNCTION/fp_adr_area_del_twins_local.sql:459: ЗАМЕЧАНИЕ:  Detail: There is a risk of related false alarms.
 psql:./FUNCTION/fp_adr_area_del_twins_local.sql:459: ЗАМЕЧАНИЕ:  Hint: Don't use dynamic SQL and record type together, when you would check function.
 psql:./FUNCTION/fp_adr_area_del_twins_local.sql:459: ЗАМЕЧАНИЕ:  warning extra:00000:unused parameter "p_nm_fias_guid"
-psql:./FUNCTION/fp_adr_area_del_twins_local.sql:459: ЗАМЕЧАНИЕ:  FUNCTION | 1350599 | gar_tmp_pcg_trans | f_adr_area_get | (text,bigint)
-psql:./FUNCTION/fp_adr_area_del_twins_local.sql:459: ЗАМЕЧАНИЕ:  RELATION | 631278 | gar_tmp | adr_area_aux
-psql:./FUNCTION/fp_adr_area_check_twins_local.sql:111: ЗАМЕЧАНИЕ:  FUNCTION | 1350611 | gar_tmp_pcg_trans | fp_adr_area_del_twin | (text,bigint,integer,bigint,integer,character varying,uuid,date,text)
-psql:./FUNCTION/fp_adr_area_check_twins_local.sql:111: ЗАМЕЧАНИЕ:  RELATION | 54554 | gar_tmp | adr_area
+psql:./FUNCTION/fp_adr_area_del_twins_local.sql:459: ЗАМЕЧАНИЕ:  FUNCTION | 204264 | gar_tmp_pcg_trans | f_adr_area_get | (text,bigint)
+psql:./FUNCTION/fp_adr_area_del_twins_local.sql:459: ЗАМЕЧАНИЕ:  RELATION | 176988 | gar_tmp | adr_area_aux
+psql:./FUNCTION/fp_adr_area_check_twins_local.sql:111: ЗАМЕЧАНИЕ:  FUNCTION | 204276 | gar_tmp_pcg_trans | fp_adr_area_del_twin | (text,bigint,integer,bigint,integer,character varying,uuid,date,text)
+psql:./FUNCTION/fp_adr_area_check_twins_local.sql:111: ЗАМЕЧАНИЕ:  RELATION | 176817 | gar_tmp | adr_area
 psql:./FUNCTION/fp_adr_street_del_twins_local.sql:264: ЗАМЕЧАНИЕ:  warning:00000:120:EXECUTE:cannot determinate a result of dynamic SQL
 psql:./FUNCTION/fp_adr_street_del_twins_local.sql:264: ЗАМЕЧАНИЕ:  Detail: There is a risk of related false alarms.
 psql:./FUNCTION/fp_adr_street_del_twins_local.sql:264: ЗАМЕЧАНИЕ:  Hint: Don't use dynamic SQL and record type together, when you would check function.
 psql:./FUNCTION/fp_adr_street_del_twins_local.sql:264: ЗАМЕЧАНИЕ:  warning extra:00000:unused parameter "p_nm_fias_guid"
-psql:./FUNCTION/fp_adr_street_del_twins_local.sql:264: ЗАМЕЧАНИЕ:  FUNCTION | 1350602 | gar_tmp_pcg_trans | f_adr_street_get | (text,bigint)
-psql:./FUNCTION/fp_adr_street_del_twins_local.sql:264: ЗАМЕЧАНИЕ:  RELATION | 631290 | gar_tmp | adr_street_aux
-psql:./FUNCTION/fp_adr_street_check_twins_local.sql:112: ЗАМЕЧАНИЕ:  FUNCTION | 1350614 | gar_tmp_pcg_trans | fp_adr_street_del_twin | (text,bigint,bigint,character varying,integer,uuid,date,text)
-psql:./FUNCTION/fp_adr_street_check_twins_local.sql:112: ЗАМЕЧАНИЕ:  RELATION | 54578 | gar_tmp | adr_street
+psql:./FUNCTION/fp_adr_street_del_twins_local.sql:264: ЗАМЕЧАНИЕ:  FUNCTION | 204267 | gar_tmp_pcg_trans | f_adr_street_get | (text,bigint)
+psql:./FUNCTION/fp_adr_street_del_twins_local.sql:264: ЗАМЕЧАНИЕ:  RELATION | 177047 | gar_tmp | adr_street_aux
+psql:./FUNCTION/fp_adr_street_check_twins_local.sql:112: ЗАМЕЧАНИЕ:  FUNCTION | 204279 | gar_tmp_pcg_trans | fp_adr_street_del_twin | (text,bigint,bigint,character varying,integer,uuid,date,text)
+psql:./FUNCTION/fp_adr_street_check_twins_local.sql:112: ЗАМЕЧАНИЕ:  RELATION | 177041 | gar_tmp | adr_street
 psql:./FUNCTION/fp_adr_house_del_twins_local_0.sql:576: ЗАМЕЧАНИЕ:  warning:00000:162:EXECUTE:cannot determinate a result of dynamic SQL
 psql:./FUNCTION/fp_adr_house_del_twins_local_0.sql:576: ЗАМЕЧАНИЕ:  Detail: There is a risk of related false alarms.
 psql:./FUNCTION/fp_adr_house_del_twins_local_0.sql:576: ЗАМЕЧАНИЕ:  Hint: Don't use dynamic SQL and record type together, when you would check function.
 psql:./FUNCTION/fp_adr_house_del_twins_local_0.sql:576: ЗАМЕЧАНИЕ:  warning extra:00000:unused parameter "p_nm_fias_guid"
-psql:./FUNCTION/fp_adr_house_del_twins_local_0.sql:576: ЗАМЕЧАНИЕ:  FUNCTION | 1350605 | gar_tmp_pcg_trans | f_adr_house_get | (text,bigint)
-psql:./FUNCTION/fp_adr_house_del_twins_local_0.sql:576: ЗАМЕЧАНИЕ:  RELATION | 631284 | gar_tmp | adr_house_aux
-psql:./FUNCTION/fp_adr_house_check_twins_local.sql:180: ЗАМЕЧАНИЕ:  FUNCTION | 1350617 | gar_tmp_pcg_trans | fp_adr_house_del_twin_local_0 | (text,bigint,bigint,bigint,character varying,uuid,date,text)
-psql:./FUNCTION/fp_adr_house_check_twins_local.sql:180: ЗАМЕЧАНИЕ:  RELATION | 54562 | gar_tmp | adr_house
+psql:./FUNCTION/fp_adr_house_del_twins_local_0.sql:576: ЗАМЕЧАНИЕ:  FUNCTION | 204270 | gar_tmp_pcg_trans | f_adr_house_get | (text,bigint)
+psql:./FUNCTION/fp_adr_house_del_twins_local_0.sql:576: ЗАМЕЧАНИЕ:  RELATION | 177010 | gar_tmp | adr_house_aux
+psql:./FUNCTION/fp_adr_house_check_twins_local.sql:180: ЗАМЕЧАНИЕ:  FUNCTION | 204282 | gar_tmp_pcg_trans | fp_adr_house_del_twin_local_0 | (text,bigint,bigint,bigint,character varying,uuid,date,text)
+psql:./FUNCTION/fp_adr_house_check_twins_local.sql:180: ЗАМЕЧАНИЕ:  RELATION | 177004 | gar_tmp | adr_house
 psql:./PROCEDURE/p_adr_house_del_twins.sql:3: ЗАМЕЧАНИЕ:  процедура gar_tmp_pcg_trans.p_adr_house_del_twin(text,pg_catalog.int8,pg_catalog.int8,pg_catalog.int8,pg_catalog.varchar,uuid,pg_catalog.bool) не существует, пропускается
 psql:./PROCEDURE/p_adr_house_del_twins.sql:378: ЗАМЕЧАНИЕ:  warning:00000:219:EXECUTE:cannot determinate a result of dynamic SQL
 psql:./PROCEDURE/p_adr_house_del_twins.sql:378: ЗАМЕЧАНИЕ:  Detail: There is a risk of related false alarms.
@@ -166,24 +170,24 @@ psql:./PROCEDURE/p_adr_house_del_twins.sql:378: ЗАМЕЧАНИЕ:  Hint: Don't
 psql:./PROCEDURE/p_adr_house_del_twins.sql:378: ЗАМЕЧАНИЕ:  warning:00000:296:EXECUTE:cannot determinate a result of dynamic SQL
 psql:./PROCEDURE/p_adr_house_del_twins.sql:378: ЗАМЕЧАНИЕ:  Detail: There is a risk of related false alarms.
 psql:./PROCEDURE/p_adr_house_del_twins.sql:378: ЗАМЕЧАНИЕ:  Hint: Don't use dynamic SQL and record type together, when you would check function.
-psql:./FUNCTION/f_adr_area_unload_get_data.sql:168: ЗАМЕЧАНИЕ:  FUNCTION | 26017 | gar_link | dblink | (text,text)
-psql:./FUNCTION/f_adr_street_unload_get_data.sql:108: ЗАМЕЧАНИЕ:  FUNCTION | 26017 | gar_link | dblink | (text,text)
-psql:./FUNCTION/f_adr_house_unload_get_data.sql:134: ЗАМЕЧАНИЕ:  FUNCTION | 26017 | gar_link | dblink | (text,text)
-psql:./FUNCTION/f_adr_object_unload_get_data.sql:136: ЗАМЕЧАНИЕ:  FUNCTION | 26017 | gar_link | dblink | (text,text)
+psql:./FUNCTION/f_adr_area_unload_get_data.sql:168: ЗАМЕЧАНИЕ:  FUNCTION | 176279 | gar_link | dblink | (text,text)
+psql:./FUNCTION/f_adr_street_unload_get_data.sql:108: ЗАМЕЧАНИЕ:  FUNCTION | 176279 | gar_link | dblink | (text,text)
+psql:./FUNCTION/f_adr_house_unload_get_data.sql:134: ЗАМЕЧАНИЕ:  FUNCTION | 176279 | gar_link | dblink | (text,text)
+psql:./FUNCTION/f_adr_object_unload_get_data.sql:136: ЗАМЕЧАНИЕ:  FUNCTION | 176279 | gar_link | dblink | (text,text)
 psql:./PROCEDURE/p_adr_area_ins.sql:276: ЗАМЕЧАНИЕ:  warning extra:00000:unused parameter "p_id_data_etalon"
 psql:./PROCEDURE/p_adr_area_ins.sql:276: ЗАМЕЧАНИЕ:  warning extra:00000:unused parameter "p_sw"
-psql:./PROCEDURE/p_adr_area_ins.sql:276: ЗАМЕЧАНИЕ:  FUNCTION | 1350598 | gar_tmp_pcg_trans | f_adr_area_get | (text,integer,bigint,integer,character varying)
-psql:./PROCEDURE/p_adr_area_ins.sql:276: ЗАМЕЧАНИЕ:  RELATION | 631278 | gar_tmp | adr_area_aux
+psql:./PROCEDURE/p_adr_area_ins.sql:276: ЗАМЕЧАНИЕ:  FUNCTION | 204263 | gar_tmp_pcg_trans | f_adr_area_get | (text,integer,bigint,integer,character varying)
+psql:./PROCEDURE/p_adr_area_ins.sql:276: ЗАМЕЧАНИЕ:  RELATION | 176988 | gar_tmp | adr_area_aux
 psql:./PROCEDURE/p_adr_area_upd.sql:363: ЗАМЕЧАНИЕ:  warning extra:00000:unused parameter "p_id_area"
 psql:./PROCEDURE/p_adr_area_upd.sql:363: ЗАМЕЧАНИЕ:  warning extra:00000:unused parameter "p_id_data_etalon"
 psql:./PROCEDURE/p_adr_area_upd.sql:363: ЗАМЕЧАНИЕ:  warning extra:00000:unused parameter "p_oper_type_id"
-psql:./PROCEDURE/p_adr_area_upd.sql:363: ЗАМЕЧАНИЕ:  FUNCTION | 1350597 | gar_tmp_pcg_trans | f_adr_area_get | (text,uuid)
-psql:./PROCEDURE/p_adr_area_upd.sql:363: ЗАМЕЧАНИЕ:  FUNCTION | 1350598 | gar_tmp_pcg_trans | f_adr_area_get | (text,integer,bigint,integer,character varying)
-psql:./PROCEDURE/p_adr_area_upd.sql:363: ЗАМЕЧАНИЕ:  RELATION | 631278 | gar_tmp | adr_area_aux
+psql:./PROCEDURE/p_adr_area_upd.sql:363: ЗАМЕЧАНИЕ:  FUNCTION | 204262 | gar_tmp_pcg_trans | f_adr_area_get | (text,uuid)
+psql:./PROCEDURE/p_adr_area_upd.sql:363: ЗАМЕЧАНИЕ:  FUNCTION | 204263 | gar_tmp_pcg_trans | f_adr_area_get | (text,integer,bigint,integer,character varying)
+psql:./PROCEDURE/p_adr_area_upd.sql:363: ЗАМЕЧАНИЕ:  RELATION | 176988 | gar_tmp | adr_area_aux
 psql:./PROCEDURE/p_adr_street_ins.sql:209: ЗАМЕЧАНИЕ:  warning extra:00000:unused parameter "p_id_data_etalon"
 psql:./PROCEDURE/p_adr_street_ins.sql:209: ЗАМЕЧАНИЕ:  warning extra:00000:unused parameter "p_sw"
-psql:./PROCEDURE/p_adr_street_ins.sql:209: ЗАМЕЧАНИЕ:  FUNCTION | 1350601 | gar_tmp_pcg_trans | f_adr_street_get | (text,bigint,character varying,integer)
-psql:./PROCEDURE/p_adr_street_ins.sql:209: ЗАМЕЧАНИЕ:  RELATION | 631290 | gar_tmp | adr_street_aux
+psql:./PROCEDURE/p_adr_street_ins.sql:209: ЗАМЕЧАНИЕ:  FUNCTION | 204266 | gar_tmp_pcg_trans | f_adr_street_get | (text,bigint,character varying,integer)
+psql:./PROCEDURE/p_adr_street_ins.sql:209: ЗАМЕЧАНИЕ:  RELATION | 177047 | gar_tmp | adr_street_aux
 psql:./PROCEDURE/p_adr_street_upd.sql:360: ЗАМЕЧАНИЕ:  warning:00000:110:EXECUTE:cannot determinate a result of dynamic SQL
 psql:./PROCEDURE/p_adr_street_upd.sql:360: ЗАМЕЧАНИЕ:  Detail: There is a risk of related false alarms.
 psql:./PROCEDURE/p_adr_street_upd.sql:360: ЗАМЕЧАНИЕ:  Hint: Don't use dynamic SQL and record type together, when you would check function.
@@ -191,36 +195,36 @@ psql:./PROCEDURE/p_adr_street_upd.sql:360: ЗАМЕЧАНИЕ:  warning extra:00
 psql:./PROCEDURE/p_adr_street_upd.sql:360: ЗАМЕЧАНИЕ:  warning extra:00000:unused parameter "p_id_street"
 psql:./PROCEDURE/p_adr_street_upd.sql:360: ЗАМЕЧАНИЕ:  warning extra:00000:unused parameter "p_id_data_etalon"
 psql:./PROCEDURE/p_adr_street_upd.sql:360: ЗАМЕЧАНИЕ:  warning extra:00000:unused parameter "p_oper_type_id"
-psql:./PROCEDURE/p_adr_street_upd.sql:360: ЗАМЕЧАНИЕ:  FUNCTION | 1350600 | gar_tmp_pcg_trans | f_adr_street_get | (text,uuid)
-psql:./PROCEDURE/p_adr_street_upd.sql:360: ЗАМЕЧАНИЕ:  FUNCTION | 1350601 | gar_tmp_pcg_trans | f_adr_street_get | (text,bigint,character varying,integer)
-psql:./PROCEDURE/p_adr_street_upd.sql:360: ЗАМЕЧАНИЕ:  RELATION | 631290 | gar_tmp | adr_street_aux
+psql:./PROCEDURE/p_adr_street_upd.sql:360: ЗАМЕЧАНИЕ:  FUNCTION | 204265 | gar_tmp_pcg_trans | f_adr_street_get | (text,uuid)
+psql:./PROCEDURE/p_adr_street_upd.sql:360: ЗАМЕЧАНИЕ:  FUNCTION | 204266 | gar_tmp_pcg_trans | f_adr_street_get | (text,bigint,character varying,integer)
+psql:./PROCEDURE/p_adr_street_upd.sql:360: ЗАМЕЧАНИЕ:  RELATION | 177047 | gar_tmp | adr_street_aux
 psql:./PROCEDURE/p_adr_house_ins.sql:311: ЗАМЕЧАНИЕ:  warning extra:00000:unused parameter "p_id_data_etalon"
-psql:./PROCEDURE/p_adr_house_ins.sql:311: ЗАМЕЧАНИЕ:  FUNCTION | 1350604 | gar_tmp_pcg_trans | f_adr_house_get | (text,bigint,character varying,bigint,integer)
-psql:./PROCEDURE/p_adr_house_ins.sql:311: ЗАМЕЧАНИЕ:  PROCEDURE | 1350621 | gar_tmp_pcg_trans | p_adr_house_del_twin | (text,bigint,bigint,bigint,character varying,uuid,boolean)
-psql:./PROCEDURE/p_adr_house_ins.sql:311: ЗАМЕЧАНИЕ:  RELATION | 631284 | gar_tmp | adr_house_aux
+psql:./PROCEDURE/p_adr_house_ins.sql:311: ЗАМЕЧАНИЕ:  FUNCTION | 204269 | gar_tmp_pcg_trans | f_adr_house_get | (text,bigint,character varying,bigint,integer)
+psql:./PROCEDURE/p_adr_house_ins.sql:311: ЗАМЕЧАНИЕ:  PROCEDURE | 204286 | gar_tmp_pcg_trans | p_adr_house_del_twin | (text,bigint,bigint,bigint,character varying,uuid,boolean)
+psql:./PROCEDURE/p_adr_house_ins.sql:311: ЗАМЕЧАНИЕ:  RELATION | 177010 | gar_tmp | adr_house_aux
 psql:./FUNCTION/fp_adr_house_upd.sql:411: ЗАМЕЧАНИЕ:  warning extra:00000:33:DECLARE:never read variable "_id_house_hist"
 psql:./FUNCTION/fp_adr_house_upd.sql:411: ЗАМЕЧАНИЕ:  warning extra:00000:unused parameter "p_id_house"
 psql:./FUNCTION/fp_adr_house_upd.sql:411: ЗАМЕЧАНИЕ:  warning extra:00000:unused parameter "p_id_data_etalon"
-psql:./FUNCTION/fp_adr_house_upd.sql:411: ЗАМЕЧАНИЕ:  FUNCTION | 1350603 | gar_tmp_pcg_trans | f_adr_house_get | (text,uuid)
-psql:./FUNCTION/fp_adr_house_upd.sql:411: ЗАМЕЧАНИЕ:  FUNCTION | 1350604 | gar_tmp_pcg_trans | f_adr_house_get | (text,bigint,character varying,bigint,integer)
-psql:./FUNCTION/fp_adr_house_upd.sql:411: ЗАМЕЧАНИЕ:  PROCEDURE | 1350621 | gar_tmp_pcg_trans | p_adr_house_del_twin | (text,bigint,bigint,bigint,character varying,uuid,boolean)
-psql:./FUNCTION/fp_adr_house_upd.sql:411: ЗАМЕЧАНИЕ:  RELATION | 631284 | gar_tmp | adr_house_aux
-psql:./PROCEDURE/p_adr_area_unload.sql:65: ЗАМЕЧАНИЕ:  FUNCTION | 1350623 | gar_tmp_pcg_trans | f_adr_area_unload_data | (text,bigint,text)
-psql:./PROCEDURE/p_adr_area_unload.sql:65: ЗАМЕЧАНИЕ:  PROCEDURE | 1075464 | gar_link | p_adr_area_idx | (text,text,boolean,boolean)
-psql:./PROCEDURE/p_adr_area_unload.sql:65: ЗАМЕЧАНИЕ:  RELATION | 54554 | gar_tmp | adr_area
-psql:./PROCEDURE/p_adr_street_unload.sql:65: ЗАМЕЧАНИЕ:  FUNCTION | 1350625 | gar_tmp_pcg_trans | f_adr_street_unload_data | (text,bigint,text)
-psql:./PROCEDURE/p_adr_street_unload.sql:65: ЗАМЕЧАНИЕ:  FUNCTION | 1350616 | gar_tmp_pcg_trans | fp_adr_street_check_twins_local | (text)
-psql:./PROCEDURE/p_adr_street_unload.sql:65: ЗАМЕЧАНИЕ:  PROCEDURE | 1075463 | gar_link | p_adr_street_idx | (text,text,boolean,boolean)
-psql:./PROCEDURE/p_adr_street_unload.sql:65: ЗАМЕЧАНИЕ:  RELATION | 54578 | gar_tmp | adr_street
-psql:./PROCEDURE/p_adr_house_unload.sql:76: ЗАМЕЧАНИЕ:  FUNCTION | 1350626 | gar_tmp_pcg_trans | f_adr_house_unload_data | (text,bigint,text)
-psql:./PROCEDURE/p_adr_house_unload.sql:76: ЗАМЕЧАНИЕ:  FUNCTION | 1350619 | gar_tmp_pcg_trans | fp_adr_house_check_twins_local | (text)
-psql:./PROCEDURE/p_adr_house_unload.sql:76: ЗАМЕЧАНИЕ:  PROCEDURE | 1075461 | gar_link | p_adr_house_idx | (text,text,boolean,boolean)
-psql:./PROCEDURE/p_adr_house_unload.sql:76: ЗАМЕЧАНИЕ:  RELATION | 54562 | gar_tmp | adr_house
+psql:./FUNCTION/fp_adr_house_upd.sql:411: ЗАМЕЧАНИЕ:  FUNCTION | 204268 | gar_tmp_pcg_trans | f_adr_house_get | (text,uuid)
+psql:./FUNCTION/fp_adr_house_upd.sql:411: ЗАМЕЧАНИЕ:  FUNCTION | 204269 | gar_tmp_pcg_trans | f_adr_house_get | (text,bigint,character varying,bigint,integer)
+psql:./FUNCTION/fp_adr_house_upd.sql:411: ЗАМЕЧАНИЕ:  PROCEDURE | 204286 | gar_tmp_pcg_trans | p_adr_house_del_twin | (text,bigint,bigint,bigint,character varying,uuid,boolean)
+psql:./FUNCTION/fp_adr_house_upd.sql:411: ЗАМЕЧАНИЕ:  RELATION | 177010 | gar_tmp | adr_house_aux
+psql:./PROCEDURE/p_adr_area_unload.sql:65: ЗАМЕЧАНИЕ:  FUNCTION | 204288 | gar_tmp_pcg_trans | f_adr_area_unload_data | (text,bigint,text)
+psql:./PROCEDURE/p_adr_area_unload.sql:65: ЗАМЕЧАНИЕ:  PROCEDURE | 176624 | gar_link | p_adr_area_idx | (text,text,boolean,boolean)
+psql:./PROCEDURE/p_adr_area_unload.sql:65: ЗАМЕЧАНИЕ:  RELATION | 176817 | gar_tmp | adr_area
+psql:./PROCEDURE/p_adr_street_unload.sql:65: ЗАМЕЧАНИЕ:  FUNCTION | 204290 | gar_tmp_pcg_trans | f_adr_street_unload_data | (text,bigint,text)
+psql:./PROCEDURE/p_adr_street_unload.sql:65: ЗАМЕЧАНИЕ:  FUNCTION | 204281 | gar_tmp_pcg_trans | fp_adr_street_check_twins_local | (text)
+psql:./PROCEDURE/p_adr_street_unload.sql:65: ЗАМЕЧАНИЕ:  PROCEDURE | 176628 | gar_link | p_adr_street_idx | (text,text,boolean,boolean)
+psql:./PROCEDURE/p_adr_street_unload.sql:65: ЗАМЕЧАНИЕ:  RELATION | 177041 | gar_tmp | adr_street
+psql:./PROCEDURE/p_adr_house_unload.sql:76: ЗАМЕЧАНИЕ:  FUNCTION | 204291 | gar_tmp_pcg_trans | f_adr_house_unload_data | (text,bigint,text)
+psql:./PROCEDURE/p_adr_house_unload.sql:76: ЗАМЕЧАНИЕ:  FUNCTION | 204284 | gar_tmp_pcg_trans | fp_adr_house_check_twins_local | (text)
+psql:./PROCEDURE/p_adr_house_unload.sql:76: ЗАМЕЧАНИЕ:  PROCEDURE | 176625 | gar_link | p_adr_house_idx | (text,text,boolean,boolean)
+psql:./PROCEDURE/p_adr_house_unload.sql:76: ЗАМЕЧАНИЕ:  RELATION | 177004 | gar_tmp | adr_house
 psql:./PROCEDURE/p_adr_house_upload.sql:1: ЗАМЕЧАНИЕ:  процедура gar_tmp_pcg_trans.p_adr_house_upload(text,date,pg_catalog.bool) не существует, пропускается
 psql:./PROCEDURE/p_adr_object_ins.sql:5: ЗАМЕЧАНИЕ:  процедура gar_tmp_pcg_trans.p_adr_object_ins(text,pg_catalog.int8,pg_catalog.int8,pg_catalog.int8,pg_catalog.int4,pg_catalog.int8,pg_catalog.varchar,pg_catalog.varchar,pg_catalog.varchar,pg_catalog.int8,pg_catalog.int4,pg_catalog.int4,pg_catalog.numeric,uuid,pg_catalog.varchar,pg_catalog.varchar,pg_catalog.varchar,pg_catalog.numeric,pg_catalog.numeric) не существует, пропускается
 psql:./PROCEDURE/p_adr_object_ins.sql:256: ЗАМЕЧАНИЕ:  warning extra:00000:unused parameter "p_id_data_etalon"
 psql:./PROCEDURE/p_adr_object_ins.sql:256: ЗАМЕЧАНИЕ:  warning extra:00000:unused parameter "p_sw"
-psql:./PROCEDURE/p_adr_object_ins.sql:256: ЗАМЕЧАНИЕ:  FUNCTION | 1350607 | gar_tmp_pcg_trans | f_adr_object_get | (text,bigint,integer,character varying,bigint,bigint)
+psql:./PROCEDURE/p_adr_object_ins.sql:256: ЗАМЕЧАНИЕ:  FUNCTION | 204272 | gar_tmp_pcg_trans | f_adr_object_get | (text,bigint,integer,character varying,bigint,bigint)
 psql:./PROCEDURE/p_adr_object_upd.sql:5: ЗАМЕЧАНИЕ:  процедура gar_tmp_pcg_trans.p_adr_object_upd(text,pg_catalog.int8,pg_catalog.int8,pg_catalog.int8,pg_catalog.int4,pg_catalog.int8,pg_catalog.varchar,pg_catalog.varchar,pg_catalog.varchar,pg_catalog.int8,pg_catalog.int4,pg_catalog.int4,pg_catalog.numeric,uuid,pg_catalog.varchar,pg_catalog.varchar,pg_catalog.varchar,pg_catalog.numeric,pg_catalog.numeric,pg_catalog.int8) не существует, пропускается
 psql:./PROCEDURE/p_adr_object_upd.sql:440: ЗАМЕЧАНИЕ:  warning:00000:169:EXECUTE:cannot determinate a result of dynamic SQL
 psql:./PROCEDURE/p_adr_object_upd.sql:440: ЗАМЕЧАНИЕ:  Detail: There is a risk of related false alarms.
@@ -247,93 +251,93 @@ psql:./PROCEDURE/p_adr_object_upd.sql:440: ЗАМЕЧАНИЕ:  warning:00000:34
 psql:./PROCEDURE/p_adr_object_upd.sql:440: ЗАМЕЧАНИЕ:  Context: at assignment to variable "_rr" declared on line 162
 psql:./PROCEDURE/p_adr_object_upd.sql:440: ЗАМЕЧАНИЕ:  warning extra:00000:103:DECLARE:never read variable "_upd_u"
 psql:./PROCEDURE/p_adr_object_upd.sql:440: ЗАМЕЧАНИЕ:  warning extra:00000:unused parameter "p_id_data_etalon"
-psql:./PROCEDURE/p_adr_object_upd.sql:440: ЗАМЕЧАНИЕ:  FUNCTION | 1350607 | gar_tmp_pcg_trans | f_adr_object_get | (text,bigint,integer,character varying,bigint,bigint)
+psql:./PROCEDURE/p_adr_object_upd.sql:440: ЗАМЕЧАНИЕ:  FUNCTION | 204272 | gar_tmp_pcg_trans | f_adr_object_get | (text,bigint,integer,character varying,bigint,bigint)
 psql:./PROCEDURE/p_adr_object_unload.sql:1: ЗАМЕЧАНИЕ:  процедура gar_tmp_pcg_trans.p_adr_object_unload(text) не существует, пропускается
 psql:./PROCEDURE/p_adr_object_unload.sql:2: ЗАМЕЧАНИЕ:  процедура gar_tmp_pcg_trans.p_adr_object_unload(text,pg_catalog.int8) не существует, пропускается
-psql:./PROCEDURE/p_adr_object_unload.sql:77: ЗАМЕЧАНИЕ:  FUNCTION | 1350627 | gar_tmp_pcg_trans | f_adr_object_unload_data | (text,bigint,text)
-psql:./PROCEDURE/p_adr_object_unload.sql:77: ЗАМЕЧАНИЕ:  RELATION | 54570 | gar_tmp | adr_objects
+psql:./PROCEDURE/p_adr_object_unload.sql:77: ЗАМЕЧАНИЕ:  FUNCTION | 204292 | gar_tmp_pcg_trans | f_adr_object_unload_data | (text,bigint,text)
+psql:./PROCEDURE/p_adr_object_unload.sql:77: ЗАМЕЧАНИЕ:  RELATION | 177026 | gar_tmp | adr_objects
 psql:./FUNCTION/f_adr_area_ins.sql:164: ЗАМЕЧАНИЕ:  warning:00000:33:FOR по результатам SELECT:too few attributes for composite variable
-psql:./FUNCTION/f_adr_area_ins.sql:164: ЗАМЕЧАНИЕ:  FUNCTION | 1350597 | gar_tmp_pcg_trans | f_adr_area_get | (text,uuid)
-psql:./FUNCTION/f_adr_area_ins.sql:164: ЗАМЕЧАНИЕ:  FUNCTION | 1350589 | gar_tmp_pcg_trans | f_adr_type_get | (text,bigint)
-psql:./FUNCTION/f_adr_area_ins.sql:164: ЗАМЕЧАНИЕ:  OPERATOR | 25876 | public | -> | (hstore,text)
-psql:./FUNCTION/f_adr_area_ins.sql:164: ЗАМЕЧАНИЕ:  OPERATOR | 25876 | public | -> | (hstore,text)
-psql:./FUNCTION/f_adr_area_ins.sql:164: ЗАМЕЧАНИЕ:  OPERATOR | 25876 | public | -> | (hstore,text)
-psql:./FUNCTION/f_adr_area_ins.sql:164: ЗАМЕЧАНИЕ:  OPERATOR | 25876 | public | -> | (hstore,text)
-psql:./FUNCTION/f_adr_area_ins.sql:164: ЗАМЕЧАНИЕ:  PROCEDURE | 1350628 | gar_tmp_pcg_trans | p_adr_area_ins | (text,text,bigint,integer,character varying,character varying,integer,bigint,integer,smallint,character varying,uuid,bigint,character varying,character varying,character varying,numeric,numeric,boolean)
-psql:./FUNCTION/f_adr_area_ins.sql:164: ЗАМЕЧАНИЕ:  PROCEDURE | 1350573 | gar_tmp_pcg_trans | p_xxx_adr_area_gap_put | (xxx_adr_area_proc_t)
-psql:./FUNCTION/f_adr_area_ins.sql:164: ЗАМЕЧАНИЕ:  RELATION | 631278 | gar_tmp | adr_area_aux
-psql:./FUNCTION/f_adr_area_ins.sql:164: ЗАМЕЧАНИЕ:  RELATION | 54528 | gar_tmp | xxx_adr_area
-psql:./FUNCTION/f_adr_area_ins.sql:164: ЗАМЕЧАНИЕ:  RELATION | 54518 | gar_tmp | xxx_adr_area_type
-psql:./FUNCTION/f_adr_area_ins.sql:164: ЗАМЕЧАНИЕ:  RELATION | 54492 | gar_tmp | xxx_obj_fias
-psql:./FUNCTION/f_adr_area_ins.sql:164: ЗАМЕЧАНИЕ:  RELATION | 54546 | gar_tmp | xxx_type_param_value
+psql:./FUNCTION/f_adr_area_ins.sql:164: ЗАМЕЧАНИЕ:  FUNCTION | 204262 | gar_tmp_pcg_trans | f_adr_area_get | (text,uuid)
+psql:./FUNCTION/f_adr_area_ins.sql:164: ЗАМЕЧАНИЕ:  FUNCTION | 204254 | gar_tmp_pcg_trans | f_adr_type_get | (text,bigint)
+psql:./FUNCTION/f_adr_area_ins.sql:164: ЗАМЕЧАНИЕ:  OPERATOR | 176315 | public | -> | (hstore,text)
+psql:./FUNCTION/f_adr_area_ins.sql:164: ЗАМЕЧАНИЕ:  OPERATOR | 176315 | public | -> | (hstore,text)
+psql:./FUNCTION/f_adr_area_ins.sql:164: ЗАМЕЧАНИЕ:  OPERATOR | 176315 | public | -> | (hstore,text)
+psql:./FUNCTION/f_adr_area_ins.sql:164: ЗАМЕЧАНИЕ:  OPERATOR | 176315 | public | -> | (hstore,text)
+psql:./FUNCTION/f_adr_area_ins.sql:164: ЗАМЕЧАНИЕ:  PROCEDURE | 204293 | gar_tmp_pcg_trans | p_adr_area_ins | (text,text,bigint,integer,character varying,character varying,integer,bigint,integer,smallint,character varying,uuid,bigint,character varying,character varying,character varying,numeric,numeric,boolean)
+psql:./FUNCTION/f_adr_area_ins.sql:164: ЗАМЕЧАНИЕ:  PROCEDURE | 204238 | gar_tmp_pcg_trans | p_xxx_adr_area_gap_put | (xxx_adr_area_proc_t)
+psql:./FUNCTION/f_adr_area_ins.sql:164: ЗАМЕЧАНИЕ:  RELATION | 176988 | gar_tmp | adr_area_aux
+psql:./FUNCTION/f_adr_area_ins.sql:164: ЗАМЕЧАНИЕ:  RELATION | 176665 | gar_tmp | xxx_adr_area
+psql:./FUNCTION/f_adr_area_ins.sql:164: ЗАМЕЧАНИЕ:  RELATION | 176675 | gar_tmp | xxx_adr_area_type
+psql:./FUNCTION/f_adr_area_ins.sql:164: ЗАМЕЧАНИЕ:  RELATION | 176706 | gar_tmp | xxx_obj_fias
+psql:./FUNCTION/f_adr_area_ins.sql:164: ЗАМЕЧАНИЕ:  RELATION | 177102 | gar_tmp | xxx_type_param_value
 psql:./FUNCTION/f_adr_area_upd.sql:156: ЗАМЕЧАНИЕ:  warning:00000:32:FOR по результатам SELECT:too few attributes for composite variable
 psql:./FUNCTION/f_adr_area_upd.sql:156: ЗАМЕЧАНИЕ:  warning:00000:13:DECLARE:unused variable "_schema_name"
-psql:./FUNCTION/f_adr_area_upd.sql:156: ЗАМЕЧАНИЕ:  FUNCTION | 1350597 | gar_tmp_pcg_trans | f_adr_area_get | (text,uuid)
-psql:./FUNCTION/f_adr_area_upd.sql:156: ЗАМЕЧАНИЕ:  FUNCTION | 1350589 | gar_tmp_pcg_trans | f_adr_type_get | (text,bigint)
-psql:./FUNCTION/f_adr_area_upd.sql:156: ЗАМЕЧАНИЕ:  OPERATOR | 25876 | public | -> | (hstore,text)
-psql:./FUNCTION/f_adr_area_upd.sql:156: ЗАМЕЧАНИЕ:  OPERATOR | 25876 | public | -> | (hstore,text)
-psql:./FUNCTION/f_adr_area_upd.sql:156: ЗАМЕЧАНИЕ:  OPERATOR | 25876 | public | -> | (hstore,text)
-psql:./FUNCTION/f_adr_area_upd.sql:156: ЗАМЕЧАНИЕ:  OPERATOR | 25876 | public | -> | (hstore,text)
-psql:./FUNCTION/f_adr_area_upd.sql:156: ЗАМЕЧАНИЕ:  PROCEDURE | 1350630 | gar_tmp_pcg_trans | p_adr_area_upd | (text,text,bigint,integer,character varying,character varying,integer,bigint,integer,smallint,character varying,uuid,bigint,character varying,character varying,character varying,numeric,numeric,bigint,boolean)
-psql:./FUNCTION/f_adr_area_upd.sql:156: ЗАМЕЧАНИЕ:  PROCEDURE | 1350573 | gar_tmp_pcg_trans | p_xxx_adr_area_gap_put | (gar_tmp.xxx_adr_area_proc_t)
-psql:./FUNCTION/f_adr_area_upd.sql:156: ЗАМЕЧАНИЕ:  RELATION | 631278 | gar_tmp | adr_area_aux
-psql:./FUNCTION/f_adr_area_upd.sql:156: ЗАМЕЧАНИЕ:  RELATION | 54528 | gar_tmp | xxx_adr_area
-psql:./FUNCTION/f_adr_area_upd.sql:156: ЗАМЕЧАНИЕ:  RELATION | 54518 | gar_tmp | xxx_adr_area_type
-psql:./FUNCTION/f_adr_area_upd.sql:156: ЗАМЕЧАНИЕ:  RELATION | 54492 | gar_tmp | xxx_obj_fias
-psql:./FUNCTION/f_adr_area_upd.sql:156: ЗАМЕЧАНИЕ:  RELATION | 54546 | gar_tmp | xxx_type_param_value
+psql:./FUNCTION/f_adr_area_upd.sql:156: ЗАМЕЧАНИЕ:  FUNCTION | 204262 | gar_tmp_pcg_trans | f_adr_area_get | (text,uuid)
+psql:./FUNCTION/f_adr_area_upd.sql:156: ЗАМЕЧАНИЕ:  FUNCTION | 204254 | gar_tmp_pcg_trans | f_adr_type_get | (text,bigint)
+psql:./FUNCTION/f_adr_area_upd.sql:156: ЗАМЕЧАНИЕ:  OPERATOR | 176315 | public | -> | (hstore,text)
+psql:./FUNCTION/f_adr_area_upd.sql:156: ЗАМЕЧАНИЕ:  OPERATOR | 176315 | public | -> | (hstore,text)
+psql:./FUNCTION/f_adr_area_upd.sql:156: ЗАМЕЧАНИЕ:  OPERATOR | 176315 | public | -> | (hstore,text)
+psql:./FUNCTION/f_adr_area_upd.sql:156: ЗАМЕЧАНИЕ:  OPERATOR | 176315 | public | -> | (hstore,text)
+psql:./FUNCTION/f_adr_area_upd.sql:156: ЗАМЕЧАНИЕ:  PROCEDURE | 204295 | gar_tmp_pcg_trans | p_adr_area_upd | (text,text,bigint,integer,character varying,character varying,integer,bigint,integer,smallint,character varying,uuid,bigint,character varying,character varying,character varying,numeric,numeric,bigint,boolean)
+psql:./FUNCTION/f_adr_area_upd.sql:156: ЗАМЕЧАНИЕ:  PROCEDURE | 204238 | gar_tmp_pcg_trans | p_xxx_adr_area_gap_put | (gar_tmp.xxx_adr_area_proc_t)
+psql:./FUNCTION/f_adr_area_upd.sql:156: ЗАМЕЧАНИЕ:  RELATION | 176988 | gar_tmp | adr_area_aux
+psql:./FUNCTION/f_adr_area_upd.sql:156: ЗАМЕЧАНИЕ:  RELATION | 176665 | gar_tmp | xxx_adr_area
+psql:./FUNCTION/f_adr_area_upd.sql:156: ЗАМЕЧАНИЕ:  RELATION | 176675 | gar_tmp | xxx_adr_area_type
+psql:./FUNCTION/f_adr_area_upd.sql:156: ЗАМЕЧАНИЕ:  RELATION | 176706 | gar_tmp | xxx_obj_fias
+psql:./FUNCTION/f_adr_area_upd.sql:156: ЗАМЕЧАНИЕ:  RELATION | 177102 | gar_tmp | xxx_type_param_value
 psql:./FUNCTION/f_adr_street_ins.sql:141: ЗАМЕЧАНИЕ:  warning:00000:33:FOR по результатам SELECT:too few attributes for composite variable
-psql:./FUNCTION/f_adr_street_ins.sql:141: ЗАМЕЧАНИЕ:  FUNCTION | 1350597 | gar_tmp_pcg_trans | f_adr_area_get | (text,uuid)
-psql:./FUNCTION/f_adr_street_ins.sql:141: ЗАМЕЧАНИЕ:  FUNCTION | 1350588 | gar_tmp_pcg_trans | f_street_type_get | (text,bigint)
-psql:./FUNCTION/f_adr_street_ins.sql:141: ЗАМЕЧАНИЕ:  OPERATOR | 25876 | public | -> | (hstore,text)
-psql:./FUNCTION/f_adr_street_ins.sql:141: ЗАМЕЧАНИЕ:  PROCEDURE | 1350632 | gar_tmp_pcg_trans | p_adr_street_ins | (text,text,bigint,bigint,character varying,integer,character varying,uuid,bigint,character varying,numeric,numeric,boolean)
-psql:./FUNCTION/f_adr_street_ins.sql:141: ЗАМЕЧАНИЕ:  PROCEDURE | 1350572 | gar_tmp_pcg_trans | p_xxx_adr_street_gap_put | (gar_tmp.xxx_adr_street_proc_t)
-psql:./FUNCTION/f_adr_street_ins.sql:141: ЗАМЕЧАНИЕ:  RELATION | 631290 | gar_tmp | adr_street_aux
-psql:./FUNCTION/f_adr_street_ins.sql:141: ЗАМЕЧАНИЕ:  RELATION | 54528 | gar_tmp | xxx_adr_area
-psql:./FUNCTION/f_adr_street_ins.sql:141: ЗАМЕЧАНИЕ:  RELATION | 54500 | gar_tmp | xxx_adr_street_type
-psql:./FUNCTION/f_adr_street_ins.sql:141: ЗАМЕЧАНИЕ:  RELATION | 54492 | gar_tmp | xxx_obj_fias
-psql:./FUNCTION/f_adr_street_ins.sql:141: ЗАМЕЧАНИЕ:  RELATION | 54546 | gar_tmp | xxx_type_param_value
+psql:./FUNCTION/f_adr_street_ins.sql:141: ЗАМЕЧАНИЕ:  FUNCTION | 204262 | gar_tmp_pcg_trans | f_adr_area_get | (text,uuid)
+psql:./FUNCTION/f_adr_street_ins.sql:141: ЗАМЕЧАНИЕ:  FUNCTION | 204253 | gar_tmp_pcg_trans | f_street_type_get | (text,bigint)
+psql:./FUNCTION/f_adr_street_ins.sql:141: ЗАМЕЧАНИЕ:  OPERATOR | 176315 | public | -> | (hstore,text)
+psql:./FUNCTION/f_adr_street_ins.sql:141: ЗАМЕЧАНИЕ:  PROCEDURE | 204297 | gar_tmp_pcg_trans | p_adr_street_ins | (text,text,bigint,bigint,character varying,integer,character varying,uuid,bigint,character varying,numeric,numeric,boolean)
+psql:./FUNCTION/f_adr_street_ins.sql:141: ЗАМЕЧАНИЕ:  PROCEDURE | 204237 | gar_tmp_pcg_trans | p_xxx_adr_street_gap_put | (gar_tmp.xxx_adr_street_proc_t)
+psql:./FUNCTION/f_adr_street_ins.sql:141: ЗАМЕЧАНИЕ:  RELATION | 177047 | gar_tmp | adr_street_aux
+psql:./FUNCTION/f_adr_street_ins.sql:141: ЗАМЕЧАНИЕ:  RELATION | 176665 | gar_tmp | xxx_adr_area
+psql:./FUNCTION/f_adr_street_ins.sql:141: ЗАМЕЧАНИЕ:  RELATION | 176719 | gar_tmp | xxx_adr_street_type
+psql:./FUNCTION/f_adr_street_ins.sql:141: ЗАМЕЧАНИЕ:  RELATION | 176706 | gar_tmp | xxx_obj_fias
+psql:./FUNCTION/f_adr_street_ins.sql:141: ЗАМЕЧАНИЕ:  RELATION | 177102 | gar_tmp | xxx_type_param_value
 psql:./FUNCTION/f_adr_street_upd.sql:136: ЗАМЕЧАНИЕ:  warning:00000:32:FOR по результатам SELECT:too few attributes for composite variable
-psql:./FUNCTION/f_adr_street_upd.sql:136: ЗАМЕЧАНИЕ:  FUNCTION | 1350597 | gar_tmp_pcg_trans | f_adr_area_get | (text,uuid)
-psql:./FUNCTION/f_adr_street_upd.sql:136: ЗАМЕЧАНИЕ:  FUNCTION | 1350588 | gar_tmp_pcg_trans | f_street_type_get | (text,bigint)
-psql:./FUNCTION/f_adr_street_upd.sql:136: ЗАМЕЧАНИЕ:  OPERATOR | 25876 | public | -> | (hstore,text)
-psql:./FUNCTION/f_adr_street_upd.sql:136: ЗАМЕЧАНИЕ:  PROCEDURE | 1350634 | gar_tmp_pcg_trans | p_adr_street_upd | (text,text,bigint,bigint,character varying,integer,character varying,uuid,bigint,character varying,numeric,numeric,bigint,boolean,boolean)
-psql:./FUNCTION/f_adr_street_upd.sql:136: ЗАМЕЧАНИЕ:  PROCEDURE | 1350572 | gar_tmp_pcg_trans | p_xxx_adr_street_gap_put | (gar_tmp.xxx_adr_street_proc_t)
-psql:./FUNCTION/f_adr_street_upd.sql:136: ЗАМЕЧАНИЕ:  RELATION | 631290 | gar_tmp | adr_street_aux
-psql:./FUNCTION/f_adr_street_upd.sql:136: ЗАМЕЧАНИЕ:  RELATION | 54528 | gar_tmp | xxx_adr_area
-psql:./FUNCTION/f_adr_street_upd.sql:136: ЗАМЕЧАНИЕ:  RELATION | 54500 | gar_tmp | xxx_adr_street_type
-psql:./FUNCTION/f_adr_street_upd.sql:136: ЗАМЕЧАНИЕ:  RELATION | 54492 | gar_tmp | xxx_obj_fias
-psql:./FUNCTION/f_adr_street_upd.sql:136: ЗАМЕЧАНИЕ:  RELATION | 54546 | gar_tmp | xxx_type_param_value
+psql:./FUNCTION/f_adr_street_upd.sql:136: ЗАМЕЧАНИЕ:  FUNCTION | 204262 | gar_tmp_pcg_trans | f_adr_area_get | (text,uuid)
+psql:./FUNCTION/f_adr_street_upd.sql:136: ЗАМЕЧАНИЕ:  FUNCTION | 204253 | gar_tmp_pcg_trans | f_street_type_get | (text,bigint)
+psql:./FUNCTION/f_adr_street_upd.sql:136: ЗАМЕЧАНИЕ:  OPERATOR | 176315 | public | -> | (hstore,text)
+psql:./FUNCTION/f_adr_street_upd.sql:136: ЗАМЕЧАНИЕ:  PROCEDURE | 204299 | gar_tmp_pcg_trans | p_adr_street_upd | (text,text,bigint,bigint,character varying,integer,character varying,uuid,bigint,character varying,numeric,numeric,bigint,boolean,boolean)
+psql:./FUNCTION/f_adr_street_upd.sql:136: ЗАМЕЧАНИЕ:  PROCEDURE | 204237 | gar_tmp_pcg_trans | p_xxx_adr_street_gap_put | (gar_tmp.xxx_adr_street_proc_t)
+psql:./FUNCTION/f_adr_street_upd.sql:136: ЗАМЕЧАНИЕ:  RELATION | 177047 | gar_tmp | adr_street_aux
+psql:./FUNCTION/f_adr_street_upd.sql:136: ЗАМЕЧАНИЕ:  RELATION | 176665 | gar_tmp | xxx_adr_area
+psql:./FUNCTION/f_adr_street_upd.sql:136: ЗАМЕЧАНИЕ:  RELATION | 176719 | gar_tmp | xxx_adr_street_type
+psql:./FUNCTION/f_adr_street_upd.sql:136: ЗАМЕЧАНИЕ:  RELATION | 176706 | gar_tmp | xxx_obj_fias
+psql:./FUNCTION/f_adr_street_upd.sql:136: ЗАМЕЧАНИЕ:  RELATION | 177102 | gar_tmp | xxx_type_param_value
 psql:./FUNCTION/f_adr_house_ins.sql:334: ЗАМЕЧАНИЕ:  warning:00000:85:FOR по результатам SELECT:too few attributes for composite variable
-psql:./FUNCTION/f_adr_house_ins.sql:334: ЗАМЕЧАНИЕ:  FUNCTION | 1350597 | gar_tmp_pcg_trans | f_adr_area_get | (text,uuid)
-psql:./FUNCTION/f_adr_house_ins.sql:334: ЗАМЕЧАНИЕ:  FUNCTION | 1350600 | gar_tmp_pcg_trans | f_adr_street_get | (text,uuid)
-psql:./FUNCTION/f_adr_house_ins.sql:334: ЗАМЕЧАНИЕ:  FUNCTION | 1350587 | gar_tmp_pcg_trans | f_house_type_get | (text,bigint)
-psql:./FUNCTION/f_adr_house_ins.sql:334: ЗАМЕЧАНИЕ:  OPERATOR | 25876 | public | -> | (hstore,text)
-psql:./FUNCTION/f_adr_house_ins.sql:334: ЗАМЕЧАНИЕ:  OPERATOR | 25876 | public | -> | (hstore,text)
-psql:./FUNCTION/f_adr_house_ins.sql:334: ЗАМЕЧАНИЕ:  OPERATOR | 25876 | public | -> | (hstore,text)
-psql:./FUNCTION/f_adr_house_ins.sql:334: ЗАМЕЧАНИЕ:  PROCEDURE | 1350636 | gar_tmp_pcg_trans | p_adr_house_ins | (text,text,bigint,bigint,bigint,integer,character varying,integer,character varying,integer,character varying,character varying,character varying,character varying,uuid,bigint,character varying,numeric,numeric,boolean)
-psql:./FUNCTION/f_adr_house_ins.sql:334: ЗАМЕЧАНИЕ:  PROCEDURE | 1350646 | gar_tmp_pcg_trans | p_adr_object_ins | (text,text,bigint,bigint,bigint,integer,bigint,character varying,character varying,character varying,bigint,integer,integer,numeric,uuid,character varying,character varying,character varying,numeric,numeric,boolean)
-psql:./FUNCTION/f_adr_house_ins.sql:334: ЗАМЕЧАНИЕ:  PROCEDURE | 1350571 | gar_tmp_pcg_trans | p_xxx_adr_house_gap_put | (gar_tmp.xxx_adr_house_proc_t)
-psql:./FUNCTION/f_adr_house_ins.sql:334: ЗАМЕЧАНИЕ:  RELATION | 631284 | gar_tmp | adr_house_aux
-psql:./FUNCTION/f_adr_house_ins.sql:334: ЗАМЕЧАНИЕ:  RELATION | 54537 | gar_tmp | xxx_adr_house
-psql:./FUNCTION/f_adr_house_ins.sql:334: ЗАМЕЧАНИЕ:  RELATION | 54508 | gar_tmp | xxx_adr_house_type
-psql:./FUNCTION/f_adr_house_ins.sql:334: ЗАМЕЧАНИЕ:  RELATION | 54492 | gar_tmp | xxx_obj_fias
-psql:./FUNCTION/f_adr_house_ins.sql:334: ЗАМЕЧАНИЕ:  RELATION | 54546 | gar_tmp | xxx_type_param_value
+psql:./FUNCTION/f_adr_house_ins.sql:334: ЗАМЕЧАНИЕ:  FUNCTION | 204262 | gar_tmp_pcg_trans | f_adr_area_get | (text,uuid)
+psql:./FUNCTION/f_adr_house_ins.sql:334: ЗАМЕЧАНИЕ:  FUNCTION | 204265 | gar_tmp_pcg_trans | f_adr_street_get | (text,uuid)
+psql:./FUNCTION/f_adr_house_ins.sql:334: ЗАМЕЧАНИЕ:  FUNCTION | 204252 | gar_tmp_pcg_trans | f_house_type_get | (text,bigint)
+psql:./FUNCTION/f_adr_house_ins.sql:334: ЗАМЕЧАНИЕ:  OPERATOR | 176315 | public | -> | (hstore,text)
+psql:./FUNCTION/f_adr_house_ins.sql:334: ЗАМЕЧАНИЕ:  OPERATOR | 176315 | public | -> | (hstore,text)
+psql:./FUNCTION/f_adr_house_ins.sql:334: ЗАМЕЧАНИЕ:  OPERATOR | 176315 | public | -> | (hstore,text)
+psql:./FUNCTION/f_adr_house_ins.sql:334: ЗАМЕЧАНИЕ:  PROCEDURE | 204301 | gar_tmp_pcg_trans | p_adr_house_ins | (text,text,bigint,bigint,bigint,integer,character varying,integer,character varying,integer,character varying,character varying,character varying,character varying,uuid,bigint,character varying,numeric,numeric,boolean)
+psql:./FUNCTION/f_adr_house_ins.sql:334: ЗАМЕЧАНИЕ:  PROCEDURE | 204311 | gar_tmp_pcg_trans | p_adr_object_ins | (text,text,bigint,bigint,bigint,integer,bigint,character varying,character varying,character varying,bigint,integer,integer,numeric,uuid,character varying,character varying,character varying,numeric,numeric,boolean)
+psql:./FUNCTION/f_adr_house_ins.sql:334: ЗАМЕЧАНИЕ:  PROCEDURE | 204236 | gar_tmp_pcg_trans | p_xxx_adr_house_gap_put | (gar_tmp.xxx_adr_house_proc_t)
+psql:./FUNCTION/f_adr_house_ins.sql:334: ЗАМЕЧАНИЕ:  RELATION | 177010 | gar_tmp | adr_house_aux
+psql:./FUNCTION/f_adr_house_ins.sql:334: ЗАМЕЧАНИЕ:  RELATION | 176686 | gar_tmp | xxx_adr_house
+psql:./FUNCTION/f_adr_house_ins.sql:334: ЗАМЕЧАНИЕ:  RELATION | 176696 | gar_tmp | xxx_adr_house_type
+psql:./FUNCTION/f_adr_house_ins.sql:334: ЗАМЕЧАНИЕ:  RELATION | 176706 | gar_tmp | xxx_obj_fias
+psql:./FUNCTION/f_adr_house_ins.sql:334: ЗАМЕЧАНИЕ:  RELATION | 177102 | gar_tmp | xxx_type_param_value
 psql:./FUNCTION/f_adr_house_upd.sql:365: ЗАМЕЧАНИЕ:  warning:00000:89:FOR по результатам SELECT:too few attributes for composite variable
-psql:./FUNCTION/f_adr_house_upd.sql:365: ЗАМЕЧАНИЕ:  FUNCTION | 1350597 | gar_tmp_pcg_trans | f_adr_area_get | (text,uuid)
-psql:./FUNCTION/f_adr_house_upd.sql:365: ЗАМЕЧАНИЕ:  FUNCTION | 1350600 | gar_tmp_pcg_trans | f_adr_street_get | (text,uuid)
-psql:./FUNCTION/f_adr_house_upd.sql:365: ЗАМЕЧАНИЕ:  FUNCTION | 1350587 | gar_tmp_pcg_trans | f_house_type_get | (text,bigint)
-psql:./FUNCTION/f_adr_house_upd.sql:365: ЗАМЕЧАНИЕ:  FUNCTION | 1350638 | gar_tmp_pcg_trans | fp_adr_house_upd | (text,text,bigint,bigint,bigint,integer,character varying,integer,character varying,integer,character varying,character varying,character varying,character varying,uuid,bigint,character varying,numeric,numeric,boolean,boolean,boolean)
-psql:./FUNCTION/f_adr_house_upd.sql:365: ЗАМЕЧАНИЕ:  OPERATOR | 25876 | public | -> | (hstore,text)
-psql:./FUNCTION/f_adr_house_upd.sql:365: ЗАМЕЧАНИЕ:  OPERATOR | 25876 | public | -> | (hstore,text)
-psql:./FUNCTION/f_adr_house_upd.sql:365: ЗАМЕЧАНИЕ:  OPERATOR | 25876 | public | -> | (hstore,text)
-psql:./FUNCTION/f_adr_house_upd.sql:365: ЗАМЕЧАНИЕ:  PROCEDURE | 1350648 | gar_tmp_pcg_trans | p_adr_object_upd | (text,text,bigint,bigint,bigint,integer,bigint,character varying,character varying,character varying,bigint,integer,integer,numeric,uuid,character varying,character varying,character varying,numeric,numeric,bigint,boolean)
-psql:./FUNCTION/f_adr_house_upd.sql:365: ЗАМЕЧАНИЕ:  PROCEDURE | 1350571 | gar_tmp_pcg_trans | p_xxx_adr_house_gap_put | (gar_tmp.xxx_adr_house_proc_t)
-psql:./FUNCTION/f_adr_house_upd.sql:365: ЗАМЕЧАНИЕ:  RELATION | 631284 | gar_tmp | adr_house_aux
-psql:./FUNCTION/f_adr_house_upd.sql:365: ЗАМЕЧАНИЕ:  RELATION | 54537 | gar_tmp | xxx_adr_house
-psql:./FUNCTION/f_adr_house_upd.sql:365: ЗАМЕЧАНИЕ:  RELATION | 54508 | gar_tmp | xxx_adr_house_type
-psql:./FUNCTION/f_adr_house_upd.sql:365: ЗАМЕЧАНИЕ:  RELATION | 54492 | gar_tmp | xxx_obj_fias
-psql:./FUNCTION/f_adr_house_upd.sql:365: ЗАМЕЧАНИЕ:  RELATION | 54546 | gar_tmp | xxx_type_param_value
-psql:./FUNCTION/f_set_params_value_data.sql:26: ЗАМЕЧАНИЕ:  FUNCTION | 1350664 | gar_tmp_pcg_trans | f_show_params_value | (bigint[])
-psql:./FUNCTION/f_set_params_value_data.sql:26: ЗАМЕЧАНИЕ:  RELATION | 54546 | gar_tmp | xxx_type_param_value
-psql:./FUNCTION/f_xxx_adr_area_set_data.sql:123: ЗАМЕЧАНИЕ:  FUNCTION | 1350666 | gar_tmp_pcg_trans | f_xxx_adr_area_show_data | (date,bigint,bigint[])
-psql:./FUNCTION/f_xxx_adr_area_set_data.sql:123: ЗАМЕЧАНИЕ:  RELATION | 54528 | gar_tmp | xxx_adr_area
+psql:./FUNCTION/f_adr_house_upd.sql:365: ЗАМЕЧАНИЕ:  FUNCTION | 204262 | gar_tmp_pcg_trans | f_adr_area_get | (text,uuid)
+psql:./FUNCTION/f_adr_house_upd.sql:365: ЗАМЕЧАНИЕ:  FUNCTION | 204265 | gar_tmp_pcg_trans | f_adr_street_get | (text,uuid)
+psql:./FUNCTION/f_adr_house_upd.sql:365: ЗАМЕЧАНИЕ:  FUNCTION | 204252 | gar_tmp_pcg_trans | f_house_type_get | (text,bigint)
+psql:./FUNCTION/f_adr_house_upd.sql:365: ЗАМЕЧАНИЕ:  FUNCTION | 204303 | gar_tmp_pcg_trans | fp_adr_house_upd | (text,text,bigint,bigint,bigint,integer,character varying,integer,character varying,integer,character varying,character varying,character varying,character varying,uuid,bigint,character varying,numeric,numeric,boolean,boolean,boolean)
+psql:./FUNCTION/f_adr_house_upd.sql:365: ЗАМЕЧАНИЕ:  OPERATOR | 176315 | public | -> | (hstore,text)
+psql:./FUNCTION/f_adr_house_upd.sql:365: ЗАМЕЧАНИЕ:  OPERATOR | 176315 | public | -> | (hstore,text)
+psql:./FUNCTION/f_adr_house_upd.sql:365: ЗАМЕЧАНИЕ:  OPERATOR | 176315 | public | -> | (hstore,text)
+psql:./FUNCTION/f_adr_house_upd.sql:365: ЗАМЕЧАНИЕ:  PROCEDURE | 204313 | gar_tmp_pcg_trans | p_adr_object_upd | (text,text,bigint,bigint,bigint,integer,bigint,character varying,character varying,character varying,bigint,integer,integer,numeric,uuid,character varying,character varying,character varying,numeric,numeric,bigint,boolean)
+psql:./FUNCTION/f_adr_house_upd.sql:365: ЗАМЕЧАНИЕ:  PROCEDURE | 204236 | gar_tmp_pcg_trans | p_xxx_adr_house_gap_put | (gar_tmp.xxx_adr_house_proc_t)
+psql:./FUNCTION/f_adr_house_upd.sql:365: ЗАМЕЧАНИЕ:  RELATION | 177010 | gar_tmp | adr_house_aux
+psql:./FUNCTION/f_adr_house_upd.sql:365: ЗАМЕЧАНИЕ:  RELATION | 176686 | gar_tmp | xxx_adr_house
+psql:./FUNCTION/f_adr_house_upd.sql:365: ЗАМЕЧАНИЕ:  RELATION | 176696 | gar_tmp | xxx_adr_house_type
+psql:./FUNCTION/f_adr_house_upd.sql:365: ЗАМЕЧАНИЕ:  RELATION | 176706 | gar_tmp | xxx_obj_fias
+psql:./FUNCTION/f_adr_house_upd.sql:365: ЗАМЕЧАНИЕ:  RELATION | 177102 | gar_tmp | xxx_type_param_value
+psql:./FUNCTION/f_set_params_value_data.sql:26: ЗАМЕЧАНИЕ:  FUNCTION | 204329 | gar_tmp_pcg_trans | f_show_params_value | (bigint[])
+psql:./FUNCTION/f_set_params_value_data.sql:26: ЗАМЕЧАНИЕ:  RELATION | 177102 | gar_tmp | xxx_type_param_value
+psql:./FUNCTION/f_xxx_adr_area_set_data.sql:123: ЗАМЕЧАНИЕ:  FUNCTION | 204331 | gar_tmp_pcg_trans | f_xxx_adr_area_show_data | (date,bigint,bigint[])
+psql:./FUNCTION/f_xxx_adr_area_set_data.sql:123: ЗАМЕЧАНИЕ:  RELATION | 176665 | gar_tmp | xxx_adr_area

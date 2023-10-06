@@ -11,6 +11,8 @@ BEGIN;
  SELECT * FROM gar_tmp.adr_house_hist WHERE (id_region = 0) AND (date_create >= (now() - INTERVAL '1 DAY'))
         ORDER BY date_create;
  
+ SELECT * FROM gar_tmp.adr_house_aux;  
+ 
 --
 -- ROLLBACK; 
 COMMIT;

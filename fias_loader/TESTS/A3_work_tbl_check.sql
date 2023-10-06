@@ -34,7 +34,7 @@ WITH z AS (
              )  
 		  
   -- SELECT * FROM z; -- 72   2023-09-27  -- 68
-  -- SELECT * FROM v; -- 148 + 72 = 220    -- 2023-09-27 152
+ -- SELECT * FROM v; -- 148 + 72 = 220    -- 2023-09-27 152
  
      SELECT ah.id_house
           , ah.fias_guid
@@ -72,8 +72,8 @@ WITH z AS (
                FROM z
              )  
 		  
-  -- SELECT * FROM z; -- 72   2023-09-27  -- 68
-  -- SELECT * FROM v; -- 148 + 72 = 220    -- 2023-09-27 152
+-- SELECT * FROM z; -- 72   2023-09-27  -- 68
+-- SELECT * FROM v; -- 148 + 72 = 220    -- 2023-09-27 152   -- 45 (2023-10-05)
  
      SELECT ah.id_house
           , ah.fias_guid
@@ -126,3 +126,97 @@ WITH z AS (
      ;
 
 SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data(); -- 26250
+
+
+--
+--   2023-10-05
+--
+SELECT u.guid FROM public.fias_not_found_06u u
+  INNER JOIN gar_tmp.adr_house h ON (h.nm_fias_guid = u. guid) -- 175
+--
+SELECT u.guid FROM public.fias_not_found_06u u
+  INNER JOIN gar_tmp.xxx_adr_house h ON (h.fias_guid = u. guid) -- 160
+  
+  -- 220 - 175 = 45
+  
+  SELECT u.guid FROM public.fias_not_found_06u u
+  INNER JOIN gar_fias.as_houses h ON (h.object_guid = u. guid) -- 185    185 - 175 = 10
+  	WHERE (h.is_active) AND (h.is_actual);
+	
+-- ---------------------------------------------------------------------------------------
+WITH z AS (
+            SELECT  
+               --
+               h.nm_fias_guid AS guid
+                
+            FROM public.fias_not_found_06u n
+            INNER JOIN gar_tmp.adr_house h ON (h.nm_fias_guid = n.guid)
+          )
+          
+      , v AS ( SELECT m.guid
+                 
+               FROM public.fias_not_found_06u m
+          
+               EXCEPT
+               
+               SELECT z.guid
+                 
+               FROM z
+             )  
+		  
+-- SELECT * FROM z; -- 72   2023-09-27  -- 68
+ SELECT h.* FROM v   -- 148 + 72 = 220    -- 2023-09-27 152   -- 45 (2023-10-05)
+
+  INNER JOIN gar_fias.as_houses h ON (h.object_guid = v.guid) -- 185    185 - 175 = 10
+  	WHERE (h.is_active) AND (h.is_actual);
+
+-- #1
+SELECT a.*, s.*, h.* FROM gar_tmp.adr_house h
+ INNER JOIN gar_tmp.adr_area a ON (a.id_area = h.id_area)
+ INNER JOIN gar_tmp.adr_street s ON (s.id_street = h.id_street) 
+WHERE (h.nm_fias_guid = 'c09b70db-a17a-48ea-b7a1-4ad0f3d77de8')
+
+-- #2
+SELECT * from gar_tmp.adr_street   WHERE (nm_street ilike '%Шахбанова%');
+
+-- #3
+SELECT h.* FROM gar_tmp.adr_house h
+WHERE (h.nm_fias_guid = '2c3d7891-954f-48e2-b090-280488022a97');
+
+SELECT h.* FROM gar_fias.as_steads h
+WHERE (h.object_guid  = '2c3d7891-954f-48e2-b090-280488022a97');  -- steads
+
+---------------------------------------------------------------------------
+
+SELECT a.*, s.*, h.* FROM gar_tmp.adr_house h
+ INNER JOIN gar_tmp.adr_area a ON (a.id_area = h.id_area)
+ INNER JOIN gar_tmp.adr_street s ON (s.id_street = h.id_street) 
+WHERE (h.nm_fias_guid = '1fc57b91-c02f-4f70-9c7e-06236239397e') ;
+--
+--  2023-10-06
+--
+WITH z AS (
+            SELECT  
+               --
+               h.nm_fias_guid AS guid
+                
+            FROM public.fias_not_found_06u n
+            INNER JOIN gar_tmp.adr_house h ON (h.nm_fias_guid = n.guid)
+          )
+          
+      , v AS ( SELECT m.guid
+                 
+               FROM public.fias_not_found_06u m
+          
+               EXCEPT
+               
+               SELECT z.guid
+                 
+               FROM z
+             )  
+		  
+-- SELECT * FROM z; -- 72   2023-09-27  -- 68
+ SELECT h.* FROM v   -- 148 + 72 = 220    -- 2023-09-27 152   -- 45 (2023-10-05)
+
+  INNER JOIN gar_fias.as_houses h ON (h.object_guid = v.guid) -- 185    185 - 175 = 10
+  	WHERE (h.is_active) AND (h.is_actual);

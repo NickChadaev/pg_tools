@@ -121,7 +121,7 @@ WITH aa (
                                                            AND (ia.end_date > p_date) AND (ia.start_date <= p_date)
                                                      )
 	      --  LEFT OUTER
-          INNER JOIN gar_fias.as_addr_obj y ON (y.object_id = ia.parent_obj_id)  
+          LEFT OUTER JOIN gar_fias.as_addr_obj y ON (y.object_id = ia.parent_obj_id)  
                               AND ((y.is_actual AND y.is_active) AND (y.end_date > p_date) AND (y.start_date <= p_date)
                               )
           LEFT OUTER  JOIN gar_fias.as_object_level z ON (z.level_id = y.obj_level) AND (z.is_active) 

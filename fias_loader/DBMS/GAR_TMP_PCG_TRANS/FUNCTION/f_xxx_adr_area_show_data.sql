@@ -19,10 +19,16 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_show_data (
     -- ---------------------------------------------------------------------------------------
     --  2021-12-20 - Могут быть несколько активных записей с различными UUID, описывающих
     --  один и тот-же адресный объект. Выбираю самую свежую (по максимальнлому ID изменения).
+    
     --  2021-11-19  - 2022-08-17     Изменения.
+    
     --  2023-10-02  - Исправлены ошибки в рекурсивной части запроса и в оконной функции.
     --      Выключена фильтрация по периоду актуальности. Убрана на фиг фильтрация по типам 
     --      операций. Уровень адресных объектов уменьшен до 14 (обратный отсчёт).
+    
+    --  2023-10-06 "as_addr_obj" может содержать неактивные записи с валидным диапазоном акту-
+    --             альности, потомки у этих записей могут быть активными. Например активными
+    --             дома, но не активна улица их содержащая.
     -- --------------------------------------------------------------------------------------
     
     WITH RECURSIVE aa1 (
@@ -95,13 +101,9 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_show_data (
               
             FROM gar_fias.as_adm_hierarchy h1
                  	            
-              INNER JOIN gar_fias.as_addr_obj a ON (h1.object_id = a.object_id) AND            
-                                                   (a.is_actual AND a.is_active)                 	            
-              --                
-              INNER JOIN gar_fias.as_object_level l 
-                           ON (a.obj_level = l.level_id) AND (l.is_active) 
-              --
-              INNER JOIN gar_fias.as_operation_type ot 
+              INNER JOIN gar_fias.as_addr_obj     a ON (h1.object_id = a.object_id) AND (a.end_date > p_date)                   	            
+              INNER JOIN gar_fias.as_object_level l ON (a.obj_level = l.level_id) AND (l.is_active) 
+              INNER JOIN gar_fias.as_operation_type ot  
                            ON (ot.oper_type_id = a.oper_type_id) AND (ot.is_active)                         
             
             WHERE ((h1.parent_obj_id = 0) OR (h1.parent_obj_id IS NULL)) AND (h1.is_active) 
@@ -146,7 +148,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_show_data (
                  	
               INNER JOIN aa1 ON (h2.parent_obj_id = aa1.id_addr_obj ) 
                        
-              INNER JOIN gar_fias.as_addr_obj a ON (h2.object_id = a.object_id) AND (a.is_actual AND a.is_active)                        
+              INNER JOIN gar_fias.as_addr_obj a ON (h2.object_id = a.object_id) AND (a.end_date > p_date)                         
               INNER JOIN gar_fias.as_addr_obj z ON (h2.parent_obj_id = z.object_id) AND (z.is_actual AND z.is_active) 
               INNER JOIN gar_fias.as_object_level l ON (a.obj_level = l.level_id) AND (l.is_active) 
               INNER JOIN gar_fias.as_operation_type ot ON (ot.oper_type_id = a.oper_type_id) AND (ot.is_active) 
@@ -305,8 +307,9 @@ COMMENT ON FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_show_data (date, bigint, bi
 IS 'Функция подготавливает исходные данные для таблицы-прототипа "gar_tmp.xxx_adr_area"';
 ----------------------------------------------------------------------------------
 -- USE CASE:
---    EXPLAIN ANALyZE SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data () WHERE (nm_addr_obj IN ('Ивушка','Лазарево')); -- 1184
---  SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data () ORDER BY obj_level DESC;
+--    SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data () WHERE (nm_addr_obj ilike '%ленина%'); -- 1184
+--    SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data () WHERE (id_addr_obj IN (77511, 78550)); -- 1184
+--    SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data () ORDER BY obj_level DESC;
 --  SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data () WHERE (obj_level <> 8) ORDER BY obj_level DESC;  --2082
 --  SELECT aa.* FROM gar_tmp.xxx_adr_area aa WHERE (aa.obj_level <> 8)  ORDER BY tree_d   -- 2076    6 ??
 -- CALL gar_tmp_pcg_trans.p_gar_fias_crt_idx ();

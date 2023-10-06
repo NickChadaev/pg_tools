@@ -80,7 +80,7 @@ WITH RECURSIVE aa1 AS (
                       , h1.is_active
                  	FROM gar_fias.as_adm_hierarchy h1
                  	
-                 WHERE (h1.object_id = 84195) -- 83006
+                 WHERE (h1.object_id = 78550) --  93162  83006
 
                  UNION ALL
                  
@@ -105,7 +105,15 @@ WITH RECURSIVE aa1 AS (
                    INNER JOIN aa1 ON (h2.object_id = aa1.parent_obj_id) 
                  
 )
-   SELECT * FROM aa1;
+   SELECT aa1.object_id, aa1.parent_obj_id, aa.* FROM aa1 --  , h.*  
+ --  INNER JOIN gar_fias.as_houses h ON (h.object_id = 104321781)
+   LEFT OUTER JOIN gar_fias.as_addr_obj aa ON (aa.object_id = aa1.object_id ) AND (aa.is_active)
+   
+SELECT *  FROM gar_fias.as_addr_obj WHERE (object_id IN (
+ 78550
+,78835
+,78545
+))
 
    
    WITH RECURSIVE aa1 AS (

@@ -180,22 +180,23 @@ WHERE ((xx.type_object = 2) AND (xx.id_obj IS NULL)) ;
 
 
 -- 2023-10-04  Что, почему появились "бездомные" По новой.
-----------
+-- 2023-10-06  По новой ещё раз
+----------------------------------------------------------
 
-DELETE FROM ONLY gar_tmp.xxx_adr_area;         --   26509
-DELETE FROM ONLY gar_tmp.xxx_adr_house;	       --  617502
-DELETE FROM ONLY gar_tmp.xxx_obj_fias;         --  643996
-DELETE FROM ONLY gar_tmp.xxx_type_param_value; -- 1065890
+DELETE FROM ONLY gar_tmp.xxx_adr_area;         --   26509/26515
+DELETE FROM ONLY gar_tmp.xxx_adr_house;	       --  617502/617502
+DELETE FROM ONLY gar_tmp.xxx_obj_fias;         --  643996/644002
+DELETE FROM ONLY gar_tmp.xxx_type_param_value; -- 1065890/1065890
 
 -- Идиот, обновлять aux !!!
 SELECT * FROM gar_tmp.adr_area_aux;
-DELETE FROM  gar_tmp.adr_area_aux; --7
+DELETE FROM  gar_tmp.adr_area_aux; --7/24
 
 SELECT * FROM gar_tmp.adr_street_aux;
-DELETE FROM gar_tmp.adr_street_aux; -- 0 
+DELETE FROM gar_tmp.adr_street_aux; -- 0/249 
 --
 SELECT * FROM gar_tmp.adr_house_aux;
-DELETE FROM gar_tmp.adr_house_aux; -- 0
+DELETE FROM gar_tmp.adr_house_aux; -- 0/5880
 ---------------------------------------
 ---------------------------------------
 SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_set_data(
@@ -210,12 +211,12 @@ SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_set_data(); -- 26509
 --
 DELETE FROM ONLY gar_tmp.xxx_adr_area;
 
-SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_house_set_data();  -- 617502 
+SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_house_set_data();  -- 617693
 SELECT * FROM gar_tmp_pcg_trans.f_xxx_obj_fias_set_data('gar_tmp','gar_tmp','gar_tmp');
 
-   --   2076 /  2082
-   --  24433 . 24433
-   -- 617487  --  15 ??
+   --   2076 /  2082  /  2082
+   --  24433 / 24433  / 24433
+   -- 617487  --  617491
 
 SELECT * FROM gar_tmp_pcg_trans.f_set_params_value(); --  1065890
 ------------------------------------------------------------------
@@ -228,9 +229,8 @@ SELECT * FROM gar_tmp.xxx_obj_fias;
 
 SELECT * FROM gar_tmp_pcg_trans.f_set_params_value(); -- 1065890
 
-
-SELECT * FROM gar_tmp.xxx_obj_fias;
-SELECT * FROM gar_tmp.xxx_obj_fias WHERE (type_object = 2) AND (id_obj IS NULL); -- 6494
-SELECT * FROM gar_tmp.xxx_obj_fias WHERE (type_object = 1) AND (id_obj IS NULL); --  298/296
-SELECT * FROM gar_tmp.xxx_obj_fias WHERE (type_object = 0) AND (id_obj IS NULL); --   19/25
+SELECT * FROM gar_tmp.xxx_obj_fias;  -- 644006
+SELECT * FROM gar_tmp.xxx_obj_fias WHERE (type_object = 2) AND (id_obj IS NULL); -- 6494 / 619
+SELECT * FROM gar_tmp.xxx_obj_fias WHERE (type_object = 1) AND (id_obj IS NULL); --  298 / 296 / 47
+SELECT * FROM gar_tmp.xxx_obj_fias WHERE (type_object = 0) AND (id_obj IS NULL); --   19 /  25 /  4
 

@@ -88,22 +88,19 @@ WITH aa (
                                          , upper(h.house_num), upper(h.add_num1), upper(h.add_num2) 
                                         -- ORDER BY h.change_id DESC
                              ) AS rn
-          
+          ,h.is_actual 
+		  ,h.is_active  
+	 
         FROM gar_fias.as_houses h
-          INNER JOIN gar_fias.as_reestr_objects r ON ((r.object_id = h.object_id) AND (r.is_active))
           --
-          INNER JOIN gar_fias.as_house_type t ON ((t.house_type_id = h.house_type) 
-                                                 )
-          --    Проверить      -- LEFT OUTER                             
-          INNER JOIN gar_fias.as_adm_hierarchy ia ON ((ia.object_id = r.object_id) AND (ia.is_active) 
-                                                     )
-	      --  LEFT OUTER
-          INNER JOIN gar_fias.as_addr_obj y ON (y.object_id = ia.parent_obj_id)  
-                              AND ((y.is_actual AND y.is_active)
-                              )
-          LEFT OUTER  JOIN gar_fias.as_object_level z ON (z.level_id = y.obj_level) AND (z.is_active) 
-                                                         
-          LEFT OUTER JOIN gar_fias.as_addr_obj_type x ON (x.id = y.type_id) -- AND (x.is_active) -- 2022-12-29
+          INNER JOIN gar_fias.as_house_type     t ON (t.house_type_id = h.house_type) 
+          INNER JOIN gar_fias.as_adm_hierarchy ia ON (ia.object_id = h.object_id) AND (ia.is_active) 
+          INNER JOIN gar_fias.as_addr_obj       y ON (y.object_id = ia.parent_obj_id) AND (y.end_date > current_date)  
+	 
+	      --LEFT OUTER JOIN gar_fias.as_house_type     t ON (t.house_type_id = h.house_type) 
+          LEFT OUTER JOIN gar_fias.as_object_level z ON (z.level_id = y.obj_level) AND (z.is_active) 
+          --
+	      LEFT OUTER JOIN gar_fias.as_addr_obj_type x ON (x.id = y.type_id) -- AND (x.is_active) -- 2022-12-29
           LEFT OUTER JOIN gar_fias.as_add_house_type a1 ON (a1.add_type_id = h.add_type1) 
           LEFT OUTER JOIN gar_fias.as_add_house_type a2 ON (a2.add_type_id = h.add_type2)  
           --
@@ -152,11 +149,41 @@ WITH aa (
             ,aa.user_id
 
 			,aa.change_id
-		--	,aa.rn
+			,aa.rn
+
+            ,aa.is_actual 
+		    ,aa.is_active  
+			
    
    FROM aa 
-         WHERE (aa.rn =  aa.change_id ) -- 617502
-        ORDER BY aa.id_addr_parent, aa.house_num; 
+         WHERE (aa.rn =  aa.change_id ) -- 617506
+             ORDER BY aa.id_addr_parent, aa.house_num; 
 
 --------------------------------------------------------
---SELECT * FROM public.hh5 ; -- 617672
+-- SELECT * FROM public.hh5 ; -- 617672  / 617502 / 617506 / 617693 / 617863
+
+
+SELECT * FROM public.hh5 WHERE (NM_PARENT_OBJ ='Владимира Ильича Ленина');
+SELECT * FROM public.hh5 WHERE (change_id IN (
+ 81898078
+,81911037
+,81729943
+,81899471
+
+	
+)) AND (rn =  change_id ) 
+
+SELECT * FROM public.hh5 WHERE ( id_house IN ( 7123678
+, 9628810
+, 9710166
+, 15699762
+, 15700509
+, 15701549
+, 54622834
+, 54741298
+, 78605083
+, 104321781
+
+          )
+         ) AND (rn =  change_id )
+ORDER BY 1

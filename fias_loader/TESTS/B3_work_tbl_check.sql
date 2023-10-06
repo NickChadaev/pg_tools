@@ -329,4 +329,95 @@
                 )
        )         
   SELECT * FROM aa1; -- 26250
-  
+--  
+--   2023-10-06
+--
+
+SELECT h.object_id, ia.parent_obj_id, aa.* FROM  gar_fias.as_houses h
+          --    Проверить      -- LEFT OUTER                             
+          INNER JOIN gar_fias.as_adm_hierarchy ia ON ((ia.object_id = h.object_id) AND (ia.is_active))
+          INNER JOIN gar_fias.as_addr_obj aa ON (aa.object_id = ia.parent_obj_id ) AND (aa.is_active)		  
+ WHERE ( h.object_id IN ( 7123678
+, 9628810
+, 9710166
+, 15699762
+, 15700509
+, 15701549
+, 54622834
+, 54741298
+, 78605083
+, 104321781
+
+          )
+         )
+ORDER BY 1;
+--
+-- ------------------------------------------------------
+--
+WITH x AS (
+SELECT h.object_id, h.is_active, ia.parent_obj_id, aa.* FROM  gar_fias.as_houses h
+          --    Проверить      -- LEFT OUTER                             
+          INNER JOIN gar_fias.as_adm_hierarchy ia ON ((ia.object_id = h.object_id) AND (ia.is_active))
+          INNER JOIN gar_fias.as_addr_obj aa ON (aa.object_id = ia.parent_obj_id ) AND (aa.end_date > current_date) --AND (aa.is_active)		  
+ WHERE ( h.object_id IN ( 7123678
+, 9628810
+, 9710166
+, 15699762
+, 15700509
+, 15701549
+, 54622834
+, 54741298
+, 78605083
+, 104321781
+
+          )
+         )
+ORDER BY 1
+)  
+,  z AS (
+SELECT h.object_id, ia.parent_obj_id FROM  gar_fias.as_houses h
+          --    Проверить      -- LEFT OUTER                             
+          INNER JOIN gar_fias.as_adm_hierarchy ia ON ((ia.object_id = h.object_id) AND (ia.is_active))
+          INNER JOIN gar_fias.as_addr_obj aa ON (aa.object_id = ia.parent_obj_id ) AND (aa.is_active) -- AND (ia.is_active)		  
+ WHERE ( h.object_id IN ( 7123678
+, 9628810
+, 9710166
+, 15699762
+, 15700509
+, 15701549
+, 54622834
+, 54741298
+, 78605083
+, 104321781
+
+          )
+         )
+ORDER BY 1
+) 
+-- SELECT * FROM x
+
+--    EXCLUDE
+
+SELECT * FROM z;
+
+--
+-- -----------------------------------------
+--
+SELECT h.*, ia.*, aa.* FROM  gar_fias.as_houses h
+          --    Проверить      -- LEFT OUTER                             
+          INNER JOIN gar_fias.as_adm_hierarchy ia ON ((ia.object_id = h.object_id) AND (ia.is_active))
+          INNER JOIN gar_fias.as_addr_obj aa ON (aa.object_id = ia.parent_obj_id ) AND (aa.end_date > current_date) --AND (aa.is_active)		  
+ WHERE ( h.object_id IN ( 7123678
+, 9628810
+, 9710166
+, 15699762
+, 15700509
+, 15701549
+, 54622834
+, 54741298
+, 78605083
+, 104321781
+
+          )
+         )
+ORDER BY 1

@@ -82,4 +82,88 @@
                     WHERE (h2.is_active)   
                  
 )
-   SELECT * FROM aa1 WHERE ( aa1.object_id IN (83006, 84195)); -- 1415089 /1003550 rows affected.  -- 26520     520 -250 = 270
+   SELECT * FROM aa1 
+   
+   WHERE ( aa1.object_id IN (15701549
+                                              ,104321781
+                                              ,9710166
+                                              ,9628810
+                                              ,7123678
+                                              ,15699762
+                                              ,54741298
+                                              ,54622834
+                                              ,15700509
+                                              ,78605083
+)); -- 1415089 /1003550 rows affected.  -- 26520     520 -250 = 270
+
+SELECT * FROM gar_fias.as_adm_hierarchy h2
+WHERE ( h2.object_id IN (15701549
+                                              ,104321781
+                                              ,9710166
+                                              ,9628810
+                                              ,7123678
+                                              ,15699762
+                                              ,54741298
+                                              ,54622834
+                                              ,15700509
+                                              ,78605083
+)); -- А это дома
+
+SELECT * FROM gar_tmp_pcg_trans."_OLD_f_xxx_adr_house_show_data" () where (id_house IN (15701549
+                                              ,104321781
+                                              ,9710166  --+
+                                              ,9628810  --+
+                                              ,7123678  --++
+                                              ,15699762
+                                              ,54741298
+                                              ,54622834
+                                              ,15700509
+                                              ,78605083 --+
+));
+
+SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_house_show_data ()
+ where (id_house IN (15701549
+                                              ,104321781
+                                              ,9710166  --+
+                                              ,9628810  --+
+                                              ,7123678  --++
+                                              ,15699762
+                                              ,54741298
+                                              ,54622834
+                                              ,15700509
+                                              ,78605083 --+
+));
+select * from gar_fias.as_reestr_objects r where (r.object_id IN (15701549
+                                              ,104321781
+                                              ,9710166  --+
+                                              ,9628810  --+
+                                              ,7123678  --++
+                                              ,15699762
+                                              ,54741298
+                                              ,54622834
+                                              ,15700509
+                                              ,78605083 --+
+)) order by r.object_id;
+select * from gar_fias.as_adm_hierarchy r where (r.object_id IN (15701549
+                                              ,104321781
+                                              ,9710166  --+
+                                              ,9628810  --+
+                                              ,7123678  --++
+                                              ,15699762
+                                              ,54741298
+                                              ,54622834
+                                              ,15700509
+                                              ,78605083 --+
+)) order by r.object_id;
+
+SELECT u.guid FROM public.fias_not_found_06u u
+  INNER JOIN gar_tmp.adr_house h ON (h.nm_fias_guid = u. guid) -- 175
+--
+SELECT u.guid FROM public.fias_not_found_06u u
+  INNER JOIN gar_tmp.xxx_adr_house h ON (h.fias_guid = u. guid) -- 160
+  
+  -- 220 - 175 = 45
+  
+  SELECT u.guid FROM public.fias_not_found_06u u
+  INNER JOIN gar_fias.as_houses h ON (h.object_guid = u. guid) -- 185    185 - 175 = 10
+  	WHERE (h.is_active) AND (h.is_actual);

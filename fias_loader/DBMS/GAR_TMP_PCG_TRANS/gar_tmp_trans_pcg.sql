@@ -5,8 +5,8 @@
 --
 CREATE OR REPLACE VIEW gar_tmp_pcg_trans.version
  AS
- SELECT '$Revision:42e3600$ modified $RevDate:2023-06-14$'::text AS version; 
-                    
+ SELECT '$Revision:7aea8ff$ modified $RevDate:2023-10-06$'::text AS version; 
+                                        
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 --
@@ -33,6 +33,35 @@ DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_street_del_twin (
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.fp_adr_house_del_twin_local_1 (
                   text, bigint, bigint, bigint, varchar(250), uuid, date, text 
  ); 
+
+-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+--
+--   2023-10-04  Сервисное представление.  Важно
+--
+DROP VIEW IF EXISTS gar_tmp.v_object_level CASCADE;
+CREATE OR REPLACE VIEW gar_tmp.v_object_level AS
+   
+   SELECT level_id
+        , level_name
+        , short_name
+        , update_date
+        , start_date
+        , end_date
+        , is_active
+        
+	FROM gar_fias.as_object_level ORDER BY level_id;
+	
+COMMENT ON VIEW gar_tmp.v_object_level IS 'Уровни адресных объектов';
+
+COMMENT ON COLUMN gar_tmp.v_object_level.level_id    IS 'Идентификатор уровня';
+COMMENT ON COLUMN gar_tmp.v_object_level.level_name  IS 'Наименование уровня';
+COMMENT ON COLUMN gar_tmp.v_object_level.short_name  IS 'Краткое наименование уровня';
+COMMENT ON COLUMN gar_tmp.v_object_level.update_date IS 'Дата обновления';
+COMMENT ON COLUMN gar_tmp.v_object_level.start_date  IS 'Начала периода актуальности';
+COMMENT ON COLUMN gar_tmp.v_object_level.end_date    IS 'Конец периода актуальности';
+COMMENT ON COLUMN gar_tmp.v_object_level.is_active   IS 'Признак актуальности';
+--
+-- SELECT * FROM gar_tmp.v_object_level;
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_obj_seq_crt (text, bigint, bigint, text, text, text, text);
@@ -1852,8 +1881,16 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_house_show_data (
     --  2021-12-09/2021-12-20 Ревизия функции. 
     --  2022-09-26 
     --   Тип дома принимается всегда, диапазон актуальности и признак активности - игнорируются.
+    --
     --  2022-12-29 Убрана проверка -- (gar_fias.as_addr_obj_type.is_active) 
-    --                  В ФИАС полно противоречий, эта проверка углубляет их.
+    --                  В ФИАС полно противоречий, эта проврка углубляет их.
+    --
+    --  2023-10-02 Убираются даты актуальности, единый подход к выделению записей с наибольшим
+    --             CHANGE_ID
+    --
+    --  2023-10-06 "as_addr_obj" может содержать неактивные записи с валидным диапазоном акту-
+    --             альности, потомки у этих записей могут быть активными. Например активными
+    --             дома, но не активна улица их содержащая. Исключается "as_reestr_objects r".
     -- ---------------------------------------------------------------------------------------
     --   p_date          date   -- Дата на которую формируется выборка    
     --   p_parent_obj_id bigint -- Идентификатор родительского объекта, если NULL то все дома
@@ -1943,46 +1980,25 @@ WITH aa (
           --
           ,session_user
           --
-          ,row_number() OVER (PARTITION BY ia.parent_obj_id, h.house_type, h.add_type1, h.add_type2
+          ,max(h.change_id) OVER (PARTITION BY ia.parent_obj_id, h.house_type, h.add_type1, h.add_type2
                                          , upper(h.house_num), upper(h.add_num1), upper(h.add_num2) 
-                                         ORDER BY h.change_id DESC
                              ) AS rn
           
         FROM gar_fias.as_houses h
-          INNER JOIN gar_fias.as_reestr_objects r ON ((r.object_id = h.object_id) AND (r.is_active))
           --
-          INNER JOIN gar_fias.as_house_type t ON ((t.house_type_id = h.house_type) 
-                                                   --  AND (t.is_active)
-                                                   --  AND (t.end_date > p_date) AND (t.start_date <= p_date)
-                                                 )
-          --    Проверить      -- LEFT OUTER                             
-          INNER JOIN gar_fias.as_adm_hierarchy ia ON ((ia.object_id = r.object_id) AND (ia.is_active) 
-                                                           AND (ia.end_date > p_date) AND (ia.start_date <= p_date)
-                                                     )
-	      --  LEFT OUTER
-          INNER JOIN gar_fias.as_addr_obj y ON (y.object_id = ia.parent_obj_id)  
-                              AND ((y.is_actual AND y.is_active) AND (y.end_date > p_date) AND (y.start_date <= p_date)
-                              )
-          LEFT OUTER  JOIN gar_fias.as_object_level z ON (z.level_id = y.obj_level) AND (z.is_active) 
-                                                     AND ((z.end_date > p_date) AND (z.start_date <= p_date)
-                                                     )
-          LEFT OUTER JOIN gar_fias.as_addr_obj_type x ON (x.id = y.type_id) -- AND (x.is_active) -- 2022-12-29
-                                                      AND ((x.end_date > p_date) AND (x.start_date <= p_date)
-                                                      )
+          INNER JOIN gar_fias.as_house_type     t ON (t.house_type_id = h.house_type) 
+          INNER JOIN gar_fias.as_adm_hierarchy ia ON (ia.object_id = h.object_id) AND (ia.is_active) 
+          INNER JOIN gar_fias.as_addr_obj       y ON (y.object_id = ia.parent_obj_id) AND (y.end_date > p_date) 
+                              
+          LEFT OUTER JOIN gar_fias.as_object_level z ON (z.level_id = y.obj_level) AND (z.is_active) 
+          --
+          LEFT OUTER JOIN gar_fias.as_addr_obj_type   x ON (x.id = y.type_id) -- AND (x.is_active) -- 2022-12-29
           LEFT OUTER JOIN gar_fias.as_add_house_type a1 ON (a1.add_type_id = h.add_type1) 
-                                                      -- AND (a1.is_active)
-                                                      -- AND ((a1.end_date > p_date) AND (a1.start_date <= p_date)
-                                                      --)
           LEFT OUTER JOIN gar_fias.as_add_house_type a2 ON (a2.add_type_id = h.add_type2)  
-                                                      -- AND (a2.is_active)
-                                                      -- AND ((a2.end_date > p_date) AND (a2.start_date <= p_date)
-                                                      --)
           --
           LEFT OUTER JOIN gar_fias.as_operation_type ot ON (ot.oper_type_id = h.oper_type_id) AND (ot.is_active)
-                                                      AND ((ot.end_date > p_date) AND (ot.start_date <= p_date)
-                                                      ) 
-       WHERE ((h.is_actual AND h.is_active) AND (h.end_date > p_date) AND (h.start_date <= p_date)
-                ) 
+
+       WHERE (h.is_actual AND h.is_active) 
  )
    SELECT 
              aa.id_house       
@@ -2027,7 +2043,8 @@ WITH aa (
         WHERE (((aa.id_addr_parent = p_parent_obj_id) AND (p_parent_obj_id IS NOT NULL))
                                 OR
                           (p_parent_obj_id IS NULL)
-              ) AND (aa.rn = 1) 
+              ) AND (aa.rn = aa.change_id) 
+              
         ORDER BY aa.id_addr_parent, aa.id_house; 
   $$;
  
@@ -2626,8 +2643,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_obj_fias_show_data_0 (
 		        ,aa.tree_d
 		        ,aa.level_d
                 
-             FROM gar_tmp.xxx_adr_area aa 
-                    WHERE (aa.obj_level < 8)  
+             FROM gar_tmp.xxx_adr_area aa  
+                    WHERE (aa.obj_level <> 8)  -- 2023-10-04 ..  Х ....тень была
 		        ORDER BY tree_d
       )
                 INSERT INTO %I
@@ -2659,6 +2676,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_obj_fias_show_data_0 (
     --     p_schema_name text -- Имя схемы-источника._
     -- --------------------------------------------------------------------------
     -- 2022-12-13 Условие выбора (aa.obj_level < 8)
+    -- 2023-10-04 Меняю условие выбора: (aa.obj_level <> 8)
     -- --------------------------------------------------------------------------
     CREATE TEMP TABLE IF NOT EXISTS __adr_area_fias (LIKE gar_tmp.xxx_obj_fias)
         ON COMMIT DROP;
@@ -2679,6 +2697,8 @@ IS 'Функция подготавливает исходные данные д
 ----------------------------------------------------------------------------------
 -- USE CASE:
 --    EXPLAIN ANALyZE 
+--      SELECT * FROM gar_tmp_pcg_trans.f_xxx_obj_fias_show_data_0 ('gar_tmp') -- 2082
+--      SELECT * FROM gar_tmp_pcg_trans.f_xxx_obj_fias_show_data_1 ('gar_tmp') -- 24433
 --      SELECT * FROM gar_tmp_pcg_trans.f_xxx_obj_fias_show_data_0 ('unnsi') 
 --              WHERE (obj_guid = 'ab4ac1b4-165d-4bab-be36-a974c4241902');
 --     INSERT INTO gar_tmp.xxx_obj_fias 
@@ -2718,9 +2738,9 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_obj_fias_show_data_1 (
 		        ,aa.tree_d
 		        ,aa.level_d
                 
-             FROM gar_tmp.xxx_adr_area aa 
-                    WHERE (aa.obj_level = 8)  
-		        ORDER BY tree_d
+             FROM gar_tmp.xxx_adr_area aa  
+                    WHERE (aa.obj_level = 8)  -- 2023-10-04 ..  Х ....тень была
+		     ORDER BY tree_d
       )
                 INSERT INTO %I
                        SELECT 
@@ -2769,7 +2789,7 @@ IS 'Функция подготавливает исходные данные д
 ----------------------------------------------------------------------------------
 -- USE CASE:
 --    EXPLAIN ANALyZE 
---     SELECT * FROM gar_tmp_pcg_trans.f_xxx_obj_fias_show_data_1 ('unsi') -- 5611
+--     SELECT * FROM gar_tmp_pcg_trans.f_xxx_obj_fias_show_data_1 ('gar_tmp') -- 5611
 --     INSERT INTO gar_tmp.xxx_obj_fias 
 --           SELECT * FROM gar_tmp_pcg_trans.f_xxx_obj_fias_show_data_1 ('unnsi'); 
 --   SELECT * FROM gar_tmp.xxx_obj_fias; -- 6031
@@ -11918,7 +11938,7 @@ IS ' Запомнить агрегированные пары "Тип" - "Зна
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_adr_area_show_data (date, bigint, bigint[]);
 CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_show_data (
        p_date          date     = current_date
-      ,p_obj_level     bigint   = 10
+      ,p_obj_level     bigint   = 16
       ,p_oper_type_ids bigint[] = NULL::bigint[]
 )
     RETURNS SETOF gar_tmp.xxx_adr_area
@@ -11927,7 +11947,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_show_data (
  AS
   $$
     -- ---------------------------------------------------------------------------------------
-    --  2021-10-19/2021-11-19/2022-08-17 Nick 
+    --  2021-10-19 Nick 
     --    Функция подготавливает исходные данные для таблицы-прототипа "gar_tmp.xxx_adr_area"
     -- --------------------------------------------------------------------------------------
     --   p_date      date         -- Дата на которую формируется выборка    
@@ -11936,6 +11956,16 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_show_data (
     -- ---------------------------------------------------------------------------------------
     --  2021-12-20 - Могут быть несколько активных записей с различными UUID, описывающих
     --  один и тот-же адресный объект. Выбираю самую свежую (по максимальнлому ID изменения).
+    
+    --  2021-11-19  - 2022-08-17     Изменения.
+    
+    --  2023-10-02  - Исправлены ошибки в рекурсивной части запроса и в оконной функции.
+    --      Выключена фильтрация по периоду актуальности. Убрана на фиг фильтрация по типам 
+    --      операций. Уровень адресных объектов уменьшен до 14 (обратный отсчёт).
+    
+    --  2023-10-06 "as_addr_obj" может содержать неактивные записи с валидным диапазоном акту-
+    --             альности, потомки у этих записей могут быть активными. Например активными
+    --             дома, но не активна улица их содержащая.
     -- --------------------------------------------------------------------------------------
     
     WITH RECURSIVE aa1 (
@@ -11972,120 +12002,97 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_show_data (
                         ,level_d
                         ,cicle_d  
      ) AS (
-        SELECT
-           a.object_id
-          ,NULLIF (ia.parent_obj_id, 0)
-          --
-          ,a.object_guid
-          ,NULL::uuid
-          --
-          ,a.object_name
-          ,a.type_id
-          ,a.type_name
-          --
-          ,a.obj_level
-          ,l.level_name
-           --
-          ,ia.region_code  -- 2021-12-01
-          ,ia.area_code    
-          ,ia.city_code    
-          ,ia.place_code   
-          ,ia.plan_code    
-          ,ia.street_code    
-           --             --
-          ,a.change_id
-          ,a.prev_id
-           --             --
-          ,a.oper_type_id
-          ,ot.oper_type_name
-          --
-          ,a.start_date 
-          ,a.end_date              
-          --
-          ,CAST (ARRAY [a.object_id] AS bigint []) 
-          ,1
-          ,FALSE
-          
-        FROM gar_fias.as_adm_hierarchy ia
-        
-          INNER JOIN gar_fias.as_addr_obj a 
-                       ON (ia.object_id = a.object_id) AND
-                          ((a.is_actual AND a.is_active) AND (a.end_date > p_date) AND
-                               (a.start_date <= p_date)
-                          )
-          --                
-          INNER JOIN gar_fias.as_object_level l 
-                       ON (a.obj_level = l.level_id) AND (l.is_active) AND
-                          ((l.end_date > p_date) AND (l.start_date <= p_date))
-          --
-          INNER JOIN gar_fias.as_operation_type ot ON (ot.oper_type_id = a.oper_type_id) AND 
-                                          (ot.is_active) AND ((ot.end_date > p_date) AND 
-                                          (ot.start_date <= p_date))                            
-        
-        WHERE ((ia.parent_obj_id = 0) OR (ia.parent_obj_id IS NULL)) AND
-              (ia.is_active) AND (ia.end_date > p_date) AND (ia.start_date <= p_date)
-
-     
-                 UNION ALL
-    
-        SELECT
-           a.object_id
-          ,ia.parent_obj_id
-          --
-          ,a.object_guid
-          ,z.object_guid
-          --
-          ,a.object_name
-          ,a.type_id          
-          ,a.type_name
-          --
-          ,a.obj_level
-          ,l.level_name
-           --
-          ,ia.region_code  -- 2021-12-01
-          ,ia.area_code    
-          ,ia.city_code    
-          ,ia.place_code   
-          ,ia.plan_code    
-          ,ia.street_code    
-           --             --
-          ,a.change_id
-          ,a.prev_id
-           --             --
-          ,a.oper_type_id
-          ,ot.oper_type_name
-          --
-          ,a.start_date 
-          ,a.end_date              
-          --	       
-          ,CAST (aa1.tree_d || a.object_id AS bigint [])
-          ,(aa1.level_d + 1) t
-          ,a.object_id = ANY (aa1.tree_d)   
-        
-           FROM gar_fias.as_addr_obj a
-              INNER JOIN gar_fias.as_adm_hierarchy ia ON ((ia.object_id = a.object_id) AND (ia.is_active) 
-                                                           AND (ia.end_date > p_date) 
-                                                           AND (ia.start_date <= p_date)
-                                                         )
-              INNER JOIN gar_fias.as_addr_obj z ON (ia.parent_obj_id = z.object_id)
-                                          AND ((z.is_actual AND z.is_active) AND (z.end_date > p_date) 
-                                                  AND (z.start_date <= p_date)
-                                          )
+            SELECT
+               a.object_id
+              ,NULLIF (h1.parent_obj_id, 0)
+              --
+              ,a.object_guid
+              ,NULL::uuid
+              --
+              ,a.object_name
+              ,a.type_id
+              ,a.type_name
+              --
+              ,a.obj_level
+              ,l.level_name
+               --
+              ,h1.region_code  -- 2021-12-01
+              ,h1.area_code    
+              ,h1.city_code    
+              ,h1.place_code   
+              ,h1.plan_code    
+              ,h1.street_code    
+               --             --
+              ,a.change_id
+              ,a.prev_id
+               --             --
+              ,a.oper_type_id
+              ,ot.oper_type_name
+              --
+              ,a.start_date 
+              ,a.end_date              
+              --
+              ,CAST (ARRAY [a.object_id] AS bigint []) 
+              ,1
+              ,FALSE
+              
+            FROM gar_fias.as_adm_hierarchy h1
+                 	            
+              INNER JOIN gar_fias.as_addr_obj     a ON (h1.object_id = a.object_id) AND (a.end_date > p_date)                   	            
               INNER JOIN gar_fias.as_object_level l ON (a.obj_level = l.level_id) AND (l.is_active) 
-                                                         AND ((l.end_date > p_date) AND
-                                                              (l.start_date <= p_date)
-                                                         )
-              INNER JOIN gar_fias.as_operation_type ot ON (ot.oper_type_id = a.oper_type_id) AND 
-                                          (ot.is_active) AND ((ot.end_date > p_date) AND 
-                                          (ot.start_date <= p_date))
-                                          
-              INNER JOIN aa1 ON (aa1.id_addr_obj = ia.parent_obj_id) AND (NOT aa1.cicle_d)
-          
-        WHERE (a.obj_level <= p_obj_level) 
-                AND ((a.is_actual AND a.is_active) AND (a.end_date > p_date) 
-                        AND (a.start_date <= p_date)
-                )
+              INNER JOIN gar_fias.as_operation_type ot  
+                           ON (ot.oper_type_id = a.oper_type_id) AND (ot.is_active)                         
+            
+            WHERE ((h1.parent_obj_id = 0) OR (h1.parent_obj_id IS NULL)) AND (h1.is_active) 
+         
+                     UNION ALL
+        
+            SELECT
+               a.object_id
+              ,h2.parent_obj_id
+              --
+              ,a.object_guid
+              ,z.object_guid
+              --
+              ,a.object_name
+              ,a.type_id          
+              ,a.type_name
+              --
+              ,a.obj_level
+              ,l.level_name
+               --
+              ,h2.region_code  -- 2021-12-01
+              ,h2.area_code    
+              ,h2.city_code    
+              ,h2.place_code   
+              ,h2.plan_code    
+              ,h2.street_code    
+               --             --
+              ,a.change_id
+              ,a.prev_id
+               --             --
+              ,a.oper_type_id
+              ,ot.oper_type_name
+              --
+              ,a.start_date 
+              ,a.end_date              
+              --	       
+              ,CAST (aa1.tree_d || a.object_id AS bigint [])
+              ,(aa1.level_d + 1) t
+              ,a.object_id = ANY (aa1.tree_d)   
+            
+            FROM gar_fias.as_adm_hierarchy h2
+                 	
+              INNER JOIN aa1 ON (h2.parent_obj_id = aa1.id_addr_obj ) 
+                       
+              INNER JOIN gar_fias.as_addr_obj a ON (h2.object_id = a.object_id) AND (a.end_date > p_date)                         
+              INNER JOIN gar_fias.as_addr_obj z ON (h2.parent_obj_id = z.object_id) AND (z.is_actual AND z.is_active) 
+              INNER JOIN gar_fias.as_object_level l ON (a.obj_level = l.level_id) AND (l.is_active) 
+              INNER JOIN gar_fias.as_operation_type ot ON (ot.oper_type_id = a.oper_type_id) AND (ot.is_active) 
+              
+            WHERE (h2.is_active)    
      )
+        
       , bb1 (   
                 id_addr_obj       
                ,id_addr_parent 
@@ -12158,13 +12165,11 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_show_data (
                   , max(aa1.change_id) OVER (PARTITION BY aa1.id_addr_parent 
                                             ,aa1.addr_obj_type-- _id  
                                             ,UPPER(aa1.nm_addr_obj) 
-                                       ORDER BY aa1.change_id   
                     ) AS rn
                   
-            FROM aa1 
-              WHERE ((aa1.oper_type_id = ANY (p_oper_type_ids)) AND (p_oper_type_ids IS NOT NULL))
-                       OR
-                    (p_oper_type_ids IS NULL)  ORDER BY aa1.tree_d
+            FROM aa1 WHERE (aa1.obj_level <= p_obj_level)
+            
+		   ORDER BY aa1.tree_d
           )
            SELECT
                     bb1.id_addr_obj       
@@ -12239,7 +12244,11 @@ COMMENT ON FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_show_data (date, bigint, bi
 IS 'Функция подготавливает исходные данные для таблицы-прототипа "gar_tmp.xxx_adr_area"';
 ----------------------------------------------------------------------------------
 -- USE CASE:
---    EXPLAIN ANALyZE SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data () WHERE (nm_addr_obj IN ('Ивушка','Лазарево')); -- 1184
+--    SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data () WHERE (nm_addr_obj ilike '%ленина%'); -- 1184
+--    SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data () WHERE (id_addr_obj IN (77511, 78550)); -- 1184
+--    SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data () ORDER BY obj_level DESC;
+--  SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data () WHERE (obj_level <> 8) ORDER BY obj_level DESC;  --2082
+--  SELECT aa.* FROM gar_tmp.xxx_adr_area aa WHERE (aa.obj_level <> 8)  ORDER BY tree_d   -- 2076    6 ??
 -- CALL gar_tmp_pcg_trans.p_gar_fias_crt_idx ();
 -- SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data (p_obj_level := 22); 
 -- SELECT count (1) FROM gar_tmp_pcg_trans.as_addr_obj; --7345  --- 1312 ?
@@ -12258,7 +12267,7 @@ DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_adr_area_set_data (date, bigint,
 CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_set_data (
 
        p_date          date     = current_date
-      ,p_obj_level     bigint   = 10
+      ,p_obj_level     bigint   = 14
       ,p_oper_type_ids bigint[] = NULL::bigint[]
       
 ) RETURNS integer

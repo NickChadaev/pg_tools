@@ -337,3 +337,95 @@ Date:   Wed Oct 4 17:44:43 2023 +0300
      -- "_COMMON" подумать, как отшлифовать её (надо готовить задание для ticker).
      
      -- Активные предщественники, подумать об оптимизации.  !!!!!!!!!!!!!!!!!!!
+     -- 
+     
+     2023-10-10
+     -----------
+2023-10-11 00:14:12,012 WARNING pg-perfect-ticker ticker task ('r0', 'bg_thr_pool_r', 'exchange_db_con'): error <class 'SystemExit'>: 256
+Московская область -- разобраться. !!!!!
+
+ОШИБКА:  команда ON CONFLICT DO UPDATE не может менять строку повторно
+HINT:  Проверьте, не содержат ли строки, которые должна добавить команда, дублирующиеся значения, подпадающие под ограничения.
+CONTEXT:  SQL-оператор: "INSERT INTO gar_tmp.xxx_adr_area AS z (
+----------------------------------------------------------------
+               ON CONFLICT (id_addr_obj) DO 
+               
+               UPDATE
+                    SET
+                          id_addr_parent   = excluded.id_addr_parent    
+                         ,fias_guid        = excluded.fias_guid       
+                         ,parent_fias_guid = excluded.parent_fias_guid
+                         ,nm_addr_obj      = excluded.nm_addr_obj    
+                         ,addr_obj_type_id = excluded.addr_obj_type_id                            
+                         ,addr_obj_type    = excluded.addr_obj_type   
+                         ,obj_level        = excluded.obj_level       
+                         ,level_name       = excluded.level_name      
+                          --
+                         ,region_code      = excluded.region_code -- 2021-12-01
+                         ,area_code        = excluded.area_code  
+                         ,city_code        = excluded.city_code  
+                         ,place_code       = excluded.place_code 
+                         ,plan_code        = excluded.plan_code  
+                         ,street_code      = excluded.street_code
+                          --                                 
+                         ,oper_type_id     = excluded.oper_type_id    
+                         ,oper_type_name   = excluded.oper_type_name
+                          --
+                         ,start_date       = excluded.start_date  -- 2021-12-06
+                         ,end_date         = excluded.end_date
+                          -- 
+                         ,tree_d           = excluded.tree_d          
+                         ,level_d          = excluded.level_d         
+                  
+               WHERE (z.id_addr_obj = excluded.id_addr_obj)"
+
+
+
+----------------------------------------------------------------
+
+1) Осталось 252 файла. 
+            2) Остановка ticker'ab
+            3) Разобраться отдельно.
+            
+         SELECT   x.id_addr_obj      
+                  ,x.id_addr_parent   
+                  ,x.fias_guid        
+                  ,x.parent_fias_guid 
+                  ,x.nm_addr_obj  
+                  ,x.addr_obj_type_id     
+                  ,x.addr_obj_type    
+                  ,x.obj_level        
+                  ,x.level_name
+                   --
+                  ,x.region_code  -- 2021-12-01
+                  ,x.area_code    
+                  ,x.city_code    
+                  ,x.place_code   
+                  ,x.plan_code    
+                  ,x.street_code    
+                   --                                 
+                  ,x.oper_type_id     
+                  ,x.oper_type_name  
+                   --
+                  ,x.start_date 
+                  ,x.end_date  
+                   --                  
+                  ,x.tree_d           
+                  ,x.level_d          
+          
+          FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data (
+              p_date          := DATE(current_date)::date     -- Дата, на которую выбираются данные
+             ,p_obj_level     := 16::bigint   -- Уровень объекта
+             ,p_oper_type_ids := NULL::bigint[] -- Типы операций.
+          ) x 
+          
+          00:22:49] ... [00:22:49]: Error, rc = 256
+[00:22:49] ...             psql -h 127.0.0.1 -p 5432 -c "SELECT gar_tmp_pcg_trans.f_xxx_adr_area_set_data (
+              p_date          := DATE(current_date)::date     -- Дата, на которую выбираются данные
+             ,p_obj_level     := 16::bigint   -- Уровень объекта
+             ,p_oper_type_ids := NULL::bigint[] -- Типы операций.
+        );
+        
+ 3) счётчик не работает
+ 
+ 

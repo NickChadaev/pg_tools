@@ -187,10 +187,23 @@ SELECT h.* FROM gar_fias.as_steads h
 WHERE (h.object_guid  = '2c3d7891-954f-48e2-b090-280488022a97');  -- steads
 
 ---------------------------------------------------------------------------
+-- #1
+SELECT a.*, s.*, h.* FROM unnsi.adr_house h
+ INNER JOIN unnsi.adr_area a ON (a.id_area = h.id_area)
+ INNER JOIN unnsi.adr_street s ON (s.id_street = h.id_street) 
+WHERE (h.nm_fias_guid = 'c09b70db-a17a-48ea-b7a1-4ad0f3d77de8')
 
-SELECT a.*, s.*, h.* FROM gar_tmp.adr_house h
- INNER JOIN gar_tmp.adr_area a ON (a.id_area = h.id_area)
- INNER JOIN gar_tmp.adr_street s ON (s.id_street = h.id_street) 
+-- #2
+SELECT * from unnsi.adr_street   WHERE (nm_street ilike '%Шахбанова%');
+
+-- #3
+SELECT h.* FROM unnsi.adr_house h
+WHERE (h.nm_fias_guid = '2c3d7891-954f-48e2-b090-280488022a97'); -- steads
+
+---------------------------------------------------------------------------
+SELECT a.*, s.*, h.* FROM unnsi.adr_house h
+ INNER JOIN unnsi.adr_area a ON (a.id_area = h.id_area)
+ INNER JOIN unnsi.adr_street s ON (s.id_street = h.id_street) 
 WHERE (h.nm_fias_guid = '1fc57b91-c02f-4f70-9c7e-06236239397e') ;
 --
 --  2023-10-06

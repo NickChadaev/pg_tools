@@ -23,6 +23,11 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_house_show_data (
     --  2023-10-06 "as_addr_obj" может содержать неактивные записи с валидным диапазоном акту-
     --             альности, потомки у этих записей могут быть активными. Например активными
     --             дома, но не активна улица их содержащая. Исключается "as_reestr_objects r".
+    --
+    --  2023-10-11 Пришлось ввести "DISTINCT ON (aa.id_house)" Иначе подряд 
+    --   выполняются два действия: INSERT и UPDATE ON CONLICT, что вызывает ошибку postgres.
+    --   Изменился  ORDER BY aa.id_house;
+    --   Ошибка проявилась на 50 регионе (Московская обл).    
     -- ---------------------------------------------------------------------------------------
     --   p_date          date   -- Дата на которую формируется выборка    
     --   p_parent_obj_id bigint -- Идентификатор родительского объекта, если NULL то все дома
@@ -132,7 +137,7 @@ WITH aa (
 
        WHERE (h.is_actual AND h.is_active) 
  )
-   SELECT 
+   SELECT DISTINCT ON (aa.id_house)
              aa.id_house       
             ,aa.id_addr_parent 
             --
@@ -177,7 +182,7 @@ WITH aa (
                           (p_parent_obj_id IS NULL)
               ) AND (aa.rn = aa.change_id) 
               
-        ORDER BY aa.id_addr_parent, aa.id_house; 
+        ORDER BY aa.id_house; -- 2023-10-11 aa.id_addr_parent, 
   $$;
  
 ALTER FUNCTION gar_tmp_pcg_trans.f_xxx_adr_house_show_data (date, bigint) OWNER TO postgres;  

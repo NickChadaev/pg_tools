@@ -29,6 +29,10 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_show_data (
     --  2023-10-06 "as_addr_obj" может содержать неактивные записи с валидным диапазоном акту-
     --             альности, потомки у этих записей могут быть активными. Например активными
     --             дома, но не активна улица их содержащая.
+    --
+    --  2023-10-11 Пришлось ввести " SELECT DISTINCT ON (bb1.id_addr_obj) Иначе подряд 
+    --   выполняются два действия: INSERT и UNPDATE ON CONLICT, что вызывает ошибку postgres.
+    --   Ошибка проявилась на 50 регионе (Московская обл).
     -- --------------------------------------------------------------------------------------
     
     WITH RECURSIVE aa1 (
@@ -234,7 +238,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_show_data (
             
 		   ORDER BY aa1.tree_d
           )
-           SELECT
+           SELECT DISTINCT ON (bb1.id_addr_obj) -- 2023-10-11
                     bb1.id_addr_obj       
                    ,bb1.id_addr_parent 
                    --

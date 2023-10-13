@@ -1,0 +1,413 @@
+ f_server_is 
+-------------
+ unnsi_prd_s
+(1 row)
+
+ id_area | id_country | nm_area  | nm_area_full  | id_area_type | id_area_parent | kd_timezone | pr_detailed | kd_oktmo |             nm_fias_guid             | dt_data_del | id_data_etalon |  kd_okato   | nm_zipcode |  kd_kladr   | vl_addr_latitude | vl_addr_longitude 
+---------+------------+----------+---------------+--------------+----------------+-------------+-------------+----------+--------------------------------------+-------------+----------------+-------------+------------+-------------+------------------+-------------------
+       9 |        185 | Калмыкия | Калмыкия Респ |           41 |                |           2 |           0 | 85000000 | 491cde9d-9d76-4591-ab46-ea93c079e686 |             |                | 85000000000 |            | 08000000000 |                  |                  
+(1 row)
+
+CALL
+ f_adr_area_set_data 
+---------------------
+                   2
+(1 row)
+
+            fias_guid_new             | nm_addr_obj | addr_obj_type_id | chld_qty_tot | chld_qty_unact 
+--------------------------------------+-------------+------------------+--------------+----------------
+ bc141428-7e2c-47cc-9296-b04cf34c54ac | Луч         |              250 |            0 |              0
+(1 row)
+
+CALL
+CALL
+CALL
+CALL
+CALL
+CALL
+CALL
+CALL
+ f_xxx_obj_seq_crt 
+-------------------
+         900005516
+       10900005516
+(2 rows)
+
+ f_set_params_value 
+--------------------
+             133693
+(1 row)
+
+ f_xxx_adr_area_set_data 
+-------------------------
+                    3817
+(1 row)
+
+ f_xxx_adr_house_set_data 
+--------------------------
+                    73049
+(1 row)
+
+ f_xxx_obj_fias_set_data 
+-------------------------
+                     763
+                    3054
+                   73049
+(3 rows)
+
+ total_row | ins_row | upd_row 
+-----------+---------+---------
+         1 |       0 |       1
+(1 row)
+
+  id_area  | id_country | nm_area |                   nm_area_full                   | id_area_type | id_area_parent | kd_timezone | pr_detailed |  kd_oktmo   |             nm_fias_guid             |        dt_data_del         | id_data_etalon |  kd_okato   | nm_zipcode | kd_kladr | vl_addr_latitude | vl_addr_longitude | id_area_hist |        date_create         | f_server_name | id_region 
+-----------+------------+---------+--------------------------------------------------+--------------+----------------+-------------+-------------+-------------+--------------------------------------+----------------------------+----------------+-------------+------------+----------+------------------+-------------------+--------------+----------------------------+---------------+-----------
+ 900000199 |        185 | АЗС     | Калмыкия Респ, Целинный р-н, Троицкое с, АЗС тер |           54 |          13760 |             |           1 | 85637435101 | d8be8736-554c-46c3-8354-517b7e1a74ff | 2023-09-26 18:31:35.341184 |      900000199 | 85237835001 |            |          |                  |                   |         3937 | 2023-09-26 18:31:35.341184 |               |         0
+(1 row)
+
+ total_row | upd_row 
+-----------+---------
+       762 |       1
+(1 row)
+
+  id_area  | id_country | nm_area |                   nm_area_full                   | id_area_type | id_area_parent | kd_timezone | pr_detailed |  kd_oktmo   |             nm_fias_guid             |        dt_data_del         | id_data_etalon |  kd_okato   | nm_zipcode | kd_kladr | vl_addr_latitude | vl_addr_longitude | id_area_hist |        date_create         | f_server_name | id_region 
+-----------+------------+---------+--------------------------------------------------+--------------+----------------+-------------+-------------+-------------+--------------------------------------+----------------------------+----------------+-------------+------------+----------+------------------+-------------------+--------------+----------------------------+---------------+-----------
+ 900000199 |        185 | АЗС     | Калмыкия Респ, Целинный р-н, Троицкое с, АЗС тер |           54 |          13760 |             |           1 | 85637435101 | d8be8736-554c-46c3-8354-517b7e1a74ff | 2023-09-26 18:31:35.341184 |      900000199 | 85237835001 |            |          |                  |                   |         3937 | 2023-09-26 18:31:35.341184 |               |         0
+(1 row)
+
+ total_row | ins_row | upd_row 
+-----------+---------+---------
+         1 |       1 |       0
+(1 row)
+
+ id_street | id_area | nm_street | id_street_type | nm_street_full | nm_fias_guid | dt_data_del | id_data_etalon | kd_kladr | vl_addr_latitude | vl_addr_longitude | id_street_hist | date_create | f_server_name | id_region 
+-----------+---------+-----------+----------------+----------------+--------------+-------------+----------------+----------+------------------+-------------------+----------------+-------------+---------------+-----------
+(0 rows)
+
+ total_row | upd_row 
+-----------+---------
+      3004 |       0
+(1 row)
+
+ id_street | id_area | nm_street | id_street_type | nm_street_full | nm_fias_guid | dt_data_del | id_data_etalon | kd_kladr | vl_addr_latitude | vl_addr_longitude | id_street_hist | date_create | f_server_name | id_region 
+-----------+---------+-----------+----------------+----------------+--------------+-------------+----------------+----------+------------------+-------------------+----------------+-------------+---------------+-----------
+(0 rows)
+
+ total_row | ins_row | upd_row 
+-----------+---------+---------
+         4 |       4 |       0
+(1 row)
+
+ id_house | id_area | id_street | id_house_type_1 | nm_house_1 | id_house_type_2 | nm_house_2 | id_house_type_3 | nm_house_3 | nm_zipcode | nm_house_full | kd_oktmo | nm_fias_guid | dt_data_del | id_data_etalon | kd_okato | vl_addr_latitude | vl_addr_longitude | id_house_hist | date_create | f_server_name | id_region 
+----------+---------+-----------+-----------------+------------+-----------------+------------+-----------------+------------+------------+---------------+----------+--------------+-------------+----------------+----------+------------------+-------------------+---------------+-------------+---------------+-----------
+(0 rows)
+
+ total_row | upd_row 
+-----------+---------
+     72886 |       0
+(1 row)
+
+ id_house | id_area | id_street | id_house_type_1 | nm_house_1 | id_house_type_2 | nm_house_2 | id_house_type_3 | nm_house_3 | nm_zipcode | nm_house_full | kd_oktmo | nm_fias_guid | dt_data_del | id_data_etalon | kd_okato | vl_addr_latitude | vl_addr_longitude | id_house_hist | date_create | f_server_name | id_region 
+----------+---------+-----------+-----------------+------------+-----------------+------------+-----------------+------------+------------+---------------+----------+--------------+-------------+----------------+----------+------------------+-------------------+---------------+-------------+---------------+-----------
+(0 rows)
+
+ f_version_put 
+---------------
+            68
+(1 row)
+
+ qty_adr_area_0 
+----------------
+            765
+(1 row)
+
+ qty_adr_area_aux_0 
+--------------------
+                  1
+(1 row)
+
+CALL
+ fcase | id_area_subj | id_area_obj | nm_area | nm_fias_guid 
+-------+--------------+-------------+---------+--------------
+(0 rows)
+
+CALL
+CALL
+CALL
+ qty_adr_area_1 
+----------------
+            765
+(1 row)
+
+ qty_adr_area_aux_1 
+--------------------
+                  1
+(1 row)
+
+ id_area | id_country | nm_area | nm_area_full | id_area_type | id_area_parent | kd_timezone | pr_detailed | kd_oktmo | nm_fias_guid | dt_data_del | id_data_etalon | kd_okato | nm_zipcode | kd_kladr | vl_addr_latitude | vl_addr_longitude 
+---------+------------+---------+--------------+--------------+----------------+-------------+-------------+----------+--------------+-------------+----------------+----------+------------+----------+------------------+-------------------
+(0 rows)
+
+ f_version_by_obj_put 
+----------------------
+                  199
+(1 row)
+
+ qty_adr_street_0 
+------------------
+             3012
+(1 row)
+
+ qty_adr_street_aux_0 
+----------------------
+                    1
+(1 row)
+
+CALL
+CALL
+ fcase | id_street_subj | id_street_obj | nm_street_full | nm_fias_guid 
+-------+----------------+---------------+----------------+--------------
+(0 rows)
+
+ qty_adr_street_1 
+------------------
+             3012
+(1 row)
+
+ qty_adr_street_aux_1 
+----------------------
+                    1
+(1 row)
+
+CALL
+CALL
+CALL
+ f_version_by_obj_put 
+----------------------
+                  200
+(1 row)
+
+ qty_adr_house_0 
+-----------------
+           75305
+(1 row)
+
+ qty_adr_house_aux_0 
+---------------------
+                   4
+(1 row)
+
+CALL
+CALL
+ fcase | id_house_subj | id_house_obj | nm_house_full | nm_fias_guid 
+-------+---------------+--------------+---------------+--------------
+(0 rows)
+
+ qty_adr_house_1 
+-----------------
+           75305
+(1 row)
+
+ qty_adr_house_aux_1 
+---------------------
+                   4
+(1 row)
+
+CALL
+CALL
+CALL
+ f_version_by_obj_put 
+----------------------
+                  201
+(1 row)
+
+ id_un_export | dt_gar_version | kd_export_type | id_region | nm_area_full  |         dt_export          | nm_user  | seq_value | node_id | id_un_export_by_obj | sch_name | nm_object  | qty_main | qty_aux |                               file_path                                | fserver_name |   host    |     dbname     | port | db_conn_name  
+--------------+----------------+----------------+-----------+---------------+----------------------------+----------+-----------+---------+---------------------+----------+------------+----------+---------+------------------------------------------------------------------------+--------------+-----------+----------------+------+---------------
+            1 | 2022-12-26     | f              |         9 | Калмыкия Респ | 2023-01-18 14:36:48.911302 | postgres | 900004817 |       1 |                   1 | gar_tmp  | adr_area   |      762 |     296 | ../tmp/up_prds/DATA/adr_area_09.sql                                    | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            1 | 2022-12-26     | f              |         9 | Калмыкия Респ | 2023-01-18 14:36:48.911302 | postgres | 900004817 |       1 |                   2 | gar_tmp  | adr_street |     3004 |       0 | ../tmp/up_prds/DATA/adr_street_09.sql                                  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            1 | 2022-12-26     | f              |         9 | Калмыкия Респ | 2023-01-18 14:36:48.911302 | postgres | 900004817 |       1 |                   3 | gar_tmp  | adr_house  |    75052 |      14 | ../tmp/up_prds/DATA/adr_house_09.sql                                   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            2 | 2023-01-09     | f              |         9 | Калмыкия Респ | 2023-01-20 12:28:42.443902 | postgres | 900004831 |       1 |                   4 | gar_tmp  | adr_area   |      762 |     280 | ../../tmp/up_prds_20230109/DATA/adr_area_09.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            2 | 2023-01-09     | f              |         9 | Калмыкия Респ | 2023-01-20 12:28:42.443902 | postgres | 900004831 |       1 |                   5 | gar_tmp  | adr_street |     3004 |       0 | ../../tmp/up_prds_20230109/DATA/adr_street_09.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            2 | 2023-01-09     | f              |         9 | Калмыкия Респ | 2023-01-20 12:28:42.443902 | postgres | 900004831 |       1 |                   6 | gar_tmp  | adr_house  |    75056 |       4 | ../../tmp/up_prds_20230109/DATA/adr_house_09.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            3 | 2023-01-16     | f              |         9 | Калмыкия Респ | 2023-01-24 10:50:23.671536 | postgres | 900004843 |       1 |                   7 | gar_tmp  | adr_area   |      762 |     280 | ../../tmp/up_prds_20230116/DATA/adr_area_09.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            3 | 2023-01-16     | f              |         9 | Калмыкия Респ | 2023-01-24 10:50:23.671536 | postgres | 900004843 |       1 |                   8 | gar_tmp  | adr_street |     3005 |       1 | ../../tmp/up_prds_20230116/DATA/adr_street_09.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            3 | 2023-01-16     | f              |         9 | Калмыкия Респ | 2023-01-24 10:50:23.671536 | postgres | 900004843 |       1 |                   9 | gar_tmp  | adr_house  |    75057 |       1 | ../../tmp/up_prds_20230116/DATA/adr_house_09.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            4 | 2023-01-23     | f              |         9 | Калмыкия Респ | 2023-01-27 03:00:22.075675 | postgres | 900004857 |       1 |                  10 | gar_tmp  | adr_area   |      762 |     280 | ../../tmp/up_prds_20230123/DATA/adr_area_09.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            4 | 2023-01-23     | f              |         9 | Калмыкия Респ | 2023-01-27 03:00:22.075675 | postgres | 900004857 |       1 |                  11 | gar_tmp  | adr_street |     3005 |       0 | ../../tmp/up_prds_20230123/DATA/adr_street_09.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            4 | 2023-01-23     | f              |         9 | Калмыкия Респ | 2023-01-27 03:00:22.075675 | postgres | 900004857 |       1 |                  12 | gar_tmp  | adr_house  |    75061 |       4 | ../../tmp/up_prds_20230123/DATA/adr_house_09.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            5 | 2023-02-02     | f              |         9 | Калмыкия Респ | 2023-02-04 06:10:59.48805  | postgres | 900004870 |       1 |                  13 | gar_tmp  | adr_area   |      762 |     280 | ../../tmp/up_prds_20230202/DATA/adr_area_09.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            5 | 2023-02-02     | f              |         9 | Калмыкия Респ | 2023-02-04 06:10:59.48805  | postgres | 900004870 |       1 |                  14 | gar_tmp  | adr_street |     3005 |       0 | ../../tmp/up_prds_20230202/DATA/adr_street_09.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            5 | 2023-02-02     | f              |         9 | Калмыкия Респ | 2023-02-04 06:10:59.48805  | postgres | 900004870 |       1 |                  15 | gar_tmp  | adr_house  |    75064 |      16 | ../../tmp/up_prds_20230202/DATA/adr_house_09.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            6 | 2023-02-06     | f              |         9 | Калмыкия Респ | 2023-02-11 01:30:56.709923 | postgres | 900004882 |       1 |                  16 | gar_tmp  | adr_area   |      762 |     280 | ../../tmp/up_prds_20230206/DATA/adr_area_09.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            6 | 2023-02-06     | f              |         9 | Калмыкия Респ | 2023-02-11 01:30:56.709923 | postgres | 900004882 |       1 |                  17 | gar_tmp  | adr_street |     3005 |       0 | ../../tmp/up_prds_20230206/DATA/adr_street_09.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            6 | 2023-02-06     | f              |         9 | Калмыкия Респ | 2023-02-11 01:30:56.709923 | postgres | 900004882 |       1 |                  18 | gar_tmp  | adr_house  |    75066 |       6 | ../../tmp/up_prds_20230206/DATA/adr_house_09.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            7 | 2023-02-13     | f              |         9 | Калмыкия Респ | 2023-02-16 02:16:47.604006 | postgres | 900004898 |       1 |                  19 | gar_tmp  | adr_area   |      763 |     281 | ../../tmp/up_prds_20230213/DATA/adr_area_09.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            7 | 2023-02-13     | f              |         9 | Калмыкия Респ | 2023-02-16 02:16:47.604006 | postgres | 900004898 |       1 |                  20 | gar_tmp  | adr_street |     3005 |       0 | ../../tmp/up_prds_20230213/DATA/adr_street_09.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            7 | 2023-02-13     | f              |         9 | Калмыкия Респ | 2023-02-16 02:16:47.604006 | postgres | 900004898 |       1 |                  21 | gar_tmp  | adr_house  |    75071 |      16 | ../../tmp/up_prds_20230213/DATA/adr_house_09.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            8 | 2023-02-16     | f              |         9 | Калмыкия Респ | 2023-02-20 11:43:43.465109 | postgres | 900004909 |       1 |                  22 | gar_tmp  | adr_area   |      763 |     280 | ../../tmp/up_prds_20230216/DATA/adr_area_09.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            8 | 2023-02-16     | f              |         9 | Калмыкия Респ | 2023-02-20 11:43:43.465109 | postgres | 900004909 |       1 |                  23 | gar_tmp  | adr_street |     3005 |       0 | ../../tmp/up_prds_20230216/DATA/adr_street_09.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            8 | 2023-02-16     | f              |         9 | Калмыкия Респ | 2023-02-20 11:43:43.465109 | postgres | 900004909 |       1 |                  24 | gar_tmp  | adr_house  |    75072 |       3 | ../../tmp/up_prds_20230216/DATA/adr_house_09.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            9 | 2023-02-21     | f              |         9 | Калмыкия Респ | 2023-02-23 10:18:02.025058 | postgres | 900004926 |       1 |                  25 | gar_tmp  | adr_area   |      763 |     280 | ../../tmp/up_prds_20230221/DATA/adr_area_09.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            9 | 2023-02-21     | f              |         9 | Калмыкия Респ | 2023-02-23 10:18:02.025058 | postgres | 900004926 |       1 |                  26 | gar_tmp  | adr_street |     3005 |       0 | ../../tmp/up_prds_20230221/DATA/adr_street_09.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            9 | 2023-02-21     | f              |         9 | Калмыкия Респ | 2023-02-23 10:18:02.025058 | postgres | 900004926 |       1 |                  27 | gar_tmp  | adr_house  |    75079 |       8 | ../../tmp/up_prds_20230221/DATA/adr_house_09.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           11 | 2023-02-27     | f              |         9 | Калмыкия Респ | 2023-03-01 04:22:40.004095 | postgres | 900004936 |       1 |                  31 | gar_tmp  | adr_area   |      763 |     280 | ../../tmp/up_prds_20230227/DATA/adr_area_09.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           11 | 2023-02-27     | f              |         9 | Калмыкия Респ | 2023-03-01 04:22:40.004095 | postgres | 900004936 |       1 |                  32 | gar_tmp  | adr_street |     3005 |       0 | ../../tmp/up_prds_20230227/DATA/adr_street_09.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           11 | 2023-02-27     | f              |         9 | Калмыкия Респ | 2023-03-01 04:22:40.004095 | postgres | 900004936 |       1 |                  33 | gar_tmp  | adr_house  |    75079 |       0 | ../../tmp/up_prds_20230227/DATA/adr_house_09.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           12 | 2023-03-02     | f              |         9 | Калмыкия Респ | 2023-03-04 05:15:35.381889 | postgres | 900004948 |       1 |                  34 | gar_tmp  | adr_area   |      763 |     280 | ../../tmp/up_prds_20230302/DATA/adr_area_09.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           12 | 2023-03-02     | f              |         9 | Калмыкия Респ | 2023-03-04 05:15:35.381889 | postgres | 900004948 |       1 |                  35 | gar_tmp  | adr_street |     3006 |       1 | ../../tmp/up_prds_20230302/DATA/adr_street_09.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           12 | 2023-03-02     | f              |         9 | Калмыкия Респ | 2023-03-04 05:15:35.381889 | postgres | 900004948 |       1 |                  36 | gar_tmp  | adr_house  |    75090 |      11 | ../../tmp/up_prds_20230302/DATA/adr_house_09.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           13 | 2023-03-06     | f              |         9 | Калмыкия Респ | 2023-03-09 12:06:29.187361 | postgres | 900004958 |       1 |                  37 | gar_tmp  | adr_area   |      763 |     280 | ../../tmp/up_prds_20230306/DATA/adr_area_09.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           13 | 2023-03-06     | f              |         9 | Калмыкия Респ | 2023-03-09 12:06:29.187361 | postgres | 900004958 |       1 |                  38 | gar_tmp  | adr_street |     3006 |       0 | ../../tmp/up_prds_20230306/DATA/adr_street_09.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           13 | 2023-03-06     | f              |         9 | Калмыкия Респ | 2023-03-09 12:06:29.187361 | postgres | 900004958 |       1 |                  39 | gar_tmp  | adr_house  |    75090 |       7 | ../../tmp/up_prds_20230306/DATA/adr_house_09.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           14 | 2023-03-09     | f              |         9 | Калмыкия Респ | 2023-03-15 01:46:51.994377 | postgres | 900004958 |       1 |                  40 | gar_tmp  | adr_area   |      763 |     280 | ../../tmp/up_prds_20230309/DATA/adr_area_09.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           14 | 2023-03-09     | f              |         9 | Калмыкия Респ | 2023-03-15 01:46:51.994377 | postgres | 900004958 |       1 |                  41 | gar_tmp  | adr_street |     3006 |       0 | ../../tmp/up_prds_20230309/DATA/adr_street_09.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           14 | 2023-03-09     | f              |         9 | Калмыкия Респ | 2023-03-15 01:46:51.994377 | postgres | 900004958 |       1 |                  42 | gar_tmp  | adr_house  |    75090 |       0 | ../../tmp/up_prds_20230309/DATA/adr_house_09.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           15 | 2023-03-13     | f              |         9 | Калмыкия Респ | 2023-03-16 10:55:33.627662 | postgres | 900004959 |       1 |                  43 | gar_tmp  | adr_area   |      763 |       0 | ../../tmp/up_prds_20230313/DATA/adr_area_09.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           15 | 2023-03-13     | f              |         9 | Калмыкия Респ | 2023-03-16 10:55:33.627662 | postgres | 900004959 |       1 |                  44 | gar_tmp  | adr_street |     3006 |       0 | ../../tmp/up_prds_20230313/DATA/adr_street_09.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           15 | 2023-03-13     | f              |         9 | Калмыкия Респ | 2023-03-16 10:55:33.627662 | postgres | 900004959 |       1 |                  45 | gar_tmp  | adr_house  |    75091 |     462 | ../../tmp/up_prds_20230313/DATA/adr_house_09.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           16 | 2023-03-16     | f              |         9 | Калмыкия Респ | 2023-03-18 06:47:56.798592 | postgres | 900004973 |       1 |                  46 | gar_tmp  | adr_area   |      763 |       0 | ../../tmp/up_prds_20230316/DATA/adr_area_09.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           16 | 2023-03-16     | f              |         9 | Калмыкия Респ | 2023-03-18 06:47:56.798592 | postgres | 900004973 |       1 |                  47 | gar_tmp  | adr_street |     3006 |       0 | ../../tmp/up_prds_20230316/DATA/adr_street_09.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           16 | 2023-03-16     | f              |         9 | Калмыкия Респ | 2023-03-18 06:47:56.798592 | postgres | 900004973 |       1 |                  48 | gar_tmp  | adr_house  |    75095 |       4 | ../../tmp/up_prds_20230316/DATA/adr_house_09.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           17 | 2023-03-20     | f              |         9 | Калмыкия Респ | 2023-03-22 12:07:57.507872 | postgres | 900004991 |       1 |                  49 | gar_tmp  | adr_area   |      763 |       0 | ../../tmp/up_prds_20230320/DATA/adr_area_09.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           17 | 2023-03-20     | f              |         9 | Калмыкия Респ | 2023-03-22 12:07:57.507872 | postgres | 900004991 |       1 |                  50 | gar_tmp  | adr_street |     3006 |       0 | ../../tmp/up_prds_20230320/DATA/adr_street_09.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           17 | 2023-03-20     | f              |         9 | Калмыкия Респ | 2023-03-22 12:07:57.507872 | postgres | 900004991 |       1 |                  51 | gar_tmp  | adr_house  |    75103 |      34 | ../../tmp/up_prds_20230320/DATA/adr_house_09.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           18 | 2023-03-23     | f              |         9 | Калмыкия Респ | 2023-03-25 06:33:08.87384  | postgres | 900005003 |       1 |                  52 | gar_tmp  | adr_area   |      763 |       0 | ../../tmp/up_prds_20230323/DATA/adr_area_09.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           18 | 2023-03-23     | f              |         9 | Калмыкия Респ | 2023-03-25 06:33:08.87384  | postgres | 900005003 |       1 |                  53 | gar_tmp  | adr_street |     3006 |       0 | ../../tmp/up_prds_20230323/DATA/adr_street_09.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           18 | 2023-03-23     | f              |         9 | Калмыкия Респ | 2023-03-25 06:33:08.87384  | postgres | 900005003 |       1 |                  54 | gar_tmp  | adr_house  |    75105 |       2 | ../../tmp/up_prds_20230323/DATA/adr_house_09.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           19 | 2023-03-27     | f              |         9 | Калмыкия Респ | 2023-03-31 10:30:03.551958 | postgres | 900005014 |       1 |                  55 | gar_tmp  | adr_area   |      763 |       0 | ../../tmp/up_prds_20230327/DATA/adr_area_09.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           19 | 2023-03-27     | f              |         9 | Калмыкия Респ | 2023-03-31 10:30:03.551958 | postgres | 900005014 |       1 |                  56 | gar_tmp  | adr_street |     3006 |       0 | ../../tmp/up_prds_20230327/DATA/adr_street_09.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           19 | 2023-03-27     | f              |         9 | Калмыкия Респ | 2023-03-31 10:30:03.551958 | postgres | 900005014 |       1 |                  57 | gar_tmp  | adr_house  |    75106 |       1 | ../../tmp/up_prds_20230327/DATA/adr_house_09.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           20 | 2023-04-04     | f              |         9 | Калмыкия Респ | 2023-04-06 10:01:11.606391 | postgres | 900005050 |       1 |                  58 | gar_tmp  | adr_area   |      763 |       0 | ../../tmp/up_prds_20230404/DATA/adr_area_09.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           20 | 2023-04-04     | f              |         9 | Калмыкия Респ | 2023-04-06 10:01:11.606391 | postgres | 900005050 |       1 |                  59 | gar_tmp  | adr_street |     3006 |       0 | ../../tmp/up_prds_20230404/DATA/adr_street_09.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           20 | 2023-04-04     | f              |         9 | Калмыкия Респ | 2023-04-06 10:01:11.606391 | postgres | 900005050 |       1 |                  60 | gar_tmp  | adr_house  |    75132 |      26 | ../../tmp/up_prds_20230404/DATA/adr_house_09.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           21 | 2023-04-06     | f              |         9 | Калмыкия Респ | 2023-04-09 13:19:48.730013 | postgres | 900005061 |       1 |                  61 | gar_tmp  | adr_area   |      763 |       0 | ../../tmp/up_prds_20230406/DATA/adr_area_09.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           21 | 2023-04-06     | f              |         9 | Калмыкия Респ | 2023-04-09 13:19:48.730013 | postgres | 900005061 |       1 |                  62 | gar_tmp  | adr_street |     3006 |       0 | ../../tmp/up_prds_20230406/DATA/adr_street_09.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           21 | 2023-04-06     | f              |         9 | Калмыкия Респ | 2023-04-09 13:19:48.730013 | postgres | 900005061 |       1 |                  63 | gar_tmp  | adr_house  |    75133 |       1 | ../../tmp/up_prds_20230406/DATA/adr_house_09.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           22 | 2023-04-10     | f              |         9 | Калмыкия Респ | 2023-04-13 09:45:07.406687 | postgres | 900005073 |       1 |                  64 | gar_tmp  | adr_area   |      763 |       0 | ../../tmp/up_prds_20230410/DATA/adr_area_09.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           22 | 2023-04-10     | f              |         9 | Калмыкия Респ | 2023-04-13 09:45:07.406687 | postgres | 900005073 |       1 |                  65 | gar_tmp  | adr_street |     3006 |       0 | ../../tmp/up_prds_20230410/DATA/adr_street_09.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           22 | 2023-04-10     | f              |         9 | Калмыкия Респ | 2023-04-13 09:45:07.406687 | postgres | 900005073 |       1 |                  66 | gar_tmp  | adr_house  |    75135 |       2 | ../../tmp/up_prds_20230410/DATA/adr_house_09.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           23 | 2023-04-13     | f              |         9 | Калмыкия Респ | 2023-04-15 11:40:13.17134  | postgres | 900005083 |       1 |                  67 | gar_tmp  | adr_area   |      763 |       0 | ../../tmp/up_prds_20230413/DATA/adr_area_09.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           23 | 2023-04-13     | f              |         9 | Калмыкия Респ | 2023-04-15 11:40:13.17134  | postgres | 900005083 |       1 |                  68 | gar_tmp  | adr_street |     3006 |       0 | ../../tmp/up_prds_20230413/DATA/adr_street_09.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           23 | 2023-04-13     | f              |         9 | Калмыкия Респ | 2023-04-15 11:40:13.17134  | postgres | 900005083 |       1 |                  69 | gar_tmp  | adr_house  |    75135 |       0 | ../../tmp/up_prds_20230413/DATA/adr_house_09.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           24 | 2023-04-17     | f              |         9 | Калмыкия Респ | 2023-04-21 02:39:01.43557  | postgres | 900005084 |       1 |                  70 | gar_tmp  | adr_area   |      763 |       0 | ../../tmp/up_prds_20230417/DATA/adr_area_09.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           24 | 2023-04-17     | f              |         9 | Калмыкия Респ | 2023-04-21 02:39:01.43557  | postgres | 900005084 |       1 |                  71 | gar_tmp  | adr_street |     3006 |       0 | ../../tmp/up_prds_20230417/DATA/adr_street_09.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           24 | 2023-04-17     | f              |         9 | Калмыкия Респ | 2023-04-21 02:39:01.43557  | postgres | 900005084 |       1 |                  72 | gar_tmp  | adr_house  |    75136 |       1 | ../../tmp/up_prds_20230417/DATA/adr_house_09.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           25 | 2023-04-20     | f              |         9 | Калмыкия Респ | 2023-04-26 02:13:50.814383 | postgres | 900005101 |       1 |                  73 | gar_tmp  | adr_area   |      763 |       0 | ../../tmp/up_prds_20230420/DATA/adr_area_09.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           25 | 2023-04-20     | f              |         9 | Калмыкия Респ | 2023-04-26 02:13:50.814383 | postgres | 900005101 |       1 |                  74 | gar_tmp  | adr_street |     3006 |       0 | ../../tmp/up_prds_20230420/DATA/adr_street_09.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           25 | 2023-04-20     | f              |         9 | Калмыкия Респ | 2023-04-26 02:13:50.814383 | postgres | 900005101 |       1 |                  75 | gar_tmp  | adr_house  |    75143 |       7 | ../../tmp/up_prds_20230420/DATA/adr_house_09.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           26 | 2023-04-24     | f              |         9 | Калмыкия Респ | 2023-04-28 13:01:17.526842 | postgres | 900005111 |       1 |                  76 | gar_tmp  | adr_area   |      763 |       0 | ../../tmp/up_prds_20230424/DATA/adr_area_09.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           26 | 2023-04-24     | f              |         9 | Калмыкия Респ | 2023-04-28 13:01:17.526842 | postgres | 900005111 |       1 |                  77 | gar_tmp  | adr_street |     3006 |       0 | ../../tmp/up_prds_20230424/DATA/adr_street_09.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           26 | 2023-04-24     | f              |         9 | Калмыкия Респ | 2023-04-28 13:01:17.526842 | postgres | 900005111 |       1 |                  78 | gar_tmp  | adr_house  |    75143 |       0 | ../../tmp/up_prds_20230424/DATA/adr_house_09.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           27 | 2023-05-04     | f              |         9 | Калмыкия Респ | 2023-05-06 07:59:13.404679 | postgres | 900005150 |       1 |                  79 | gar_tmp  | adr_area   |      763 |       0 | ../../tmp/up_prds_20230504/DATA/adr_area_09.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           27 | 2023-05-04     | f              |         9 | Калмыкия Респ | 2023-05-06 07:59:13.404679 | postgres | 900005150 |       1 |                  80 | gar_tmp  | adr_street |     3007 |       1 | ../../tmp/up_prds_20230504/DATA/adr_street_09.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           27 | 2023-05-04     | f              |         9 | Калмыкия Респ | 2023-05-06 07:59:13.404679 | postgres | 900005150 |       1 |                  81 | gar_tmp  | adr_house  |    75181 |      38 | ../../tmp/up_prds_20230504/DATA/adr_house_09.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           28 | 2023-05-08     | f              |         9 | Калмыкия Респ | 2023-05-11 09:35:17.143631 | postgres | 900005160 |       1 |                  82 | gar_tmp  | adr_area   |      763 |       0 | ../../tmp/up_prds_20230508/DATA/adr_area_09.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           28 | 2023-05-08     | f              |         9 | Калмыкия Респ | 2023-05-11 09:35:17.143631 | postgres | 900005160 |       1 |                  83 | gar_tmp  | adr_street |     3007 |       0 | ../../tmp/up_prds_20230508/DATA/adr_street_09.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           28 | 2023-05-08     | f              |         9 | Калмыкия Респ | 2023-05-11 09:35:17.143631 | postgres | 900005160 |       1 |                  84 | gar_tmp  | adr_house  |    75181 |       0 | ../../tmp/up_prds_20230508/DATA/adr_house_09.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           29 | 2023-05-11     | f              |         9 | Калмыкия Респ | 2023-05-16 11:14:41.9212   | postgres | 900005160 |       1 |                  85 | gar_tmp  | adr_area   |      763 |       0 | ../../tmp/up_prds_20230511/DATA/adr_area_09.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           29 | 2023-05-11     | f              |         9 | Калмыкия Респ | 2023-05-16 11:14:41.9212   | postgres | 900005160 |       1 |                  86 | gar_tmp  | adr_street |     3007 |       0 | ../../tmp/up_prds_20230511/DATA/adr_street_09.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           29 | 2023-05-11     | f              |         9 | Калмыкия Респ | 2023-05-16 11:14:41.9212   | postgres | 900005160 |       1 |                  87 | gar_tmp  | adr_house  |    75181 |       0 | ../../tmp/up_prds_20230511/DATA/adr_house_09.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           30 | 2023-05-15     | f              |         9 | Калмыкия Респ | 2023-05-18 09:50:42.432984 | postgres | 900005160 |       1 |                  88 | gar_tmp  | adr_area   |      763 |       0 | ../../tmp/up_prds_20230515/DATA/adr_area_09.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           30 | 2023-05-15     | f              |         9 | Калмыкия Респ | 2023-05-18 09:50:42.432984 | postgres | 900005160 |       1 |                  89 | gar_tmp  | adr_street |     3007 |       0 | ../../tmp/up_prds_20230515/DATA/adr_street_09.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           30 | 2023-05-15     | f              |         9 | Калмыкия Респ | 2023-05-18 09:50:42.432984 | postgres | 900005160 |       1 |                  90 | gar_tmp  | adr_house  |    75181 |       7 | ../../tmp/up_prds_20230515/DATA/adr_house_09.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           31 | 2023-05-18     | f              |         9 | Калмыкия Респ | 2023-05-24 03:18:51.022601 | postgres | 900005207 |       1 |                  91 | gar_tmp  | adr_area   |      763 |       0 | ../../tmp/up_prds_20230518/DATA/adr_area_09.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           31 | 2023-05-18     | f              |         9 | Калмыкия Респ | 2023-05-24 03:18:51.022601 | postgres | 900005207 |       1 |                  92 | gar_tmp  | adr_street |     3007 |       0 | ../../tmp/up_prds_20230518/DATA/adr_street_09.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           31 | 2023-05-18     | f              |         9 | Калмыкия Респ | 2023-05-24 03:18:51.022601 | postgres | 900005207 |       1 |                  93 | gar_tmp  | adr_house  |    75228 |      47 | ../../tmp/up_prds_20230518/DATA/adr_house_09.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           32 | 2023-05-22     | f              |         9 | Калмыкия Респ | 2023-05-30 04:43:52.956939 | postgres | 900005217 |       1 |                  94 | gar_tmp  | adr_area   |      763 |       0 | ../../tmp/up_prds_20230522/DATA/adr_area_09.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           32 | 2023-05-22     | f              |         9 | Калмыкия Респ | 2023-05-30 04:43:52.956939 | postgres | 900005217 |       1 |                  95 | gar_tmp  | adr_street |     3007 |       0 | ../../tmp/up_prds_20230522/DATA/adr_street_09.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           32 | 2023-05-22     | f              |         9 | Калмыкия Респ | 2023-05-30 04:43:52.956939 | postgres | 900005217 |       1 |                  96 | gar_tmp  | adr_house  |    75228 |       0 | ../../tmp/up_prds_20230522/DATA/adr_house_09.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           34 | 2023-05-25     | f              |         9 | Калмыкия Респ | 2023-05-31 04:38:25.119889 | postgres | 900005217 |       1 |                 100 | gar_tmp  | adr_area   |      763 |       0 | ../../tmp/up_prds_20230525/DATA/adr_area_09.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           34 | 2023-05-25     | f              |         9 | Калмыкия Респ | 2023-05-31 04:38:25.119889 | postgres | 900005217 |       1 |                 101 | gar_tmp  | adr_street |     3007 |       0 | ../../tmp/up_prds_20230525/DATA/adr_street_09.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           34 | 2023-05-25     | f              |         9 | Калмыкия Респ | 2023-05-31 04:38:25.119889 | postgres | 900005217 |       1 |                 102 | gar_tmp  | adr_house  |    75228 |       0 | ../../tmp/up_prds_20230525/DATA/adr_house_09.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           36 | 2023-05-29     | f              |         9 | Калмыкия Респ | 2023-06-03 02:28:03.318075 | postgres | 900005217 |       1 |                 103 | gar_tmp  | adr_area   |      763 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230529/DATA/adr_area_09.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           36 | 2023-05-29     | f              |         9 | Калмыкия Респ | 2023-06-03 02:28:03.318075 | postgres | 900005217 |       1 |                 104 | gar_tmp  | adr_street |     3007 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230529/DATA/adr_street_09.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           36 | 2023-05-29     | f              |         9 | Калмыкия Респ | 2023-06-03 02:28:03.318075 | postgres | 900005217 |       1 |                 105 | gar_tmp  | adr_house  |    75228 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230529/DATA/adr_house_09.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           38 | 2023-06-05     | f              |         9 | Калмыкия Респ | 2023-06-14 23:00:38.123601 | postgres | 900005220 |       1 |                 109 | gar_tmp  | adr_area   |      763 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230605/DATA/adr_area_09.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           38 | 2023-06-05     | f              |         9 | Калмыкия Респ | 2023-06-14 23:00:38.123601 | postgres | 900005220 |       1 |                 110 | gar_tmp  | adr_street |     3007 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230605/DATA/adr_street_09.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           38 | 2023-06-05     | f              |         9 | Калмыкия Респ | 2023-06-14 23:00:38.123601 | postgres | 900005220 |       1 |                 111 | gar_tmp  | adr_house  |    75231 |       3 | /home/n.chadaev@abrr.local/tmp/up_prds_20230605/DATA/adr_house_09.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           40 | 2023-06-08     | f              |         9 | Калмыкия Респ | 2023-06-16 12:15:34.664526 | postgres | 900005231 |       1 |                 115 | gar_tmp  | adr_area   |      763 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230608/DATA/adr_area_09.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           40 | 2023-06-08     | f              |         9 | Калмыкия Респ | 2023-06-16 12:15:34.664526 | postgres | 900005231 |       1 |                 116 | gar_tmp  | adr_street |     3007 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230608/DATA/adr_street_09.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           40 | 2023-06-08     | f              |         9 | Калмыкия Респ | 2023-06-16 12:15:34.664526 | postgres | 900005231 |       1 |                 117 | gar_tmp  | adr_house  |    75232 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230608/DATA/adr_house_09.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           41 | 2023-06-14     | f              |         9 | Калмыкия Респ | 2023-06-18 00:41:56.327489 | postgres | 900005241 |       1 |                 118 | gar_tmp  | adr_area   |      763 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230614/DATA/adr_area_09.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           41 | 2023-06-14     | f              |         9 | Калмыкия Респ | 2023-06-18 00:41:56.327489 | postgres | 900005241 |       1 |                 119 | gar_tmp  | adr_street |     3007 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230614/DATA/adr_street_09.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           41 | 2023-06-14     | f              |         9 | Калмыкия Респ | 2023-06-18 00:41:56.327489 | postgres | 900005241 |       1 |                 120 | gar_tmp  | adr_house  |    75232 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230614/DATA/adr_house_09.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           42 | 2023-06-19     | f              |         9 | Калмыкия Респ | 2023-06-22 08:47:07.905804 | postgres | 900005242 |       1 |                 121 | gar_tmp  | adr_area   |      763 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230619/DATA/adr_area_09.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           42 | 2023-06-19     | f              |         9 | Калмыкия Респ | 2023-06-22 08:47:07.905804 | postgres | 900005242 |       1 |                 122 | gar_tmp  | adr_street |     3007 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230619/DATA/adr_street_09.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           42 | 2023-06-19     | f              |         9 | Калмыкия Респ | 2023-06-22 08:47:07.905804 | postgres | 900005242 |       1 |                 123 | gar_tmp  | adr_house  |    75233 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230619/DATA/adr_house_09.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           43 | 2023-06-22     | f              |         9 | Калмыкия Респ | 2023-06-23 20:21:59.628764 | postgres | 900005253 |       1 |                 124 | gar_tmp  | adr_area   |      763 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230622/DATA/adr_area_09.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           43 | 2023-06-22     | f              |         9 | Калмыкия Респ | 2023-06-23 20:21:59.628764 | postgres | 900005253 |       1 |                 125 | gar_tmp  | adr_street |     3007 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230622/DATA/adr_street_09.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           43 | 2023-06-22     | f              |         9 | Калмыкия Респ | 2023-06-23 20:21:59.628764 | postgres | 900005253 |       1 |                 126 | gar_tmp  | adr_house  |    75234 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230622/DATA/adr_house_09.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           44 | 2023-06-26     | f              |         9 | Калмыкия Респ | 2023-06-27 12:45:37.457228 | postgres | 900005265 |       1 |                 127 | gar_tmp  | adr_area   |      763 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230626/DATA/adr_area_09.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           44 | 2023-06-26     | f              |         9 | Калмыкия Респ | 2023-06-27 12:45:37.457228 | postgres | 900005265 |       1 |                 128 | gar_tmp  | adr_street |     3007 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230626/DATA/adr_street_09.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           44 | 2023-06-26     | f              |         9 | Калмыкия Респ | 2023-06-27 12:45:37.457228 | postgres | 900005265 |       1 |                 129 | gar_tmp  | adr_house  |    75236 |       2 | /home/n.chadaev@abrr.local/tmp/up_prds_20230626/DATA/adr_house_09.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           45 | 2023-06-29     | f              |         9 | Калмыкия Респ | 2023-06-30 18:07:29.351319 | postgres | 900005278 |       1 |                 130 | gar_tmp  | adr_area   |      763 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230629/DATA/adr_area_09.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           45 | 2023-06-29     | f              |         9 | Калмыкия Респ | 2023-06-30 18:07:29.351319 | postgres | 900005278 |       1 |                 131 | gar_tmp  | adr_street |     3007 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230629/DATA/adr_street_09.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           45 | 2023-06-29     | f              |         9 | Калмыкия Респ | 2023-06-30 18:07:29.351319 | postgres | 900005278 |       1 |                 132 | gar_tmp  | adr_house  |    75239 |       4 | /home/n.chadaev@abrr.local/tmp/up_prds_20230629/DATA/adr_house_09.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           46 | 2023-07-07     | f              |         9 | Калмыкия Респ | 2023-07-07 14:06:58.909667 | postgres | 900005289 |       1 |                 133 | gar_tmp  | adr_area   |      763 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230707/DATA/adr_area_09.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           46 | 2023-07-07     | f              |         9 | Калмыкия Респ | 2023-07-07 14:06:58.909667 | postgres | 900005289 |       1 |                 134 | gar_tmp  | adr_street |     3007 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230707/DATA/adr_street_09.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           46 | 2023-07-07     | f              |         9 | Калмыкия Респ | 2023-07-07 14:06:58.909667 | postgres | 900005289 |       1 |                 135 | gar_tmp  | adr_house  |    75240 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230707/DATA/adr_house_09.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           47 | 2023-07-10     | f              |         9 | Калмыкия Респ | 2023-07-11 14:53:13.429632 | postgres | 900005299 |       1 |                 136 | gar_tmp  | adr_area   |      763 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230710/DATA/adr_area_09.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           47 | 2023-07-10     | f              |         9 | Калмыкия Респ | 2023-07-11 14:53:13.429632 | postgres | 900005299 |       1 |                 137 | gar_tmp  | adr_street |     3007 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230710/DATA/adr_street_09.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           47 | 2023-07-10     | f              |         9 | Калмыкия Респ | 2023-07-11 14:53:13.429632 | postgres | 900005299 |       1 |                 138 | gar_tmp  | adr_house  |    75240 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230710/DATA/adr_house_09.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           48 | 2023-07-13     | f              |         9 | Калмыкия Респ | 2023-07-14 14:01:13.639717 | postgres | 900005305 |       1 |                 139 | gar_tmp  | adr_area   |      763 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230713/DATA/adr_area_09.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           48 | 2023-07-13     | f              |         9 | Калмыкия Респ | 2023-07-14 14:01:13.639717 | postgres | 900005305 |       1 |                 140 | gar_tmp  | adr_street |     3007 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230713/DATA/adr_street_09.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           48 | 2023-07-13     | f              |         9 | Калмыкия Респ | 2023-07-14 14:01:13.639717 | postgres | 900005305 |       1 |                 141 | gar_tmp  | adr_house  |    75246 |       6 | /home/n.chadaev@abrr.local/tmp/up_prds_20230713/DATA/adr_house_09.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           49 | 2023-07-17     | f              |         9 | Калмыкия Респ | 2023-07-18 14:12:38.636089 | postgres | 900005316 |       1 |                 142 | gar_tmp  | adr_area   |      763 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230717/DATA/adr_area_09.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           49 | 2023-07-17     | f              |         9 | Калмыкия Респ | 2023-07-18 14:12:38.636089 | postgres | 900005316 |       1 |                 143 | gar_tmp  | adr_street |     3007 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230717/DATA/adr_street_09.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           49 | 2023-07-17     | f              |         9 | Калмыкия Респ | 2023-07-18 14:12:38.636089 | postgres | 900005316 |       1 |                 144 | gar_tmp  | adr_house  |    75247 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230717/DATA/adr_house_09.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           50 | 2023-07-20     | f              |         9 | Калмыкия Респ | 2023-07-21 14:45:15.157335 | postgres | 900005326 |       1 |                 145 | gar_tmp  | adr_area   |      763 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230720/DATA/adr_area_09.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           50 | 2023-07-20     | f              |         9 | Калмыкия Респ | 2023-07-21 14:45:15.157335 | postgres | 900005326 |       1 |                 146 | gar_tmp  | adr_street |     3007 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230720/DATA/adr_street_09.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           50 | 2023-07-20     | f              |         9 | Калмыкия Респ | 2023-07-21 14:45:15.157335 | postgres | 900005326 |       1 |                 147 | gar_tmp  | adr_house  |    75247 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230720/DATA/adr_house_09.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           51 | 2023-07-24     | f              |         9 | Калмыкия Респ | 2023-07-25 13:42:00.620356 | postgres | 900005329 |       1 |                 148 | gar_tmp  | adr_area   |      763 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230724/DATA/adr_area_09.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           51 | 2023-07-24     | f              |         9 | Калмыкия Респ | 2023-07-25 13:42:00.620356 | postgres | 900005329 |       1 |                 149 | gar_tmp  | adr_street |     3007 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230724/DATA/adr_street_09.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           51 | 2023-07-24     | f              |         9 | Калмыкия Респ | 2023-07-25 13:42:00.620356 | postgres | 900005329 |       1 |                 150 | gar_tmp  | adr_house  |    75250 |       3 | /home/n.chadaev@abrr.local/tmp/up_prds_20230724/DATA/adr_house_09.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           52 | 2023-07-27     | f              |         9 | Калмыкия Респ | 2023-07-28 17:12:05.493596 | postgres | 900005344 |       1 |                 151 | gar_tmp  | adr_area   |      763 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230727/DATA/adr_area_09.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           52 | 2023-07-27     | f              |         9 | Калмыкия Респ | 2023-07-28 17:12:05.493596 | postgres | 900005344 |       1 |                 152 | gar_tmp  | adr_street |     3010 |       3 | /home/n.chadaev@abrr.local/tmp/up_prds_20230727/DATA/adr_street_09.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           52 | 2023-07-27     | f              |         9 | Калмыкия Респ | 2023-07-28 17:12:05.493596 | postgres | 900005344 |       1 |                 153 | gar_tmp  | adr_house  |    75252 |       2 | /home/n.chadaev@abrr.local/tmp/up_prds_20230727/DATA/adr_house_09.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           53 | 2023-07-31     | f              |         9 | Калмыкия Респ | 2023-08-04 11:22:16.224893 | postgres | 900005357 |       1 |                 154 | gar_tmp  | adr_area   |      763 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230731/DATA/adr_area_09.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           53 | 2023-07-31     | f              |         9 | Калмыкия Респ | 2023-08-04 11:22:16.224893 | postgres | 900005357 |       1 |                 155 | gar_tmp  | adr_street |     3010 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230731/DATA/adr_street_09.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           53 | 2023-07-31     | f              |         9 | Калмыкия Респ | 2023-08-04 11:22:16.224893 | postgres | 900005357 |       1 |                 156 | gar_tmp  | adr_house  |    75255 |       3 | /home/n.chadaev@abrr.local/tmp/up_prds_20230731/DATA/adr_house_09.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           55 | 2023-08-03     | f              |         9 | Калмыкия Респ | 2023-08-06 16:55:43.980296 | postgres | 900005367 |       1 |                 160 | gar_tmp  | adr_area   |      763 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230803/DATA/adr_area_09.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           55 | 2023-08-03     | f              |         9 | Калмыкия Респ | 2023-08-06 16:55:43.980296 | postgres | 900005367 |       1 |                 161 | gar_tmp  | adr_street |     3010 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230803/DATA/adr_street_09.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           55 | 2023-08-03     | f              |         9 | Калмыкия Респ | 2023-08-06 16:55:43.980296 | postgres | 900005367 |       1 |                 162 | gar_tmp  | adr_house  |    75255 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230803/DATA/adr_house_09.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           56 | 2023-08-07     | f              |         9 | Калмыкия Респ | 2023-08-08 13:52:02.171988 | postgres | 900005367 |       1 |                 163 | gar_tmp  | adr_area   |      763 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230807/DATA/adr_area_09.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           56 | 2023-08-07     | f              |         9 | Калмыкия Респ | 2023-08-08 13:52:02.171988 | postgres | 900005367 |       1 |                 164 | gar_tmp  | adr_street |     3010 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230807/DATA/adr_street_09.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           56 | 2023-08-07     | f              |         9 | Калмыкия Респ | 2023-08-08 13:52:02.171988 | postgres | 900005367 |       1 |                 165 | gar_tmp  | adr_house  |    75255 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230807/DATA/adr_house_09.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           57 | 2023-08-14     | f              |         9 | Калмыкия Респ | 2023-08-15 16:57:58.0751   | postgres | 900005376 |       1 |                 166 | gar_tmp  | adr_area   |      763 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230814/DATA/adr_area_09.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           57 | 2023-08-14     | f              |         9 | Калмыкия Респ | 2023-08-15 16:57:58.0751   | postgres | 900005376 |       1 |                 167 | gar_tmp  | adr_street |     3010 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230814/DATA/adr_street_09.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           57 | 2023-08-14     | f              |         9 | Калмыкия Респ | 2023-08-15 16:57:58.0751   | postgres | 900005376 |       1 |                 168 | gar_tmp  | adr_house  |    75264 |      10 | /home/n.chadaev@abrr.local/tmp/up_prds_20230814/DATA/adr_house_09.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           58 | 2023-08-17     | f              |         9 | Калмыкия Респ | 2023-08-18 22:05:55.916029 | postgres | 900005390 |       1 |                 169 | gar_tmp  | adr_area   |      763 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230817/DATA/adr_area_09.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           58 | 2023-08-17     | f              |         9 | Калмыкия Респ | 2023-08-18 22:05:55.916029 | postgres | 900005390 |       1 |                 170 | gar_tmp  | adr_street |     3010 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230817/DATA/adr_street_09.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           58 | 2023-08-17     | f              |         9 | Калмыкия Респ | 2023-08-18 22:05:55.916029 | postgres | 900005390 |       1 |                 171 | gar_tmp  | adr_house  |    75268 |       4 | /home/n.chadaev@abrr.local/tmp/up_prds_20230817/DATA/adr_house_09.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           59 | 2023-08-21     | f              |         9 | Калмыкия Респ | 2023-08-22 17:03:55.538678 | postgres | 900005401 |       1 |                 172 | gar_tmp  | adr_area   |      763 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230821/DATA/adr_area_09.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           59 | 2023-08-21     | f              |         9 | Калмыкия Респ | 2023-08-22 17:03:55.538678 | postgres | 900005401 |       1 |                 173 | gar_tmp  | adr_street |     3010 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230821/DATA/adr_street_09.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           59 | 2023-08-21     | f              |         9 | Калмыкия Респ | 2023-08-22 17:03:55.538678 | postgres | 900005401 |       1 |                 174 | gar_tmp  | adr_house  |    75269 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230821/DATA/adr_house_09.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           60 | 2023-08-24     | f              |         9 | Калмыкия Респ | 2023-08-25 17:55:29.231316 | postgres | 900005411 |       1 |                 175 | gar_tmp  | adr_area   |      763 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230824/DATA/adr_area_09.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           60 | 2023-08-24     | f              |         9 | Калмыкия Респ | 2023-08-25 17:55:29.231316 | postgres | 900005411 |       1 |                 176 | gar_tmp  | adr_street |     3010 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230824/DATA/adr_street_09.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           60 | 2023-08-24     | f              |         9 | Калмыкия Респ | 2023-08-25 17:55:29.231316 | postgres | 900005411 |       1 |                 177 | gar_tmp  | adr_house  |    75269 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230824/DATA/adr_house_09.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           61 | 2023-08-28     | f              |         9 | Калмыкия Респ | 2023-08-29 14:06:58.155008 | postgres | 900005418 |       1 |                 178 | gar_tmp  | adr_area   |      763 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230828/DATA/adr_area_09.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           61 | 2023-08-28     | f              |         9 | Калмыкия Респ | 2023-08-29 14:06:58.155008 | postgres | 900005418 |       1 |                 179 | gar_tmp  | adr_street |     3010 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230828/DATA/adr_street_09.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           61 | 2023-08-28     | f              |         9 | Калмыкия Респ | 2023-08-29 14:06:58.155008 | postgres | 900005418 |       1 |                 180 | gar_tmp  | adr_house  |    75276 |       7 | /home/n.chadaev@abrr.local/tmp/up_prds_20230828/DATA/adr_house_09.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           62 | 2023-08-31     | f              |         9 | Калмыкия Респ | 2023-09-06 19:01:00.485929 | postgres | 900005429 |       1 |                 181 | gar_tmp  | adr_area   |      763 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230831/DATA/adr_area_09.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           62 | 2023-08-31     | f              |         9 | Калмыкия Респ | 2023-09-06 19:01:00.485929 | postgres | 900005429 |       1 |                 182 | gar_tmp  | adr_street |     3010 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230831/DATA/adr_street_09.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           62 | 2023-08-31     | f              |         9 | Калмыкия Респ | 2023-09-06 19:01:00.485929 | postgres | 900005429 |       1 |                 183 | gar_tmp  | adr_house  |    75277 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230831/DATA/adr_house_09.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           63 | 2023-09-04     | f              |         9 | Калмыкия Респ | 2023-09-08 11:27:55.975117 | postgres | 900005444 |       1 |                 184 | gar_tmp  | adr_area   |      763 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230904/DATA/adr_area_09.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           63 | 2023-09-04     | f              |         9 | Калмыкия Респ | 2023-09-08 11:27:55.975117 | postgres | 900005444 |       1 |                 185 | gar_tmp  | adr_street |     3010 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230904/DATA/adr_street_09.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           63 | 2023-09-04     | f              |         9 | Калмыкия Респ | 2023-09-08 11:27:55.975117 | postgres | 900005444 |       1 |                 186 | gar_tmp  | adr_house  |    75282 |       5 | /home/n.chadaev@abrr.local/tmp/up_prds_20230904/DATA/adr_house_09.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           64 | 2023-09-07     | f              |         9 | Калмыкия Респ | 2023-09-10 11:12:09.413138 | postgres | 900005455 |       1 |                 187 | gar_tmp  | adr_area   |      764 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230907/DATA/adr_area_09.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           64 | 2023-09-07     | f              |         9 | Калмыкия Респ | 2023-09-10 11:12:09.413138 | postgres | 900005455 |       1 |                 188 | gar_tmp  | adr_street |     3010 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230907/DATA/adr_street_09.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           64 | 2023-09-07     | f              |         9 | Калмыкия Респ | 2023-09-10 11:12:09.413138 | postgres | 900005455 |       1 |                 189 | gar_tmp  | adr_house  |    75282 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230907/DATA/adr_house_09.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           65 | 2023-09-11     | f              |         9 | Калмыкия Респ | 2023-09-12 22:20:03.342486 | postgres | 900005470 |       1 |                 190 | gar_tmp  | adr_area   |      764 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230911/DATA/adr_area_09.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           65 | 2023-09-11     | f              |         9 | Калмыкия Респ | 2023-09-12 22:20:03.342486 | postgres | 900005470 |       1 |                 191 | gar_tmp  | adr_street |     3010 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230911/DATA/adr_street_09.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           65 | 2023-09-11     | f              |         9 | Калмыкия Респ | 2023-09-12 22:20:03.342486 | postgres | 900005470 |       1 |                 192 | gar_tmp  | adr_house  |    75287 |       5 | /home/n.chadaev@abrr.local/tmp/up_prds_20230911/DATA/adr_house_09.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           66 | 2023-09-15     | f              |         9 | Калмыкия Респ | 2023-09-18 11:26:06.479499 | postgres | 900005494 |       1 |                 193 | gar_tmp  | adr_area   |      765 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230915/DATA/adr_area_09.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           66 | 2023-09-15     | f              |         9 | Калмыкия Респ | 2023-09-18 11:26:06.479499 | postgres | 900005494 |       1 |                 194 | gar_tmp  | adr_street |     3010 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230915/DATA/adr_street_09.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           66 | 2023-09-15     | f              |         9 | Калмыкия Респ | 2023-09-18 11:26:06.479499 | postgres | 900005494 |       1 |                 195 | gar_tmp  | adr_house  |    75300 |      13 | /home/n.chadaev@abrr.local/tmp/up_prds_20230915/DATA/adr_house_09.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           67 | 2023-09-18     | f              |         9 | Калмыкия Респ | 2023-09-21 17:40:44.277419 | postgres | 900005506 |       1 |                 196 | gar_tmp  | adr_area   |      765 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230918/DATA/adr_area_09.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           67 | 2023-09-18     | f              |         9 | Калмыкия Респ | 2023-09-21 17:40:44.277419 | postgres | 900005506 |       1 |                 197 | gar_tmp  | adr_street |     3011 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230918/DATA/adr_street_09.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           67 | 2023-09-18     | f              |         9 | Калмыкия Респ | 2023-09-21 17:40:44.277419 | postgres | 900005506 |       1 |                 198 | gar_tmp  | adr_house  |    75301 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230918/DATA/adr_house_09.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           68 | 0223-09-25     | f              |         9 | Калмыкия Респ | 2023-09-26 18:32:23.557814 | postgres | 900005522 |       1 |                 199 | gar_tmp  | adr_area   |      765 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_2230925/DATA/adr_area_09.sql    | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           68 | 0223-09-25     | f              |         9 | Калмыкия Респ | 2023-09-26 18:32:23.557814 | postgres | 900005522 |       1 |                 200 | gar_tmp  | adr_street |     3012 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_2230925/DATA/adr_street_09.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           68 | 0223-09-25     | f              |         9 | Калмыкия Респ | 2023-09-26 18:32:23.557814 | postgres | 900005522 |       1 |                 201 | gar_tmp  | adr_house  |    75305 |       4 | /home/n.chadaev@abrr.local/tmp/up_prds_2230925/DATA/adr_house_09.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+(186 rows)
+

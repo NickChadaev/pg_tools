@@ -1,0 +1,412 @@
+ f_server_is 
+-------------
+ unnsi_prd_s
+(1 row)
+
+ id_area | id_country | nm_area | nm_area_full | id_area_type | id_area_parent | kd_timezone | pr_detailed | kd_oktmo |             nm_fias_guid             | dt_data_del | id_data_etalon |  kd_okato   | nm_zipcode |  kd_kladr   | vl_addr_latitude | vl_addr_longitude 
+---------+------------+---------+--------------+--------------+----------------+-------------+-------------+----------+--------------------------------------+-------------+----------------+-------------+------------+-------------+------------------+-------------------
+       5 |        185 | Алтай   | Алтай Респ   |           41 |                |           6 |           0 | 84000000 | 5c48611f-5de6-4771-9695-7e36a4e7529d |             |                | 84000000000 | 649000     | 04000000000 |                  |                  
+(1 row)
+
+CALL
+ f_adr_area_set_data 
+---------------------
+                   0
+(1 row)
+
+ fias_guid_new | nm_addr_obj | addr_obj_type_id | chld_qty_tot | chld_qty_unact 
+---------------+-------------+------------------+--------------+----------------
+(0 rows)
+
+CALL
+CALL
+CALL
+CALL
+CALL
+CALL
+CALL
+CALL
+ f_xxx_obj_seq_crt 
+-------------------
+         500007045
+       10500007045
+(2 rows)
+
+ f_set_params_value 
+--------------------
+             186472
+(1 row)
+
+ f_xxx_adr_area_set_data 
+-------------------------
+                    3906
+(1 row)
+
+ f_xxx_adr_house_set_data 
+--------------------------
+                    81985
+(1 row)
+
+ f_xxx_obj_fias_set_data 
+-------------------------
+                     685
+                    3221
+                   81985
+(3 rows)
+
+ total_row | ins_row | upd_row 
+-----------+---------+---------
+         1 |       1 |       0
+(1 row)
+
+ id_area | id_country | nm_area | nm_area_full | id_area_type | id_area_parent | kd_timezone | pr_detailed | kd_oktmo | nm_fias_guid | dt_data_del | id_data_etalon | kd_okato | nm_zipcode | kd_kladr | vl_addr_latitude | vl_addr_longitude | id_area_hist | date_create | f_server_name | id_region 
+---------+------------+---------+--------------+--------------+----------------+-------------+-------------+----------+--------------+-------------+----------------+----------+------------+----------+------------------+-------------------+--------------+-------------+---------------+-----------
+(0 rows)
+
+ total_row | upd_row 
+-----------+---------
+       684 |       0
+(1 row)
+
+ id_area | id_country | nm_area | nm_area_full | id_area_type | id_area_parent | kd_timezone | pr_detailed | kd_oktmo | nm_fias_guid | dt_data_del | id_data_etalon | kd_okato | nm_zipcode | kd_kladr | vl_addr_latitude | vl_addr_longitude | id_area_hist | date_create | f_server_name | id_region 
+---------+------------+---------+--------------+--------------+----------------+-------------+-------------+----------+--------------+-------------+----------------+----------+------------+----------+------------------+-------------------+--------------+-------------+---------------+-----------
+(0 rows)
+
+ total_row | ins_row | upd_row 
+-----------+---------+---------
+         1 |       1 |       0
+(1 row)
+
+ id_street | id_area | nm_street | id_street_type | nm_street_full | nm_fias_guid | dt_data_del | id_data_etalon | kd_kladr | vl_addr_latitude | vl_addr_longitude | id_street_hist | date_create | f_server_name | id_region 
+-----------+---------+-----------+----------------+----------------+--------------+-------------+----------------+----------+------------------+-------------------+----------------+-------------+---------------+-----------
+(0 rows)
+
+ total_row | upd_row 
+-----------+---------
+      3220 |       0
+(1 row)
+
+ id_street | id_area | nm_street | id_street_type | nm_street_full | nm_fias_guid | dt_data_del | id_data_etalon | kd_kladr | vl_addr_latitude | vl_addr_longitude | id_street_hist | date_create | f_server_name | id_region 
+-----------+---------+-----------+----------------+----------------+--------------+-------------+----------------+----------+------------------+-------------------+----------------+-------------+---------------+-----------
+(0 rows)
+
+ total_row | ins_row | upd_row 
+-----------+---------+---------
+        27 |      26 |       1
+(1 row)
+
+ id_house | id_area | id_street | id_house_type_1 | nm_house_1 | id_house_type_2 | nm_house_2 | id_house_type_3 | nm_house_3 | nm_zipcode | nm_house_full |  kd_oktmo   |             nm_fias_guid             |        dt_data_del         | id_data_etalon |  kd_okato   | vl_addr_latitude | vl_addr_longitude | id_house_hist |        date_create         | f_server_name | id_region 
+----------+---------+-----------+-----------------+------------+-----------------+------------+-----------------+------------+------------+---------------+-------------+--------------------------------------+----------------------------+----------------+-------------+------------------+-------------------+---------------+----------------------------+---------------+-----------
+ 24270967 |   11278 |    234260 |               2 | 18         |                 |            |                 |            | 649750     | д. 18         | 84630435101 | 2fb0c66f-a400-41f9-aca2-ec22e1067d3f | 2023-09-26 18:47:42.333903 |       24270967 | 84230835001 |                  |                   |           817 | 2023-09-26 18:47:42.333903 |               |         0
+(1 row)
+
+ total_row | upd_row 
+-----------+---------
+     81958 |       3
+(1 row)
+
+ id_house | id_area | id_street | id_house_type_1 | nm_house_1 | id_house_type_2 | nm_house_2 | id_house_type_3 | nm_house_3 | nm_zipcode | nm_house_full |  kd_oktmo   |             nm_fias_guid             |        dt_data_del         | id_data_etalon |  kd_okato   | vl_addr_latitude | vl_addr_longitude | id_house_hist |        date_create         | f_server_name | id_region 
+----------+---------+-----------+-----------------+------------+-----------------+------------+-----------------+------------+------------+---------------+-------------+--------------------------------------+----------------------------+----------------+-------------+------------------+-------------------+---------------+----------------------------+---------------+-----------
+ 24270967 |   11278 |    234260 |               2 | 18         |                 |            |                 |            | 649750     | д. 18         | 84630435101 | 2fb0c66f-a400-41f9-aca2-ec22e1067d3f | 2023-09-26 18:47:42.333903 |       24270967 | 84230835001 |                  |                   |           817 | 2023-09-26 18:47:42.333903 |               |         0
+(1 row)
+
+ f_version_put 
+---------------
+            67
+(1 row)
+
+ qty_adr_area_0 
+----------------
+            692
+(1 row)
+
+ qty_adr_area_aux_0 
+--------------------
+                  1
+(1 row)
+
+CALL
+ fcase | id_area_subj | id_area_obj | nm_area | nm_fias_guid 
+-------+--------------+-------------+---------+--------------
+(0 rows)
+
+CALL
+CALL
+CALL
+ qty_adr_area_1 
+----------------
+            692
+(1 row)
+
+ qty_adr_area_aux_1 
+--------------------
+                  1
+(1 row)
+
+ id_area | id_country | nm_area | nm_area_full | id_area_type | id_area_parent | kd_timezone | pr_detailed | kd_oktmo | nm_fias_guid | dt_data_del | id_data_etalon | kd_okato | nm_zipcode | kd_kladr | vl_addr_latitude | vl_addr_longitude 
+---------+------------+---------+--------------+--------------+----------------+-------------+-------------+----------+--------------+-------------+----------------+----------+------------+----------+------------------+-------------------
+(0 rows)
+
+ f_version_by_obj_put 
+----------------------
+                  199
+(1 row)
+
+ qty_adr_street_0 
+------------------
+             3336
+(1 row)
+
+ qty_adr_street_aux_0 
+----------------------
+                    1
+(1 row)
+
+CALL
+CALL
+ fcase | id_street_subj | id_street_obj | nm_street_full | nm_fias_guid 
+-------+----------------+---------------+----------------+--------------
+(0 rows)
+
+ qty_adr_street_1 
+------------------
+             3336
+(1 row)
+
+ qty_adr_street_aux_1 
+----------------------
+                    1
+(1 row)
+
+CALL
+CALL
+CALL
+ f_version_by_obj_put 
+----------------------
+                  200
+(1 row)
+
+ qty_adr_house_0 
+-----------------
+           93630
+(1 row)
+
+ qty_adr_house_aux_0 
+---------------------
+                  29
+(1 row)
+
+CALL
+CALL
+ fcase | id_house_subj | id_house_obj | nm_house_full | nm_fias_guid 
+-------+---------------+--------------+---------------+--------------
+(0 rows)
+
+ qty_adr_house_1 
+-----------------
+           93630
+(1 row)
+
+ qty_adr_house_aux_1 
+---------------------
+                  29
+(1 row)
+
+CALL
+CALL
+CALL
+ f_version_by_obj_put 
+----------------------
+                  201
+(1 row)
+
+ id_un_export | dt_gar_version | kd_export_type | id_region | nm_area_full |         dt_export          | nm_user  | seq_value | node_id | id_un_export_by_obj | sch_name | nm_object  | qty_main | qty_aux |                               file_path                                | fserver_name |   host    |     dbname     | port | db_conn_name  
+--------------+----------------+----------------+-----------+--------------+----------------------------+----------+-----------+---------+---------------------+----------+------------+----------+---------+------------------------------------------------------------------------+--------------+-----------+----------------+------+---------------
+            1 | 2022-12-26     | f              |         5 | Алтай Респ   | 2023-01-18 14:36:21.952941 | postgres | 500005375 |       1 |                   1 | gar_tmp  | adr_area   |      674 |     451 | ../tmp/up_prds/DATA/adr_area_05.sql                                    | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            1 | 2022-12-26     | f              |         5 | Алтай Респ   | 2023-01-18 14:36:21.952941 | postgres | 500005375 |       1 |                   2 | gar_tmp  | adr_street |     3292 |      20 | ../tmp/up_prds/DATA/adr_street_05.sql                                  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            1 | 2022-12-26     | f              |         5 | Алтай Респ   | 2023-01-18 14:36:21.952941 | postgres | 500005375 |       1 |                   3 | gar_tmp  | adr_house  |    92677 |     141 | ../tmp/up_prds/DATA/adr_house_05.sql                                   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            2 | 2023-01-09     | f              |         5 | Алтай Респ   | 2023-01-20 12:15:44.649636 | postgres | 500005402 |       1 |                   4 | gar_tmp  | adr_area   |      674 |     359 | ../../tmp/up_prds_20230109/DATA/adr_area_05.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            2 | 2023-01-09     | f              |         5 | Алтай Респ   | 2023-01-20 12:15:44.649636 | postgres | 500005402 |       1 |                   5 | gar_tmp  | adr_street |     3292 |       0 | ../../tmp/up_prds_20230109/DATA/adr_street_05.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            2 | 2023-01-09     | f              |         5 | Алтай Респ   | 2023-01-20 12:15:44.649636 | postgres | 500005402 |       1 |                   6 | gar_tmp  | adr_house  |    92693 |      48 | ../../tmp/up_prds_20230109/DATA/adr_house_05.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            3 | 2023-01-16     | f              |         5 | Алтай Респ   | 2023-01-24 10:37:38.96948  | postgres | 500005438 |       1 |                   7 | gar_tmp  | adr_area   |      674 |     359 | ../../tmp/up_prds_20230116/DATA/adr_area_05.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            3 | 2023-01-16     | f              |         5 | Алтай Респ   | 2023-01-24 10:37:38.96948  | postgres | 500005438 |       1 |                   8 | gar_tmp  | adr_street |     3293 |       1 | ../../tmp/up_prds_20230116/DATA/adr_street_05.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            3 | 2023-01-16     | f              |         5 | Алтай Респ   | 2023-01-24 10:37:38.96948  | postgres | 500005438 |       1 |                   9 | gar_tmp  | adr_house  |    92717 |      68 | ../../tmp/up_prds_20230116/DATA/adr_house_05.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            4 | 2023-01-23     | f              |         5 | Алтай Респ   | 2023-01-27 02:46:59.694588 | postgres | 500005477 |       1 |                  10 | gar_tmp  | adr_area   |      674 |     359 | ../../tmp/up_prds_20230123/DATA/adr_area_05.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            4 | 2023-01-23     | f              |         5 | Алтай Респ   | 2023-01-27 02:46:59.694588 | postgres | 500005477 |       1 |                  11 | gar_tmp  | adr_street |     3295 |       2 | ../../tmp/up_prds_20230123/DATA/adr_street_05.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            4 | 2023-01-23     | f              |         5 | Алтай Респ   | 2023-01-27 02:46:59.694588 | postgres | 500005477 |       1 |                  12 | gar_tmp  | adr_house  |    92741 |      52 | ../../tmp/up_prds_20230123/DATA/adr_house_05.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            5 | 2023-02-02     | f              |         5 | Алтай Респ   | 2023-02-04 05:57:50.078501 | postgres | 500005525 |       1 |                  13 | gar_tmp  | adr_area   |      676 |     361 | ../../tmp/up_prds_20230202/DATA/adr_area_05.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            5 | 2023-02-02     | f              |         5 | Алтай Респ   | 2023-02-04 05:57:50.078501 | postgres | 500005525 |       1 |                  14 | gar_tmp  | adr_street |     3296 |       1 | ../../tmp/up_prds_20230202/DATA/adr_street_05.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            5 | 2023-02-02     | f              |         5 | Алтай Респ   | 2023-02-04 05:57:50.078501 | postgres | 500005525 |       1 |                  15 | gar_tmp  | adr_house  |    92774 |      65 | ../../tmp/up_prds_20230202/DATA/adr_house_05.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            6 | 2023-02-06     | f              |         5 | Алтай Респ   | 2023-02-11 01:17:45.641231 | postgres | 500005549 |       1 |                  16 | gar_tmp  | adr_area   |      676 |     359 | ../../tmp/up_prds_20230206/DATA/adr_area_05.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            6 | 2023-02-06     | f              |         5 | Алтай Респ   | 2023-02-11 01:17:45.641231 | postgres | 500005549 |       1 |                  17 | gar_tmp  | adr_street |     3296 |       0 | ../../tmp/up_prds_20230206/DATA/adr_street_05.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            6 | 2023-02-06     | f              |         5 | Алтай Респ   | 2023-02-11 01:17:45.641231 | postgres | 500005549 |       1 |                  18 | gar_tmp  | adr_house  |    92786 |      23 | ../../tmp/up_prds_20230206/DATA/adr_house_05.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            7 | 2023-02-13     | f              |         5 | Алтай Респ   | 2023-02-16 02:03:40.798525 | postgres | 500005586 |       1 |                  19 | gar_tmp  | adr_area   |      676 |     359 | ../../tmp/up_prds_20230213/DATA/adr_area_05.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            7 | 2023-02-13     | f              |         5 | Алтай Респ   | 2023-02-16 02:03:40.798525 | postgres | 500005586 |       1 |                  20 | gar_tmp  | adr_street |     3296 |       0 | ../../tmp/up_prds_20230213/DATA/adr_street_05.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            7 | 2023-02-13     | f              |         5 | Алтай Респ   | 2023-02-16 02:03:40.798525 | postgres | 500005586 |       1 |                  21 | gar_tmp  | adr_house  |    92813 |      64 | ../../tmp/up_prds_20230213/DATA/adr_house_05.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            8 | 2023-02-16     | f              |         5 | Алтай Респ   | 2023-02-20 11:30:24.596391 | postgres | 500005626 |       1 |                  22 | gar_tmp  | adr_area   |      676 |     359 | ../../tmp/up_prds_20230216/DATA/adr_area_05.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            8 | 2023-02-16     | f              |         5 | Алтай Респ   | 2023-02-20 11:30:24.596391 | postgres | 500005626 |       1 |                  23 | gar_tmp  | adr_street |     3296 |       0 | ../../tmp/up_prds_20230216/DATA/adr_street_05.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            8 | 2023-02-16     | f              |         5 | Алтай Респ   | 2023-02-20 11:30:24.596391 | postgres | 500005626 |       1 |                  24 | gar_tmp  | adr_house  |    92839 |      52 | ../../tmp/up_prds_20230216/DATA/adr_house_05.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            9 | 2023-02-21     | f              |         5 | Алтай Респ   | 2023-02-23 10:04:48.555541 | postgres | 500005656 |       1 |                  25 | gar_tmp  | adr_area   |      676 |     359 | ../../tmp/up_prds_20230221/DATA/adr_area_05.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            9 | 2023-02-21     | f              |         5 | Алтай Респ   | 2023-02-23 10:04:48.555541 | postgres | 500005656 |       1 |                  26 | gar_tmp  | adr_street |     3296 |       0 | ../../tmp/up_prds_20230221/DATA/adr_street_05.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            9 | 2023-02-21     | f              |         5 | Алтай Респ   | 2023-02-23 10:04:48.555541 | postgres | 500005656 |       1 |                  27 | gar_tmp  | adr_house  |    92858 |      20 | ../../tmp/up_prds_20230221/DATA/adr_house_05.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           11 | 2023-02-27     | f              |         5 | Алтай Респ   | 2023-03-01 04:09:27.253895 | postgres | 500005669 |       1 |                  31 | gar_tmp  | adr_area   |      676 |     359 | ../../tmp/up_prds_20230227/DATA/adr_area_05.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           11 | 2023-02-27     | f              |         5 | Алтай Респ   | 2023-03-01 04:09:27.253895 | postgres | 500005669 |       1 |                  32 | gar_tmp  | adr_street |     3296 |       0 | ../../tmp/up_prds_20230227/DATA/adr_street_05.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           11 | 2023-02-27     | f              |         5 | Алтай Респ   | 2023-03-01 04:09:27.253895 | postgres | 500005669 |       1 |                  33 | gar_tmp  | adr_house  |    92861 |      29 | ../../tmp/up_prds_20230227/DATA/adr_house_05.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           12 | 2023-03-02     | f              |         5 | Алтай Респ   | 2023-03-04 05:03:11.71089  | postgres | 500005688 |       1 |                  34 | gar_tmp  | adr_area   |      676 |     359 | ../../tmp/up_prds_20230302/DATA/adr_area_05.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           12 | 2023-03-02     | f              |         5 | Алтай Респ   | 2023-03-04 05:03:11.71089  | postgres | 500005688 |       1 |                  35 | gar_tmp  | adr_street |     3296 |       0 | ../../tmp/up_prds_20230302/DATA/adr_street_05.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           12 | 2023-03-02     | f              |         5 | Алтай Респ   | 2023-03-04 05:03:11.71089  | postgres | 500005688 |       1 |                  36 | gar_tmp  | adr_house  |    92870 |      58 | ../../tmp/up_prds_20230302/DATA/adr_house_05.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           13 | 2023-03-06     | f              |         5 | Алтай Респ   | 2023-03-09 11:53:56.379721 | postgres | 500005703 |       1 |                  37 | gar_tmp  | adr_area   |      676 |     359 | ../../tmp/up_prds_20230306/DATA/adr_area_05.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           13 | 2023-03-06     | f              |         5 | Алтай Респ   | 2023-03-09 11:53:56.379721 | postgres | 500005703 |       1 |                  38 | gar_tmp  | adr_street |     3296 |       0 | ../../tmp/up_prds_20230306/DATA/adr_street_05.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           13 | 2023-03-06     | f              |         5 | Алтай Респ   | 2023-03-09 11:53:56.379721 | postgres | 500005703 |       1 |                  39 | gar_tmp  | adr_house  |    92874 |      10 | ../../tmp/up_prds_20230306/DATA/adr_house_05.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           14 | 2023-03-09     | f              |         5 | Алтай Респ   | 2023-03-15 01:33:52.37296  | postgres | 500005726 |       1 |                  40 | gar_tmp  | adr_area   |      676 |     359 | ../../tmp/up_prds_20230309/DATA/adr_area_05.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           14 | 2023-03-09     | f              |         5 | Алтай Респ   | 2023-03-15 01:33:52.37296  | postgres | 500005726 |       1 |                  41 | gar_tmp  | adr_street |     3296 |       0 | ../../tmp/up_prds_20230309/DATA/adr_street_05.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           14 | 2023-03-09     | f              |         5 | Алтай Респ   | 2023-03-15 01:33:52.37296  | postgres | 500005726 |       1 |                  42 | gar_tmp  | adr_house  |    92887 |      14 | ../../tmp/up_prds_20230309/DATA/adr_house_05.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           15 | 2023-03-13     | f              |         5 | Алтай Респ   | 2023-03-16 10:42:47.31342  | postgres | 500005750 |       1 |                  43 | gar_tmp  | adr_area   |      677 |       1 | ../../tmp/up_prds_20230313/DATA/adr_area_05.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           15 | 2023-03-13     | f              |         5 | Алтай Респ   | 2023-03-16 10:42:47.31342  | postgres | 500005750 |       1 |                  44 | gar_tmp  | adr_street |     3297 |       1 | ../../tmp/up_prds_20230313/DATA/adr_street_05.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           15 | 2023-03-13     | f              |         5 | Алтай Респ   | 2023-03-16 10:42:47.31342  | postgres | 500005750 |       1 |                  45 | gar_tmp  | adr_house  |    92899 |      12 | ../../tmp/up_prds_20230313/DATA/adr_house_05.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           16 | 2023-03-16     | f              |         5 | Алтай Респ   | 2023-03-18 06:35:02.94772  | postgres | 500005776 |       1 |                  46 | gar_tmp  | adr_area   |      678 |       1 | ../../tmp/up_prds_20230316/DATA/adr_area_05.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           16 | 2023-03-16     | f              |         5 | Алтай Респ   | 2023-03-18 06:35:02.94772  | postgres | 500005776 |       1 |                  47 | gar_tmp  | adr_street |     3304 |       7 | ../../tmp/up_prds_20230316/DATA/adr_street_05.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           16 | 2023-03-16     | f              |         5 | Алтай Респ   | 2023-03-18 06:35:02.94772  | postgres | 500005776 |       1 |                  48 | gar_tmp  | adr_house  |    92906 |      26 | ../../tmp/up_prds_20230316/DATA/adr_house_05.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           17 | 2023-03-20     | f              |         5 | Алтай Респ   | 2023-03-22 11:54:46.004991 | postgres | 500005803 |       1 |                  49 | gar_tmp  | adr_area   |      678 |       0 | ../../tmp/up_prds_20230320/DATA/adr_area_05.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           17 | 2023-03-20     | f              |         5 | Алтай Респ   | 2023-03-22 11:54:46.004991 | postgres | 500005803 |       1 |                  50 | gar_tmp  | adr_street |     3304 |       0 | ../../tmp/up_prds_20230320/DATA/adr_street_05.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           17 | 2023-03-20     | f              |         5 | Алтай Респ   | 2023-03-22 11:54:46.004991 | postgres | 500005803 |       1 |                  51 | gar_tmp  | adr_house  |    92923 |      35 | ../../tmp/up_prds_20230320/DATA/adr_house_05.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           18 | 2023-03-23     | f              |         5 | Алтай Респ   | 2023-03-25 06:19:53.080863 | postgres | 500005816 |       1 |                  52 | gar_tmp  | adr_area   |      678 |       0 | ../../tmp/up_prds_20230323/DATA/adr_area_05.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           18 | 2023-03-23     | f              |         5 | Алтай Респ   | 2023-03-25 06:19:53.080863 | postgres | 500005816 |       1 |                  53 | gar_tmp  | adr_street |     3304 |       0 | ../../tmp/up_prds_20230323/DATA/adr_street_05.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           18 | 2023-03-23     | f              |         5 | Алтай Респ   | 2023-03-25 06:19:53.080863 | postgres | 500005816 |       1 |                  54 | gar_tmp  | adr_house  |    92926 |       3 | ../../tmp/up_prds_20230323/DATA/adr_house_05.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           19 | 2023-03-27     | f              |         5 | Алтай Респ   | 2023-03-31 10:17:43.910986 | postgres | 500005834 |       1 |                  55 | gar_tmp  | adr_area   |      678 |       0 | ../../tmp/up_prds_20230327/DATA/adr_area_05.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           19 | 2023-03-27     | f              |         5 | Алтай Респ   | 2023-03-31 10:17:43.910986 | postgres | 500005834 |       1 |                  56 | gar_tmp  | adr_street |     3305 |       1 | ../../tmp/up_prds_20230327/DATA/adr_street_05.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           19 | 2023-03-27     | f              |         5 | Алтай Респ   | 2023-03-31 10:17:43.910986 | postgres | 500005834 |       1 |                  57 | gar_tmp  | adr_house  |    92933 |       8 | ../../tmp/up_prds_20230327/DATA/adr_house_05.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           20 | 2023-04-04     | f              |         5 | Алтай Респ   | 2023-04-06 09:48:44.956109 | postgres | 500005874 |       1 |                  58 | gar_tmp  | adr_area   |      678 |       0 | ../../tmp/up_prds_20230404/DATA/adr_area_05.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           20 | 2023-04-04     | f              |         5 | Алтай Респ   | 2023-04-06 09:48:44.956109 | postgres | 500005874 |       1 |                  59 | gar_tmp  | adr_street |     3305 |       0 | ../../tmp/up_prds_20230404/DATA/adr_street_05.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           20 | 2023-04-04     | f              |         5 | Алтай Респ   | 2023-04-06 09:48:44.956109 | postgres | 500005874 |       1 |                  60 | gar_tmp  | adr_house  |    92961 |      57 | ../../tmp/up_prds_20230404/DATA/adr_house_05.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           21 | 2023-04-06     | f              |         5 | Алтай Респ   | 2023-04-09 13:06:36.922167 | postgres | 500005890 |       1 |                  61 | gar_tmp  | adr_area   |      679 |       1 | ../../tmp/up_prds_20230406/DATA/adr_area_05.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           21 | 2023-04-06     | f              |         5 | Алтай Респ   | 2023-04-09 13:06:36.922167 | postgres | 500005890 |       1 |                  62 | gar_tmp  | adr_street |     3305 |       0 | ../../tmp/up_prds_20230406/DATA/adr_street_05.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           21 | 2023-04-06     | f              |         5 | Алтай Респ   | 2023-04-09 13:06:36.922167 | postgres | 500005890 |       1 |                  63 | gar_tmp  | adr_house  |    92966 |      16 | ../../tmp/up_prds_20230406/DATA/adr_house_05.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           22 | 2023-04-10     | f              |         5 | Алтай Респ   | 2023-04-13 09:32:19.566535 | postgres | 500005911 |       1 |                  64 | gar_tmp  | adr_area   |      679 |       0 | ../../tmp/up_prds_20230410/DATA/adr_area_05.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           22 | 2023-04-10     | f              |         5 | Алтай Респ   | 2023-04-13 09:32:19.566535 | postgres | 500005911 |       1 |                  65 | gar_tmp  | adr_street |     3305 |       0 | ../../tmp/up_prds_20230410/DATA/adr_street_05.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           22 | 2023-04-10     | f              |         5 | Алтай Респ   | 2023-04-13 09:32:19.566535 | postgres | 500005911 |       1 |                  66 | gar_tmp  | adr_house  |    92976 |      12 | ../../tmp/up_prds_20230410/DATA/adr_house_05.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           23 | 2023-04-13     | f              |         5 | Алтай Респ   | 2023-04-15 11:27:43.42262  | postgres | 500005948 |       1 |                  67 | gar_tmp  | adr_area   |      679 |       0 | ../../tmp/up_prds_20230413/DATA/adr_area_05.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           23 | 2023-04-13     | f              |         5 | Алтай Респ   | 2023-04-15 11:27:43.42262  | postgres | 500005948 |       1 |                  68 | gar_tmp  | adr_street |     3305 |       0 | ../../tmp/up_prds_20230413/DATA/adr_street_05.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           23 | 2023-04-13     | f              |         5 | Алтай Респ   | 2023-04-15 11:27:43.42262  | postgres | 500005948 |       1 |                  69 | gar_tmp  | adr_house  |    93002 |      57 | ../../tmp/up_prds_20230413/DATA/adr_house_05.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           24 | 2023-04-17     | f              |         5 | Алтай Респ   | 2023-04-21 02:26:14.986555 | postgres | 500005961 |       1 |                  70 | gar_tmp  | adr_area   |      679 |       0 | ../../tmp/up_prds_20230417/DATA/adr_area_05.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           24 | 2023-04-17     | f              |         5 | Алтай Респ   | 2023-04-21 02:26:14.986555 | postgres | 500005961 |       1 |                  71 | gar_tmp  | adr_street |     3305 |       0 | ../../tmp/up_prds_20230417/DATA/adr_street_05.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           24 | 2023-04-17     | f              |         5 | Алтай Респ   | 2023-04-21 02:26:14.986555 | postgres | 500005961 |       1 |                  72 | gar_tmp  | adr_house  |    93005 |       3 | ../../tmp/up_prds_20230417/DATA/adr_house_05.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           25 | 2023-04-20     | f              |         5 | Алтай Респ   | 2023-04-26 02:01:30.246949 | postgres | 500005995 |       1 |                  73 | gar_tmp  | adr_area   |      680 |       1 | ../../tmp/up_prds_20230420/DATA/adr_area_05.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           25 | 2023-04-20     | f              |         5 | Алтай Респ   | 2023-04-26 02:01:30.246949 | postgres | 500005995 |       1 |                  74 | gar_tmp  | adr_street |     3305 |       0 | ../../tmp/up_prds_20230420/DATA/adr_street_05.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           25 | 2023-04-20     | f              |         5 | Алтай Респ   | 2023-04-26 02:01:30.246949 | postgres | 500005995 |       1 |                  75 | gar_tmp  | adr_house  |    93028 |      39 | ../../tmp/up_prds_20230420/DATA/adr_house_05.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           26 | 2023-04-24     | f              |         5 | Алтай Респ   | 2023-04-28 12:48:33.686107 | postgres | 500006031 |       1 |                  76 | gar_tmp  | adr_area   |      680 |       0 | ../../tmp/up_prds_20230424/DATA/adr_area_05.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           26 | 2023-04-24     | f              |         5 | Алтай Респ   | 2023-04-28 12:48:33.686107 | postgres | 500006031 |       1 |                  77 | gar_tmp  | adr_street |     3305 |       0 | ../../tmp/up_prds_20230424/DATA/adr_street_05.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           26 | 2023-04-24     | f              |         5 | Алтай Респ   | 2023-04-28 12:48:33.686107 | postgres | 500006031 |       1 |                  78 | gar_tmp  | adr_house  |    93054 |      26 | ../../tmp/up_prds_20230424/DATA/adr_house_05.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           27 | 2023-05-04     | f              |         5 | Алтай Респ   | 2023-05-06 07:46:40.16939  | postgres | 500006083 |       1 |                  79 | gar_tmp  | adr_area   |      681 |       1 | ../../tmp/up_prds_20230504/DATA/adr_area_05.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           27 | 2023-05-04     | f              |         5 | Алтай Респ   | 2023-05-06 07:46:40.16939  | postgres | 500006083 |       1 |                  80 | gar_tmp  | adr_street |     3305 |       0 | ../../tmp/up_prds_20230504/DATA/adr_street_05.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           27 | 2023-05-04     | f              |         5 | Алтай Респ   | 2023-05-06 07:46:40.16939  | postgres | 500006083 |       1 |                  81 | gar_tmp  | adr_house  |    93094 |     114 | ../../tmp/up_prds_20230504/DATA/adr_house_05.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           28 | 2023-05-08     | f              |         5 | Алтай Респ   | 2023-05-11 09:22:27.600364 | postgres | 500006116 |       1 |                  82 | gar_tmp  | adr_area   |      681 |       0 | ../../tmp/up_prds_20230508/DATA/adr_area_05.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           28 | 2023-05-08     | f              |         5 | Алтай Респ   | 2023-05-11 09:22:27.600364 | postgres | 500006116 |       1 |                  83 | gar_tmp  | adr_street |     3305 |       1 | ../../tmp/up_prds_20230508/DATA/adr_street_05.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           28 | 2023-05-08     | f              |         5 | Алтай Респ   | 2023-05-11 09:22:27.600364 | postgres | 500006116 |       1 |                  84 | gar_tmp  | adr_house  |    93112 |      24 | ../../tmp/up_prds_20230508/DATA/adr_house_05.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           29 | 2023-05-11     | f              |         5 | Алтай Респ   | 2023-05-16 11:02:12.847745 | postgres | 500006131 |       1 |                  85 | gar_tmp  | adr_area   |      681 |       0 | ../../tmp/up_prds_20230511/DATA/adr_area_05.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           29 | 2023-05-11     | f              |         5 | Алтай Респ   | 2023-05-16 11:02:12.847745 | postgres | 500006131 |       1 |                  86 | gar_tmp  | adr_street |     3306 |       1 | ../../tmp/up_prds_20230511/DATA/adr_street_05.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           29 | 2023-05-11     | f              |         5 | Алтай Респ   | 2023-05-16 11:02:12.847745 | postgres | 500006131 |       1 |                  87 | gar_tmp  | adr_house  |    93116 |       4 | ../../tmp/up_prds_20230511/DATA/adr_house_05.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           30 | 2023-05-15     | f              |         5 | Алтай Респ   | 2023-05-18 09:37:31.256929 | postgres | 500006156 |       1 |                  88 | gar_tmp  | adr_area   |      681 |       0 | ../../tmp/up_prds_20230515/DATA/adr_area_05.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           30 | 2023-05-15     | f              |         5 | Алтай Респ   | 2023-05-18 09:37:31.256929 | postgres | 500006156 |       1 |                  89 | gar_tmp  | adr_street |     3307 |       1 | ../../tmp/up_prds_20230515/DATA/adr_street_05.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           30 | 2023-05-15     | f              |         5 | Алтай Респ   | 2023-05-18 09:37:31.256929 | postgres | 500006156 |       1 |                  90 | gar_tmp  | adr_house  |    93129 |      53 | ../../tmp/up_prds_20230515/DATA/adr_house_05.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           31 | 2023-05-18     | f              |         5 | Алтай Респ   | 2023-05-24 03:06:10.701551 | postgres | 500006181 |       1 |                  91 | gar_tmp  | adr_area   |      682 |       1 | ../../tmp/up_prds_20230518/DATA/adr_area_05.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           31 | 2023-05-18     | f              |         5 | Алтай Респ   | 2023-05-24 03:06:10.701551 | postgres | 500006181 |       1 |                  92 | gar_tmp  | adr_street |     3309 |       2 | ../../tmp/up_prds_20230518/DATA/adr_street_05.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           31 | 2023-05-18     | f              |         5 | Алтай Респ   | 2023-05-24 03:06:10.701551 | postgres | 500006181 |       1 |                  93 | gar_tmp  | adr_house  |    93140 |      13 | ../../tmp/up_prds_20230518/DATA/adr_house_05.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           32 | 2023-05-22     | f              |         5 | Алтай Респ   | 2023-05-30 04:30:16.91901  | postgres | 500006200 |       1 |                  94 | gar_tmp  | adr_area   |      682 |       0 | ../../tmp/up_prds_20230522/DATA/adr_area_05.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           32 | 2023-05-22     | f              |         5 | Алтай Респ   | 2023-05-30 04:30:16.91901  | postgres | 500006200 |       1 |                  95 | gar_tmp  | adr_street |     3310 |       1 | ../../tmp/up_prds_20230522/DATA/adr_street_05.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           32 | 2023-05-22     | f              |         5 | Алтай Респ   | 2023-05-30 04:30:16.91901  | postgres | 500006200 |       1 |                  96 | gar_tmp  | adr_house  |    93146 |      38 | ../../tmp/up_prds_20230522/DATA/adr_house_05.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           34 | 2023-05-25     | f              |         5 | Алтай Респ   | 2023-05-31 04:25:31.520842 | postgres | 500006229 |       1 |                 100 | gar_tmp  | adr_area   |      682 |       0 | ../../tmp/up_prds_20230525/DATA/adr_area_05.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           34 | 2023-05-25     | f              |         5 | Алтай Респ   | 2023-05-31 04:25:31.520842 | postgres | 500006229 |       1 |                 101 | gar_tmp  | adr_street |     3322 |      12 | ../../tmp/up_prds_20230525/DATA/adr_street_05.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           34 | 2023-05-25     | f              |         5 | Алтай Респ   | 2023-05-31 04:25:31.520842 | postgres | 500006229 |       1 |                 102 | gar_tmp  | adr_house  |    93153 |      26 | ../../tmp/up_prds_20230525/DATA/adr_house_05.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           35 | 2023-05-29     | f              |         5 | Алтай Респ   | 2023-06-03 02:15:32.877421 | postgres | 500006244 |       1 |                 103 | gar_tmp  | adr_area   |      683 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230529/DATA/adr_area_05.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           35 | 2023-05-29     | f              |         5 | Алтай Респ   | 2023-06-03 02:15:32.877421 | postgres | 500006244 |       1 |                 104 | gar_tmp  | adr_street |     3323 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230529/DATA/adr_street_05.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           35 | 2023-05-29     | f              |         5 | Алтай Респ   | 2023-06-03 02:15:32.877421 | postgres | 500006244 |       1 |                 105 | gar_tmp  | adr_house  |    93155 |       3 | /home/n.chadaev@abrr.local/tmp/up_prds_20230529/DATA/adr_house_05.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           37 | 2023-06-05     | f              |         5 | Алтай Респ   | 2023-06-14 23:02:04.022883 | postgres | 500006276 |       1 |                 109 | gar_tmp  | adr_area   |      683 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230605/DATA/adr_area_05.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           37 | 2023-06-05     | f              |         5 | Алтай Респ   | 2023-06-14 23:02:04.022883 | postgres | 500006276 |       1 |                 110 | gar_tmp  | adr_street |     3324 |       2 | /home/n.chadaev@abrr.local/tmp/up_prds_20230605/DATA/adr_street_05.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           37 | 2023-06-05     | f              |         5 | Алтай Респ   | 2023-06-14 23:02:04.022883 | postgres | 500006276 |       1 |                 111 | gar_tmp  | adr_house  |    93170 |      21 | /home/n.chadaev@abrr.local/tmp/up_prds_20230605/DATA/adr_house_05.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           39 | 2023-06-08     | f              |         5 | Алтай Респ   | 2023-06-16 12:29:43.365844 | postgres | 500006297 |       1 |                 115 | gar_tmp  | adr_area   |      684 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230608/DATA/adr_area_05.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           39 | 2023-06-08     | f              |         5 | Алтай Респ   | 2023-06-16 12:29:43.365844 | postgres | 500006297 |       1 |                 116 | gar_tmp  | adr_street |     3324 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230608/DATA/adr_street_05.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           39 | 2023-06-08     | f              |         5 | Алтай Респ   | 2023-06-16 12:29:43.365844 | postgres | 500006297 |       1 |                 117 | gar_tmp  | adr_house  |    93180 |      10 | /home/n.chadaev@abrr.local/tmp/up_prds_20230608/DATA/adr_house_05.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           40 | 2023-06-14     | f              |         5 | Алтай Респ   | 2023-06-18 00:55:28.412872 | postgres | 500006341 |       1 |                 118 | gar_tmp  | adr_area   |      684 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230614/DATA/adr_area_05.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           40 | 2023-06-14     | f              |         5 | Алтай Респ   | 2023-06-18 00:55:28.412872 | postgres | 500006341 |       1 |                 119 | gar_tmp  | adr_street |     3324 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230614/DATA/adr_street_05.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           40 | 2023-06-14     | f              |         5 | Алтай Респ   | 2023-06-18 00:55:28.412872 | postgres | 500006341 |       1 |                 120 | gar_tmp  | adr_house  |    93213 |      34 | /home/n.chadaev@abrr.local/tmp/up_prds_20230614/DATA/adr_house_05.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           41 | 2023-06-19     | f              |         5 | Алтай Респ   | 2023-06-22 09:00:28.447302 | postgres | 500006361 |       1 |                 121 | gar_tmp  | adr_area   |      685 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230619/DATA/adr_area_05.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           41 | 2023-06-19     | f              |         5 | Алтай Респ   | 2023-06-22 09:00:28.447302 | postgres | 500006361 |       1 |                 122 | gar_tmp  | adr_street |     3325 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230619/DATA/adr_street_05.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           41 | 2023-06-19     | f              |         5 | Алтай Респ   | 2023-06-22 09:00:28.447302 | postgres | 500006361 |       1 |                 123 | gar_tmp  | adr_house  |    93220 |       8 | /home/n.chadaev@abrr.local/tmp/up_prds_20230619/DATA/adr_house_05.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           42 | 2023-06-22     | f              |         5 | Алтай Респ   | 2023-06-23 20:36:51.334947 | postgres | 500006386 |       1 |                 124 | gar_tmp  | adr_area   |      685 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230622/DATA/adr_area_05.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           42 | 2023-06-22     | f              |         5 | Алтай Респ   | 2023-06-23 20:36:51.334947 | postgres | 500006386 |       1 |                 125 | gar_tmp  | adr_street |     3325 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230622/DATA/adr_street_05.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           42 | 2023-06-22     | f              |         5 | Алтай Респ   | 2023-06-23 20:36:51.334947 | postgres | 500006386 |       1 |                 126 | gar_tmp  | adr_house  |    93234 |      16 | /home/n.chadaev@abrr.local/tmp/up_prds_20230622/DATA/adr_house_05.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           43 | 2023-06-26     | f              |         5 | Алтай Респ   | 2023-06-27 12:59:48.060498 | postgres | 500006414 |       1 |                 127 | gar_tmp  | adr_area   |      685 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230626/DATA/adr_area_05.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           43 | 2023-06-26     | f              |         5 | Алтай Респ   | 2023-06-27 12:59:48.060498 | postgres | 500006414 |       1 |                 128 | gar_tmp  | adr_street |     3325 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230626/DATA/adr_street_05.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           43 | 2023-06-26     | f              |         5 | Алтай Респ   | 2023-06-27 12:59:48.060498 | postgres | 500006414 |       1 |                 129 | gar_tmp  | adr_house  |    93251 |      19 | /home/n.chadaev@abrr.local/tmp/up_prds_20230626/DATA/adr_house_05.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           44 | 2023-06-29     | f              |         5 | Алтай Респ   | 2023-06-30 18:22:46.767985 | postgres | 500006464 |       1 |                 130 | gar_tmp  | adr_area   |      685 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230629/DATA/adr_area_05.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           44 | 2023-06-29     | f              |         5 | Алтай Респ   | 2023-06-30 18:22:46.767985 | postgres | 500006464 |       1 |                 131 | gar_tmp  | adr_street |     3326 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230629/DATA/adr_street_05.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           44 | 2023-06-29     | f              |         5 | Алтай Респ   | 2023-06-30 18:22:46.767985 | postgres | 500006464 |       1 |                 132 | gar_tmp  | adr_house  |    93290 |      39 | /home/n.chadaev@abrr.local/tmp/up_prds_20230629/DATA/adr_house_05.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           45 | 2023-07-07     | f              |         5 | Алтай Респ   | 2023-07-07 14:23:07.828044 | postgres | 500006506 |       1 |                 133 | gar_tmp  | adr_area   |      685 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230707/DATA/adr_area_05.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           45 | 2023-07-07     | f              |         5 | Алтай Респ   | 2023-07-07 14:23:07.828044 | postgres | 500006506 |       1 |                 134 | gar_tmp  | adr_street |     3328 |       2 | /home/n.chadaev@abrr.local/tmp/up_prds_20230707/DATA/adr_street_05.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           45 | 2023-07-07     | f              |         5 | Алтай Респ   | 2023-07-07 14:23:07.828044 | postgres | 500006506 |       1 |                 135 | gar_tmp  | adr_house  |    93317 |      31 | /home/n.chadaev@abrr.local/tmp/up_prds_20230707/DATA/adr_house_05.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           46 | 2023-07-10     | f              |         5 | Алтай Респ   | 2023-07-11 15:08:31.91902  | postgres | 500006525 |       1 |                 136 | gar_tmp  | adr_area   |      685 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230710/DATA/adr_area_05.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           46 | 2023-07-10     | f              |         5 | Алтай Респ   | 2023-07-11 15:08:31.91902  | postgres | 500006525 |       1 |                 137 | gar_tmp  | adr_street |     3328 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230710/DATA/adr_street_05.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           46 | 2023-07-10     | f              |         5 | Алтай Респ   | 2023-07-11 15:08:31.91902  | postgres | 500006525 |       1 |                 138 | gar_tmp  | adr_house  |    93326 |       9 | /home/n.chadaev@abrr.local/tmp/up_prds_20230710/DATA/adr_house_05.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           47 | 2023-07-13     | f              |         5 | Алтай Респ   | 2023-07-14 14:15:21.799521 | postgres | 500006551 |       1 |                 139 | gar_tmp  | adr_area   |      685 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230713/DATA/adr_area_05.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           47 | 2023-07-13     | f              |         5 | Алтай Респ   | 2023-07-14 14:15:21.799521 | postgres | 500006551 |       1 |                 140 | gar_tmp  | adr_street |     3329 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230713/DATA/adr_street_05.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           47 | 2023-07-13     | f              |         5 | Алтай Респ   | 2023-07-14 14:15:21.799521 | postgres | 500006551 |       1 |                 141 | gar_tmp  | adr_house  |    93340 |      16 | /home/n.chadaev@abrr.local/tmp/up_prds_20230713/DATA/adr_house_05.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           48 | 2023-07-17     | f              |         5 | Алтай Респ   | 2023-07-18 14:26:46.791484 | postgres | 500006573 |       1 |                 142 | gar_tmp  | adr_area   |      685 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230717/DATA/adr_area_05.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           48 | 2023-07-17     | f              |         5 | Алтай Респ   | 2023-07-18 14:26:46.791484 | postgres | 500006573 |       1 |                 143 | gar_tmp  | adr_street |     3329 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230717/DATA/adr_street_05.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           48 | 2023-07-17     | f              |         5 | Алтай Респ   | 2023-07-18 14:26:46.791484 | postgres | 500006573 |       1 |                 144 | gar_tmp  | adr_house  |    93352 |      12 | /home/n.chadaev@abrr.local/tmp/up_prds_20230717/DATA/adr_house_05.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           49 | 2023-07-20     | f              |         5 | Алтай Респ   | 2023-07-21 14:59:26.284964 | postgres | 500006593 |       1 |                 145 | gar_tmp  | adr_area   |      685 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230720/DATA/adr_area_05.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           49 | 2023-07-20     | f              |         5 | Алтай Респ   | 2023-07-21 14:59:26.284964 | postgres | 500006593 |       1 |                 146 | gar_tmp  | adr_street |     3329 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230720/DATA/adr_street_05.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           49 | 2023-07-20     | f              |         5 | Алтай Респ   | 2023-07-21 14:59:26.284964 | postgres | 500006593 |       1 |                 147 | gar_tmp  | adr_house  |    93362 |      11 | /home/n.chadaev@abrr.local/tmp/up_prds_20230720/DATA/adr_house_05.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           50 | 2023-07-24     | f              |         5 | Алтай Респ   | 2023-07-25 13:58:09.425005 | postgres | 500006609 |       1 |                 148 | gar_tmp  | adr_area   |      686 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230724/DATA/adr_area_05.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           50 | 2023-07-24     | f              |         5 | Алтай Респ   | 2023-07-25 13:58:09.425005 | postgres | 500006609 |       1 |                 149 | gar_tmp  | adr_street |     3329 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230724/DATA/adr_street_05.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           50 | 2023-07-24     | f              |         5 | Алтай Респ   | 2023-07-25 13:58:09.425005 | postgres | 500006609 |       1 |                 150 | gar_tmp  | adr_house  |    93367 |       5 | /home/n.chadaev@abrr.local/tmp/up_prds_20230724/DATA/adr_house_05.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           51 | 2023-07-27     | f              |         5 | Алтай Респ   | 2023-07-28 17:26:14.936926 | postgres | 500006652 |       1 |                 151 | gar_tmp  | adr_area   |      686 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230727/DATA/adr_area_05.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           51 | 2023-07-27     | f              |         5 | Алтай Респ   | 2023-07-28 17:26:14.936926 | postgres | 500006652 |       1 |                 152 | gar_tmp  | adr_street |     3329 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230727/DATA/adr_street_05.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           51 | 2023-07-27     | f              |         5 | Алтай Респ   | 2023-07-28 17:26:14.936926 | postgres | 500006652 |       1 |                 153 | gar_tmp  | adr_house  |    93391 |      34 | /home/n.chadaev@abrr.local/tmp/up_prds_20230727/DATA/adr_house_05.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           52 | 2023-07-31     | f              |         5 | Алтай Респ   | 2023-08-04 11:36:22.806855 | postgres | 500006666 |       1 |                 154 | gar_tmp  | adr_area   |      686 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230731/DATA/adr_area_05.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           52 | 2023-07-31     | f              |         5 | Алтай Респ   | 2023-08-04 11:36:22.806855 | postgres | 500006666 |       1 |                 155 | gar_tmp  | adr_street |     3329 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230731/DATA/adr_street_05.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           52 | 2023-07-31     | f              |         5 | Алтай Респ   | 2023-08-04 11:36:22.806855 | postgres | 500006666 |       1 |                 156 | gar_tmp  | adr_house  |    93395 |       4 | /home/n.chadaev@abrr.local/tmp/up_prds_20230731/DATA/adr_house_05.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           54 | 2023-08-03     | f              |         5 | Алтай Респ   | 2023-08-06 17:09:48.165726 | postgres | 500006684 |       1 |                 160 | gar_tmp  | adr_area   |      686 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230803/DATA/adr_area_05.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           54 | 2023-08-03     | f              |         5 | Алтай Респ   | 2023-08-06 17:09:48.165726 | postgres | 500006684 |       1 |                 161 | gar_tmp  | adr_street |     3329 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230803/DATA/adr_street_05.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           54 | 2023-08-03     | f              |         5 | Алтай Респ   | 2023-08-06 17:09:48.165726 | postgres | 500006684 |       1 |                 162 | gar_tmp  | adr_house  |    93403 |       8 | /home/n.chadaev@abrr.local/tmp/up_prds_20230803/DATA/adr_house_05.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           55 | 2023-08-07     | f              |         5 | Алтай Респ   | 2023-08-08 14:06:09.860864 | postgres | 500006702 |       1 |                 163 | gar_tmp  | adr_area   |      687 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230807/DATA/adr_area_05.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           55 | 2023-08-07     | f              |         5 | Алтай Респ   | 2023-08-08 14:06:09.860864 | postgres | 500006702 |       1 |                 164 | gar_tmp  | adr_street |     3329 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230807/DATA/adr_street_05.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           55 | 2023-08-07     | f              |         5 | Алтай Респ   | 2023-08-08 14:06:09.860864 | postgres | 500006702 |       1 |                 165 | gar_tmp  | adr_house  |    93409 |       7 | /home/n.chadaev@abrr.local/tmp/up_prds_20230807/DATA/adr_house_05.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           56 | 2023-08-14     | f              |         5 | Алтай Респ   | 2023-08-15 17:12:05.580475 | postgres | 500006727 |       1 |                 166 | gar_tmp  | adr_area   |      687 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230814/DATA/adr_area_05.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           56 | 2023-08-14     | f              |         5 | Алтай Респ   | 2023-08-15 17:12:05.580475 | postgres | 500006727 |       1 |                 167 | gar_tmp  | adr_street |     3329 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230814/DATA/adr_street_05.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           56 | 2023-08-14     | f              |         5 | Алтай Респ   | 2023-08-15 17:12:05.580475 | postgres | 500006727 |       1 |                 168 | gar_tmp  | adr_house  |    93424 |      18 | /home/n.chadaev@abrr.local/tmp/up_prds_20230814/DATA/adr_house_05.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           57 | 2023-08-17     | f              |         5 | Алтай Респ   | 2023-08-18 22:20:05.346521 | postgres | 500006767 |       1 |                 169 | gar_tmp  | adr_area   |      687 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230817/DATA/adr_area_05.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           57 | 2023-08-17     | f              |         5 | Алтай Респ   | 2023-08-18 22:20:05.346521 | postgres | 500006767 |       1 |                 170 | gar_tmp  | adr_street |     3329 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230817/DATA/adr_street_05.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           57 | 2023-08-17     | f              |         5 | Алтай Респ   | 2023-08-18 22:20:05.346521 | postgres | 500006767 |       1 |                 171 | gar_tmp  | adr_house  |    93449 |      30 | /home/n.chadaev@abrr.local/tmp/up_prds_20230817/DATA/adr_house_05.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           58 | 2023-08-21     | f              |         5 | Алтай Респ   | 2023-08-22 17:20:03.105912 | postgres | 500006793 |       1 |                 172 | gar_tmp  | adr_area   |      688 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230821/DATA/adr_area_05.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           58 | 2023-08-21     | f              |         5 | Алтай Респ   | 2023-08-22 17:20:03.105912 | postgres | 500006793 |       1 |                 173 | gar_tmp  | adr_street |     3329 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230821/DATA/adr_street_05.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           58 | 2023-08-21     | f              |         5 | Алтай Респ   | 2023-08-22 17:20:03.105912 | postgres | 500006793 |       1 |                 174 | gar_tmp  | adr_house  |    93463 |      15 | /home/n.chadaev@abrr.local/tmp/up_prds_20230821/DATA/adr_house_05.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           59 | 2023-08-24     | f              |         5 | Алтай Респ   | 2023-08-25 18:09:37.346921 | postgres | 500006827 |       1 |                 175 | gar_tmp  | adr_area   |      688 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230824/DATA/adr_area_05.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           59 | 2023-08-24     | f              |         5 | Алтай Респ   | 2023-08-25 18:09:37.346921 | postgres | 500006827 |       1 |                 176 | gar_tmp  | adr_street |     3329 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230824/DATA/adr_street_05.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           59 | 2023-08-24     | f              |         5 | Алтай Респ   | 2023-08-25 18:09:37.346921 | postgres | 500006827 |       1 |                 177 | gar_tmp  | adr_house  |    93485 |      24 | /home/n.chadaev@abrr.local/tmp/up_prds_20230824/DATA/adr_house_05.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           60 | 2023-08-28     | f              |         5 | Алтай Респ   | 2023-08-29 14:23:06.260196 | postgres | 500006850 |       1 |                 178 | gar_tmp  | adr_area   |      688 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230828/DATA/adr_area_05.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           60 | 2023-08-28     | f              |         5 | Алтай Респ   | 2023-08-29 14:23:06.260196 | postgres | 500006850 |       1 |                 179 | gar_tmp  | adr_street |     3329 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230828/DATA/adr_street_05.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           60 | 2023-08-28     | f              |         5 | Алтай Респ   | 2023-08-29 14:23:06.260196 | postgres | 500006850 |       1 |                 180 | gar_tmp  | adr_house  |    93497 |      15 | /home/n.chadaev@abrr.local/tmp/up_prds_20230828/DATA/adr_house_05.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           61 | 2023-08-31     | f              |         5 | Алтай Респ   | 2023-09-06 19:15:10.143043 | postgres | 500006892 |       1 |                 181 | gar_tmp  | adr_area   |      690 |       2 | /home/n.chadaev@abrr.local/tmp/up_prds_20230831/DATA/adr_area_05.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           61 | 2023-08-31     | f              |         5 | Алтай Респ   | 2023-09-06 19:15:10.143043 | postgres | 500006892 |       1 |                 182 | gar_tmp  | adr_street |     3329 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230831/DATA/adr_street_05.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           61 | 2023-08-31     | f              |         5 | Алтай Респ   | 2023-09-06 19:15:10.143043 | postgres | 500006892 |       1 |                 183 | gar_tmp  | adr_house  |    93525 |      31 | /home/n.chadaev@abrr.local/tmp/up_prds_20230831/DATA/adr_house_05.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           62 | 2023-09-04     | f              |         5 | Алтай Респ   | 2023-09-08 11:42:04.32242  | postgres | 500006909 |       1 |                 184 | gar_tmp  | adr_area   |      690 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230904/DATA/adr_area_05.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           62 | 2023-09-04     | f              |         5 | Алтай Респ   | 2023-09-08 11:42:04.32242  | postgres | 500006909 |       1 |                 185 | gar_tmp  | adr_street |     3329 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230904/DATA/adr_street_05.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           62 | 2023-09-04     | f              |         5 | Алтай Респ   | 2023-09-08 11:42:04.32242  | postgres | 500006909 |       1 |                 186 | gar_tmp  | adr_house  |    93532 |       7 | /home/n.chadaev@abrr.local/tmp/up_prds_20230904/DATA/adr_house_05.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           63 | 2023-09-07     | f              |         5 | Алтай Респ   | 2023-09-10 11:26:18.159027 | postgres | 500006934 |       1 |                 187 | gar_tmp  | adr_area   |      690 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230907/DATA/adr_area_05.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           63 | 2023-09-07     | f              |         5 | Алтай Респ   | 2023-09-10 11:26:18.159027 | postgres | 500006934 |       1 |                 188 | gar_tmp  | adr_street |     3329 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230907/DATA/adr_street_05.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           63 | 2023-09-07     | f              |         5 | Алтай Респ   | 2023-09-10 11:26:18.159027 | postgres | 500006934 |       1 |                 189 | gar_tmp  | adr_house  |    93547 |      16 | /home/n.chadaev@abrr.local/tmp/up_prds_20230907/DATA/adr_house_05.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           64 | 2023-09-11     | f              |         5 | Алтай Респ   | 2023-09-12 22:36:15.151936 | postgres | 500006963 |       1 |                 190 | gar_tmp  | adr_area   |      690 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230911/DATA/adr_area_05.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           64 | 2023-09-11     | f              |         5 | Алтай Респ   | 2023-09-12 22:36:15.151936 | postgres | 500006963 |       1 |                 191 | gar_tmp  | adr_street |     3329 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230911/DATA/adr_street_05.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           64 | 2023-09-11     | f              |         5 | Алтай Респ   | 2023-09-12 22:36:15.151936 | postgres | 500006963 |       1 |                 192 | gar_tmp  | adr_house  |    93562 |      22 | /home/n.chadaev@abrr.local/tmp/up_prds_20230911/DATA/adr_house_05.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           65 | 2023-09-15     | f              |         5 | Алтай Респ   | 2023-09-18 11:42:19.50845  | postgres | 500007023 |       1 |                 193 | gar_tmp  | adr_area   |      691 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230915/DATA/adr_area_05.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           65 | 2023-09-15     | f              |         5 | Алтай Респ   | 2023-09-18 11:42:19.50845  | postgres | 500007023 |       1 |                 194 | gar_tmp  | adr_street |     3335 |       6 | /home/n.chadaev@abrr.local/tmp/up_prds_20230915/DATA/adr_street_05.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           65 | 2023-09-15     | f              |         5 | Алтай Респ   | 2023-09-18 11:42:19.50845  | postgres | 500007023 |       1 |                 195 | gar_tmp  | adr_house  |    93602 |      46 | /home/n.chadaev@abrr.local/tmp/up_prds_20230915/DATA/adr_house_05.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           66 | 2023-09-18     | f              |         5 | Алтай Респ   | 2023-09-21 17:56:55.440706 | postgres | 500007035 |       1 |                 196 | gar_tmp  | adr_area   |      691 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230918/DATA/adr_area_05.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           66 | 2023-09-18     | f              |         5 | Алтай Респ   | 2023-09-21 17:56:55.440706 | postgres | 500007035 |       1 |                 197 | gar_tmp  | adr_street |     3335 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230918/DATA/adr_street_05.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           66 | 2023-09-18     | f              |         5 | Алтай Респ   | 2023-09-21 17:56:55.440706 | postgres | 500007035 |       1 |                 198 | gar_tmp  | adr_house  |    93604 |       2 | /home/n.chadaev@abrr.local/tmp/up_prds_20230918/DATA/adr_house_05.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           67 | 0223-09-25     | f              |         5 | Алтай Респ   | 2023-09-26 18:48:32.112093 | postgres | 500007074 |       1 |                 199 | gar_tmp  | adr_area   |      692 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_2230925/DATA/adr_area_05.sql    | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           67 | 0223-09-25     | f              |         5 | Алтай Респ   | 2023-09-26 18:48:32.112093 | postgres | 500007074 |       1 |                 200 | gar_tmp  | adr_street |     3336 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_2230925/DATA/adr_street_05.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           67 | 0223-09-25     | f              |         5 | Алтай Респ   | 2023-09-26 18:48:32.112093 | postgres | 500007074 |       1 |                 201 | gar_tmp  | adr_house  |    93630 |      29 | /home/n.chadaev@abrr.local/tmp/up_prds_2230925/DATA/adr_house_05.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+(186 rows)
+

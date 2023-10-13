@@ -19,8 +19,8 @@ control_params:
     mogrify_3_3: False    
     
 global_params:
-    g_region_id: 01   # Адыгея
-    g_fserver_nmb: 1 # На 5432 unnsi_prd_test
+    g_region_id: 47  # Вологда
+    g_fserver_nmb: 1 # На 5432 unnsi_prd_ex
     #
     g_adr_area_sch: unnsi
     g_adr_street_sch: unnsi
@@ -180,7 +180,7 @@ data_aggregation:
            params_aa:
                   # "p_date" - Не ИСПОЛЬЗОВАТЬ СЕЙЧАС.!!!           
                   p_date:  DATE(current_date)  # Дата, на которую выбираются данные НЕТ
-                  p_obj_level: 10              # Уровень объекта
+                  p_obj_level: 16              # Уровень объекта
                   p_oper_type_ids: Null        # ARRAY [1,2,3,5]       # Типы операций.                     НЕТ                                 
     #
     agg_adr_house:

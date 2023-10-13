@@ -1,0 +1,462 @@
+2023-09-08
+-----------
+
+В процессе миграции данных  по БФЛ в Дагестане  выявлено порядка 1500 адресов, которые есть в ФИАСе, но отсутствуют в адресном справочнике БФЛ и СРМ. 
+
+Необходимо:
+
+    Выявить причину по которой данные адреса отсутствуют в справочнике СРМ
+    Доработать (при необходимости) алгоритм обновления справочника ФИАС, чтобы все адреса попадали в справочник
+
+Реестр  ЛС с отсутствующими адресами (в колонке ГУИД действительные идентификаторы ФИАС) во вложении.
+
+
+2023-09-25
+----------
+
+1) ПОИСК отсутсвующих адресов.
+     Дополнительно, где ищем ?????   GAR_FIAS
+                                     history
+
+-+ 2) Самое главное, определить типы неуществующих адресов.  ???  (Дома, н не все)
+
+++ 3) Ещё более важное -- создать таблицу.
+
+++ 4) Ещё более важное -- выбрать схему, в которой будет хранится рабочая таблица.
+
+++ 5) Хост для работы.
+
+
+----------------------------------------------------------------------
+-- 
+
+2023-09-26 
+
+             -+ Какие UUIDs домов попали в центральную БД. 
+             -+ Какие UUIDs домов попали в БД-05.
+             -+ Какие UUIDs домов есть GAR_FIAS
+             
+2023-09-27
+          
+             -- Нужен стенд для отладки
+             
+                 ++  Текущая БД
+                 ++  05  (01 -- 10)
+                 --  Целый кластер ???
+                 
+++ pg_dump -h 10.196.35.165 -U postgres -p 5432 -a -f unnsi_prd_test_20230927.sql unnsi_prd_test 1> d.out 2>d.err &                 
+
+++ pg_dump -h 10.196.35.165 -U postgres -p 5432 -C -f unsi_test_01_20230927.sql unsi_test_01 1> d01.out 2>d01.err &                 
+++ pg_dump -h 10.196.35.165 -U postgres -p 5432 -C -f unsi_test_02_20230927.sql unsi_test_02 1> d02.out 2>d02.err &                 
+++ pg_dump -h 10.196.35.165 -U postgres -p 5432 -C -f unsi_test_03_20230927.sql unsi_test_03 1> d03.out 2>d03.err &                 
+++ pg_dump -h 10.196.35.165 -U postgres -p 5432 -C -f unsi_test_04_20230927.sql unsi_test_04 1> d04.out 2>d04.err &                  
+++ pg_dump -h 10.196.35.165 -U postgres -p 5432 -C -f unsi_test_05_20230927.sql unsi_test_05 1> d05.out 2>d05.err &                               
+++ pg_dump -h 10.196.35.165 -U postgres -p 5432 -C -f unsi_test_06_20230927.sql unsi_test_06 1> d06.out 2>d06.err &                  
+++ pg_dump -h 10.196.35.165 -U postgres -p 5432 -C -f unsi_test_07_20230927.sql unsi_test_07 1> d07.out 2>d07.err &                  
+++ pg_dump -h 10.196.35.165 -U postgres -p 5432 -C -f unsi_test_08_20230927.sql unsi_test_08 1> d08.out 2>d08.err &                  
+++ pg_dump -h 10.196.35.165 -U postgres -p 5432 -C -f unsi_test_09_20230927.sql unsi_test_09 1> d09.out 2>d09.err &                  
+++ pg_dump -h 10.196.35.165 -U postgres -p 5432 -C -f unsi_test_10_20230927.sql unsi_test_10 1> d10.out 2>d10.err &
+
+--------------------------------
+Мучения от собственной глупости.
+DROP SERVER IF EXISTS unnsi_prd_s;
+CREATE SERVER unnsi_prd_s FOREIGN DATA WRAPPER postgres_fdw
+    OPTIONS (dbname 'unnsi_prd_test', host '127.0.0.1', port '5434');
+    
+#  Помнить об этом нужно    
+./post_proc.sh /home/n.chadaev@abrr.local/tmp up_prds_20230925
+./
+
+
+-- Модификация функции  (0, 1, 2)
+-- Модификаця таблицы
+-- Контрольный запрос 53.
+
+-- Чьи это идентификаторы ????  Почему они не находятся.
+
+
+2023-09-28 -- Записи без родителей ( 111 домов)
+------------
+Задача: пересмотреть запрос формирующий  список-агрегат адресных пространств
+        Восстановить нарушенную целостнность БД.
+        
+Как делаем ?   (111 домов)
+     1) JOIN С РОДИТЕЛЯМИ    as_addr_obj, ЕСТЬ ЛИ ОНИ ???
+
+
+Записи без родителей.
+-- home JOIN с as_addr_obj --есть ли они ?
+
+2023-10-02  --  Кривой запрос был. У всех "потерянный" был правильный родитель.
+----------      
+  -- Проверить агрегацию.
+  --
+  
+2023-10-03   Формирование буферной таблицы.  
+----------
+   unnsi - сторонняя схема, таблицы в ней не изменяются.
+   gar_tmp - локальная схема, таблицы в ней модифицируются.
+   
+   Этапы:
+          -- формирование буферной  таблицы, контроль log.
+          -- обновления:
+                -- адресные пространства,
+                -- улицы,
+                -- дома.
+                
+   LOGs
+
+[22:14:17] ...     -- Очистка данных во временной схеме.   
+   
+[22:14:39] ...     -- Агрегация данных
+[22:14:39] ...     -- Агрегация параметров
+[22:14:48] ...     -- Агрегация адресных пространств
+[22:14:49] ...     -- Агрегация домовладений
+[22:14:57] ...     -- Заполнение управляющей таблицы "gar_tmp.xxx_obj_fias"
+   
+   
+Это потом:
+
+[22:15:06] ...  -- stage_41r (Обработка данных)
+[22:15:06] ...     -- Адресные регионы, дополнение
+[22:15:06] ...     -- Адресные регионы, обновление
+[22:15:09] ...     -- Элемент улично-дорожной сети, дополнение
+[22:15:10] ...     -- Элемент улично-дорожной сети, обновление
+[22:15:33] ...     -- Здания (сооружения), дополнение
+[22:15:34] ...     -- Здания (сооружения), обновление
+
+
+
+
+ f_xxx_adr_area_set_data 
+-------------------------
+                   26250
+(1 row)
+
+ f_xxx_adr_house_set_data 
+--------------------------
+                   617502
+(1 row)
+
+ f_xxx_obj_fias_set_data 
+-------------------------
+                    2065
+                   24185
+                  611622
+(3 rows)
+
+ id_un_export | dt_gar_version | kd_export_type | id_region | nm_area_full  |         dt_export          | nm_user  | seq_value | node_id | id_un_export_by_obj | sch_name | nm_object  | qty_main | qty_aux |                               file_path                                | fserver_name |   host    |     dbname     | port | db_conn_name  
+--------------+----------------+----------------+-----------+---------------+----------------------------+----------+-----------+---------+---------------------+----------+------------+----------+---------+------------------------------------------------------------------------+--------------+-----------+----------------+------+---------------
+           67 | 0223-09-25     | f              |         6 | Дагестан Респ | 2023-09-26 22:21:46.893425 | postgres | 600071179 |       1 |                 199 | gar_tmp  | adr_area   |     2096 |       7 | /home/n.chadaev@abrr.local/tmp/up_prds_2230925/DATA/adr_area_06.sql    | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           67 | 0223-09-25     | f              |         6 | Дагестан Респ | 2023-09-26 22:21:46.893425 | postgres | 600071179 |       1 |                 200 | gar_tmp  | adr_street |    25477 |      55 | /home/n.chadaev@abrr.local/tmp/up_prds_2230925/DATA/adr_street_06.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           67 | 0223-09-25     | f              |         6 | Дагестан Респ | 2023-09-26 22:21:46.893425 | postgres | 600071179 |       1 |                 201 | gar_tmp  | adr_house  |   663156 |     356 | /home/n.chadaev@abrr.local/tmp/up_prds_2230925/DATA/adr_house_06.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+
+----------------------------------------------------------------- 
+ 
+DELETE FROM ONLY gar_tmp.xxx_adr_area;         -- Временная таблица. заполняется данными из "AS_ADDR_OBJ", "AS_REESTR_OBJECTS", "AS_ADM_HIERARCHY", "AS_MUN_HIERARCHY", "AS_OBJECT_LEVEL", "AS_STEADS_PARAMS"
+DELETE FROM ONLY gar_tmp.xxx_adr_house;	       -- Адреса домов 
+DELETE FROM ONLY gar_tmp.xxx_obj_fias;         -- Дополнительная связь адресных объектов с ГАР-ФИАС
+DELETE FROM ONLY gar_tmp.xxx_type_param_value; -- Для каждого объекта хранятся агрегированные пары "Тип" - "Значение"
+
+SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_set_data();
+SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_house_set_data();
+SELECT * FROM gar_tmp_pcg_trans.f_xxx_obj_fias_set_data('gar_tmp','gar_tmp','gar_tmp');
+SELECT * FROM gar_tmp_pcg_trans.f_set_params_value();
+
+-------------------------------------------------------------------------------------
+
+DELETE FROM ONLY gar_tmp.xxx_adr_area;         --   26250
+DELETE FROM ONLY gar_tmp.xxx_adr_house;	       --  617502
+DELETE FROM ONLY gar_tmp.xxx_obj_fias;         --  637872
+DELETE FROM ONLY gar_tmp.xxx_type_param_value; -- 1065890
+
+-- Идиот, обновлять aux !!!
+SELECT * FROM gar_tmp.adr_area_aux;
+------------------------------------
+id_area	op_sign
+192259	U
+192263	U     <----- Старьё  
+192331	U
+22872	U
+----------
+208140	U
+208184	U
+208173	U
+
+SELECT * FROM gar_tmp.adr_street_aux;
+DELETE FROM gar_tmp.adr_street_aux;
+--
+SELECT * FROM gar_tmp.adr_house_aux;
+DELETE FROM gar_tmp.adr_house_aux;
+
+
+
+SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_set_data();   --  26509
+SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_house_set_data();  -- 617502
+SELECT * FROM gar_tmp_pcg_trans.f_xxx_obj_fias_set_data('gar_tmp','gar_tmp','gar_tmp');
+
+   --   2076
+   --  24433
+   -- 617487  --  15 ??
+
+SELECT * FROM gar_tmp_pcg_trans.f_set_params_value(); -- 1065890
+
+
+SELECT * FROM gar_tmp.xxx_obj_fias;
+SELECT * FROM gar_tmp.xxx_obj_fias WHERE (type_object = 2) AND (id_obj IS NULL); -- 6494
+SELECT * FROM gar_tmp.xxx_obj_fias WHERE (type_object = 1) AND (id_obj IS NULL); --  298
+SELECT * FROM gar_tmp.xxx_obj_fias WHERE (type_object = 0) AND (id_obj IS NULL); --   19
+
+SELECT * FROM gar_tmp.xxx_obj_fias f
+   INNER JOIN public.fias_not_found_06u u ON (u.guid = f.obj_guid) -- 160   60 ??
+
+SELECT * FROM public.fias_not_found_06u; -- 220
+--
+--  Установка последовательностей.
+--
+SELECT gar_tmp_pcg_trans.f_xxx_obj_seq_crt (
+              p_seq_name      := 'gar_tmp.obj_seq' -- Имя последовательности
+             ,p_id_region     := 6                 -- ID региона
+             ,p_init_value    := 100000000         -- Начальное значение
+);
+
+Что произошло с функционалом обновления/дополнения.
+
+SELECT * FROM gar_tmp.xxx_obj_fias WHERE (type_object = 2) AND (id_obj IS NULL); -- 6494
+SELECT * FROM gar_tmp.xxx_obj_fias WHERE (type_object = 1) AND (id_obj IS NULL); --  298
+SELECT * FROM gar_tmp.xxx_obj_fias WHERE (type_object = 0) AND (id_obj IS NULL); --   19
+
+
+Почему не дополнились, не обновились ???
+----------------------------------------
+SELECT * FROM gar_tmp.xxx_obj_fias WHERE (type_object = 2) AND (id_obj IS NULL); -- 6494
+SELECT * FROM gar_tmp.xxx_obj_fias WHERE (type_object = 1) AND (id_obj IS NULL); --  298
+SELECT * FROM gar_tmp.xxx_obj_fias WHERE (type_object = 0) AND (id_obj IS NULL); --   19
+
+SELECT aa.* FROM gar_tmp.xxx_adr_area aa --  19
+   INNER JOIN gar_tmp.xxx_obj_fias xx ON (aa.fias_guid = xx.obj_guid) 
+WHERE ((xx.type_object = 0) AND (xx.id_obj IS NULL));   
+
+SELECT aa.* FROM gar_tmp.xxx_adr_area aa -- 298
+   INNER JOIN gar_tmp.xxx_obj_fias xx ON (aa.fias_guid = xx.obj_guid) 
+WHERE ((xx.type_object = 1) AND (xx.id_obj IS NULL))-- and (nm_addr_obj = 'Юннатов');
+
+SELECT hh.* FROM gar_tmp.xxx_adr_house hh -- 6494
+   INNER JOIN gar_tmp.xxx_obj_fias xx ON (hh.fias_guid = xx.obj_guid) 
+WHERE ((xx.type_object = 2) AND (xx.id_obj IS NULL)) ;
+
+SELECT hh.* FROM gar_tmp.xxx_adr_house hh -- 111 !!!  и ДОЛЖНЫ ОБНОВЛЯТЬСЯ
+   INNER JOIN gar_tmp.xxx_obj_fias xx ON (hh.fias_guid = xx.obj_guid) 
+   INNER JOIN public.fias_not_found_06u n ON (hh.fias_guid = n.guid)    
+WHERE ((xx.type_object = 2) AND (xx.id_obj IS NULL)) ;
+
+
+2023-10-04  Что, почему появились "бездомные"
+----------
+
+
+2023-10-05   Пока "несложное и туповатое".
+----------    
+              02 - Башкирия, посмотрим, будут ли похожие результаты.
+                   -- Собрать пакет + view
+                   -- Модификация xxx-справочника типов.
+                   -- Перезагрузка xxx-таблиц
+                   -- Тестовое обновление.
+                   
+commit 636a458190586e2621d20376bf0ff7820f4dc6f9 (origin/FilterObj)
+Author: Чадаев Николай <n.chadaev.tech>
+Date:   Wed Oct 4 17:44:43 2023 +0300
+
+    Решение FIX-5
+
+2023-10-06   10 домов, чём причина их потери. Строим тестовое view.
+-------------------------------------------------------------------
+
+1) Есть ли у этих  10 домов родители.
+2) Если есть, то какие
+
+До конца решено не было.
+-------------------------                    
+
+2023-10-09
+-----------
+
+  ++  Собрать пакет от 2023-10-06
+
+  ++  Обновление кластер 2
+
+  ++  stage_31r.yaml -- коррекция.
+
+  ++  Бухгалтерия заработала после перезапуска Linux.
+
+  !!  Локальный и удалённые репозитории GIT --сущности различные,
+      git pull origin ... вызовет слияние локальной (текущей ветки) и отдалённой веток.
+      Таким образом забацал FilterObj в master.
+      
+  ++ Новый patch для обновления промежуточного справочника адресных пространств.
+  
+
+  2023-10-10
+  ----------
+  
+     ++ Посмотреть  log 06, 24 (Дагестан, Краснодар)
+        И смотрим локальные БД  (05, 23)  Сочи, Центральный р-н (БЫЛО всё потеряно).
+     
+     -- Описание, не приводить примеры.  Краснодарский край
+     
+    SELECT id, object_id, object_guid, change_id, object_name, type_id, type_name
+         , obj_level, oper_type_id, prev_id, next_id, update_date, start_date, end_date
+         , is_actual, is_active
+	FROM gar_fias.as_addr_obj WHERE (object_name = 'Барановка') AND (end_date > NOW());     
+     
+    Это соотносится с проблемой "активных" предшественников. В случае улиц в Дагестане,
+    непонятно то, где была найдена такая улица, неактивная, но неистёкшим сроком актуальностию.
+     
+     Основная причина "пропажи" адресов заключается в том, что оставшееся от советских времён
+     городское районное административное деление может описываеться в БД ГАР-ФИАС записями
+     с уровнем 14 и выше, такие записи, являются активными, но период их актуальности 
+     закончился. Подчинённые им записи (улицы и дома), так-же могут быть активными, но с 
+     неистёкшим периодом актуальности. Это обстоятельство потребовало модификации функции
+     "gar_tmp_pcg_trans.f_xxx_adr_area_show_data()", "gar_tmp_pcg_trans.f_xxx_obj_fias_show_data_0/1/2()"
+     с целью исключения "пропажи" подчинённых адресных объектов.
+     
+     Земельные участки, В настоящее  время их данные загружаются в таблицы "gar_fias.as_steads" и
+     "gar_fias.as_steads_params". Это первичная загрузка.
+     
+     Необходимо определить структуру таблицы в схеме "unnsi" для хранения данных о земельных 
+     участкаъх, расширить функциональный пакет "gar_tmp_pcg_trans", выполнить доработку python-скриптов.
+     -----------------------------------------------------------------------------------------------
+     
+     -- Подумать о загрузке земельных участков.
+        До уровня агрегатов всё будет традиционно,
+        далеее выбор: новая таблица, либо  "adr_objects".
+        
+     -- Параметры земельных участков.     
+        
+        
+     -- "_COMMON" подумать, как отшлифовать её (надо готовить задание для ticker).
+     
+     -- Активные предщественники, подумать об оптимизации.  !!!!!!!!!!!!!!!!!!!
+     -- 
+     
+     2023-10-10
+     -----------
+2023-10-11 00:14:12,012 WARNING pg-perfect-ticker ticker task ('r0', 'bg_thr_pool_r', 'exchange_db_con'): error <class 'SystemExit'>: 256
+Московская область -- разобраться. !!!!!
+
+ОШИБКА:  команда ON CONFLICT DO UPDATE не может менять строку повторно
+HINT:  Проверьте, не содержат ли строки, которые должна добавить команда, дублирующиеся значения, подпадающие под ограничения.
+CONTEXT:  SQL-оператор: "INSERT INTO gar_tmp.xxx_adr_area AS z (
+----------------------------------------------------------------
+               ON CONFLICT (id_addr_obj) DO 
+               
+               UPDATE
+                    SET
+                          id_addr_parent   = excluded.id_addr_parent    
+                         ,fias_guid        = excluded.fias_guid       
+                         ,parent_fias_guid = excluded.parent_fias_guid
+                         ,nm_addr_obj      = excluded.nm_addr_obj    
+                         ,addr_obj_type_id = excluded.addr_obj_type_id                            
+                         ,addr_obj_type    = excluded.addr_obj_type   
+                         ,obj_level        = excluded.obj_level       
+                         ,level_name       = excluded.level_name      
+                          --
+                         ,region_code      = excluded.region_code -- 2021-12-01
+                         ,area_code        = excluded.area_code  
+                         ,city_code        = excluded.city_code  
+                         ,place_code       = excluded.place_code 
+                         ,plan_code        = excluded.plan_code  
+                         ,street_code      = excluded.street_code
+                          --                                 
+                         ,oper_type_id     = excluded.oper_type_id    
+                         ,oper_type_name   = excluded.oper_type_name
+                          --
+                         ,start_date       = excluded.start_date  -- 2021-12-06
+                         ,end_date         = excluded.end_date
+                          -- 
+                         ,tree_d           = excluded.tree_d          
+                         ,level_d          = excluded.level_d         
+                  
+               WHERE (z.id_addr_obj = excluded.id_addr_obj)"
+
+
+
+----------------------------------------------------------------
+
+1) Осталось 252 файла. 
+            2) Остановка ticker'ab
+            3) Разобраться отдельно.
+            
+         SELECT   x.id_addr_obj      
+                  ,x.id_addr_parent   
+                  ,x.fias_guid        
+                  ,x.parent_fias_guid 
+                  ,x.nm_addr_obj  
+                  ,x.addr_obj_type_id     
+                  ,x.addr_obj_type    
+                  ,x.obj_level        
+                  ,x.level_name
+                   --
+                  ,x.region_code  -- 2021-12-01
+                  ,x.area_code    
+                  ,x.city_code    
+                  ,x.place_code   
+                  ,x.plan_code    
+                  ,x.street_code    
+                   --                                 
+                  ,x.oper_type_id     
+                  ,x.oper_type_name  
+                   --
+                  ,x.start_date 
+                  ,x.end_date  
+                   --                  
+                  ,x.tree_d           
+                  ,x.level_d          
+          
+          FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data (
+              p_date          := DATE(current_date)::date     -- Дата, на которую выбираются данные
+             ,p_obj_level     := 16::bigint   -- Уровень объекта
+             ,p_oper_type_ids := NULL::bigint[] -- Типы операций.
+          ) x 
+          
+          00:22:49] ... [00:22:49]: Error, rc = 256
+[00:22:49] ...             psql -h 127.0.0.1 -p 5432 -c "SELECT gar_tmp_pcg_trans.f_xxx_adr_area_set_data (
+              p_date          := DATE(current_date)::date     -- Дата, на которую выбираются данные
+             ,p_obj_level     := 16::bigint   -- Уровень объекта
+             ,p_oper_type_ids := NULL::bigint[] -- Типы операций.
+        );
+        
+ 3) счётчик не работает
+ 
+2023-10-12 -- Индексное покрытие ???
+----------
+
+   Причина появления дублей (только Московская область). БЛИЖАЙШИЕ РОДИТЕЛИ, ВОТВ ЧЁМ ПРИЧИНА.
+   -- адресные объекты  -- тестовое представление
+   -- дома
+   
+  -- адресные объекты, вторая часть рекурсивного запроса, выполняется нормально,
+     как с признаком активности, так и без него.
+     (номальное выполнение, это 5 адресных объектов, отображающихся без дублей).
+     
+   -- адресные объекты, полный рекурсивный запрос:    (здесь есть объекты, не имеющие дублей !!!!)
+         -- нормально признак активности включен везде.
+         -- признак активности выключен только в опорной части.
+         -- признаки активности  выключены везде.  ЗАДВОЕНИЕ !!
+           
+         
+   -- План запроса  
+         -- признак активности выключен только в опорной части.
+     
+  -- адресные объекты,
+  
+--==============================================================================================
+2023-10-13
+----------
+
+Теперь проверить на 05, будет ли разница??
+  -- В зависимой части признак активности выключен / включён.   26531 | 26520  with active  26525 ??
+  
+  -- Индексное покрытие над GAR_FIAS -- ЧАСТИЧНАЯ РЕВИЗИЯ. 
+
+  -- l0.py отработал нормально, просто у него длительное время сна. 

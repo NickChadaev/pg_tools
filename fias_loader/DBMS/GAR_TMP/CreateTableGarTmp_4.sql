@@ -53,15 +53,21 @@ DO
            ,parent_fias_guid      uuid 
            ,nm_parent_obj         varchar(250) 
            ,region_code           varchar(4)   
+
            ,parent_type_id        bigint       
            ,parent_type_name      varchar(250) 
            ,parent_type_shortname varchar(50)  
+
            ,parent_level_id       bigint       
            ,parent_level_name     varchar(100) 
-           ,parent_short_name     varchar(50)  
-           ,stead_num             varchar(250)     
-           ,stead_cadastr_num     varchar(250)  
-           
+
+           ,stead_num             varchar(250)  
+           ,stead_cadastr_num     varchar(250)     
+            --
+           ,kd_oktmo              varchar(11) 
+           ,kd_okato              varchar(11) 
+           ,nm_zipcode            varchar(20) 
+           --
            ,oper_type_id           bigint 
            ,oper_type_name         varchar(100) 
            ,curr_date              date
@@ -94,9 +100,7 @@ CREATE TABLE gar_tmp.xxx_adr_stead
     ,parent_type_shortname varchar(50)  
     ,parent_level_id       bigint       
     ,parent_level_name     varchar(100) 
-    ,parent_short_name     varchar(50)  
     ,stead_num             varchar(250)   NOT NULL 
-    ,stead_cadastr_num     varchar(250)  
     ,oper_type_id          bigint       
     ,oper_type_name        varchar(100) 
 );
@@ -132,21 +136,17 @@ COMMENT ON TABLE gar_tmp.adr_stead IS 'Земельные участки';
 ALTER TABLE gar_tmp.adr_stead
    ADD CONSTRAINT pk_adr_stead PRIMARY KEY (id_stead);
 
---  COMMENT ON COLUMN gar_tmp.adr_stead.id_stead          IS '';
---  COMMENT ON COLUMN gar_tmp.adr_stead.id_area           IS '';
---  COMMENT ON COLUMN gar_tmp.adr_stead.id_street         IS '';
---  COMMENT ON COLUMN gar_tmp.adr_stead.stead_num         IS '';
---  COMMENT ON COLUMN gar_tmp.adr_stead.stead_cadastr_num IS '';
---  
---  COMMENT ON COLUMN gar_tmp.adr_stead.kd_oktmo   IS '';
---  COMMENT ON COLUMN gar_tmp.adr_stead.kd_okato   IS '';
---  COMMENT ON COLUMN gar_tmp.adr_stead.nm_zipcode IS '';
---  
---  COMMENT ON COLUMN gar_tmp.adr_stead.nm_fias_guid      IS '';
---  COMMENT ON COLUMN gar_tmp.adr_stead.dt_data_del       IS '';
---  COMMENT ON COLUMN gar_tmp.adr_stead.id_data_etalon    IS '';
---  COMMENT ON COLUMN gar_tmp.adr_stead.vl_addr_latitude  IS '';
---  COMMENT ON COLUMN gar_tmp.adr_stead.vl_addr_longitude IS '';
+--  ВНИМАНИЕ, первый вариант эксплуатационного индексного покрытия.
+--
+CREATE UNIQUE INDEX adr_stead_ak1 ON gar_tmp.adr_stead USING btree (id_area, upper((stead_num)::text), id_street) WHERE (id_data_etalon IS NULL);
+CREATE INDEX adr_stead_i1 ON gar_tmp.adr_stead USING btree (id_area);
+CREATE INDEX adr_stead_i2 ON gar_tmp.adr_stead USING btree (id_street);                          
+CREATE INDEX adr_stead_i3 ON gar_tmp.adr_stead USING btree (nm_fias_guid);                       
+CREATE INDEX adr_stead_i4 ON gar_tmp.adr_stead USING btree (id_area) WHERE (id_street IS NULL);
+
+--   Процессинговое индексное покрытие.
+-- CREATE UNIQUE INDEX _xxx_adr_stead_ak1 ON gar_tmp.adr_stead USING btree (id_area, upper((stead_num)::text), id_street) WHERE ((id_data_etalon IS NULL) AND (dt_data_del IS NULL));
+-- CREATE UNIQUE INDEX _xxx_adr_stead_ie2 ON gar_tmp.adr_stead USING btree (nm_fias_guid) WHERE ((id_data_etalon IS NULL) AND (dt_data_del IS NULL));
 
 /*==============================================================*/
 /* Table: gar_tmp.adr_stead_aux                                 */
@@ -157,11 +157,11 @@ CREATE TABLE gar_tmp.adr_stead_aux (
 	,op_sign   bpchar(1) NOT NULL
 );
 
-ALTER TABLE ADD CONTRAINT
-	CONSTRAINT pk_adr_stead_aux PRIMARY KEY (id_stead);
+ALTER TABLE gar_tmp.adr_stead_aux ADD CONSTRAINT
+	pk_adr_stead_aux PRIMARY KEY (id_stead);
 
-ALTER TABLE ADD CONTRAINT
-	adr_stead_aux_op_sign_check CHECK ((op_sign = ANY (ARRAY['I'::bpchar, 'U'::bpchar])));
+ALTER TABLE gar_tmp.adr_stead_aux ADD CONSTRAINT
+	adr_stead_aux_op_sign_check CHECK (op_sign = ANY (ARRAY['I'::bpchar, 'U'::bpchar]));
 
 COMMENT ON TABLE gar_tmp.adr_house_aux IS 'Земельные участки, вспомогательная таблица';
 
@@ -193,7 +193,7 @@ DROP TABLE IF EXISTS gar_tmp.xxx_adr_stead_gap CASCADE;
 CREATE TABLE gar_tmp.xxx_adr_stead_gap OF gar_tmp.xxx_adr_stead_proc_t;
 
 ALTER TABLE gar_tmp.xxx_adr_stead_gap 
-    ADD CONSTRAINT pk_xxx_adr_stead_gap PRIMARY KEY (nm_fias_guid);
+    ADD CONSTRAINT pk_xxx_adr_stead_gap PRIMARY KEY (fias_guid);
 
 ALTER TABLE gar_tmp.xxx_adr_stead_gap ALTER COLUMN curr_date SET NOT NULL;
 ALTER TABLE gar_tmp.xxx_adr_stead_gap ALTER COLUMN check_kind SET NOT NULL;
@@ -212,3 +212,4 @@ ALTER TABLE gar_tmp.xxx_adr_stead_gap
 );    
     
 COMMENT ON TABLE gar_tmp.xxx_adr_stead_gap IS 'Земельные участки  не прошедшие входной контроль';
+

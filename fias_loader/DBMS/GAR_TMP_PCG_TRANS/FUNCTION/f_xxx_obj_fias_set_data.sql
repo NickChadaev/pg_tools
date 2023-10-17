@@ -1,9 +1,12 @@
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_obj_fias_set_data (text, text, text);
+
+DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_xxx_obj_fias_set_data (text, text, text, text);
 CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_obj_fias_set_data (
-       p_adr_area_sch     text -- Отдалённая/Локальная схема для хранения адресных областей
-      ,p_adr_street_sch   text -- Отдалённая/Локальная схема для хранения улиц
-      ,p_adr_house_sch    text -- Отдалённая/Локальная схема для хранения домов/строений
-       --
+       p_adr_area_sch    text -- Отдалённая/Локальная схема для хранения адресных областей
+      ,p_adr_street_sch  text -- Отдалённая/Локальная схема для хранения улиц
+      ,p_adr_house_sch   text -- Отдалённая/Локальная схема для хранения домов/строений
+      ,p_adr_stead_sch   text -- Отдалённая/Локальная схема для хранения земельных участков      --
+      
       ,OUT rr integer -- Количество вставленных записей
 )
     RETURNS SETOF integer
@@ -13,6 +16,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_obj_fias_set_data (
   $$
     -- -------------------------------------------------------------------------------
     --   2022-03-18. Заполнение управляющей таблицы. Несколько топорно.
+    --   2023-10-17  Добавлены земельные участки.
     -- -------------------------------------------------------------------------------
     BEGIN
       TRUNCATE TABLE gar_tmp.xxx_obj_fias;
@@ -96,11 +100,39 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_obj_fias_set_data (
             
       GET DIAGNOSTICS rr = ROW_COUNT;
       RETURN NEXT;       
+      --
+      --   2023-10-17  
+      -- 
+      -- 3) Steads
+      --
+      INSERT INTO gar_tmp.xxx_obj_fias AS x3
+            SELECT  
+                   id_obj      
+                  ,id_obj_fias 
+                  ,obj_guid    
+                  ,type_object 
+                  ,tree_d      
+                  ,level_d     
             
+            FROM gar_tmp_pcg_trans.f_xxx_obj_fias_show_data_3 (p_adr_stead_sch)
+            
+      ON CONFLICT (obj_guid) DO UPDATE 
+                             SET 
+                                 id_obj      = excluded.id_obj     
+                                ,id_obj_fias = excluded.id_obj_fias
+                                ,type_object = excluded.type_object
+                                ,tree_d      = excluded.tree_d     
+                                ,level_d     = excluded.level_d    
+                                
+                             WHERE (x3.obj_guid = excluded.obj_guid);  
+            
+      GET DIAGNOSTICS rr = ROW_COUNT;
+      RETURN NEXT;       
+      
     END;
   $$;
   
-COMMENT ON FUNCTION gar_tmp_pcg_trans.f_xxx_obj_fias_set_data (text, text, text)
+COMMENT ON FUNCTION gar_tmp_pcg_trans.f_xxx_obj_fias_set_data (text, text, text, text)
                        IS 'Загрузка данных в таблицу, управляющую последующей обработкой';  
 -- ----------------------------------------------------------------------------------------
 -- USE CASE:
@@ -124,3 +156,11 @@ COMMENT ON FUNCTION gar_tmp_pcg_trans.f_xxx_obj_fias_set_data (text, text, text)
 -- SELECT * FROM gar_tmp_pcg_trans.f_xxx_obj_fias_show_data_1 ('unnsi'); -- 5615
 -- SELECT * FROM gar_tmp_pcg_trans.f_xxx_obj_fias_show_data_2 ('gar_tmp'); --  96167
 -- -----------------------------------------------------------------------
+-- SELECT gar_tmp_pcg_trans.f_xxx_obj_fias_set_data ('gar_tmp', 'gar_tmp', 'gar_tmp', 'gar_tmp');
+--
+--  f_xxx_obj_fias_set_data|
+--  -----------------------+
+--                     2082|
+--                    24433|
+--                   617491|
+--                   295133|

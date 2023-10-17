@@ -471,3 +471,26 @@ CONTEXT:  SQL-оператор: "INSERT INTO gar_tmp.xxx_adr_area AS z (
       
 Ветка "steads"  -- начинаю работу, host  "BigCluster-0", базы unsi_test_05
 unsi_test_50
+
+
+2023-10-17
+----------
+SELECT count(1) FROM gar_tmp_pcg_trans.f_xxx_adr_stead_show_data ();           -- 295'157  Все данные их ФИАС
+
+SELECT * FROM gar_tmp_pcg_trans.f_xxx_obj_fias_show_data_3 ('gar_tmp'); -- 
+SELECT count(1) FROM gar_tmp_pcg_trans.f_xxx_obj_fias_show_data_3 ('gar_tmp'); -- 295'133  Только те, укоторых есть родители.
+
+SELECT gar_tmp_pcg_trans.f_xxx_obj_fias_set_data ('gar_tmp', 'gar_tmp', 'gar_tmp', 'gar_tmp');
+--
+--  f_xxx_obj_fias_set_data|
+--  -----------------------+
+--                     2082|
+--                    24433|
+--                   617491|
+--                   295133|
+
+
+зАПОЛНИЛ таблицу-прототип
+-- сформировал управляющую структуру  -- теряю "безродных".
+
+-- далее обновление/дополнение

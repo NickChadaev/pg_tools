@@ -1,7 +1,7 @@
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_show_params_value (bigint[]);
 CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_show_params_value (
-       p_param_type_ids  bigint[] = ARRAY [5,6,7,10,11]::bigint[]
-)
+       p_param_type_ids  bigint[] = ARRAY [5,6,7,8,10,11]::bigint[]
+)                                           
     RETURNS TABLE 
 
     ( object_id         bigint
@@ -16,6 +16,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_show_params_value (
     --  2021-11-24 Nick Получить список величин параметров объекта. Агрегация пар "Тип" - "Значение"
     -- ----------------------------------------------------------------------------------------------
     --           p_param_type_ids bigint[] -- Список типов параметров 
+    --  2023-10-17  Добавлен параметр 8 -- кадастровый номер для земельного участка.
     -- ----------------------------------------------------------------------------------------------
     WITH a1 (  object_id
               ,type_id

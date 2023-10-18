@@ -81,7 +81,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_stead_ins (
     
          IF (_id_area IS NULL)
            THEN
-               -- CALL gar_tmp_pcg_trans.p_xxx_adr_stead_gap_put (_data)
+               CALL gar_tmp_pcg_trans.p_xxx_adr_stead_gap_put (_data);
                CONTINUE; -- НЕ были загружены Ни улицы, Ни адресные объекты.
          END IF; 
          

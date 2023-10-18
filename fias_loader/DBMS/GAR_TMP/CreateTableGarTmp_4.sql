@@ -193,7 +193,7 @@ DROP TABLE IF EXISTS gar_tmp.xxx_adr_stead_gap CASCADE;
 CREATE TABLE gar_tmp.xxx_adr_stead_gap OF gar_tmp.xxx_adr_stead_proc_t;
 
 ALTER TABLE gar_tmp.xxx_adr_stead_gap 
-    ADD CONSTRAINT pk_xxx_adr_stead_gap PRIMARY KEY (fias_guid);
+    ADD CONSTRAINT pk_xxx_adr_stead_gap PRIMARY KEY (nm_fias_guid);
 
 ALTER TABLE gar_tmp.xxx_adr_stead_gap ALTER COLUMN curr_date SET NOT NULL;
 ALTER TABLE gar_tmp.xxx_adr_stead_gap ALTER COLUMN check_kind SET NOT NULL;

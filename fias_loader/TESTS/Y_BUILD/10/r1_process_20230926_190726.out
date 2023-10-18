@@ -1,0 +1,422 @@
+ f_server_is 
+-------------
+ unnsi_prd_s
+(1 row)
+
+ id_area | id_country | nm_area | nm_area_full | id_area_type | id_area_parent | kd_timezone | pr_detailed | kd_oktmo |             nm_fias_guid             | dt_data_del | id_data_etalon |  kd_okato   | nm_zipcode |  kd_kladr   | vl_addr_latitude | vl_addr_longitude 
+---------+------------+---------+--------------+--------------+----------------+-------------+-------------+----------+--------------------------------------+-------------+----------------+-------------+------------+-------------+------------------+-------------------
+      11 |        185 | Карелия | Карелия Респ |           41 |                |           2 |           0 | 86000000 | 248d8071-06e1-425e-a1cf-d1ff4c4a14a8 |             |                | 86000000000 |            | 10000000000 |                  |                  
+(1 row)
+
+CALL
+ f_adr_area_set_data 
+---------------------
+                  20
+(1 row)
+
+            fias_guid_new             |    nm_addr_obj     | addr_obj_type_id | chld_qty_tot | chld_qty_unact 
+--------------------------------------+--------------------+------------------+--------------+----------------
+ 15870890-c2c1-40c5-851b-69fc9eff3ca8 | Виктория           |              318 |            7 |              1
+ add692a5-d0bd-42f6-a63f-e05903537d3f | Гея                |              318 |            0 |              0
+ a96ec153-3d49-4292-ae34-817b0d9c66cc | Ручеек             |              318 |            0 |              0
+ 1474ec31-329d-4d3c-9d17-f07a7614143b | Урочище Лососинное |              304 |            6 |              1
+ 08ed164f-a8f5-4c80-bdca-304e44bb0452 | Больничный         |               90 |            0 |              0
+ f98e0758-6041-4f8b-920d-30aa4fa84f7d | Есино              |               55 |            0 |              0
+ bfd8ff66-85e7-4c6e-a7bd-65b18a752881 | Загубье            |               55 |            0 |              0
+ d56451a0-03e8-4dc7-b943-da8c263666a9 | Лахта              |               55 |            8 |              0
+ 80dae583-b336-4d13-b787-63c63ac1b20c | Чупа               |               55 |            0 |              0
+(9 rows)
+
+CALL
+CALL
+CALL
+CALL
+CALL
+CALL
+CALL
+CALL
+ f_xxx_obj_seq_crt 
+-------------------
+        1100011984
+       11100011984
+(2 rows)
+
+ f_set_params_value 
+--------------------
+             356400
+(1 row)
+
+ f_xxx_adr_area_set_data 
+-------------------------
+                    8914
+(1 row)
+
+ f_xxx_adr_house_set_data 
+--------------------------
+                    91674
+(1 row)
+
+ f_xxx_obj_fias_set_data 
+-------------------------
+                    2655
+                    6259
+                   91674
+(3 rows)
+
+ total_row | ins_row | upd_row 
+-----------+---------+---------
+         0 |       0 |       0
+(1 row)
+
+ id_area | id_country | nm_area | nm_area_full | id_area_type | id_area_parent | kd_timezone | pr_detailed | kd_oktmo | nm_fias_guid | dt_data_del | id_data_etalon | kd_okato | nm_zipcode | kd_kladr | vl_addr_latitude | vl_addr_longitude | id_area_hist | date_create | f_server_name | id_region 
+---------+------------+---------+--------------+--------------+----------------+-------------+-------------+----------+--------------+-------------+----------------+----------+------------+----------+------------------+-------------------+--------------+-------------+---------------+-----------
+(0 rows)
+
+ total_row | upd_row 
+-----------+---------
+      2655 |       0
+(1 row)
+
+ id_area | id_country | nm_area | nm_area_full | id_area_type | id_area_parent | kd_timezone | pr_detailed | kd_oktmo | nm_fias_guid | dt_data_del | id_data_etalon | kd_okato | nm_zipcode | kd_kladr | vl_addr_latitude | vl_addr_longitude | id_area_hist | date_create | f_server_name | id_region 
+---------+------------+---------+--------------+--------------+----------------+-------------+-------------+----------+--------------+-------------+----------------+----------+------------+----------+------------------+-------------------+--------------+-------------+---------------+-----------
+(0 rows)
+
+ total_row | ins_row | upd_row 
+-----------+---------+---------
+         0 |       0 |       0
+(1 row)
+
+ id_street | id_area | nm_street | id_street_type | nm_street_full | nm_fias_guid | dt_data_del | id_data_etalon | kd_kladr | vl_addr_latitude | vl_addr_longitude | id_street_hist | date_create | f_server_name | id_region 
+-----------+---------+-----------+----------------+----------------+--------------+-------------+----------------+----------+------------------+-------------------+----------------+-------------+---------------+-----------
+(0 rows)
+
+ total_row | upd_row 
+-----------+---------
+      6238 |       4
+(1 row)
+
+ id_street  |  id_area   | nm_street  | id_street_type | nm_street_full |             nm_fias_guid             |        dt_data_del         | id_data_etalon | kd_kladr | vl_addr_latitude | vl_addr_longitude | id_street_hist |        date_create         | f_server_name | id_region 
+------------+------------+------------+----------------+----------------+--------------------------------------+----------------------------+----------------+----------+------------------+-------------------+----------------+----------------------------+---------------+-----------
+ 1100002058 | 1100000141 | Крамера    |             38 | Крамера ул.    | 6e45146a-0843-461f-8718-5a72b0b124b9 | 2023-09-26 19:07:48.923659 |     1100002058 |          |                  |                   |              5 | 2023-09-26 19:07:48.923659 |               |         0
+ 1100002050 | 1100000141 | Карелидная |             38 | Карелидная ул. | 057d3fcc-44e1-44b6-89a8-ebe5d7d6fe7e | 2023-09-26 19:07:48.923659 |     1100002050 |          |                  |                   |              8 | 2023-09-26 19:07:48.923659 |               |         0
+(2 rows)
+
+ total_row | ins_row | upd_row 
+-----------+---------+---------
+        45 |      45 |       0
+(1 row)
+
+ id_house | id_area | id_street | id_house_type_1 | nm_house_1 | id_house_type_2 | nm_house_2 | id_house_type_3 | nm_house_3 | nm_zipcode | nm_house_full | kd_oktmo | nm_fias_guid | dt_data_del | id_data_etalon | kd_okato | vl_addr_latitude | vl_addr_longitude | id_house_hist | date_create | f_server_name | id_region 
+----------+---------+-----------+-----------------+------------+-----------------+------------+-----------------+------------+------------+---------------+----------+--------------+-------------+----------------+----------+------------------+-------------------+---------------+-------------+---------------+-----------
+(0 rows)
+
+ total_row | upd_row 
+-----------+---------
+     91592 |       4
+(1 row)
+
+ id_house | id_area | id_street | id_house_type_1 | nm_house_1 | id_house_type_2 | nm_house_2 | id_house_type_3 | nm_house_3 | nm_zipcode | nm_house_full | kd_oktmo | nm_fias_guid | dt_data_del | id_data_etalon | kd_okato | vl_addr_latitude | vl_addr_longitude | id_house_hist | date_create | f_server_name | id_region 
+----------+---------+-----------+-----------------+------------+-----------------+------------+-----------------+------------+------------+---------------+----------+--------------+-------------+----------------+----------+------------------+-------------------+---------------+-------------+---------------+-----------
+(0 rows)
+
+ f_version_put 
+---------------
+            67
+(1 row)
+
+ qty_adr_area_0 
+----------------
+           2818
+(1 row)
+
+ qty_adr_area_aux_0 
+--------------------
+                  0
+(1 row)
+
+CALL
+ fcase | id_area_subj | id_area_obj | nm_area | nm_fias_guid 
+-------+--------------+-------------+---------+--------------
+(0 rows)
+
+CALL
+CALL
+CALL
+ qty_adr_area_1 
+----------------
+           2818
+(1 row)
+
+ qty_adr_area_aux_1 
+--------------------
+                  0
+(1 row)
+
+ id_area | id_country | nm_area | nm_area_full | id_area_type | id_area_parent | kd_timezone | pr_detailed | kd_oktmo | nm_fias_guid | dt_data_del | id_data_etalon | kd_okato | nm_zipcode | kd_kladr | vl_addr_latitude | vl_addr_longitude 
+---------+------------+---------+--------------+--------------+----------------+-------------+-------------+----------+--------------+-------------+----------------+----------+------------+----------+------------------+-------------------
+(0 rows)
+
+ f_version_by_obj_put 
+----------------------
+                  199
+(1 row)
+
+ qty_adr_street_0 
+------------------
+             6321
+(1 row)
+
+ qty_adr_street_aux_0 
+----------------------
+                    4
+(1 row)
+
+CALL
+CALL
+ fcase | id_street_subj | id_street_obj | nm_street_full | nm_fias_guid 
+-------+----------------+---------------+----------------+--------------
+(0 rows)
+
+ qty_adr_street_1 
+------------------
+             6321
+(1 row)
+
+ qty_adr_street_aux_1 
+----------------------
+                    4
+(1 row)
+
+CALL
+CALL
+CALL
+ f_version_by_obj_put 
+----------------------
+                  200
+(1 row)
+
+ qty_adr_house_0 
+-----------------
+           94391
+(1 row)
+
+ qty_adr_house_aux_0 
+---------------------
+                  49
+(1 row)
+
+CALL
+CALL
+ fcase | id_house_subj | id_house_obj | nm_house_full |             nm_fias_guid             
+-------+---------------+--------------+---------------+--------------------------------------
+     6 |       1856738 |   1100011993 | д. 6          | 90a8b9e8-e234-4ba0-919f-38bd0f89dbf5
+(1 row)
+
+ qty_adr_house_1 
+-----------------
+           94390
+(1 row)
+
+ qty_adr_house_aux_1 
+---------------------
+                  50
+(1 row)
+
+CALL
+CALL
+CALL
+ f_version_by_obj_put 
+----------------------
+                  201
+(1 row)
+
+ id_un_export | dt_gar_version | kd_export_type | id_region | nm_area_full |         dt_export          | nm_user  | seq_value  | node_id | id_un_export_by_obj | sch_name | nm_object  | qty_main | qty_aux |                               file_path                                | fserver_name |   host    |     dbname     | port | db_conn_name  
+--------------+----------------+----------------+-----------+--------------+----------------------------+----------+------------+---------+---------------------+----------+------------+----------+---------+------------------------------------------------------------------------+--------------+-----------+----------------+------+---------------
+            1 | 2022-12-26     | f              |        11 | Карелия Респ | 2023-01-18 14:36:58.347337 | postgres | 1100009058 |       1 |                   1 | gar_tmp  | adr_area   |     2743 |    1456 | ../tmp/up_prds/DATA/adr_area_11.sql                                    | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            1 | 2022-12-26     | f              |        11 | Карелия Респ | 2023-01-18 14:36:58.347337 | postgres | 1100009058 |       1 |                   2 | gar_tmp  | adr_street |     6120 |       3 | ../tmp/up_prds/DATA/adr_street_11.sql                                  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            1 | 2022-12-26     | f              |        11 | Карелия Респ | 2023-01-18 14:36:58.347337 | postgres | 1100009058 |       1 |                   3 | gar_tmp  | adr_house  |    92323 |     153 | ../tmp/up_prds/DATA/adr_house_11.sql                                   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            2 | 2023-01-09     | f              |        11 | Карелия Респ | 2023-01-20 12:31:41.945347 | postgres | 1100009100 |       1 |                   4 | gar_tmp  | adr_area   |     2743 |    1289 | ../../tmp/up_prds_20230109/DATA/adr_area_11.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            2 | 2023-01-09     | f              |        11 | Карелия Респ | 2023-01-20 12:31:41.945347 | postgres | 1100009100 |       1 |                   5 | gar_tmp  | adr_street |     6123 |       3 | ../../tmp/up_prds_20230109/DATA/adr_street_11.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            2 | 2023-01-09     | f              |        11 | Карелия Респ | 2023-01-20 12:31:41.945347 | postgres | 1100009100 |       1 |                   6 | gar_tmp  | adr_house  |    92352 |      39 | ../../tmp/up_prds_20230109/DATA/adr_house_11.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            3 | 2023-01-16     | f              |        11 | Карелия Респ | 2023-01-24 10:53:29.123062 | postgres | 1100009139 |       1 |                   7 | gar_tmp  | adr_area   |     2743 |    1289 | ../../tmp/up_prds_20230116/DATA/adr_area_11.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            3 | 2023-01-16     | f              |        11 | Карелия Респ | 2023-01-24 10:53:29.123062 | postgres | 1100009139 |       1 |                   8 | gar_tmp  | adr_street |     6123 |       0 | ../../tmp/up_prds_20230116/DATA/adr_street_11.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            3 | 2023-01-16     | f              |        11 | Карелия Респ | 2023-01-24 10:53:29.123062 | postgres | 1100009139 |       1 |                   9 | gar_tmp  | adr_house  |    92380 |      68 | ../../tmp/up_prds_20230116/DATA/adr_house_11.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            4 | 2023-01-23     | f              |        11 | Карелия Респ | 2023-01-27 03:03:24.123523 | postgres | 1100009206 |       1 |                  10 | gar_tmp  | adr_area   |     2747 |    1293 | ../../tmp/up_prds_20230123/DATA/adr_area_11.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            4 | 2023-01-23     | f              |        11 | Карелия Респ | 2023-01-27 03:03:24.123523 | postgres | 1100009206 |       1 |                  11 | gar_tmp  | adr_street |     6124 |       1 | ../../tmp/up_prds_20230123/DATA/adr_street_11.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            4 | 2023-01-23     | f              |        11 | Карелия Респ | 2023-01-27 03:03:24.123523 | postgres | 1100009206 |       1 |                  12 | gar_tmp  | adr_house  |    92432 |     278 | ../../tmp/up_prds_20230123/DATA/adr_house_11.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            5 | 2023-02-02     | f              |        11 | Карелия Респ | 2023-02-04 06:13:52.059223 | postgres | 1100009343 |       1 |                  13 | gar_tmp  | adr_area   |     2752 |    1295 | ../../tmp/up_prds_20230202/DATA/adr_area_11.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            5 | 2023-02-02     | f              |        11 | Карелия Респ | 2023-02-04 06:13:52.059223 | postgres | 1100009343 |       1 |                  14 | gar_tmp  | adr_street |     6136 |      12 | ../../tmp/up_prds_20230202/DATA/adr_street_11.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            5 | 2023-02-02     | f              |        11 | Карелия Респ | 2023-02-04 06:13:52.059223 | postgres | 1100009343 |       1 |                  15 | gar_tmp  | adr_house  |    92542 |     225 | ../../tmp/up_prds_20230202/DATA/adr_house_11.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            6 | 2023-02-06     | f              |        11 | Карелия Респ | 2023-02-11 01:33:46.979655 | postgres | 1100009366 |       1 |                  16 | gar_tmp  | adr_area   |     2752 |    1289 | ../../tmp/up_prds_20230206/DATA/adr_area_11.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            6 | 2023-02-06     | f              |        11 | Карелия Респ | 2023-02-11 01:33:46.979655 | postgres | 1100009366 |       1 |                  17 | gar_tmp  | adr_street |     6136 |       0 | ../../tmp/up_prds_20230206/DATA/adr_street_11.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            6 | 2023-02-06     | f              |        11 | Карелия Респ | 2023-02-11 01:33:46.979655 | postgres | 1100009366 |       1 |                  18 | gar_tmp  | adr_house  |    92555 |     261 | ../../tmp/up_prds_20230206/DATA/adr_house_11.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            7 | 2023-02-13     | f              |        11 | Карелия Респ | 2023-02-16 02:19:49.813728 | postgres | 1100009434 |       1 |                  19 | gar_tmp  | adr_area   |     2755 |    1296 | ../../tmp/up_prds_20230213/DATA/adr_area_11.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            7 | 2023-02-13     | f              |        11 | Карелия Респ | 2023-02-16 02:19:49.813728 | postgres | 1100009434 |       1 |                  20 | gar_tmp  | adr_street |     6150 |      14 | ../../tmp/up_prds_20230213/DATA/adr_street_11.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            7 | 2023-02-13     | f              |        11 | Карелия Респ | 2023-02-16 02:19:49.813728 | postgres | 1100009434 |       1 |                  21 | gar_tmp  | adr_house  |    92596 |    4701 | ../../tmp/up_prds_20230213/DATA/adr_house_11.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            8 | 2023-02-16     | f              |        11 | Карелия Респ | 2023-02-20 11:46:42.546566 | postgres | 1100009475 |       1 |                  22 | gar_tmp  | adr_area   |     2757 |    1291 | ../../tmp/up_prds_20230216/DATA/adr_area_11.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            8 | 2023-02-16     | f              |        11 | Карелия Респ | 2023-02-20 11:46:42.546566 | postgres | 1100009475 |       1 |                  23 | gar_tmp  | adr_street |     6152 |       2 | ../../tmp/up_prds_20230216/DATA/adr_street_11.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            8 | 2023-02-16     | f              |        11 | Карелия Респ | 2023-02-20 11:46:42.546566 | postgres | 1100009475 |       1 |                  24 | gar_tmp  | adr_house  |    92623 |     120 | ../../tmp/up_prds_20230216/DATA/adr_house_11.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            9 | 2023-02-21     | f              |        11 | Карелия Респ | 2023-02-23 10:21:04.024134 | postgres | 1100009523 |       1 |                  25 | gar_tmp  | adr_area   |     2757 |    1289 | ../../tmp/up_prds_20230221/DATA/adr_area_11.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            9 | 2023-02-21     | f              |        11 | Карелия Респ | 2023-02-23 10:21:04.024134 | postgres | 1100009523 |       1 |                  26 | gar_tmp  | adr_street |     6153 |       1 | ../../tmp/up_prds_20230221/DATA/adr_street_11.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            9 | 2023-02-21     | f              |        11 | Карелия Респ | 2023-02-23 10:21:04.024134 | postgres | 1100009523 |       1 |                  27 | gar_tmp  | adr_house  |    92660 |      52 | ../../tmp/up_prds_20230221/DATA/adr_house_11.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           11 | 2023-02-27     | f              |        11 | Карелия Респ | 2023-03-01 04:25:34.125976 | postgres | 1100009553 |       1 |                  31 | gar_tmp  | adr_area   |     2757 |    1289 | ../../tmp/up_prds_20230227/DATA/adr_area_11.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           11 | 2023-02-27     | f              |        11 | Карелия Респ | 2023-03-01 04:25:34.125976 | postgres | 1100009553 |       1 |                  32 | gar_tmp  | adr_street |     6155 |       2 | ../../tmp/up_prds_20230227/DATA/adr_street_11.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           11 | 2023-02-27     | f              |        11 | Карелия Респ | 2023-03-01 04:25:34.125976 | postgres | 1100009553 |       1 |                  33 | gar_tmp  | adr_house  |    92678 |      53 | ../../tmp/up_prds_20230227/DATA/adr_house_11.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           12 | 2023-03-02     | f              |        11 | Карелия Респ | 2023-03-04 05:18:28.301524 | postgres | 1100009598 |       1 |                  34 | gar_tmp  | adr_area   |     2758 |    1290 | ../../tmp/up_prds_20230302/DATA/adr_area_11.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           12 | 2023-03-02     | f              |        11 | Карелия Респ | 2023-03-04 05:18:28.301524 | postgres | 1100009598 |       1 |                  35 | gar_tmp  | adr_street |     6156 |       1 | ../../tmp/up_prds_20230302/DATA/adr_street_11.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           12 | 2023-03-02     | f              |        11 | Карелия Респ | 2023-03-04 05:18:28.301524 | postgres | 1100009598 |       1 |                  36 | gar_tmp  | adr_house  |    92711 |      36 | ../../tmp/up_prds_20230302/DATA/adr_house_11.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           13 | 2023-03-06     | f              |        11 | Карелия Респ | 2023-03-09 12:09:21.666206 | postgres | 1100009633 |       1 |                  37 | gar_tmp  | adr_area   |     2758 |    1289 | ../../tmp/up_prds_20230306/DATA/adr_area_11.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           13 | 2023-03-06     | f              |        11 | Карелия Респ | 2023-03-09 12:09:21.666206 | postgres | 1100009633 |       1 |                  38 | gar_tmp  | adr_street |     6156 |       0 | ../../tmp/up_prds_20230306/DATA/adr_street_11.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           13 | 2023-03-06     | f              |        11 | Карелия Респ | 2023-03-09 12:09:21.666206 | postgres | 1100009633 |       1 |                  39 | gar_tmp  | adr_house  |    92736 |      32 | ../../tmp/up_prds_20230306/DATA/adr_house_11.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           14 | 2023-03-09     | f              |        11 | Карелия Респ | 2023-03-15 01:49:46.188289 | postgres | 1100009675 |       1 |                  40 | gar_tmp  | adr_area   |     2759 |    1290 | ../../tmp/up_prds_20230309/DATA/adr_area_11.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           14 | 2023-03-09     | f              |        11 | Карелия Респ | 2023-03-15 01:49:46.188289 | postgres | 1100009675 |       1 |                  41 | gar_tmp  | adr_street |     6164 |       8 | ../../tmp/up_prds_20230309/DATA/adr_street_11.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           14 | 2023-03-09     | f              |        11 | Карелия Респ | 2023-03-15 01:49:46.188289 | postgres | 1100009675 |       1 |                  42 | gar_tmp  | adr_house  |    92759 |      28 | ../../tmp/up_prds_20230309/DATA/adr_house_11.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           15 | 2023-03-13     | f              |        11 | Карелия Респ | 2023-03-16 10:58:26.994845 | postgres | 1100009704 |       1 |                  43 | gar_tmp  | adr_area   |     2759 |       0 | ../../tmp/up_prds_20230313/DATA/adr_area_11.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           15 | 2023-03-13     | f              |        11 | Карелия Респ | 2023-03-16 10:58:26.994845 | postgres | 1100009704 |       1 |                  44 | gar_tmp  | adr_street |     6166 |       2 | ../../tmp/up_prds_20230313/DATA/adr_street_11.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           15 | 2023-03-13     | f              |        11 | Карелия Респ | 2023-03-16 10:58:26.994845 | postgres | 1100009704 |       1 |                  45 | gar_tmp  | adr_house  |    92776 |      17 | ../../tmp/up_prds_20230313/DATA/adr_house_11.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           16 | 2023-03-16     | f              |        11 | Карелия Респ | 2023-03-18 06:50:49.955339 | postgres | 1100009738 |       1 |                  46 | gar_tmp  | adr_area   |     2759 |       0 | ../../tmp/up_prds_20230316/DATA/adr_area_11.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           16 | 2023-03-16     | f              |        11 | Карелия Респ | 2023-03-18 06:50:49.955339 | postgres | 1100009738 |       1 |                  47 | gar_tmp  | adr_street |     6166 |       0 | ../../tmp/up_prds_20230316/DATA/adr_street_11.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           16 | 2023-03-16     | f              |        11 | Карелия Респ | 2023-03-18 06:50:49.955339 | postgres | 1100009738 |       1 |                  48 | gar_tmp  | adr_house  |    92799 |     253 | ../../tmp/up_prds_20230316/DATA/adr_house_11.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           17 | 2023-03-20     | f              |        11 | Карелия Респ | 2023-03-22 12:10:59.180417 | postgres | 1100009764 |       1 |                  49 | gar_tmp  | adr_area   |     2761 |       2 | ../../tmp/up_prds_20230320/DATA/adr_area_11.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           17 | 2023-03-20     | f              |        11 | Карелия Респ | 2023-03-22 12:10:59.180417 | postgres | 1100009764 |       1 |                  50 | gar_tmp  | adr_street |     6167 |       1 | ../../tmp/up_prds_20230320/DATA/adr_street_11.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           17 | 2023-03-20     | f              |        11 | Карелия Респ | 2023-03-22 12:10:59.180417 | postgres | 1100009764 |       1 |                  51 | gar_tmp  | adr_house  |    92812 |    1425 | ../../tmp/up_prds_20230320/DATA/adr_house_11.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           18 | 2023-03-23     | f              |        11 | Карелия Респ | 2023-03-25 06:36:02.947204 | postgres | 1100009791 |       1 |                  52 | gar_tmp  | adr_area   |     2761 |       0 | ../../tmp/up_prds_20230323/DATA/adr_area_11.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           18 | 2023-03-23     | f              |        11 | Карелия Респ | 2023-03-25 06:36:02.947204 | postgres | 1100009791 |       1 |                  53 | gar_tmp  | adr_street |     6168 |       1 | ../../tmp/up_prds_20230323/DATA/adr_street_11.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           18 | 2023-03-23     | f              |        11 | Карелия Респ | 2023-03-25 06:36:02.947204 | postgres | 1100009791 |       1 |                  54 | gar_tmp  | adr_house  |    92828 |      22 | ../../tmp/up_prds_20230323/DATA/adr_house_11.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           19 | 2023-03-27     | f              |        11 | Карелия Респ | 2023-03-31 10:32:52.493263 | postgres | 1100009851 |       1 |                  55 | gar_tmp  | adr_area   |     2761 |       0 | ../../tmp/up_prds_20230327/DATA/adr_area_11.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           19 | 2023-03-27     | f              |        11 | Карелия Респ | 2023-03-31 10:32:52.493263 | postgres | 1100009851 |       1 |                  56 | gar_tmp  | adr_street |     6168 |       0 | ../../tmp/up_prds_20230327/DATA/adr_street_11.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           19 | 2023-03-27     | f              |        11 | Карелия Респ | 2023-03-31 10:32:52.493263 | postgres | 1100009851 |       1 |                  57 | gar_tmp  | adr_house  |    92878 |     207 | ../../tmp/up_prds_20230327/DATA/adr_house_11.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           20 | 2023-04-04     | f              |        11 | Карелия Респ | 2023-04-06 10:04:08.277431 | postgres | 1100009952 |       1 |                  58 | gar_tmp  | adr_area   |     2761 |       1 | ../../tmp/up_prds_20230404/DATA/adr_area_11.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           20 | 2023-04-04     | f              |        11 | Карелия Респ | 2023-04-06 10:04:08.277431 | postgres | 1100009952 |       1 |                  59 | gar_tmp  | adr_street |     6178 |      10 | ../../tmp/up_prds_20230404/DATA/adr_street_11.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           20 | 2023-04-04     | f              |        11 | Карелия Респ | 2023-04-06 10:04:08.277431 | postgres | 1100009952 |       1 |                  60 | gar_tmp  | adr_house  |    92959 |     102 | ../../tmp/up_prds_20230404/DATA/adr_house_11.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           21 | 2023-04-06     | f              |        11 | Карелия Респ | 2023-04-09 13:22:42.903354 | postgres | 1100009972 |       1 |                  61 | gar_tmp  | adr_area   |     2761 |      18 | ../../tmp/up_prds_20230406/DATA/adr_area_11.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           21 | 2023-04-06     | f              |        11 | Карелия Респ | 2023-04-09 13:22:42.903354 | postgres | 1100009972 |       1 |                  62 | gar_tmp  | adr_street |     6178 |       0 | ../../tmp/up_prds_20230406/DATA/adr_street_11.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           21 | 2023-04-06     | f              |        11 | Карелия Респ | 2023-04-09 13:22:42.903354 | postgres | 1100009972 |       1 |                  63 | gar_tmp  | adr_house  |    92969 |      93 | ../../tmp/up_prds_20230406/DATA/adr_house_11.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           22 | 2023-04-10     | f              |        11 | Карелия Респ | 2023-04-13 09:48:04.814099 | postgres | 1100010011 |       1 |                  64 | gar_tmp  | adr_area   |     2761 |      19 | ../../tmp/up_prds_20230410/DATA/adr_area_11.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           22 | 2023-04-10     | f              |        11 | Карелия Респ | 2023-04-13 09:48:04.814099 | postgres | 1100010011 |       1 |                  65 | gar_tmp  | adr_street |     6179 |       1 | ../../tmp/up_prds_20230410/DATA/adr_street_11.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           22 | 2023-04-10     | f              |        11 | Карелия Респ | 2023-04-13 09:48:04.814099 | postgres | 1100010011 |       1 |                  66 | gar_tmp  | adr_house  |    92997 |     916 | ../../tmp/up_prds_20230410/DATA/adr_house_11.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           23 | 2023-04-13     | f              |        11 | Карелия Респ | 2023-04-15 11:43:07.552905 | postgres | 1100010065 |       1 |                  67 | gar_tmp  | adr_area   |     2763 |       2 | ../../tmp/up_prds_20230413/DATA/adr_area_11.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           23 | 2023-04-13     | f              |        11 | Карелия Респ | 2023-04-15 11:43:07.552905 | postgres | 1100010065 |       1 |                  68 | gar_tmp  | adr_street |     6180 |       1 | ../../tmp/up_prds_20230413/DATA/adr_street_11.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           23 | 2023-04-13     | f              |        11 | Карелия Респ | 2023-04-15 11:43:07.552905 | postgres | 1100010065 |       1 |                  69 | gar_tmp  | adr_house  |    93037 |     913 | ../../tmp/up_prds_20230413/DATA/adr_house_11.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           24 | 2023-04-17     | f              |        11 | Карелия Респ | 2023-04-21 02:42:00.721215 | postgres | 1100010096 |       1 |                  70 | gar_tmp  | adr_area   |     2763 |       0 | ../../tmp/up_prds_20230417/DATA/adr_area_11.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           24 | 2023-04-17     | f              |        11 | Карелия Респ | 2023-04-21 02:42:00.721215 | postgres | 1100010096 |       1 |                  71 | gar_tmp  | adr_street |     6183 |       3 | ../../tmp/up_prds_20230417/DATA/adr_street_11.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           24 | 2023-04-17     | f              |        11 | Карелия Респ | 2023-04-21 02:42:00.721215 | postgres | 1100010096 |       1 |                  72 | gar_tmp  | adr_house  |    93055 |     446 | ../../tmp/up_prds_20230417/DATA/adr_house_11.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           25 | 2023-04-20     | f              |        11 | Карелия Респ | 2023-04-26 02:16:50.022076 | postgres | 1100010146 |       1 |                  73 | gar_tmp  | adr_area   |     2763 |       7 | ../../tmp/up_prds_20230420/DATA/adr_area_11.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           25 | 2023-04-20     | f              |        11 | Карелия Респ | 2023-04-26 02:16:50.022076 | postgres | 1100010146 |       1 |                  74 | gar_tmp  | adr_street |     6185 |       2 | ../../tmp/up_prds_20230420/DATA/adr_street_11.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           25 | 2023-04-20     | f              |        11 | Карелия Респ | 2023-04-26 02:16:50.022076 | postgres | 1100010146 |       1 |                  75 | gar_tmp  | adr_house  |    93093 |     116 | ../../tmp/up_prds_20230420/DATA/adr_house_11.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           26 | 2023-04-24     | f              |        11 | Карелия Респ | 2023-04-28 13:04:18.179843 | postgres | 1100010172 |       1 |                  76 | gar_tmp  | adr_area   |     2763 |       7 | ../../tmp/up_prds_20230424/DATA/adr_area_11.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           26 | 2023-04-24     | f              |        11 | Карелия Респ | 2023-04-28 13:04:18.179843 | postgres | 1100010172 |       1 |                  77 | gar_tmp  | adr_street |     6185 |       0 | ../../tmp/up_prds_20230424/DATA/adr_street_11.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           26 | 2023-04-24     | f              |        11 | Карелия Респ | 2023-04-28 13:04:18.179843 | postgres | 1100010172 |       1 |                  78 | gar_tmp  | adr_house  |    93109 |     179 | ../../tmp/up_prds_20230424/DATA/adr_house_11.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           27 | 2023-05-04     | f              |        11 | Карелия Респ | 2023-05-06 08:02:04.145655 | postgres | 1100010285 |       1 |                  79 | gar_tmp  | adr_area   |     2766 |       8 | ../../tmp/up_prds_20230504/DATA/adr_area_11.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           27 | 2023-05-04     | f              |        11 | Карелия Респ | 2023-05-06 08:02:04.145655 | postgres | 1100010285 |       1 |                  80 | gar_tmp  | adr_street |     6185 |       0 | ../../tmp/up_prds_20230504/DATA/adr_street_11.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           27 | 2023-05-04     | f              |        11 | Карелия Респ | 2023-05-06 08:02:04.145655 | postgres | 1100010285 |       1 |                  81 | gar_tmp  | adr_house  |    93207 |     245 | ../../tmp/up_prds_20230504/DATA/adr_house_11.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           28 | 2023-05-08     | f              |        11 | Карелия Респ | 2023-05-11 09:38:14.276047 | postgres | 1100010329 |       1 |                  82 | gar_tmp  | adr_area   |     2766 |       0 | ../../tmp/up_prds_20230508/DATA/adr_area_11.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           28 | 2023-05-08     | f              |        11 | Карелия Респ | 2023-05-11 09:38:14.276047 | postgres | 1100010329 |       1 |                  83 | gar_tmp  | adr_street |     6185 |       1 | ../../tmp/up_prds_20230508/DATA/adr_street_11.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           28 | 2023-05-08     | f              |        11 | Карелия Респ | 2023-05-11 09:38:14.276047 | postgres | 1100010329 |       1 |                  84 | gar_tmp  | adr_house  |    93240 |      46 | ../../tmp/up_prds_20230508/DATA/adr_house_11.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           29 | 2023-05-11     | f              |        11 | Карелия Респ | 2023-05-16 11:17:32.594632 | postgres | 1100010345 |       1 |                  85 | gar_tmp  | adr_area   |     2766 |       0 | ../../tmp/up_prds_20230511/DATA/adr_area_11.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           29 | 2023-05-11     | f              |        11 | Карелия Респ | 2023-05-16 11:17:32.594632 | postgres | 1100010345 |       1 |                  86 | gar_tmp  | adr_street |     6188 |       3 | ../../tmp/up_prds_20230511/DATA/adr_street_11.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           29 | 2023-05-11     | f              |        11 | Карелия Респ | 2023-05-16 11:17:32.594632 | postgres | 1100010345 |       1 |                  87 | gar_tmp  | adr_house  |    93243 |       4 | ../../tmp/up_prds_20230511/DATA/adr_house_11.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           30 | 2023-05-15     | f              |        11 | Карелия Респ | 2023-05-18 09:53:37.21801  | postgres | 1100010405 |       1 |                  88 | gar_tmp  | adr_area   |     2766 |       0 | ../../tmp/up_prds_20230515/DATA/adr_area_11.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           30 | 2023-05-15     | f              |        11 | Карелия Респ | 2023-05-18 09:53:37.21801  | postgres | 1100010405 |       1 |                  89 | gar_tmp  | adr_street |     6189 |       1 | ../../tmp/up_prds_20230515/DATA/adr_street_11.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           30 | 2023-05-15     | f              |        11 | Карелия Респ | 2023-05-18 09:53:37.21801  | postgres | 1100010405 |       1 |                  90 | gar_tmp  | adr_house  |    93291 |     922 | ../../tmp/up_prds_20230515/DATA/adr_house_11.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           31 | 2023-05-18     | f              |        11 | Карелия Респ | 2023-05-24 03:21:48.523511 | postgres | 1100010444 |       1 |                  91 | gar_tmp  | adr_area   |     2768 |       2 | ../../tmp/up_prds_20230518/DATA/adr_area_11.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           31 | 2023-05-18     | f              |        11 | Карелия Респ | 2023-05-24 03:21:48.523511 | postgres | 1100010444 |       1 |                  92 | gar_tmp  | adr_street |     6189 |       0 | ../../tmp/up_prds_20230518/DATA/adr_street_11.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           31 | 2023-05-18     | f              |        11 | Карелия Респ | 2023-05-24 03:21:48.523511 | postgres | 1100010444 |       1 |                  93 | gar_tmp  | adr_house  |    93316 |     569 | ../../tmp/up_prds_20230518/DATA/adr_house_11.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           32 | 2023-05-22     | f              |        11 | Карелия Респ | 2023-05-30 04:47:01.352687 | postgres | 1100010487 |       1 |                  94 | gar_tmp  | adr_area   |     2769 |       1 | ../../tmp/up_prds_20230522/DATA/adr_area_11.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           32 | 2023-05-22     | f              |        11 | Карелия Респ | 2023-05-30 04:47:01.352687 | postgres | 1100010487 |       1 |                  95 | gar_tmp  | adr_street |     6189 |       0 | ../../tmp/up_prds_20230522/DATA/adr_street_11.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           32 | 2023-05-22     | f              |        11 | Карелия Респ | 2023-05-30 04:47:01.352687 | postgres | 1100010487 |       1 |                  96 | gar_tmp  | adr_house  |    93347 |     273 | ../../tmp/up_prds_20230522/DATA/adr_house_11.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           34 | 2023-05-25     | f              |        11 | Карелия Респ | 2023-05-31 04:41:24.734674 | postgres | 1100010566 |       1 |                 100 | gar_tmp  | adr_area   |     2770 |       1 | ../../tmp/up_prds_20230525/DATA/adr_area_11.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           34 | 2023-05-25     | f              |        11 | Карелия Респ | 2023-05-31 04:41:24.734674 | postgres | 1100010566 |       1 |                 101 | gar_tmp  | adr_street |     6191 |       2 | ../../tmp/up_prds_20230525/DATA/adr_street_11.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           34 | 2023-05-25     | f              |        11 | Карелия Респ | 2023-05-31 04:41:24.734674 | postgres | 1100010566 |       1 |                 102 | gar_tmp  | adr_house  |    93412 |     185 | ../../tmp/up_prds_20230525/DATA/adr_house_11.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           35 | 2023-05-29     | f              |        11 | Карелия Респ | 2023-06-03 02:31:02.506028 | postgres | 1100010599 |       1 |                 103 | gar_tmp  | adr_area   |     2771 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230529/DATA/adr_area_11.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           35 | 2023-05-29     | f              |        11 | Карелия Респ | 2023-06-03 02:31:02.506028 | postgres | 1100010599 |       1 |                 104 | gar_tmp  | adr_street |     6191 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230529/DATA/adr_street_11.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           35 | 2023-05-29     | f              |        11 | Карелия Респ | 2023-06-03 02:31:02.506028 | postgres | 1100010599 |       1 |                 105 | gar_tmp  | adr_house  |    93434 |     107 | /home/n.chadaev@abrr.local/tmp/up_prds_20230529/DATA/adr_house_11.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           37 | 2023-06-05     | f              |        11 | Карелия Респ | 2023-06-14 23:07:00.659485 | postgres | 1100010730 |       1 |                 109 | gar_tmp  | adr_area   |     2773 |       2 | /home/n.chadaev@abrr.local/tmp/up_prds_20230605/DATA/adr_area_11.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           37 | 2023-06-05     | f              |        11 | Карелия Респ | 2023-06-14 23:07:00.659485 | postgres | 1100010730 |       1 |                 110 | gar_tmp  | adr_street |     6195 |       4 | /home/n.chadaev@abrr.local/tmp/up_prds_20230605/DATA/adr_street_11.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           37 | 2023-06-05     | f              |        11 | Карелия Респ | 2023-06-14 23:07:00.659485 | postgres | 1100010730 |       1 |                 111 | gar_tmp  | adr_house  |    93547 |     120 | /home/n.chadaev@abrr.local/tmp/up_prds_20230605/DATA/adr_house_11.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           39 | 2023-06-08     | f              |        11 | Карелия Респ | 2023-06-16 12:52:03.622647 | postgres | 1100010772 |       1 |                 115 | gar_tmp  | adr_area   |     2773 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230608/DATA/adr_area_11.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           39 | 2023-06-08     | f              |        11 | Карелия Респ | 2023-06-16 12:52:03.622647 | postgres | 1100010772 |       1 |                 116 | gar_tmp  | adr_street |     6196 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230608/DATA/adr_street_11.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           39 | 2023-06-08     | f              |        11 | Карелия Респ | 2023-06-16 12:52:03.622647 | postgres | 1100010772 |       1 |                 117 | gar_tmp  | adr_house  |    93578 |      79 | /home/n.chadaev@abrr.local/tmp/up_prds_20230608/DATA/adr_house_11.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           40 | 2023-06-14     | f              |        11 | Карелия Респ | 2023-06-18 01:18:28.095999 | postgres | 1100010826 |       1 |                 118 | gar_tmp  | adr_area   |     2778 |       6 | /home/n.chadaev@abrr.local/tmp/up_prds_20230614/DATA/adr_area_11.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           40 | 2023-06-14     | f              |        11 | Карелия Респ | 2023-06-18 01:18:28.095999 | postgres | 1100010826 |       1 |                 119 | gar_tmp  | adr_street |     6198 |       2 | /home/n.chadaev@abrr.local/tmp/up_prds_20230614/DATA/adr_street_11.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           40 | 2023-06-14     | f              |        11 | Карелия Респ | 2023-06-18 01:18:28.095999 | postgres | 1100010826 |       1 |                 120 | gar_tmp  | adr_house  |    93615 |     275 | /home/n.chadaev@abrr.local/tmp/up_prds_20230614/DATA/adr_house_11.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           41 | 2023-06-19     | f              |        11 | Карелия Респ | 2023-06-22 09:20:47.25854  | postgres | 1100010863 |       1 |                 121 | gar_tmp  | adr_area   |     2781 |       3 | /home/n.chadaev@abrr.local/tmp/up_prds_20230619/DATA/adr_area_11.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           41 | 2023-06-19     | f              |        11 | Карелия Респ | 2023-06-22 09:20:47.25854  | postgres | 1100010863 |       1 |                 122 | gar_tmp  | adr_street |     6198 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230619/DATA/adr_street_11.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           41 | 2023-06-19     | f              |        11 | Карелия Респ | 2023-06-22 09:20:47.25854  | postgres | 1100010863 |       1 |                 123 | gar_tmp  | adr_house  |    93639 |      29 | /home/n.chadaev@abrr.local/tmp/up_prds_20230619/DATA/adr_house_11.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           42 | 2023-06-22     | f              |        11 | Карелия Респ | 2023-06-23 20:58:32.629949 | postgres | 1100010920 |       1 |                 124 | gar_tmp  | adr_area   |     2792 |      11 | /home/n.chadaev@abrr.local/tmp/up_prds_20230622/DATA/adr_area_11.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           42 | 2023-06-22     | f              |        11 | Карелия Респ | 2023-06-23 20:58:32.629949 | postgres | 1100010920 |       1 |                 125 | gar_tmp  | adr_street |     6198 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230622/DATA/adr_street_11.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           42 | 2023-06-22     | f              |        11 | Карелия Респ | 2023-06-23 20:58:32.629949 | postgres | 1100010920 |       1 |                 126 | gar_tmp  | adr_house  |    93675 |      47 | /home/n.chadaev@abrr.local/tmp/up_prds_20230622/DATA/adr_house_11.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           43 | 2023-06-26     | f              |        11 | Карелия Респ | 2023-06-27 13:22:03.82758  | postgres | 1100010961 |       1 |                 127 | gar_tmp  | adr_area   |     2794 |       2 | /home/n.chadaev@abrr.local/tmp/up_prds_20230626/DATA/adr_area_11.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           43 | 2023-06-26     | f              |        11 | Карелия Респ | 2023-06-27 13:22:03.82758  | postgres | 1100010961 |       1 |                 128 | gar_tmp  | adr_street |     6199 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230626/DATA/adr_street_11.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           43 | 2023-06-26     | f              |        11 | Карелия Респ | 2023-06-27 13:22:03.82758  | postgres | 1100010961 |       1 |                 129 | gar_tmp  | adr_house  |    93702 |      80 | /home/n.chadaev@abrr.local/tmp/up_prds_20230626/DATA/adr_house_11.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           44 | 2023-06-29     | f              |        11 | Карелия Респ | 2023-06-30 18:43:54.644255 | postgres | 1100011025 |       1 |                 130 | gar_tmp  | adr_area   |     2800 |       6 | /home/n.chadaev@abrr.local/tmp/up_prds_20230629/DATA/adr_area_11.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           44 | 2023-06-29     | f              |        11 | Карелия Респ | 2023-06-30 18:43:54.644255 | postgres | 1100011025 |       1 |                 131 | gar_tmp  | adr_street |     6216 |      17 | /home/n.chadaev@abrr.local/tmp/up_prds_20230629/DATA/adr_street_11.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           44 | 2023-06-29     | f              |        11 | Карелия Респ | 2023-06-30 18:43:54.644255 | postgres | 1100011025 |       1 |                 132 | gar_tmp  | adr_house  |    93732 |      46 | /home/n.chadaev@abrr.local/tmp/up_prds_20230629/DATA/adr_house_11.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           45 | 2023-07-07     | f              |        11 | Карелия Респ | 2023-07-07 14:43:24.85836  | postgres | 1100011165 |       1 |                 133 | gar_tmp  | adr_area   |     2810 |      10 | /home/n.chadaev@abrr.local/tmp/up_prds_20230707/DATA/adr_area_11.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           45 | 2023-07-07     | f              |        11 | Карелия Респ | 2023-07-07 14:43:24.85836  | postgres | 1100011165 |       1 |                 134 | gar_tmp  | adr_street |     6289 |      73 | /home/n.chadaev@abrr.local/tmp/up_prds_20230707/DATA/adr_street_11.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           45 | 2023-07-07     | f              |        11 | Карелия Респ | 2023-07-07 14:43:24.85836  | postgres | 1100011165 |       1 |                 135 | gar_tmp  | adr_house  |    93778 |      95 | /home/n.chadaev@abrr.local/tmp/up_prds_20230707/DATA/adr_house_11.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           46 | 2023-07-10     | f              |        11 | Карелия Респ | 2023-07-11 15:29:40.728419 | postgres | 1100011195 |       1 |                 136 | gar_tmp  | adr_area   |     2811 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230710/DATA/adr_area_11.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           46 | 2023-07-10     | f              |        11 | Карелия Респ | 2023-07-11 15:29:40.728419 | postgres | 1100011195 |       1 |                 137 | gar_tmp  | adr_street |     6289 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230710/DATA/adr_street_11.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           46 | 2023-07-10     | f              |        11 | Карелия Респ | 2023-07-11 15:29:40.728419 | postgres | 1100011195 |       1 |                 138 | gar_tmp  | adr_house  |    93797 |      19 | /home/n.chadaev@abrr.local/tmp/up_prds_20230710/DATA/adr_house_11.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           47 | 2023-07-13     | f              |        11 | Карелия Респ | 2023-07-14 14:35:40.883411 | postgres | 1100011236 |       1 |                 139 | gar_tmp  | adr_area   |     2812 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230713/DATA/adr_area_11.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           47 | 2023-07-13     | f              |        11 | Карелия Респ | 2023-07-14 14:35:40.883411 | postgres | 1100011236 |       1 |                 140 | gar_tmp  | adr_street |     6291 |       2 | /home/n.chadaev@abrr.local/tmp/up_prds_20230713/DATA/adr_street_11.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           47 | 2023-07-13     | f              |        11 | Карелия Респ | 2023-07-14 14:35:40.883411 | postgres | 1100011236 |       1 |                 141 | gar_tmp  | adr_house  |    93825 |      42 | /home/n.chadaev@abrr.local/tmp/up_prds_20230713/DATA/adr_house_11.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           48 | 2023-07-17     | f              |        11 | Карелия Респ | 2023-07-18 14:47:05.545849 | postgres | 1100011279 |       1 |                 142 | gar_tmp  | adr_area   |     2812 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230717/DATA/adr_area_11.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           48 | 2023-07-17     | f              |        11 | Карелия Респ | 2023-07-18 14:47:05.545849 | postgres | 1100011279 |       1 |                 143 | gar_tmp  | adr_street |     6291 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230717/DATA/adr_street_11.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           48 | 2023-07-17     | f              |        11 | Карелия Респ | 2023-07-18 14:47:05.545849 | postgres | 1100011279 |       1 |                 144 | gar_tmp  | adr_house  |    93857 |      51 | /home/n.chadaev@abrr.local/tmp/up_prds_20230717/DATA/adr_house_11.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           49 | 2023-07-20     | f              |        11 | Карелия Респ | 2023-07-21 15:19:44.421058 | postgres | 1100011326 |       1 |                 145 | gar_tmp  | adr_area   |     2813 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230720/DATA/adr_area_11.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           49 | 2023-07-20     | f              |        11 | Карелия Респ | 2023-07-21 15:19:44.421058 | postgres | 1100011326 |       1 |                 146 | gar_tmp  | adr_street |     6292 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230720/DATA/adr_street_11.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           49 | 2023-07-20     | f              |        11 | Карелия Респ | 2023-07-21 15:19:44.421058 | postgres | 1100011326 |       1 |                 147 | gar_tmp  | adr_house  |    93892 |      48 | /home/n.chadaev@abrr.local/tmp/up_prds_20230720/DATA/adr_house_11.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           50 | 2023-07-24     | f              |        11 | Карелия Респ | 2023-07-25 14:20:29.825695 | postgres | 1100011364 |       1 |                 148 | gar_tmp  | adr_area   |     2813 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230724/DATA/adr_area_11.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           50 | 2023-07-24     | f              |        11 | Карелия Респ | 2023-07-25 14:20:29.825695 | postgres | 1100011364 |       1 |                 149 | gar_tmp  | adr_street |     6300 |       8 | /home/n.chadaev@abrr.local/tmp/up_prds_20230724/DATA/adr_street_11.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           50 | 2023-07-24     | f              |        11 | Карелия Респ | 2023-07-25 14:20:29.825695 | postgres | 1100011364 |       1 |                 150 | gar_tmp  | adr_house  |    93912 |      21 | /home/n.chadaev@abrr.local/tmp/up_prds_20230724/DATA/adr_house_11.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           51 | 2023-07-27     | f              |        11 | Карелия Респ | 2023-07-28 17:46:34.050587 | postgres | 1100011396 |       1 |                 151 | gar_tmp  | adr_area   |     2813 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230727/DATA/adr_area_11.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           51 | 2023-07-27     | f              |        11 | Карелия Респ | 2023-07-28 17:46:34.050587 | postgres | 1100011396 |       1 |                 152 | gar_tmp  | adr_street |     6300 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230727/DATA/adr_street_11.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           51 | 2023-07-27     | f              |        11 | Карелия Респ | 2023-07-28 17:46:34.050587 | postgres | 1100011396 |       1 |                 153 | gar_tmp  | adr_house  |    93934 |     103 | /home/n.chadaev@abrr.local/tmp/up_prds_20230727/DATA/adr_house_11.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           52 | 2023-07-31     | f              |        11 | Карелия Респ | 2023-08-04 11:56:42.4382   | postgres | 1100011465 |       1 |                 154 | gar_tmp  | adr_area   |     2814 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230731/DATA/adr_area_11.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           52 | 2023-07-31     | f              |        11 | Карелия Респ | 2023-08-04 11:56:42.4382   | postgres | 1100011465 |       1 |                 155 | gar_tmp  | adr_street |     6300 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230731/DATA/adr_street_11.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           52 | 2023-07-31     | f              |        11 | Карелия Респ | 2023-08-04 11:56:42.4382   | postgres | 1100011465 |       1 |                 156 | gar_tmp  | adr_house  |    93992 |      59 | /home/n.chadaev@abrr.local/tmp/up_prds_20230731/DATA/adr_house_11.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           54 | 2023-08-03     | f              |        11 | Карелия Респ | 2023-08-06 17:30:08.943247 | postgres | 1100011509 |       1 |                 160 | gar_tmp  | adr_area   |     2815 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230803/DATA/adr_area_11.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           54 | 2023-08-03     | f              |        11 | Карелия Респ | 2023-08-06 17:30:08.943247 | postgres | 1100011509 |       1 |                 161 | gar_tmp  | adr_street |     6301 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230803/DATA/adr_street_11.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           54 | 2023-08-03     | f              |        11 | Карелия Респ | 2023-08-06 17:30:08.943247 | postgres | 1100011509 |       1 |                 162 | gar_tmp  | adr_house  |    94024 |      44 | /home/n.chadaev@abrr.local/tmp/up_prds_20230803/DATA/adr_house_11.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           55 | 2023-08-07     | f              |        11 | Карелия Респ | 2023-08-08 14:26:28.915958 | postgres | 1100011541 |       1 |                 163 | gar_tmp  | adr_area   |     2817 |       2 | /home/n.chadaev@abrr.local/tmp/up_prds_20230807/DATA/adr_area_11.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           55 | 2023-08-07     | f              |        11 | Карелия Респ | 2023-08-08 14:26:28.915958 | postgres | 1100011541 |       1 |                 164 | gar_tmp  | adr_street |     6301 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230807/DATA/adr_street_11.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           55 | 2023-08-07     | f              |        11 | Карелия Респ | 2023-08-08 14:26:28.915958 | postgres | 1100011541 |       1 |                 165 | gar_tmp  | adr_house  |    94044 |      21 | /home/n.chadaev@abrr.local/tmp/up_prds_20230807/DATA/adr_house_11.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           56 | 2023-08-14     | f              |        11 | Карелия Респ | 2023-08-15 17:34:25.44712  | postgres | 1100011599 |       1 |                 166 | gar_tmp  | adr_area   |     2817 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230814/DATA/adr_area_11.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           56 | 2023-08-14     | f              |        11 | Карелия Респ | 2023-08-15 17:34:25.44712  | postgres | 1100011599 |       1 |                 167 | gar_tmp  | adr_street |     6303 |       3 | /home/n.chadaev@abrr.local/tmp/up_prds_20230814/DATA/adr_street_11.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           56 | 2023-08-14     | f              |        11 | Карелия Респ | 2023-08-15 17:34:25.44712  | postgres | 1100011599 |       1 |                 168 | gar_tmp  | adr_house  |    94090 |     185 | /home/n.chadaev@abrr.local/tmp/up_prds_20230814/DATA/adr_house_11.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           57 | 2023-08-17     | f              |        11 | Карелия Респ | 2023-08-18 22:42:24.184971 | postgres | 1100011637 |       1 |                 169 | gar_tmp  | adr_area   |     2818 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230817/DATA/adr_area_11.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           57 | 2023-08-17     | f              |        11 | Карелия Респ | 2023-08-18 22:42:24.184971 | postgres | 1100011637 |       1 |                 170 | gar_tmp  | adr_street |     6307 |       4 | /home/n.chadaev@abrr.local/tmp/up_prds_20230817/DATA/adr_street_11.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           57 | 2023-08-17     | f              |        11 | Карелия Респ | 2023-08-18 22:42:24.184971 | postgres | 1100011637 |       1 |                 171 | gar_tmp  | adr_house  |    94113 |      25 | /home/n.chadaev@abrr.local/tmp/up_prds_20230817/DATA/adr_house_11.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           58 | 2023-08-21     | f              |        11 | Карелия Респ | 2023-08-22 17:40:25.134371 | postgres | 1100011667 |       1 |                 172 | gar_tmp  | adr_area   |     2818 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230821/DATA/adr_area_11.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           58 | 2023-08-21     | f              |        11 | Карелия Респ | 2023-08-22 17:40:25.134371 | postgres | 1100011667 |       1 |                 173 | gar_tmp  | adr_street |     6308 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230821/DATA/adr_street_11.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           58 | 2023-08-21     | f              |        11 | Карелия Респ | 2023-08-22 17:40:25.134371 | postgres | 1100011667 |       1 |                 174 | gar_tmp  | adr_house  |    94132 |      20 | /home/n.chadaev@abrr.local/tmp/up_prds_20230821/DATA/adr_house_11.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           59 | 2023-08-24     | f              |        11 | Карелия Респ | 2023-08-25 18:31:58.258275 | postgres | 1100011710 |       1 |                 175 | gar_tmp  | adr_area   |     2818 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230824/DATA/adr_area_11.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           59 | 2023-08-24     | f              |        11 | Карелия Респ | 2023-08-25 18:31:58.258275 | postgres | 1100011710 |       1 |                 176 | gar_tmp  | adr_street |     6308 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230824/DATA/adr_street_11.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           59 | 2023-08-24     | f              |        11 | Карелия Респ | 2023-08-25 18:31:58.258275 | postgres | 1100011710 |       1 |                 177 | gar_tmp  | adr_house  |    94165 |      38 | /home/n.chadaev@abrr.local/tmp/up_prds_20230824/DATA/adr_house_11.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           60 | 2023-08-28     | f              |        11 | Карелия Респ | 2023-08-29 14:43:25.623634 | postgres | 1100011746 |       1 |                 178 | gar_tmp  | adr_area   |     2818 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230828/DATA/adr_area_11.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           60 | 2023-08-28     | f              |        11 | Карелия Респ | 2023-08-29 14:43:25.623634 | postgres | 1100011746 |       1 |                 179 | gar_tmp  | adr_street |     6308 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230828/DATA/adr_street_11.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           60 | 2023-08-28     | f              |        11 | Карелия Респ | 2023-08-29 14:43:25.623634 | postgres | 1100011746 |       1 |                 180 | gar_tmp  | adr_house  |    94191 |      26 | /home/n.chadaev@abrr.local/tmp/up_prds_20230828/DATA/adr_house_11.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           61 | 2023-08-31     | f              |        11 | Карелия Респ | 2023-09-06 19:37:26.34167  | postgres | 1100011793 |       1 |                 181 | gar_tmp  | adr_area   |     2818 |      16 | /home/n.chadaev@abrr.local/tmp/up_prds_20230831/DATA/adr_area_11.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           61 | 2023-08-31     | f              |        11 | Карелия Респ | 2023-09-06 19:37:26.34167  | postgres | 1100011793 |       1 |                 182 | gar_tmp  | adr_street |     6312 |       4 | /home/n.chadaev@abrr.local/tmp/up_prds_20230831/DATA/adr_street_11.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           61 | 2023-08-31     | f              |        11 | Карелия Респ | 2023-09-06 19:37:26.34167  | postgres | 1100011793 |       1 |                 183 | gar_tmp  | adr_house  |    94224 |      48 | /home/n.chadaev@abrr.local/tmp/up_prds_20230831/DATA/adr_house_11.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           62 | 2023-09-04     | f              |        11 | Карелия Респ | 2023-09-08 12:04:23.067864 | postgres | 1100011824 |       1 |                 184 | gar_tmp  | adr_area   |     2818 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230904/DATA/adr_area_11.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           62 | 2023-09-04     | f              |        11 | Карелия Респ | 2023-09-08 12:04:23.067864 | postgres | 1100011824 |       1 |                 185 | gar_tmp  | adr_street |     6314 |       2 | /home/n.chadaev@abrr.local/tmp/up_prds_20230904/DATA/adr_street_11.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           62 | 2023-09-04     | f              |        11 | Карелия Респ | 2023-09-08 12:04:23.067864 | postgres | 1100011824 |       1 |                 186 | gar_tmp  | adr_house  |    94243 |      23 | /home/n.chadaev@abrr.local/tmp/up_prds_20230904/DATA/adr_house_11.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           63 | 2023-09-07     | f              |        11 | Карелия Респ | 2023-09-10 11:48:41.168983 | postgres | 1100011867 |       1 |                 187 | gar_tmp  | adr_area   |     2818 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230907/DATA/adr_area_11.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           63 | 2023-09-07     | f              |        11 | Карелия Респ | 2023-09-10 11:48:41.168983 | postgres | 1100011867 |       1 |                 188 | gar_tmp  | adr_street |     6317 |       4 | /home/n.chadaev@abrr.local/tmp/up_prds_20230907/DATA/adr_street_11.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           63 | 2023-09-07     | f              |        11 | Карелия Респ | 2023-09-10 11:48:41.168983 | postgres | 1100011867 |       1 |                 189 | gar_tmp  | adr_house  |    94273 |      41 | /home/n.chadaev@abrr.local/tmp/up_prds_20230907/DATA/adr_house_11.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           64 | 2023-09-11     | f              |        11 | Карелия Респ | 2023-09-12 22:56:29.868098 | postgres | 1100011896 |       1 |                 190 | gar_tmp  | adr_area   |     2818 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230911/DATA/adr_area_11.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           64 | 2023-09-11     | f              |        11 | Карелия Респ | 2023-09-12 22:56:29.868098 | postgres | 1100011896 |       1 |                 191 | gar_tmp  | adr_street |     6318 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230911/DATA/adr_street_11.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           64 | 2023-09-11     | f              |        11 | Карелия Респ | 2023-09-12 22:56:29.868098 | postgres | 1100011896 |       1 |                 192 | gar_tmp  | adr_house  |    94291 |      29 | /home/n.chadaev@abrr.local/tmp/up_prds_20230911/DATA/adr_house_11.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           65 | 2023-09-15     | f              |        11 | Карелия Респ | 2023-09-18 12:02:33.512701 | postgres | 1100011953 |       1 |                 193 | gar_tmp  | adr_area   |     2818 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230915/DATA/adr_area_11.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           65 | 2023-09-15     | f              |        11 | Карелия Респ | 2023-09-18 12:02:33.512701 | postgres | 1100011953 |       1 |                 194 | gar_tmp  | adr_street |     6321 |       3 | /home/n.chadaev@abrr.local/tmp/up_prds_20230915/DATA/adr_street_11.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           65 | 2023-09-15     | f              |        11 | Карелия Респ | 2023-09-18 12:02:33.512701 | postgres | 1100011953 |       1 |                 195 | gar_tmp  | adr_house  |    94335 |      59 | /home/n.chadaev@abrr.local/tmp/up_prds_20230915/DATA/adr_house_11.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           66 | 2023-09-18     | f              |        11 | Карелия Респ | 2023-09-21 18:17:11.471506 | postgres | 1100011974 |       1 |                 196 | gar_tmp  | adr_area   |     2818 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230918/DATA/adr_area_11.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           66 | 2023-09-18     | f              |        11 | Карелия Респ | 2023-09-21 18:17:11.471506 | postgres | 1100011974 |       1 |                 197 | gar_tmp  | adr_street |     6321 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230918/DATA/adr_street_11.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           66 | 2023-09-18     | f              |        11 | Карелия Респ | 2023-09-21 18:17:11.471506 | postgres | 1100011974 |       1 |                 198 | gar_tmp  | adr_house  |    94346 |      11 | /home/n.chadaev@abrr.local/tmp/up_prds_20230918/DATA/adr_house_11.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           67 | 0223-09-25     | f              |        11 | Карелия Респ | 2023-09-26 19:08:50.423724 | postgres | 1100012029 |       1 |                 199 | gar_tmp  | adr_area   |     2818 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_2230925/DATA/adr_area_11.sql    | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           67 | 0223-09-25     | f              |        11 | Карелия Респ | 2023-09-26 19:08:50.423724 | postgres | 1100012029 |       1 |                 200 | gar_tmp  | adr_street |     6321 |       4 | /home/n.chadaev@abrr.local/tmp/up_prds_2230925/DATA/adr_street_11.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           67 | 0223-09-25     | f              |        11 | Карелия Респ | 2023-09-26 19:08:50.423724 | postgres | 1100012029 |       1 |                 201 | gar_tmp  | adr_house  |    94390 |      50 | /home/n.chadaev@abrr.local/tmp/up_prds_2230925/DATA/adr_house_11.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+(186 rows)
+

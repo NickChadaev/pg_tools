@@ -1,0 +1,455 @@
+ f_server_is 
+-------------
+ unnsi_prd_s
+(1 row)
+
+ id_area | id_country | nm_area | nm_area_full | id_area_type | id_area_parent | kd_timezone | pr_detailed | kd_oktmo |             nm_fias_guid             | dt_data_del | id_data_etalon |  kd_okato   | nm_zipcode |  kd_kladr   | vl_addr_latitude | vl_addr_longitude 
+---------+------------+---------+--------------+--------------+----------------+-------------+-------------+----------+--------------------------------------+-------------+----------------+-------------+------------+-------------+------------------+-------------------
+       3 |        185 | Бурятия | Бурятия Респ |           41 |                |           7 |           0 | 81000000 | a84ebed3-153d-4ba9-8532-8bdf879e1f5a |             |                | 81000000000 | 671000     | 03000000000 |                  |                  
+(1 row)
+
+CALL
+ f_adr_area_set_data 
+---------------------
+                  67
+(1 row)
+
+            fias_guid_new             |                nm_addr_obj                 | addr_obj_type_id | chld_qty_tot | chld_qty_unact 
+--------------------------------------+--------------------------------------------+------------------+--------------+----------------
+ 8a26adcf-58f0-408d-befd-5b7d35153f72 | Местность Билютай                          |              305 |            0 |              0
+ 210237b3-fb14-434e-9f0f-eef076f04daf | Местность Боргойская степь                 |              305 |            0 |              0
+ f5417dd9-a768-4064-93ef-634f09bb6582 | Местность Булык                            |              305 |            0 |              0
+ f5417dd9-a768-4064-93ef-634f09bb6582 | Местность Булык                            |              305 |            0 |              0
+ bf4417a0-49a8-4006-bc83-2c418514035b | Местность Дармыл Байра Тэбуэгил            |              305 |            0 |              0
+ b8026801-b198-4edf-a8b6-0d8b4393725e | Местность Дутулур                          |              305 |            0 |              0
+ 09b7d4da-9a2c-4e5d-9f26-6bdf51f7831b | местность Жаргалантуй                      |              305 |            0 |              0
+ 09b7d4da-9a2c-4e5d-9f26-6bdf51f7831b | местность Жаргалантуй                      |              305 |            0 |              0
+ 71728698-5287-4fda-8252-632e593b722f | Местность ЗГЗ Боргойский                   |              305 |            0 |              0
+ 360a1b66-a767-452a-aac1-23c57dac8457 | Местность земли бывшего колхоза им. Ленина |              305 |            0 |              0
+ c6099f02-86ea-4dae-b7bf-d78cace61559 | местность земли бывшего совхоза Алцакский  |              305 |            0 |              0
+ c6099f02-86ea-4dae-b7bf-d78cace61559 | местность земли бывшего совхоза Алцакский  |              305 |            0 |              0
+ ba84b235-5c0d-4d95-8b20-49726c853883 | Местность Нарин-Кундуй                     |              305 |            0 |              0
+ 494e222e-75aa-4ebf-8ca4-ec402601388b | Местность Огород                           |              305 |            0 |              0
+ cebec85b-4d9f-4cca-bae6-87b06b09731e | местность Полевой стан                     |              305 |            0 |              0
+ 29a2a010-1512-49fc-b962-abed85a9840b | Местность Тангарак                         |              305 |            0 |              0
+ 01bfd730-035c-4874-bc10-82c8416dc583 | местность Урда-Намаг                       |              305 |            0 |              0
+ 0637da21-564a-4e33-9f62-aff5710e78d1 | Местность Усть-Ичетуй                      |              305 |            0 |              0
+ 4004c8f7-4971-4c03-9823-d86ef5023f40 | Местность Хонхор                           |              305 |            0 |              0
+ 012a98d2-5b61-425f-b17f-9e1c90e8b2bc | Местность Худагын адаг                     |              305 |            0 |              0
+ 24a16f0f-a6c9-486d-8147-bc4a19bda815 | местность Яргайта                          |              305 |            0 |              0
+ 5117ac26-9809-40a0-852b-7d5209076003 | Урочище Зимник                             |              305 |            0 |              0
+ 9a9ff368-c26b-4e7e-8554-3b9438f03974 | Урочище Попово                             |              305 |            0 |              0
+ 7428f8ef-a778-4a96-987c-67bc5ae5c5c5 | Местность Аэродром                         |              305 |            0 |              0
+ 171fcacd-8d20-4db7-918b-9934d2bde57e | Местность Баян-Гол                         |              305 |            0 |              0
+ d88d3000-0a1c-4b4a-9eb4-2cf8c3b953c7 | Местность Булак                            |              305 |            0 |              0
+ 3d98c222-1b5d-405a-941c-90f238df041c | Местность Зун-Тамча                        |              305 |            0 |              0
+ 5cfc8faa-b99e-4369-8081-447069634af6 | Местность Манжа                            |              305 |            0 |              0
+ bb24f901-a438-4d54-bfc5-d2553c2d8a0d | Местность Моностой                         |              305 |            0 |              0
+ b75e8df8-f5f7-4a67-9002-aa11156a0e8d | Местность Нарин-Хундуй                     |              305 |            0 |              0
+ 56944cd5-ed0d-4953-918d-1d3eccb2c63e | Местность Падь Хундуй                      |              305 |            0 |              0
+ 34e13a26-8df2-437e-b508-533212237ea1 | Местность Тухум                            |              305 |            0 |              0
+ 65ec8e1a-c022-4ff4-8a9e-4d26216850a1 | Местность Хайласт                          |              305 |            0 |              0
+ ecd43a39-daa6-4ce9-b0fc-156b29f0495d | Местность Хэлтэгэй                         |              305 |            0 |              0
+ b8be4911-434a-4010-baaa-d1f3f73dd1a8 | местность Чандан                           |              305 |            0 |              0
+(35 rows)
+
+CALL
+CALL
+CALL
+CALL
+CALL
+CALL
+CALL
+CALL
+ f_xxx_obj_seq_crt 
+-------------------
+         300029933
+       10300029933
+(2 rows)
+
+ f_set_params_value 
+--------------------
+             734589
+(1 row)
+
+ f_xxx_adr_area_set_data 
+-------------------------
+                   16499
+(1 row)
+
+ f_xxx_adr_house_set_data 
+--------------------------
+                   237253
+(1 row)
+
+ f_xxx_obj_fias_set_data 
+-------------------------
+                    5306
+                   11193
+                  237253
+(3 rows)
+
+ total_row | ins_row | upd_row 
+-----------+---------+---------
+         4 |       1 |       3
+(1 row)
+
+ id_area | id_country |          nm_area          |                          nm_area_full                           | id_area_type | id_area_parent | kd_timezone | pr_detailed |  kd_oktmo   |             nm_fias_guid             |        dt_data_del         | id_data_etalon |  kd_okato   | nm_zipcode |  kd_kladr   | vl_addr_latitude | vl_addr_longitude | id_area_hist |        date_create         | f_server_name | id_region 
+---------+------------+---------------------------+-----------------------------------------------------------------+--------------+----------------+-------------+-------------+-------------+--------------------------------------+----------------------------+----------------+-------------+------------+-------------+------------------+-------------------+--------------+----------------------------+---------------+-----------
+    3254 |        185 | Заимка Могжон             | Бурятия Респ, Курумканский р-н, Заимка Могжон тер               |           54 |            118 |           7 |           0 | 81630444    | 1fc66c12-087a-4afc-bb64-dd90b87382c0 | 2023-09-26 21:00:54.028729 |           3254 | 81230844001 | 671635     | 03011000136 |                  |                   |        16389 | 2023-09-26 21:00:54.028729 |               |         0
+  205207 |        185 | Местность Щучье Озеро(юг) | Бурятия Респ, Селенгинский р-н, Местность Щучье Озеро(юг) тер   |           54 |            103 |           7 |           0 | 81648422    | f76265a8-ba47-475b-955b-b360967683d1 | 2023-09-26 21:00:54.028729 |         205207 | 81248822000 |            |             |                  |                   |        16390 | 2023-09-26 21:00:54.028729 |               |         0
+  512098 |        185 | Местность Харганта        | Бурятия Респ, Селенгинский р-н, Ташир у, Местность Харганта тер |           54 |           2992 |           7 |           0 | 81648444101 | 4e99a865-e63e-420e-9f18-af80a3185b03 | 2023-09-26 21:00:54.028729 |         512098 | 81248844001 |            |             |                  |                   |        16391 | 2023-09-26 21:00:54.028729 |               |         0
+(3 rows)
+
+ total_row | upd_row 
+-----------+---------
+      5302 |       3
+(1 row)
+
+ id_area | id_country |          nm_area          |                          nm_area_full                           | id_area_type | id_area_parent | kd_timezone | pr_detailed |  kd_oktmo   |             nm_fias_guid             |        dt_data_del         | id_data_etalon |  kd_okato   | nm_zipcode |  kd_kladr   | vl_addr_latitude | vl_addr_longitude | id_area_hist |        date_create         | f_server_name | id_region 
+---------+------------+---------------------------+-----------------------------------------------------------------+--------------+----------------+-------------+-------------+-------------+--------------------------------------+----------------------------+----------------+-------------+------------+-------------+------------------+-------------------+--------------+----------------------------+---------------+-----------
+    3254 |        185 | Заимка Могжон             | Бурятия Респ, Курумканский р-н, Заимка Могжон тер               |           54 |            118 |           7 |           0 | 81630444    | 1fc66c12-087a-4afc-bb64-dd90b87382c0 | 2023-09-26 21:00:54.028729 |           3254 | 81230844001 | 671635     | 03011000136 |                  |                   |        16389 | 2023-09-26 21:00:54.028729 |               |         0
+  205207 |        185 | Местность Щучье Озеро(юг) | Бурятия Респ, Селенгинский р-н, Местность Щучье Озеро(юг) тер   |           54 |            103 |           7 |           0 | 81648422    | f76265a8-ba47-475b-955b-b360967683d1 | 2023-09-26 21:00:54.028729 |         205207 | 81248822000 |            |             |                  |                   |        16390 | 2023-09-26 21:00:54.028729 |               |         0
+  512098 |        185 | Местность Харганта        | Бурятия Респ, Селенгинский р-н, Ташир у, Местность Харганта тер |           54 |           2992 |           7 |           0 | 81648444101 | 4e99a865-e63e-420e-9f18-af80a3185b03 | 2023-09-26 21:00:54.028729 |         512098 | 81248844001 |            |             |                  |                   |        16391 | 2023-09-26 21:00:54.028729 |               |         0
+(3 rows)
+
+ total_row | ins_row | upd_row 
+-----------+---------+---------
+         5 |       5 |       0
+(1 row)
+
+ id_street | id_area | nm_street | id_street_type | nm_street_full | nm_fias_guid | dt_data_del | id_data_etalon | kd_kladr | vl_addr_latitude | vl_addr_longitude | id_street_hist | date_create | f_server_name | id_region 
+-----------+---------+-----------+----------------+----------------+--------------+-------------+----------------+----------+------------------+-------------------+----------------+-------------+---------------+-----------
+(0 rows)
+
+ total_row | upd_row 
+-----------+---------
+     11170 |       0
+(1 row)
+
+ id_street | id_area | nm_street | id_street_type | nm_street_full | nm_fias_guid | dt_data_del | id_data_etalon | kd_kladr | vl_addr_latitude | vl_addr_longitude | id_street_hist | date_create | f_server_name | id_region 
+-----------+---------+-----------+----------------+----------------+--------------+-------------+----------------+----------+------------------+-------------------+----------------+-------------+---------------+-----------
+(0 rows)
+
+ total_row | ins_row | upd_row 
+-----------+---------+---------
+        70 |      68 |       2
+(1 row)
+
+ id_house | id_area | id_street | id_house_type_1 | nm_house_1 | id_house_type_2 | nm_house_2 | id_house_type_3 | nm_house_3 | nm_zipcode | nm_house_full |  kd_oktmo   |             nm_fias_guid             |        dt_data_del         | id_data_etalon |  kd_okato   | vl_addr_latitude | vl_addr_longitude | id_house_hist |        date_create         | f_server_name | id_region 
+----------+---------+-----------+-----------------+------------+-----------------+------------+-----------------+------------+------------+---------------+-------------+--------------------------------------+----------------------------+----------------+-------------+------------------+-------------------+---------------+----------------------------+---------------+-----------
+  1140095 |      97 |      8953 |               2 | 8          |                 |            |                 |            | 670018     | д. 8          | 81701000    | 162353a0-6859-437a-b29e-fd11a69b8476 | 2023-09-26 21:01:12.763305 |        1140095 | 81401373000 |                  |                   |          7159 | 2023-09-26 21:01:12.763305 |               |         0
+  1009508 |    2915 |    177334 |               2 | 3          |                 |            |                 |            | 671826     | д. 3          | 81633448101 | a54f38fd-7186-4eaa-9fc2-ed51c9725a0e | 2023-09-26 21:01:12.763305 |        1009508 | 81233848001 |                  |                   |          7160 | 2023-09-26 21:01:12.763305 |               |         0
+(2 rows)
+
+ total_row | upd_row 
+-----------+---------
+    237175 |       8
+(1 row)
+
+ id_house | id_area | id_street | id_house_type_1 | nm_house_1 | id_house_type_2 | nm_house_2 | id_house_type_3 | nm_house_3 | nm_zipcode | nm_house_full |  kd_oktmo   |             nm_fias_guid             |        dt_data_del         | id_data_etalon |  kd_okato   | vl_addr_latitude | vl_addr_longitude | id_house_hist |        date_create         | f_server_name | id_region 
+----------+---------+-----------+-----------------+------------+-----------------+------------+-----------------+------------+------------+---------------+-------------+--------------------------------------+----------------------------+----------------+-------------+------------------+-------------------+---------------+----------------------------+---------------+-----------
+  1140095 |      97 |      8953 |               2 | 8          |                 |            |                 |            | 670018     | д. 8          | 81701000    | 162353a0-6859-437a-b29e-fd11a69b8476 | 2023-09-26 21:01:12.763305 |        1140095 | 81401373000 |                  |                   |          7159 | 2023-09-26 21:01:12.763305 |               |         0
+  1009508 |    2915 |    177334 |               2 | 3          |                 |            |                 |            | 671826     | д. 3          | 81633448101 | a54f38fd-7186-4eaa-9fc2-ed51c9725a0e | 2023-09-26 21:01:12.763305 |        1009508 | 81233848001 |                  |                   |          7160 | 2023-09-26 21:01:12.763305 |               |         0
+(2 rows)
+
+ f_version_put 
+---------------
+            67
+(1 row)
+
+ qty_adr_area_0 
+----------------
+           5534
+(1 row)
+
+ qty_adr_area_aux_0 
+--------------------
+                  4
+(1 row)
+
+CALL
+ fcase | id_area_subj | id_area_obj | nm_area | nm_fias_guid 
+-------+--------------+-------------+---------+--------------
+(0 rows)
+
+CALL
+CALL
+CALL
+ qty_adr_area_1 
+----------------
+           5534
+(1 row)
+
+ qty_adr_area_aux_1 
+--------------------
+                  4
+(1 row)
+
+ id_area | id_country | nm_area | nm_area_full | id_area_type | id_area_parent | kd_timezone | pr_detailed | kd_oktmo | nm_fias_guid | dt_data_del | id_data_etalon | kd_okato | nm_zipcode | kd_kladr | vl_addr_latitude | vl_addr_longitude 
+---------+------------+---------+--------------+--------------+----------------+-------------+-------------+----------+--------------+-------------+----------------+----------+------------+----------+------------------+-------------------
+(0 rows)
+
+ f_version_by_obj_put 
+----------------------
+                  199
+(1 row)
+
+ qty_adr_street_0 
+------------------
+            11934
+(1 row)
+
+ qty_adr_street_aux_0 
+----------------------
+                    5
+(1 row)
+
+CALL
+CALL
+ fcase | id_street_subj | id_street_obj | nm_street_full | nm_fias_guid 
+-------+----------------+---------------+----------------+--------------
+(0 rows)
+
+ qty_adr_street_1 
+------------------
+            11934
+(1 row)
+
+ qty_adr_street_aux_1 
+----------------------
+                    5
+(1 row)
+
+CALL
+CALL
+CALL
+ f_version_by_obj_put 
+----------------------
+                  200
+(1 row)
+
+ qty_adr_house_0 
+-----------------
+          247253
+(1 row)
+
+ qty_adr_house_aux_0 
+---------------------
+                  76
+(1 row)
+
+CALL
+CALL
+ fcase | id_house_subj | id_house_obj | nm_house_full | nm_fias_guid 
+-------+---------------+--------------+---------------+--------------
+(0 rows)
+
+ qty_adr_house_1 
+-----------------
+          247253
+(1 row)
+
+ qty_adr_house_aux_1 
+---------------------
+                  76
+(1 row)
+
+CALL
+CALL
+CALL
+ f_version_by_obj_put 
+----------------------
+                  201
+(1 row)
+
+ id_un_export | dt_gar_version | kd_export_type | id_region | nm_area_full |         dt_export          | nm_user  | seq_value | node_id | id_un_export_by_obj | sch_name | nm_object  | qty_main | qty_aux |                               file_path                                | fserver_name |   host    |     dbname     | port | db_conn_name  
+--------------+----------------+----------------+-----------+--------------+----------------------------+----------+-----------+---------+---------------------+----------+------------+----------+---------+------------------------------------------------------------------------+--------------+-----------+----------------+------+---------------
+            1 | 2022-12-26     | f              |         3 | Бурятия Респ | 2023-01-18 14:35:55.744046 | postgres | 300025810 |       1 |                   1 | gar_tmp  | adr_area   |     5498 |    1199 | ../tmp/up_prds/DATA/adr_area_03.sql                                    | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            1 | 2022-12-26     | f              |         3 | Бурятия Респ | 2023-01-18 14:35:55.744046 | postgres | 300025810 |       1 |                   2 | gar_tmp  | adr_street |    11826 |      39 | ../tmp/up_prds/DATA/adr_street_03.sql                                  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            1 | 2022-12-26     | f              |         3 | Бурятия Респ | 2023-01-18 14:35:55.744046 | postgres | 300025810 |       1 |                   3 | gar_tmp  | adr_house  |   244006 |    1131 | ../tmp/up_prds/DATA/adr_house_03.sql                                   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            2 | 2023-01-09     | f              |         3 | Бурятия Респ | 2023-01-20 11:41:44.709914 | postgres | 300025960 |       1 |                   4 | gar_tmp  | adr_area   |     5498 |    1156 | ../../tmp/up_prds_20230109/DATA/adr_area_03.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            2 | 2023-01-09     | f              |         3 | Бурятия Респ | 2023-01-20 11:41:44.709914 | postgres | 300025960 |       1 |                   5 | gar_tmp  | adr_street |    11837 |      11 | ../../tmp/up_prds_20230109/DATA/adr_street_03.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            2 | 2023-01-09     | f              |         3 | Бурятия Респ | 2023-01-20 11:41:44.709914 | postgres | 300025960 |       1 |                   6 | gar_tmp  | adr_house  |   244132 |     458 | ../../tmp/up_prds_20230109/DATA/adr_house_03.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            3 | 2023-01-16     | f              |         3 | Бурятия Респ | 2023-01-24 10:02:50.642403 | postgres | 300026071 |       1 |                   7 | gar_tmp  | adr_area   |     5500 |    1158 | ../../tmp/up_prds_20230116/DATA/adr_area_03.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            3 | 2023-01-16     | f              |         3 | Бурятия Респ | 2023-01-24 10:02:50.642403 | postgres | 300026071 |       1 |                   8 | gar_tmp  | adr_street |    11838 |       1 | ../../tmp/up_prds_20230116/DATA/adr_street_03.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            3 | 2023-01-16     | f              |         3 | Бурятия Респ | 2023-01-24 10:02:50.642403 | postgres | 300026071 |       1 |                   9 | gar_tmp  | adr_house  |   244227 |     316 | ../../tmp/up_prds_20230116/DATA/adr_house_03.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            4 | 2023-01-23     | f              |         3 | Бурятия Респ | 2023-01-27 02:12:29.170524 | postgres | 300026185 |       1 |                  10 | gar_tmp  | adr_area   |     5500 |    1162 | ../../tmp/up_prds_20230123/DATA/adr_area_03.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            4 | 2023-01-23     | f              |         3 | Бурятия Респ | 2023-01-27 02:12:29.170524 | postgres | 300026185 |       1 |                  11 | gar_tmp  | adr_street |    11841 |       3 | ../../tmp/up_prds_20230123/DATA/adr_street_03.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            4 | 2023-01-23     | f              |         3 | Бурятия Респ | 2023-01-27 02:12:29.170524 | postgres | 300026185 |       1 |                  12 | gar_tmp  | adr_house  |   244323 |     149 | ../../tmp/up_prds_20230123/DATA/adr_house_03.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            5 | 2023-02-02     | f              |         3 | Бурятия Респ | 2023-02-04 05:23:31.358302 | postgres | 300026361 |       1 |                  13 | gar_tmp  | adr_area   |     5501 |    1158 | ../../tmp/up_prds_20230202/DATA/adr_area_03.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            5 | 2023-02-02     | f              |         3 | Бурятия Респ | 2023-02-04 05:23:31.358302 | postgres | 300026361 |       1 |                  14 | gar_tmp  | adr_street |    11846 |       5 | ../../tmp/up_prds_20230202/DATA/adr_street_03.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            5 | 2023-02-02     | f              |         3 | Бурятия Респ | 2023-02-04 05:23:31.358302 | postgres | 300026361 |       1 |                  15 | gar_tmp  | adr_house  |   244480 |     334 | ../../tmp/up_prds_20230202/DATA/adr_house_03.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            6 | 2023-02-06     | f              |         3 | Бурятия Респ | 2023-02-11 00:44:34.083322 | postgres | 300026409 |       1 |                  16 | gar_tmp  | adr_area   |     5501 |    1157 | ../../tmp/up_prds_20230206/DATA/adr_area_03.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            6 | 2023-02-06     | f              |         3 | Бурятия Респ | 2023-02-11 00:44:34.083322 | postgres | 300026409 |       1 |                  17 | gar_tmp  | adr_street |    11846 |       0 | ../../tmp/up_prds_20230206/DATA/adr_street_03.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            6 | 2023-02-06     | f              |         3 | Бурятия Респ | 2023-02-11 00:44:34.083322 | postgres | 300026409 |       1 |                  18 | gar_tmp  | adr_house  |   244515 |     382 | ../../tmp/up_prds_20230206/DATA/adr_house_03.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            7 | 2023-02-13     | f              |         3 | Бурятия Респ | 2023-02-16 01:30:12.509295 | postgres | 300026496 |       1 |                  19 | gar_tmp  | adr_area   |     5501 |    1156 | ../../tmp/up_prds_20230213/DATA/adr_area_03.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            7 | 2023-02-13     | f              |         3 | Бурятия Респ | 2023-02-16 01:30:12.509295 | postgres | 300026496 |       1 |                  20 | gar_tmp  | adr_street |    11847 |       1 | ../../tmp/up_prds_20230213/DATA/adr_street_03.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            7 | 2023-02-13     | f              |         3 | Бурятия Респ | 2023-02-16 01:30:12.509295 | postgres | 300026496 |       1 |                  21 | gar_tmp  | adr_house  |   244587 |     802 | ../../tmp/up_prds_20230213/DATA/adr_house_03.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            8 | 2023-02-16     | f              |         3 | Бурятия Респ | 2023-02-20 10:57:19.705245 | postgres | 300026596 |       1 |                  22 | gar_tmp  | adr_area   |     5501 |    1156 | ../../tmp/up_prds_20230216/DATA/adr_area_03.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            8 | 2023-02-16     | f              |         3 | Бурятия Респ | 2023-02-20 10:57:19.705245 | postgres | 300026596 |       1 |                  23 | gar_tmp  | adr_street |    11848 |       1 | ../../tmp/up_prds_20230216/DATA/adr_street_03.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            8 | 2023-02-16     | f              |         3 | Бурятия Респ | 2023-02-20 10:57:19.705245 | postgres | 300026596 |       1 |                  24 | gar_tmp  | adr_house  |   244673 |     318 | ../../tmp/up_prds_20230216/DATA/adr_house_03.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            9 | 2023-02-21     | f              |         3 | Бурятия Респ | 2023-02-23 09:31:22.417389 | postgres | 300026662 |       1 |                  25 | gar_tmp  | adr_area   |     5503 |    1158 | ../../tmp/up_prds_20230221/DATA/adr_area_03.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            9 | 2023-02-21     | f              |         3 | Бурятия Респ | 2023-02-23 09:31:22.417389 | postgres | 300026662 |       1 |                  26 | gar_tmp  | adr_street |    11848 |       0 | ../../tmp/up_prds_20230221/DATA/adr_street_03.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+            9 | 2023-02-21     | f              |         3 | Бурятия Респ | 2023-02-23 09:31:22.417389 | postgres | 300026662 |       1 |                  27 | gar_tmp  | adr_house  |   244724 |     526 | ../../tmp/up_prds_20230221/DATA/adr_house_03.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           11 | 2023-02-27     | f              |         3 | Бурятия Респ | 2023-03-01 03:35:43.263481 | postgres | 300026687 |       1 |                  31 | gar_tmp  | adr_area   |     5503 |    1156 | ../../tmp/up_prds_20230227/DATA/adr_area_03.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           11 | 2023-02-27     | f              |         3 | Бурятия Респ | 2023-03-01 03:35:43.263481 | postgres | 300026687 |       1 |                  32 | gar_tmp  | adr_street |    11848 |       0 | ../../tmp/up_prds_20230227/DATA/adr_street_03.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           11 | 2023-02-27     | f              |         3 | Бурятия Респ | 2023-03-01 03:35:43.263481 | postgres | 300026687 |       1 |                  33 | gar_tmp  | adr_house  |   244736 |      27 | ../../tmp/up_prds_20230227/DATA/adr_house_03.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           12 | 2023-03-02     | f              |         3 | Бурятия Респ | 2023-03-04 04:29:55.57202  | postgres | 300026752 |       1 |                  34 | gar_tmp  | adr_area   |     5503 |    1156 | ../../tmp/up_prds_20230302/DATA/adr_area_03.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           12 | 2023-03-02     | f              |         3 | Бурятия Респ | 2023-03-04 04:29:55.57202  | postgres | 300026752 |       1 |                  35 | gar_tmp  | adr_street |    11848 |       0 | ../../tmp/up_prds_20230302/DATA/adr_street_03.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           12 | 2023-03-02     | f              |         3 | Бурятия Респ | 2023-03-04 04:29:55.57202  | postgres | 300026752 |       1 |                  36 | gar_tmp  | adr_house  |   244788 |     182 | ../../tmp/up_prds_20230302/DATA/adr_house_03.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           13 | 2023-03-06     | f              |         3 | Бурятия Респ | 2023-03-09 11:20:28.715734 | postgres | 300026789 |       1 |                  37 | gar_tmp  | adr_area   |     5504 |    1157 | ../../tmp/up_prds_20230306/DATA/adr_area_03.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           13 | 2023-03-06     | f              |         3 | Бурятия Респ | 2023-03-09 11:20:28.715734 | postgres | 300026789 |       1 |                  38 | gar_tmp  | adr_street |    11848 |       0 | ../../tmp/up_prds_20230306/DATA/adr_street_03.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           13 | 2023-03-06     | f              |         3 | Бурятия Респ | 2023-03-09 11:20:28.715734 | postgres | 300026789 |       1 |                  39 | gar_tmp  | adr_house  |   244811 |      41 | ../../tmp/up_prds_20230306/DATA/adr_house_03.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           14 | 2023-03-09     | f              |         3 | Бурятия Респ | 2023-03-15 01:00:46.39751  | postgres | 300026826 |       1 |                  40 | gar_tmp  | adr_area   |     5504 |    1156 | ../../tmp/up_prds_20230309/DATA/adr_area_03.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           14 | 2023-03-09     | f              |         3 | Бурятия Респ | 2023-03-15 01:00:46.39751  | postgres | 300026826 |       1 |                  41 | gar_tmp  | adr_street |    11850 |       3 | ../../tmp/up_prds_20230309/DATA/adr_street_03.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           14 | 2023-03-09     | f              |         3 | Бурятия Респ | 2023-03-15 01:00:46.39751  | postgres | 300026826 |       1 |                  42 | gar_tmp  | adr_house  |   244833 |      41 | ../../tmp/up_prds_20230309/DATA/adr_house_03.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           15 | 2023-03-13     | f              |         3 | Бурятия Респ | 2023-03-16 10:08:24.462443 | postgres | 300026891 |       1 |                  43 | gar_tmp  | adr_area   |     5505 |       4 | ../../tmp/up_prds_20230313/DATA/adr_area_03.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           15 | 2023-03-13     | f              |         3 | Бурятия Респ | 2023-03-16 10:08:24.462443 | postgres | 300026891 |       1 |                  44 | gar_tmp  | adr_street |    11857 |       7 | ../../tmp/up_prds_20230313/DATA/adr_street_03.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           15 | 2023-03-13     | f              |         3 | Бурятия Респ | 2023-03-16 10:08:24.462443 | postgres | 300026891 |       1 |                  45 | gar_tmp  | adr_house  |   244876 |      48 | ../../tmp/up_prds_20230313/DATA/adr_house_03.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           16 | 2023-03-16     | f              |         3 | Бурятия Респ | 2023-03-18 06:01:42.285462 | postgres | 300026959 |       1 |                  46 | gar_tmp  | adr_area   |     5505 |       3 | ../../tmp/up_prds_20230316/DATA/adr_area_03.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           16 | 2023-03-16     | f              |         3 | Бурятия Респ | 2023-03-18 06:01:42.285462 | postgres | 300026959 |       1 |                  47 | gar_tmp  | adr_street |    11867 |      10 | ../../tmp/up_prds_20230316/DATA/adr_street_03.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           16 | 2023-03-16     | f              |         3 | Бурятия Респ | 2023-03-18 06:01:42.285462 | postgres | 300026959 |       1 |                  48 | gar_tmp  | adr_house  |   244921 |     139 | ../../tmp/up_prds_20230316/DATA/adr_house_03.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           17 | 2023-03-20     | f              |         3 | Бурятия Респ | 2023-03-22 11:21:06.37682  | postgres | 300027009 |       1 |                  49 | gar_tmp  | adr_area   |     5506 |       4 | ../../tmp/up_prds_20230320/DATA/adr_area_03.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           17 | 2023-03-20     | f              |         3 | Бурятия Респ | 2023-03-22 11:21:06.37682  | postgres | 300027009 |       1 |                  50 | gar_tmp  | adr_street |    11867 |       0 | ../../tmp/up_prds_20230320/DATA/adr_street_03.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           17 | 2023-03-20     | f              |         3 | Бурятия Респ | 2023-03-22 11:21:06.37682  | postgres | 300027009 |       1 |                  51 | gar_tmp  | adr_house  |   244957 |      98 | ../../tmp/up_prds_20230320/DATA/adr_house_03.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           18 | 2023-03-23     | f              |         3 | Бурятия Респ | 2023-03-25 05:46:25.307341 | postgres | 300027042 |       1 |                  52 | gar_tmp  | adr_area   |     5506 |       3 | ../../tmp/up_prds_20230323/DATA/adr_area_03.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           18 | 2023-03-23     | f              |         3 | Бурятия Респ | 2023-03-25 05:46:25.307341 | postgres | 300027042 |       1 |                  53 | gar_tmp  | adr_street |    11867 |       0 | ../../tmp/up_prds_20230323/DATA/adr_street_03.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           18 | 2023-03-23     | f              |         3 | Бурятия Респ | 2023-03-25 05:46:25.307341 | postgres | 300027042 |       1 |                  54 | gar_tmp  | adr_house  |   244976 |      41 | ../../tmp/up_prds_20230323/DATA/adr_house_03.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           19 | 2023-03-27     | f              |         3 | Бурятия Респ | 2023-03-31 09:44:41.195832 | postgres | 300027086 |       1 |                  55 | gar_tmp  | adr_area   |     5506 |       3 | ../../tmp/up_prds_20230327/DATA/adr_area_03.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           19 | 2023-03-27     | f              |         3 | Бурятия Респ | 2023-03-31 09:44:41.195832 | postgres | 300027086 |       1 |                  56 | gar_tmp  | adr_street |    11868 |       1 | ../../tmp/up_prds_20230327/DATA/adr_street_03.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           19 | 2023-03-27     | f              |         3 | Бурятия Респ | 2023-03-31 09:44:41.195832 | postgres | 300027086 |       1 |                  57 | gar_tmp  | adr_house  |   245006 |      44 | ../../tmp/up_prds_20230327/DATA/adr_house_03.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           20 | 2023-04-04     | f              |         3 | Бурятия Респ | 2023-04-06 09:15:24.134223 | postgres | 300027208 |       1 |                  58 | gar_tmp  | adr_area   |     5507 |       4 | ../../tmp/up_prds_20230404/DATA/adr_area_03.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           20 | 2023-04-04     | f              |         3 | Бурятия Респ | 2023-04-06 09:15:24.134223 | postgres | 300027208 |       1 |                  59 | gar_tmp  | adr_street |    11871 |       3 | ../../tmp/up_prds_20230404/DATA/adr_street_03.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           20 | 2023-04-04     | f              |         3 | Бурятия Респ | 2023-04-06 09:15:24.134223 | postgres | 300027208 |       1 |                  60 | gar_tmp  | adr_house  |   245110 |     121 | ../../tmp/up_prds_20230404/DATA/adr_house_03.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           21 | 2023-04-06     | f              |         3 | Бурятия Респ | 2023-04-09 12:32:57.085492 | postgres | 300027233 |       1 |                  61 | gar_tmp  | adr_area   |     5507 |       3 | ../../tmp/up_prds_20230406/DATA/adr_area_03.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           21 | 2023-04-06     | f              |         3 | Бурятия Респ | 2023-04-09 12:32:57.085492 | postgres | 300027233 |       1 |                  62 | gar_tmp  | adr_street |    11871 |       0 | ../../tmp/up_prds_20230406/DATA/adr_street_03.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           21 | 2023-04-06     | f              |         3 | Бурятия Респ | 2023-04-09 12:32:57.085492 | postgres | 300027233 |       1 |                  63 | gar_tmp  | adr_house  |   245122 |     115 | ../../tmp/up_prds_20230406/DATA/adr_house_03.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           22 | 2023-04-10     | f              |         3 | Бурятия Респ | 2023-04-13 08:58:52.457373 | postgres | 300027270 |       1 |                  64 | gar_tmp  | adr_area   |     5507 |       3 | ../../tmp/up_prds_20230410/DATA/adr_area_03.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           22 | 2023-04-10     | f              |         3 | Бурятия Респ | 2023-04-13 08:58:52.457373 | postgres | 300027270 |       1 |                  65 | gar_tmp  | adr_street |    11871 |       0 | ../../tmp/up_prds_20230410/DATA/adr_street_03.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           22 | 2023-04-10     | f              |         3 | Бурятия Респ | 2023-04-13 08:58:52.457373 | postgres | 300027270 |       1 |                  66 | gar_tmp  | adr_house  |   245146 |      73 | ../../tmp/up_prds_20230410/DATA/adr_house_03.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           23 | 2023-04-13     | f              |         3 | Бурятия Респ | 2023-04-15 10:54:05.675452 | postgres | 300027330 |       1 |                  67 | gar_tmp  | adr_area   |     5507 |       3 | ../../tmp/up_prds_20230413/DATA/adr_area_03.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           23 | 2023-04-13     | f              |         3 | Бурятия Респ | 2023-04-15 10:54:05.675452 | postgres | 300027330 |       1 |                  68 | gar_tmp  | adr_street |    11877 |       6 | ../../tmp/up_prds_20230413/DATA/adr_street_03.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           23 | 2023-04-13     | f              |         3 | Бурятия Респ | 2023-04-15 10:54:05.675452 | postgres | 300027330 |       1 |                  69 | gar_tmp  | adr_house  |   245186 |      49 | ../../tmp/up_prds_20230413/DATA/adr_house_03.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           24 | 2023-04-17     | f              |         3 | Бурятия Респ | 2023-04-21 01:52:13.612321 | postgres | 300027372 |       1 |                  70 | gar_tmp  | adr_area   |     5507 |       3 | ../../tmp/up_prds_20230417/DATA/adr_area_03.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           24 | 2023-04-17     | f              |         3 | Бурятия Респ | 2023-04-21 01:52:13.612321 | postgres | 300027372 |       1 |                  71 | gar_tmp  | adr_street |    11877 |       0 | ../../tmp/up_prds_20230417/DATA/adr_street_03.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           24 | 2023-04-17     | f              |         3 | Бурятия Респ | 2023-04-21 01:52:13.612321 | postgres | 300027372 |       1 |                  72 | gar_tmp  | adr_house  |   245214 |      99 | ../../tmp/up_prds_20230417/DATA/adr_house_03.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           25 | 2023-04-20     | f              |         3 | Бурятия Респ | 2023-04-26 01:27:30.933777 | postgres | 300027415 |       1 |                  73 | gar_tmp  | adr_area   |     5507 |       3 | ../../tmp/up_prds_20230420/DATA/adr_area_03.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           25 | 2023-04-20     | f              |         3 | Бурятия Респ | 2023-04-26 01:27:30.933777 | postgres | 300027415 |       1 |                  74 | gar_tmp  | adr_street |    11877 |       0 | ../../tmp/up_prds_20230420/DATA/adr_street_03.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           25 | 2023-04-20     | f              |         3 | Бурятия Респ | 2023-04-26 01:27:30.933777 | postgres | 300027415 |       1 |                  75 | gar_tmp  | adr_house  |   245244 |     289 | ../../tmp/up_prds_20230420/DATA/adr_house_03.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           26 | 2023-04-24     | f              |         3 | Бурятия Респ | 2023-04-28 12:15:02.780766 | postgres | 300027444 |       1 |                  76 | gar_tmp  | adr_area   |     5507 |       3 | ../../tmp/up_prds_20230424/DATA/adr_area_03.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           26 | 2023-04-24     | f              |         3 | Бурятия Респ | 2023-04-28 12:15:02.780766 | postgres | 300027444 |       1 |                  77 | gar_tmp  | adr_street |    11880 |       3 | ../../tmp/up_prds_20230424/DATA/adr_street_03.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           26 | 2023-04-24     | f              |         3 | Бурятия Респ | 2023-04-28 12:15:02.780766 | postgres | 300027444 |       1 |                  78 | gar_tmp  | adr_house  |   245257 |      28 | ../../tmp/up_prds_20230424/DATA/adr_house_03.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           27 | 2023-05-04     | f              |         3 | Бурятия Респ | 2023-05-06 07:13:34.44221  | postgres | 300027560 |       1 |                  79 | gar_tmp  | adr_area   |     5509 |       5 | ../../tmp/up_prds_20230504/DATA/adr_area_03.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           27 | 2023-05-04     | f              |         3 | Бурятия Респ | 2023-05-06 07:13:34.44221  | postgres | 300027560 |       1 |                  80 | gar_tmp  | adr_street |    11892 |      16 | ../../tmp/up_prds_20230504/DATA/adr_street_03.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           27 | 2023-05-04     | f              |         3 | Бурятия Респ | 2023-05-06 07:13:34.44221  | postgres | 300027560 |       1 |                  81 | gar_tmp  | adr_house  |   245346 |     108 | ../../tmp/up_prds_20230504/DATA/adr_house_03.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           28 | 2023-05-08     | f              |         3 | Бурятия Респ | 2023-05-11 08:48:42.933385 | postgres | 300027590 |       1 |                  82 | gar_tmp  | adr_area   |     5509 |       3 | ../../tmp/up_prds_20230508/DATA/adr_area_03.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           28 | 2023-05-08     | f              |         3 | Бурятия Респ | 2023-05-11 08:48:42.933385 | postgres | 300027590 |       1 |                  83 | gar_tmp  | adr_street |    11894 |       2 | ../../tmp/up_prds_20230508/DATA/adr_street_03.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           28 | 2023-05-08     | f              |         3 | Бурятия Респ | 2023-05-11 08:48:42.933385 | postgres | 300027590 |       1 |                  84 | gar_tmp  | adr_house  |   245359 |     141 | ../../tmp/up_prds_20230508/DATA/adr_house_03.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           29 | 2023-05-11     | f              |         3 | Бурятия Респ | 2023-05-16 10:29:01.730749 | postgres | 300027612 |       1 |                  85 | gar_tmp  | adr_area   |     5509 |       3 | ../../tmp/up_prds_20230511/DATA/adr_area_03.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           29 | 2023-05-11     | f              |         3 | Бурятия Респ | 2023-05-16 10:29:01.730749 | postgres | 300027612 |       1 |                  86 | gar_tmp  | adr_street |    11894 |       0 | ../../tmp/up_prds_20230511/DATA/adr_street_03.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           29 | 2023-05-11     | f              |         3 | Бурятия Респ | 2023-05-16 10:29:01.730749 | postgres | 300027612 |       1 |                  87 | gar_tmp  | adr_house  |   245368 |     108 | ../../tmp/up_prds_20230511/DATA/adr_house_03.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           30 | 2023-05-15     | f              |         3 | Бурятия Респ | 2023-05-18 09:04:33.575941 | postgres | 300027650 |       1 |                  88 | gar_tmp  | adr_area   |     5510 |       4 | ../../tmp/up_prds_20230515/DATA/adr_area_03.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           30 | 2023-05-15     | f              |         3 | Бурятия Респ | 2023-05-18 09:04:33.575941 | postgres | 300027650 |       1 |                  89 | gar_tmp  | adr_street |    11895 |       1 | ../../tmp/up_prds_20230515/DATA/adr_street_03.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           30 | 2023-05-15     | f              |         3 | Бурятия Респ | 2023-05-18 09:04:33.575941 | postgres | 300027650 |       1 |                  90 | gar_tmp  | adr_house  |   245391 |      38 | ../../tmp/up_prds_20230515/DATA/adr_house_03.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           31 | 2023-05-18     | f              |         3 | Бурятия Респ | 2023-05-24 02:31:50.863727 | postgres | 300027715 |       1 |                  91 | gar_tmp  | adr_area   |     5516 |       9 | ../../tmp/up_prds_20230518/DATA/adr_area_03.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           31 | 2023-05-18     | f              |         3 | Бурятия Респ | 2023-05-24 02:31:50.863727 | postgres | 300027715 |       1 |                  92 | gar_tmp  | adr_street |    11895 |       0 | ../../tmp/up_prds_20230518/DATA/adr_street_03.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           31 | 2023-05-18     | f              |         3 | Бурятия Респ | 2023-05-24 02:31:50.863727 | postgres | 300027715 |       1 |                  93 | gar_tmp  | adr_house  |   245437 |      48 | ../../tmp/up_prds_20230518/DATA/adr_house_03.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           32 | 2023-05-22     | f              |         3 | Бурятия Респ | 2023-05-30 03:55:49.025299 | postgres | 300027749 |       1 |                  94 | gar_tmp  | adr_area   |     5518 |       5 | ../../tmp/up_prds_20230522/DATA/adr_area_03.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           32 | 2023-05-22     | f              |         3 | Бурятия Респ | 2023-05-30 03:55:49.025299 | postgres | 300027749 |       1 |                  95 | gar_tmp  | adr_street |    11898 |       3 | ../../tmp/up_prds_20230522/DATA/adr_street_03.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           32 | 2023-05-22     | f              |         3 | Бурятия Респ | 2023-05-30 03:55:49.025299 | postgres | 300027749 |       1 |                  96 | gar_tmp  | adr_house  |   245453 |      20 | ../../tmp/up_prds_20230522/DATA/adr_house_03.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           34 | 2023-05-25     | f              |         3 | Бурятия Респ | 2023-05-31 03:52:23.386835 | postgres | 300027803 |       1 |                 100 | gar_tmp  | adr_area   |     5519 |       4 | ../../tmp/up_prds_20230525/DATA/adr_area_03.sql                        | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           34 | 2023-05-25     | f              |         3 | Бурятия Респ | 2023-05-31 03:52:23.386835 | postgres | 300027803 |       1 |                 101 | gar_tmp  | adr_street |    11899 |       1 | ../../tmp/up_prds_20230525/DATA/adr_street_03.sql                      | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           34 | 2023-05-25     | f              |         3 | Бурятия Респ | 2023-05-31 03:52:23.386835 | postgres | 300027803 |       1 |                 102 | gar_tmp  | adr_house  |   245492 |      53 | ../../tmp/up_prds_20230525/DATA/adr_house_03.sql                       | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           35 | 2023-05-29     | f              |         3 | Бурятия Респ | 2023-06-03 01:42:22.809943 | postgres | 300027863 |       1 |                 103 | gar_tmp  | adr_area   |     5522 |       6 | /home/n.chadaev@abrr.local/tmp/up_prds_20230529/DATA/adr_area_03.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           35 | 2023-05-29     | f              |         3 | Бурятия Респ | 2023-06-03 01:42:22.809943 | postgres | 300027863 |       1 |                 104 | gar_tmp  | adr_street |    11902 |       3 | /home/n.chadaev@abrr.local/tmp/up_prds_20230529/DATA/adr_street_03.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           35 | 2023-05-29     | f              |         3 | Бурятия Респ | 2023-06-03 01:42:22.809943 | postgres | 300027863 |       1 |                 105 | gar_tmp  | adr_house  |   245533 |     107 | /home/n.chadaev@abrr.local/tmp/up_prds_20230529/DATA/adr_house_03.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           37 | 2023-06-05     | f              |         3 | Бурятия Респ | 2023-06-14 23:14:51.431713 | postgres | 300027947 |       1 |                 109 | gar_tmp  | adr_area   |     5523 |       4 | /home/n.chadaev@abrr.local/tmp/up_prds_20230605/DATA/adr_area_03.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           37 | 2023-06-05     | f              |         3 | Бурятия Респ | 2023-06-14 23:14:51.431713 | postgres | 300027947 |       1 |                 110 | gar_tmp  | adr_street |    11903 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230605/DATA/adr_street_03.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           37 | 2023-06-05     | f              |         3 | Бурятия Респ | 2023-06-14 23:14:51.431713 | postgres | 300027947 |       1 |                 111 | gar_tmp  | adr_house  |   245602 |     118 | /home/n.chadaev@abrr.local/tmp/up_prds_20230605/DATA/adr_house_03.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           39 | 2023-06-08     | f              |         3 | Бурятия Респ | 2023-06-16 14:39:43.694171 | postgres | 300028039 |       1 |                 115 | gar_tmp  | adr_area   |     5524 |       4 | /home/n.chadaev@abrr.local/tmp/up_prds_20230608/DATA/adr_area_03.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           39 | 2023-06-08     | f              |         3 | Бурятия Респ | 2023-06-16 14:39:43.694171 | postgres | 300028039 |       1 |                 116 | gar_tmp  | adr_street |    11907 |       4 | /home/n.chadaev@abrr.local/tmp/up_prds_20230608/DATA/adr_street_03.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           39 | 2023-06-08     | f              |         3 | Бурятия Респ | 2023-06-16 14:39:43.694171 | postgres | 300028039 |       1 |                 117 | gar_tmp  | adr_house  |   245675 |     118 | /home/n.chadaev@abrr.local/tmp/up_prds_20230608/DATA/adr_house_03.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           40 | 2023-06-14     | f              |         3 | Бурятия Респ | 2023-06-18 03:04:10.190575 | postgres | 300028092 |       1 |                 118 | gar_tmp  | adr_area   |     5524 |       3 | /home/n.chadaev@abrr.local/tmp/up_prds_20230614/DATA/adr_area_03.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           40 | 2023-06-14     | f              |         3 | Бурятия Респ | 2023-06-18 03:04:10.190575 | postgres | 300028092 |       1 |                 119 | gar_tmp  | adr_street |    11907 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230614/DATA/adr_street_03.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           40 | 2023-06-14     | f              |         3 | Бурятия Респ | 2023-06-18 03:04:10.190575 | postgres | 300028092 |       1 |                 120 | gar_tmp  | adr_house  |   245715 |     141 | /home/n.chadaev@abrr.local/tmp/up_prds_20230614/DATA/adr_house_03.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           41 | 2023-06-19     | f              |         3 | Бурятия Респ | 2023-06-22 11:02:49.679923 | postgres | 300028131 |       1 |                 121 | gar_tmp  | adr_area   |     5525 |       4 | /home/n.chadaev@abrr.local/tmp/up_prds_20230619/DATA/adr_area_03.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           41 | 2023-06-19     | f              |         3 | Бурятия Респ | 2023-06-22 11:02:49.679923 | postgres | 300028131 |       1 |                 122 | gar_tmp  | adr_street |    11907 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230619/DATA/adr_street_03.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           41 | 2023-06-19     | f              |         3 | Бурятия Респ | 2023-06-22 11:02:49.679923 | postgres | 300028131 |       1 |                 123 | gar_tmp  | adr_house  |   245740 |      70 | /home/n.chadaev@abrr.local/tmp/up_prds_20230619/DATA/adr_house_03.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           42 | 2023-06-22     | f              |         3 | Бурятия Респ | 2023-06-23 22:43:36.530847 | postgres | 300028158 |       1 |                 124 | gar_tmp  | adr_area   |     5526 |       4 | /home/n.chadaev@abrr.local/tmp/up_prds_20230622/DATA/adr_area_03.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           42 | 2023-06-22     | f              |         3 | Бурятия Респ | 2023-06-23 22:43:36.530847 | postgres | 300028158 |       1 |                 125 | gar_tmp  | adr_street |    11907 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230622/DATA/adr_street_03.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           42 | 2023-06-22     | f              |         3 | Бурятия Респ | 2023-06-23 22:43:36.530847 | postgres | 300028158 |       1 |                 126 | gar_tmp  | adr_house  |   245753 |      90 | /home/n.chadaev@abrr.local/tmp/up_prds_20230622/DATA/adr_house_03.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           43 | 2023-06-26     | f              |         3 | Бурятия Респ | 2023-06-27 15:05:32.048476 | postgres | 300028188 |       1 |                 127 | gar_tmp  | adr_area   |     5527 |       4 | /home/n.chadaev@abrr.local/tmp/up_prds_20230626/DATA/adr_area_03.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           43 | 2023-06-26     | f              |         3 | Бурятия Респ | 2023-06-27 15:05:32.048476 | postgres | 300028188 |       1 |                 128 | gar_tmp  | adr_street |    11908 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230626/DATA/adr_street_03.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           43 | 2023-06-26     | f              |         3 | Бурятия Респ | 2023-06-27 15:05:32.048476 | postgres | 300028188 |       1 |                 129 | gar_tmp  | adr_house  |   245768 |     107 | /home/n.chadaev@abrr.local/tmp/up_prds_20230626/DATA/adr_house_03.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           44 | 2023-06-29     | f              |         3 | Бурятия Респ | 2023-06-30 20:26:06.401918 | postgres | 300028247 |       1 |                 130 | gar_tmp  | adr_area   |     5527 |       3 | /home/n.chadaev@abrr.local/tmp/up_prds_20230629/DATA/adr_area_03.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           44 | 2023-06-29     | f              |         3 | Бурятия Респ | 2023-06-30 20:26:06.401918 | postgres | 300028247 |       1 |                 131 | gar_tmp  | adr_street |    11909 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230629/DATA/adr_street_03.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           44 | 2023-06-29     | f              |         3 | Бурятия Респ | 2023-06-30 20:26:06.401918 | postgres | 300028247 |       1 |                 132 | gar_tmp  | adr_house  |   245812 |     238 | /home/n.chadaev@abrr.local/tmp/up_prds_20230629/DATA/adr_house_03.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           45 | 2023-07-07     | f              |         3 | Бурятия Респ | 2023-07-07 16:27:48.854799 | postgres | 300028317 |       1 |                 133 | gar_tmp  | adr_area   |     5528 |       4 | /home/n.chadaev@abrr.local/tmp/up_prds_20230707/DATA/adr_area_03.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           45 | 2023-07-07     | f              |         3 | Бурятия Респ | 2023-07-07 16:27:48.854799 | postgres | 300028317 |       1 |                 134 | gar_tmp  | adr_street |    11909 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230707/DATA/adr_street_03.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           45 | 2023-07-07     | f              |         3 | Бурятия Респ | 2023-07-07 16:27:48.854799 | postgres | 300028317 |       1 |                 135 | gar_tmp  | adr_house  |   245868 |     113 | /home/n.chadaev@abrr.local/tmp/up_prds_20230707/DATA/adr_house_03.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           46 | 2023-07-10     | f              |         3 | Бурятия Респ | 2023-07-11 17:14:16.86647  | postgres | 300028378 |       1 |                 136 | gar_tmp  | adr_area   |     5528 |       3 | /home/n.chadaev@abrr.local/tmp/up_prds_20230710/DATA/adr_area_03.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           46 | 2023-07-10     | f              |         3 | Бурятия Респ | 2023-07-11 17:14:16.86647  | postgres | 300028378 |       1 |                 137 | gar_tmp  | adr_street |    11909 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230710/DATA/adr_street_03.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           46 | 2023-07-10     | f              |         3 | Бурятия Респ | 2023-07-11 17:14:16.86647  | postgres | 300028378 |       1 |                 138 | gar_tmp  | adr_house  |   245916 |      67 | /home/n.chadaev@abrr.local/tmp/up_prds_20230710/DATA/adr_house_03.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           47 | 2023-07-13     | f              |         3 | Бурятия Респ | 2023-07-14 16:19:54.015562 | postgres | 300028415 |       1 |                 139 | gar_tmp  | adr_area   |     5528 |       3 | /home/n.chadaev@abrr.local/tmp/up_prds_20230713/DATA/adr_area_03.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           47 | 2023-07-13     | f              |         3 | Бурятия Респ | 2023-07-14 16:19:54.015562 | postgres | 300028415 |       1 |                 140 | gar_tmp  | adr_street |    11910 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230713/DATA/adr_street_03.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           47 | 2023-07-13     | f              |         3 | Бурятия Респ | 2023-07-14 16:19:54.015562 | postgres | 300028415 |       1 |                 141 | gar_tmp  | adr_house  |   245939 |     103 | /home/n.chadaev@abrr.local/tmp/up_prds_20230713/DATA/adr_house_03.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           48 | 2023-07-17     | f              |         3 | Бурятия Респ | 2023-07-18 16:29:32.002152 | postgres | 300028476 |       1 |                 142 | gar_tmp  | adr_area   |     5528 |       4 | /home/n.chadaev@abrr.local/tmp/up_prds_20230717/DATA/adr_area_03.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           48 | 2023-07-17     | f              |         3 | Бурятия Респ | 2023-07-18 16:29:32.002152 | postgres | 300028476 |       1 |                 143 | gar_tmp  | adr_street |    11910 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230717/DATA/adr_street_03.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           48 | 2023-07-17     | f              |         3 | Бурятия Респ | 2023-07-18 16:29:32.002152 | postgres | 300028476 |       1 |                 144 | gar_tmp  | adr_house  |   245987 |      70 | /home/n.chadaev@abrr.local/tmp/up_prds_20230717/DATA/adr_house_03.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           49 | 2023-07-20     | f              |         3 | Бурятия Респ | 2023-07-21 17:04:06.223674 | postgres | 300028629 |       1 |                 145 | gar_tmp  | adr_area   |     5529 |       4 | /home/n.chadaev@abrr.local/tmp/up_prds_20230720/DATA/adr_area_03.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           49 | 2023-07-20     | f              |         3 | Бурятия Респ | 2023-07-21 17:04:06.223674 | postgres | 300028629 |       1 |                 146 | gar_tmp  | adr_street |    11911 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230720/DATA/adr_street_03.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           49 | 2023-07-20     | f              |         3 | Бурятия Респ | 2023-07-21 17:04:06.223674 | postgres | 300028629 |       1 |                 147 | gar_tmp  | adr_house  |   246125 |     140 | /home/n.chadaev@abrr.local/tmp/up_prds_20230720/DATA/adr_house_03.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           50 | 2023-07-24     | f              |         3 | Бурятия Респ | 2023-07-25 16:09:09.414322 | postgres | 300028722 |       1 |                 148 | gar_tmp  | adr_area   |     5529 |       3 | /home/n.chadaev@abrr.local/tmp/up_prds_20230724/DATA/adr_area_03.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           50 | 2023-07-24     | f              |         3 | Бурятия Респ | 2023-07-25 16:09:09.414322 | postgres | 300028722 |       1 |                 149 | gar_tmp  | adr_street |    11911 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230724/DATA/adr_street_03.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           50 | 2023-07-24     | f              |         3 | Бурятия Респ | 2023-07-25 16:09:09.414322 | postgres | 300028722 |       1 |                 150 | gar_tmp  | adr_house  |   246205 |     117 | /home/n.chadaev@abrr.local/tmp/up_prds_20230724/DATA/adr_house_03.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           51 | 2023-07-27     | f              |         3 | Бурятия Респ | 2023-07-28 19:30:50.010698 | postgres | 300028879 |       1 |                 151 | gar_tmp  | adr_area   |     5529 |       3 | /home/n.chadaev@abrr.local/tmp/up_prds_20230727/DATA/adr_area_03.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           51 | 2023-07-27     | f              |         3 | Бурятия Респ | 2023-07-28 19:30:50.010698 | postgres | 300028879 |       1 |                 152 | gar_tmp  | adr_street |    11913 |       3 | /home/n.chadaev@abrr.local/tmp/up_prds_20230727/DATA/adr_street_03.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           51 | 2023-07-27     | f              |         3 | Бурятия Респ | 2023-07-28 19:30:50.010698 | postgres | 300028879 |       1 |                 153 | gar_tmp  | adr_house  |   246346 |     145 | /home/n.chadaev@abrr.local/tmp/up_prds_20230727/DATA/adr_house_03.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           52 | 2023-07-31     | f              |         3 | Бурятия Респ | 2023-08-04 13:40:56.884026 | postgres | 300028956 |       1 |                 154 | gar_tmp  | adr_area   |     5529 |       4 | /home/n.chadaev@abrr.local/tmp/up_prds_20230731/DATA/adr_area_03.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           52 | 2023-07-31     | f              |         3 | Бурятия Респ | 2023-08-04 13:40:56.884026 | postgres | 300028956 |       1 |                 155 | gar_tmp  | adr_street |    11914 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230731/DATA/adr_street_03.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           52 | 2023-07-31     | f              |         3 | Бурятия Респ | 2023-08-04 13:40:56.884026 | postgres | 300028956 |       1 |                 156 | gar_tmp  | adr_house  |   246409 |     106 | /home/n.chadaev@abrr.local/tmp/up_prds_20230731/DATA/adr_house_03.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           54 | 2023-08-03     | f              |         3 | Бурятия Респ | 2023-08-06 19:14:31.267371 | postgres | 300029038 |       1 |                 160 | gar_tmp  | adr_area   |     5530 |       4 | /home/n.chadaev@abrr.local/tmp/up_prds_20230803/DATA/adr_area_03.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           54 | 2023-08-03     | f              |         3 | Бурятия Респ | 2023-08-06 19:14:31.267371 | postgres | 300029038 |       1 |                 161 | gar_tmp  | adr_street |    11915 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230803/DATA/adr_street_03.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           54 | 2023-08-03     | f              |         3 | Бурятия Респ | 2023-08-06 19:14:31.267371 | postgres | 300029038 |       1 |                 162 | gar_tmp  | adr_house  |   246476 |     154 | /home/n.chadaev@abrr.local/tmp/up_prds_20230803/DATA/adr_house_03.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           55 | 2023-08-07     | f              |         3 | Бурятия Респ | 2023-08-08 16:10:46.791054 | postgres | 300029114 |       1 |                 163 | gar_tmp  | adr_area   |     5530 |       3 | /home/n.chadaev@abrr.local/tmp/up_prds_20230807/DATA/adr_area_03.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           55 | 2023-08-07     | f              |         3 | Бурятия Респ | 2023-08-08 16:10:46.791054 | postgres | 300029114 |       1 |                 164 | gar_tmp  | adr_street |    11915 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230807/DATA/adr_street_03.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           55 | 2023-08-07     | f              |         3 | Бурятия Респ | 2023-08-08 16:10:46.791054 | postgres | 300029114 |       1 |                 165 | gar_tmp  | adr_house  |   246539 |     111 | /home/n.chadaev@abrr.local/tmp/up_prds_20230807/DATA/adr_house_03.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           56 | 2023-08-14     | f              |         3 | Бурятия Респ | 2023-08-15 19:20:20.148113 | postgres | 300029224 |       1 |                 166 | gar_tmp  | adr_area   |     5530 |       3 | /home/n.chadaev@abrr.local/tmp/up_prds_20230814/DATA/adr_area_03.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           56 | 2023-08-14     | f              |         3 | Бурятия Респ | 2023-08-15 19:20:20.148113 | postgres | 300029224 |       1 |                 167 | gar_tmp  | adr_street |    11916 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230814/DATA/adr_street_03.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           56 | 2023-08-14     | f              |         3 | Бурятия Респ | 2023-08-15 19:20:20.148113 | postgres | 300029224 |       1 |                 168 | gar_tmp  | adr_house  |   246635 |     208 | /home/n.chadaev@abrr.local/tmp/up_prds_20230814/DATA/adr_house_03.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           57 | 2023-08-17     | f              |         3 | Бурятия Респ | 2023-08-19 00:27:02.221399 | postgres | 300029313 |       1 |                 169 | gar_tmp  | adr_area   |     5533 |       6 | /home/n.chadaev@abrr.local/tmp/up_prds_20230817/DATA/adr_area_03.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           57 | 2023-08-17     | f              |         3 | Бурятия Респ | 2023-08-19 00:27:02.221399 | postgres | 300029313 |       1 |                 170 | gar_tmp  | adr_street |    11918 |       2 | /home/n.chadaev@abrr.local/tmp/up_prds_20230817/DATA/adr_street_03.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           57 | 2023-08-17     | f              |         3 | Бурятия Респ | 2023-08-19 00:27:02.221399 | postgres | 300029313 |       1 |                 171 | gar_tmp  | adr_house  |   246706 |     218 | /home/n.chadaev@abrr.local/tmp/up_prds_20230817/DATA/adr_house_03.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           58 | 2023-08-21     | f              |         3 | Бурятия Респ | 2023-08-22 19:26:36.947398 | postgres | 300029354 |       1 |                 172 | gar_tmp  | adr_area   |     5533 |       3 | /home/n.chadaev@abrr.local/tmp/up_prds_20230821/DATA/adr_area_03.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           58 | 2023-08-21     | f              |         3 | Бурятия Респ | 2023-08-22 19:26:36.947398 | postgres | 300029354 |       1 |                 173 | gar_tmp  | adr_street |    11918 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230821/DATA/adr_street_03.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           58 | 2023-08-21     | f              |         3 | Бурятия Респ | 2023-08-22 19:26:36.947398 | postgres | 300029354 |       1 |                 174 | gar_tmp  | adr_house  |   246734 |     199 | /home/n.chadaev@abrr.local/tmp/up_prds_20230821/DATA/adr_house_03.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           59 | 2023-08-24     | f              |         3 | Бурятия Респ | 2023-08-25 20:16:28.316236 | postgres | 300029444 |       1 |                 175 | gar_tmp  | adr_area   |     5533 |       3 | /home/n.chadaev@abrr.local/tmp/up_prds_20230824/DATA/adr_area_03.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           59 | 2023-08-24     | f              |         3 | Бурятия Респ | 2023-08-25 20:16:28.316236 | postgres | 300029444 |       1 |                 176 | gar_tmp  | adr_street |    11918 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230824/DATA/adr_street_03.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           59 | 2023-08-24     | f              |         3 | Бурятия Респ | 2023-08-25 20:16:28.316236 | postgres | 300029444 |       1 |                 177 | gar_tmp  | adr_house  |   246811 |     245 | /home/n.chadaev@abrr.local/tmp/up_prds_20230824/DATA/adr_house_03.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           60 | 2023-08-28     | f              |         3 | Бурятия Респ | 2023-08-29 16:32:02.396339 | postgres | 300029498 |       1 |                 178 | gar_tmp  | adr_area   |     5533 |       3 | /home/n.chadaev@abrr.local/tmp/up_prds_20230828/DATA/adr_area_03.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           60 | 2023-08-28     | f              |         3 | Бурятия Респ | 2023-08-29 16:32:02.396339 | postgres | 300029498 |       1 |                 179 | gar_tmp  | adr_street |    11918 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230828/DATA/adr_street_03.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           60 | 2023-08-28     | f              |         3 | Бурятия Респ | 2023-08-29 16:32:02.396339 | postgres | 300029498 |       1 |                 180 | gar_tmp  | adr_house  |   246852 |     147 | /home/n.chadaev@abrr.local/tmp/up_prds_20230828/DATA/adr_house_03.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           61 | 2023-08-31     | f              |         3 | Бурятия Респ | 2023-09-06 21:22:02.288688 | postgres | 300029572 |       1 |                 181 | gar_tmp  | adr_area   |     5533 |       3 | /home/n.chadaev@abrr.local/tmp/up_prds_20230831/DATA/adr_area_03.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           61 | 2023-08-31     | f              |         3 | Бурятия Респ | 2023-09-06 21:22:02.288688 | postgres | 300029572 |       1 |                 182 | gar_tmp  | adr_street |    11921 |       3 | /home/n.chadaev@abrr.local/tmp/up_prds_20230831/DATA/adr_street_03.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           61 | 2023-08-31     | f              |         3 | Бурятия Респ | 2023-09-06 21:22:02.288688 | postgres | 300029572 |       1 |                 183 | gar_tmp  | adr_house  |   246910 |      82 | /home/n.chadaev@abrr.local/tmp/up_prds_20230831/DATA/adr_house_03.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           62 | 2023-09-04     | f              |         3 | Бурятия Респ | 2023-09-08 13:50:05.354847 | postgres | 300029638 |       1 |                 184 | gar_tmp  | adr_area   |     5533 |       3 | /home/n.chadaev@abrr.local/tmp/up_prds_20230904/DATA/adr_area_03.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           62 | 2023-09-04     | f              |         3 | Бурятия Респ | 2023-09-08 13:50:05.354847 | postgres | 300029638 |       1 |                 185 | gar_tmp  | adr_street |    11924 |       3 | /home/n.chadaev@abrr.local/tmp/up_prds_20230904/DATA/adr_street_03.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           62 | 2023-09-04     | f              |         3 | Бурятия Респ | 2023-09-08 13:50:05.354847 | postgres | 300029638 |       1 |                 186 | gar_tmp  | adr_house  |   246960 |     117 | /home/n.chadaev@abrr.local/tmp/up_prds_20230904/DATA/adr_house_03.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           63 | 2023-09-07     | f              |         3 | Бурятия Респ | 2023-09-10 13:33:09.666078 | postgres | 300029725 |       1 |                 187 | gar_tmp  | adr_area   |     5533 |       3 | /home/n.chadaev@abrr.local/tmp/up_prds_20230907/DATA/adr_area_03.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           63 | 2023-09-07     | f              |         3 | Бурятия Респ | 2023-09-10 13:33:09.666078 | postgres | 300029725 |       1 |                 188 | gar_tmp  | adr_street |    11924 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230907/DATA/adr_street_03.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           63 | 2023-09-07     | f              |         3 | Бурятия Респ | 2023-09-10 13:33:09.666078 | postgres | 300029725 |       1 |                 189 | gar_tmp  | adr_house  |   247034 |      82 | /home/n.chadaev@abrr.local/tmp/up_prds_20230907/DATA/adr_house_03.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           64 | 2023-09-11     | f              |         3 | Бурятия Респ | 2023-09-13 00:51:24.957158 | postgres | 300029789 |       1 |                 190 | gar_tmp  | adr_area   |     5533 |       3 | /home/n.chadaev@abrr.local/tmp/up_prds_20230911/DATA/adr_area_03.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           64 | 2023-09-11     | f              |         3 | Бурятия Респ | 2023-09-13 00:51:24.957158 | postgres | 300029789 |       1 |                 191 | gar_tmp  | adr_street |    11925 |       1 | /home/n.chadaev@abrr.local/tmp/up_prds_20230911/DATA/adr_street_03.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           64 | 2023-09-11     | f              |         3 | Бурятия Респ | 2023-09-13 00:51:24.957158 | postgres | 300029789 |       1 |                 192 | gar_tmp  | adr_house  |   247084 |      51 | /home/n.chadaev@abrr.local/tmp/up_prds_20230911/DATA/adr_house_03.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           65 | 2023-09-15     | f              |         3 | Бурятия Респ | 2023-09-18 13:58:44.968    | postgres | 300029887 |       1 |                 193 | gar_tmp  | adr_area   |     5533 |       3 | /home/n.chadaev@abrr.local/tmp/up_prds_20230915/DATA/adr_area_03.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           65 | 2023-09-15     | f              |         3 | Бурятия Респ | 2023-09-18 13:58:44.968    | postgres | 300029887 |       1 |                 194 | gar_tmp  | adr_street |    11929 |       4 | /home/n.chadaev@abrr.local/tmp/up_prds_20230915/DATA/adr_street_03.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           65 | 2023-09-15     | f              |         3 | Бурятия Респ | 2023-09-18 13:58:44.968    | postgres | 300029887 |       1 |                 195 | gar_tmp  | adr_house  |   247163 |      84 | /home/n.chadaev@abrr.local/tmp/up_prds_20230915/DATA/adr_house_03.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           66 | 2023-09-18     | f              |         3 | Бурятия Респ | 2023-09-21 20:14:36.481946 | postgres | 300029923 |       1 |                 196 | gar_tmp  | adr_area   |     5533 |       3 | /home/n.chadaev@abrr.local/tmp/up_prds_20230918/DATA/adr_area_03.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           66 | 2023-09-18     | f              |         3 | Бурятия Респ | 2023-09-21 20:14:36.481946 | postgres | 300029923 |       1 |                 197 | gar_tmp  | adr_street |    11929 |       0 | /home/n.chadaev@abrr.local/tmp/up_prds_20230918/DATA/adr_street_03.sql | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           66 | 2023-09-18     | f              |         3 | Бурятия Респ | 2023-09-21 20:14:36.481946 | postgres | 300029923 |       1 |                 198 | gar_tmp  | adr_house  |   247185 |      30 | /home/n.chadaev@abrr.local/tmp/up_prds_20230918/DATA/adr_house_03.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           67 | 0223-09-25     | f              |         3 | Бурятия Респ | 2023-09-26 21:03:35.150618 | postgres | 300030012 |       1 |                 199 | gar_tmp  | adr_area   |     5534 |       4 | /home/n.chadaev@abrr.local/tmp/up_prds_2230925/DATA/adr_area_03.sql    | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           67 | 0223-09-25     | f              |         3 | Бурятия Респ | 2023-09-26 21:03:35.150618 | postgres | 300030012 |       1 |                 200 | gar_tmp  | adr_street |    11934 |       5 | /home/n.chadaev@abrr.local/tmp/up_prds_2230925/DATA/adr_street_03.sql  | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+           67 | 0223-09-25     | f              |         3 | Бурятия Респ | 2023-09-26 21:03:35.150618 | postgres | 300030012 |       1 |                 201 | gar_tmp  | adr_house  |   247253 |      76 | /home/n.chadaev@abrr.local/tmp/up_prds_2230925/DATA/adr_house_03.sql   | unnsi_prd_s  | 127.0.0.1 | unnsi_prd_test | 5432 | c_unnsi_prd_s
+(186 rows)
+

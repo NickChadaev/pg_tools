@@ -1,0 +1,7 @@
+#------------------------------------------------------------------------
+X;;;Start process;
+0;DROP DATABASE IF EXISTS unsi_test_04;; -- Remove old DB;
+1;./04/createDb_04.sql;; -- DB creating;
+1;../A_FIAS_LOADER/createSchemas.sql;unsi_test_04; -- Schemas creating;
+1;../A_FIAS_LOADER/CreateExtensions.sql;unsi_test_04; -- Extension creating;
+X;;;Stop process;

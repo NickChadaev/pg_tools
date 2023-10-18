@@ -51,3 +51,24 @@ SELECT * FROM gar_tmp_pcg_trans.f_adr_area_get ('gar_tmp', '2a1b343b-e0b5-4c27-9
 SELECT * FROM gar_tmp_pcg_trans.f_adr_area_get ('gar_tmp', 'f447f6c0-5d94-4033-b72a-4116bcc08a6b'::uuid);
 SELECT * FROM gar_tmp_pcg_trans.f_adr_street_get ('gar_tmp', 'f447f6c0-5d94-4033-b72a-4116bcc08a6b'::uuid);
  
+--
+--  Индексы - поразвлекаемся    работает
+--
+CREATE UNIQUE INDEX adr_stead_ak1 ON gar_tmp.adr_stead USING btree (id_area, upper((stead_num)::text), id_street) WHERE (id_data_etalon IS NULL);
+CREATE INDEX adr_stead_i1 ON gar_tmp.adr_stead USING btree (id_area);
+CREATE INDEX adr_stead_i2 ON gar_tmp.adr_stead USING btree (id_street);                          
+CREATE INDEX adr_stead_i3 ON gar_tmp.adr_stead USING btree (nm_fias_guid);                       
+CREATE INDEX adr_stead_i4 ON gar_tmp.adr_stead USING btree (id_area) WHERE (id_street IS NULL);
+
+DROP INDEX IF EXISTS gar_tmp.adr_stead_ak1;
+DROP INDEX IF EXISTS gar_tmp.adr_stead_i1 ;
+DROP INDEX IF EXISTS gar_tmp.adr_stead_i2 ;
+DROP INDEX IF EXISTS gar_tmp.adr_stead_i3 ;
+DROP INDEX IF EXISTS gar_tmp.adr_stead_i4 ;
+
+--   Процессинговое индексное покрытие.
+CREATE UNIQUE INDEX _xxx_adr_stead_ak1 ON gar_tmp.adr_stead USING btree (id_area, upper((stead_num)::text), id_street) WHERE ((id_data_etalon IS NULL) AND (dt_data_del IS NULL));
+CREATE UNIQUE INDEX _xxx_adr_stead_ie2 ON gar_tmp.adr_stead USING btree (nm_fias_guid) WHERE ((id_data_etalon IS NULL) AND (dt_data_del IS NULL));
+
+DROP INDEX IF EXISTS gar_tmp._xxx_adr_stead_ak1;
+DROP INDEX IF EXISTS gar_tmp._xxx_adr_stead_ie2;

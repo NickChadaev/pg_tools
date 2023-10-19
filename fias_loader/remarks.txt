@@ -502,3 +502,9 @@ SELECT gar_tmp_pcg_trans.f_xxx_obj_fias_set_data ('gar_tmp', 'gar_tmp', 'gar_tmp
 -- Связь ЗУ с домом.
 -- Индексное покрытие, как оно работает ??
 
+2023-10-19
+----------
+gar_tmp_pcg_trans.p_adr_stead_upd ()  
+gar_tmp_pcg_trans.fp_adr_stead_upd ()  -- НЕ ИСПОЛЬЗОВАТЬ.
+
+

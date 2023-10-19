@@ -23,9 +23,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_stead_upd (
      _id_area    bigint;   
      _id_street  bigint;    
      --
-    _id_steads  bigint[];   -- !!! Не используется.
-    --
-    -- 2022-10-18
+     -- 2022-10-18
      --
      UPD_OP CONSTANT char(1) := 'U';  
 
@@ -113,7 +111,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_stead_upd (
     --    ,p_schema_etl     -- Схема эталон, обычно локальный сервер, копия p_schema_data 
     --    ,p_schema_hist    -- Схема для хранения исторических данных 
          
-         _id_steads := gar_tmp_pcg_trans.fp_adr_stead_upd (
+         CALL gar_tmp_pcg_trans.p_adr_stead_upd (
          
                p_schema_name := p_schema_data
               ,p_schema_h    := p_schema_hist       

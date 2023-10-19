@@ -72,3 +72,7 @@ CREATE UNIQUE INDEX _xxx_adr_stead_ie2 ON gar_tmp.adr_stead USING btree (nm_fias
 
 DROP INDEX IF EXISTS gar_tmp._xxx_adr_stead_ak1;
 DROP INDEX IF EXISTS gar_tmp._xxx_adr_stead_ie2;
+--
+--   2023-10-19
+--
+

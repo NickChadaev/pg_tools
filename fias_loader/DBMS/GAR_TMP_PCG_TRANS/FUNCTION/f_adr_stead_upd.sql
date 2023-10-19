@@ -23,7 +23,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_stead_upd (
      _id_area    bigint;   
      _id_street  bigint;    
      --
-    _id_steads  bigint[]; 
+    _id_steads  bigint[];   -- !!! Не используется.
     --
     -- 2022-10-18
      --
@@ -113,25 +113,23 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_stead_upd (
     --    ,p_schema_etl     -- Схема эталон, обычно локальный сервер, копия p_schema_data 
     --    ,p_schema_hist    -- Схема для хранения исторических данных 
          
-     --    _id_steads := gar_tmp_pcg_trans.fp_adr_stead_upd (
-     --    
-     --          p_schema_name := p_schema_data
-     --         ,p_schema_h    := p_schema_hist       
-     --           --
-     --         ,p_id_stead := NULL --  bigint       --  NOT NULL
-     --          --
-     --         ,p_id_area   :=  _id_area::bigint         --  NOT NULL
-     --         ,p_id_street :=  _id_street::bigint       --  NOT NULL
-     --          --
-     --         ,p_stead_num         := _data.stead_num                                        
-     --         ,p_stead_cadastr_num := _data.stead_cadastr_num
-     --          --              
-     --         ,p_kd_oktmo          := _data.kd_oktmo::varchar(11)    --  NULL
-     --         ,p_kd_okato          := _data.kd_okato::varchar(11)    --  NULL
-     --         ,p_nm_zipcode        := _data.nm_zipcode::varchar(20)  --  NULL
-     --         
-     --         ,p_nm_fias_guid := _data.nm_fias_guid::uuid  --  NOT NULL              
-     --    );
+         _id_steads := gar_tmp_pcg_trans.fp_adr_stead_upd (
+         
+               p_schema_name := p_schema_data
+              ,p_schema_h    := p_schema_hist       
+               --
+              ,p_id_area   :=  _id_area::bigint         --  NOT NULL
+              ,p_id_street :=  _id_street::bigint       --      NULL
+               --
+              ,p_stead_num         := _data.stead_num                                        
+              ,p_stead_cadastr_num := _data.stead_cadastr_num
+               --              
+              ,p_kd_oktmo          := _data.kd_oktmo::varchar(11)    --  NULL
+              ,p_kd_okato          := _data.kd_okato::varchar(11)    --  NULL
+              ,p_nm_zipcode        := _data.nm_zipcode::varchar(20)  --  NULL
+               --        
+             ,p_nm_fias_guid := _data.nm_fias_guid::uuid  --  NOT NULL              
+         );
          ----------------------------------------------------------------------  
        
          _r_upd := _r_upd + 1; 

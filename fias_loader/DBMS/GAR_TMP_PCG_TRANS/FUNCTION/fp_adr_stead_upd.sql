@@ -1,25 +1,23 @@
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.fp_adr_stead_upd (
-                 text, text, bigint, bigint, bigint,varchar(250),varchar(250)     
-                ,varchar(11),varchar(11),varchar(20),uuid
+                 text, text, bigint, bigint, varchar(250), varchar(250)     
+                ,varchar(11), varchar(11), varchar(20), uuid
  ); 
  
 CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_stead_upd (
               p_schema_name        text   -- Схема с данными
              ,p_schema_h           text   -- Историческая схема
-               --
-             ,p_id_stead           bigint       --  NOT NULL
               --
              ,p_id_area            bigint      -- NOT NULL
-             ,p_id_street          bigint      --  NULL
+             ,p_id_street          bigint      --     NULL
               --
              ,p_stead_num         varchar(250) -- NOT NULL                               
-             ,p_stead_cadastr_num varchar(250) --  NULL
+             ,p_stead_cadastr_num varchar(250) --     NULL
               --              
              ,p_kd_oktmo          varchar(11)  --  NULL
              ,p_kd_okato          varchar(11)  --  NULL
              ,p_nm_zipcode        varchar(20)  --  NULL
              
-             ,p_nm_fias_guid      uuid         --  NOT NULL              
+             ,p_nm_fias_guid      uuid         -- NOT NULL              
 )
     RETURNS bigint[] 
     LANGUAGE plpgsql SECURITY DEFINER
@@ -37,7 +35,6 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_stead_upd (
          -- [1] - обработанный, [2] - двойник.
       
       _id_stead_new  bigint;
-      _id_stead_hist bigint;
       --
       _ins_hist text = $_$
          INSERT INTO %I.adr_stead_hist (
@@ -103,97 +100,76 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_stead_upd (
       UPD_OP CONSTANT char(1) := 'U';  
       
     BEGIN
-     -- _rr := gar_tmp_pcg_trans.f_adr_stead_get (p_schema_name
-     --         , p_id_area, p_nm_stead_full, p_id_street, p_id_stead_type_1
-     -- ); 
-     -- 2022-05-19 Обновляюсь. Значимым явяляется UUID
+     -- 2022-05-19 Обновляюсь. Значимым является UUID
+     _id_stead_new := NULL;    
      _rr := gar_tmp_pcg_trans.f_adr_stead_get (p_schema_name, p_nm_fias_guid); 
-     _id_stead_new := _rr.id_stead;
-     
      
      IF (_rr.id_stead IS NOT NULL)  
        THEN  
           IF 
-             -- 2022-05-31
-             ((_rr.id_area         IS DISTINCT FROM p_id_area) AND (p_id_area IS NOT NULL)) OR
-             ((_rr.id_street       IS DISTINCT FROM p_id_street)      ) OR -- AND (p_id_street       IS NOT NULL)
-             ((_rr.id_stead_type_1 IS DISTINCT FROM p_id_stead_type_1)) OR -- AND (p_id_stead_type_1 IS NOT NULL)
-             ((_rr.id_stead_type_2 IS DISTINCT FROM p_id_stead_type_2)) OR -- AND (p_id_stead_type_2 IS NOT NULL)
-             ((_rr.id_stead_type_3 IS DISTINCT FROM p_id_stead_type_3)) OR -- AND (p_id_stead_type_3 IS NOT NULL)
-             --  2022-01-27
-             ((_rr.nm_stead_1 IS DISTINCT FROM p_nm_stead_1)) OR           --  AND (p_nm_stead_1 IS NOT NULL)
-             ((_rr.nm_stead_2 IS DISTINCT FROM p_nm_stead_2)) OR           --  AND (p_nm_stead_2 IS NOT NULL)
-             ((_rr.nm_stead_3 IS DISTINCT FROM p_nm_stead_3)) OR           --  AND (p_nm_stead_3 IS NOT NULL)
+             ((_rr.id_area          IS DISTINCT FROM p_id_area) AND (p_id_area IS NOT NULL)) OR
+             ((_rr.id_street        IS DISTINCT FROM p_id_street)) OR  
+             ((upper(_rr.stead_num) IS DISTINCT FROM upper(p_stead_num)) AND (p_stead_num IS NOT NULL)) OR                  
+             ((upper(_rr.stead_cadastr_num) IS DISTINCT FROM upper(p_stead_cadastr_num))) OR                  
+             --                      
+             ((_rr.kd_oktmo   IS DISTINCT FROM p_kd_oktmo))   OR  
+             ((_rr.kd_okato   IS DISTINCT FROM p_kd_okato))   OR
+             ((_rr.nm_zipcode IS DISTINCT FROM p_nm_zipcode)) OR
              --
-             ((_rr.nm_fias_guid IS DISTINCT FROM p_nm_fias_guid) AND (p_nm_fias_guid IS NOT NULL)) OR
-             --  2022-01-27                      
-             ((upper(_rr.nm_stead_full) IS DISTINCT FROM upper(p_nm_stead_full)) AND (p_nm_stead_full IS NOT NULL)) OR                  
-             ((_rr.nm_zipcode      IS DISTINCT FROM p_nm_zipcode)) OR -- AND (p_nm_zipcode    IS NOT NULL)
-             ((_rr.kd_oktmo        IS DISTINCT FROM p_kd_oktmo)  )    -- AND (p_kd_oktmo      IS NOT NULL)
-             -- 2022-05-31
+             ((_rr.nm_fias_guid IS DISTINCT FROM p_nm_fias_guid) AND (p_nm_fias_guid IS NOT NULL)) 
                 
             THEN --> UPDATE
-              -- Запоминаю старые с новым ID
-              -- 2022-05-19 Без нового ID
-              IF (p_sw) THEN 
-                 _exec := format (_ins_hist, p_schema_h
+            
+              _id_stead_new := _rr.id_stead;
+              _exec := format (_ins_hist, p_schema_h
                                         --
-                         ,_rr.id_stead    
-                         ,_rr.id_area           
-                         ,_rr.id_street         
-                         ,_rr.id_stead_type_1   
-                         ,_rr.nm_stead_1        
-                         ,_rr.id_stead_type_2   
-                         ,_rr.nm_stead_2        
-                         ,_rr.id_stead_type_3   
-                         ,_rr.nm_stead_3        
-                         ,_rr.nm_zipcode        
-                         ,_rr.nm_stead_full     
-                         ,_rr.kd_oktmo          
-                         ,_rr.nm_fias_guid   
-                         ,now()            -- p_dt_data_del
-                         ,_rr.id_stead     -- id_data_etalon 
-                         ,_rr.kd_okato          
-                         ,_rr.vl_addr_latitude  
-                         ,_rr.vl_addr_longitude
-                         , NULL
-                 );            
-                 EXECUTE _exec INTO _id_stead_hist;
-              END IF; -- -- p_sw   
+                                      ,_rr.id_stead           
+                                      ,_rr.id_area            
+                                      ,_rr.id_street          
+                                      ,_rr.stead_num          
+                                      ,_rr.stead_cadastr_num  
+                                      ,_rr.kd_oktmo           
+                                      ,_rr.kd_okato           
+                                      ,_rr.nm_zipcode         
+                                      ,_rr.nm_fias_guid       
+                                      ,now()             -- dt_data_del
+                                      ,_rr.id_stead      -- id_data_etalon  
+                                      ,_rr.vl_addr_latitude  
+                                      ,_rr.vl_addr_longitude 
+                                      --
+                                      ,NULL
+              );            
+              EXECUTE _exec;  
               --
-              --  Выполняю UPDATE  2022-05-19 UPDATE ID
+              --  Выполняю UPDATE   
               --
-              _exec = format (_upd_id, p_schema_name
-                              ,p_id_area          
-                              ,p_id_street        
-                              ,p_id_stead_type_1  
-                              ,p_nm_stead_1       
-                              ,p_id_stead_type_2  
-                              ,p_nm_stead_2       
-                              ,p_id_stead_type_3  
-                              ,p_nm_stead_3       
-                              ,p_nm_zipcode       
-                              ,p_nm_stead_full    
-                              ,p_kd_oktmo         
-                              ,p_nm_fias_guid     
-                              ,NULL      
-                              ,NULL  
-                              ,p_kd_okato         
-                              ,p_vl_addr_latitude 
-                              ,p_vl_addr_longitude
-                               --   
+             _exec = format (_upd_id, p_schema_name
+                              ,p_id_area            
+                              ,p_id_street          
+                              ,p_stead_num          
+                              ,p_stead_cadastr_num  
+                              ,p_kd_okato    
+                              ,p_kd_oktmo    
+                              ,p_nm_zipcode  
+                              ,p_nm_fias_guid
+                               --
+                              ,NULL -- p_dt_data_del      
+                              ,NULL -- p_id_data_etalon   
+                               --
+                              ,NULL -- vl_addr_latitude 
+                              ,NULL -- vl_addr_longitude
+                               --  
                               ,_rr.id_stead               
               );
+              --
               EXECUTE _exec;
               --  
               INSERT INTO gar_tmp.adr_stead_aux (id_stead, op_sign)
               VALUES (_rr.id_stead, UPD_OP)
                  ON CONFLICT (id_stead) DO UPDATE SET op_sign = UPD_OP
-                     WHERE (gar_tmp.adr_stead_aux.id_stead = excluded.id_stead);             
-              
-            END IF; -- compare
-        ELSE
-             _id_stead_new := NULL;
+                     WHERE (gar_tmp.adr_stead_aux.id_stead = excluded.id_stead); 
+                     
+          END IF; -- compare for update
      END IF; -- rr.id_stead IS NOT NULL  
    
      _id_steads [1] := _id_stead_new;
@@ -207,149 +183,133 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_stead_upd (
      --
        WHEN unique_violation THEN 
          BEGIN
+           _id_steads [1] := NULL;
+           _id_steads [2] := NULL;
+        
            _rr  := gar_tmp_pcg_trans.f_adr_stead_get (p_schema_name, p_nm_fias_guid);
-           _rr1 := gar_tmp_pcg_trans.f_adr_stead_get (p_schema_name
-                        , p_id_area, p_nm_stead_full, p_id_street, p_id_stead_type_1
-           ); 
+           _rr1 := gar_tmp_pcg_trans.f_adr_stead_get (p_schema_name, p_id_area, p_stead_num, p_id_street); 
+           
            IF (_rr1.id_stead IS NOT NULL)
               THEN
                   -- Зловредный дубль
                 _exec := format (_ins_hist, p_schema_h
-                                       --
-                                      ,_rr1.id_stead    
-                                      ,_rr1.id_area           
-                                      ,_rr1.id_street         
-                                      ,_rr1.id_stead_type_1   
-                                      ,_rr1.nm_stead_1        
-                                      ,_rr1.id_stead_type_2   
-                                      ,_rr1.nm_stead_2        
-                                      ,_rr1.id_stead_type_3   
-                                      ,_rr1.nm_stead_3        
-                                      ,_rr1.nm_zipcode        
-                                      ,_rr1.nm_stead_full     
-                                      ,_rr1.kd_oktmo          
-                                      ,_rr1.nm_fias_guid   
-                                      ,now()            -- p_dt_data_del
-                                      ,_rr1.id_stead     -- id_data_etalon 
-                                      ,_rr1.kd_okato          
-                                      ,_rr1.vl_addr_latitude  
-                                      ,_rr1.vl_addr_longitude
-                                      , 0
-                );            
-                EXECUTE _exec INTO _id_stead_hist;  
-               ---------------------------------------------------------
-               IF p_del -- иЗБАВЛЯЕМСЯ ОТ ДУБЛЕЙ.
-                 THEN
-                     _exec := format (_del_twin, p_schema_name, _rr1.id_stead); -- ??
-                     EXECUTE _exec;      -- Проверить функционал, удаляющий дубли.
-                 ELSE    
-                     _exec = format (_upd_id, p_schema_name
-                                      ,_rr1.id_area          
-                                      ,_rr1.id_street        
-                                      ,_rr1.id_stead_type_1  
-                                      ,_rr1.nm_stead_1       
-                                      ,_rr1.id_stead_type_2  
-                                      ,_rr1.nm_stead_2       
-                                      ,_rr1.id_stead_type_3  
-                                      ,_rr1.nm_stead_3       
-                                      ,_rr1.nm_zipcode       
-                                      ,_rr1.nm_stead_full    
-                                      ,_rr1.kd_oktmo         
-                                      ,_rr1.nm_fias_guid     
-                                      ,now()      
-                                      ,_rr.id_stead  
-                                      ,_rr1.kd_okato         
-                                      ,_rr1.vl_addr_latitude 
-                                      ,_rr1.vl_addr_longitude
-                                       --  
-                                      ,_rr1.id_stead               
-                      );
-                      EXECUTE _exec;
-                      --  
-                      INSERT INTO gar_tmp.adr_stead_aux (id_stead, op_sign)
-                       VALUES (_rr1.id_stead, UPD_OP)
-                         ON CONFLICT (id_stead) DO UPDATE SET op_sign = UPD_OP
-                             WHERE (gar_tmp.adr_stead_aux.id_stead = excluded.id_stead); 
+                                        --
+                                   ,_rr1.id_stead           
+                                   ,_rr1.id_area            
+                                   ,_rr1.id_street          
+                                   ,_rr1.stead_num          
+                                   ,_rr1.stead_cadastr_num  
+                                   ,_rr1.kd_oktmo           
+                                   ,_rr1.kd_okato           
+                                   ,_rr1.nm_zipcode         
+                                   ,_rr1.nm_fias_guid       
+                                   ,now()             -- dt_data_del
+                                   ,_rr.id_stead      -- id_data_etalon   ID той записи, которой дубль мешал
+                                   ,_rr1.vl_addr_latitude  
+                                   ,_rr1.vl_addr_longitude 
+                                   --
+                                   ,0
+                                );            
+               EXECUTE _exec;   
+               ---------------------------------------------------------------------------------
+               -- Дубль стал неактивным, но зачем в этом случае создаётся историческая запись ??
+               --
+               _exec = format (_upd_id, p_schema_name
+               
+                                ,_rr1.id_area            
+                                ,_rr1.id_street          
+                                ,_rr1.stead_num          
+                                ,_rr1.stead_cadastr_num  
+                                ,_rr1.kd_okato    
+                                ,_rr1.kd_oktmo    
+                                ,_rr1.nm_zipcode  
+                                ,_rr1.nm_fias_guid 
+                                --
+                                ,now()      
+                                ,_rr.id_stead  
+                                --
+                                ,_rr1.vl_addr_latitude 
+                                ,_rr1.vl_addr_longitude
+                                 --  
+                                ,_rr1.id_stead               
+                );               
+               
+                EXECUTE _exec;
+                --  
+               INSERT INTO gar_tmp.adr_stead_aux (id_stead, op_sign)
+                 VALUES (_rr1.id_stead, UPD_OP)
+                   ON CONFLICT (id_stead) DO UPDATE SET op_sign = UPD_OP
+                       WHERE (gar_tmp.adr_stead_aux.id_stead = excluded.id_stead); 
+                       
+              _id_steads [1] := _rr.id_stead;                       
+              _id_steads [2] := _rr1.id_stead; 
                              
-               END IF;  -- иЗБАВЛЯЕМСЯ ОТ ДУБЛЕЙ.
            END IF; -- _rr1.id_stead IS NOT NULL
            --
            -- Повторяю прерванную операцию, от дублей избавился.
            IF (_rr.id_stead IS NOT NULL) AND (_rr1.id_stead IS NOT NULL)
              THEN
-               IF p_sw THEN
                  --
-                 -- Старые значения с новым ID и признаком удаления
-                 -- 2022-05-19
-                 -----------------------------------------------
-                 _exec := format (_ins_hist, p_schema_h
+                 -- Старые значения с новым ID и признаком удаления 2022-05-19
+                 -------------------------------------------------------------
+                 
+              _exec := format (_ins_hist, p_schema_h
                                         --
-                                   ,_rr.id_stead    
-                                   ,_rr.id_area           
-                                   ,_rr.id_street         
-                                   ,_rr.id_stead_type_1   
-                                   ,_rr.nm_stead_1        
-                                   ,_rr.id_stead_type_2   
-                                   ,_rr.nm_stead_2        
-                                   ,_rr.id_stead_type_3   
-                                   ,_rr.nm_stead_3        
-                                   ,_rr.nm_zipcode        
-                                   ,_rr.nm_stead_full     
-                                   ,_rr.kd_oktmo          
-                                   ,_rr.nm_fias_guid   
-                                   ,now()            -- p_dt_data_del
-                                   ,_rr.id_stead     -- id_data_etalon 
-                                   ,_rr.kd_okato          
-                                   ,_rr.vl_addr_latitude  
-                                   ,_rr.vl_addr_longitude
-                                   ,NULL
-                 );            
-                 EXECUTE _exec INTO _id_stead_hist;      
-               END IF;  -- p_sw  
+                                      ,_rr.id_stead           
+                                      ,_rr.id_area            
+                                      ,_rr.id_street          
+                                      ,_rr.stead_num          
+                                      ,_rr.stead_cadastr_num  
+                                      ,_rr.kd_oktmo           
+                                      ,_rr.kd_okato           
+                                      ,_rr.nm_zipcode         
+                                      ,_rr.nm_fias_guid       
+                                      ,now()             -- dt_data_del
+                                      ,_rr.id_stead      -- id_data_etalon  
+                                      ,_rr.vl_addr_latitude  
+                                      ,_rr.vl_addr_longitude 
+                                      --
+                                      ,NULL
+              );            
+              EXECUTE _exec ;       
                --
                -- update, используя атрибуты образующие уникальность-1 отдельной записи.  
                -- 
-               _exec = format (_upd_id, p_schema_name
-                                ,p_id_area          
-                                ,p_id_street        
-                                ,p_id_stead_type_1  
-                                ,p_nm_stead_1       
-                                ,p_id_stead_type_2  
-                                ,p_nm_stead_2       
-                                ,p_id_stead_type_3  
-                                ,p_nm_stead_3       
-                                ,p_nm_zipcode       
-                                ,p_nm_stead_full    
-                                ,p_kd_oktmo         
-                                ,p_nm_fias_guid     
-                                ,NULL      
-                                ,NULL  
-                                ,p_kd_okato         
-                                ,p_vl_addr_latitude 
-                                ,p_vl_addr_longitude
-                                 --  
-                                ,_rr.id_stead               
-                );
-               EXECUTE _exec;
+             _exec = format (_upd_id, p_schema_name
+                              ,p_id_area            
+                              ,p_id_street          
+                              ,p_stead_num          
+                              ,p_stead_cadastr_num  
+                              ,p_kd_okato    
+                              ,p_kd_oktmo    
+                              ,p_nm_zipcode  
+                              ,p_nm_fias_guid  
+                              ,NULL -- p_dt_data_del      
+                              ,NULL -- p_id_data_etalon   
+                               --
+                              ,NULL -- vl_addr_latitude 
+                              ,NULL -- vl_addr_longitude  
+                               --  
+                              ,_rr.id_stead               
+              );
+              --
+              EXECUTE _exec;               
                --  
                INSERT INTO gar_tmp.adr_stead_aux (id_stead, op_sign)
                 VALUES (_rr.id_stead, UPD_OP)
                   ON CONFLICT (id_stead) DO UPDATE SET op_sign = UPD_OP
                       WHERE (gar_tmp.adr_stead_aux.id_stead = excluded.id_stead);                
                
-             ELSE
-                  _id_stead_new := NULL;     
-           END IF; -- compare _rr
+           END IF; -- compare _rr, _rr1
+           
+           RETURN _id_steads;  -- атрибуты образующие основную уникальность изменились. 
           
-           _id_steads [1] := _id_stead_new; -- 2022-05-19 UUID цел, но остальные 
-           RETURN _id_steads;               -- атрибуты образующие основную уникальность изменились. 
-          
-  	    END; -- unique_violation
+  	     END; -- unique_violation
     END;
   $$;
 
 COMMENT ON FUNCTION gar_tmp_pcg_trans.fp_adr_stead_upd (
-                 text, text, bigint, bigint, bigint,varchar(250),varchar(250)     
+                 text, text, bigint, bigint,varchar(250),varchar(250)     
                 ,varchar(11),varchar(11),varchar(20),uuid
  )
          IS 'Обновление записи в ОТДАЛЁННОМ справочнике адресов ЗУ';

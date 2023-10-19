@@ -46,8 +46,6 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_stead_ins (
                 
                 ,dt_data_del       = %L::timestamp without time zone    --  NULL
                 ,id_data_etalon    = %L::bigint                         --  NULL
-                ,vl_addr_latitude  = %L::numeric                        --  NULL
-                ,vl_addr_longitude = %L::numeric                        --  NULL
                     
             WHERE (id_stead = %L::bigint);
         $_$;
@@ -201,8 +199,6 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_stead_ins (
                               ,p_nm_fias_guid  
                               ,NULL -- p_dt_data_del      
                               ,NULL -- p_id_data_etalon   
-                              ,NULL -- p_vl_addr_latitude 
-                              ,NULL -- p_vl_addr_longitude
                                --  
                               ,_rr.id_stead               
               );

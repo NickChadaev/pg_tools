@@ -170,13 +170,5 @@ IN (
 --
 -- 2023-10-20
 --
-TRUNCATE TABLE gar_tmp.xxx_adr_area;
-SELECT gar_tmp_pcg_trans.f_xxx_adr_area_set_data (); 
-/*
------------------------------------------------------
-f_xxx_adr_area_set_data|
------------------------+
-                  26520|
-*/
-------------------------
-SELECT gar_tmp_pcg_trans.f_xxx_obj_fias_set_data ('gar_tmp', 'gar_tmp', 'gar_tmp', 'gar_tmp');
+
+

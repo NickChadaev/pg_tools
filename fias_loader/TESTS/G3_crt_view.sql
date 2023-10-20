@@ -80,7 +80,6 @@ CREATE OR REPLACE VIEW  public.zz5 AS
                            ON (ot.oper_type_id = a.oper_type_id) AND (ot.is_active)                          
             
             WHERE (h1.parent_obj_id = 0) AND (h1.is_active) 
-     
          
                      UNION ALL
         
@@ -120,15 +119,17 @@ CREATE OR REPLACE VIEW  public.zz5 AS
             
             FROM gar_fias.as_adm_hierarchy h2
                  	
-              INNER JOIN aa1 ON (h2.parent_obj_id = aa1.id_addr_obj ) 
+               INNER JOIN aa1 ON (aa1.object_id = h2.parent_obj_id) 
                        
               INNER JOIN gar_fias.as_addr_obj a ON (h2.object_id = a.object_id) AND (a.is_actual AND a.is_active)                        
               INNER JOIN gar_fias.as_addr_obj z ON (h2.parent_obj_id = z.object_id) AND (z.is_actual AND z.is_active) 
               INNER JOIN gar_fias.as_object_level l ON (a.obj_level = l.level_id) AND (l.is_active) 
               INNER JOIN gar_fias.as_operation_type ot ON (ot.oper_type_id = a.oper_type_id) AND (ot.is_active) 
               
-            WHERE (h2.is_active)-- AND (a.obj_level <= 10)
-       )       
+            WHERE (h2.is_active) AND (a.object_id = 75729)
+       )   
+         SELECT * FROM aa1;
+       
       , bb1 (   
                 id_addr_obj       
                ,id_addr_parent 
@@ -270,7 +271,7 @@ CREATE OR REPLACE VIEW  public.zz5 AS
                    --
                    ,bb1.rn
                    
-           FROM bb1 WHERE (bb1.change_id = bb1.rn);
+           FROM bb1-- WHERE (bb1.change_id = bb1.rn);
            
           
 -- SELECT * FROM public.zz1; -- 26250  /26514   514 - 250 = 264

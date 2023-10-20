@@ -33,6 +33,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_show_data (
     --  2023-10-11 Пришлось ввести " SELECT DISTINCT ON (bb1.id_addr_obj) Иначе подряд 
     --   выполняются два действия: INSERT и UNPDATE ON CONLICT, что вызывает ошибку postgres.
     --   Ошибка проявилась на 50 регионе (Московская обл).
+    --
+    --  2023-10-20 Окно определяется строго поID типа, а не по его имени.
     -- --------------------------------------------------------------------------------------
     
     WITH RECURSIVE aa1 (
@@ -230,7 +232,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_show_data (
                    ,aa1.level_d
 
                   , max(aa1.change_id) OVER (PARTITION BY aa1.id_addr_parent 
-                                            ,aa1.addr_obj_type-- _id  
+                                            ,aa1.addr_obj_type_id           -- 2023-10-20
                                             ,UPPER(aa1.nm_addr_obj) 
                     ) AS rn
                   
@@ -238,7 +240,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_show_data (
             
 		   ORDER BY aa1.tree_d
           )
-           SELECT DISTINCT ON (bb1.id_addr_obj) -- 2023-10-11
+           SELECT DISTINCT ON (bb1.id_addr_obj)                             -- 2023-10-11
                     bb1.id_addr_obj       
                    ,bb1.id_addr_parent 
                    --
@@ -302,7 +304,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_show_data (
                     --               
                    ,bb1.tree_d            
                    ,bb1.level_d           
-           FROM bb1 WHERE (bb1.change_id = bb1.rn);   
+           FROM bb1 WHERE (bb1.change_id = bb1.rn)
   $$;
  
 ALTER FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_show_data (date, bigint, bigint[]) OWNER TO postgres;  
@@ -311,7 +313,7 @@ COMMENT ON FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_show_data (date, bigint, bi
 IS 'Функция подготавливает исходные данные для таблицы-прототипа "gar_tmp.xxx_adr_area"';
 ----------------------------------------------------------------------------------
 -- USE CASE:
---    SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data () WHERE (nm_addr_obj ilike '%ленина%'); -- 1184
+--    SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data () WHERE (fias_guid = '6a5b8826-dc74-4694-bbba-776daa464be1') OR (id_addr_obj = 75729); -- 1184
 --    SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data () WHERE (id_addr_obj IN (77511, 78550)); -- 1184
 --    SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data () ORDER BY obj_level DESC;
 --  SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data () WHERE (obj_level <> 8) ORDER BY obj_level DESC;  --2082
@@ -328,3 +330,4 @@ IS 'Функция подготавливает исходные данные д
 -- ALTER TABLE gar_tmp.xxx_adr_area ADD COLUMN addr_obj_type_id bigint;
 -- COMMENT ON COLUMN gar_tmp.xxx_adr_area.addr_obj_type_id IS
 -- 'ID типа объекта';
+

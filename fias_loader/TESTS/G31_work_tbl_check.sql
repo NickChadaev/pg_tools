@@ -11,6 +11,23 @@ WHERE (fias_guid IN (
  )
 ); -- ++
 --
+--   2023-10-23
+--
+SELECT * FROM public.zz5
+WHERE (fias_guid IN (
+'450279b7-39ac-4e99-a505-10dd7b675d3d'::uuid
+));
+----------------------------------------------------------
+id_addr_obj|id_addr_parent|fias_guid                           |parent_fias_guid                    |nm_addr_obj|addr_obj_type_id|addr_obj_type|obj_level|level_name                     |
+-----------+--------------+------------------------------------+------------------------------------+-----------+----------------+-------------+---------+-------------------------------+
+      84454|         78727|450279b7-39ac-4e99-a505-10dd7b675d3d|727cdf1e-1b70-4e07-8995-9bf7ca9abefb|Урожай     |             262|кв-л         |        7|Элемент планировочной структуры|
+
+      
+      select * from GAR_TMP.XXX_ADR_AREA_GAP;
+ select * from gar_tmp_pcg_trans.f_xxx_adr_area_show_data ()
+where (fias_guid IN ('450279b7-39ac-4e99-a505-10dd7b675d3d'::uuid
+));
+--
 select * from gar_tmp_pcg_trans.f_xxx_adr_area_show_data ()
 where (fias_guid  
 IN (
@@ -78,6 +95,20 @@ IN ('6a5b8826-dc74-4694-bbba-776daa464be1'
 --|    75761|0e4ebdbe-e302-4237-94db-0c168f22b5db|   214694|Урожай     |     79|кв-л     |        6| ++
 --|    75761|0e4ebdbe-e302-4237-94db-0c168f22b5db|   214660|Уроай      |     79|кв-л     |        6| 
 
+SELECT id, object_id, object_guid, change_id, object_name, type_id, type_name, obj_level, oper_type_id, prev_id, next_id, update_date, start_date, end_date, is_actual, is_active
+FROM gar_fias.as_addr_obj 
+where (object_name = 'Ахульго');
+--------------------------------------------------
+id   |object_id|object_guid                         |change_id|object_name|type_id|type_name|obj_level|oper_type_id|prev_id|next_id|update_date|start_date|end_date  |is_actual|is_active|
+-----+---------+------------------------------------+---------+-----------+-------+---------+---------+------------+-------+-------+-----------+----------+----------+---------+---------+
+92765|    77030|addedb59-b035-4c75-860c-7a63099c6130|   218723|Ахульго    |    204|ул       |        8|          10|      0|      0| 2018-02-19|2011-11-11|2079-06-06|true     |true     |
+96583|    80151|73b4b5d5-0977-4a37-9982-04d8fb5c739d|   227090|Ахульго    |    204|ул       |        8|          10|      0|      0| 2017-11-19|2016-10-19|2079-06-06|true     |true     |
+93258|    77444|146d6237-c774-4542-9535-a8d4dd14def8|   219894|Ахульго    |    204|ул       |        8|          10|      0|      0| 2016-06-20|2013-05-31|2079-06-06|true     |true     |
+95265|    79107|d63feac3-6ae3-4d45-934c-f6b6516e20f2|   224297|Ахульго    |    204|ул       |        8|          10|      0|      0| 2017-11-19|2016-10-19|2079-06-06|true     |true     |
+98073|    81368|0dde2371-ae78-441c-a78f-46a510a484ca| + 230086|Ахульго    |    204|ул       |        8|          10|      0|      0| 2016-06-17|2013-05-31|2079-06-06|true     |true     |
+95550|    79353|75149768-0ba3-4f81-8e3f-46a227a41154|   224864|Ахульго    |    204|ул       |        8|          10|      0|      0| 2017-11-19|2016-10-19|2079-06-06|true     |true     |
+97269|    80724|5b8bba72-59a1-4e73-b917-848e7dd36c32|   228567|Ахульго    |    204|ул       |        8|          10|      0|      0| 2016-06-22|2013-05-31|2079-06-06|true     |true     |
+--------------------------------------------------
 
 SELECT * FROM gar_tmp.xxx_adr_area where (
 fias_guid
@@ -168,7 +199,8 @@ IN (
 ); --Нет их ----
 
 --
--- 2023-10-20
+-- 2023-10-23
 --
+
 
 

@@ -269,7 +269,7 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_upd (
                                       ,_rr1.nm_street_full   
                                       ,_rr1.nm_fias_guid   
                                       ,now()          --  dt_data_del
-                                      ,_rr1.id_street  -- p_id_data_etalon   
+                                      ,_rr.id_street  -- p_id_data_etalon   
                                       ,_rr1.kd_kladr         
                                       ,_rr1.vl_addr_latitude 
                                       ,_rr1.vl_addr_longitude
@@ -306,7 +306,8 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_upd (
                        
           END IF; -- 2022-02-10 -- _rr1.id_street IS NOT NULL 
                  
-          -- Повторяем прерванную операцию.       
+          -- Повторяем прерванную операцию.   
+          --
           IF (_rr.id_street IS NOT NULL) AND (_rr1.id_street IS NOT NULL) 
              THEN
               IF p_sw THEN  

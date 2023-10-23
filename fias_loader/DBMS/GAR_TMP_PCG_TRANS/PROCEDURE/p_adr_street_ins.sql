@@ -41,6 +41,7 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_ins (
     --  2022-05-31 COALESCE только для NOT NULL полей.    
     -- -------------------------------------------------------------------------
     --   2022-10-18 Вспомогательные таблицы..
+    --   2023-10-23 Сохраняется оригинальный UUID при обработке дубля.    
     -- -------------------------------------------------------------------------    
     
     DECLARE
@@ -180,30 +181,55 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_ins (
                 EXECUTE _exec;    
             
                 -- update,  
-                _exec := format (_upd_id, p_schema_name
-                                       ,p_id_area                       
-                                       ,p_nm_street                 
-                                       ,p_id_street_type                
-                                       ,p_nm_street_full                
-                                       ,p_nm_fias_guid
+                _exec := format (_upd_id
+                                       , p_schema_name
+                                       ,_rr.id_area                       
+                                       ,_rr.nm_street                 
+                                       ,_rr.id_street_type                
+                                       ,_rr.nm_street_full                
+                                       ,_rr.nm_fias_guid
                                        --
-                                       ,NULL -- nm_data_del                              
-                                       ,NULL -- id_data_etalon
+                                       ,now() -- nm_data_del                              
+                                       ,p_id_street -- id_data_etalon
                                        --
-                                       ,p_kd_kladr          
-                                       ,p_vl_addr_latitude  
-                                       ,p_vl_addr_longitude 
+                                       ,_rr.kd_kladr          
+                                       ,_rr.vl_addr_latitude  
+                                       ,_rr.vl_addr_longitude 
                                       
                                        ,_rr.id_street
                 );
-                EXECUTE _exec; -- Смена значения UUID
+                EXECUTE _exec; --  2023-10-23 / Отменяется. Смена значения UUID
                 
                 INSERT INTO gar_tmp.adr_street_aux (id_street, op_sign)
                   VALUES (_rr.id_street, UPD_OP)
                     ON CONFLICT (id_street) DO UPDATE SET op_sign = UPD_OP
-                        WHERE (gar_tmp.adr_street_aux.id_street = excluded.id_street);                
-            
+                        WHERE (gar_tmp.adr_street_aux.id_street = excluded.id_street);  
+                        
             END IF; -- _rr.id_street IS NOT NULL
+            -- 
+            -- Продолжаю прерванный ранее процесс.
+            --
+            _exec := format (_ins
+                                    , p_schema_name
+                                    , p_id_street        
+                                    , p_id_area          
+                                    , p_nm_street        
+                                    , p_id_street_type   
+                                    , p_nm_street_full   
+                                    , p_nm_fias_guid   
+                                    , NULL  -- dt_data_del
+                                    , NULL  -- p_id_data_etalon   
+                                    , p_kd_kladr         
+                                    , p_vl_addr_latitude 
+                                    , p_vl_addr_longitude
+            );            
+            EXECUTE _exec INTO _id_street;
+            
+            INSERT INTO gar_tmp.adr_street_aux (id_street, op_sign)
+             VALUES (_id_street, INS_OP)
+                ON CONFLICT (id_street) DO UPDATE SET op_sign = INS_OP
+                    WHERE (gar_tmp.adr_street_aux.id_street = excluded.id_street);
+                    
  		  END;  -- unique_violation
     END;
   $$;

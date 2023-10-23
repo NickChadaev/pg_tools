@@ -3,6 +3,11 @@ DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_area_ins (
                ,smallint, varchar(11), uuid, bigint, varchar(11), varchar(20), varchar(15)
                ,numeric, numeric, boolean                        
 );
+DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_adr_area_ins (
+                text, text, bigint, integer, varchar(120), varchar(4000), integer, bigint, integer
+               ,smallint, varchar(11), uuid, varchar(11), varchar(20), varchar(15)
+               ,numeric, numeric
+);
 CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_ins (
             p_schema_name        text  
            ,p_schema_h           text 
@@ -17,14 +22,11 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_ins (
            ,p_pr_detailed        smallint          --  NOT NULL 
            ,p_kd_oktmo           varchar(11)       --    NULL
            ,p_nm_fias_guid       uuid              --    NULL
-           ,p_id_data_etalon     bigint            --    NULL
            ,p_kd_okato           varchar(11)       --    NULL
            ,p_nm_zipcode         varchar(20)       --    NULL
            ,p_kd_kladr           varchar(15)       --    NULL
            ,p_vl_addr_latitude   numeric           --    NULL
            ,p_vl_addr_longitude  numeric           --    NULL 
-           --
-           ,p_sw                 boolean
 )
     LANGUAGE plpgsql SECURITY DEFINER
     AS $$
@@ -50,7 +52,8 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_ins (
     --   2022-05-31 COALESCE только для NOT NULL полей.    
     -- -------------------------------------------------------------------------
     --  2022-10-18 Вспомогательные таблицы.
-    --  2022-11-07 Увеличено количество защищённых (от обновления NULL) столбцов    
+    --  2022-11-07 Увеличено количество защищённых (от обновления NULL) столбцов   
+    --  2023-10-23 Сохраняется оригинальный UUID при обработке дубля.
     -- -------------------------------------------------------------------------    
     DECLARE
       _exec text;
@@ -229,7 +232,7 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_ins (
                                , now()      --  dt_data_del
                                ,_rr.kd_oktmo         
                                ,_rr.nm_fias_guid   
-                               ,_rr.id_area -- id_data_etalon   
+                               ,p_id_area -- id_data_etalon   
                                ,_rr.kd_okato         
                                ,_rr.nm_zipcode       
                                ,_rr.kd_kladr         
@@ -242,24 +245,25 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_ins (
                   -- update, 2022-05-19
                   --
                   _exec := format (_upd_id, p_schema_name 
-                                      ,p_id_country       
-                                      ,p_nm_area          
-                                      ,p_nm_area_full     
-                                      ,p_id_area_type     
-                                      ,p_id_area_parent
+                                      ,_rr.id_country       
+                                      ,_rr.nm_area          
+                                      ,_rr.nm_area_full     
+                                      ,_rr.id_area_type     
+                                      ,_rr.id_area_parent
                                        --
-                                      ,p_kd_timezone      
-                                      ,p_pr_detailed   
-                                      ,p_kd_oktmo         
-                                      ,p_nm_fias_guid 
+                                      ,_rr.kd_timezone      
+                                      ,_rr.pr_detailed   
+                                      ,_rr.kd_oktmo         
+                                      ,_rr.nm_fias_guid 
                                       --
-                                      , NULL  -- dt_data_del
-                                      , NULL  -- id_data_etalon
-                                      ,p_kd_okato  
-                                      ,p_nm_zipcode       
-                                      ,p_kd_kladr         
-                                      ,p_vl_addr_latitude 
-                                      ,p_vl_addr_longitude
+                                      , now()      -- dt_data_del
+                                      , p_id_area  -- id_data_etalon
+                                      
+                                      ,_rr.kd_okato  
+                                      ,_rr.nm_zipcode       
+                                      ,_rr.kd_kladr         
+                                      ,_rr.vl_addr_latitude 
+                                      ,_rr.vl_addr_longitude
                                       --
                                       ,_rr.id_area
                   );            
@@ -268,18 +272,48 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_ins (
                   INSERT INTO gar_tmp.adr_area_aux (id_area, op_sign)
                   VALUES (_rr.id_area, UPD_OP)
                    ON CONFLICT (id_area) DO UPDATE SET op_sign = UPD_OP
-                         WHERE (gar_tmp.adr_area_aux.id_area = excluded.id_area);                  
-                  
+                         WHERE (gar_tmp.adr_area_aux.id_area = excluded.id_area); 
+                         
             END IF; -- _rr.id_area IS NOT NULL
+            -- 
+            -- Продолжаю прерванный ранее процесс.
+            --
+            _exec := format (_ins, p_schema_name
+                                  ,p_id_area          
+                                  ,p_id_country       
+                                  ,p_nm_area          
+                                  ,p_nm_area_full     
+                                  ,p_id_area_type     
+                                  ,p_id_area_parent   
+                                  ,p_kd_timezone      
+                                  ,p_pr_detailed
+                                  ,NULL   -- p_dt_data_del
+                                  ,p_kd_oktmo         
+                                  ,p_nm_fias_guid     
+                                  ,NULL   -- p_id_data_etalon   
+                                  ,p_kd_okato         
+                                  ,p_nm_zipcode       
+                                  ,p_kd_kladr         
+                                  ,p_vl_addr_latitude 
+                                  ,p_vl_addr_longitude                           
+            );            
+            EXECUTE _exec INTO _id_area;
+            --
+            INSERT INTO gar_tmp.adr_area_aux (id_area, op_sign)
+            VALUES (_id_area, INS_OP)
+             ON CONFLICT (id_area) DO UPDATE SET op_sign = INS_OP
+                   WHERE (gar_tmp.adr_area_aux.id_area = excluded.id_area);
+                              
+                  
           END; -- unique_violation
     END;
   $$;
 
-COMMENT ON PROCEDURE gar_tmp_pcg_trans.p_adr_area_ins ( 
-                 text, text, bigint, integer, varchar(120), varchar(4000), integer, bigint, integer
-                ,smallint, varchar(11), uuid, bigint, varchar(11), varchar(20), varchar(15)
-                ,numeric, numeric, boolean 
-               ) 
+COMMENT ON PROCEDURE gar_tmp_pcg_trans.p_adr_area_ins (
+                text, text, bigint, integer, varchar(120), varchar(4000), integer, bigint, integer
+               ,smallint, varchar(11), uuid, varchar(11), varchar(20), varchar(15)
+               ,numeric, numeric
+) 
          IS 'Создание/Обновление записи в ОТДАЛЁННОМ справочнике адресных пространств';
 -- -----------------------------------------------------------------------------------------------
 --  USE CASE:

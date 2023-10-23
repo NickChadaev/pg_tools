@@ -250,7 +250,7 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_upd (
                          , now()      --  dt_data_del
                          ,_rr1.kd_oktmo         
                          ,_rr1.nm_fias_guid   
-                         ,_rr1.id_area -- id_data_etalon   
+                         ,_rr.id_area -- id_data_etalon   
                          ,_rr1.kd_okato         
                          ,_rr1.nm_zipcode       
                          ,_rr1.kd_kladr         

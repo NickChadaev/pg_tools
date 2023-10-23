@@ -11,6 +11,15 @@ BEGIN;
  SELECT * FROM gar_tmp.adr_street_hist WHERE (id_region = 0) AND (date_create >= (now() - INTERVAL '1 DAY'))
         ORDER BY date_create;
 
- --
--- ROLLBACK;
-COMMIT;
+ SELECT * FROM gar_tmp.adr_street_hist WHERE (id_region = 0) AND (date_create >= (now() - INTERVAL '1 DAY'))
+        ORDER BY date_create;
+
+DELETE FROM gar_tmp.adr_street_aux;        
+        
+SELECT x.op_sign, s.* FROM gar_tmp.adr_street s 
+  INNER JOIN gar_tmp.adr_street_aux x ON (x.id_street = s.id_street);
+  
+SELECT * FROM gar_tmp.xxx_adr_street_gap;   
+  
+-- ROLLBACK; 
+COMMIT; --

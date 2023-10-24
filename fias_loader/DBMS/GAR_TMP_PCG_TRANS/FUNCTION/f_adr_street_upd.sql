@@ -36,6 +36,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_upd (
     --  2021-12-14/2022-02-10 Nick  Обновление адресов улиц.
     --  2022-10-18 - Вспомогательные таблицы.
     --  2022-11-21 - Преобразование типов ФИАС -> ЕС НСИ.  
+    --  2023-10-23 - Родитель не находится, запись помещается в GAP-таблицу.
+    --               _data.check_kind := 2        
     -- --------------------------------------------------------------------------
     --  p_schema_data   -- Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
     --  p_schema_etl    -- Схема эталон, обычно локальный сервер, копия p_schema_data 
@@ -97,12 +99,27 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_upd (
                 THEN
                      CALL gar_tmp_pcg_trans.p_xxx_adr_street_gap_put(_data);
           END IF;           
-          --  Nick 2022-11-21/2022-12-05           
-          
-          CONTINUE WHEN ((_id_street_type IS NULL) OR (_street_type_short_name IS NULL)); -- 2022-02-21     
+ 
+          -- 2023-10-23
+          IF ((_id_street_type IS NULL) OR (_street_type_short_name IS NULL)  
+              )
+             THEN
+                  _data.check_kind := 2;
+                   CALL gar_tmp_pcg_trans.p_xxx_adr_street_gap_put (_data);
+                   CONTINUE; -- 2022-11-21/2022-12-05
+          END IF;            
          
           _parent := gar_tmp_pcg_trans.f_adr_area_get (p_schema_etl, _data.nm_fias_guid_area);
-          CONTINUE WHEN ((_parent.id_area IS NULL) OR (_data.nm_street IS NULL)); 
+          -- 
+          -- 2022-12-27 Такая ситуация может возникнуть крайне редко.
+          -- 2023-10-23 Но возникает, последствия не хорошие, теряются "дети".
+          --
+          IF (_parent.id_area IS NULL) OR (_data.nm_street IS NULL)
+            THEN
+                  _data.check_kind := 2;
+                   CALL gar_tmp_pcg_trans.p_xxx_adr_street_gap_put (_data);            
+                   CONTINUE; 
+          END IF;
           
           CALL gar_tmp_pcg_trans.p_adr_street_upd (
               p_schema_name       := p_schema_data                    --  text  

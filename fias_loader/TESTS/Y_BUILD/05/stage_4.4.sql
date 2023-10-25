@@ -11,6 +11,10 @@ BEGIN;
  SELECT * FROM gar_tmp.adr_street_hist WHERE (id_region = 0) AND (date_create >= (now() - INTERVAL '1 DAY'))
         ORDER BY date_create;
 
- --
--- ROLLBACK;
+ SELECT x.*, a.* FROM gar_tmp.adr_street_aux x
+    INNER JOIN gar_tmp.adr_street a ON (x.id_street = a.id_street);
+
+ SELECT * FROM gar_tmp.xxx_adr_street_gap;
+  
+-- ROLLBACK;  -- 249
 COMMIT;

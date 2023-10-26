@@ -1,0 +1,135 @@
+ЗАМЕЧАНИЕ:  индекс "ie4_as_addr_obj" не существует, пропускается
+ЗАМЕЧАНИЕ:  индекс "adr_area_i1" не существует, пропускается
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_area_i1; 
+ЗАМЕЧАНИЕ:  индекс "adr_area_i2" не существует, пропускается
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_area_i2; 
+ЗАМЕЧАНИЕ:  индекс "adr_area_i3" не существует, пропускается
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_area_i3; 
+ЗАМЕЧАНИЕ:  индекс "adr_area_i4" не существует, пропускается
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_area_i4; 
+ЗАМЕЧАНИЕ:  индекс "adr_area_i5" не существует, пропускается
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_area_i5; 
+ЗАМЕЧАНИЕ:  индекс "adr_area_i6" не существует, пропускается
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_area_i6; 
+ЗАМЕЧАНИЕ:  индекс "adr_area_i7" не существует, пропускается
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_area_i7; 
+ЗАМЕЧАНИЕ:  индекс "adr_area_i8" не существует, пропускается
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_area_i8; 
+ЗАМЕЧАНИЕ:  индекс "adr_area_i9" не существует, пропускается
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_area_i9; 
+ЗАМЕЧАНИЕ:  индекс "index_nm_area_on_adr_area_trigram" не существует, пропускается
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.index_nm_area_on_adr_area_trigram; 
+ЗАМЕЧАНИЕ:  индекс "adr_area_ak1" не существует, пропускается
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_area_ak1; 
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp._xxx_adr_area_ak1; 
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp._xxx_adr_area_ie2; 
+ЗАМЕЧАНИЕ:   CREATE UNIQUE INDEX IF NOT EXISTS _xxx_adr_area_ak1 ON gar_tmp.adr_area USING btree (id_country ASC NULLS LAST, id_area_parent ASC NULLS LAST, id_area_type ASC NULLS LAST, upper(nm_area::text) ASC NULLS LAST) WHERE (id_data_etalon IS NULL) AND (dt_data_del IS NULL); 
+ЗАМЕЧАНИЕ:   CREATE UNIQUE INDEX IF NOT EXISTS _xxx_adr_area_ie2 ON gar_tmp.adr_area USING btree (nm_fias_guid) WHERE (id_data_etalon IS NULL) AND (dt_data_del IS NULL); 
+ЗАМЕЧАНИЕ:  индекс "adr_street_i1" не существует, пропускается
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_street_i1; 
+ЗАМЕЧАНИЕ:  индекс "adr_street_i2" не существует, пропускается
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_street_i2; 
+ЗАМЕЧАНИЕ:  индекс "adr_street_i3" не существует, пропускается
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_street_i3; 
+ЗАМЕЧАНИЕ:  индекс "adr_street_i4" не существует, пропускается
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_street_i4; 
+ЗАМЕЧАНИЕ:  индекс "adr_street_ak1" не существует, пропускается
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_street_ak1; 
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp._xxx_adr_street_ie2; 
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp._xxx_adr_street_ak1; 
+ЗАМЕЧАНИЕ:   CREATE INDEX IF NOT EXISTS _xxx_adr_street_ie2 ON gar_tmp.adr_street USING btree (nm_fias_guid ASC NULLS LAST) WHERE id_data_etalon IS NULL AND dt_data_del IS NULL; 
+ЗАМЕЧАНИЕ:   CREATE UNIQUE INDEX IF NOT EXISTS _xxx_adr_street_ak1 ON gar_tmp.adr_street USING btree (id_area ASC NULLS LAST, upper(nm_street::text) ASC NULLS LAST, id_street_type ASC NULLS LAST) WHERE (id_data_etalon IS NULL) AND (dt_data_del IS NULL); 
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp._xxx_adr_street_ie2; 
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp._xxx_adr_street_ak1; 
+ЗАМЕЧАНИЕ:   CREATE UNIQUE INDEX IF NOT EXISTS _xxx_adr_street_ie2 ON gar_tmp.adr_street USING btree (nm_fias_guid ASC NULLS LAST) WHERE id_data_etalon IS NULL AND dt_data_del IS NULL; 
+ЗАМЕЧАНИЕ:   CREATE UNIQUE INDEX IF NOT EXISTS _xxx_adr_street_ak1 ON gar_tmp.adr_street USING btree (id_area ASC NULLS LAST, upper(nm_street::text) ASC NULLS LAST, id_street_type ASC NULLS LAST) WHERE (id_data_etalon IS NULL) AND (dt_data_del IS NULL); 
+ЗАМЕЧАНИЕ:  индекс "adr_house_i1" не существует, пропускается
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_house_i1; 
+ЗАМЕЧАНИЕ:  индекс "adr_house_i2" не существует, пропускается
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_house_i2; 
+ЗАМЕЧАНИЕ:  индекс "adr_house_i3" не существует, пропускается
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_house_i3; 
+ЗАМЕЧАНИЕ:  индекс "adr_house_i4" не существует, пропускается
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_house_i4; 
+ЗАМЕЧАНИЕ:  индекс "adr_house_i5" не существует, пропускается
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_house_i5; 
+ЗАМЕЧАНИЕ:  индекс "adr_house_i7" не существует, пропускается
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_house_i7; 
+ЗАМЕЧАНИЕ:  индекс "adr_house_idx1" не существует, пропускается
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_house_idx1; 
+ЗАМЕЧАНИЕ:  индекс "adr_house_ak1" не существует, пропускается
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_house_ak1; 
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp._xxx_adr_house_ie2; 
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp._xxx_adr_house_ak1; 
+ЗАМЕЧАНИЕ:   CREATE INDEX IF NOT EXISTS _xxx_adr_house_ie2 ON gar_tmp.adr_house USING btree (nm_fias_guid ASC NULLS LAST) WHERE (id_data_etalon IS NULL) AND (dt_data_del IS NULL); 
+ЗАМЕЧАНИЕ:   CREATE UNIQUE INDEX IF NOT EXISTS _xxx_adr_house_ak1 ON gar_tmp.adr_house USING btree (id_area ASC NULLS LAST, upper (nm_house_full::text) ASC NULLS LAST, id_street ASC NULLS LAST,id_house_type_1 ASC NULLS LAST)  WHERE (id_data_etalon IS NULL) AND (dt_data_del IS NULL); 
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp._xxx_adr_house_ie2; 
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp._xxx_adr_house_ak1; 
+ЗАМЕЧАНИЕ:   CREATE UNIQUE INDEX IF NOT EXISTS _xxx_adr_house_ie2 ON gar_tmp.adr_house USING btree (nm_fias_guid ASC NULLS LAST) WHERE (id_data_etalon IS NULL) AND (dt_data_del IS NULL); 
+ЗАМЕЧАНИЕ:   CREATE UNIQUE INDEX IF NOT EXISTS _xxx_adr_house_ak1 ON gar_tmp.adr_house USING btree (id_area ASC NULLS LAST, upper (nm_house_full::text) ASC NULLS LAST, id_street ASC NULLS LAST,id_house_type_1 ASC NULLS LAST)  WHERE (id_data_etalon IS NULL) AND (dt_data_del IS NULL); 
+ЗАМЕЧАНИЕ:  отношение "__adr_area_fias" уже существует, пропускается
+ЗАМЕЧАНИЕ:  отношение "__adr_area_fias" уже существует, пропускается
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp._xxx_adr_area_ak1; 
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp._xxx_adr_area_ie2; 
+ЗАМЕЧАНИЕ:   CREATE INDEX IF NOT EXISTS adr_area_i1 ON gar_tmp.adr_area USING btree (id_area_parent); 
+ЗАМЕЧАНИЕ:   CREATE INDEX IF NOT EXISTS adr_area_i2 ON gar_tmp.adr_area USING btree (id_area_type); 
+ЗАМЕЧАНИЕ:   CREATE INDEX IF NOT EXISTS adr_area_i3 ON gar_tmp.adr_area USING btree (id_country); 
+ЗАМЕЧАНИЕ:   CREATE INDEX IF NOT EXISTS adr_area_i4 ON gar_tmp.adr_area USING btree (kd_timezone); 
+ЗАМЕЧАНИЕ:   CREATE INDEX IF NOT EXISTS adr_area_i5 ON gar_tmp.adr_area USING btree (id_data_etalon); 
+ЗАМЕЧАНИЕ:   CREATE INDEX IF NOT EXISTS adr_area_i6 ON gar_tmp.adr_area USING btree (id_country, upper((nm_area_full)::text)); 
+ЗАМЕЧАНИЕ:   CREATE INDEX IF NOT EXISTS adr_area_i7 ON gar_tmp.adr_area USING btree (nm_fias_guid); 
+ЗАМЕЧАНИЕ:   CREATE INDEX IF NOT EXISTS adr_area_i8 ON gar_tmp.adr_area USING btree (id_country, upper((nm_area)::text)); 
+ЗАМЕЧАНИЕ:   CREATE INDEX IF NOT EXISTS adr_area_i9 ON gar_tmp.adr_area USING btree (kd_okato); 
+ЗАМЕЧАНИЕ:   CREATE INDEX IF NOT EXISTS index_nm_area_on_adr_area_trigram ON gar_tmp.adr_area USING gin (nm_area gin_trgm_ops); 
+ЗАМЕЧАНИЕ:   CREATE UNIQUE INDEX IF NOT EXISTS adr_area_ak1 ON gar_tmp.adr_area USING btree (id_country, id_area_parent, id_area_type, upper((nm_area)::text)) WHERE (id_data_etalon IS NULL); 
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_area_i1; 
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_area_i2; 
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_area_i3; 
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_area_i4; 
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_area_i5; 
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_area_i6; 
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_area_i7; 
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_area_i8; 
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_area_i9; 
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.index_nm_area_on_adr_area_trigram; 
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_area_ak1; 
+ЗАМЕЧАНИЕ:   CREATE UNIQUE INDEX IF NOT EXISTS _xxx_adr_area_ak1 ON gar_tmp.adr_area USING btree (id_country ASC NULLS LAST, id_area_parent ASC NULLS LAST, id_area_type ASC NULLS LAST, upper(nm_area::text) ASC NULLS LAST) WHERE (id_data_etalon IS NULL) AND (dt_data_del IS NULL); 
+ЗАМЕЧАНИЕ:   CREATE UNIQUE INDEX IF NOT EXISTS _xxx_adr_area_ie2 ON gar_tmp.adr_area USING btree (nm_fias_guid) WHERE (id_data_etalon IS NULL) AND (dt_data_del IS NULL); 
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp._xxx_adr_street_ie2; 
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp._xxx_adr_street_ak1; 
+ЗАМЕЧАНИЕ:   CREATE INDEX IF NOT EXISTS adr_street_i1 ON gar_tmp.adr_street USING btree (id_area); 
+ЗАМЕЧАНИЕ:   CREATE INDEX IF NOT EXISTS adr_street_i2 ON gar_tmp.adr_street USING btree (id_street_type); 
+ЗАМЕЧАНИЕ:   CREATE INDEX IF NOT EXISTS adr_street_i3 ON gar_tmp.adr_street USING btree (id_data_etalon); 
+ЗАМЕЧАНИЕ:   CREATE INDEX IF NOT EXISTS adr_street_i4 ON gar_tmp.adr_street USING btree (nm_fias_guid); 
+ЗАМЕЧАНИЕ:   CREATE INDEX IF NOT EXISTS adr_street_ak1 ON gar_tmp.adr_street USING btree (id_area, upper((nm_street)::text), id_street_type) WHERE (id_data_etalon IS NULL); 
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_street_ak1; 
+ЗАМЕЧАНИЕ:   CREATE UNIQUE INDEX IF NOT EXISTS adr_street_ak1 ON gar_tmp.adr_street USING btree (id_area, upper((nm_street)::text), id_street_type) WHERE (id_data_etalon IS NULL); 
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_street_i1; 
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_street_i2; 
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_street_i3; 
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_street_i4; 
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_street_ak1; 
+ЗАМЕЧАНИЕ:   CREATE UNIQUE INDEX IF NOT EXISTS _xxx_adr_street_ie2 ON gar_tmp.adr_street USING btree (nm_fias_guid ASC NULLS LAST) WHERE id_data_etalon IS NULL AND dt_data_del IS NULL; 
+ЗАМЕЧАНИЕ:   CREATE UNIQUE INDEX IF NOT EXISTS _xxx_adr_street_ak1 ON gar_tmp.adr_street USING btree (id_area ASC NULLS LAST, upper(nm_street::text) ASC NULLS LAST, id_street_type ASC NULLS LAST) WHERE (id_data_etalon IS NULL) AND (dt_data_del IS NULL); 
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp._xxx_adr_house_ie2; 
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp._xxx_adr_house_ak1; 
+ЗАМЕЧАНИЕ:   CREATE INDEX IF NOT EXISTS adr_house_i1 ON gar_tmp.adr_house USING btree (id_area); 
+ЗАМЕЧАНИЕ:   CREATE INDEX IF NOT EXISTS adr_house_i2 ON gar_tmp.adr_house USING btree (id_street); 
+ЗАМЕЧАНИЕ:   CREATE INDEX IF NOT EXISTS adr_house_i3 ON gar_tmp.adr_house USING btree (id_house_type_1); 
+ЗАМЕЧАНИЕ:   CREATE INDEX IF NOT EXISTS adr_house_i4 ON gar_tmp.adr_house USING btree (id_house_type_2); 
+ЗАМЕЧАНИЕ:   CREATE INDEX IF NOT EXISTS adr_house_i5 ON gar_tmp.adr_house USING btree (id_house_type_3); 
+ЗАМЕЧАНИЕ:   CREATE INDEX IF NOT EXISTS adr_house_i7 ON gar_tmp.adr_house USING btree (nm_fias_guid); 
+ЗАМЕЧАНИЕ:   CREATE INDEX IF NOT EXISTS adr_house_idx1 ON gar_tmp.adr_house USING btree (id_area) WHERE (id_street IS NULL); 
+ЗАМЕЧАНИЕ:   CREATE INDEX IF NOT EXISTS adr_house_ak1 ON gar_tmp.adr_house USING btree (id_area, upper((nm_house_full)::text), id_street) WHERE (id_data_etalon IS NULL); 
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_house_ak1; 
+ЗАМЕЧАНИЕ:   CREATE UNIQUE INDEX IF NOT EXISTS adr_house_ak1 ON gar_tmp.adr_house USING btree (id_area, upper((nm_house_full)::text), id_street) WHERE (id_data_etalon IS NULL); 
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_house_i1; 
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_house_i2; 
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_house_i3; 
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_house_i4; 
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_house_i5; 
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_house_i7; 
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_house_idx1; 
+ЗАМЕЧАНИЕ:   DROP INDEX IF EXISTS gar_tmp.adr_house_ak1; 
+ЗАМЕЧАНИЕ:   CREATE UNIQUE INDEX IF NOT EXISTS _xxx_adr_house_ie2 ON gar_tmp.adr_house USING btree (nm_fias_guid ASC NULLS LAST) WHERE (id_data_etalon IS NULL) AND (dt_data_del IS NULL); 
+ЗАМЕЧАНИЕ:   CREATE UNIQUE INDEX IF NOT EXISTS _xxx_adr_house_ak1 ON gar_tmp.adr_house USING btree (id_area ASC NULLS LAST, upper (nm_house_full::text) ASC NULLS LAST, id_street ASC NULLS LAST,id_house_type_1 ASC NULLS LAST)  WHERE (id_data_etalon IS NULL) AND (dt_data_del IS NULL); 

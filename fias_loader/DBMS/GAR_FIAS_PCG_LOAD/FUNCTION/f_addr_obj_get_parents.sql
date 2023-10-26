@@ -1,4 +1,4 @@
-DROP FUNCTION IF EXISTS gar_fias_pcg_load.f_addr_obj_get_parents (uuid, date);
+﻿DROP FUNCTION IF EXISTS gar_fias_pcg_load.f_addr_obj_get_parents (uuid, date);
 CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_addr_obj_get_parents (
        p_fias_guid     uuid     
       ,p_date          date     = current_date
@@ -29,6 +29,9 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_addr_obj_get_parents (
                 ,start_date         date
                 ,end_date           date
                 --
+                ,is_actual          boolean
+                ,is_active          boolean 
+                --
                 ,tree_d             bigint[] 
                 ,level_d            integer
        )
@@ -47,141 +50,124 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_addr_obj_get_parents (
     --   p_date         date         -- Дата на которую формируется выборка    
     -- ---------------------------------------------------------------------------------------
     WITH RECURSIVE aa1 (
-                     id_addr_obj       
-                    ,id_addr_parent 
-                    --
-                    ,fias_guid        
-                    ,parent_fias_guid 
-                    --   
-                    ,nm_addr_obj   
-                    ,addr_obj_type_id  
-                    ,addr_obj_type   
-                    --
-                    ,obj_level
-                    ,level_name
-                    --
-                    ,region_code  -- 2021-12-01
-                    --
-                    ,change_id
-                    ,prev_id
-                    --
-                    ,oper_type_id
-                    ,oper_type_name               
-                    --
-                    ,start_date 
-                    ,end_date    
-                    --
-                    ,tree_d            
-                    ,level_d
-                    ,cicle_d  
+                          id_addr_obj       
+                         ,id_addr_parent 
+                         --
+                         ,fias_guid        
+                         ,parent_fias_guid 
+                         --   
+                         ,nm_addr_obj   
+                         ,addr_obj_type_id  
+                         ,addr_obj_type   
+                         --
+                         ,obj_level
+                         ,level_name
+                         --
+                         ,region_code  -- 2021-12-01
+                         --
+                         ,change_id
+                         ,prev_id
+                         --
+                         ,oper_type_id
+                         ,oper_type_name               
+                         --
+                         ,start_date 
+                         ,end_date 
+                         --
+                         ,is_actual
+                         ,is_active                   
+                         --
+                         ,tree_d            
+                         ,level_d
+                         ,cicle_d  
    ) AS (
           SELECT
-             a.object_id
-            ,NULLIF (ia.parent_obj_id, 0)
-            --
-            ,a.object_guid
-            ,z.object_guid
-            --
-            ,a.object_name
-            ,a.type_id
-            ,a.type_name
-            --
-            ,a.obj_level
-            ,l.level_name
-             --
-            ,ia.region_code  
-             --             --
-            ,a.change_id
-            ,a.prev_id
-             --             --
-            ,a.oper_type_id
-            ,ot.oper_type_name
-            --
-            ,a.start_date 
-            ,a.end_date              
-            --
-            ,CAST (ARRAY [a.object_id] AS bigint []) 
-            ,1
-            ,FALSE
+                 a.object_id
+                ,NULLIF (h1.parent_obj_id, 0)
+                --
+                ,a.object_guid
+                ,z.object_guid
+                --
+                ,a.object_name
+                ,a.type_id
+                ,a.type_name
+                --
+                ,a.obj_level
+                ,l.level_name
+                 --
+                ,h1.region_code  
+                 --              
+                ,a.change_id
+                ,a.prev_id
+                 --              
+                ,a.oper_type_id
+                ,ot.oper_type_name
+                --
+                ,a.start_date 
+                ,a.end_date     
+                --
+                ,a.is_actual
+                ,a.is_active            
+                --
+                ,CAST (ARRAY [a.object_id] AS bigint []) 
+                ,0
+                ,FALSE
             
-          FROM gar_fias.as_adm_hierarchy ia
+          FROM gar_fias.as_adm_hierarchy h1
           
-            LEFT  JOIN gar_fias.as_addr_obj z ON (ia.parent_obj_id = z.object_id) 
-                                            AND ((z.is_actual AND z.is_active) AND (z.end_date > p_date) 
-                                            AND (z.start_date <= p_date)
-                                      )
-          
-            INNER JOIN gar_fias.as_addr_obj a 
-                         ON (ia.object_id = a.object_id) AND
-                            ((a.is_actual AND a.is_active) AND (a.end_date > p_date) AND
-                                 (a.start_date <= p_date)
-                            )
-            --                
-            INNER JOIN gar_fias.as_object_level l 
-                         ON (a.obj_level = l.level_id) AND (l.is_active) AND
-                            ((l.end_date > p_date) AND (l.start_date <= p_date))
-            --
-            INNER JOIN gar_fias.as_operation_type ot ON (ot.oper_type_id = a.oper_type_id) AND 
-                                            (ot.is_active) AND ((ot.end_date > p_date) AND 
-                                            (ot.start_date <= p_date))    
+            INNER JOIN gar_fias.as_addr_obj       a  ON (h1.object_id = a.object_id) AND (a.end_date > p_date)
+            INNER JOIN gar_fias.as_object_level   l  ON (a.obj_level = l.level_id)   AND (l.is_active) 
+            INNER JOIN gar_fias.as_operation_type ot ON (ot.oper_type_id = a.oper_type_id) AND (ot.is_active) AND (ot.end_date > p_date) 
+         
+            LEFT  JOIN gar_fias.as_addr_obj z ON (h1.parent_obj_id = z.object_id) AND (z.end_date > p_date)
                                                                          
-          WHERE  (a.object_guid = p_fias_guid) AND  (ia.is_active) AND (ia.end_date > p_date) AND (ia.start_date <= p_date)   
-       
+          WHERE (a.object_guid = p_fias_guid) AND (h1.is_active) 
        
                    UNION ALL
        
           SELECT
-             a.object_id
-            ,ia.parent_obj_id
-            --
-            ,a.object_guid
-            ,z.object_guid
-            --
-            ,a.object_name
-            ,a.type_id          
-            ,a.type_name
-            --
-            ,a.obj_level
-            ,l.level_name
-             --
-            ,ia.region_code   
-             --             --
-            ,a.change_id
-            ,a.prev_id
-             --             --
-            ,a.oper_type_id
-            ,ot.oper_type_name
-            --
-            ,a.start_date 
-            ,a.end_date              
-            --	       
-            ,CAST (aa1.tree_d || a.object_id AS bigint [])
-            ,(aa1.level_d - 1) t
-            ,a.object_id = ANY (aa1.tree_d)   
+                 a.object_id
+                ,h2.parent_obj_id
+                --
+                ,a.object_guid
+                ,z.object_guid
+                --
+                ,a.object_name
+                ,a.type_id          
+                ,a.type_name
+                --
+                ,a.obj_level
+                ,l.level_name
+                 --
+                ,h2.region_code   
+                 --             
+                ,a.change_id
+                ,a.prev_id
+                 --              
+                ,a.oper_type_id
+                ,ot.oper_type_name
+                --
+                ,a.start_date 
+                ,a.end_date  
+                --
+                ,a.is_actual
+                ,a.is_active
+                --	       
+                ,CAST (aa1.tree_d || a.object_id AS bigint [])
+                ,(aa1.level_d - 1) t
+                ,a.object_id = ANY (aa1.tree_d)   
           
-             FROM gar_fias.as_addr_obj a
-                INNER JOIN gar_fias.as_adm_hierarchy ia ON ((ia.object_id = a.object_id) AND (ia.is_active) 
-                                                             AND (ia.end_date > p_date) 
-                                                             AND (ia.start_date <= p_date)
-                                                           )
-               LEFT  JOIN gar_fias.as_addr_obj z ON (ia.parent_obj_id = z.object_id)
-                                            AND ((z.is_actual AND z.is_active) AND (z.end_date > p_date) 
-                                                    AND (z.start_date <= p_date)
-                                            )
-                INNER JOIN gar_fias.as_object_level l ON (a.obj_level = l.level_id) AND (l.is_active) 
-                                                           AND ((l.end_date > p_date) AND
-                                                                (l.start_date <= p_date)
-                                                           )
-                INNER JOIN gar_fias.as_operation_type ot ON (ot.oper_type_id = a.oper_type_id) AND 
-                                            (ot.is_active) AND ((ot.end_date > p_date) AND 
-                                            (ot.start_date <= p_date))
-                                            
-                INNER JOIN aa1 ON (aa1.id_addr_parent = ia.object_id) AND (NOT aa1.cicle_d)
+          FROM gar_fias.as_adm_hierarchy h2 
+             
+                INNER JOIN gar_fias.as_addr_obj        a ON (h2.object_id = a.object_id) AND (a.end_date > p_date)
+                INNER JOIN gar_fias.as_object_level    l ON (a.obj_level = l.level_id) AND (l.is_active) AND (l.end_date > p_date) 
+                INNER JOIN gar_fias.as_operation_type ot ON (ot.oper_type_id = a.oper_type_id) AND (ot.is_active) AND (ot.end_date > p_date) 
+                
+                INNER JOIN aa1 ON (aa1.id_addr_parent = h2.object_id) AND (NOT aa1.cicle_d)
             
-          WHERE  
-                  ((a.is_actual AND a.is_active) AND (a.end_date > p_date) 
-                          AND (a.start_date <= p_date)
-                  )
+                LEFT  JOIN gar_fias.as_addr_obj z ON (h2.parent_obj_id = z.object_id) AND (z.end_date > p_date) 
+
+          WHERE (h2.is_active) AND (h2.end_date > p_date) 
          )
               SELECT  
                       aa1.id_addr_obj       
@@ -206,20 +192,26 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_addr_obj_get_parents (
                      ,aa1.oper_type_name		 
                       --
                      ,aa1.start_date 
-                     ,aa1.end_date              
+                     ,aa1.end_date   
+                     --
+                     ,aa1.is_actual
+                     ,aa1.is_active                       
                       --               
                      ,aa1.tree_d            
                      ,aa1.level_d
                     
-              FROM aa1 ORDER BY aa1.tree_d
+              FROM aa1 ORDER BY aa1.tree_d;
  $$;
  
 ALTER FUNCTION gar_fias_pcg_load.f_addr_obj_get_parents (uuid, date) OWNER TO postgres;  
 
 COMMENT ON FUNCTION gar_fias_pcg_load.f_addr_obj_get_parents (uuid, date)
     IS 'Функция подготавливает список вышестоящих объектов. ';
-----------------------------------------------------------------------------------
+------------------------------------------------------------------------------------
 -- USE CASE:
---  explain SELECT * FROM gar_fias_pcg_load.f_addr_obj_get_parents ('b0aa0895-e596-4a25-a0aa-0c69c83f0f9e');
--- SELECT * FROM gar_fias_pcg_load.f_addr_obj_get_parents ('583e68da-a531-4613-9257-b5926ef418aa');
+--           DROP INDEX IF EXISTS gar_fias.ie3_as_addr_obj ;
+--           CREATE INDEX IF NOT EXISTS ie3_as_addr_obj ON gar_fias.as_addr_obj USING btree (object_guid) ; 
+           
+--  explain SELECT * FROM gar_fias_pcg_load.f_addr_obj_get_parents ('8b87e6c4-617a-4d32-9414-fada8d0d3e8b');
+-- SELECT * FROM gar_fias_pcg_load.f_addr_obj_get_parents ('51ad2527-f117-4269-8efe-8e72d3817f2b');
 -- SELECT * FROM gar_fias_pcg_load.f_addr_obj_get_parents ('80a6adb4-a120-4f45-9a50-646ee565d37a');

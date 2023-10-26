@@ -585,9 +585,152 @@ select count (1) from gar_tmp.xxx_adr_stead; -- 295157
              -- В момент обработки исключений (заполняется/создаётся) запись.
              -- ВАсе подчинённые строки обновляются -- единая структура.
              
+                         
+   7) Зачем нужно функции  "а_adr_xxx_get (схема GUID) --????? (для определения правильного
+       родителя). 
+--===============================================================================================
+-- 2023-10-24 --
+----------------
+             
+        # Заполнение таблицы с дефектными данными.
+        self.gar_fias_set_adr_data = """SELECT gar_fias_pcg_load.f_adr_area_set_data (
+              p_fias_guid := (gar_tmp_pcg_trans.f_adr_area_get('{0}',{1})).nm_fias_guid::uuid
+             ,p_date      := '{2}'::date
+             ,p_descr     := (gar_tmp_pcg_trans.f_adr_area_get('{0}',{1})).nm_area_full::text);"""     
+             
+        # Обработка таблицы с дефектными данными.
+        self.gar_fias_addr_obj_update_children = """SELECT * FROM gar_fias_pcg_load.f_addr_obj_update_children (
+         p_date_1    := '{0}'::date
+        ,p_obj_level := ARRAY{1}::integer[]      
+        ,p_date_2    := {2}::date           
+        );"""             
+             
                 Как ??   адресные пространства --> адресные пространств, улицы, дома и земельные участки.
                          улицы                 -->        дома и земельные участки.   
                          дома                  -- ??? всё остаётся по прежнему ??
                          
-   7) Зачем нужно функции  "а_adr_xxx_get (схема GUID) --????? (для определения правильного
-       родителя). 
+ МИНИМАЛЬНЫЙ ОБЪЁМ ДОРАБОТОК, НЕОБХОДИМЫЙ ДЛЯ ВЫПУСКА НОВОГО РЕЛИЗА.
+ 
+    1) f_xxx_adr_area_show()  -изменить определение окна
+    2) load -- двойники.      -изменить определение окна.
+    3) f_adr_area/street/home/ ins/upd   -- вместо CONTINUE,  обращение к GAP-функции.
+    4) GAP-функции,  убрать UPDATE для исключения ON CONFLICT.  DO NOTING.
+    
+ВЫПУСКАТЬ НА master.  FilterObj - остаётся опытной платформой.
+                      steads -- до лучших времён.
+2023-10-25
+----------
+
+-- Список типов ФИАС, который необходимо переместится на уровень, отличный от 8
+     +
+-- Активные предшественники   
+
+      -- gar_fias_pcg_load.f_addr_obj_get_twins()    -- Утилита
+      -- gar_fias_pcg_load.f_addr_obj_get_parents()  -- Обеспечивает её работу.
+      
+   А это зачем  ???   
+   
+2023-10-26
+----------
+  Активные предшественники,
+  Но сначала upgrade "fias_loader/DBMS/GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.sql" на большом хосте.
+  До этого ...  9, 11 и 13 октября
+  
+$>git status
+# On branch master
+# Your branch is ahead of 'origin/master' by 28 commits.
+#   (use "git push" to publish your local commits)
+ ---------------------------------------------------------------------------------
+ Updating 9a0b081..dc26bef
+Fast-forward
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/FUNCTION/f_adr_area_ins.sql            |    74 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/FUNCTION/f_adr_area_upd.sql            |    23 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/FUNCTION/f_adr_house_ins.sql           |    23 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/FUNCTION/f_adr_house_upd.sql           |    25 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/FUNCTION/f_adr_street_ins.sql          |    24 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/FUNCTION/f_adr_street_upd.sql          |    25 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/FUNCTION/f_xxx_adr_area_show_data.sql  |     8 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/PROCEDURE/p_xxx_adr_area_gap_put.sql   |    25 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/PROCEDURE/p_xxx_adr_house_gap_put.sql  |    36 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/PROCEDURE/p_xxx_adr_street_gap_put.sql |    24 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.err                  |   346 ++--
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.err.bak              |   124 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.log                  |   172 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.log.bak              |   172 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.sql                  |   289 ++--
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.sql.bak              |    85 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/stage_25_tmp_build.csv                 |     4 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/version.sql                            |     2 +-
+ fias_loader/TESTS/X0_crt_view.sql                                         |   339 ++++
+ fias_loader/TESTS/Y_BUILD/05/l.err                                        |   342 ++++
+ fias_loader/TESTS/Y_BUILD/05/l.out                                        |   295 ++++
+ fias_loader/TESTS/Y_BUILD/05/stage_4.1.sql                                |    39 +-
+ fias_loader/TESTS/Y_BUILD/05/stage_4.2.sql                                |     9 +-
+ fias_loader/TESTS/Y_BUILD/05/stage_4.3.sql                                |     8 +-
+ fias_loader/TESTS/Y_BUILD/05/stage_4.4.sql                                |     8 +-
+ fias_loader/TESTS/Y_BUILD/05/stage_4.5.sql                                |     6 +-
+ fias_loader/TESTS/Y_BUILD/05/stage_4.6.sql                                |    14 +-
+ fias_loader/TESTS/Y_BUILD/05/t411.err                                     |     0
+ fias_loader/TESTS/Y_BUILD/05/t411.out                                     |    94 ++
+ fias_loader/TESTS/Y_BUILD/05/t421.err                                     |     0
+ fias_loader/TESTS/Y_BUILD/05/t421.out                                     |    88 +
+ fias_loader/TESTS/Y_BUILD/05/t431.err                                     |     0
+ fias_loader/TESTS/Y_BUILD/05/t431.out                                     |   214 +++
+ fias_loader/TESTS/Y_BUILD/05/t441.err                                     |     0
+ fias_loader/TESTS/Y_BUILD/05/t441.out                                     |   379 +++++
+ fias_loader/TESTS/Y_BUILD/05/t451.err                                     |     0
+ fias_loader/TESTS/Y_BUILD/05/t451.out                                     |   864 ++++++++++
+ fias_loader/TESTS/Y_BUILD/05/t461.err                                     |     0
+ fias_loader/TESTS/Y_BUILD/05/t461.out                                     |  1582 +++++++++++++++++
+ fias_loader/TESTS/Y_BUILD/50/stage_4.1.sql                                |    20 +
+ fias_loader/TESTS/Y_BUILD/50/stage_4.2.sql                                |    20 +
+ fias_loader/TESTS/Y_BUILD/50/stage_4.3.sql                                |    20 +
+ fias_loader/TESTS/Y_BUILD/50/stage_4.4.sql                                |    20 +
+ fias_loader/TESTS/Y_BUILD/50/stage_4.5.sql                                |    24 +
+ fias_loader/TESTS/Y_BUILD/50/stage_4.6.sql                                |    22 +
+ fias_loader/TESTS/Y_BUILD/50/t41.err                                      |     0
+ fias_loader/TESTS/Y_BUILD/50/t41.out                                      |    51 +
+ fias_loader/TESTS/Y_BUILD/50/t42.err                                      |     0
+ fias_loader/TESTS/Y_BUILD/50/t42.out                                      |    56 +
+ fias_loader/TESTS/Y_BUILD/50/t43.err                                      |     0
+ fias_loader/TESTS/Y_BUILD/50/t43.out                                      |   238 +++
+ fias_loader/TESTS/Y_BUILD/50/t44.err                                      |     0
+ fias_loader/TESTS/Y_BUILD/50/t44.out                                      |   253 +++
+ fias_loader/TESTS/Y_BUILD/50/t45.err                                      |     0
+ fias_loader/TESTS/Y_BUILD/50/t45.out                                      |  1814 ++++++++++++++++++++
+ fias_loader/TESTS/Y_BUILD/50/t46.err                                      |     0
+ fias_loader/TESTS/Y_BUILD/50/t46.out                                      | 11758 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ fias_loader/TESTS/remarks.txt                                             |   162 +-
+ 58 files changed, 19441 insertions(+), 779 deletions(-)
+------------------------------------------------------------------------
+$>git status
+# On branch master
+# Your branch is ahead of 'origin/master' by 34 commits.  ????
+#   (use "git push" to publish your local commits)
+#
+nothing to commit, working directory clean
+$>
+
+Посмотреть log и сравнить !!!
+
+Пройдено:
+      -- gar_fias_pcg_load.f_addr_obj_get_twins()    -- Утилита
+      -- gar_fias_pcg_load.f_addr_obj_get_parents()  -- Обеспечивает её работу.
+      
+-- ============================================================================
+
+ 1) Выбрать ВСЕ записи, относящиеся к рассматриваемому региону.
+ Они сгруппированы, ID группы это максимальное значение это максимальное значение
+ change_id
+ 
+    ,max (aa1.change_id) 
+                       OVER (PARTITION BY aa1.id_addr_parent  
+                                         ,aa1.addr_obj_type_id  
+                                         ,UPPER(aa1.nm_addr_obj) 
+                    ) AS id_lead
+                    
+ Допустим этого
+
+2) Выбрать записи принадлежащие рассматриваемой группе
+     Старшей записи передать всех подчинённых.
+     Подчинённые дективировать (как, ,.....date_end)    

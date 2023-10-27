@@ -22,7 +22,7 @@
                     WHERE (x.date_create = current_date) 
               ORDER BY  x.nm_addr_obj, X.id_addr_obj DESC     
             )
-           -- select * from z;
+            --select * from z;
             ---------------
               SELECT distinct on (a.fias_guid, b.fias_guid)
                      a.fias_guid AS fias_guid_new
@@ -43,7 +43,8 @@
                                            --   
                  --                                
                 JOIN gar_fias.gap_adr_area b ON (z.id_lead <> b.id_addr_obj) AND (b.date_create = z.date_create) AND
-                (z.id_addr_parent = b.id_addr_parent)  AND
+                                                (z.id_lead = a.id_addr_obj)            AND
+                                                (z.id_addr_parent = b.id_addr_parent)  AND
                                                 (z.nm_addr_obj = upper(b.nm_addr_obj)) AND
                                                 (z.addr_obj_type_id = b.addr_obj_type_id)                                               
                                                 		  

@@ -1,8 +1,10 @@
 ﻿DROP FUNCTION IF EXISTS gar_fias_pcg_load."_NEW_f_adr_area_show_data" (uuid, date, bigint);
+DROP FUNCTION IF EXISTS gar_fias_pcg_load."_NEW_f_adr_area_show_data" (uuid, date, bigint,integer);
 CREATE OR REPLACE FUNCTION gar_fias_pcg_load."_NEW_f_adr_area_show_data" (
        p_fias_guid     uuid     
       ,p_date          date     = current_date
       ,p_obj_level     bigint   = 16
+      ,p_qty           integer  = 0
 )
     RETURNS SETOF gar_fias.gap_adr_area_t
     STABLE
@@ -71,7 +73,7 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load."_NEW_f_adr_area_show_data" (
               ,NULLIF (h1.parent_obj_id, 0)
               --
               ,a.object_guid
-              ,NULL::uuid
+              ,z.object_guid
               --
               ,a.object_name
               ,a.type_id
@@ -106,8 +108,10 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load."_NEW_f_adr_area_show_data" (
               INNER JOIN gar_fias.as_addr_obj     a ON (h1.object_id = a.object_id) AND (a.end_date > p_date)                   	            
               INNER JOIN gar_fias.as_object_level l ON (a.obj_level = l.level_id) AND (l.is_active) 
               INNER JOIN gar_fias.as_operation_type ot  
-                           ON (ot.oper_type_id = a.oper_type_id) AND (ot.is_active)                         
-            
+                           ON (ot.oper_type_id = a.oper_type_id) AND (ot.is_active)   
+
+              LEFT JOIN gar_fias.as_addr_obj z ON (h1.parent_obj_id = z.object_id) AND (z.end_date > p_date)  
+                                                 
             WHERE ((((h1.parent_obj_id = 0) OR (h1.parent_obj_id IS NULL)) AND (p_fias_guid IS NULL))
                          OR
                    ((a.object_guid = p_fias_guid) AND (p_fias_guid IS NOT NULL))
@@ -157,9 +161,11 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load."_NEW_f_adr_area_show_data" (
               INNER JOIN aa1 ON (h2.parent_obj_id = aa1.id_addr_obj ) 
                        
               INNER JOIN gar_fias.as_addr_obj        a ON (h2.object_id = a.object_id) AND (a.end_date > p_date)                         
-              INNER JOIN gar_fias.as_addr_obj        z ON (h2.parent_obj_id = z.object_id) AND (z.end_date > p_date)  
+             -- INNER JOIN gar_fias.as_addr_obj        z ON (h2.parent_obj_id = z.object_id) AND (z.end_date > p_date)  
               INNER JOIN gar_fias.as_object_level    l ON (a.obj_level = l.level_id) AND (l.is_active) 
               INNER JOIN gar_fias.as_operation_type ot ON (ot.oper_type_id = a.oper_type_id) AND (ot.is_active) 
+
+              LEFT JOIN gar_fias.as_addr_obj z ON (h2.parent_obj_id = z.object_id) AND (z.end_date > p_date)                
               
             WHERE (h2.is_active)        
       )
@@ -353,23 +359,26 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load."_NEW_f_adr_area_show_data" (
                    ,bb1.tree_d            
                    ,bb1.level_d      
                    
-           FROM bb1 WHERE (bb1.qty > 1)
+           FROM bb1 WHERE (bb1.qty > p_qty)
          )
            SELECT * FROM cc1  
              ORDER BY cc1.id_addr_parent, cc1.addr_obj_type, cc1.nm_addr_obj;
   $$;
  
-ALTER FUNCTION gar_fias_pcg_load."_NEW_f_adr_area_show_data" (uuid, date, bigint) OWNER TO postgres;  
+ALTER FUNCTION gar_fias_pcg_load."_NEW_f_adr_area_show_data" (uuid, date, bigint, integer) OWNER TO postgres;  
 
-COMMENT ON FUNCTION gar_fias_pcg_load."_NEW_f_adr_area_show_data" (uuid, date, bigint) 
+COMMENT ON FUNCTION gar_fias_pcg_load."_NEW_f_adr_area_show_data" (uuid, date, bigint, integer) 
 IS 'Отображение исходных данных в формате "gar_fias.gap_adr_area_t"';
 ----------------------------------------------------------------------------------
 -- USE CASE:
 -- SELECT * FROM gar_fias_pcg_load."_NEW_f_adr_area_show_data" (p_fias_guid := '8b87e6c4-617a-4d32-9414-fada8d0d3e8b'::uuid); --  
 -- SELECT * FROM gar_fias_pcg_load."_NEW_f_adr_area_show_data" (p_fias_guid := 'b81b942b-ccca-4559-9365-d03af2a03d88'::uuid);  
 -- SELECT * FROM gar_fias_pcg_load."_NEW_f_adr_area_show_data" (p_fias_guid := NULL::uuid)-- 26543 строки получено.
--- SELECT * FROM gar_fias_pcg_load."_NEW_f_adr_area_show_data" (p_fias_guid := NULL::uuid) -- 13
---   SELECT * FROM gar_fias_pcg_load.f_xxx_adr_area_show_data () WHERE (nm_addr_obj ilike 'Аметистовый%'); 
+-- SELECT * FROM gar_fias_pcg_load."_NEW_f_adr_area_show_data" (p_fias_guid := NULL::uuid, p_qty := 1) -- 13
+-- SELECT * FROM gar_fias_pcg_load."_NEW_f_adr_area_show_data" (p_fias_guid := '21ab76d1-fab6-4b4f-a4dc-4871a93b7aab'::uuid) -- 1 -- 81637
+-- SELECT * FROM gar_fias_pcg_load."_NEW_f_adr_area_show_data" (p_fias_guid := 'd2f48256-c10a-4806-b281-9b5b85d56616'::uuid) -- 1 -- 81317
+-- SELECT * FROM gar_fias_pcg_load."_NEW_f_adr_area_show_data" (p_fias_guid := '1bde5cf4-7943-4b17-9718-2c1d96742be5'::uuid) order by nm_addr_obj-- 1
+-- 
 --   SELECT * FROM gar_fias_pcg_load.f_xxx_adr_area_show_data (); -- 69598
 
 -- SELECT * FROM unnsi.adr_area WHERE (nm_fias_guid = 'b0aa0895-e596-4a25-a0aa-0c69c83f0f9e'::uuid);

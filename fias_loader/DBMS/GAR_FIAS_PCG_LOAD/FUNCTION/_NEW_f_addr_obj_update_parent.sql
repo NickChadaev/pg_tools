@@ -49,15 +49,15 @@ IS 'Модификация отношения подчинённости в сх
 --
 --  USE CASE:
 --
-BEGIN;
-
-SELECT gar_fias_pcg_load."_NEW_f_addr_obj_update_parent" ('d2f48256-c10a-4806-b281-9b5b85d56616','21ab76d1-fab6-4b4f-a4dc-4871a93b7aab'); -- 2
-SELECT a.* FROM gar_fias.as_addr_obj a WHERE (a.object_guid = '21ab76d1-fab6-4b4f-a4dc-4871a93b7aab') ; -- 81637
-SELECT a.* FROM gar_fias.as_addr_obj a WHERE (a.object_guid = 'd2f48256-c10a-4806-b281-9b5b85d56616') ; -- 81317
-
-SELECT * FROM gar_fias.as_adm_hierarchy where parent_obj_id = 81637 
-    UNION ALL
-SELECT * FROM gar_fias.as_adm_hierarchy where parent_obj_id = 81317 ;
-
-SELECT * FROM gar_fias_pcg_load."_NEW_f_adr_area_show_data" (p_fias_guid := NULL::uuid, p_qty := 1) ;
-ROLLBACK;
+-- BEGIN;
+-- 
+-- SELECT gar_fias_pcg_load."_NEW_f_addr_obj_update_parent" ('d2f48256-c10a-4806-b281-9b5b85d56616','21ab76d1-fab6-4b4f-a4dc-4871a93b7aab'); -- 2
+-- SELECT a.* FROM gar_fias.as_addr_obj a WHERE (a.object_guid = '21ab76d1-fab6-4b4f-a4dc-4871a93b7aab') ; -- 81637
+-- SELECT a.* FROM gar_fias.as_addr_obj a WHERE (a.object_guid = 'd2f48256-c10a-4806-b281-9b5b85d56616') ; -- 81317
+-- 
+-- SELECT * FROM gar_fias.as_adm_hierarchy where parent_obj_id = 81637 
+--     UNION ALL
+-- SELECT * FROM gar_fias.as_adm_hierarchy where parent_obj_id = 81317 ;
+-- 
+-- SELECT * FROM gar_fias_pcg_load."_NEW_f_adr_area_show_data" (p_fias_guid := NULL::uuid, p_qty := 1) ;
+-- ROLLBACK;

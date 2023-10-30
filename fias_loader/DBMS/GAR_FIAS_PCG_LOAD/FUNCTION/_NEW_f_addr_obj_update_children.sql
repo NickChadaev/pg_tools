@@ -102,15 +102,24 @@ COMMENT ON FUNCTION gar_fias_pcg_load."_NEW_f_addr_obj_update_children" (date, i
 --
 --  USE CASE:
 --
-BEGIN;
-SELECT * FROM gar_fias_pcg_load."_NEW_f_addr_obj_update_children" (current_date);
--- SELECT gar_fias_pcg_load."_NEW_f_addr_obj_update_parent" ('d2f48256-c10a-4806-b281-9b5b85d56616','21ab76d1-fab6-4b4f-a4dc-4871a93b7aab'); -- 2
-SELECT a.* FROM gar_fias.as_addr_obj a WHERE (a.object_guid = '21ab76d1-fab6-4b4f-a4dc-4871a93b7aab') ; -- 81637
-SELECT a.* FROM gar_fias.as_addr_obj a WHERE (a.object_guid = 'd2f48256-c10a-4806-b281-9b5b85d56616') ; -- 81317
-
-SELECT * FROM gar_fias.as_adm_hierarchy where parent_obj_id = 81637 
-    UNION ALL
-SELECT * FROM gar_fias.as_adm_hierarchy where parent_obj_id = 81317 ;
-
-SELECT * FROM gar_fias_pcg_load."_NEW_f_adr_area_show_data" (p_fias_guid := NULL::uuid, p_qty := 1) ;
-ROLLBACK;
+-- BEGIN;
+-- SELECT * FROM gar_fias_pcg_load."_NEW_f_addr_obj_update_children" (current_date);
+-- -- SELECT gar_fias_pcg_load."_NEW_f_addr_obj_update_parent" ('d2f48256-c10a-4806-b281-9b5b85d56616','21ab76d1-fab6-4b4f-a4dc-4871a93b7aab'); -- 2
+-- SELECT a.* FROM gar_fias.as_addr_obj a WHERE (a.object_guid = '21ab76d1-fab6-4b4f-a4dc-4871a93b7aab') ; -- 81637
+-- SELECT a.* FROM gar_fias.as_addr_obj a WHERE (a.object_guid = 'd2f48256-c10a-4806-b281-9b5b85d56616') ; -- 81317
+-- 
+-- SELECT * FROM gar_fias.as_adm_hierarchy where parent_obj_id = 82811 
+--     UNION ALL
+-- SELECT * FROM gar_fias.as_adm_hierarchy where parent_obj_id = 82471 ;
+-- 
+-- SELECT * FROM gar_fias_pcg_load."_NEW_f_adr_area_show_data" (p_fias_guid := NULL::uuid, p_qty := 1) ;
+-- ROLLBACK;
+-- -----------------------------------------------------------------------------------------------------
+-- "fias_guid_new"	"fias_guid_old"	"nm_addr_obj"	"addr_obj_type_id"	"chld_qty_tot"
+-- "21ab76d1-fab6-4b4f-a4dc-4871a93b7aab"	"d2f48256-c10a-4806-b281-9b5b85d56616"	"АЗОВСКАЯ"	204	2
+-- "29efff6b-23d5-48e4-9c02-cadc513ea35e"	"80513d5c-ebf2-4f4f-a9ec-2c3356329c09"	"ВТОРАЯ"	204	6
+-- "59e94457-ed1a-49cf-b83c-868514f98244"	"8418d308-bf4a-4d5f-a7a4-5d46032692c5"	"ШИДИБ"	103	0
+-- "8b87e6c4-617a-4d32-9414-fada8d0d3e8b"	"bb301a7c-c4f5-4c00-a564-b4854377bfbb"	"БУДЕННОВСКАЯ"	204	15
+-- "8b87e6c4-617a-4d32-9414-fada8d0d3e8b"	"ddf6a4e7-5207-42fd-8af3-89c905d0f368"	"БУДЕННОВСКАЯ"	204	0
+-- "bd784bc1-152d-4896-bf9b-98701702f3ce"	"6e876e17-68a5-4d63-b078-1dc2202c7173"	"ЦЕНТРАЛЬНАЯ"	204	30
+-- "ec6c88c3-053b-46cf-ac3b-3e5fecad8b2a"	"a669b619-6016-48be-8564-e05ccac82a4a"	"САДОВАЯ"	204	0

@@ -3,6 +3,16 @@
 --
 -- 1)
 
+"8b87e6c4-617a-4d32-9414-fada8d0d3e8b"	"bb301a7c-c4f5-4c00-a564-b4854377bfbb"	"БУДЕННОВСКАЯ"	204	15
+
+SELECT a.* FROM gar_fias.as_addr_obj a WHERE (a.object_guid = '8b87e6c4-617a-4d32-9414-fada8d0d3e8b'); -- 82811
+SELECT a.* FROM gar_fias.as_addr_obj a WHERE (a.object_guid = 'bb301a7c-c4f5-4c00-a564-b4854377bfbb'); -- 82471
+
+select n.* from gar_fias.as_adm_hierarchy n where n.parent_obj_id = 82811
+     UNION ALL
+select n.* from gar_fias.as_adm_hierarchy n where n.parent_obj_id = 82471
+
+                            
 EXPLAIN ANALYZE
 SELECT a.* FROM gar_fias.as_addr_obj a 
                             WHERE (a.object_guid = '21ab76d1-fab6-4b4f-a4dc-4871a93b7aab') AND
@@ -61,3 +71,7 @@ select * FROM gar_fias.as_houses a where (a.object_id in (100932902, 100933314, 
           UPDATE gar_fias.as_adm_hierarchy n SET parent_obj_id = _id_parent_new 
                 FROM z
                     WHERE (z.id_addr_obj = n.object_id) AND (n.is_active);
+
+--
+SELECT (current_date - interval '1 year');
+--

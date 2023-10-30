@@ -28,7 +28,10 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load."_NEW_f_adr_area_show_data" (
     --   выполняются два действия: INSERT и UNPDATE ON CONLICT, что вызывает ошибку postgres.
     --   Ошибка проявилась на 50 регионе (Московская обл).
     --
-    --  2023-10-20 Окно определяется строго по ID типа, а не по его имени.
+    --  2023-10-20 Окно определяется строго по имени типа.
+    --             Потому что на различных уровнях встречаются различные 
+    --             идентификаторы типов, UUID совпадают. Цель заключается в том, что бы                                         
+    --             построить единую структуры с одним типом.
     -- ---------------------------------------------------------------------------------------
     WITH RECURSIVE aa1 (
                          id_addr_obj       
@@ -237,14 +240,14 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load."_NEW_f_adr_area_show_data" (
                    ,aa1.end_date              
                     --               
                    ,max (aa1.id_addr_obj) 
-                       OVER (PARTITION BY aa1.id_addr_parent -- 
-                                         ,aa1.addr_obj_type_id  
-                                         ,UPPER(aa1.nm_addr_obj) 
+                       OVER (PARTITION BY aa1.id_addr_parent         --  2023-10-30  Потому что на различных уровнях встречаются различные 
+                                         ,aa1.addr_obj_type-- _id    --  идентификаторы типов, UUID совпадают. Цель заключается в том, что бы                                         
+                                         ,UPPER(aa1.nm_addr_obj)     --   построить единую структуры с одним типом
                     ) AS id_lead
                     --
                    ,count (aa1.id_addr_obj) 
                        OVER (PARTITION BY aa1.id_addr_parent -- 
-                                         ,aa1.addr_obj_type_id  
+                                         ,aa1.addr_obj_type-- _id  
                                          ,UPPER(aa1.nm_addr_obj) 
                     ) AS qty
                     

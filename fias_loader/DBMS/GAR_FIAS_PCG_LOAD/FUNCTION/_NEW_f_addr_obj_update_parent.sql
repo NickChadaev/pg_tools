@@ -14,7 +14,7 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load."_NEW_f_addr_obj_update_parent" (
     -- --------------------------------------------------------------------------------- 
     -- Модификация отношения подчинённости в схеме gar_fias.
     --                        p_parent_fias_guid_old  uuid -- старый родитель
-    --                       ,p_parent_fias_guid_new  uuid -- новый родтель
+    --                       ,p_parent_fias_guid_new  uuid -- новый родитель
     -- =================================================================================
     DECLARE 
       _id_parent_new   bigint;
@@ -28,7 +28,7 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load."_NEW_f_addr_obj_update_parent" (
                         );    
       --
       _id_parent_old := (SELECT b.object_id FROM gar_fias.as_addr_obj b 
-                            WHERE (b.object_guid = p_parent_fias_guid_old)  AND (b.end_date > p_date)
+                            WHERE (b.object_guid = p_parent_fias_guid_old) AND (b.end_date > p_date)
                         );    
      
       UPDATE gar_fias.as_adm_hierarchy n SET parent_obj_id = _id_parent_new 

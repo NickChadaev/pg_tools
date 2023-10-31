@@ -1,8 +1,12 @@
 ﻿DROP FUNCTION IF EXISTS gar_fias_pcg_load."_NEW_f_adr_area_set_data" (uuid, date, text);
-CREATE OR REPLACE FUNCTION gar_fias_pcg_load."_NEW_f_adr_area_set_data" (
 
-       p_fias_guid  uuid 
-      ,p_date       date = current_date
+DROP FUNCTION IF EXISTS gar_fias_pcg_load."_NEW_f_adr_area_set_data" (uuid, date, bigint, integer, text);
+CREATE OR REPLACE FUNCTION gar_fias_pcg_load."_NEW_f_adr_area_set_data" ( 
+       
+       p_fias_guid     uuid     
+      ,p_date          date     = current_date
+      ,p_obj_level     bigint   = 16
+      ,p_qty           integer  = 0
       ,p_descr      text = NULL
       
 ) RETURNS integer
@@ -87,7 +91,7 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load."_NEW_f_adr_area_set_data" (
                    ,p_date 
                    ,p_descr            
              
-             FROM  gar_fias_pcg_load."_NEW_f_adr_area_show_data" (p_fias_guid) x 
+             FROM  gar_fias_pcg_load."_NEW_f_adr_area_show_data" (p_fias_guid, p_date, p_obj_level, p_qty) x 
         
         ON CONFLICT (id_addr_obj, date_create) DO NOTHING ;
             
@@ -96,9 +100,9 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load."_NEW_f_adr_area_set_data" (
     END;         
 $$;
  
-ALTER FUNCTION gar_fias_pcg_load."_NEW_f_adr_area_set_data" (uuid, date, text) OWNER TO postgres;  
+ALTER FUNCTION gar_fias_pcg_load."_NEW_f_adr_area_set_data" (uuid, date, bigint, integer, text) OWNER TO postgres;  
 
-COMMENT ON FUNCTION gar_fias_pcg_load."_NEW_f_adr_area_set_data" (uuid, date, text) 
+COMMENT ON FUNCTION gar_fias_pcg_load."_NEW_f_adr_area_set_data" (uuid, date, bigint, integer, text) 
 IS ' Запомнить дефектные данные, адресные объекты';
 ----------------------------------------------------------------------------------
 -- USE CASE:

@@ -1,4 +1,4 @@
-DROP FUNCTION IF EXISTS gar_fias_pcg_load.f_addr_obj_update_parent (uuid, uuid, date);
+﻿DROP FUNCTION IF EXISTS gar_fias_pcg_load.f_addr_obj_update_parent (uuid, uuid, date);
 CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_addr_obj_update_parent (
          p_parent_fias_guid_old  uuid
         ,p_parent_fias_guid_new  uuid
@@ -14,32 +14,30 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_addr_obj_update_parent (
     -- --------------------------------------------------------------------------------- 
     -- Модификация отношения подчинённости в схеме gar_fias.
     --                        p_parent_fias_guid_old  uuid -- старый родитель
-    --                       ,p_parent_fias_guid_new  uuid -- новый родтель
+    --                       ,p_parent_fias_guid_new  uuid -- новый родитель
     -- =================================================================================
     DECLARE 
       _id_parent_new   bigint;
+      _id_parent_old   bigint;
+      
       _r integer := 0;
       
     BEGIN
       _id_parent_new := (SELECT a.object_id FROM gar_fias.as_addr_obj a 
-                            WHERE (a.object_guid = p_parent_fias_guid_new) AND
-                                  (a.is_actual) AND (a.is_active) AND 
-                                  (a.end_date > p_date) AND (a.start_date <= p_date)
-                          );
-      WITH z (
-                 id_addr_obj
-      )
-       AS (
-            SELECT id_addr_obj
-                 FROM gar_fias_pcg_load.f_adr_area_show_data (p_parent_fias_guid_old::uuid)
-                            WHERE (level_d > 1) 
-          )
-          UPDATE gar_fias.as_adm_hierarchy n SET parent_obj_id = _id_parent_new 
-                FROM z
-                    WHERE (z.id_addr_obj = n.object_id) AND (n.is_active)
-                      AND (n.end_date > p_date) AND (n.start_date <= p_date);
-    
+                            WHERE (a.object_guid = p_parent_fias_guid_new) AND (a.end_date > p_date)
+                        );    
+      --
+      _id_parent_old := (SELECT b.object_id FROM gar_fias.as_addr_obj b 
+                            WHERE (b.object_guid = p_parent_fias_guid_old) AND (b.end_date > p_date)
+                        );    
+     
+      UPDATE gar_fias.as_adm_hierarchy n SET parent_obj_id = _id_parent_new 
+               WHERE (_id_parent_old = n.parent_obj_id) AND (n.is_active);
+                    
        GET DIAGNOSTICS _r = ROW_COUNT;
+
+       -- Запомнить это отношение  ("старый" -- "новый") -- отношение   старый,  новый
+       
        RETURN _r;
     END;
   $$;
@@ -51,7 +49,15 @@ IS 'Модификация отношения подчинённости в сх
 --
 --  USE CASE:
 --
--- SELECT gar_fias_pcg_load.f_addr_obj_update_parent ('80a6adb4-a120-4f45-9a50-646ee565d37a', 'b0aa0895-e596-4a25-a0aa-0c69c83f0f9e')
-
--- SELECT * FROM gar_fias_pcg_load.f_adr_area_show_data ('b0aa0895-e596-4a25-a0aa-0c69c83f0f9e'::uuid);
--- SELECT * FROM gar_fias_pcg_load.f_adr_area_show_data ('80a6adb4-a120-4f45-9a50-646ee565d37a'::uuid);
+-- BEGIN;
+-- 
+-- SELECT gar_fias_pcg_load.f_addr_obj_update_parent ('d2f48256-c10a-4806-b281-9b5b85d56616','21ab76d1-fab6-4b4f-a4dc-4871a93b7aab'); -- 2
+-- SELECT a.* FROM gar_fias.as_addr_obj a WHERE (a.object_guid = '21ab76d1-fab6-4b4f-a4dc-4871a93b7aab') ; -- 81637
+-- SELECT a.* FROM gar_fias.as_addr_obj a WHERE (a.object_guid = 'd2f48256-c10a-4806-b281-9b5b85d56616') ; -- 81317
+-- 
+-- SELECT * FROM gar_fias.as_adm_hierarchy where parent_obj_id = 81637 
+--     UNION ALL
+-- SELECT * FROM gar_fias.as_adm_hierarchy where parent_obj_id = 81317 ;
+-- 
+-- SELECT * FROM gar_fias_pcg_load."_NEW_f_adr_area_show_data" (p_fias_guid := NULL::uuid, p_qty := 1) ;
+-- ROLLBACK;

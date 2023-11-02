@@ -1,6 +1,8 @@
 DROP FUNCTION IF EXISTS gar_fias_pcg_load.f_adr_area_show_data (uuid, date, bigint);
 DROP FUNCTION IF EXISTS gar_fias_pcg_load.f_adr_area_show_data (uuid, date, bigint,integer);
-CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_adr_area_show_data (
+
+DROP FUNCTION IF EXISTS gar_fias_pcg_load.f_addr_area_show_data (uuid, date, bigint,integer);
+CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_addr_area_show_data (
        p_fias_guid     uuid     
       ,p_date          date     = current_date
       ,p_obj_level     bigint   = 16
@@ -368,19 +370,19 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_adr_area_show_data (
              ORDER BY cc1.id_addr_parent, cc1.addr_obj_type, cc1.nm_addr_obj;
   $$;
  
-ALTER FUNCTION gar_fias_pcg_load.f_adr_area_show_data (uuid, date, bigint, integer) OWNER TO postgres;  
+ALTER FUNCTION gar_fias_pcg_load.f_addr_area_show_data (uuid, date, bigint, integer) OWNER TO postgres;  
 
-COMMENT ON FUNCTION gar_fias_pcg_load.f_adr_area_show_data (uuid, date, bigint, integer) 
+COMMENT ON FUNCTION gar_fias_pcg_load.f_addr_area_show_data (uuid, date, bigint, integer) 
 IS 'Отображение исходных данных в формате "gar_fias.gap_adr_area_t"';
 ----------------------------------------------------------------------------------
 -- USE CASE:
--- SELECT * FROM gar_fias_pcg_load.f_adr_area_show_data (p_fias_guid := '8b87e6c4-617a-4d32-9414-fada8d0d3e8b'::uuid); --  
--- SELECT * FROM gar_fias_pcg_load.f_adr_area_show_data (p_fias_guid := 'b81b942b-ccca-4559-9365-d03af2a03d88'::uuid);  
--- SELECT * FROM gar_fias_pcg_load.f_adr_area_show_data (p_fias_guid := NULL::uuid)-- 26543 строки получено.
--- SELECT * FROM gar_fias_pcg_load.f_adr_area_show_data (p_fias_guid := NULL::uuid, p_qty := 1) -- 13
--- SELECT * FROM gar_fias_pcg_load.f_adr_area_show_data (p_fias_guid := '21ab76d1-fab6-4b4f-a4dc-4871a93b7aab'::uuid) -- 1 -- 81637
--- SELECT * FROM gar_fias_pcg_load.f_adr_area_show_data (p_fias_guid := 'd2f48256-c10a-4806-b281-9b5b85d56616'::uuid) -- 1 -- 81317
--- SELECT * FROM gar_fias_pcg_load.f_adr_area_show_data (p_fias_guid := '1bde5cf4-7943-4b17-9718-2c1d96742be5'::uuid) order by nm_addr_obj-- 1
+-- SELECT * FROM gar_fias_pcg_load.f_addr_area_show_data (p_fias_guid := '8b87e6c4-617a-4d32-9414-fada8d0d3e8b'::uuid); --  
+-- SELECT * FROM gar_fias_pcg_load.f_addr_area_show_data (p_fias_guid := 'b81b942b-ccca-4559-9365-d03af2a03d88'::uuid);  
+-- SELECT * FROM gar_fias_pcg_load.f_addr_area_show_data (p_fias_guid := NULL::uuid)-- 26543 строки получено.  26502 после преобразования.
+-- SELECT * FROM gar_fias_pcg_load.f_addr_area_show_data (p_fias_guid := NULL::uuid, p_qty := 1) -- 13
+-- SELECT * FROM gar_fias_pcg_load.f_addr_area_show_data (p_fias_guid := '21ab76d1-fab6-4b4f-a4dc-4871a93b7aab'::uuid) -- 1 -- 81637
+-- SELECT * FROM gar_fias_pcg_load.f_addr_area_show_data (p_fias_guid := 'd2f48256-c10a-4806-b281-9b5b85d56616'::uuid) -- 1 -- 81317
+-- SELECT * FROM gar_fias_pcg_load.f_addr_area_show_data (p_fias_guid := '1bde5cf4-7943-4b17-9718-2c1d96742be5'::uuid) order by nm_addr_obj-- 1
 -- 
 --   SELECT * FROM gar_fias_pcg_load.f_xxx_adr_area_show_data (); -- 69598
 

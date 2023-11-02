@@ -1,4 +1,4 @@
-﻿DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_gar_fias_crt_idx (p_sw boolean);
+DROP PROCEDURE IF EXISTS gar_tmp_pcg_trans.p_gar_fias_crt_idx (p_sw boolean);
 CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_gar_fias_crt_idx (p_sw boolean = TRUE)
 
     LANGUAGE plpgsql SECURITY DEFINER
@@ -116,6 +116,7 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_gar_fias_crt_idx (p_sw boolean =
        DROP INDEX IF EXISTS ie3_as_addr_obj ;
        DROP INDEX IF EXISTS ie4_as_addr_obj ; -- Дубль  2023-10-13
        DROP INDEX IF EXISTS ie2_as_adm_hierarchy; 
+       DROP INDEX IF EXISTS ie3_as_adm_hierarchy;
        
        IF (p_sw) THEN
        

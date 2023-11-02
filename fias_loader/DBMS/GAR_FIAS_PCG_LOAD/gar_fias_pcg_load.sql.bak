@@ -5,14 +5,18 @@
 --
 CREATE OR REPLACE VIEW gar_fias_pcg_load.version
  AS
- SELECT '$Revision:1765$ modified $RevDate:2022-09-23$'::text AS version; 
+ SELECT '$Revision:5ac285e$ modified $RevDate:2023-11-01$'::text AS version; 
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DROP FUNCTION IF EXISTS gar_fias_pcg_load.f_adr_area_show_data (uuid, date, bigint);
-CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_adr_area_show_data (
+DROP FUNCTION IF EXISTS gar_fias_pcg_load.f_adr_area_show_data (uuid, date, bigint,integer);
+
+DROP FUNCTION IF EXISTS gar_fias_pcg_load.f_addr_area_show_data (uuid, date, bigint,integer);
+CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_addr_area_show_data (
        p_fias_guid     uuid     
       ,p_date          date     = current_date
-      ,p_obj_level     bigint   = 10
+      ,p_obj_level     bigint   = 16
+      ,p_qty           integer  = 0
 )
     RETURNS SETOF gar_fias.gap_adr_area_t
     STABLE
@@ -20,7 +24,26 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_adr_area_show_data (
  AS
   $$
     -- ---------------------------------------------------------------------------------------
-    --  2022-08-29 Nick 
+    --  2022-08-29 Nick  Отображение исходных данных в формате "gar_fias.gap_adr_area_t"
+    --  2022-12-29 Убрана проверка -- (gar_fias.as_addr_obj_type.is_active) 
+    --                  В ФИАС полно противоречий, эта проверка углубляет их.    
+    
+        --  2023-10-02  - Исправлены ошибки в рекурсивной части запроса и в оконной функции.
+    --      Выключена фильтрация по периоду актуальности. Убрана на фиг фильтрация по типам 
+    --      операций. Уровень адресных объектов уменьшен до 14 (обратный отсчёт).
+    
+    --  2023-10-06 "as_addr_obj" может содержать неактивные записи с валидным диапазоном акту-
+    --             альности, потомки у этих записей могут быть активными. Например активными
+    --             дома, но не активна улица их содержащая.
+    --
+    --  2023-10-11 Пришлось ввести " SELECT DISTINCT ON (bb1.id_addr_obj) Иначе подряд 
+    --   выполняются два действия: INSERT и UNPDATE ON CONLICT, что вызывает ошибку postgres.
+    --   Ошибка проявилась на 50 регионе (Московская обл).
+    --
+    --  2023-10-20 Окно определяется строго по имени типа.
+    --             Потому что на различных уровнях встречаются различные 
+    --             идентификаторы типов, UUID совпадают. Цель заключается в том, что бы                                         
+    --             построить единую структуры с одним типом.
     -- ---------------------------------------------------------------------------------------
     WITH RECURSIVE aa1 (
                          id_addr_obj       
@@ -60,127 +83,107 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_adr_area_show_data (
                         
                         
      ) AS (
-        SELECT
-           a.object_id
-          ,NULLIF (ia.parent_obj_id, 0)
-          --
-          ,a.object_guid
-          ,NULL::uuid
-          --
-          ,a.object_name
-          ,a.type_id
-          ,a.type_name
-          --
-          ,a.obj_level
-          ,l.level_name
-           --
-          ,ia.region_code  -- 2021-12-01
-          ,ia.area_code    
-          ,ia.city_code    
-          ,ia.place_code   
-          ,ia.plan_code    
-          ,ia.street_code    
-           --             --
-          ,a.change_id
-          ,a.prev_id
-           --             --
-          ,a.oper_type_id
-          ,ot.oper_type_name
-          --
-          ,a.start_date 
-          ,a.end_date              
-          --
-          ,NULL AS id_lead
-          ,CAST (ARRAY [a.object_id] AS bigint []) 
-          ,1
-          ,FALSE
-          
-        FROM gar_fias.as_addr_obj a
-        
-          INNER JOIN  gar_fias.as_adm_hierarchy ia
-                       ON (ia.object_id = a.object_id) AND
-                          ((a.is_actual AND a.is_active) AND (a.end_date > p_date) AND
-                               (a.start_date <= p_date)
-                          )
-          --                
-          INNER JOIN gar_fias.as_object_level l 
-                       ON (a.obj_level = l.level_id) AND (l.is_active) AND
-                          ((l.end_date > p_date) AND (l.start_date <= p_date))
-          --
-          INNER JOIN gar_fias.as_operation_type ot ON (ot.oper_type_id = a.oper_type_id) AND 
-                                          (ot.is_active) AND ((ot.end_date > p_date) AND 
-                                          (ot.start_date <= p_date))                            
-        
-        WHERE ((((ia.parent_obj_id = 0) OR (ia.parent_obj_id IS NULL)) AND (p_fias_guid IS NULL))
-                  OR  
-               ((a.object_guid = p_fias_guid) AND (p_fias_guid IS NOT NULL))
-              )
-                   AND 
-                (ia.is_active) AND (ia.end_date > p_date) AND (ia.start_date <= p_date)
-
-     
-                 UNION ALL
-    
-        SELECT
-           a.object_id
-          ,ia.parent_obj_id
-          --
-          ,a.object_guid
-          ,z.object_guid
-          --
-          ,a.object_name
-          ,a.type_id          
-          ,a.type_name
-          --
-          ,a.obj_level
-          ,l.level_name
-           --
-          ,ia.region_code  -- 2021-12-01
-          ,ia.area_code    
-          ,ia.city_code    
-          ,ia.place_code   
-          ,ia.plan_code    
-          ,ia.street_code    
-           --             --
-          ,a.change_id
-          ,a.prev_id
-           --             --
-          ,a.oper_type_id
-          ,ot.oper_type_name
-          --
-          ,a.start_date 
-          ,a.end_date              
-          --
-          ,NULL AS id_lead
-          
-          ,CAST (aa1.tree_d || a.object_id AS bigint [])
-          ,(aa1.level_d + 1) t
-          ,a.object_id = ANY (aa1.tree_d)   
-        
-           FROM gar_fias.as_addr_obj a
-              INNER JOIN gar_fias.as_adm_hierarchy ia ON ((ia.object_id = a.object_id) AND (ia.is_active) 
-                                                           AND (ia.end_date > p_date) 
-                                                           AND (ia.start_date <= p_date)
-                                                         )
-              INNER JOIN gar_fias.as_addr_obj z ON (ia.parent_obj_id = z.object_id)
-                                          AND ((z.is_actual AND z.is_active) AND (z.end_date > p_date) 
-                                                  AND (z.start_date <= p_date)
-                                          )
+            SELECT
+               a.object_id
+              ,NULLIF (h1.parent_obj_id, 0)
+              --
+              ,a.object_guid
+              ,z.object_guid
+              --
+              ,a.object_name
+              ,a.type_id
+              ,a.type_name
+              --
+              ,a.obj_level
+              ,l.level_name
+               --
+              ,h1.region_code  -- 2021-12-01
+              ,h1.area_code    
+              ,h1.city_code    
+              ,h1.place_code   
+              ,h1.plan_code    
+              ,h1.street_code    
+               --             --
+              ,a.change_id
+              ,a.prev_id
+               --             --
+              ,a.oper_type_id
+              ,ot.oper_type_name
+              --
+              ,a.start_date 
+              ,a.end_date              
+               --
+              ,NULL AS id_lead              
+              ,CAST (ARRAY [a.object_id] AS bigint []) 
+              ,1
+              ,FALSE
+              
+            FROM gar_fias.as_adm_hierarchy h1
+                 	            
+              INNER JOIN gar_fias.as_addr_obj     a ON (h1.object_id = a.object_id) AND (a.end_date > p_date)                   	            
               INNER JOIN gar_fias.as_object_level l ON (a.obj_level = l.level_id) AND (l.is_active) 
-                                                         AND ((l.end_date > p_date) AND
-                                                              (l.start_date <= p_date)
-                                                         )
-              INNER JOIN gar_fias.as_operation_type ot ON (ot.oper_type_id = a.oper_type_id) AND 
-                                          (ot.is_active) AND ((ot.end_date > p_date) AND 
-                                          (ot.start_date <= p_date))
-                                          
-              INNER JOIN aa1 ON (aa1.id_addr_obj = ia.parent_obj_id) AND (NOT aa1.cicle_d)
-          
-        WHERE (a.obj_level <= p_obj_level) 
-                AND ((a.is_actual AND a.is_active) AND (a.end_date > p_date) 
-                        AND (a.start_date <= p_date)
-                )
-     )
+              INNER JOIN gar_fias.as_operation_type ot  
+                           ON (ot.oper_type_id = a.oper_type_id) AND (ot.is_active)   
+
+              LEFT JOIN gar_fias.as_addr_obj z ON (h1.parent_obj_id = z.object_id) AND (z.end_date > p_date)  
+                                                 
+            WHERE ((((h1.parent_obj_id = 0) OR (h1.parent_obj_id IS NULL)) AND (p_fias_guid IS NULL))
+                         OR
+                   ((a.object_guid = p_fias_guid) AND (p_fias_guid IS NOT NULL))
+                  )
+                    AND (h1.is_active) 
+         
+                     UNION ALL
+        
+            SELECT
+               a.object_id
+              ,h2.parent_obj_id
+              --
+              ,a.object_guid
+              ,z.object_guid
+              --
+              ,a.object_name
+              ,a.type_id          
+              ,a.type_name
+              --
+              ,a.obj_level
+              ,l.level_name
+               --
+              ,h2.region_code  -- 2021-12-01
+              ,h2.area_code    
+              ,h2.city_code    
+              ,h2.place_code   
+              ,h2.plan_code    
+              ,h2.street_code    
+               --             --
+              ,a.change_id
+              ,a.prev_id
+               --             --
+              ,a.oper_type_id
+              ,ot.oper_type_name
+              --
+              ,a.start_date 
+              ,a.end_date              
+              --	       
+              ,NULL AS id_lead
+                        
+              ,CAST (aa1.tree_d || a.object_id AS bigint [])
+              ,(aa1.level_d + 1) t
+              ,a.object_id = ANY (aa1.tree_d)   
+            
+            FROM gar_fias.as_adm_hierarchy h2
+                 	
+              INNER JOIN aa1 ON (h2.parent_obj_id = aa1.id_addr_obj ) 
+                       
+              INNER JOIN gar_fias.as_addr_obj        a ON (h2.object_id = a.object_id) AND (a.end_date > p_date)                         
+             -- INNER JOIN gar_fias.as_addr_obj        z ON (h2.parent_obj_id = z.object_id) AND (z.end_date > p_date)  
+              INNER JOIN gar_fias.as_object_level    l ON (a.obj_level = l.level_id) AND (l.is_active) 
+              INNER JOIN gar_fias.as_operation_type ot ON (ot.oper_type_id = a.oper_type_id) AND (ot.is_active) 
+
+              LEFT JOIN gar_fias.as_addr_obj z ON (h2.parent_obj_id = z.object_id) AND (z.end_date > p_date)                
+              
+            WHERE (h2.is_active)        
+      )
       , bb1 (   
                 id_addr_obj       
                ,id_addr_parent 
@@ -212,6 +215,8 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_adr_area_show_data (
                ,end_date    
                --
                ,id_lead
+               ,qty
+               --
                ,tree_d            
                ,level_d
       )
@@ -246,19 +251,61 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_adr_area_show_data (
                    ,aa1.start_date 
                    ,aa1.end_date              
                     --               
-                   ,lead (aa1.id_addr_obj) 
-                       OVER (PARTITION BY aa1.id_addr_parent -- count (1) 
-                                         ,aa1.addr_obj_type-- _id  
-                                         ,UPPER(aa1.nm_addr_obj) 
-                             ORDER BY aa1.change_id   
+                   ,max (aa1.id_addr_obj) 
+                       OVER (PARTITION BY aa1.id_addr_parent         --  2023-10-30  Потому что на различных уровнях встречаются различные 
+                                         ,aa1.addr_obj_type-- _id    --  идентификаторы типов, UUID совпадают. Цель заключается в том, что бы                                         
+                                         ,UPPER(aa1.nm_addr_obj)     --   построить единую структуры с одним типом
                     ) AS id_lead
                     --
+                   ,count (aa1.id_addr_obj) 
+                       OVER (PARTITION BY aa1.id_addr_parent -- 
+                                         ,aa1.addr_obj_type-- _id  
+                                         ,UPPER(aa1.nm_addr_obj) 
+                    ) AS qty
+                    
                    ,aa1.tree_d            
                    ,aa1.level_d
                   
-            FROM aa1 
+            FROM aa1 WHERE (aa1.obj_level <= p_obj_level)
+            
+		   -- ORDER BY aa1.tree_d
           )
-           SELECT
+        , cc1 (   
+                id_addr_obj       
+               ,id_addr_parent 
+               --
+               ,fias_guid        
+               ,parent_fias_guid 
+               --   
+               ,nm_addr_obj   
+               ,addr_obj_type_id  
+               ,addr_obj_type   
+               --
+               ,obj_level
+               ,level_name
+               --
+               ,region_code  -- 2021-12-01
+               ,area_code    
+               ,city_code    
+               ,place_code   
+               ,plan_code    
+               ,street_code    
+               --
+               ,change_id
+               ,prev_id
+               --
+               ,oper_type_id
+               ,oper_type_name               
+               --
+               ,start_date 
+               ,end_date    
+               --
+               ,id_lead
+               ,tree_d            
+               ,level_d
+      )
+       AS (
+          SELECT DISTINCT ON (bb1.id_addr_obj) -- 2023-10-11
                     bb1.id_addr_obj       
                    ,bb1.id_addr_parent 
                    --
@@ -271,13 +318,13 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_adr_area_show_data (
                        WITH z (
                                  type_id
                                 ,type_level
-						        ,is_active
+                                ,is_active
                                 ,fias_row_key
                        )
                          AS (
                              SELECT   t.id
                                      ,t.type_level
-							         ,t.is_active
+                                     ,t.is_active
                                      ,gar_tmp_pcg_trans.f_xxx_replace_char (t.type_name)
                              FROM gar_fias.as_addr_obj_type t 
                                WHERE (t.type_shortname = bb1.addr_obj_type) AND 
@@ -291,7 +338,7 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_adr_area_show_data (
                                      z.fias_row_key
                                     ) 
                                            AND 
-                                    (r.type_level = z.type_level) AND (r.is_active) 
+                                    (r.type_level = z.type_level) AND (r.is_active) -- 2022-12-29 
                            )  
                              SELECT 
                                  CASE 
@@ -302,7 +349,6 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_adr_area_show_data (
                              FROM z
                       )
                     ) AS addr_obj_type_id
-                    --                    
                    ,bb1.addr_obj_type               
                    --
                    ,bb1.obj_level
@@ -314,35 +360,40 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_adr_area_show_data (
                    ,bb1.place_code   
                    ,bb1.plan_code    
                    ,bb1.street_code    
-                    --             --
+                    --
                    ,bb1.change_id
                    ,bb1.prev_id
-                   --             --
+                      --           --
                    ,bb1.oper_type_id
                    ,bb1.oper_type_name		 
                     --
                    ,bb1.start_date 
                    ,bb1.end_date              
-                    --               
-                   ,bb1.id_lead
+                    --            
+                   ,bb1.id_lead                    
                    ,bb1.tree_d            
-                   ,bb1.level_d 
+                   ,bb1.level_d      
                    
-           FROM bb1  
-            ORDER BY bb1.id_addr_parent, bb1.addr_obj_type, bb1.nm_addr_obj;
+           FROM bb1 WHERE (bb1.qty > p_qty)
+         )
+           SELECT * FROM cc1  
+             ORDER BY cc1.id_addr_parent, cc1.addr_obj_type, cc1.nm_addr_obj;
   $$;
  
-ALTER FUNCTION gar_fias_pcg_load.f_adr_area_show_data (uuid, date, bigint) OWNER TO postgres;  
+ALTER FUNCTION gar_fias_pcg_load.f_addr_area_show_data (uuid, date, bigint, integer) OWNER TO postgres;  
 
-COMMENT ON FUNCTION gar_fias_pcg_load.f_adr_area_show_data (uuid, date, bigint) 
+COMMENT ON FUNCTION gar_fias_pcg_load.f_addr_area_show_data (uuid, date, bigint, integer) 
 IS 'Отображение исходных данных в формате "gar_fias.gap_adr_area_t"';
 ----------------------------------------------------------------------------------
 -- USE CASE:
--- SELECT * FROM gar_fias_pcg_load.f_adr_area_show_data (p_fias_guid := '22f712f4-091f-4adf-af7f-129ee95b4468'::uuid); -- 69598
--- SELECT * FROM gar_fias_pcg_load.f_adr_area_show_data (p_fias_guid := 'b0aa0895-e596-4a25-a0aa-0c69c83f0f9e'::uuid);  
--- SELECT * FROM gar_fias_pcg_load.f_adr_area_show_data (p_fias_guid := NULL::uuid) WHERE (nm_addr_obj ilike 'Аметистовый%'); 
---      57a0587f-59a4-4445-8ef4-d35998fdf3fd  Аметистовый
---   SELECT * FROM gar_fias_pcg_load.f_xxx_adr_area_show_data () WHERE (nm_addr_obj ilike 'Аметистовый%'); 
+-- SELECT * FROM gar_fias_pcg_load.f_addr_area_show_data (p_fias_guid := '8b87e6c4-617a-4d32-9414-fada8d0d3e8b'::uuid); --  
+-- SELECT * FROM gar_fias_pcg_load.f_addr_area_show_data (p_fias_guid := 'b81b942b-ccca-4559-9365-d03af2a03d88'::uuid);  
+-- SELECT * FROM gar_fias_pcg_load.f_addr_area_show_data (p_fias_guid := NULL::uuid)-- 26543 строки получено.  26502 после преобразования.
+-- SELECT * FROM gar_fias_pcg_load.f_addr_area_show_data (p_fias_guid := NULL::uuid, p_qty := 1) -- 13
+-- SELECT * FROM gar_fias_pcg_load.f_addr_area_show_data (p_fias_guid := '21ab76d1-fab6-4b4f-a4dc-4871a93b7aab'::uuid) -- 1 -- 81637
+-- SELECT * FROM gar_fias_pcg_load.f_addr_area_show_data (p_fias_guid := 'd2f48256-c10a-4806-b281-9b5b85d56616'::uuid) -- 1 -- 81317
+-- SELECT * FROM gar_fias_pcg_load.f_addr_area_show_data (p_fias_guid := '1bde5cf4-7943-4b17-9718-2c1d96742be5'::uuid) order by nm_addr_obj-- 1
+-- 
 --   SELECT * FROM gar_fias_pcg_load.f_xxx_adr_area_show_data (); -- 69598
 
 -- SELECT * FROM unnsi.adr_area WHERE (nm_fias_guid = 'b0aa0895-e596-4a25-a0aa-0c69c83f0f9e'::uuid);
@@ -366,32 +417,30 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_addr_obj_update_parent (
     -- --------------------------------------------------------------------------------- 
     -- Модификация отношения подчинённости в схеме gar_fias.
     --                        p_parent_fias_guid_old  uuid -- старый родитель
-    --                       ,p_parent_fias_guid_new  uuid -- новый родтель
+    --                       ,p_parent_fias_guid_new  uuid -- новый родитель
     -- =================================================================================
     DECLARE 
       _id_parent_new   bigint;
+      _id_parent_old   bigint;
+      
       _r integer := 0;
       
     BEGIN
       _id_parent_new := (SELECT a.object_id FROM gar_fias.as_addr_obj a 
-                            WHERE (a.object_guid = p_parent_fias_guid_new) AND
-                                  (a.is_actual) AND (a.is_active) AND 
-                                  (a.end_date > p_date) AND (a.start_date <= p_date)
-                          );
-      WITH z (
-                 id_addr_obj
-      )
-       AS (
-            SELECT id_addr_obj
-                 FROM gar_fias_pcg_load.f_adr_area_show_data (p_parent_fias_guid_old::uuid)
-                            WHERE (level_d > 1) 
-          )
-          UPDATE gar_fias.as_adm_hierarchy n SET parent_obj_id = _id_parent_new 
-                FROM z
-                    WHERE (z.id_addr_obj = n.object_id) AND (n.is_active)
-                      AND (n.end_date > p_date) AND (n.start_date <= p_date);
-    
+                            WHERE (a.object_guid = p_parent_fias_guid_new) AND (a.end_date > p_date)
+                        );    
+      --
+      _id_parent_old := (SELECT b.object_id FROM gar_fias.as_addr_obj b 
+                            WHERE (b.object_guid = p_parent_fias_guid_old) AND (b.end_date > p_date)
+                        );    
+     
+      UPDATE gar_fias.as_adm_hierarchy n SET parent_obj_id = _id_parent_new 
+               WHERE (_id_parent_old = n.parent_obj_id) AND (n.is_active);
+                    
        GET DIAGNOSTICS _r = ROW_COUNT;
+
+       -- Запомнить это отношение  ("старый" -- "новый") -- отношение   старый,  новый
+       
        RETURN _r;
     END;
   $$;
@@ -403,17 +452,30 @@ IS 'Модификация отношения подчинённости в сх
 --
 --  USE CASE:
 --
--- SELECT gar_fias_pcg_load.f_addr_obj_update_parent ('80a6adb4-a120-4f45-9a50-646ee565d37a', 'b0aa0895-e596-4a25-a0aa-0c69c83f0f9e')
-
--- SELECT * FROM gar_fias_pcg_load.f_adr_area_show_data ('b0aa0895-e596-4a25-a0aa-0c69c83f0f9e'::uuid);
--- SELECT * FROM gar_fias_pcg_load.f_adr_area_show_data ('80a6adb4-a120-4f45-9a50-646ee565d37a'::uuid);
+-- BEGIN;
+-- 
+-- SELECT gar_fias_pcg_load.f_addr_obj_update_parent ('d2f48256-c10a-4806-b281-9b5b85d56616','21ab76d1-fab6-4b4f-a4dc-4871a93b7aab'); -- 2
+-- SELECT a.* FROM gar_fias.as_addr_obj a WHERE (a.object_guid = '21ab76d1-fab6-4b4f-a4dc-4871a93b7aab') ; -- 81637
+-- SELECT a.* FROM gar_fias.as_addr_obj a WHERE (a.object_guid = 'd2f48256-c10a-4806-b281-9b5b85d56616') ; -- 81317
+-- 
+-- SELECT * FROM gar_fias.as_adm_hierarchy where parent_obj_id = 81637 
+--     UNION ALL
+-- SELECT * FROM gar_fias.as_adm_hierarchy where parent_obj_id = 81317 ;
+-- 
+-- SELECT * FROM gar_fias_pcg_load."_NEW_f_adr_area_show_data" (p_fias_guid := NULL::uuid, p_qty := 1) ;
+-- ROLLBACK;
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DROP FUNCTION IF EXISTS gar_fias_pcg_load.f_adr_area_set_data (uuid, date, text);
-CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_adr_area_set_data (
+DROP FUNCTION IF EXISTS gar_fias_pcg_load.f_adr_area_set_data (uuid, date, bigint, integer, text);
 
-       p_fias_guid  uuid 
-      ,p_date       date = current_date
+DROP FUNCTION IF EXISTS gar_fias_pcg_load.f_addr_area_set_data (uuid, date, bigint, integer, text);
+CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_addr_area_set_data ( 
+       
+       p_fias_guid     uuid     
+      ,p_date          date     = current_date
+      ,p_obj_level     bigint   = 16
+      ,p_qty           integer  = 0
       ,p_descr      text = NULL
       
 ) RETURNS integer
@@ -422,48 +484,15 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_adr_area_set_data (
     SET search_path TO gar_tmp, public
  AS
   $$
-    -- ----------------------------------------------------------------------------------------------
+    -- ---------------------------------------------------------------------
     --  2022-08-28 Nick Запомнить дефектные данные, адресные объекты.
-    -- ----------------------------------------------------------------------------------------------
-    -- ----------------------------------------------------------------------------------------------
+    -- ---------------------------------------------------------------------
+    --  2923-10-23 Ревизия.
+    -- ---------------------------------------------------------------------
     DECLARE
       _r  integer;
     
     BEGIN   
-        WITH x (  id_addr_obj       
-                 ,id_addr_parent    
-                 ,fias_guid         
-                 ,parent_fias_guid  
-                 ,nm_addr_obj       
-                 ,addr_obj_type_id  
-                 ,addr_obj_type     
-                 ,obj_level         
-                 ,level_name        
-                  --
-                 ,region_code      
-                 ,area_code        
-                 ,city_code        
-                 ,place_code       
-                 ,plan_code        
-                 ,street_code      
-                  --
-                 ,change_id    
-                 ,prev_id      
-                  --
-                 ,oper_type_id     
-                 ,oper_type_name   
-                  --                         
-                 ,start_date       
-                 ,end_date         
-                  --
-                 ,id_lead          	   
-                 ,tree_d           
-                 ,level_d          
-        )
-         AS (
-             SELECT * FROM gar_fias_pcg_load.f_adr_area_show_data(p_fias_guid)  
-            )
-              
             INSERT INTO gar_fias.gap_adr_area AS z (            
                                    id_addr_obj      
                                   ,id_addr_parent   
@@ -524,53 +553,15 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_adr_area_set_data (
                    ,x.start_date       
                    ,x.end_date         
                     --
-                   ,COALESCE (x.id_lead, x.id_addr_obj)          	   
+                   ,x.id_lead          	   
                    ,x.tree_d           
                    ,x.level_d   
                     --
                    ,p_date 
                    ,p_descr            
              
-             FROM x WHERE (x.id_lead IS NOT NULL)    
+             FROM  gar_fias_pcg_load.f_addr_area_show_data (p_fias_guid, p_date, p_obj_level, p_qty) x 
         
-                UNION ALL
-        		
-             SELECT x.id_addr_obj       
-                   ,x.id_addr_parent    
-                   ,x.fias_guid         
-                   ,x.parent_fias_guid  
-                   ,x.nm_addr_obj       
-                   ,x.addr_obj_type_id  
-                   ,x.addr_obj_type     
-                   ,x.obj_level         
-                   ,x.level_name        
-                    --
-                   ,x.region_code      
-                   ,x.area_code        
-                   ,x.city_code        
-                   ,x.place_code       
-                   ,x.plan_code        
-                   ,x.street_code      
-                   --
-                   ,x.change_id    
-                   ,x.prev_id      
-                    --
-                   ,x.oper_type_id     
-                   ,x.oper_type_name   
-                    --                         
-                   ,x.start_date       
-                   ,x.end_date         
-                    --
-                   ,COALESCE (x.id_lead, x.id_addr_obj)          	   
-                   ,x.tree_d           
-                   ,x.level_d  
-                    --
-                   ,p_date   
-                   ,p_descr            
-                  
-        	 FROM x WHERE (x.id_addr_obj IN (SELECT id_lead FROM x WHERE (id_lead IS NOT NULL)))    
-              ORDER BY id_addr_parent, addr_obj_type, nm_addr_obj, change_id DESC
-    
         ON CONFLICT (id_addr_obj, date_create) DO NOTHING ;
             
        GET DIAGNOSTICS _r = ROW_COUNT;
@@ -578,16 +569,18 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_adr_area_set_data (
     END;         
 $$;
  
-ALTER FUNCTION gar_fias_pcg_load.f_adr_area_set_data (uuid, date, text) OWNER TO postgres;  
+ALTER FUNCTION gar_fias_pcg_load.f_addr_area_set_data (uuid, date, bigint, integer, text) OWNER TO postgres;  
 
-COMMENT ON FUNCTION gar_fias_pcg_load.f_adr_area_set_data (uuid, date, text) 
+COMMENT ON FUNCTION gar_fias_pcg_load.f_addr_area_set_data (uuid, date, bigint, integer, text) 
 IS ' Запомнить дефектные данные, адресные объекты';
 ----------------------------------------------------------------------------------
 -- USE CASE:
---  SELECT * FROM gar_tmp.xxx_adr_area;  -- 19186
---  TRUNCATE TABLE gar_tmp.xxx_adr_area;
---  SELECT gar_fias_pcg_load.f_adr_area_set_data (); -- 19186
- 
+--  BEGIN;
+--        SELECT * FROM gar_fias.gap_adr_area;  -- 2115 строк получено.
+--        SELECT gar_fias_pcg_load.f_adr_area_set_data (NULL, current_date, 'Дагестан'); -- 13
+--        SELECT * FROM gar_fias.gap_adr_area;  -- 2128 строк получено.
+--  ROLLBACK; 
+--  COMMIT;
 	 
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -622,6 +615,9 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_addr_obj_get_parents (
                 ,start_date         date
                 ,end_date           date
                 --
+                ,is_actual          boolean
+                ,is_active          boolean 
+                --
                 ,tree_d             bigint[] 
                 ,level_d            integer
        )
@@ -640,141 +636,124 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_addr_obj_get_parents (
     --   p_date         date         -- Дата на которую формируется выборка    
     -- ---------------------------------------------------------------------------------------
     WITH RECURSIVE aa1 (
-                     id_addr_obj       
-                    ,id_addr_parent 
-                    --
-                    ,fias_guid        
-                    ,parent_fias_guid 
-                    --   
-                    ,nm_addr_obj   
-                    ,addr_obj_type_id  
-                    ,addr_obj_type   
-                    --
-                    ,obj_level
-                    ,level_name
-                    --
-                    ,region_code  -- 2021-12-01
-                    --
-                    ,change_id
-                    ,prev_id
-                    --
-                    ,oper_type_id
-                    ,oper_type_name               
-                    --
-                    ,start_date 
-                    ,end_date    
-                    --
-                    ,tree_d            
-                    ,level_d
-                    ,cicle_d  
+                          id_addr_obj       
+                         ,id_addr_parent 
+                         --
+                         ,fias_guid        
+                         ,parent_fias_guid 
+                         --   
+                         ,nm_addr_obj   
+                         ,addr_obj_type_id  
+                         ,addr_obj_type   
+                         --
+                         ,obj_level
+                         ,level_name
+                         --
+                         ,region_code  -- 2021-12-01
+                         --
+                         ,change_id
+                         ,prev_id
+                         --
+                         ,oper_type_id
+                         ,oper_type_name               
+                         --
+                         ,start_date 
+                         ,end_date 
+                         --
+                         ,is_actual
+                         ,is_active                   
+                         --
+                         ,tree_d            
+                         ,level_d
+                         ,cicle_d  
    ) AS (
           SELECT
-             a.object_id
-            ,NULLIF (ia.parent_obj_id, 0)
-            --
-            ,a.object_guid
-            ,z.object_guid
-            --
-            ,a.object_name
-            ,a.type_id
-            ,a.type_name
-            --
-            ,a.obj_level
-            ,l.level_name
-             --
-            ,ia.region_code  
-             --             --
-            ,a.change_id
-            ,a.prev_id
-             --             --
-            ,a.oper_type_id
-            ,ot.oper_type_name
-            --
-            ,a.start_date 
-            ,a.end_date              
-            --
-            ,CAST (ARRAY [a.object_id] AS bigint []) 
-            ,1
-            ,FALSE
+                 a.object_id
+                ,NULLIF (h1.parent_obj_id, 0)
+                --
+                ,a.object_guid
+                ,z.object_guid
+                --
+                ,a.object_name
+                ,a.type_id
+                ,a.type_name
+                --
+                ,a.obj_level
+                ,l.level_name
+                 --
+                ,h1.region_code  
+                 --              
+                ,a.change_id
+                ,a.prev_id
+                 --              
+                ,a.oper_type_id
+                ,ot.oper_type_name
+                --
+                ,a.start_date 
+                ,a.end_date     
+                --
+                ,a.is_actual
+                ,a.is_active            
+                --
+                ,CAST (ARRAY [a.object_id] AS bigint []) 
+                ,0
+                ,FALSE
             
-          FROM gar_fias.as_adm_hierarchy ia
+          FROM gar_fias.as_adm_hierarchy h1
           
-            LEFT  JOIN gar_fias.as_addr_obj z ON (ia.parent_obj_id = z.object_id) 
-                                            AND ((z.is_actual AND z.is_active) AND (z.end_date > p_date) 
-                                            AND (z.start_date <= p_date)
-                                      )
-          
-            INNER JOIN gar_fias.as_addr_obj a 
-                         ON (ia.object_id = a.object_id) AND
-                            ((a.is_actual AND a.is_active) AND (a.end_date > p_date) AND
-                                 (a.start_date <= p_date)
-                            )
-            --                
-            INNER JOIN gar_fias.as_object_level l 
-                         ON (a.obj_level = l.level_id) AND (l.is_active) AND
-                            ((l.end_date > p_date) AND (l.start_date <= p_date))
-            --
-            INNER JOIN gar_fias.as_operation_type ot ON (ot.oper_type_id = a.oper_type_id) AND 
-                                            (ot.is_active) AND ((ot.end_date > p_date) AND 
-                                            (ot.start_date <= p_date))    
+            INNER JOIN gar_fias.as_addr_obj       a  ON (h1.object_id = a.object_id) AND (a.end_date > p_date)
+            INNER JOIN gar_fias.as_object_level   l  ON (a.obj_level = l.level_id)   AND (l.is_active) 
+            INNER JOIN gar_fias.as_operation_type ot ON (ot.oper_type_id = a.oper_type_id) AND (ot.is_active) AND (ot.end_date > p_date) 
+         
+            LEFT  JOIN gar_fias.as_addr_obj z ON (h1.parent_obj_id = z.object_id) AND (z.end_date > p_date)
                                                                          
-          WHERE  (a.object_guid = p_fias_guid) AND  (ia.is_active) AND (ia.end_date > p_date) AND (ia.start_date <= p_date)   
-       
+          WHERE (a.object_guid = p_fias_guid) AND (h1.is_active) 
        
                    UNION ALL
        
           SELECT
-             a.object_id
-            ,ia.parent_obj_id
-            --
-            ,a.object_guid
-            ,z.object_guid
-            --
-            ,a.object_name
-            ,a.type_id          
-            ,a.type_name
-            --
-            ,a.obj_level
-            ,l.level_name
-             --
-            ,ia.region_code   
-             --             --
-            ,a.change_id
-            ,a.prev_id
-             --             --
-            ,a.oper_type_id
-            ,ot.oper_type_name
-            --
-            ,a.start_date 
-            ,a.end_date              
-            --	       
-            ,CAST (aa1.tree_d || a.object_id AS bigint [])
-            ,(aa1.level_d - 1) t
-            ,a.object_id = ANY (aa1.tree_d)   
+                 a.object_id
+                ,h2.parent_obj_id
+                --
+                ,a.object_guid
+                ,z.object_guid
+                --
+                ,a.object_name
+                ,a.type_id          
+                ,a.type_name
+                --
+                ,a.obj_level
+                ,l.level_name
+                 --
+                ,h2.region_code   
+                 --             
+                ,a.change_id
+                ,a.prev_id
+                 --              
+                ,a.oper_type_id
+                ,ot.oper_type_name
+                --
+                ,a.start_date 
+                ,a.end_date  
+                --
+                ,a.is_actual
+                ,a.is_active
+                --	       
+                ,CAST (aa1.tree_d || a.object_id AS bigint [])
+                ,(aa1.level_d - 1) t
+                ,a.object_id = ANY (aa1.tree_d)   
           
-             FROM gar_fias.as_addr_obj a
-                INNER JOIN gar_fias.as_adm_hierarchy ia ON ((ia.object_id = a.object_id) AND (ia.is_active) 
-                                                             AND (ia.end_date > p_date) 
-                                                             AND (ia.start_date <= p_date)
-                                                           )
-               LEFT  JOIN gar_fias.as_addr_obj z ON (ia.parent_obj_id = z.object_id)
-                                            AND ((z.is_actual AND z.is_active) AND (z.end_date > p_date) 
-                                                    AND (z.start_date <= p_date)
-                                            )
-                INNER JOIN gar_fias.as_object_level l ON (a.obj_level = l.level_id) AND (l.is_active) 
-                                                           AND ((l.end_date > p_date) AND
-                                                                (l.start_date <= p_date)
-                                                           )
-                INNER JOIN gar_fias.as_operation_type ot ON (ot.oper_type_id = a.oper_type_id) AND 
-                                            (ot.is_active) AND ((ot.end_date > p_date) AND 
-                                            (ot.start_date <= p_date))
-                                            
-                INNER JOIN aa1 ON (aa1.id_addr_parent = ia.object_id) AND (NOT aa1.cicle_d)
+          FROM gar_fias.as_adm_hierarchy h2 
+             
+                INNER JOIN gar_fias.as_addr_obj        a ON (h2.object_id = a.object_id) AND (a.end_date > p_date)
+                INNER JOIN gar_fias.as_object_level    l ON (a.obj_level = l.level_id) AND (l.is_active) AND (l.end_date > p_date) 
+                INNER JOIN gar_fias.as_operation_type ot ON (ot.oper_type_id = a.oper_type_id) AND (ot.is_active) AND (ot.end_date > p_date) 
+                
+                INNER JOIN aa1 ON (aa1.id_addr_parent = h2.object_id) AND (NOT aa1.cicle_d)
             
-          WHERE  
-                  ((a.is_actual AND a.is_active) AND (a.end_date > p_date) 
-                          AND (a.start_date <= p_date)
-                  )
+                LEFT  JOIN gar_fias.as_addr_obj z ON (h2.parent_obj_id = z.object_id) AND (z.end_date > p_date) 
+
+          WHERE (h2.is_active) AND (h2.end_date > p_date) 
          )
               SELECT  
                       aa1.id_addr_obj       
@@ -799,22 +778,28 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_addr_obj_get_parents (
                      ,aa1.oper_type_name		 
                       --
                      ,aa1.start_date 
-                     ,aa1.end_date              
+                     ,aa1.end_date   
+                     --
+                     ,aa1.is_actual
+                     ,aa1.is_active                       
                       --               
                      ,aa1.tree_d            
                      ,aa1.level_d
                     
-              FROM aa1 ORDER BY aa1.tree_d
+              FROM aa1 ORDER BY aa1.tree_d;
  $$;
  
 ALTER FUNCTION gar_fias_pcg_load.f_addr_obj_get_parents (uuid, date) OWNER TO postgres;  
 
 COMMENT ON FUNCTION gar_fias_pcg_load.f_addr_obj_get_parents (uuid, date)
     IS 'Функция подготавливает список вышестоящих объектов. ';
-----------------------------------------------------------------------------------
+------------------------------------------------------------------------------------
 -- USE CASE:
---  explain SELECT * FROM gar_fias_pcg_load.f_addr_obj_get_parents ('b0aa0895-e596-4a25-a0aa-0c69c83f0f9e');
--- SELECT * FROM gar_fias_pcg_load.f_addr_obj_get_parents ('583e68da-a531-4613-9257-b5926ef418aa');
+--           DROP INDEX IF EXISTS gar_fias.ie3_as_addr_obj ;
+--           CREATE INDEX IF NOT EXISTS ie3_as_addr_obj ON gar_fias.as_addr_obj USING btree (object_guid) ; 
+           
+--  explain SELECT * FROM gar_fias_pcg_load.f_addr_obj_get_parents ('8b87e6c4-617a-4d32-9414-fada8d0d3e8b');
+-- SELECT * FROM gar_fias_pcg_load.f_addr_obj_get_parents ('51ad2527-f117-4269-8efe-8e72d3817f2b');
 -- SELECT * FROM gar_fias_pcg_load.f_addr_obj_get_parents ('80a6adb4-a120-4f45-9a50-646ee565d37a');
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -830,20 +815,28 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_addr_obj_get_twins (
                 ,change_id          bigint
                 ,start_date         date
                 ,end_date           date
+                ,is_actual          boolean
+                ,is_active          boolean
        )
     STABLE
     LANGUAGE sql
  AS
   $$
-      SELECT object_id, object_guid
-        ,(SELECT string_agg ((nm_addr_obj || ' ' || addr_obj_type || '.'), ', ')
-             FROM gar_fias_pcg_load.f_addr_obj_get_parents (object_guid)
-         )
-        ,change_id, start_date, end_date	  
+      SELECT object_id
+           , object_guid
+           , (SELECT string_agg ((nm_addr_obj || ' ' || addr_obj_type || '.'), ', ')
+               FROM gar_fias_pcg_load.f_addr_obj_get_parents (object_guid)
+             )
+          , change_id
+          , start_date
+          , end_date
+          ,is_actual
+          ,is_active
+          	  
        FROM gar_fias.as_addr_obj
        
       WHERE (upper (object_name) = upper(btrim(p_nm_addr_obj))) 
-               AND is_active AND is_actual;
+             ;--  AND is_active AND is_actual;
   $$;
  
 ALTER FUNCTION gar_fias_pcg_load.f_addr_obj_get_twins (varchar(250)) OWNER TO postgres;  
@@ -852,23 +845,29 @@ COMMENT ON FUNCTION gar_fias_pcg_load.f_addr_obj_get_twins (varchar(250))
     IS 'Функция формирует список объектов-двойников';    
 -- --------------
 --  USE CASE:
---   EXPLAIN   SELECT * FROM gar_fias_pcg_load.f_addr_obj_get_twins ('вОЛКОВО');
+--   EXPLAIN   SELECT * FROM gar_fias_pcg_load.f_addr_obj_get_twins ('Буденновская');
+-----------------------------------------------------------------------------------------------------------
+-- "id_addr_obj"|"fias_guid"|"nm_addr_obj_full"|"change_id"|"start_date"|"end_date"|"is_actual"|"is_active"
+-- 82811|"8b87e6c4-617a-4d32-9414-fada8d0d3e8b"|"Буденновская ул., Кизляр г., Дагестан Респ."|233561|"2019-10-29"|"2079-06-06"|t|t
+-- 78962|"ddf6a4e7-5207-42fd-8af3-89c905d0f368"|"Буденновская ул., Кизляр г., Дагестан Респ."|223919|"2014-02-20"|"2079-06-06"|f|f
+-- 82471|"bb301a7c-c4f5-4c00-a564-b4854377bfbb"|"Буденновская ул., Кизляр г., Дагестан Респ."|232768|"2019-10-18"|"2079-06-06"|f|f
+
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DROP FUNCTION IF EXISTS gar_fias_pcg_load.f_addr_obj_update_children (uuid, uuid, date);
-
 DROP FUNCTION IF EXISTS gar_fias_pcg_load.f_addr_obj_update_children (date, integer[], uuid[], date);
+DROP FUNCTION IF EXISTS gar_fias_pcg_load.f_addr_obj_update_children (date, integer[], uuid[], date);
+
+DROP FUNCTION IF EXISTS gar_fias_pcg_load.f_addr_obj_update_children (date);
 CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_addr_obj_update_children (
-         p_date_1     date                      -- Обрабатываемвя дата
-        ,p_obj_level  integer[] = ARRAY[6,7]    -- Уровни адресных объектов
-        ,p_fias_guid  uuid[]    = NULL::uuid[]  -- Выбранные UUID, опционально
-        ,p_date_2     date      = current_date  -- Текущая дата (передаётся как параметр ??)
+         p_date_2  date  = current_date  -- Текущая дата (передаётся как параметр ??)
          --
         ,OUT fias_guid_new    uuid         -- UUID актуального объекта.
+        ,OUT fias_guid_old    uuid         -- UUID объекта-дубля 
         ,OUT nm_addr_obj      varchar(250) -- Наименование адресного объекта. 
         ,OUT addr_obj_type_id bigint       -- Тип адрессного объекта.
         ,OUT chld_qty_tot     integer      -- Общее количество подчинённых объектов 
-        ,OUT chld_qty_unact   integer      -- Неактуальные.
+        ,OUT obj_level        bigint       -- Уровень адресного  объекта
   )
     RETURNS setof record
     LANGUAGE plpgsql 
@@ -879,103 +878,143 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_addr_obj_update_children (
     -- Create date: 2022-08-31/2022-09-01
     -- -------------------------------------------------------------------------------- 
     -- Модификация отношения подчинённости в схеме gar_fias.
-    --      Для выбранного родителя, оставляю актуальных детей.
+    --   2023-10-27  Перестройка подчинеия, всё подчиняется самому новому родителю
     -- ================================================================================
   DECLARE
     _rec_one record; 
     
   BEGIN
     -- ------------------------------------------------------------------------------
-    -- Цикл по таблице ошибок. (obj_level IN (6,7)). Парные записи, вначале новый 
-    --   адресный объект, потом старый. 
+    -- Цикл по таблице ошибок. Парные записи, вначале новый адресный объект, потом старый. 
     -- Должны совпадать: id_addr_parent, upper(nm_addr_obj), addr_obj_type_id.
-    -- Далее обработка (пункты 0,1,2). 
+    -- Далее обработка (пункты 0,1). 
     -- -----------------------------------------------------------------------------
-  
     FOR _rec_one IN 
-     WITH z (  change_id
-              ,id_addr_parent
-              ,nm_addr_obj
-              ,addr_obj_type_id
-              ,date_create
+         WITH z (  id_addr_obj
+                  ,id_addr_parent
+                  ,nm_addr_obj
+                  ,addr_obj_type_id
+                  ,date_create
+                  ,id_lead
+                  ,obj_level
          ) AS 
            (
              -- Выбираю записи, принадлежание обрабатываемой дате.
-             SELECT  MAX(x.change_id) AS change_id
+             SELECT  x.id_addr_obj
                     ,x.id_addr_parent
                     ,upper(x.nm_addr_obj)
                     ,x.addr_obj_type_id
                     ,x.date_create
+                    ,x.id_lead
+                    ,x.obj_level
                    
-                  FROM gar_fias.gap_adr_area x 
-                    WHERE (x.obj_level = ANY(p_obj_level)) AND 
-                          (x.date_create = p_date_1) AND
-                          (((x.fias_guid = ANY (p_fias_guid)) AND (p_fias_guid IS NOT NULL))
-                             OR (p_fias_guid IS NULL)
-                          )	                                  
-                   GROUP BY x.id_addr_parent
-                          ,upper(x.nm_addr_obj)
-                          ,x.addr_obj_type_id
-                          ,x.date_create 
+                  FROM gar_fias.gap_adr_area x WHERE (x.date_create = p_date_2) 
+              ORDER BY  x.nm_addr_obj, x.id_addr_obj DESC     
             )
-              SELECT a.fias_guid AS fias_guid_new
+            
+              SELECT DISTINCT ON (a.fias_guid, b.fias_guid)
+                     a.fias_guid AS fias_guid_new
                    , b.fias_guid AS fias_guid_old 
+                   , z.id_lead
                    , z.id_addr_parent  
-                   , a.nm_addr_obj 
+                   , z.nm_addr_obj 
                    , z.addr_obj_type_id              
-                   , z.change_id AS change_id_new
-                   , b.change_id AS change_id_old
+                   , z.id_addr_obj AS id_addr_obj_new
+                   , b.id_addr_obj AS id_addr_obj_old
+                   , z.obj_level
               FROM z
-                JOIN gar_fias.gap_adr_area a ON (z.id_addr_parent = a.id_addr_parent)  AND
-                                                (z.nm_addr_obj = upper(a.nm_addr_obj)) AND
-                                                (z.addr_obj_type_id = a.addr_obj_type_id) AND
-                                                (z.change_id = a.change_id) AND
-                                                (z.date_create = a.date_create)
-                 --                                
-                JOIN gar_fias.gap_adr_area b ON (z.id_addr_parent = b.id_addr_parent)  AND
+                JOIN gar_fias.gap_adr_area a ON (z.id_lead = a.id_addr_obj) AND  (z.date_create = a.date_create)
+                JOIN gar_fias.gap_adr_area b ON (z.id_lead <> b.id_addr_obj) AND (b.date_create = z.date_create) AND
+                                                (z.id_addr_parent = b.id_addr_parent)  AND
                                                 (z.nm_addr_obj = upper(b.nm_addr_obj)) AND
-                                                (z.addr_obj_type_id = b.addr_obj_type_id) AND
-												(b.date_create = z.date_create) AND                                                 
-                                                (z.change_id > b.change_id)		  
-
+                                                (z.addr_obj_type_id = b.addr_obj_type_id)                                               
+                                                		  
       LOOP
-          -- 0) Заменяю старого родителя на нового
-          chld_qty_tot := gar_fias_pcg_load.f_addr_obj_update_parent (
+        -- 0) Заменяю старого родителя на нового
+        chld_qty_tot := gar_fias_pcg_load.f_addr_obj_update_parent (
                             _rec_one.fias_guid_old, _rec_one.fias_guid_new, p_date_2
-          );
+        );
           
-          -- 1) Старого родителя убрать: is actual, is_active <---- FALSE.
-          UPDATE gar_fias.as_addr_obj SET is_actual = FALSE, is_active = FALSE
+        -- 1) Старого родителя убрать: (p_date_2 - interval '1 year');
+          
+        UPDATE gar_fias.as_addr_obj SET end_date = (p_date_2 - interval '1 year')
            WHERE (object_guid = _rec_one.fias_guid_old);
-         
-          -- 2) Убрать неактуальных детей. (id_lead IS not NULL) убрать is actual, is_active <---- FALSE.
-          WITH z (id_addr_obj)
-              AS (
-                   SELECT id_addr_obj 
-                       FROM gar_fias_pcg_load.f_adr_area_show_data (_rec_one.fias_guid_new)
-                              WHERE (id_lead IS not NULL)
-                 )
-             UPDATE gar_fias.as_addr_obj x SET is_actual = FALSE, is_active = FALSE
-              FROM z
-                      WHERE (x.object_id = z.id_addr_obj);
-        
-        GET DIAGNOSTICS chld_qty_unact = ROW_COUNT;
+        --
+        -- 2) Теперь запоминаю детей-двойников, связанных с актуальным родитеделем.
+        --
+        INSERT INTO gar_fias.twin_addr_objects AS k(
+
+                        fias_guid_new
+                       ,fias_guid_old
+                       ,obj_level  
+                       ,date_create
+        )
+           WITH x (
+                     id_addr_obj_new
+                    ,id_addr_obj_old 
+          )      
+            AS (
+                   SELECT DISTINCT id_lead, min(id_addr_obj) OVER (PARTITION BY id_lead) 
+                     FROM gar_fias_pcg_load.f_addr_area_show_data (
+                                                         p_fias_guid := _rec_one.fias_guid_new
+                                                        ,p_qty := 1
+                  )
+               )
+                 SELECT z1.object_guid  AS fias_guid_new 
+                       ,z2.object_guid  AS fias_guid_old 
+                       ,z1.obj_level 
+                       ,p_date_2
+                 FROM x
+                   INNER JOIN gar_fias.as_addr_obj z1 ON (z1.object_id = x.id_addr_obj_new)
+                   INNER JOIN gar_fias.as_addr_obj z2 ON (z2.object_id = x.id_addr_obj_old)
+
+        ON CONFLICT ON CONSTRAINT pk_twin_adr_objects DO NOTHING;
         
         fias_guid_new    := _rec_one.fias_guid_new;
+        fias_guid_old    := _rec_one.fias_guid_old;
         nm_addr_obj      := _rec_one.nm_addr_obj; 
         addr_obj_type_id := _rec_one.addr_obj_type_id;
+        obj_level        := _rec_one.obj_level;
         
         RETURN NEXT;
       END LOOP;
   END;
  $$;
 
-COMMENT ON FUNCTION gar_fias_pcg_load.f_addr_obj_update_children (date, integer[], uuid[], date) IS 
+COMMENT ON FUNCTION gar_fias_pcg_load.f_addr_obj_update_children (date) IS 
 'ТОЛЬКО АКТИВНЫЕ И АКТУАЛЬНЫЕ ОБЪЕКТЫ. Модификация отношения подчинённости в схеме gar_fias,
 с дективацией более ранних объектов.';
+-- -------------------------------------------------------------------------------------
+-- ЗАМЕЧАНИЕ:  warning extra:00000:unused parameter "p_obj_level"
+-- ЗАМЕЧАНИЕ:  warning extra:00000:unused parameter "p_fias_guid"
+-- ЗАМЕЧАНИЕ:  FUNCTION | 247238 | gar_fias_pcg_load | _NEW_f_addr_obj_update_parent | (uuid,uuid,date)
+-- ЗАМЕЧАНИЕ:  RELATION | 246157 | gar_fias | as_addr_obj
+-- ЗАМЕЧАНИЕ:  RELATION | 246282 | gar_fias | gap_adr_area
+-- Query returned successfully with no result in 41 msec.
 --
 --  USE CASE:
 --
+-- BEGIN;
+-- SELECT * FROM gar_fias_pcg_load.f_addr_obj_update_children (current_date);
+-- -- SELECT gar_fias_pcg_load."_NEW_f_addr_obj_update_parent" ('d2f48256-c10a-4806-b281-9b5b85d56616','21ab76d1-fab6-4b4f-a4dc-4871a93b7aab'); -- 2
+-- SELECT a.* FROM gar_fias.as_addr_obj a WHERE (a.object_guid = '21ab76d1-fab6-4b4f-a4dc-4871a93b7aab') ; -- 81637
+-- SELECT a.* FROM gar_fias.as_addr_obj a WHERE (a.object_guid = 'd2f48256-c10a-4806-b281-9b5b85d56616') ; -- 81317
+-- 
+-- SELECT * FROM gar_fias.as_adm_hierarchy where parent_obj_id = 82811 
+--     UNION ALL
+-- SELECT * FROM gar_fias.as_adm_hierarchy where parent_obj_id = 82471 ;
+-- 
+-- SELECT * FROM gar_fias_pcg_load."_NEW_f_adr_area_show_data" (p_fias_guid := NULL::uuid, p_qty := 1) ;
+-- ROLLBACK;
+-- -----------------------------------------------------------------------------------------------------
+-- "fias_guid_new"	"fias_guid_old"	"nm_addr_obj"	"addr_obj_type_id"	"chld_qty_tot"
+-- "21ab76d1-fab6-4b4f-a4dc-4871a93b7aab"	"d2f48256-c10a-4806-b281-9b5b85d56616"	"АЗОВСКАЯ"	204	2
+-- "29efff6b-23d5-48e4-9c02-cadc513ea35e"	"80513d5c-ebf2-4f4f-a9ec-2c3356329c09"	"ВТОРАЯ"	204	6
+-- "59e94457-ed1a-49cf-b83c-868514f98244"	"8418d308-bf4a-4d5f-a7a4-5d46032692c5"	"ШИДИБ"	103	0
+-- "8b87e6c4-617a-4d32-9414-fada8d0d3e8b"	"bb301a7c-c4f5-4c00-a564-b4854377bfbb"	"БУДЕННОВСКАЯ"	204	15
+-- "8b87e6c4-617a-4d32-9414-fada8d0d3e8b"	"ddf6a4e7-5207-42fd-8af3-89c905d0f368"	"БУДЕННОВСКАЯ"	204	0
+-- "bd784bc1-152d-4896-bf9b-98701702f3ce"	"6e876e17-68a5-4d63-b078-1dc2202c7173"	"ЦЕНТРАЛЬНАЯ"	204	30
+-- "ec6c88c3-053b-46cf-ac3b-3e5fecad8b2a"	"a669b619-6016-48be-8564-e05ccac82a4a"	"САДОВАЯ"	204	0
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DROP PROCEDURE IF EXISTS gar_fias_pcg_load.p_alt_tbl (boolean);
@@ -1147,8 +1186,10 @@ CREATE OR REPLACE PROCEDURE gar_fias_pcg_load.save_gar_addr_obj (
     -- ====================================================================================================
     -- Author: Nick
     -- Create date: 2021-10-07
-    -- Updates:  2021-10-28 Модификация под загрузчик ГИС Интеграция.
-    --           2022-01-26/2022-09-19 Неоднозначность в определении типов
+    -- Updates: 2021-10-28 Модификация под загрузчик ГИС Интеграция.
+    --          2022-01-26/2022-09-19 Неоднозначность в определении типов
+    --          2022-12-29 Убрана проверка -- (gar_fias.as_addr_obj_type.is_active) 
+    --                     В ФИАС полно противоречий, эта проверка углубляет их.
     -- ----------------------------------------------------------------------------------------------------  
     -- Загрузка классификатора адресных объектов. Источник: внешний парсер.
     --  Предварительно должны быть загружены: "as_operation_type", "as_reestr_objects", "as_object_level".
@@ -1159,6 +1200,7 @@ CREATE OR REPLACE PROCEDURE gar_fias_pcg_load.save_gar_addr_obj (
     -- ====================================================================================================
    
     BEGIN
+    
         INSERT INTO gar_fias.as_addr_obj AS i (
         
                             id            
@@ -1216,8 +1258,9 @@ CREATE OR REPLACE PROCEDURE gar_fias_pcg_load.save_gar_addr_obj (
         --
         WITH x AS (
                     SELECT z.id AS type_id, z.type_shortname 
-                        FROM gar_fias.as_addr_obj_type z WHERE (z.type_shortname = i_type_name) AND 
-               			      (z.is_active) AND (z.type_level::bigint = i_obj_level)            
+                        FROM gar_fias.as_addr_obj_type z 
+                           WHERE (z.type_shortname = i_type_name) AND 
+               			         (z.type_level::bigint = i_obj_level)  
         )
         UPDATE gar_fias.as_addr_obj u SET type_id = x.type_id 
            FROM x  

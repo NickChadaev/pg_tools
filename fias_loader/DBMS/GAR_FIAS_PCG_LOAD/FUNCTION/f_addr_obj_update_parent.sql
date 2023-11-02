@@ -1,4 +1,4 @@
-﻿DROP FUNCTION IF EXISTS gar_fias_pcg_load.f_addr_obj_update_parent (uuid, uuid, date);
+DROP FUNCTION IF EXISTS gar_fias_pcg_load.f_addr_obj_update_parent (uuid, uuid, date);
 CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_addr_obj_update_parent (
          p_parent_fias_guid_old  uuid
         ,p_parent_fias_guid_new  uuid

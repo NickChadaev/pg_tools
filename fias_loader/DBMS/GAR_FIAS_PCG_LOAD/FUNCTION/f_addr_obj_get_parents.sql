@@ -1,4 +1,4 @@
-﻿DROP FUNCTION IF EXISTS gar_fias_pcg_load.f_addr_obj_get_parents (uuid, date);
+DROP FUNCTION IF EXISTS gar_fias_pcg_load.f_addr_obj_get_parents (uuid, date);
 CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_addr_obj_get_parents (
        p_fias_guid     uuid     
       ,p_date          date     = current_date

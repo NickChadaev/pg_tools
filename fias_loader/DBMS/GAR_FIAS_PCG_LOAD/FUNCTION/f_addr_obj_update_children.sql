@@ -81,30 +81,56 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_addr_obj_update_children (
         
      END LOOP;
         --
-        --   фИНАЛ, дубли на нижнем уровне.
-        --    
---      PERFORM gar_fias_pcg_load.f_addr_area_set_data ( 
---        p_fias_guid  := NULL::uuid     
---       ,p_qty        := 1
---       ,p_descr      := 'ТЕСТ. Московская область'   
---      );        
---         
---      INSERT INTO gar_fias.twin_addr_objects AS k(
--- 
---                      fias_guid_new
---                     ,fias_guid_old
---                     ,obj_level  
---                     ,date_create
---      )
---          SELECT  z.fias_guid_new    
---                 ,z.fias_guid_old    
---                 ,z.obj_level 
---                 ,p_date_2
---                 
---          FROM gar_fias_pcg_load.f_addr_obj_agg ( p_date_2 ) z
---          
---      ON CONFLICT ON CONSTRAINT pk_twin_adr_objects DO NOTHING;      
-      
+        --   фИНАЛ, Появившиеся дубли на нижних уровнях.
+        --
+     INSERT INTO gar_fias.twin_addr_objects AS k(
+
+                     fias_guid_new
+                    ,fias_guid_old
+                    ,obj_level  
+                    ,date_create
+     )
+     WITH z (   id_addr_obj
+               ,id_addr_parent
+               ,fias_guid
+               ,nm_addr_obj
+               ,addr_obj_type_id
+               ,date_create
+               ,id_lead
+               ,obj_level
+      ) AS 
+        (
+          -- Выбираю записи, принадлежание обрабатываемой дате.
+          SELECT  x.id_addr_obj
+                 ,x.id_addr_parent
+                 ,x.fias_guid
+                 ,upper(x.nm_addr_obj)
+                 ,x.addr_obj_type_id
+                 ,p_date_2
+                 ,x.id_lead
+                 ,x.obj_level
+                
+             FROM gar_fias_pcg_load.f_addr_area_show_data (
+                                        p_fias_guid := NULL::uuid
+                                        , p_qty     := 1
+                                        , p_date    := p_date_2
+                       ) x
+           )
+         
+           SELECT DISTINCT ON (a.fias_guid, b.fias_guid)
+                  a.fias_guid AS fias_guid_new
+                , b.fias_guid AS fias_guid_old 
+                , z.obj_level
+                , p_date_2
+           FROM z
+             JOIN z a ON (z.id_lead = a.id_addr_obj) AND  (z.date_create = a.date_create)
+             JOIN z b ON (z.id_lead <> b.id_addr_obj) AND (b.date_create = z.date_create) AND
+                                             (z.id_addr_parent = b.id_addr_parent)  AND
+                                             (z.nm_addr_obj = upper(b.nm_addr_obj)) AND
+                                             (z.addr_obj_type_id = b.addr_obj_type_id) 
+
+          ON CONFLICT ON CONSTRAINT pk_twin_adr_objects DO NOTHING;  
+          
   END;
  $$;
 
@@ -126,7 +152,7 @@ COMMENT ON FUNCTION gar_fias_pcg_load.f_addr_obj_update_children (date) IS
 -- -- SELECT gar_fias_pcg_load."_NEW_f_addr_obj_update_parent" ('d2f48256-c10a-4806-b281-9b5b85d56616','21ab76d1-fab6-4b4f-a4dc-4871a93b7aab'); -- 2
 -- SELECT a.* FROM gar_fias.as_addr_obj a WHERE (a.object_guid = '21ab76d1-fab6-4b4f-a4dc-4871a93b7aab') ; -- 81637
 -- SELECT a.* FROM gar_fias.as_addr_obj a WHERE (a.object_guid = 'd2f48256-c10a-4806-b281-9b5b85d56616') ; -- 81317
--- 
+-- SELECT * FROM gar_fias_pcg_load.f_addr_area_show_data (p_fias_guid := NULL::uuid, p_qty := 0);
 -- SELECT * FROM gar_fias.as_adm_hierarchy where parent_obj_id = 82811 
 --     UNION ALL
 -- SELECT * FROM gar_fias.as_adm_hierarchy where parent_obj_id = 82471 ;

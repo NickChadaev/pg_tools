@@ -113,5 +113,42 @@ ROLLBACK;
           ON CONFLICT ON CONSTRAINT pk_twin_adr_objects DO NOTHING;  
 
 ---------------------------------------------------------------------------------------------------
-
---                                              
+select * from gar_fias.twin_addr_objects;
+-----------------------------------------------------------------------------------------------
+-- '29fe3efe-8f3a-4a61-bf98-481e3acca90e'|'145949fd-0aa4-4bad-8c83-3b6701972716'|6|'2023-11-02'
+-- '96fe8f29-c1e6-43d7-a1d7-f327bef75c63'|'01c0f03e-bd21-4ce8-86a2-9ae3259143fe'|6|'2023-11-02'
+-- '9fd308f2-0ae8-4e9f-89cd-8dc833cdf415'|'5c8405c9-b73a-44e1-b82c-acf8211873be'|6|'2023-11-02'
+-- 'cf29e918-e413-4f6c-8391-148176db582d'|'294468ce-fb2c-4422-9765-0b8b0d6026f6'|6|'2023-11-02'
+-- '096cf142-7d31-428e-8b43-095bfa1c1670'|'31295a7b-1277-4b82-a40c-6be7d0cbd850'|8|'2023-11-02'
+-- --------------------------------------------------------------------------------------------
+                  SELECT   id_street
+                          ,id_area
+                          ,nm_street
+                          ,id_street_type
+                          ,nm_street_full
+                          ,nm_fias_guid
+                          ,dt_data_del
+                          ,id_data_etalon
+                          ,kd_kladr
+                          ,vl_addr_latitude
+                          ,vl_addr_longitude   
+                          
+                  FROM ONLY gar_tmp.adr_street
+                        WHERE (nm_fias_guid = '29fe3efe-8f3a-4a61-bf98-481e3acca90e') 
+                             AND (id_data_etalon IS NULL) AND (dt_data_del IS NULL);  
+-
+                  SELECT   id_street
+                          ,id_area
+                          ,nm_street
+                          ,id_street_type
+                          ,nm_street_full
+                          ,nm_fias_guid
+                          ,dt_data_del
+                          ,id_data_etalon
+                          ,kd_kladr
+                          ,vl_addr_latitude
+                          ,vl_addr_longitude   
+                          
+                  FROM ONLY gar_tmp.adr_street
+                        WHERE (nm_fias_guid = '145949fd-0aa4-4bad-8c83-3b6701972716') 
+                             AND (id_data_etalon IS NULL) AND (dt_data_del IS NULL);                              --                                              

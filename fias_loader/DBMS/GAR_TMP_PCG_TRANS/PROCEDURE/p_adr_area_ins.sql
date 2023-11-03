@@ -216,7 +216,6 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_ins (
                                        ,p_id_area_type, p_nm_area
             );
             --
-            -- Старые значения с новым ID и признаком удаления
             IF (_rr.id_area IS NOT NULL)  
               THEN
                    _exec := format (_ins_hist, p_schema_h
@@ -245,25 +244,25 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_ins (
                   -- update, 2022-05-19
                   --
                   _exec := format (_upd_id, p_schema_name 
-                                      ,_rr.id_country       
-                                      ,_rr.nm_area          
-                                      ,_rr.nm_area_full     
-                                      ,_rr.id_area_type     
-                                      ,_rr.id_area_parent
+                                      ,p_id_country    
+                                      ,p_nm_area       
+                                      ,p_nm_area_full  
+                                      ,p_id_area_type  
+                                      ,p_id_area_parent
                                        --
-                                      ,_rr.kd_timezone      
-                                      ,_rr.pr_detailed   
-                                      ,_rr.kd_oktmo         
-                                      ,_rr.nm_fias_guid 
+                                      ,p_kd_timezone 
+                                      ,p_pr_detailed
+                                      ,p_kd_oktmo    
+                                      ,p_nm_fias_guid
                                       --
-                                      , now()      -- dt_data_del
-                                      , p_id_area  -- id_data_etalon
+                                      , NULL  -- dt_data_del
+                                      , NULL  -- id_data_etalon
                                       
-                                      ,_rr.kd_okato  
-                                      ,_rr.nm_zipcode       
-                                      ,_rr.kd_kladr         
-                                      ,_rr.vl_addr_latitude 
-                                      ,_rr.vl_addr_longitude
+                                      ,p_kd_okato         
+                                      ,p_nm_zipcode       
+                                      ,p_kd_kladr         
+                                      ,p_vl_addr_latitude 
+                                      ,p_vl_addr_longitude
                                       --
                                       ,_rr.id_area
                   );            
@@ -273,37 +272,18 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_ins (
                   VALUES (_rr.id_area, UPD_OP)
                    ON CONFLICT (id_area) DO UPDATE SET op_sign = UPD_OP
                          WHERE (gar_tmp.adr_area_aux.id_area = excluded.id_area); 
-                         
+                  
+                  IF NOT (p_nm_fias_guid = _rr.nm_fias_guid)
+                    THEN
+                        CALL gar_fias_pcg_load.p_twin_addr_obj_put (
+                           p_fias_guid_new  := p_nm_fias_guid
+                          ,p_fias_guid_old  := _rr.nm_fias_guid
+                          ,p_obj_level      := 0::bigint
+                          ,p_date_create    := current_date
+                        );                       
+                  END IF;
+                  
             END IF; -- _rr.id_area IS NOT NULL
-            -- 
-            -- Продолжаю прерванный ранее процесс.
-            --
-            _exec := format (_ins, p_schema_name
-                                  ,p_id_area          
-                                  ,p_id_country       
-                                  ,p_nm_area          
-                                  ,p_nm_area_full     
-                                  ,p_id_area_type     
-                                  ,p_id_area_parent   
-                                  ,p_kd_timezone      
-                                  ,p_pr_detailed
-                                  ,NULL   -- p_dt_data_del
-                                  ,p_kd_oktmo         
-                                  ,p_nm_fias_guid     
-                                  ,NULL   -- p_id_data_etalon   
-                                  ,p_kd_okato         
-                                  ,p_nm_zipcode       
-                                  ,p_kd_kladr         
-                                  ,p_vl_addr_latitude 
-                                  ,p_vl_addr_longitude                           
-            );            
-            EXECUTE _exec INTO _id_area;
-            --
-            INSERT INTO gar_tmp.adr_area_aux (id_area, op_sign)
-            VALUES (_id_area, INS_OP)
-             ON CONFLICT (id_area) DO UPDATE SET op_sign = INS_OP
-                   WHERE (gar_tmp.adr_area_aux.id_area = excluded.id_area);
-                              
                   
           END; -- unique_violation
     END;

@@ -219,7 +219,17 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_upd (
            VALUES (_rr.id_area, UPD_OP)
             ON CONFLICT (id_area) DO UPDATE SET op_sign = UPD_OP
                   WHERE (gar_tmp.adr_area_aux.id_area = excluded.id_area);           
-           
+           --
+           IF NOT (_rr.nm_fias_guid = p_nm_fias_guid)
+             THEN
+                  CALL gar_fias_pcg_load.p_twin_addr_obj_put (
+                     p_fias_guid_new  := p_nm_fias_guid
+                    ,p_fias_guid_old  := _rr.nm_fias_guid
+                    ,p_obj_level      := 0::bigint
+                    ,p_date_create    := current_date
+                  );               
+           END IF;
+        
         END IF; -- compare
         
      END IF; -- _rr.id_area IS NOT NULL
@@ -256,9 +266,9 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_upd (
                          ,_rr1.kd_kladr         
                          ,_rr1.vl_addr_latitude 
                          ,_rr1.vl_addr_longitude 
-                         ,0 -- Регион "0" - Исключение во время процесса дополнения.
-             );            
-             EXECUTE _exec;      
+                         ,0 -- Регион "0" - Исключение во время процесса обновления.
+             ); 
+             EXECUTE _exec;
              --
              _exec := format (_upd_id, p_schema_name 
                                        ,_rr1.id_country       
@@ -353,8 +363,18 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_upd (
              --
              INSERT INTO gar_tmp.adr_area_aux (id_area, op_sign)
              VALUES (_rr.id_area, UPD_OP)
-              ON CONFLICT (id_area) DO UPDATE SET op_sign = UPD_OP
-                    WHERE (gar_tmp.adr_area_aux.id_area = excluded.id_area);               
+               ON CONFLICT (id_area) DO UPDATE SET op_sign = UPD_OP
+                    WHERE (gar_tmp.adr_area_aux.id_area = excluded.id_area);
+                    
+             IF NOT (_rr.nm_fias_guid = p_nm_fias_guid)
+               THEN
+                    CALL gar_fias_pcg_load.p_twin_addr_obj_put (
+                       p_fias_guid_new  := p_nm_fias_guid
+                      ,p_fias_guid_old  := _rr.nm_fias_guid
+                      ,p_obj_level      := 0::bigint
+                      ,p_date_create    := current_date
+                    );               
+             END IF;                    
         --
         END IF; -- _rr.id_area IS NOT NULL    
        END;  -- unique_violation

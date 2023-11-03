@@ -1,0 +1,16 @@
+X;;;Start process, Подготовка;
+#
+0;SELECT * FROM gar_tmp.adr_area WHERE (id_area = 6);;-- Проверка региона;
+#
+0;SELECT gar_tmp_pcg_trans.f_xxx_obj_seq_crt ('gar_tmp.obj_seq', 6, 100000000, 'gar_tmp', 'gar_tmp', 'gar_tmp','gar_tmp.obj_hist_seq');; Установка gar_tmp.obj_seq/gar_tmp.obj_hist_seq;
+0;SELECT gar_tmp_pcg_trans.f_set_params_value();; -- Агрегация параметров;
+#
+0;SELECT gar_tmp_pcg_trans.f_xxx_adr_area_set_data ();; -- Агрегация адресных пространств;
+0;SELECT gar_tmp_pcg_trans.f_xxx_adr_house_set_data ();; -- Агрегация домовладений;
+#
+0;SELECT gar_tmp_pcg_trans.f_xxx_obj_fias_set_data ('gar_tmp','gar_tmp','gar_tmp');; -- Заполнение рабочей таблицы "gar_tmp.xxx_obj_fias";
+#
+X;;;Stop process;
+#-------------------------------------------------------------
+#  Пример вызова
+# load_mainGar.py 127.0.0.1 5434 xxx_test postgres stage_3.csv ./ '2021-12-30'

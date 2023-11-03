@@ -8,6 +8,129 @@ CREATE OR REPLACE VIEW gar_fias_pcg_load.version
  SELECT '$Revision:5ac285e$ modified $RevDate:2023-11-01$'::text AS version; 
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+DROP PROCEDURE IF EXISTS gar_fias_pcg_load.p_twin_addr_obj_put (uuid, uuid, bigint, date);
+CREATE OR REPLACE PROCEDURE gar_fias_pcg_load.p_twin_addr_obj_put (
+                     p_fias_guid_new  uuid
+                    ,p_fias_guid_old  uuid
+                    ,p_obj_level      bigint
+                    ,p_date_create    date
+    )
+    LANGUAGE plpgsql SECURITY DEFINER
+    AS $$
+    -- ====================================================================================================
+    -- Author: Nick
+    -- Create date: 2023-11-02
+    -- ----------------------------------------------------------------------------------------------------  
+    --    Создание/Обновление записи в таблице объектов-двойников.
+    -- ====================================================================================================
+   
+    BEGIN
+        
+        INSERT INTO gar_fias.twin_addr_objects AS x (
+
+                        fias_guid_new
+                       ,fias_guid_old
+                       ,obj_level  
+                       ,date_create
+        )
+          VALUES (   p_fias_guid_new
+                    ,p_fias_guid_old
+                    ,p_obj_level
+                    ,p_date_create
+          )
+          
+        ON CONFLICT ON CONSTRAINT pk_twin_adr_objects DO 
+            
+            UPDATE SET obj_level   = excluded.obj_level  
+                      ,date_create = excluded.date_create
+                       
+            WHERE (x.fias_guid_new = excluded.fias_guid_new) AND 
+                  (x.fias_guid_old = excluded.fias_guid_old);    
+        
+       RETURN;
+       
+    END;
+  $$;
+
+ALTER PROCEDURE gar_fias_pcg_load.p_twin_addr_obj_put (uuid, uuid, bigint, date) OWNER TO postgres;
+
+COMMENT ON PROCEDURE gar_fias_pcg_load.p_twin_addr_obj_put (uuid, uuid, bigint, date) 
+               IS 'Создание/Обновление записи в таблице объектов-двойников.';
+--
+--  USE CASE:
+--           CALL gar_fias_pcg_load.p_twin_addr_obj_put ('700939ad-a9ce-4b62-a457-bc4c3547d81a', '018bfbea-b302-4bec-8063-747eed228d5e', 0, current_date); --  
+--           SELECT * FROM gar_fias.twin_addr_objects;
+--           TRUNCATE TABLE gar_fias.twin_addr_objects;
+--           CALL gar_fias_pcg_load.p_twin_addr_obj_put ('700939ad-a9ce-4b62-a457-bc4c3547d81a', '018bfbea-b302-4bec-8063-747eed228d5e', -1, current_date);
+
+-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+DROP FUNCTION IF EXISTS gar_fias_pcg_load.f_addr_obj_agg ( date, uuid[]);
+CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_addr_obj_agg (
+        p_curr_date date   = current_date
+       ,p_uuids     uuid[] = NULL
+)
+    RETURNS 
+       TABLE (
+                 fias_guid_new      uuid
+                ,fias_guid_old      uuid
+                ,nm_addr_obj        text 
+                ,addr_obj_type_id   bigint
+                ,obj_level          bigint
+       )
+    STABLE
+    LANGUAGE sql
+ AS
+  $$
+     WITH z (   id_addr_obj
+               ,id_addr_parent
+               ,nm_addr_obj
+               ,addr_obj_type_id
+               ,date_create
+               ,id_lead
+               ,obj_level
+      ) AS 
+        (
+          -- Выбираю записи, принадлежание обрабатываемой дате.
+          SELECT  x.id_addr_obj
+                 ,x.id_addr_parent
+                 ,upper(x.nm_addr_obj)
+                 ,x.addr_obj_type_id
+                 ,x.date_create
+                 ,x.id_lead
+                 ,x.obj_level
+                
+               FROM gar_fias.gap_adr_area x WHERE (x.date_create = p_curr_date) AND 
+                   (((x.fias_guid = ANY (p_uuids)) AND (p_uuids IS NOT NULL)) OR
+                    (p_uuids IS NULL)
+                   )  
+         )
+         
+           SELECT DISTINCT ON (a.fias_guid, b.fias_guid)
+                  a.fias_guid AS fias_guid_new
+                , b.fias_guid AS fias_guid_old 
+                , z.nm_addr_obj 
+                , z.addr_obj_type_id              
+                , z.obj_level
+           FROM z
+             JOIN gar_fias.gap_adr_area a ON (z.id_lead = a.id_addr_obj) AND  (z.date_create = a.date_create)
+             JOIN gar_fias.gap_adr_area b ON (z.id_lead <> b.id_addr_obj) AND (b.date_create = z.date_create) AND
+                                             (z.id_addr_parent = b.id_addr_parent)  AND
+                                             (z.nm_addr_obj = upper(b.nm_addr_obj)) AND
+                                             (z.addr_obj_type_id = b.addr_obj_type_id); 
+  $$;
+ 
+ALTER FUNCTION gar_fias_pcg_load.f_addr_obj_agg (date, uuid[]) OWNER TO postgres;  
+
+COMMENT ON FUNCTION gar_fias_pcg_load.f_addr_obj_agg (date, uuid[])
+    IS 'Функция формирует список объектов-двойников';    
+-- --------------
+--  USE CASE:
+--   EXPLAIN   SELECT * FROM gar_fias_pcg_load.f_addr_obj_agg (current_date, ARRAY['5470bf73-8900-4e4b-935c-d2724ea3ca3e', 'e4404769-507d-488e-9211-390769a182a0', '884e0862-aa3b-463d-9ac3-06bc2b1fdab8']::uuid[]);
+-----------------------------------------------------------------------------------------------------------
+
+
+
+-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DROP FUNCTION IF EXISTS gar_fias_pcg_load.f_adr_area_show_data (uuid, date, bigint);
 DROP FUNCTION IF EXISTS gar_fias_pcg_load.f_adr_area_show_data (uuid, date, bigint,integer);
 
@@ -878,7 +1001,7 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_addr_obj_update_children (
     -- Create date: 2022-08-31/2022-09-01
     -- -------------------------------------------------------------------------------- 
     -- Модификация отношения подчинённости в схеме gar_fias.
-    --   2023-10-27  Перестройка подчинеия, всё подчиняется самому новому родителю
+    --   2023-10-27  Перестройка подчинения, всё подчиняется самому новому родителю
     -- ================================================================================
   DECLARE
     _rec_one record; 
@@ -889,47 +1012,17 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_addr_obj_update_children (
     -- Должны совпадать: id_addr_parent, upper(nm_addr_obj), addr_obj_type_id.
     -- Далее обработка (пункты 0,1). 
     -- -----------------------------------------------------------------------------
-    FOR _rec_one IN 
-         WITH z (  id_addr_obj
-                  ,id_addr_parent
-                  ,nm_addr_obj
-                  ,addr_obj_type_id
-                  ,date_create
-                  ,id_lead
-                  ,obj_level
-         ) AS 
-           (
-             -- Выбираю записи, принадлежание обрабатываемой дате.
-             SELECT  x.id_addr_obj
-                    ,x.id_addr_parent
-                    ,upper(x.nm_addr_obj)
-                    ,x.addr_obj_type_id
-                    ,x.date_create
-                    ,x.id_lead
-                    ,x.obj_level
-                   
-                  FROM gar_fias.gap_adr_area x WHERE (x.date_create = p_date_2) 
-              ORDER BY  x.nm_addr_obj, x.id_addr_obj DESC     
-            )
-            
-              SELECT DISTINCT ON (a.fias_guid, b.fias_guid)
-                     a.fias_guid AS fias_guid_new
-                   , b.fias_guid AS fias_guid_old 
-                   , z.id_lead
-                   , z.id_addr_parent  
-                   , z.nm_addr_obj 
-                   , z.addr_obj_type_id              
-                   , z.id_addr_obj AS id_addr_obj_new
-                   , b.id_addr_obj AS id_addr_obj_old
-                   , z.obj_level
-              FROM z
-                JOIN gar_fias.gap_adr_area a ON (z.id_lead = a.id_addr_obj) AND  (z.date_create = a.date_create)
-                JOIN gar_fias.gap_adr_area b ON (z.id_lead <> b.id_addr_obj) AND (b.date_create = z.date_create) AND
-                                                (z.id_addr_parent = b.id_addr_parent)  AND
-                                                (z.nm_addr_obj = upper(b.nm_addr_obj)) AND
-                                                (z.addr_obj_type_id = b.addr_obj_type_id)                                               
-                                                		  
-      LOOP
+     FOR _rec_one IN 
+
+         SELECT  z.fias_guid_new    
+                ,z.fias_guid_old    
+                ,z.nm_addr_obj      
+                ,z.addr_obj_type_id 
+                ,z.obj_level        
+                
+         FROM gar_fias_pcg_load.f_addr_obj_agg ( p_date_2 ) z
+         
+     LOOP
         -- 0) Заменяю старого родителя на нового
         chld_qty_tot := gar_fias_pcg_load.f_addr_obj_update_parent (
                             _rec_one.fias_guid_old, _rec_one.fias_guid_new, p_date_2
@@ -940,44 +1033,57 @@ CREATE OR REPLACE FUNCTION gar_fias_pcg_load.f_addr_obj_update_children (
         UPDATE gar_fias.as_addr_obj SET end_date = (p_date_2 - interval '1 year')
            WHERE (object_guid = _rec_one.fias_guid_old);
         --
-        -- 2) Теперь запоминаю детей-двойников, связанных с актуальным родитеделем.
-        --
-        INSERT INTO gar_fias.twin_addr_objects AS k(
+        -- 2) Теперь запоминаю детей-двойников, связанных с актуальным родителем.
+
+        fias_guid_new    := _rec_one.fias_guid_new;
+        fias_guid_old    := _rec_one.fias_guid_old;
+        nm_addr_obj      := _rec_one.nm_addr_obj; 
+        addr_obj_type_id := _rec_one.addr_obj_type_id;
+        obj_level        := _rec_one.obj_level;
+
+        INSERT INTO gar_fias.twin_addr_objects (
 
                         fias_guid_new
                        ,fias_guid_old
                        ,obj_level  
                        ,date_create
         )
-           WITH x (
-                     id_addr_obj_new
-                    ,id_addr_obj_old 
-          )      
-            AS (
-                   SELECT DISTINCT id_lead, min(id_addr_obj) OVER (PARTITION BY id_lead) 
-                     FROM gar_fias_pcg_load.f_addr_area_show_data (
-                                                         p_fias_guid := _rec_one.fias_guid_new
-                                                        ,p_qty := 1
-                  )
-               )
-                 SELECT z1.object_guid  AS fias_guid_new 
-                       ,z2.object_guid  AS fias_guid_old 
-                       ,z1.obj_level 
-                       ,p_date_2
-                 FROM x
-                   INNER JOIN gar_fias.as_addr_obj z1 ON (z1.object_id = x.id_addr_obj_new)
-                   INNER JOIN gar_fias.as_addr_obj z2 ON (z2.object_id = x.id_addr_obj_old)
-
-        ON CONFLICT ON CONSTRAINT pk_twin_adr_objects DO NOTHING;
-        
-        fias_guid_new    := _rec_one.fias_guid_new;
-        fias_guid_old    := _rec_one.fias_guid_old;
-        nm_addr_obj      := _rec_one.nm_addr_obj; 
-        addr_obj_type_id := _rec_one.addr_obj_type_id;
-        obj_level        := _rec_one.obj_level;
+          VALUES (   _rec_one.fias_guid_new
+                    ,_rec_one.fias_guid_old
+                    ,_rec_one.obj_level
+                    ,p_date_2
+          )
+          
+        ON CONFLICT ON CONSTRAINT pk_twin_adr_objects DO NOTHING;              
         
         RETURN NEXT;
-      END LOOP;
+        
+     END LOOP;
+        --
+        --   фИНАЛ, дубли на нижнем уровне.
+        --    
+--      PERFORM gar_fias_pcg_load.f_addr_area_set_data ( 
+--        p_fias_guid  := NULL::uuid     
+--       ,p_qty        := 1
+--       ,p_descr      := 'ТЕСТ. Московская область'   
+--      );        
+--         
+--      INSERT INTO gar_fias.twin_addr_objects AS k(
+-- 
+--                      fias_guid_new
+--                     ,fias_guid_old
+--                     ,obj_level  
+--                     ,date_create
+--      )
+--          SELECT  z.fias_guid_new    
+--                 ,z.fias_guid_old    
+--                 ,z.obj_level 
+--                 ,p_date_2
+--                 
+--          FROM gar_fias_pcg_load.f_addr_obj_agg ( p_date_2 ) z
+--          
+--      ON CONFLICT ON CONSTRAINT pk_twin_adr_objects DO NOTHING;      
+      
   END;
  $$;
 

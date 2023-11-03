@@ -4,13 +4,13 @@ psql:./FUNCTION/f_addr_obj_update_parent.sql:43: ЗАМЕЧАНИЕ:  RELATION |
 psql:./FUNCTION/f_addr_obj_update_parent.sql:43: ЗАМЕЧАНИЕ:  RELATION | 246183 | gar_fias | as_adm_hierarchy
 psql:./FUNCTION/f_addr_area_set_data.sql:1: ЗАМЕЧАНИЕ:  функция gar_fias_pcg_load.f_adr_area_set_data(uuid,date,text) не существует, пропускается
 psql:./FUNCTION/f_addr_area_set_data.sql:2: ЗАМЕЧАНИЕ:  функция gar_fias_pcg_load.f_adr_area_set_data(uuid,date,pg_catalog.int8,pg_catalog.int4,text) не существует, пропускается
-psql:./FUNCTION/f_addr_area_set_data.sql:102: ЗАМЕЧАНИЕ:  FUNCTION | 253887 | gar_fias_pcg_load | f_addr_area_show_data | (uuid,date,bigint,integer)
+psql:./FUNCTION/f_addr_area_set_data.sql:102: ЗАМЕЧАНИЕ:  FUNCTION | 253963 | gar_fias_pcg_load | f_addr_area_show_data | (uuid,date,bigint,integer)
 psql:./FUNCTION/f_addr_area_set_data.sql:102: ЗАМЕЧАНИЕ:  RELATION | 246282 | gar_fias | gap_adr_area
 psql:./FUNCTION/f_addr_obj_update_children.sql:1: ЗАМЕЧАНИЕ:  функция gar_fias_pcg_load.f_addr_obj_update_children(uuid,uuid,date) не существует, пропускается
 psql:./FUNCTION/f_addr_obj_update_children.sql:2: ЗАМЕЧАНИЕ:  функция gar_fias_pcg_load.f_addr_obj_update_children(date,pg_catalog.int4[],uuid[],date) не существует, пропускается
 psql:./FUNCTION/f_addr_obj_update_children.sql:3: ЗАМЕЧАНИЕ:  функция gar_fias_pcg_load.f_addr_obj_update_children(date,pg_catalog.int4[],uuid[],date) не существует, пропускается
-psql:./FUNCTION/f_addr_obj_update_children.sql:126: ЗАМЕЧАНИЕ:  FUNCTION | 253887 | gar_fias_pcg_load | f_addr_area_show_data | (uuid,integer)
-psql:./FUNCTION/f_addr_obj_update_children.sql:126: ЗАМЕЧАНИЕ:  FUNCTION | 253889 | gar_fias_pcg_load | f_addr_obj_update_parent | (uuid,uuid,date)
+psql:./FUNCTION/f_addr_obj_update_children.sql:126: ЗАМЕЧАНИЕ:  FUNCTION | 253963 | gar_fias_pcg_load | f_addr_area_show_data | (uuid,integer)
+psql:./FUNCTION/f_addr_obj_update_children.sql:126: ЗАМЕЧАНИЕ:  FUNCTION | 253965 | gar_fias_pcg_load | f_addr_obj_update_parent | (uuid,uuid,date)
 psql:./FUNCTION/f_addr_obj_update_children.sql:126: ЗАМЕЧАНИЕ:  RELATION | 246157 | gar_fias | as_addr_obj
 psql:./FUNCTION/f_addr_obj_update_children.sql:126: ЗАМЕЧАНИЕ:  RELATION | 246282 | gar_fias | gap_adr_area
 psql:./FUNCTION/f_addr_obj_update_children.sql:126: ЗАМЕЧАНИЕ:  RELATION | 247293 | gar_fias | twin_addr_objects

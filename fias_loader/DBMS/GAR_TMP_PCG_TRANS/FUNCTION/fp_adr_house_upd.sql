@@ -55,8 +55,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_house_upd (
     --  В дальнейшем распространяю это на остальные фунции типа "_ins", "_upd"
     -- ----------------------------------------------------------------------------------- 
     --  2022-05-31 COALESCE только для NOT NULL полей.    
-    -- -----------------------------------------------------------------------------
-    --   2022-10-18 Вспомогательные таблицы..
+    -- ------------------------------------------------------------------------------------
+    --  2022-10-18 Вспомогательные таблицы..
     -- -------------------------------------------------------------------------------     
     
     DECLARE
@@ -251,7 +251,17 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_house_upd (
               INSERT INTO gar_tmp.adr_house_aux (id_house, op_sign)
               VALUES (_rr.id_house, UPD_OP)
                  ON CONFLICT (id_house) DO UPDATE SET op_sign = UPD_OP
-                     WHERE (gar_tmp.adr_house_aux.id_house = excluded.id_house);             
+                     WHERE (gar_tmp.adr_house_aux.id_house = excluded.id_house); 
+                     
+              IF NOT (p_nm_fias_guid = _rr.nm_fias_guid)
+                THEN
+                    CALL gar_fias_pcg_load.p_twin_addr_obj_put (
+                       p_fias_guid_new  := p_nm_fias_guid
+                      ,p_fias_guid_old  := _rr.nm_fias_guid
+                      ,p_obj_level      := 2::bigint
+                      ,p_date_create    := current_date
+                    );                       
+              END IF;                     
               
             END IF; -- compare
         ELSE
@@ -397,7 +407,17 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_house_upd (
                INSERT INTO gar_tmp.adr_house_aux (id_house, op_sign)
                 VALUES (_rr.id_house, UPD_OP)
                   ON CONFLICT (id_house) DO UPDATE SET op_sign = UPD_OP
-                      WHERE (gar_tmp.adr_house_aux.id_house = excluded.id_house);                
+                      WHERE (gar_tmp.adr_house_aux.id_house = excluded.id_house);  
+                      
+               IF NOT (p_nm_fias_guid = _rr.nm_fias_guid)
+                 THEN
+                    CALL gar_fias_pcg_load.p_twin_addr_obj_put (
+                       p_fias_guid_new  := p_nm_fias_guid
+                      ,p_fias_guid_old  := _rr.nm_fias_guid
+                      ,p_obj_level      := 2::bigint
+                      ,p_date_create    := current_date
+                    );                       
+               END IF;                                           
                
              ELSE
                   _id_house_new := NULL;     

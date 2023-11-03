@@ -5,7 +5,7 @@ X;;;Start process;
 0;CALL gar_fias_pcg_load.p_alt_tbl (FALSE);; -- Set UNLOGGED;
 #
 2;/media/rootadmin/Transcend/FIAS_GAR_2023_10_26;; -- Common XML-file;
-2;/media/rootadmin/Transcend/FIAS_GAR_2023_10_26/01;; -- Region XML-file;  # Адыгея Респ
+2;/media/rootadmin/Transcend/FIAS_GAR_2023_10_26/50;; -- Region XML-file;  # Московская обл.
 #
 0;SELECT gar_version_pcg_support.set_gar_dt_create ('2023-10-26'::date, now()::timestamp without time zone);; -- Data finish;
 0;CALL gar_fias_pcg_load.p_alt_tbl (TRUE);; -- Set LOGGED;  # in 4 min 30 secs.

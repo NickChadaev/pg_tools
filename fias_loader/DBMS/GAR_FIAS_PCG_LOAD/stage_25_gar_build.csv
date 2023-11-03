@@ -28,6 +28,9 @@ X;;;Start process, Сборка gar-пакета;
 #
 5;version.sql;;-- Версия 5ac285e/2023-11-01;
 #
+5;PROCEDURE/p_twin_addr_objects_put.sql;;-- p_twin_addr_objects_put.sql;
+5;FUNCTION/f_addr_obj_agg.sql          ;;-- f_addr_obj_agg.sql;
+#
 5;FUNCTION/f_addr_area_show_data.sql    ;;-- f_addr_area_show_data.sql;
 5;FUNCTION/f_addr_obj_update_parent.sql;;-- f_addr_obj_update_parent.sql;
 5;FUNCTION/f_addr_area_set_data.sql     ;;-- f_addr_area_set_data.sql;

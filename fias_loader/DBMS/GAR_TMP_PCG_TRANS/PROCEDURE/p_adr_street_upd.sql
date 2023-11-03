@@ -238,7 +238,17 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_upd (
                 VALUES (_rr.id_street, UPD_OP)
                    ON CONFLICT (id_street) DO UPDATE SET op_sign = UPD_OP
                        WHERE (gar_tmp.adr_street_aux.id_street = excluded.id_street);               
-                    
+               --
+               IF NOT (_rr.nm_fias_guid = p_nm_fias_guid)
+                 THEN
+                      CALL gar_fias_pcg_load.p_twin_addr_obj_put (
+                         p_fias_guid_new  := p_nm_fias_guid
+                        ,p_fias_guid_old  := _rr.nm_fias_guid
+                        ,p_obj_level      := 1::bigint
+                        ,p_date_create    := current_date
+                      );               
+               END IF;                       
+                       
              END IF; -- compare
       END IF; -- rr.id_street IS NOT NULL  
      
@@ -252,11 +262,6 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_upd (
           _rr = gar_tmp_pcg_trans.f_adr_street_get (p_schema_name, p_nm_fias_guid);
           _rr1 = gar_tmp_pcg_trans.f_adr_street_get (p_schema_name
                                          , p_id_area, p_nm_street, p_id_street_type);
-          ---
-          --_exec := format (_sel_twin, p_schema_name, 
-          --                       p_id_area, p_nm_street, p_id_street_type, p_nm_fias_guid
-          --);   
-          --EXECUTE _exec INTO _rr1;
           
           IF _rr1.id_street IS NOT NULL 
             THEN
@@ -277,9 +282,6 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_upd (
                                       ,0
                );            
                EXECUTE _exec;
-               
-               -- _exec := format (_del_twins, p_schema_name, _rr1.id_street);
-               -- EXECUTE _exec;
             
                _exec := format (_upd_id, p_schema_name
                       ,_rr1.id_area                       
@@ -353,7 +355,17 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_upd (
               INSERT INTO gar_tmp.adr_street_aux (id_street, op_sign)
                 VALUES (_rr.id_street, UPD_OP)
                    ON CONFLICT (id_street) DO UPDATE SET op_sign = UPD_OP
-                       WHERE (gar_tmp.adr_street_aux.id_street = excluded.id_street);              
+                       WHERE (gar_tmp.adr_street_aux.id_street = excluded.id_street);     
+                       
+              IF NOT (_rr.nm_fias_guid = p_nm_fias_guid)
+                 THEN
+                      CALL gar_fias_pcg_load.p_twin_addr_obj_put (
+                         p_fias_guid_new  := p_nm_fias_guid
+                        ,p_fias_guid_old  := _rr.nm_fias_guid
+                        ,p_obj_level      := 1::bigint
+                        ,p_date_create    := current_date
+                      );               
+              END IF;                           
               
           END IF;  -- COMPARE _rr. (_rr.id_street IS NOT NULL) AND (_rr1.id_street IS NOT NULL)             
  	    END; -- unique_violation	

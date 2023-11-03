@@ -1,0 +1,23 @@
+X;;;Start process, Подготовка;
+#
+0;SELECT * FROM gar_tmp.adr_area WHERE (id_area = 50);;-- Проверка региона;
+0;CALL gar_tmp_pcg_trans.p_alt_tbl(TRUE);; -- Set LOGGED;
+0;CALL gar_tmp_pcg_trans.p_gar_fias_crt_idx();; -- Установка индексного покрытия в схеме в схеме GAR_FIAS;
+0;CALL gar_tmp_pcg_trans.p_clear_tbl(ARRAY[1,7]::integer[]);; -- Очистка данных во временной схеме;
+#
+0;SELECT * FROM gar_fias_pcg_load.f_addr_area_set_data(p_fias_guid := NULL::uuid, p_qty := 1, p_descr := 'ТЕСТ. Московская обл');;-- Заполнение таблицы с дефектными данными;   
+0;SELECT * FROM gar_fias_pcg_load.f_addr_obj_update_children() ORDER BY nm_addr_obj;; -- Обработка таблицы с дефектными данными;
+0;SELECT * FROM gar_fias_pcg_load.f_addr_area_show_data (p_fias_guid := NULL::uuid, p_qty := 1);; -- Ещё раз проверка дублей; 
+#
+##### 0;SELECT gar_tmp_pcg_trans.f_xxx_obj_seq_crt ('gar_tmp.obj_seq', 50, 100000000, 'gar_tmp', 'gar_tmp', 'gar_tmp','gar_tmp.obj_hist_seq');; Установка gar_tmp.obj_seq/gar_tmp.obj_hist_seq;
+##### 0;SELECT gar_tmp_pcg_trans.f_set_params_value();; -- Агрегация параметров;
+##### #
+##### 0;SELECT gar_tmp_pcg_trans.f_xxx_adr_area_set_data ();; -- Агрегация адресных пространств;
+##### 0;SELECT gar_tmp_pcg_trans.f_xxx_adr_house_set_data ();; -- Агрегация домовладений;
+##### #
+##### 0;SELECT gar_tmp_pcg_trans.f_xxx_obj_fias_set_data ('gar_tmp','gar_tmp','gar_tmp');; -- Заполнение рабочей таблицы "gar_tmp.xxx_obj_fias";
+#
+X;;;Stop process;
+#-------------------------------------------------------------
+#  Пример вызова
+# load_mainGar.py 127.0.0.1 5434 xxx_test postgres stage_3.csv ./ '2021-12-30'

@@ -2,6 +2,7 @@
 --   2023-10-31  Тестирование.
 --
 BEGIN;
+SELECT * FROM gar_tmp.adr_area WHERE (id_area_parent IS NULL);
    SELECT * FROM gar_fias_pcg_load.f_addr_area_show_data (p_fias_guid := NULL::uuid, p_qty := 1);  -- 178
 --------------------------------------------------------------------------------------------------------
 -- 818076|811082|'80a6adb4-a120-4f45-9a50-646ee565d37a'|'d177d438-ea69-4169-854c-d4512d7c8ebe'|'Уварово'|55|'д'|6|'Населенный пункт'|'50'|'0'|'1'|'175'|'0'|'0'|2164192|0|1|'Инициация'|'1900-01-01'|'2079-06-06'|825559|'{807356,811082,818076}'|3
@@ -454,7 +455,7 @@ SELECT * FROM gar_fias_pcg_load.f_addr_obj_update_children() ORDER BY nm_addr_ob
 
 
 --------------------------------------------------------------------------------------------
-SELECT * FROM gar_fias.twin_addr_objects ORDER BY obj_level; -- 78
+SELECT * FROM gar_fias.twin_addr_objects ORDER BY obj_level; -- 78|75
 -----------------------------------------
 -- 'ecf6510a-e8bf-480b-a637-d027670a3385'|'217176cd-4e0d-4ebc-b694-f8f112a525d6'|6|'2023-11-01'
 -- 'a3f9275e-104e-41c6-af7e-b7446f422e8c'|'30cd6a92-e9a6-451d-9669-8e999c7ad10d'|6|'2023-11-01'

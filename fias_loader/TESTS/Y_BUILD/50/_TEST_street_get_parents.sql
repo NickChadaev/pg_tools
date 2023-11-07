@@ -1,4 +1,12 @@
 --
+--   2023-11-03  Состояние до начала обработки
+--
+SELECT * FROM gar_tmp.xxx_adr_area_gap;
+SELECT * FROM gar_tmp.xxx_adr_street_gap;
+SELECT * FROM gar_tmp.xxx_adr_house_gap;
+SELECT * FROM gar_fias.twin_addr_objects;
+
+--
 --   2023-10-31  Тестирование.
 --
 BEGIN;

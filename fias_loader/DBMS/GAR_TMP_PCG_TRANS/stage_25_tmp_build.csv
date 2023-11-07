@@ -26,7 +26,7 @@
 #-------------------------------------------------------------------------------
 X;;;Start process, Сборка процессингового пакета;
 #
-5;version.sql;;-- Версия 1555bdb/2023-10-13; 
+5;version.sql;;-- Версия 193f38c/2023-11-03; 
 5;drop_objects.sql;;-- drop_objects.sql;
 5;../GAR_TMP/CreateViewGarTmp.sql;;-- CreateViewGarTmp.sql;
 #

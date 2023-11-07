@@ -13,8 +13,11 @@ BEGIN;
   SELECT * FROM gar_tmp.adr_house_hist WHERE (id_region = 0) AND (date_create >= (now() - INTERVAL '1 DAY'))
         ORDER BY date_create;
  
-  SELECT * FROM gar_tmp.adr_house ORDER BY id_house DESC LIMIT 6494;
- 
+  SELECT x.op_sign, h.* FROM gar_tmp.adr_house h  
+      INNER JOIN gar_tmp.adr_house_aux x ON (x.id_house = h.id_house);
+
+  SELECT * FROM gar_tmp.xxx_adr_house_gap;  
+  SELECT * FROM gar_fias.twin_addr_objects WHERE (obj_level IN(0,1,2))  ORDER BY obj_level DESC; 
   --
 -- ROLLBACK;
 COMMIT;

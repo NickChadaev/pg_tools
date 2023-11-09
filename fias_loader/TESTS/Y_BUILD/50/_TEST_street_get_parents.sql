@@ -4,7 +4,9 @@
 SELECT * FROM gar_tmp.xxx_adr_area_gap;
 SELECT * FROM gar_tmp.xxx_adr_street_gap;
 SELECT * FROM gar_tmp.xxx_adr_house_gap;
-SELECT * FROM gar_fias.twin_addr_objects;
+SELECT * FROM gar_fias.twin_addr_objects; -- 81
+
+SELECT * FROM gar_fias.twin_addr_objects WHERE (obj_level IN(0,1,2)) ORDER BY obj_level;
 
 --
 --   2023-10-31  Тестирование.

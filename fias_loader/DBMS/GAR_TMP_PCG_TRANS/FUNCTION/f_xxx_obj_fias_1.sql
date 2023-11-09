@@ -26,8 +26,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_obj_fias_show_data_1 (
 		        ,aa.tree_d
 		        ,aa.level_d
                 
-             FROM gar_tmp.xxx_adr_area aa  
-                    WHERE (aa.obj_level = 8)  -- 2023-10-04 ..  Х ....тень была
+             FROM gar_tmp.xxx_adr_area aa WHERE (aa.obj_level = 1)  -- 2023-11-09 ..  Х ....тень была
 		     ORDER BY tree_d
       )
                 INSERT INTO %I
@@ -55,6 +54,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_obj_fias_show_data_1 (
     --  2021-12-06 Nick    УЛИЦЫ
     --    Функция подготавливает исходные данные для таблицы-прототипа 
     --                    "gar_tmp.xxx_obj_fias"
+    -- 2023-11-09 Отказ от разделения объектов по уровням ФИАС, .. ногу сломает.
+    --   0 - адресные объекты, 1-  элементы дорожной структуры        
     -- --------------------------------------------------------------------------
     --     p_schema_name text -- Имя схемы-источника._
     -- --------------------------------------------------------------------------

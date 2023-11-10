@@ -11,12 +11,12 @@ control_params:
     stage_3_2: False
     stage_3_3: True    
     #
-    mogrify_3_I: False # True            
-    mogrify_3_9: False # True     
-    mogrify_3_0: False # True    
-    mogrify_3_1: False # True    
-    mogrify_3_2: False # True    
-    mogrify_3_3: False # True     
+    mogrify_3_I: True  #  False           
+    mogrify_3_9: True  #  False    
+    mogrify_3_0: True  #  False   
+    mogrify_3_1: True  #  False   
+    mogrify_3_2: True  #  False   
+    mogrify_3_3: True  #  False    
     
 global_params:
     g_region_id: 01   # Адыгея
@@ -46,16 +46,26 @@ gar_fias_set_gap:
     descr: Заполнение таблицы с активными предшественниками
     params_adr_area:                       
         p_skip: False
+        p_date: DATE(current_date)
+        p_obj_level: 16
+        p_qty: 1
+        
     params_adr_house:                       
         p_skip: True
 #
 gar_fias_update_children:  
     descr: Обработка таблицы с активными предшественниками, переподчинение и деактивация
-    param_adr_area:
+    param_adr_area_update:
         p_skip: False
-        p_date_1: DATE(current_date)    # НЕ ИСПОЛЬЗУЕТСЯ.
-        p_obj_level: [6,7,8] 
-        p_date_2: DATE(current_date)  # Дата, на которую выбираются данные !!!
+        p_date_2: DATE(current_date) 
+#        
+gar_fias_addr_obj_select_twins:
+    descr: Повторное/Контрольное отображение дубликатов
+    param_select_twin:
+        p_skip: False
+        p_date: DATE(current_date)
+        p_obj_level: 16
+        p_qty: 1    
 #  
 # stage_3_0
 #
@@ -78,7 +88,7 @@ gar_tmp_clear_tbl:
     descr: Очистка данных во временной схеме.
     params:                       
         p_skip: False
-        p_sw: [1,2] 
+        p_sw: [1,2,7] 
 #    
 gar_tmp_switch_indexies:   
     descr: Смена индексного покрытия в отдалённых таблицах

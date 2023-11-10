@@ -1,0 +1,104 @@
+
+psql -h 127.0.0.1 -p 5434 -c "SELECT * FROM unnsi.adr_area WHERE (id_area = 6::bigint);   
+        "  unsi_test_05  -U postgres 1>> process.out 2>> process.err
+
+psql -h 127.0.0.1 -p 5434 -c "CALL gar_tmp_pcg_trans.p_gar_fias_crt_idx (
+                                                p_sw := True::boolean);"  unsi_test_05  -U postgres 1>> process.out 2>> process.err
+
+psql -h 127.0.0.1 -p 5434 -c "SELECT gar_fias_pcg_load.f_addr_area_set_data (
+              p_fias_guid := (gar_tmp_pcg_trans.f_adr_area_get('unnsi',6)).nm_fias_guid::uuid
+             ,p_date      := '2023-11-10'::date
+             ,p_obj_level := 16::bigint 
+             ,p_qty       := 1::integer          
+             ,p_descr     := (gar_tmp_pcg_trans.f_adr_area_get('unnsi',6)).nm_area_full::text);"  unsi_test_05  -U postgres 1>> process.out 2>> process.err
+
+psql -h 127.0.0.1 -p 5434 -c "SELECT * FROM gar_fias_pcg_load.f_addr_obj_update_children (
+                   p_date_2 := 2023-11-10::date) ORDER BY nm_addr_obj;"  unsi_test_05  -U postgres 1>> process.out 2>> process.err
+
+psql -h 127.0.0.1 -p 5434 -c "SELECT * FROM gar_fias_pcg_load.f_addr_area_show_data (
+              p_fias_guid := (gar_tmp_pcg_trans.f_adr_area_get('unnsi',6)).nm_fias_guid::uuid
+             ,p_date      := '2023-11-10'::date
+             ,p_obj_level := 16::bigint 
+             ,p_qty       := 1::integer);"  unsi_test_05  -U postgres 1>> process.out 2>> process.err
+
+psql -h 127.0.0.1 -p 5434 -c "CALL gar_tmp_pcg_trans.p_alt_tbl (p_all := True::boolean);"  unsi_test_05  -U postgres 1>> process.out 2>> process.err
+
+psql -h 127.0.0.1 -p 5434 -c "CALL gar_tmp_pcg_trans.p_clear_tbl (p_op_type := ARRAY[1, 2, 7]::integer[]);
+        "  unsi_test_05  -U postgres 1>> process.out 2>> process.err
+
+psql -h 127.0.0.1 -p 5434 -c "CALL gar_tmp_pcg_trans.p_adr_area_type_unload (
+	                                                    p_sch_local  := 'gar_tmp'::text
+	                                                   ,p_sch_remote := 'unnsi'::text
+        );        
+        "  unsi_test_05  -U postgres 1>> process.out 2>> process.err
+
+psql -h 127.0.0.1 -p 5434 -c "CALL gar_tmp_pcg_trans.p_adr_street_type_unload (
+	                                                    p_sch_local  := 'gar_tmp'::text
+	                                                   ,p_sch_remote := 'unnsi'::text
+        );        
+        "  unsi_test_05  -U postgres 1>> process.out 2>> process.err
+
+psql -h 127.0.0.1 -p 5434 -c "CALL gar_tmp_pcg_trans.p_adr_house_type_unload (
+	                                                    p_sch_local  := 'gar_tmp'::text
+	                                                   ,p_sch_remote := 'unnsi'::text
+        );
+	     "  unsi_test_05  -U postgres 1>> process.out 2>> process.err
+
+psql -h 127.0.0.1 -p 5434 -c "CALL gar_tmp_pcg_trans.p_adr_area_unload (
+              p_schema_name := 'unnsi'::text  
+             ,p_id_region   := 6::bigint
+             ,p_conn        := (gar_link.f_conn_set(13::numeric(3)))::text -- Именованное dblink-соединение    
+           );
+        "  unsi_test_05  -U postgres 1>> process.out 2>> process.err
+
+psql -h 127.0.0.1 -p 5434 -c "CALL gar_tmp_pcg_trans.p_adr_street_unload (
+              p_schema_name := 'unnsi'::text  
+             ,p_id_region   := 6::bigint
+             ,p_conn        := (gar_link.f_conn_set(13::numeric(3)))::text -- Именованное dblink-соединение    
+           );
+        "  unsi_test_05  -U postgres 1>> process.out 2>> process.err
+
+psql -h 127.0.0.1 -p 5434 -c "CALL gar_tmp_pcg_trans.p_adr_house_unload (
+              p_schema_name := 'unnsi'::text  
+             ,p_id_region   := 6::bigint
+             ,p_conn        := (gar_link.f_conn_set(13::numeric(3)))::text -- Именованное dblink-соединение    
+           );
+        "  unsi_test_05  -U postgres 1>> process.out 2>> process.err
+
+psql -h 127.0.0.1 -p 5434 -c "SELECT gar_tmp_pcg_trans.f_xxx_obj_seq_crt (
+              p_seq_name   := 'gar_tmp.obj_seq'::text -- Имя последовательности
+             ,p_id_region  := 6::bigint -- ID региона
+             ,p_init_value := 100000000::bigint -- Начальное значение    
+              --                       Схемы
+             ,p_adr_area_sch   := 'gar_tmp'::text -- Адресные пространства
+             ,p_adr_street_sch := 'gar_tmp'::text -- Улицы
+             ,p_adr_house_sch  := 'gar_tmp'::text -- Дома
+              --
+             ,p_seq_hist_name := 'gar_tmp.obj_hist_seq'::text -- Имя исторической последовательности (УСТАРЕЛО)
+        );
+        "  unsi_test_05  -U postgres 1>> process.out 2>> process.err
+
+psql -h 127.0.0.1 -p 5434 -c "SELECT gar_tmp_pcg_trans.f_set_params_value (
+              p_param_type_ids := ARRAY[5, 6, 7, 8, 10, 11]::bigint[]
+            ); 
+        "  unsi_test_05  -U postgres 1>> process.out 2>> process.err
+
+psql -h 127.0.0.1 -p 5434 -c "SELECT gar_tmp_pcg_trans.f_xxx_adr_area_set_data (
+              p_date          := DATE(current_date)::date     -- Дата, на которую выбираются данные
+             ,p_obj_level     := 10::bigint   -- Уровень объекта
+             ,p_oper_type_ids := NULL::bigint[] -- Типы операций.
+        );
+        "  unsi_test_05  -U postgres 1>> process.out 2>> process.err
+
+psql -h 127.0.0.1 -p 5434 -c " SELECT gar_tmp_pcg_trans.f_xxx_adr_house_set_data (
+              p_date          := DATE(current_date)::date  
+             ,p_parent_obj_id := NULL::bigint
+        ); 
+        "  unsi_test_05  -U postgres 1>> process.out 2>> process.err
+
+psql -h 127.0.0.1 -p 5434 -c "SELECT gar_tmp_pcg_trans.f_xxx_obj_fias_set_data (
+              p_adr_area_sch   := 'gar_tmp'::text -- Отдалённая/Локальная схема для хранения адресных областей
+             ,p_adr_street_sch := 'gar_tmp'::text -- Отдалённая/Локальная схема для хранения улиц
+             ,p_adr_house_sch  := 'gar_tmp'::text -- Отдалённая/Локальная схема для хранения домов/строений
+        );
+        "  unsi_test_05  -U postgres 1>> process.out 2>> process.err

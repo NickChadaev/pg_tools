@@ -7,17 +7,17 @@ psql -h 127.0.0.1 -p 5434 -c "CALL gar_tmp_pcg_trans.p_gar_fias_crt_idx (
 
 psql -h 127.0.0.1 -p 5434 -c "SELECT gar_fias_pcg_load.f_addr_area_set_data (
               p_fias_guid := (gar_tmp_pcg_trans.f_adr_area_get('unnsi',6)).nm_fias_guid::uuid
-             ,p_date      := '2023-11-10'::date
+             ,p_date      := '2023-11-13'::date
              ,p_obj_level := 16::bigint 
              ,p_qty       := 1::integer          
              ,p_descr     := (gar_tmp_pcg_trans.f_adr_area_get('unnsi',6)).nm_area_full::text);"  unsi_test_05  -U postgres 1>> process.out 2>> process.err
 
-psql -h 127.0.0.1 -p 5434 -c "SELECT * FROM gar_fias_pcg_load.f_addr_obj_update_children (
-                   p_date_2 := 2023-11-10::date) ORDER BY nm_addr_obj;"  unsi_test_05  -U postgres 1>> process.out 2>> process.err
+psql -h 127.0.0.1 -p 5434 -c "SELECT * FROM gar_fias_pcg_load.f_addr_obj_update_children(
+                   p_date_2 := 2023-11-13::date) ORDER BY nm_addr_obj;"  unsi_test_05  -U postgres 1>> process.out 2>> process.err
 
-psql -h 127.0.0.1 -p 5434 -c "SELECT * FROM gar_fias_pcg_load.f_addr_area_show_data (
+psql -h 127.0.0.1 -p 5434 -c "SELECT * FROM gar_fias_pcg_load.f_addr_area_show_data(
               p_fias_guid := (gar_tmp_pcg_trans.f_adr_area_get('unnsi',6)).nm_fias_guid::uuid
-             ,p_date      := '2023-11-10'::date
+             ,p_date      := '2023-11-13'::date
              ,p_obj_level := 16::bigint 
              ,p_qty       := 1::integer);"  unsi_test_05  -U postgres 1>> process.out 2>> process.err
 

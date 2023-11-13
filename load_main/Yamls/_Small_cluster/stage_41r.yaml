@@ -5,15 +5,15 @@
 control_params:
     stage_4_1: True
     stage_4_2: True
-    stage_a_p: False  
+    stage_a_p: True  
     #
     stage_4_3: True
     stage_4_4: True
-    stage_s_p: False
+    stage_s_p: True
     #
     stage_4_5: True
     stage_4_6: True
-    stage_h_p: False    
+    stage_h_p: True
     #
     mogrify_4_1: False ##  True      
     mogrify_4_2: False ##  True   
@@ -56,7 +56,7 @@ adr_area:
     #       
     post_proc:
         p_descr: Постобработка списка адресных регионов
-        p_query_1: /home/rootadmin/abr_upload/A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_area_post_proc.sql # Имя сценария
+        p_query_1: /home/rootadmin/abr_upload/A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_area_post_proc_90.sql # Имя сценария
 #            
 adr_street:
     #  
@@ -87,7 +87,7 @@ adr_street:
     #       
     post_proc:
         p_descr: Постобработка списка улиц
-        p_query_1: /home/rootadmin/abr_upload/A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_street_post_proc.sql # Имя сценария
+        p_query_1: /home/rootadmin/abr_upload/A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_street_post_proc_90.sql # Имя сценария
 # 
 adr_house:
     #  
@@ -119,5 +119,5 @@ adr_house:
     #       
     post_proc:
         p_descr:  Постобработка списка домов
-        p_query_1: /home/rootadmin/abr_upload/A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_house_post_proc.sql # Имя сценария
+        p_query_1: /home/rootadmin/abr_upload/A_FIAS_LOADER/GAR_TMP_PCG_TRANS/DO/adr_house_post_proc_90.sql # Имя сценария
 #

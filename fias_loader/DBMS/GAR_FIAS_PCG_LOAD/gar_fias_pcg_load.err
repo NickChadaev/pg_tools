@@ -1,19 +1,20 @@
-psql:./PROCEDURE/p_twin_addr_objects_put.sql:43: ЗАМЕЧАНИЕ:  RELATION | 254316 | gar_fias | twin_addr_objects
+psql:./PROCEDURE/p_twin_addr_objects_put.sql:43: ЗАМЕЧАНИЕ:  RELATION | 258584 | gar_fias | twin_addr_objects
 psql:./FUNCTION/f_addr_area_show_data.sql:1: ЗАМЕЧАНИЕ:  функция gar_fias_pcg_load.f_adr_area_show_data(uuid,date,pg_catalog.int8) не существует, пропускается
 psql:./FUNCTION/f_addr_area_show_data.sql:2: ЗАМЕЧАНИЕ:  функция gar_fias_pcg_load.f_adr_area_show_data(uuid,date,pg_catalog.int8,pg_catalog.int4) не существует, пропускается
 psql:./FUNCTION/f_addr_obj_update_parent.sql:43: ЗАМЕЧАНИЕ:  RELATION | 172043 | gar_fias | as_addr_obj
 psql:./FUNCTION/f_addr_obj_update_parent.sql:43: ЗАМЕЧАНИЕ:  RELATION | 172069 | gar_fias | as_adm_hierarchy
 psql:./FUNCTION/f_addr_area_set_data.sql:1: ЗАМЕЧАНИЕ:  функция gar_fias_pcg_load.f_adr_area_set_data(uuid,date,text) не существует, пропускается
 psql:./FUNCTION/f_addr_area_set_data.sql:2: ЗАМЕЧАНИЕ:  функция gar_fias_pcg_load.f_adr_area_set_data(uuid,date,pg_catalog.int8,pg_catalog.int4,text) не существует, пропускается
-psql:./FUNCTION/f_addr_area_set_data.sql:102: ЗАМЕЧАНИЕ:  FUNCTION | 254376 | gar_fias_pcg_load | f_addr_area_show_data | (uuid,date,bigint,integer)
+psql:./FUNCTION/f_addr_area_set_data.sql:102: ЗАМЕЧАНИЕ:  FUNCTION | 258593 | gar_fias_pcg_load | f_addr_area_show_data | (uuid,date,bigint,integer)
 psql:./FUNCTION/f_addr_area_set_data.sql:102: ЗАМЕЧАНИЕ:  RELATION | 172168 | gar_fias | gap_adr_area
 psql:./FUNCTION/f_addr_obj_update_children.sql:1: ЗАМЕЧАНИЕ:  функция gar_fias_pcg_load.f_addr_obj_update_children(uuid,uuid,date) не существует, пропускается
 psql:./FUNCTION/f_addr_obj_update_children.sql:2: ЗАМЕЧАНИЕ:  функция gar_fias_pcg_load.f_addr_obj_update_children(date,pg_catalog.int4[],uuid[],date) не существует, пропускается
 psql:./FUNCTION/f_addr_obj_update_children.sql:3: ЗАМЕЧАНИЕ:  функция gar_fias_pcg_load.f_addr_obj_update_children(date,pg_catalog.int4[],uuid[],date) не существует, пропускается
-psql:./FUNCTION/f_addr_obj_update_children.sql:109: ЗАМЕЧАНИЕ:  FUNCTION | 254375 | gar_fias_pcg_load | f_addr_obj_agg | (date)
-psql:./FUNCTION/f_addr_obj_update_children.sql:109: ЗАМЕЧАНИЕ:  FUNCTION | 254378 | gar_fias_pcg_load | f_addr_obj_update_parent | (uuid,uuid,date)
-psql:./FUNCTION/f_addr_obj_update_children.sql:109: ЗАМЕЧАНИЕ:  RELATION | 172043 | gar_fias | as_addr_obj
-psql:./FUNCTION/f_addr_obj_update_children.sql:109: ЗАМЕЧАНИЕ:  RELATION | 254316 | gar_fias | twin_addr_objects
+psql:./FUNCTION/f_addr_obj_update_children.sql:135: ЗАМЕЧАНИЕ:  FUNCTION | 258593 | gar_fias_pcg_load | f_addr_area_show_data | (uuid,integer,date)
+psql:./FUNCTION/f_addr_obj_update_children.sql:135: ЗАМЕЧАНИЕ:  FUNCTION | 258592 | gar_fias_pcg_load | f_addr_obj_agg | (date)
+psql:./FUNCTION/f_addr_obj_update_children.sql:135: ЗАМЕЧАНИЕ:  FUNCTION | 258595 | gar_fias_pcg_load | f_addr_obj_update_parent | (uuid,uuid,date)
+psql:./FUNCTION/f_addr_obj_update_children.sql:135: ЗАМЕЧАНИЕ:  RELATION | 172043 | gar_fias | as_addr_obj
+psql:./FUNCTION/f_addr_obj_update_children.sql:135: ЗАМЕЧАНИЕ:  RELATION | 258584 | gar_fias | twin_addr_objects
 psql:./PROCEDURE/del_gar_all.sql:1: ЗАМЕЧАНИЕ:  функция gar_fias_pcg_load.del_gar_addr_obj(pg_catalog.int8) не существует, пропускается
 psql:./PROCEDURE/save_gar_addr_obj.sql:106: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_addr_obj.id%TYPE преобразована в тип bigint
 psql:./PROCEDURE/save_gar_addr_obj.sql:106: ЗАМЕЧАНИЕ:  ссылка на тип gar_fias.as_addr_obj.object_id%TYPE преобразована в тип bigint

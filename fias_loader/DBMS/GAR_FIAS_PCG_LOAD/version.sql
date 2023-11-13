@@ -3,4 +3,4 @@
 --
 CREATE OR REPLACE VIEW gar_fias_pcg_load.version
  AS
- SELECT '$Revision:5ac285e$ modified $RevDate:2023-11-01$'::text AS version; 
+ SELECT '$Revision:18c681c$ modified $RevDate:2023-11-13$'::text AS version; 

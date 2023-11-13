@@ -778,8 +778,168 @@ $>
        --       Генератор parsing-scripts, включитьв текст создаваемого скрипта
                 вызов функции, удаляющей индексы в gar_fias.
                 
-       --       Py-сценарии для этапа 3         
+       -+       Py-сценарии для этапа 3  
        
- ==================================================================================================
- 
- 
+       -- Дополнительные скрипты для этапа 4
+       
+---------------------------------------------------------------------------------------------
+2023-11-10
+
+$>git push origin FilterObj
+Username for 'https://github.com': nick-ch58@yandex.ru
+Password for 'https://nick-ch58@yandex.ru@github.com': 
+Подсчет объектов: 101, готово.
+Delta compression using up to 4 threads.
+Сжатие объектов: 100% (101/101), готово.
+Запись объектов: 100% (101/101), 10.48 MiB | 584.00 KiB/s, готово.
+Total 101 (delta 68), reused 0 (delta 0)
+remote: Resolving deltas: 100% (68/68), completed with 37 local objects.
+remote: warning: See https://gh.io/lfs for more information.
+remote: warning: File fias_loader/TESTS/Y_BUILD/23/_OLD_process.out is 58.63 MB; this is larger than GitHub's recommended maximum file size of 50.00 MB
+remote: warning: GH001: Large files detected. You may want to try Git Large File Storage - https://git-lfs.github.com.
+To https://github.com/NickChadaev/pg_tools/
+   bbf602f..1332c31  FilterObj -> FilterObj
+
+   
+   
+   2023-11-13
+   ----------   
+                  -- Ревизия py-кода + сокращение атрибутного состава YAML-3
+                  
+-- --------------------------------------------------------------------------------------
+--     Для обсуждения.
+-- --------------------------------------------------------------------------------------
+
+$>python stage_3_yaml.py  ../Yamls/_Small_cluster stage_31r.yaml 3, \('unnsi', 'unnsi', 'unnsi', 'gar_tmp'\), 6, '2023-12-12' 
+
+** Control **
+
+True
+True
+True
+True
+False
+True
+True
+True
+True
+True
+True
+True
+
+**  Global **
+
+1
+13
+unnsi
+unnsi
+unnsi
+gar_tmp
+gar_tmp
+gar_tmp
+gar_tmp
+
+** stage_3_I **
+
+Создание рабочих индексов в схеме gar_fias. False-удаление, True-удаление,создание.
+False
+True
+
+** stage_3_9 **
+
+Заполнение таблицы с активными предшественниками
+False
+DATE(current_date)
+16
+1
+True
+Обработка таблицы с активными предшественниками, переподчинение и деактивация
+False
+DATE(current_date)
+Повторное/Контрольное отображение дубликатов
+False
+DATE(current_date)
+16
+1
+
+** stage_3_0 **
+
+Установка признака LOGGED/UNLOGGED у таблиц в схеме gar_tmp
+False
+True
+Очистка данных во временной схеме.
+False
+[1, 2, 7]
+Смена индексного покрытия в отдалённых таблицах
+True
+True
+True
+True
+True
+
+** stage_3_1 **
+
+Загрузка данных из таблицы ADR_AREA_TYPE
+False
+Загрузка данных из таблицы ADR_STREET_TYPE
+False
+Загрузка данных из таблицы ADR_HOUSE_TYPE
+False
+Загрузка регионального фрагмента из таблицы ADR_AREA
+False
+Загрузка регионального фрагмента из таблицы ADR_STREET
+False
+Загрузка регионального фрагмента из таблицы ADR_HOUSE
+False
+True
+Установка последовательностей
+False
+gar_tmp.obj_seq
+gar_tmp.obj_hist_seq
+100000000
+gar_tmp
+gar_tmp
+gar_tmp
+
+** stage_3_2 **
+
+Актуализация справочников (промежуточные XXX структуры)
+[]
+[1]
+Промежуточный справочник типов адресных пространств
+True
+[]
+UPDATE gar_tmp.xxx_adr_area_type SET fias_ids = fias_ids || 340::bigint WHERE (id_area_type = 51);
+SELECT * FROM gar_tmp.xxx_adr_area_type ORDER BY 2;
+Промежуточный справочник типов улиц
+True
+[]
+None
+SELECT * FROM gar_tmp.xxx_adr_street_type ORDER BY 2;
+Промежуточный справочник типов домовладений
+True
+[]
+None
+SELECT * FROM gar_tmp.xxx_adr_house_type ORDER BY 2;
+
+** stage_3_3 **
+Агрегация данных
+False
+Агрегация параметров
+[5, 6, 7, 8, 10, 11]
+False
+Агрегация адресных пространств
+DATE(current_date)
+10
+None
+False
+Агрегация домовладений
+DATE(current_date)
+None
+False
+True
+True
+True
+Заполнение управляющей таблицы "gar_tmp.xxx_obj_fias"
+$>
+-- --------------------------------------------------------------------------------------

@@ -145,7 +145,7 @@ class make_main (Proc3.proc_patterns, Yaml3.yaml_patterns, Fd0.fd_0, fd_log_z):
      
     # Адресные регионы, заполнение таблицы дефектов.
     if not self.gar_fias_set_gap_adr_area_skip:     
-        rc = self.stage_3 (self.gar_fias_set_adr_data.format (self.g_adr_area_sch,\
+        rc = self.stage_3 (self.gar_fias_set_adr_data.format(self.g_adr_area_sch,\
             self.region_id, self.date, self.gar_fias_set_gap_adr_area_obj_level,\
                 self.gar_fias_set_gap_adr_area_qty), self.gar_fias_set_gap_descr)
  
@@ -157,8 +157,8 @@ class make_main (Proc3.proc_patterns, Yaml3.yaml_patterns, Fd0.fd_0, fd_log_z):
     # Контрольное отображение .
     if not self.gar_fias_addr_obj_select_twins_skip:                   # 2023-11-10
         rc = self.stage_3 (self.gar_fias_addr_obj_select_twins.format(self.g_adr_area_sch,\
-            self.region_id,self.date,self.gar_fias_addr_obj_select_twins_obj_level,\
-                self.gar_fias_addr_obj_select_twins_qty),self.gar_fias_addr_obj_select_twins_descr)        
+            self.region_id,self.date,self.gar_fias_set_gap_adr_area_obj_level,\
+                self.gar_fias_addr_obj_select_twins_qty),self.gar_fias_addr_obj_select_twins_descr)
  
     # Дома
     #if not self.gar_fias_set_gap_adr_house_skip:  

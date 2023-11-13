@@ -103,13 +103,10 @@ class yaml_patterns ():
         #
         self.gar_fias_update_children_descr  = stage_3 ['gar_fias_update_children']['descr']
         self.gar_fias_update_children_skip   = stage_3 ['gar_fias_update_children']['param_adr_area_update']['p_skip']
-        self.gar_fias_update_children_date_2 = stage_3 ['gar_fias_update_children']['param_adr_area_update']['p_date_2']
         #
-        self.gar_fias_addr_obj_select_twins_descr     = stage_3 ['gar_fias_addr_obj_select_twins']['descr']
-        self.gar_fias_addr_obj_select_twins_skip      = stage_3 ['gar_fias_addr_obj_select_twins']['param_select_twin']['p_skip']
-        self.gar_fias_addr_obj_select_twins_date      = stage_3 ['gar_fias_addr_obj_select_twins']['param_select_twin']['p_date']
-        self.gar_fias_addr_obj_select_twins_obj_level = stage_3 ['gar_fias_addr_obj_select_twins']['param_select_twin']['p_obj_level']
-        self.gar_fias_addr_obj_select_twins_qty       = stage_3 ['gar_fias_addr_obj_select_twins']['param_select_twin']['p_qty']
+        self.gar_fias_addr_obj_select_twins_descr = stage_3 ['gar_fias_addr_obj_select_twins']['descr']
+        self.gar_fias_addr_obj_select_twins_skip  = stage_3 ['gar_fias_addr_obj_select_twins']['param_select_twin']['p_skip']
+        self.gar_fias_addr_obj_select_twins_qty   = stage_3 ['gar_fias_addr_obj_select_twins']['param_select_twin']['p_qty']
         #  
         # stage_3_0
         #        
@@ -235,11 +232,11 @@ class yaml_patterns ():
         if (not (p_id_region == 'None')) and (not (p_id_region == None)):  
             self.region_id = int(p_id_region)
         # ???
-        if (not(p_date_2 == 'None')) and (not(p_date_2 == None)):  
+        if (not(p_date_2 == 'None')) and (not(p_date_2 == None)):
             self.date_2 = p_date_2 
-        elif (not(self.gar_fias_update_children_date_2 == 'None')) and\
-            (not(self.gar_fias_update_children_date_2 == None)):    
-                self.date_2 = self.gar_fias_update_children_date_2
+        elif (not(self.gar_fias_set_gap_adr_area_date == 'None')) and\
+            (not(self.gar_fias_set_gap_adr_area_date == None)):
+                self.date_2 = self.gar_fias_set_gap_adr_area_date
             
 # ---------------------------------------------------------------------------------------------------------------------
 if __name__ == '__main__':
@@ -307,13 +304,10 @@ if __name__ == '__main__':
         #
         print yp.gar_fias_update_children_descr     
         print yp.gar_fias_update_children_skip      
-        print yp.gar_fias_update_children_date_2    
         #
         print yp.gar_fias_addr_obj_select_twins_descr    
-        print yp.gar_fias_addr_obj_select_twins_skip     
-        print yp.gar_fias_addr_obj_select_twins_date     
-        print yp.gar_fias_addr_obj_select_twins_obj_level
-        print yp.gar_fias_addr_obj_select_twins_qty      
+        print yp.gar_fias_addr_obj_select_twins_skip    
+        print yp.gar_fias_addr_obj_select_twins_qty       
         #  
         print '\n' + '** stage_3_0 **' + '\n'
         #        

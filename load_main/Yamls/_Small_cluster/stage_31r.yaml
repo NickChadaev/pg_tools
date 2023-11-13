@@ -11,12 +11,12 @@ control_params:
     stage_3_2: False
     stage_3_3: True    
     #
-    mogrify_3_I: True  #  False           
-    mogrify_3_9: True  #  False    
-    mogrify_3_0: True  #  False   
-    mogrify_3_1: True  #  False   
-    mogrify_3_2: True  #  False   
-    mogrify_3_3: True  #  False    
+    mogrify_3_I: False  #  True
+    mogrify_3_9: False  #  True
+    mogrify_3_0: False  #  True
+    mogrify_3_1: False  #  True
+    mogrify_3_2: False  #  True
+    mogrify_3_3: False  #  True
     
 global_params:
     g_region_id: 01   # Адыгея
@@ -57,14 +57,11 @@ gar_fias_update_children:
     descr: Обработка таблицы с активными предшественниками, переподчинение и деактивация
     param_adr_area_update:
         p_skip: False
-        p_date_2: DATE(current_date) 
 #        
 gar_fias_addr_obj_select_twins:
     descr: Повторное/Контрольное отображение дубликатов
     param_select_twin:
         p_skip: False
-        p_date: DATE(current_date)
-        p_obj_level: 16
         p_qty: 1    
 #  
 # stage_3_0
@@ -159,7 +156,7 @@ dict_upgrading:
            descr_1: Промежуточный справочник типов адресных пространств 
            p_skip_1: True   
            p_stop_list_1: []
-           p_add_query_1: UPDATE gar_tmp.xxx_adr_area_type SET fias_ids = fias_ids || 340::bigint WHERE (id_area_type = 51); 
+           p_add_query_1: 
            p_control_query_1: SELECT * FROM gar_tmp.xxx_adr_area_type ORDER BY 2;
            #                  
            descr_2: Промежуточный справочник типов улиц

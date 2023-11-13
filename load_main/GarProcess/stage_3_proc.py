@@ -29,11 +29,11 @@ class proc_patterns ():
              ,p_descr     := (gar_tmp_pcg_trans.f_adr_area_get('{0}',{1})).nm_area_full::text);"""     
 
         # Обработка таблицы с дефектными данными.
-        self.gar_fias_addr_obj_update_children = """SELECT * FROM gar_fias_pcg_load.f_addr_obj_update_children (
+        self.gar_fias_addr_obj_update_children = """SELECT * FROM gar_fias_pcg_load.f_addr_obj_update_children(
                    p_date_2 := {0}::date) ORDER BY nm_addr_obj;"""
              
         # Повторное/Контрольное отображение дубликатов
-        self.gar_fias_addr_obj_select_twins = """SELECT * FROM gar_fias_pcg_load.f_addr_area_show_data (
+        self.gar_fias_addr_obj_select_twins = """SELECT * FROM gar_fias_pcg_load.f_addr_area_show_data(
               p_fias_guid := (gar_tmp_pcg_trans.f_adr_area_get('{0}',{1})).nm_fias_guid::uuid
              ,p_date      := '{2}'::date
              ,p_obj_level := {3}::bigint 

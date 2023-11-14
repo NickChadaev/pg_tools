@@ -945,3 +945,359 @@ $>
 -- --------------------------------------------------------------------------------------
 
 2023-11-13  Перед накатом пакетов делать накат патча.
+
+На большо хосте -- работает ветка FilterObj
+
+$>git pull origin FilterObj
+remote: Enumerating objects: 421, done.
+remote: Counting objects: 100% (121/121), done.
+remote: Compressing objects: 100% (6/6), done.
+remote: Total 421 (delta 116), reused 115 (delta 115), pack-reused 300
+Receiving objects: 100% (421/421), 13.23 MiB | 9.15 MiB/s, done.
+Resolving deltas: 100% (285/285), completed with 47 local objects.
+From https://github.com/NickChadaev/pg_tools
+ * branch            FilterObj  -> FETCH_HEAD
+Updating 98e129b..b91c4bb
+Fast-forward
+ fias_loader/DBMS/GAR_FIAS/createTablesGarFias_1.sql                             |     27 +
+ fias_loader/DBMS/GAR_FIAS_PCG_LOAD/FUNCTION/_NEW_f_addr_obj_update_children.sql |    159 +
+ fias_loader/DBMS/GAR_FIAS_PCG_LOAD/FUNCTION/_NEW_f_addr_obj_update_parent.sql   |     63 +
+ fias_loader/DBMS/GAR_FIAS_PCG_LOAD/FUNCTION/_NEW_f_adr_area_set_data.sql        |    115 +
+ fias_loader/DBMS/GAR_FIAS_PCG_LOAD/FUNCTION/_NEW_f_adr_area_show_data.sql       |    389 +
+ fias_loader/DBMS/GAR_FIAS_PCG_LOAD/FUNCTION/f_addr_area_get_twins.sql           |     49 +
+ fias_loader/DBMS/GAR_FIAS_PCG_LOAD/FUNCTION/f_addr_area_set_data.sql            |    116 +
+ fias_loader/DBMS/GAR_FIAS_PCG_LOAD/FUNCTION/f_addr_area_show_data.sql           |    391 +
+ fias_loader/DBMS/GAR_FIAS_PCG_LOAD/FUNCTION/f_addr_obj_agg.sql                  |     65 +
+ fias_loader/DBMS/GAR_FIAS_PCG_LOAD/FUNCTION/f_addr_obj_get_parents.sql          |    250 +-
+ fias_loader/DBMS/GAR_FIAS_PCG_LOAD/FUNCTION/f_addr_obj_update_children.sql      |    205 +-
+ fias_loader/DBMS/GAR_FIAS_PCG_LOAD/FUNCTION/f_addr_obj_update_parent.sql        |     50 +-
+ fias_loader/DBMS/GAR_FIAS_PCG_LOAD/FUNCTION/f_adr_area_get_twins.sql            |     30 +-
+ fias_loader/DBMS/GAR_FIAS_PCG_LOAD/FUNCTION/f_adr_area_set_data.sql             |    109 +-
+ fias_loader/DBMS/GAR_FIAS_PCG_LOAD/FUNCTION/f_adr_area_show_data.sql            |    335 +-
+ fias_loader/DBMS/GAR_FIAS_PCG_LOAD/PROCEDURE/p_twin_addr_objects_put.sql        |     54 +
+ fias_loader/DBMS/GAR_FIAS_PCG_LOAD/gar_fias_pcg_load.err                        |     83 +-
+ fias_loader/DBMS/GAR_FIAS_PCG_LOAD/gar_fias_pcg_load.err.bak                    |    112 +-
+ fias_loader/DBMS/GAR_FIAS_PCG_LOAD/gar_fias_pcg_load.log                        |     84 +-
+ fias_loader/DBMS/GAR_FIAS_PCG_LOAD/gar_fias_pcg_load.log.bak                    |     84 +-
+ fias_loader/DBMS/GAR_FIAS_PCG_LOAD/gar_fias_pcg_load.sql                        |   1109 +-
+ fias_loader/DBMS/GAR_FIAS_PCG_LOAD/gar_fias_pcg_load.sql.bak                    |   1099 +-
+ fias_loader/DBMS/GAR_FIAS_PCG_LOAD/stage_25_gar_build.csv                       |     11 +-
+ fias_loader/DBMS/GAR_FIAS_PCG_LOAD/version.sql                                  |      2 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/DO/adr_area_post_proc_90.sql                 |     14 +
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/DO/adr_house_post_proc_90.sql                |     13 +
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/DO/adr_street_post_proc_90.sql               |     13 +
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/FUNCTION/f_adr_area_get.sql                  |     29 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/FUNCTION/f_adr_area_ins.sql                  |     27 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/FUNCTION/f_adr_area_upd.sql                  |     27 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/FUNCTION/f_adr_house_get.sql                 |     34 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/FUNCTION/f_adr_house_ins.sql                 |     28 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/FUNCTION/f_adr_house_upd.sql                 |     25 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/FUNCTION/f_adr_street_get.sql                |     25 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/FUNCTION/f_adr_street_ins.sql                |     27 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/FUNCTION/f_adr_street_upd.sql                |     27 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/FUNCTION/f_xxx_adr_area_show_data.sql        |     90 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/FUNCTION/f_xxx_adr_object_get_level.sql      |     52 +
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/FUNCTION/f_xxx_obj_fias_0.sql                |      7 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/FUNCTION/f_xxx_obj_fias_1.sql                |      5 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/FUNCTION/fp_adr_house_upd.sql                |     28 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/PROCEDURE/p_adr_area_ins.sql                 |     56 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/PROCEDURE/p_adr_area_upd.sql                 |     34 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/PROCEDURE/p_adr_house_ins.sql                |     10 +
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/PROCEDURE/p_adr_street_ins.sql               |     17 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/PROCEDURE/p_adr_street_upd.sql               |     37 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/PROCEDURE/p_gar_fias_crt_idx.sql             |     21 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.err                        |    432 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.err.bak                    |    407 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.log                        |    175 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.log.bak                    |    175 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.sql                        |    610 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.sql.bak                    |    597 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/stage_25_tmp_build.csv                       |      5 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/version.sql                                  |      2 +-
+ fias_loader/DBMS/process.log                                                    |     48 +
+ fias_loader/DBMS/process.out                                                    |   1285 +
+ fias_loader/DBMS/process.sql                                                    |      2 +
+ fias_loader/DBMS/xxx_all_types_build_patch_20231108.csv                         |     28 +
+ fias_loader/DBMS/xxx_all_types_build_patch_20231108.sql                         |     66 +
+ fias_loader/TESTS/G31_work_tbl_check.sql                                        |    206 +
+ fias_loader/TESTS/G3_crt_view.sql                                               |     11 +-
+ fias_loader/TESTS/G3_work_tbl_check.sql                                         |    191 +-
+ fias_loader/TESTS/Y_BUILD/01/_TEST_street_get_parents.sql                       |    154 +
+ fias_loader/TESTS/Y_BUILD/01/process.err                                        |      2 +
+ fias_loader/TESTS/Y_BUILD/01/process.log                                        |     64 +
+ fias_loader/TESTS/Y_BUILD/01/process.out                                        |    800 +
+ fias_loader/TESTS/Y_BUILD/01/process.sql                                        |      6 +
+ fias_loader/TESTS/Y_BUILD/01/stage_31_01.csv                                    |     16 +
+ fias_loader/TESTS/Y_BUILD/01/stage_3_01.csv                                     |     23 +
+ fias_loader/TESTS/Y_BUILD/01/stage_4.1.sql                                      |     22 +
+ fias_loader/TESTS/Y_BUILD/01/stage_4.2.sql                                      |     21 +
+ fias_loader/TESTS/Y_BUILD/01/stage_4.3.sql                                      |     21 +
+ fias_loader/TESTS/Y_BUILD/01/stage_4.4.sql                                      |     21 +
+ fias_loader/TESTS/Y_BUILD/01/stage_4.5.sql                                      |     23 +
+ fias_loader/TESTS/Y_BUILD/01/stage_4.6.sql                                      |     22 +
+ fias_loader/TESTS/Y_BUILD/01/stage_gar_c_01.csv                                 |     11 +-
+ fias_loader/TESTS/Y_BUILD/05/.~lock._TEST_area_get_parents.xlsx#                |      1 +
+ fias_loader/TESTS/Y_BUILD/05/.~lock._TEST_house_get_parents.csv#                |      1 +
+ fias_loader/TESTS/Y_BUILD/05/.~lock._TEST_street_get_parents.csv#               |      1 +
+ fias_loader/TESTS/Y_BUILD/05/.~lock._TEST_update_level_0.xlsx#                  |      1 +
+ fias_loader/TESTS/Y_BUILD/05/.~lock._TEST_update_level_1.xlsx#                  |      1 +
+ fias_loader/TESTS/Y_BUILD/05/_TEST_area_get_parents.csv                         |    256 +
+ fias_loader/TESTS/Y_BUILD/05/_TEST_area_get_parents.sql                         |      7 +
+ fias_loader/TESTS/Y_BUILD/05/_TEST_area_get_parents.xlsx                        |    Bin 0 -> 19509 bytes
+ fias_loader/TESTS/Y_BUILD/05/_TEST_as_adr_obj_type.csv                          |    356 +
+ fias_loader/TESTS/Y_BUILD/05/_TEST_as_adr_obj_type.sql                          |    118 +
+ fias_loader/TESTS/Y_BUILD/05/_TEST_house_get_parents.csv                        |   7902 ++++++
+ fias_loader/TESTS/Y_BUILD/05/_TEST_street_get_parents.csv                       |   1055 +
+ fias_loader/TESTS/Y_BUILD/05/_TEST_street_get_parents.sql                       |    117 +
+ fias_loader/TESTS/Y_BUILD/05/_TEST_street_get_parents_1.sql                     |    604 +
+ fias_loader/TESTS/Y_BUILD/05/_TEST_update_children_0.sql                        |     51 +
+ fias_loader/TESTS/Y_BUILD/05/_TEST_update_children_1.sql                        |     77 +
+ fias_loader/TESTS/Y_BUILD/05/_TEST_update_level_0.csv                           |     18 +
+ fias_loader/TESTS/Y_BUILD/05/_TEST_update_level_0.sql                           |     43 +
+ fias_loader/TESTS/Y_BUILD/05/_TEST_update_level_0.xlsx                          |    Bin 0 -> 53684 bytes
+ fias_loader/TESTS/Y_BUILD/05/_TEST_update_level_1.csv                           |   1113 +
+ fias_loader/TESTS/Y_BUILD/05/_TEST_update_level_1.xlsx                          |    Bin 0 -> 125175 bytes
+ fias_loader/TESTS/Y_BUILD/05/_TEST_update_level_2.csv                           |    314 +
+ fias_loader/TESTS/Y_BUILD/05/_TEST_xxx_adr_area_type.csv                        |     91 +
+ fias_loader/TESTS/Y_BUILD/05/_TEST_xxx_adr_street_type.csv                      |     47 +
+ fias_loader/TESTS/Y_BUILD/05/p6_process_20231024_161608.err                     |      0
+ fias_loader/TESTS/Y_BUILD/05/p6_process_20231024_161608.log                     |     40 +
+ fias_loader/TESTS/Y_BUILD/05/p6_process_20231024_161608.out                     |     41 +
+ fias_loader/TESTS/Y_BUILD/05/p6_process_20231024_161608.sql                     |      2 +
+ fias_loader/TESTS/Y_BUILD/05/patch_20231128.sql                                 |     82 +
+ fias_loader/TESTS/Y_BUILD/05/plan_f_addr_area_show_data_05.csv                  |     88 +
+ fias_loader/TESTS/Y_BUILD/05/plan_f_addr_area_show_data_05.xlsx                 |    Bin 0 -> 7837 bytes
+ fias_loader/TESTS/Y_BUILD/05/plan_f_addr_area_show_data_05_1.xlsx               |    Bin 0 -> 6001 bytes
+ fias_loader/TESTS/Y_BUILD/05/process.err                                        |     30 +
+ fias_loader/TESTS/Y_BUILD/05/process.log                                        |     93 +
+ fias_loader/TESTS/Y_BUILD/05/process.out                                        |  10491 +++++++
+ fias_loader/TESTS/Y_BUILD/05/process.sql                                        |     10 +
+ fias_loader/TESTS/Y_BUILD/05/r0_process_20231024_203503.err                     |    135 +
+ fias_loader/TESTS/Y_BUILD/05/r0_process_20231024_203503.log                     |     39 +
+ fias_loader/TESTS/Y_BUILD/05/r0_process_20231024_203503.out                     |    701 +
+ fias_loader/TESTS/Y_BUILD/05/r0_process_20231024_203503.sql                     |      2 +
+ fias_loader/TESTS/Y_BUILD/05/stage_31_05.csv                                    |     20 +
+ fias_loader/TESTS/Y_BUILD/05/stage_3_01.csv                                     |     23 +
+ fias_loader/TESTS/Y_BUILD/05/stage_3_05.csv                                     |     23 +
+ fias_loader/TESTS/Y_BUILD/05/stage_4.1.sql                                      |     39 +-
+ fias_loader/TESTS/Y_BUILD/05/stage_4.2.sql                                      |     12 +-
+ fias_loader/TESTS/Y_BUILD/05/stage_4.3.sql                                      |      5 +-
+ fias_loader/TESTS/Y_BUILD/05/stage_4.4.sql                                      |     11 +-
+ fias_loader/TESTS/Y_BUILD/05/stage_4.5.sql                                      |      7 +-
+ fias_loader/TESTS/Y_BUILD/05/stage_4.6.sql                                      |      6 +-
+ fias_loader/TESTS/Y_BUILD/05/stage_gar_c_01.csv                                 |     13 +
+ fias_loader/TESTS/Y_BUILD/05/stage_gar_c_05.csv                                 |     11 +-
+ fias_loader/TESTS/Y_BUILD/05/t41.out                                            |    427 +-
+ fias_loader/TESTS/Y_BUILD/05/t42.out                                            |    115 +-
+ fias_loader/TESTS/Y_BUILD/05/t43.out                                            |    975 +-
+ fias_loader/TESTS/Y_BUILD/05/t44.out                                            |    226 +-
+ fias_loader/TESTS/Y_BUILD/05/twins_05.csv                                       |      4 +
+ fias_loader/TESTS/Y_BUILD/05/twins_05_1.csv                                     |      8 +
+ fias_loader/TESTS/Y_BUILD/05/twins_05_2.csv                                     |      8 +
+ fias_loader/TESTS/Y_BUILD/23/_OLD_process.err                                   |     27 +
+ fias_loader/TESTS/Y_BUILD/23/_OLD_process.out                                   | 183870 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ fias_loader/TESTS/Y_BUILD/23/_TEST_23.csv                                       |     36 +
+ fias_loader/TESTS/Y_BUILD/23/_TEST_23.xlsx                                      |    Bin 0 -> 11386 bytes
+ fias_loader/TESTS/Y_BUILD/23/_TEST_street_get_parent_1.sql                      |     34 +
+ fias_loader/TESTS/Y_BUILD/23/_TEST_street_get_parents.sql                       |    220 +
+ fias_loader/TESTS/Y_BUILD/23/gar_tmp.adr_area_type.sql                          |    249 +
+ fias_loader/TESTS/Y_BUILD/23/gar_tmp.adr_house_type.sql                         |    117 +
+ fias_loader/TESTS/Y_BUILD/23/gar_tmp.adr_street_type.sql                        |    155 +
+ fias_loader/TESTS/Y_BUILD/23/gar_tmp.xxx_object_type_alias.sql                  |     85 +
+ fias_loader/TESTS/Y_BUILD/23/process.err                                        |      3 +
+ fias_loader/TESTS/Y_BUILD/23/process.log                                        |     93 +
+ fias_loader/TESTS/Y_BUILD/23/process.out                                        |     63 +
+ fias_loader/TESTS/Y_BUILD/23/process.sql                                        |     10 +
+ fias_loader/TESTS/Y_BUILD/23/stage_31_01.csv                                    |     16 +
+ fias_loader/TESTS/Y_BUILD/23/stage_31_23.csv                                    |     20 +
+ fias_loader/TESTS/Y_BUILD/23/stage_3_01.csv                                     |     23 +
+ fias_loader/TESTS/Y_BUILD/23/stage_3_23.csv                                     |     23 +
+ fias_loader/TESTS/Y_BUILD/23/stage_4.1.sql                                      |     22 +
+ fias_loader/TESTS/Y_BUILD/23/stage_4.2.sql                                      |     21 +
+ fias_loader/TESTS/Y_BUILD/23/stage_4.3.sql                                      |     21 +
+ fias_loader/TESTS/Y_BUILD/23/stage_4.4.sql                                      |     21 +
+ fias_loader/TESTS/Y_BUILD/23/stage_4.5.sql                                      |     23 +
+ fias_loader/TESTS/Y_BUILD/23/stage_4.6.sql                                      |     22 +
+ fias_loader/TESTS/Y_BUILD/23/stage_gar_c_01.csv                                 |     13 +
+ fias_loader/TESTS/Y_BUILD/50/.~lock._TEST_50.csv#                               |      1 +
+ fias_loader/TESTS/Y_BUILD/50/_OLD_process.out                                   |  30103 ++++++++++++++++++++
+ fias_loader/TESTS/Y_BUILD/50/_TEST_50.csv                                       |    179 +
+ fias_loader/TESTS/Y_BUILD/50/_TEST_street_get_parents.sql                       |    885 +
+ fias_loader/TESTS/Y_BUILD/50/patch_20231128.sql                                 |    101 +
+ fias_loader/TESTS/Y_BUILD/50/process.err                                        |     35 +
+ fias_loader/TESTS/Y_BUILD/50/process.log                                        |     93 +
+ fias_loader/TESTS/Y_BUILD/50/process.out                                        |  11100 ++++++++
+ fias_loader/TESTS/Y_BUILD/50/process.sql                                        |     10 +
+ fias_loader/TESTS/Y_BUILD/50/stage_31_23.csv                                    |     20 +
+ fias_loader/TESTS/Y_BUILD/50/stage_31_50.csv                                    |     20 +
+ fias_loader/TESTS/Y_BUILD/50/stage_3_23.csv                                     |     23 +
+ fias_loader/TESTS/Y_BUILD/50/stage_3_50.csv                                     |     23 +
+ fias_loader/TESTS/Y_BUILD/50/stage_4.1.sql                                      |     22 +
+ fias_loader/TESTS/Y_BUILD/50/stage_4.2.sql                                      |     21 +
+ fias_loader/TESTS/Y_BUILD/50/stage_4.3.sql                                      |     21 +
+ fias_loader/TESTS/Y_BUILD/50/stage_4.4.sql                                      |     21 +
+ fias_loader/TESTS/Y_BUILD/50/stage_4.5.sql                                      |     23 +
+ fias_loader/TESTS/Y_BUILD/50/stage_4.6.sql                                      |     22 +
+ fias_loader/TESTS/Y_BUILD/50/stage_gar_c_50.csv                                 |     13 +
+ fias_loader/TESTS/remarks.txt                                                   |    494 +-
+ 
+ load_main/GarProcess/__init__.pyc                                               |    Bin 0 -> 152 bytes
+ load_main/GarProcess/stage_3_proc.py                                            |     24 +-
+ load_main/GarProcess/stage_3_proc.pyc                                           |    Bin 0 -> 10403 bytes
+ load_main/GarProcess/stage_3_yaml.py                                            |     53 +-
+ load_main/GarProcess/stage_3_yaml.pyc                                           |    Bin 0 -> 11854 bytes
+ load_main/MainProcess/__init__.pyc                                              |    Bin 0 -> 153 bytes
+ load_main/MainProcess/fd_0.pyc                                                  |    Bin 0 -> 3063 bytes
+ load_main/MainProcess/fd_log.pyc                                                |    Bin 0 -> 4598 bytes
+ load_main/Yamls/_Big_cluster/stage_31r.yaml                                     |     21 +-
+ load_main/Yamls/_Big_cluster/stage_41r.yaml                                     |     14 +-
+ load_main/Yamls/_Small_cluster/stage_31r.yaml                                   |     31 +-
+ load_main/Yamls/_Small_cluster/stage_41r.yaml                                   |     12 +-
+ load_main/load_mainCrtScripts.py                                                |      5 +-
+ load_main/load_mainStage3.py                                                    |     20 +-
+ load_main/process.err                                                           |    104 +
+ load_main/process.log                                                           |     22 +
+ 
+ 197 files changed, 261678 insertions(+), 3989 deletions(-)
+ create mode 100644 fias_loader/DBMS/GAR_FIAS/createTablesGarFias_1.sql
+ create mode 100644 fias_loader/DBMS/GAR_FIAS_PCG_LOAD/FUNCTION/_NEW_f_addr_obj_update_children.sql
+ create mode 100644 fias_loader/DBMS/GAR_FIAS_PCG_LOAD/FUNCTION/_NEW_f_addr_obj_update_parent.sql
+ create mode 100644 fias_loader/DBMS/GAR_FIAS_PCG_LOAD/FUNCTION/_NEW_f_adr_area_set_data.sql
+ create mode 100644 fias_loader/DBMS/GAR_FIAS_PCG_LOAD/FUNCTION/_NEW_f_adr_area_show_data.sql
+ create mode 100644 fias_loader/DBMS/GAR_FIAS_PCG_LOAD/FUNCTION/f_addr_area_get_twins.sql
+ create mode 100644 fias_loader/DBMS/GAR_FIAS_PCG_LOAD/FUNCTION/f_addr_area_set_data.sql
+ create mode 100644 fias_loader/DBMS/GAR_FIAS_PCG_LOAD/FUNCTION/f_addr_area_show_data.sql
+ create mode 100644 fias_loader/DBMS/GAR_FIAS_PCG_LOAD/FUNCTION/f_addr_obj_agg.sql
+ create mode 100644 fias_loader/DBMS/GAR_FIAS_PCG_LOAD/PROCEDURE/p_twin_addr_objects_put.sql
+ create mode 100644 fias_loader/DBMS/GAR_TMP_PCG_TRANS/DO/adr_area_post_proc_90.sql
+ create mode 100644 fias_loader/DBMS/GAR_TMP_PCG_TRANS/DO/adr_house_post_proc_90.sql
+ create mode 100644 fias_loader/DBMS/GAR_TMP_PCG_TRANS/DO/adr_street_post_proc_90.sql
+ create mode 100644 fias_loader/DBMS/GAR_TMP_PCG_TRANS/FUNCTION/f_xxx_adr_object_get_level.sql
+ create mode 100644 fias_loader/DBMS/process.log
+ create mode 100644 fias_loader/DBMS/process.out
+ create mode 100644 fias_loader/DBMS/process.sql
+ create mode 100644 fias_loader/DBMS/xxx_all_types_build_patch_20231108.csv
+ create mode 100644 fias_loader/DBMS/xxx_all_types_build_patch_20231108.sql
+ create mode 100644 fias_loader/TESTS/G31_work_tbl_check.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/01/_TEST_street_get_parents.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/01/process.err
+ create mode 100644 fias_loader/TESTS/Y_BUILD/01/process.log
+ create mode 100644 fias_loader/TESTS/Y_BUILD/01/process.out
+ create mode 100644 fias_loader/TESTS/Y_BUILD/01/process.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/01/stage_31_01.csv
+ create mode 100644 fias_loader/TESTS/Y_BUILD/01/stage_3_01.csv
+ create mode 100644 fias_loader/TESTS/Y_BUILD/01/stage_4.1.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/01/stage_4.2.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/01/stage_4.3.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/01/stage_4.4.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/01/stage_4.5.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/01/stage_4.6.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/.~lock._TEST_area_get_parents.xlsx#
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/.~lock._TEST_house_get_parents.csv#
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/.~lock._TEST_street_get_parents.csv#
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/.~lock._TEST_update_level_0.xlsx#
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/.~lock._TEST_update_level_1.xlsx#
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/_TEST_area_get_parents.csv
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/_TEST_area_get_parents.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/_TEST_area_get_parents.xlsx
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/_TEST_as_adr_obj_type.csv
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/_TEST_as_adr_obj_type.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/_TEST_house_get_parents.csv
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/_TEST_street_get_parents.csv
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/_TEST_street_get_parents.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/_TEST_street_get_parents_1.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/_TEST_update_children_0.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/_TEST_update_children_1.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/_TEST_update_level_0.csv
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/_TEST_update_level_0.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/_TEST_update_level_0.xlsx
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/_TEST_update_level_1.csv
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/_TEST_update_level_1.xlsx
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/_TEST_update_level_2.csv
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/_TEST_xxx_adr_area_type.csv
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/_TEST_xxx_adr_street_type.csv
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/p6_process_20231024_161608.err
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/p6_process_20231024_161608.log
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/p6_process_20231024_161608.out
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/p6_process_20231024_161608.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/patch_20231128.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/plan_f_addr_area_show_data_05.csv
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/plan_f_addr_area_show_data_05.xlsx
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/plan_f_addr_area_show_data_05_1.xlsx
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/process.err
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/process.log
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/process.out
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/process.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/r0_process_20231024_203503.err
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/r0_process_20231024_203503.log
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/r0_process_20231024_203503.out
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/r0_process_20231024_203503.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/stage_31_05.csv
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/stage_3_01.csv
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/stage_3_05.csv
+ create mode 100755 fias_loader/TESTS/Y_BUILD/05/stage_gar_c_01.csv
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/twins_05.csv
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/twins_05_1.csv
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/twins_05_2.csv
+ create mode 100644 fias_loader/TESTS/Y_BUILD/23/_OLD_process.err
+ create mode 100644 fias_loader/TESTS/Y_BUILD/23/_OLD_process.out
+ create mode 100644 fias_loader/TESTS/Y_BUILD/23/_TEST_23.csv
+ create mode 100644 fias_loader/TESTS/Y_BUILD/23/_TEST_23.xlsx
+ create mode 100644 fias_loader/TESTS/Y_BUILD/23/_TEST_street_get_parent_1.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/23/_TEST_street_get_parents.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/23/gar_tmp.adr_area_type.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/23/gar_tmp.adr_house_type.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/23/gar_tmp.adr_street_type.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/23/gar_tmp.xxx_object_type_alias.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/23/process.err
+ create mode 100644 fias_loader/TESTS/Y_BUILD/23/process.log
+ create mode 100644 fias_loader/TESTS/Y_BUILD/23/process.out
+ create mode 100644 fias_loader/TESTS/Y_BUILD/23/process.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/23/stage_31_01.csv
+ create mode 100644 fias_loader/TESTS/Y_BUILD/23/stage_31_23.csv
+ create mode 100644 fias_loader/TESTS/Y_BUILD/23/stage_3_01.csv
+ create mode 100644 fias_loader/TESTS/Y_BUILD/23/stage_3_23.csv
+ create mode 100644 fias_loader/TESTS/Y_BUILD/23/stage_4.1.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/23/stage_4.2.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/23/stage_4.3.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/23/stage_4.4.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/23/stage_4.5.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/23/stage_4.6.sql
+ create mode 100755 fias_loader/TESTS/Y_BUILD/23/stage_gar_c_01.csv
+ create mode 100644 fias_loader/TESTS/Y_BUILD/50/.~lock._TEST_50.csv#
+ create mode 100644 fias_loader/TESTS/Y_BUILD/50/_OLD_process.out
+ create mode 100644 fias_loader/TESTS/Y_BUILD/50/_TEST_50.csv
+ create mode 100644 fias_loader/TESTS/Y_BUILD/50/_TEST_street_get_parents.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/50/patch_20231128.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/50/process.err
+ create mode 100644 fias_loader/TESTS/Y_BUILD/50/process.log
+ create mode 100644 fias_loader/TESTS/Y_BUILD/50/process.out
+ create mode 100644 fias_loader/TESTS/Y_BUILD/50/process.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/50/stage_31_23.csv
+ create mode 100644 fias_loader/TESTS/Y_BUILD/50/stage_31_50.csv
+ create mode 100644 fias_loader/TESTS/Y_BUILD/50/stage_3_23.csv
+ create mode 100644 fias_loader/TESTS/Y_BUILD/50/stage_3_50.csv
+ create mode 100644 fias_loader/TESTS/Y_BUILD/50/stage_4.1.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/50/stage_4.2.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/50/stage_4.3.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/50/stage_4.4.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/50/stage_4.5.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/50/stage_4.6.sql
+ create mode 100755 fias_loader/TESTS/Y_BUILD/50/stage_gar_c_50.csv
+ 
+ create mode 100644 load_main/GarProcess/__init__.pyc
+ create mode 100644 load_main/GarProcess/stage_3_proc.pyc
+ create mode 100644 load_main/GarProcess/stage_3_yaml.pyc
+ create mode 100644 load_main/MainProcess/__init__.pyc
+ create mode 100644 load_main/MainProcess/fd_0.pyc
+ create mode 100644 load_main/MainProcess/fd_log.pyc
+ create mode 100644 load_main/process.err
+ create mode 100644 load_main/process.log
+
+ 
+GarProcess
+            stage_3_yaml.py
+            stage_3_proc.py
+
+load_mainCrtScripts.py
+load_mainStage3.py

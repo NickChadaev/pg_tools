@@ -15,7 +15,7 @@ from GarProcess import stage_3_yaml as Yaml3
 from MainProcess import fd_0 as Fd0
 from MainProcess import fd_log as FdLog
 
-VERSION_STR = "  Version 1.0.0 Build 2023-03-28"
+VERSION_STR = "  Version 1.0.1 Build 2023-11-14"
 
 CONN_ABORTED = "... Connection aborted: "
 OP_ABORTED = "... Operation aborted: "
@@ -133,21 +133,27 @@ class make_main (Proc3.proc_patterns, Yaml3.yaml_patterns, Fd0.fd_0, fd_log_z):
 
  def stage_3_9 ( self, p_MOGRIFY ): 
     """
-     Дефектные данные
+     Дефектные данные  2023-11-10 Добавлена функциональность.
     """
     self.MOGRIFY = p_MOGRIFY
     rc = 0
      
     # Адресные регионы, заполнение таблицы дефектов.
     if not self.gar_fias_set_gap_adr_area_skip:     
-        rc = self.stage_3 (self.gar_fias_set_adr_data.format (self.g_adr_area_sch,\
-            self.region_id, self.date), self.gar_fias_set_gap_descr)
+        rc = self.stage_3 (self.gar_fias_set_adr_data.format(self.g_adr_area_sch,\
+            self.region_id, self.date, self.gar_fias_set_gap_adr_area_obj_level,\
+                self.gar_fias_set_gap_adr_area_qty), self.gar_fias_set_gap_descr)
  
     # Корреция данных на основании таблицы дефектов.
     if not self.gar_fias_update_children_skip:                         # 2022-09-05
-        rc = self.stage_3 (self.gar_fias_addr_obj_update_children.format (self.date,\
-            self.gar_fias_update_children_obj_level, self.gar_fias_update_children_date_2),\
-                self.gar_fias_update_children_descr)
+        rc = self.stage_3 (self.gar_fias_addr_obj_update_children.format(self.date),\
+            self.gar_fias_update_children_descr)
+        
+    # Контрольное отображение .
+    if not self.gar_fias_addr_obj_select_twins_skip:                   # 2023-11-10
+        rc = self.stage_3 (self.gar_fias_addr_obj_select_twins.format(self.g_adr_area_sch,\
+            self.region_id,self.date,self.gar_fias_set_gap_adr_area_obj_level,\
+                self.gar_fias_addr_obj_select_twins_qty),self.gar_fias_addr_obj_select_twins_descr)
         
     # Дома
     #if not self.gar_fias_set_gap_adr_house_skip:  

@@ -9,7 +9,7 @@
 
 import sys
 
-VERSION_STR = "  Version 1.0.0 Build 2023-03-28"
+VERSION_STR = "  Version 1.0.1 Build 2023-11-14"
 
 class proc_patterns ():
     """
@@ -21,18 +21,24 @@ class proc_patterns ():
         self.get_region_info = """SELECT * FROM {0}.adr_area WHERE (id_area = {1}::bigint);   
         """
         # Заполнение таблицы с дефектными данными.
-        self.gar_fias_set_adr_data = """SELECT gar_fias_pcg_load.f_adr_area_set_data (
+        self.gar_fias_set_adr_data = """SELECT gar_fias_pcg_load.f_addr_area_set_data (
               p_fias_guid := (gar_tmp_pcg_trans.f_adr_area_get('{0}',{1})).nm_fias_guid::uuid
              ,p_date      := '{2}'::date
+             ,p_obj_level := {3}::bigint 
+             ,p_qty       := {4}::integer          
              ,p_descr     := (gar_tmp_pcg_trans.f_adr_area_get('{0}',{1})).nm_area_full::text);"""     
-             
+
         # Обработка таблицы с дефектными данными.
-        self.gar_fias_addr_obj_update_children = """SELECT * FROM gar_fias_pcg_load.f_addr_obj_update_children (
-         p_date_1    := '{0}'::date
-        ,p_obj_level := ARRAY{1}::integer[]      
-        ,p_date_2    := {2}::date           
-        );"""
+        self.gar_fias_addr_obj_update_children = """SELECT * FROM gar_fias_pcg_load.f_addr_obj_update_children(
+                   p_date_2 := {0}::date) ORDER BY nm_addr_obj;"""
              
+        # Повторное/Контрольное отображение дубликатов
+        self.gar_fias_addr_obj_select_twins = """SELECT * FROM gar_fias_pcg_load.f_addr_area_show_data(
+              p_fias_guid := (gar_tmp_pcg_trans.f_adr_area_get('{0}',{1})).nm_fias_guid::uuid
+             ,p_date      := '{2}'::date
+             ,p_obj_level := {3}::bigint 
+             ,p_qty       := {4}::integer);"""
+                      
         # Установка признака LOGGED/UNLOGGED у таблиц в схеме gar_tmp
         self.gar_tmp_p_alt_tbl = "CALL gar_tmp_pcg_trans.p_alt_tbl (p_all := {0}::boolean);"
         #
@@ -196,6 +202,8 @@ if __name__ == '__main__':
         print (pp.gar_fias_set_adr_data)
         print ()
         print (pp.gar_fias_addr_obj_update_children)
+        print ()       
+        print (pp.gar_fias_addr_obj_select_twins)
         print ()
         print (pp.gar_tmp_p_adr_area_unload)
         print (pp.gar_tmp_p_adr_street_unload)

@@ -770,12 +770,12 @@ $>
        
        -+       Оформить patch (в нём создание twin-таблиц) и обновление массивов "fias_ids".
        
-       --       Перенести все изменения в ветку master. Руками, gar_fias_load, gar_tmp_trans
+       --?      Перенести все изменения в ветку master. Руками, gar_fias_load, gar_tmp_trans
                 собрать уже в master.
                 
        -+       Проверить управление индексами в gar_fias.
        
-       --       Генератор parsing-scripts, включитьв текст создаваемого скрипта
+       -+       Генератор parsing-scripts, включитьв текст создаваемого скрипта
                 вызов функции, удаляющей индексы в gar_fias.
                 
        -+       Py-сценарии для этапа 3  
@@ -1301,3 +1301,16 @@ GarProcess
 
 load_mainCrtScripts.py
 load_mainStage3.py
+
+2023-11-14        -- Сценарии для pg_perfect_ticker
+----------      "  Version 1.0.1 Build 2023-11-14"
+
+GarProcess
+          stage_3_yaml.py  -+
+          stage_3_proc.py  -+
+
+load_mainStage3.py --
+-----------------------------
+$>python3 stage_3_yaml.py ../../../load_main/Yamls/_Big_cluster stage_31r.yaml
+$>python3 stage_3_proc.py
+

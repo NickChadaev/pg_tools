@@ -1318,3 +1318,33 @@ $>python3 load_mainStage3.py
   Version 1.0.1 Build 2023-11-14
   Usage: load_mainStage3.py <Host_IP> <Port> <DB_name> <User_name> <YAML_file_name> <Path> <Id_region> <Date>
 $>
+
+$>git pull origin FilterObj
+remote: Enumerating objects: 26, done.
+remote: Counting objects: 100% (26/26), done.
+remote: Compressing objects: 100% (8/8), done.
+remote: Total 26 (delta 19), reused 25 (delta 18), pack-reused 0
+Unpacking objects: 100% (26/26), done.
+From https://github.com/NickChadaev/pg_tools
+ * branch            FilterObj  -> FETCH_HEAD
+Updating b91c4bb..64c57de
+Fast-forward
+ db_exchange/pg-perfect-ticker/GarProcess/stage_3_proc.py          |    24 +-
+ db_exchange/pg-perfect-ticker/GarProcess/stage_3_yaml.py          |    58 +-
+ db_exchange/pg-perfect-ticker/load_mainStage3.py                  |    20 +-
+ fias_loader/TESTS/Y_BUILD/05/.~lock._TEST_area_get_parents.xlsx#  |     1 -
+ fias_loader/TESTS/Y_BUILD/05/.~lock._TEST_house_get_parents.csv#  |     1 -
+ fias_loader/TESTS/Y_BUILD/05/.~lock._TEST_street_get_parents.csv# |     1 -
+ fias_loader/TESTS/Y_BUILD/05/.~lock._TEST_update_level_0.xlsx#    |     1 -
+ fias_loader/TESTS/Y_BUILD/05/.~lock._TEST_update_level_1.xlsx#    |     1 -
+ fias_loader/TESTS/Y_BUILD/05/_TEST_house_get_parents.csv          | 15804 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--------------------------------------------------------------------
+ fias_loader/TESTS/Y_BUILD/05/_TEST_update_level_1.xlsx            |   Bin 125175 -> 125179 bytes
+ fias_loader/TESTS/Y_BUILD/50/.~lock._TEST_50.csv#                 |     1 -
+ fias_loader/TESTS/remarks.txt                                     |   377 +++-
+ 12 files changed, 8341 insertions(+), 7948 deletions(-)
+ delete mode 100644 fias_loader/TESTS/Y_BUILD/05/.~lock._TEST_area_get_parents.xlsx#
+ delete mode 100644 fias_loader/TESTS/Y_BUILD/05/.~lock._TEST_house_get_parents.csv#
+ delete mode 100644 fias_loader/TESTS/Y_BUILD/05/.~lock._TEST_street_get_parents.csv#
+ delete mode 100644 fias_loader/TESTS/Y_BUILD/05/.~lock._TEST_update_level_0.xlsx#
+ delete mode 100644 fias_loader/TESTS/Y_BUILD/05/.~lock._TEST_update_level_1.xlsx#
+ delete mode 100644 fias_loader/TESTS/Y_BUILD/50/.~lock._TEST_50.csv#

@@ -30,7 +30,7 @@ class proc_patterns ():
 
         # Обработка таблицы с дефектными данными.
         self.gar_fias_addr_obj_update_children = """SELECT * FROM gar_fias_pcg_load.f_addr_obj_update_children(
-                   p_date_2 := {0}::date) ORDER BY nm_addr_obj;"""
+                   p_date_2 := '{0}'::date) ORDER BY nm_addr_obj;"""
              
         # Повторное/Контрольное отображение дубликатов
         self.gar_fias_addr_obj_select_twins = """SELECT * FROM gar_fias_pcg_load.f_addr_area_show_data(

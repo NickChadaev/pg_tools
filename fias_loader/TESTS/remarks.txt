@@ -1314,3 +1314,7 @@ load_mainStage3.py --
 $>python3 stage_3_yaml.py ../../../load_main/Yamls/_Big_cluster stage_31r.yaml
 $>python3 stage_3_proc.py
 
+$>python3 load_mainStage3.py
+  Version 1.0.1 Build 2023-11-14
+  Usage: load_mainStage3.py <Host_IP> <Port> <DB_name> <User_name> <YAML_file_name> <Path> <Id_region> <Date>
+$>

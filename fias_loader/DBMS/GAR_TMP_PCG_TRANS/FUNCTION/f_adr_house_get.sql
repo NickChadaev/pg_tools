@@ -55,12 +55,13 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_get (
         --
         _exec := format (  _select
                          , p_schema
-                         , (SELECT fias_guid_new FROM gar_fias.twin_addr_objects
-                            WHERE (fias_guid_old = p_nm_fias_guid)
+                         , (SELECT t.fias_guid_new FROM gar_fias.twin_addr_objects t 
+                                       INNER JOIN gar_fias.as_houses h ON (t.fias_guid_new = h.object_guid)
+                            WHERE ((h.end_date > current_date) AND (t.fias_guid_old = p_nm_fias_guid)) 
                            ) 
          );  
         EXECUTE _exec INTO rr;
-     END IF;     
+  END IF;     
      
      RETURN;
 
@@ -70,7 +71,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_get (
 -- ALTER FUNCTION gar_tmp_pcg_trans.f_adr_house_get (text, uuid) OWNER TO postgres;  
 
 COMMENT ON FUNCTION gar_tmp_pcg_trans.f_adr_house_get (text, uuid) 
-IS 'Получить запись из таблицы адресов улиц. ОТДАЛЁННЫЙ СЕРВЕР';
+IS 'Получить запись из таблицы адресов ДОМОВ. ОТДАЛЁННЫЙ СЕРВЕР';
 
 -- ЗАМЕЧАНИЕ:  функция gar_tmp_pcg_trans.f_adr_house_get(text,uuid) не существует, пропускается
 -- ЗАМЕЧАНИЕ:  warning:00000:36:EXECUTE:cannot determinate a result of dynamic SQL
@@ -87,5 +88,11 @@ IS 'Получить запись из таблицы адресов улиц. �
 --       SELECT gar_tmp_pcg_trans.f_adr_house_get ('gar_tmp', 'eb783cda-5615-43f5-8992-5f6906e2163d'::uuid);
 --           '(,,,,,,,,,,,,,,,,,)'
 
+--       SELECT gar_tmp_pcg_trans.f_adr_house_get ('gar_tmp', 'c0e84a0b-a00c-4f1c-beec-fba22f64bf31'::uuid);
+--           '(466809,125,10673,2,13,,,,,450007,"д. 13",80701000001,c0e84a0b-a00c-4f1c-beec-fba22f64bf31,,,80401380000,,)'
 
+--       SELECT gar_tmp_pcg_trans.f_adr_house_get ('gar_tmp', 'f38c7e80-cf78-43d1-92db-ebbc10f0088d'::uuid);
+--   '(766210,125,10673,2,23,,,,,450007,"д. 23",80701000001,f38c7e80-cf78-43d1-92db-ebbc10f0088d,,,80401380000,,)'
+
+ --       '23f6da51-e5a2-42a2-aa41-b6448ff7b690'|'f38c7e80-cf78-43d1-92db-ebbc10f0088d'|2|'2023-11-14'
     

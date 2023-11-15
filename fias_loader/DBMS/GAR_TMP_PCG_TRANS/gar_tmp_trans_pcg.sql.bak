@@ -5,7 +5,7 @@
 --
 CREATE OR REPLACE VIEW gar_tmp_pcg_trans.version
  AS
- SELECT '$Revision:9441313$ modified $RevDate:2023-11-09$'::text AS version; 
+ SELECT '$Revision:18c681c$ modified $RevDate:2023-11-13$'::text AS version; 
                                                            
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -3131,11 +3131,26 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_get (
     -- --------------------------------------------------------------------------
     --  2021-12-10 Nick  Дополнение адресных георегионов. Поиск по UUID
     --  2022-02-21 Опция ONLY.
+    --  2023-11-10 Дополнительный поиск в таблице "gar_fias.twin_addr_objects".
     -- --------------------------------------------------------------------------
      _exec := format (_select, p_schema, p_nm_fias_guid);  
      EXECUTE _exec INTO rr;
+     
+     IF (rr.id_area IS NULL) 
+       THEN
+        --
+        -- Хрен во всю морду, пробуем искать в таблице двойников.
+        --
+        _exec := format (  _select
+                         , p_schema
+                         , (SELECT fias_guid_new FROM gar_fias.twin_addr_objects
+                            WHERE (fias_guid_old = p_nm_fias_guid)
+                           ) 
+         );  
+        EXECUTE _exec INTO rr;
+     END IF;
+     
      RETURN;
-
    END;                   
   $$;
  
@@ -3150,8 +3165,16 @@ IS 'Получить запись из таблицы адресных геор�
 -- ЗАМЕЧАНИЕ:  Hint: Don't use dynamic SQL and record type together, when you would check function.
 --
 --  USE CASE:
---       SELECT gar_tmp_pcg_trans.f_adr_area_get ('unsi', 'bb1060ca-8070-4dba-b86b-207e6521734b');
-    
+--       836c7232-c614-4455-a71c-9874f2ccee96 | 2cd50151-d2c0-4b9f-b3fd-3a6734c47cc0
+--       ----------------------------------------------------------------------------
+--       SELECT gar_tmp_pcg_trans.f_adr_area_get ('gar_tmp', '836c7232-c614-4455-a71c-9874f2ccee96'::uuid);
+--             '(208140,185,Омарова-Чохского,"Дагестан Респ, Махачкала г., Омарова-Чохского мкр.",30,217,2,0,82701365,836c7232-c614-4455-a71c-9874f2ccee96,,,82401365000,,,,)'    
+--       ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+--       SELECT gar_tmp_pcg_trans.f_adr_area_get ('gar_tmp', '2cd50151-d2c0-4b9f-b3fd-3a6734c47cc0'::uuid);
+--             '(208140,185,Омарова-Чохского,"Дагестан Респ, Махачкала г., Омарова-Чохского мкр.",30,217,2,0,82701365,836c7232-c614-4455-a71c-9874f2ccee96,,,82401365000,,,,)'
+--       ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+--       SELECT gar_tmp_pcg_trans.f_adr_area_get ('gar_tmp', '836c7232-c614-4455-a71c-9874f2ccee96'::uuid);
+ 
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_area_get (text, integer, bigint, integer, varchar(120));
@@ -3332,10 +3355,26 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_get (
            
    BEGIN
     -- --------------------------------------------------------------------------
-    --     2021-12-15/2022-02-21  Nick.
+    --  2021-12-15/2022-02-21  Nick.
+    --  2023-11-10 Дополнительный поиск в таблице "gar_fias.twin_addr_objects".    
     -- --------------------------------------------------------------------------
      _exec := format (_select, p_schema, p_nm_fias_guid);  
      EXECUTE _exec INTO rr;
+     
+     IF (rr.id_street IS NULL) 
+       THEN
+        --
+        -- Хрен во всю морду, пробуем искать в таблице двойников.
+        --
+        _exec := format (  _select
+                         , p_schema
+                         , (SELECT fias_guid_new FROM gar_fias.twin_addr_objects
+                            WHERE (fias_guid_old = p_nm_fias_guid)
+                           ) 
+         );  
+        EXECUTE _exec INTO rr;
+     END IF;     
+     
      RETURN;
 
    END;                   
@@ -3352,8 +3391,11 @@ IS 'Получить запись из таблицы адресов улиц. �
 -- ЗАМЕЧАНИЕ:  Hint: Don't use dynamic SQL and record type together, when you would check function.
 --
 --  USE CASE:
---       SELECT gar_tmp_pcg_trans.f_adr_street_get ('unsi', '431a03d5-d746-4dd7-9f4e-d5cd97f9930f');
---       SELECT gar_tmp_pcg_trans.f_adr_street_get ('unsi', 'db723758-0e6a-4a0b-aac2-79f77a4bc11e');
+--       SELECT gar_tmp_pcg_trans.f_adr_street_get ('gar_tmp', '58c40740-cac6-4c29-9f9b-6eac05b53717'::uuid);
+--                         '(600002108,11357,Гаражная,38,"Гаражная ул.",7daa96c1-5e22-4f5a-a111-06cd36e229a9,,,,,)'
+--
+--       SELECT gar_tmp_pcg_trans.f_adr_street_get ('gar_tmp', '7daa96c1-5e22-4f5a-a111-06cd36e229a9'::uuid);
+--                         '(600002108,11357,Гаражная,38,"Гаражная ул.",7daa96c1-5e22-4f5a-a111-06cd36e229a9,,,,,)'
     
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -3528,12 +3570,28 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_get (
            
    BEGIN
     -- --------------------------------------------------------------------------
-    --     2021-12-15 Nick.
-    --     2022-02-07  Переход на базовые типы.
-    --     2022-02-21  ONLY 
+    --   2021-12-15 Nick.
+    --   2022-02-07  Переход на базовые типы.
+    --   2022-02-21  ONLY 
+    --   2023-11-10 Дополнительный поиск в таблице "gar_fias.twin_addr_objects".        
     -- --------------------------------------------------------------------------
      _exec := format (_select, p_schema, p_nm_fias_guid);  
      EXECUTE _exec INTO rr;
+     
+     IF (rr.id_house IS NULL) 
+       THEN
+        --
+        -- Хрен во всю морду, пробуем искать в таблице двойников.
+        --
+        _exec := format (  _select
+                         , p_schema
+                         , (SELECT fias_guid_new FROM gar_fias.twin_addr_objects
+                            WHERE (fias_guid_old = p_nm_fias_guid)
+                           ) 
+         );  
+        EXECUTE _exec INTO rr;
+     END IF;     
+     
      RETURN;
 
    END;                   
@@ -3550,8 +3608,16 @@ IS 'Получить запись из таблицы адресов улиц. �
 -- ЗАМЕЧАНИЕ:  Hint: Don't use dynamic SQL and record type together, when you would check function.
 --
 --  USE CASE:
---       SELECT gar_tmp_pcg_trans.f_adr_house_get ('unnsi', '982d22bc-b267-4717-a62d-427c83ce38a6');
---       SELECT gar_tmp_pcg_trans.f_adr_house_get ('unsi', 'db723758-0e6a-4a0b-aac2-79f77a4bc11e');
+--       SELECT gar_tmp_pcg_trans.f_adr_house_get ('gar_tmp', '5f63f750-777f-4d7f-855f-bc2d13dbd6c9'::uuid);
+--               '(24583675,192263,942690,2,26,,,,,367014,"д. 26",82701362,eb783cda-5615-43f5-8a12-5f6906e2163d,,,82401362000,,)'
+
+--       SELECT gar_tmp_pcg_trans.f_adr_house_get ('gar_tmp', 'eb783cda-5615-43f5-8a12-5f6906e2163d'::uuid);
+--               '(24583675,192263,942690,2,26,,,,,367014,"д. 26",82701362,eb783cda-5615-43f5-8a12-5f6906e2163d,,,82401362000,,)'
+
+--       SELECT gar_tmp_pcg_trans.f_adr_house_get ('gar_tmp', 'eb783cda-5615-43f5-8992-5f6906e2163d'::uuid);
+--           '(,,,,,,,,,,,,,,,,,)'
+
+
     
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -53,8 +53,9 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_get (
         --
         _exec := format (  _select
                          , p_schema
-                         , (SELECT fias_guid_new FROM gar_fias.twin_addr_objects
-                            WHERE (fias_guid_old = p_nm_fias_guid)
+                         , (SELECT t.fias_guid_new FROM gar_fias.twin_addr_objects t 
+                                       INNER JOIN gar_fias.as_addr_obj s ON (t.fias_guid_new = s.object_guid)
+                            WHERE ((s.end_date > current_date) AND (t.fias_guid_old = p_nm_fias_guid))
                            ) 
          );  
         EXECUTE _exec INTO rr;
@@ -83,5 +84,11 @@ IS 'Получить запись из таблицы адресных геор�
 --       SELECT gar_tmp_pcg_trans.f_adr_area_get ('gar_tmp', '2cd50151-d2c0-4b9f-b3fd-3a6734c47cc0'::uuid);
 --             '(208140,185,Омарова-Чохского,"Дагестан Респ, Махачкала г., Омарова-Чохского мкр.",30,217,2,0,82701365,836c7232-c614-4455-a71c-9874f2ccee96,,,82401365000,,,,)'
 --       ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
---       SELECT gar_tmp_pcg_trans.f_adr_area_get ('gar_tmp', '836c7232-c614-4455-a71c-9874f2ccee96'::uuid);
- 
+--       SELECT gar_tmp_pcg_trans.f_adr_area_get ('gar_tmp', 'c774b5d0-bd2d-4159-87c3-c08edd1bcedc'::uuid);
+--             '(13928,185,37-й,"Башкортостан Респ, Октябрьский г., 37-й мкр.",30,156,4,0,80735000001,51708f9b-ceb3-482b-9074-af0d61f99143,,,80435000000,,02000004002,,)'
+-- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+--       SELECT gar_tmp_pcg_trans.f_adr_area_get ('gar_tmp', 'a25b2d21-a398-47da-aaa8-451c29e67bf4'::uuid);
+--             '(207479,185,Скотомогильник,"Башкортостан Респ, Татышлинский р-н, Скотомогильник тер",54,162,,1,80650465,41170db5-ad4d-4cee-bba7-0c989ab79703,,,80250865000,,,,)'
+--
+--       SELECT gar_tmp_pcg_trans.f_adr_area_get ('gar_tmp', '9455353f-a2c6-43c3-8680-e356badf38e0'::uuid);
+--       

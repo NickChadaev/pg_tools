@@ -25,3 +25,6 @@ COMMENT ON COLUMN gar_fias.twin_addr_objects.fias_guid_new  IS 'Актуальн
 COMMENT ON COLUMN gar_fias.twin_addr_objects.fias_guid_old  IS 'Предшествующий GUID';
 COMMENT ON COLUMN gar_fias.twin_addr_objects.obj_level      IS 'Уровень адресного объекта (Классификация ГАР)';
 COMMENT ON COLUMN gar_fias.twin_addr_objects.date_create    IS 'Дата создания записи.';
+
+DROP INDEX IF EXISTS gar_fias.ie1_twin_addr_objects;
+CREATE INDEX ie1_twin_addr_objects ON gar_fias.twin_addr_objects (fias_guid_old);

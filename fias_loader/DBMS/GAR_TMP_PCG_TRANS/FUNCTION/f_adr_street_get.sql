@@ -44,9 +44,10 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_get (
         --
         _exec := format (  _select
                          , p_schema
-                         , (SELECT fias_guid_new FROM gar_fias.twin_addr_objects
-                            WHERE (fias_guid_old = p_nm_fias_guid)
-                           ) 
+                         , (SELECT t.fias_guid_new FROM gar_fias.twin_addr_objects t 
+                                       INNER JOIN gar_fias.as_addr_obj s ON (t.fias_guid_new = s.object_guid)
+                            WHERE ((s.end_date > current_date) AND (t.fias_guid_old = p_nm_fias_guid))
+                           )
          );  
         EXECUTE _exec INTO rr;
      END IF;     
@@ -72,4 +73,7 @@ IS 'Получить запись из таблицы адресов улиц. �
 --
 --       SELECT gar_tmp_pcg_trans.f_adr_street_get ('gar_tmp', '7daa96c1-5e22-4f5a-a111-06cd36e229a9'::uuid);
 --                         '(600002108,11357,Гаражная,38,"Гаражная ул.",7daa96c1-5e22-4f5a-a111-06cd36e229a9,,,,,)'
+-- ----------------------------------------------------------------------------------------------------------------
+--       SELECT gar_tmp_pcg_trans.f_adr_street_get ('gar_tmp', '9438c367-3465-4db9-b04a-c04532550dc0'::uuid);
+--  '(10673,125,Молодежная,38,"Молодежная ул.",59d2af07-eb1f-4065-ab90-6b6c38c59840,,,,,)'
     

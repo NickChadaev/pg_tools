@@ -5,7 +5,7 @@
 --
 CREATE OR REPLACE VIEW gar_tmp_pcg_trans.version
  AS
- SELECT '$Revision:18c681c$ modified $RevDate:2023-11-13$'::text AS version; 
+ SELECT '$Revision:4a01ce1$ modified $RevDate:2023-11-15$'::text AS version; 
                                                            
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -3143,8 +3143,9 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_get (
         --
         _exec := format (  _select
                          , p_schema
-                         , (SELECT fias_guid_new FROM gar_fias.twin_addr_objects
-                            WHERE (fias_guid_old = p_nm_fias_guid)
+                         , (SELECT t.fias_guid_new FROM gar_fias.twin_addr_objects t 
+                                       INNER JOIN gar_fias.as_addr_obj s ON (t.fias_guid_new = s.object_guid)
+                            WHERE ((s.end_date > current_date) AND (t.fias_guid_old = p_nm_fias_guid))
                            ) 
          );  
         EXECUTE _exec INTO rr;
@@ -3173,8 +3174,14 @@ IS 'Получить запись из таблицы адресных геор�
 --       SELECT gar_tmp_pcg_trans.f_adr_area_get ('gar_tmp', '2cd50151-d2c0-4b9f-b3fd-3a6734c47cc0'::uuid);
 --             '(208140,185,Омарова-Чохского,"Дагестан Респ, Махачкала г., Омарова-Чохского мкр.",30,217,2,0,82701365,836c7232-c614-4455-a71c-9874f2ccee96,,,82401365000,,,,)'
 --       ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
---       SELECT gar_tmp_pcg_trans.f_adr_area_get ('gar_tmp', '836c7232-c614-4455-a71c-9874f2ccee96'::uuid);
- 
+--       SELECT gar_tmp_pcg_trans.f_adr_area_get ('gar_tmp', 'c774b5d0-bd2d-4159-87c3-c08edd1bcedc'::uuid);
+--             '(13928,185,37-й,"Башкортостан Респ, Октябрьский г., 37-й мкр.",30,156,4,0,80735000001,51708f9b-ceb3-482b-9074-af0d61f99143,,,80435000000,,02000004002,,)'
+-- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+--       SELECT gar_tmp_pcg_trans.f_adr_area_get ('gar_tmp', 'a25b2d21-a398-47da-aaa8-451c29e67bf4'::uuid);
+--             '(207479,185,Скотомогильник,"Башкортостан Респ, Татышлинский р-н, Скотомогильник тер",54,162,,1,80650465,41170db5-ad4d-4cee-bba7-0c989ab79703,,,80250865000,,,,)'
+--
+--       SELECT gar_tmp_pcg_trans.f_adr_area_get ('gar_tmp', '9455353f-a2c6-43c3-8680-e356badf38e0'::uuid);
+--       
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DROP FUNCTION IF EXISTS gar_tmp_pcg_trans.f_adr_area_get (text, integer, bigint, integer, varchar(120));
@@ -3368,9 +3375,10 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_get (
         --
         _exec := format (  _select
                          , p_schema
-                         , (SELECT fias_guid_new FROM gar_fias.twin_addr_objects
-                            WHERE (fias_guid_old = p_nm_fias_guid)
-                           ) 
+                         , (SELECT t.fias_guid_new FROM gar_fias.twin_addr_objects t 
+                                       INNER JOIN gar_fias.as_addr_obj s ON (t.fias_guid_new = s.object_guid)
+                            WHERE ((s.end_date > current_date) AND (t.fias_guid_old = p_nm_fias_guid))
+                           )
          );  
         EXECUTE _exec INTO rr;
      END IF;     
@@ -3396,6 +3404,9 @@ IS 'Получить запись из таблицы адресов улиц. �
 --
 --       SELECT gar_tmp_pcg_trans.f_adr_street_get ('gar_tmp', '7daa96c1-5e22-4f5a-a111-06cd36e229a9'::uuid);
 --                         '(600002108,11357,Гаражная,38,"Гаражная ул.",7daa96c1-5e22-4f5a-a111-06cd36e229a9,,,,,)'
+-- ----------------------------------------------------------------------------------------------------------------
+--       SELECT gar_tmp_pcg_trans.f_adr_street_get ('gar_tmp', '9438c367-3465-4db9-b04a-c04532550dc0'::uuid);
+--  '(10673,125,Молодежная,38,"Молодежная ул.",59d2af07-eb1f-4065-ab90-6b6c38c59840,,,,,)'
     
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -3585,12 +3596,13 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_get (
         --
         _exec := format (  _select
                          , p_schema
-                         , (SELECT fias_guid_new FROM gar_fias.twin_addr_objects
-                            WHERE (fias_guid_old = p_nm_fias_guid)
+                         , (SELECT t.fias_guid_new FROM gar_fias.twin_addr_objects t 
+                                       INNER JOIN gar_fias.as_houses h ON (t.fias_guid_new = h.object_guid)
+                            WHERE ((h.end_date > current_date) AND (t.fias_guid_old = p_nm_fias_guid)) 
                            ) 
          );  
         EXECUTE _exec INTO rr;
-     END IF;     
+  END IF;     
      
      RETURN;
 
@@ -3600,7 +3612,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_get (
 -- ALTER FUNCTION gar_tmp_pcg_trans.f_adr_house_get (text, uuid) OWNER TO postgres;  
 
 COMMENT ON FUNCTION gar_tmp_pcg_trans.f_adr_house_get (text, uuid) 
-IS 'Получить запись из таблицы адресов улиц. ОТДАЛЁННЫЙ СЕРВЕР';
+IS 'Получить запись из таблицы адресов ДОМОВ. ОТДАЛЁННЫЙ СЕРВЕР';
 
 -- ЗАМЕЧАНИЕ:  функция gar_tmp_pcg_trans.f_adr_house_get(text,uuid) не существует, пропускается
 -- ЗАМЕЧАНИЕ:  warning:00000:36:EXECUTE:cannot determinate a result of dynamic SQL
@@ -3617,7 +3629,13 @@ IS 'Получить запись из таблицы адресов улиц. �
 --       SELECT gar_tmp_pcg_trans.f_adr_house_get ('gar_tmp', 'eb783cda-5615-43f5-8992-5f6906e2163d'::uuid);
 --           '(,,,,,,,,,,,,,,,,,)'
 
+--       SELECT gar_tmp_pcg_trans.f_adr_house_get ('gar_tmp', 'c0e84a0b-a00c-4f1c-beec-fba22f64bf31'::uuid);
+--           '(466809,125,10673,2,13,,,,,450007,"д. 13",80701000001,c0e84a0b-a00c-4f1c-beec-fba22f64bf31,,,80401380000,,)'
 
+--       SELECT gar_tmp_pcg_trans.f_adr_house_get ('gar_tmp', 'f38c7e80-cf78-43d1-92db-ebbc10f0088d'::uuid);
+--   '(766210,125,10673,2,23,,,,,450007,"д. 23",80701000001,f38c7e80-cf78-43d1-92db-ebbc10f0088d,,,80401380000,,)'
+
+ --       '23f6da51-e5a2-42a2-aa41-b6448ff7b690'|'f38c7e80-cf78-43d1-92db-ebbc10f0088d'|2|'2023-11-14'
     
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

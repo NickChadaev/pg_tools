@@ -7,9 +7,10 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_zzz_street_type_show_tmp_data (
     LANGUAGE plpgsql
  AS
   $$
-    -- ---------------------------------------------------------------
+    -- -----------------------------------------------------------------------------
     --  2022-11-14 Nick Промежуточный набор данных.
-    -- ----------------------------------------------------------------
+    --  2023-11-15 Модификация, гармонизация справочников (устраняются пересечения)    
+    -- -----------------------------------------------------------------------------
     DECLARE
        _exec   text;
        _select text = $_$  
@@ -30,7 +31,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_zzz_street_type_show_tmp_data (
                   
             FROM gar_tmp.xxx_adr_street_type x 
             
-             LEFT JOIN %I.adr_street_type t 
+             RIGHT JOIN %I.adr_street_type t -- 2023-11-15
                    ON (x.fias_row_key = gar_tmp_pcg_trans.f_xxx_replace_char (t.nm_street_type))
              ORDER BY t.id_street_type;       
        $_$;
@@ -54,5 +55,6 @@ IS 'Функция отображает "тип улицы" из промежу�
 ----------------------------------------------------------------------------------
 -- USE CASE:
 --           SELECT * FROM gar_tmp_pcg_trans.f_zzz_street_type_show_tmp_data ('gar_tmp'); 
+--           SELECT * FROM gar_tmp_pcg_trans.f_zzz_street_type_show_tmp_data ('gar_tmp') WHERE (id_street_type_tmp IS NULL);
 --           SELECT * FROM gar_tmp_pcg_trans.f_zzz_street_type_show_tmp_data ('unnsi'); 
 --

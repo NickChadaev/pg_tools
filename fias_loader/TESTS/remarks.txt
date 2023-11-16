@@ -1361,7 +1361,66 @@ Fast-forward
 ----------
   Две ошибки, процесс остановлен.
   
-      1) Ошибка в функции поиска двойника
-      2) Необходима гармонизация промежуточных справочников.         Разделить окончательно улицы и адресные пространства,
+  -+ 1) Ошибка в функции поиска двойника
+  -+ 2) Необходима гармонизация промежуточных справочников.         Разделить окончательно улицы и адресные пространства,
          ведь по ним, конечном счёте определяется внутренний уровеь объекта.
+     
+После commit на большом сервере.
+
+$>git commit
+[FilterObj c580678] Первый прогон, большой сервер
+ Committer: Николай Чадаев <n.chadaev@gd-l-gar-pp-1.abrr.local>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly:
+
+    git config --global user.name "Your Name"
+    git config --global user.email you@example.com
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 4 files changed, 19724 insertions(+)
+ create mode 100644 fias_loader/DBMS/process.err
+$>
+
+На большом сервере
+
+$>git pull origin FilterObj
+remote: Enumerating objects: 27, done.
+remote: Counting objects: 100% (27/27), done.
+remote: Compressing objects: 100% (5/5), done.
+remote: Total 27 (delta 22), reused 27 (delta 22), pack-reused 0
+Unpacking objects: 100% (27/27), done.
+From https://github.com/NickChadaev/pg_tools
+ * branch            FilterObj  -> FETCH_HEAD
+Merge made by the 'recursive' strategy.
+ fias_loader/DBMS/GAR_FIAS/createTablesGarFias_1.sql              |   3 ++
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/FUNCTION/f_adr_area_get.sql   |  15 ++++--
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/FUNCTION/f_adr_house_get.sql  |  15 ++++--
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/FUNCTION/f_adr_street_get.sql |  10 ++--
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.err         | 390 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++---------------------------------------------------------------------
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.err.bak     | 379 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++----------------------------------------------------------------
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.log         | 176 +++++++++++++++++++++++++++++++-------------------------------
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.log.bak     | 176 +++++++++++++++++++++++++++++++-------------------------------
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.sql         |  42 ++++++++++-----
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.sql.bak     |  90 +++++++++++++++++++++++++++-----
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/stage_25_tmp_build.csv        |   2 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/version.sql                   |   2 +-
+ fias_loader/TESTS/Y_BUILD/ALL0/process.out                       |   2 +-
+ fias_loader/TESTS/Y_BUILD/_TEST_02_twins.sql                     |  81 +++++++++++++++++++++++++++++
+ fias_loader/TESTS/remarks.txt                                    |  10 ++++
+ 15 files changed, 803 insertions(+), 590 deletions(-)
+ create mode 100644 fias_loader/TESTS/Y_BUILD/_TEST_02_twins.sq
+ 
+ 
+ 2023-11-16
+ ----------
+   -+ 2) Необходима гармонизация промежуточных справочников.  
+         В рамках этого пункта необходимо выполнить логическое удаление
+         записей из справочников адресных пространств и улиц.
+         Тренируемся на 05 127  5434
          
+    -+ 3) Как сбросить текущее состояние workers ???
+          Убить солдержимое всех таблиц ???

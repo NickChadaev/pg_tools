@@ -15,11 +15,11 @@ BEGIN;
              FROM gar_tmp_pcg_trans.f_zzz_adr_area_type_show_tmp_data ('unnsi') 
              WHERE (id_area_type_tmp IS NULL)
         )
-    UPDATE gar_tmp.adr_area_type AS z SET dt_data_del = '2023-11-15 00:00:00'
+    UPDATE unnsi.adr_area_type AS z SET dt_data_del = '2023-11-15 00:00:00'
     FROM x 
     WHERE (z.id_area_type = x.id_area_type);    
 
-    SELECT * FROM gar_tmp.adr_area_type ORDER BY id_area_type;
+    SELECT * FROM unnsi.adr_area_type ORDER BY id_area_type;
 COMMIT; 
 -- ROLLBACK;
 -- SELECT * FROM gar_tmp.adr_area_type WHERE (dt_data_del IS NOT NULL);
@@ -35,11 +35,11 @@ BEGIN;
              FROM gar_tmp_pcg_trans.f_zzz_street_type_show_tmp_data ('unnsi') 
              WHERE (id_street_type_tmp IS NULL)
         )
-   UPDATE gar_tmp.adr_street_type AS z SET dt_data_del = '2023-11-15 00:00:00'
+   UPDATE unnsi.adr_street_type AS z SET dt_data_del = '2023-11-15 00:00:00'
    FROM x 
    WHERE (z.id_street_type = x.id_street_type);  
  
-   SELECT * FROM gar_tmp.adr_street_type ORDER BY id_street_type;
+   SELECT * FROM unnsi.adr_street_type ORDER BY id_street_type;
 COMMIT; 
 -- ROLLBACK;
 -- SELECT * FROM gar_tmp.adr_street_type WHERE (dt_data_del IS NOT NULL);

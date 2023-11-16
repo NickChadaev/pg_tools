@@ -49,11 +49,11 @@ SELECT t.fias_guid_new, t.fias_guid_old, t.obj_level, t.date_create, s.end_date
 FROM gar_fias.twin_addr_objects t 
     INNER JOIN gar_fias.as_addr_obj s ON (t.fias_guid_new = s.object_guid)
 WHERE (s.end_date > current_date) AND 
-    (t.fias_guid_old = 'c43ced7d-94ca-424a-bc69-bc7e5c4b1ad5') ; --НЕТ
+    (t.fias_guid_old = '9438c367-3465-4db9-b04a-c04532550dc0') ; --НЕТ
 
 -------------------------------------------------------------------------------
 SELECT fias_guid_new, fias_guid_old, obj_level, date_create
-	FROM gar_fias.twin_addr_objects WHERE (obj_level = 2);
+	FROM gar_fias.twin_addr_objects WHERE (obj_level = 1);
 
 -- '23f6da51-e5a2-42a2-aa41-b6448ff7b690'|'f38c7e80-cf78-43d1-92db-ebbc10f0088d' 2
 

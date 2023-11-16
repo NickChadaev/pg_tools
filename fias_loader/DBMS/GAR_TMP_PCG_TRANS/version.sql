@@ -3,5 +3,5 @@
 --
 CREATE OR REPLACE VIEW gar_tmp_pcg_trans.version
  AS
- SELECT '$Revision:4a01ce1$ modified $RevDate:2023-11-15$'::text AS version; 
+ SELECT '$Revision:704332c$ modified $RevDate:2023-11-16$'::text AS version; 
                                                            

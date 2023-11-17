@@ -10,4 +10,4 @@ CREATE DATABASE unsi_test_07
     CONNECTION LIMIT = -1;
 
 COMMENT ON DATABASE unsi_test_07
-    IS 'Кабардино-Балкарская Респ. 223-09-25';
+    IS 'Кабардино-Балкарская Респ. 2023-11-13';

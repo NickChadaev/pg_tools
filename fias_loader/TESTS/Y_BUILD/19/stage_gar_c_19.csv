@@ -1,0 +1,13 @@
+X;;;Start process;
+0;SELECT gar_version_pcg_support.save_gar_version (i_nm_garfias_version := '2023-11-13'::date,i_kd_download_type := FALSE ::boolean,i_dt_download := now()::timestamp without time zone,i_arc_path := '/home/n.chadaev@abrr.local/7_DATA/gar_xml_11_14.zip'::text);; -- Version;
+0;CALL gar_fias_pcg_load.del_gar_all();; -- Очистка от данных;
+0;CALL gar_tmp_pcg_trans.p_gar_fias_crt_idx(FALSE);; -- Убираем индексы;
+0;CALL gar_fias_pcg_load.p_alt_tbl (FALSE);; -- Set UNLOGGED;
+#
+2;/home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2023_11_13;; -- Common XML-file;
+2;/home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2023_11_13/19;; -- Region XML-file;  # Хакасия Респ
+#
+0;SELECT gar_version_pcg_support.set_gar_dt_create ('2023-11-13'::date, now()::timestamp without time zone);; -- Data finish;
+0;CALL gar_fias_pcg_load.p_alt_tbl (TRUE);; -- Set LOGGED;  # in 4 min 30 secs.
+#
+X;;;Stop process;

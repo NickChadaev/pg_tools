@@ -10,4 +10,4 @@ CREATE DATABASE unsi_test_08
     CONNECTION LIMIT = -1;
 
 COMMENT ON DATABASE unsi_test_08
-    IS 'Калмыкия Респ. 223-09-25';
+    IS 'Калмыкия Респ. 2023-11-13';

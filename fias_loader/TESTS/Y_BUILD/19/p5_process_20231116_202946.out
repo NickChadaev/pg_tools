@@ -1,0 +1,42 @@
+ save_gar_version 
+------------------
+               83
+(1 row)
+
+CALL
+CALL
+CALL
+ set_gar_dt_create 
+-------------------
+                83
+(1 row)
+
+CALL
+gar_fias.as_apartment_type: 13
+gar_fias.as_addr_obj_type: 421
+gar_fias.as_room_type: 3
+gar_fias.as_operation_type: 27
+gar_fias.as_param_type: 20
+gar_fias.as_house_type: 14
+gar_fias.as_add_house_type: 4
+gar_fias.as_object_level: 17
+gar_fias.as_norm_docs_types: 25
+gar_fias.as_norm_docs_kinds: 4
+gar_fias.as_reestr_objects: 442707
+gar_fias.as_addr_obj: 15726
+gar_fias.as_houses: 467211
+gar_fias.as_steads: 102303
+gar_fias.as_apartments: 160484
+gar_fias.as_rooms: 1441
+gar_fias.as_carplaces: 521
+gar_fias.as_adm_hierarchy: 561999
+gar_fias.as_mun_hierarchy: 504994
+gar_fias.as_change_history: 1648690
+gar_fias.as_addr_obj_division: 70
+gar_fias.as_addr_obj_params: 154596
+gar_fias.as_steads_params: 1112488
+gar_fias.as_houses_params: 2238610
+gar_fias.as_apartments_params: 317898
+gar_fias.as_rooms_params: 2057
+gar_fias.as_carplaces_params: 255
+gar_fias.as_normative_docs: 128812

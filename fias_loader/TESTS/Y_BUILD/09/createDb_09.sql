@@ -10,4 +10,4 @@ CREATE DATABASE unsi_test_09
     CONNECTION LIMIT = -1;
 
 COMMENT ON DATABASE unsi_test_09
-    IS 'Карачаево-Черкесская Респ. 223-09-25';
+    IS 'Карачаево-Черкесская Респ. 2023-11-13';

@@ -1,0 +1,41 @@
+2023-11-16 20:48:09 home/n.chadaev@abrr.local
+127.0.0.1 5432 unsi_test_21 postgres /home/n.chadaev@abrr.local/Y_BUILD/21/stage_gar_c_21.csv 2023-11-13
+--------------------------------------------------------
+[20:48:09] ... Чувашская Респ, id_region: 22, Execute: /home/n.chadaev@abrr.local/Y_BUILD/21/stage_gar_c_21.csv, process_id:25345
+[20:48:09] ... Start process
+[20:48:09] ...  -- Version
+[20:48:09] ...  -- Очистка от данных
+[20:48:09] ...  -- Убираем индексы
+[20:48:09] ...  -- Set UNLOGGED
+[20:48:09] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2023_11_13/AS_APARTMENT_TYPES_20231113_78e8cff6-619c-4b2e-806f-6c3c18c41d8c.XML
+[20:48:10] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2023_11_13/AS_ADDR_OBJ_TYPES_20231113_15f2ec37-c925-4252-b49a-5473d975a16f.XML
+[20:48:10] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2023_11_13/AS_ROOM_TYPES_20231113_32952955-cd74-40c1-bc84-06d94fe9559d.XML
+[20:48:10] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2023_11_13/AS_OPERATION_TYPES_20231113_5151274c-91f4-4286-aaff-fc37112b660a.XML
+[20:48:10] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2023_11_13/AS_PARAM_TYPES_20231113_fe767969-20f3-4044-9ef6-67b4cb2881ce.XML
+[20:48:10] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2023_11_13/AS_HOUSE_TYPES_20231113_507d1000-4460-4d2f-a5b1-2ab5b9cd8a26.XML
+[20:48:10] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2023_11_13/AS_ADDHOUSE_TYPES_20231113_d99b31fe-7b05-400a-ac92-23919e58da07.XML
+[20:48:10] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2023_11_13/AS_OBJECT_LEVELS_20231113_b5fa7b3d-ea26-40c9-8b3a-9b986261ea66.XML
+[20:48:10] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2023_11_13/AS_NORMATIVE_DOCS_TYPES_20231113_b8068ed2-dd18-4365-abb7-3dbd98698c35.XML
+[20:48:10] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2023_11_13/AS_NORMATIVE_DOCS_KINDS_20231113_2f0f38c6-d598-4fd7-b325-2aa6aca29ed2.XML
+[20:48:10] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2023_11_13/21/AS_REESTR_OBJECTS_20231113_3142d8d7-76b6-4812-92f5-336a51a22e88.XML
+[20:58:58] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2023_11_13/21/AS_ADDR_OBJ_20231113_67bf9f26-63f1-4bc2-a772-ec62c836a009.XML
+[20:59:14] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2023_11_13/21/AS_HOUSES_20231113_093b560c-0fb8-4c44-9a91-0088bd710d9e.XML
+[21:07:51] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2023_11_13/21/AS_STEADS_20231113_b1cf694f-43ad-4520-bfec-73d15fa68d1b.XML
+[21:08:20] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2023_11_13/21/AS_APARTMENTS_20231113_e6e53db2-d86c-4de2-9650-b96583a5c85b.XML
+[21:14:18] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2023_11_13/21/AS_ROOMS_20231113_aa97bc61-803e-4c54-be9f-ad0389cf184d.XML
+[21:14:19] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2023_11_13/21/AS_CARPLACES_20231113_2e5ef55f-46a0-4be2-b66d-309f636e04ba.XML
+[21:14:20] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2023_11_13/21/AS_ADM_HIERARCHY_20231113_5917012f-4e4b-410e-b03b-a0f3719e4bb8.XML
+[21:25:05] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2023_11_13/21/AS_MUN_HIERARCHY_20231113_3b33fafd-46d4-4101-9057-07e8af6356c6.XML
+[21:40:03] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2023_11_13/21/AS_CHANGE_HISTORY_20231113_c13abc77-5c94-4ee5-9914-c8322d42f7ce.XML
+[22:18:43] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2023_11_13/21/AS_ADDR_OBJ_DIVISION_20231113_4eeabbdc-6ca2-4f38-8885-cff2a825bcb3.XML
+[22:18:43] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2023_11_13/21/AS_ADDR_OBJ_PARAMS_20231113_409f8bd4-9baa-4f20-8ab0-547b90517aa2.XML
+[22:21:35] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2023_11_13/21/AS_STEADS_PARAMS_20231113_a33cc45e-ee03-49ef-a128-9c6dc76a6a8e.XML
+[22:27:13] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2023_11_13/21/AS_HOUSES_PARAMS_20231113_e210dab6-badf-4164-8f4a-67fabfce7d90.XML
+[23:30:37] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2023_11_13/21/AS_APARTMENTS_PARAMS_20231113_5bcbb62e-6f47-4a3a-b0a0-b8424d4ed019.XML
+[23:40:59] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2023_11_13/21/AS_ROOMS_PARAMS_20231113_7afcd25a-97fc-4d79-ab4e-94dc8631b408.XML
+[23:40:59] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2023_11_13/21/AS_CARPLACES_PARAMS_20231113_d395d46c-1438-449a-aa5a-7e1c059a4447.XML
+[23:40:59] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2023_11_13/21/AS_NORMATIVE_DOCS_20231113_7eeddc10-659e-4c9f-bfb4-49da4a9b099f.XML
+[23:41:52] ...  -- Data finish
+[23:41:52] ...  -- Set LOGGED
+[23:42:17] ... Stop process
+--------------------------------------------------------

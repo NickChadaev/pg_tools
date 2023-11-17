@@ -1431,4 +1431,63 @@ Merge made by the 'recursive' strategy.
             -- на одной из баз (Big2 01) выполнить второй патч (логическое удаление)
                Предварительно оформить его.
             
-          
+$>git pull origin FilterObj
+remote: Enumerating objects: 37, done.
+remote: Counting objects: 100% (37/37), done.
+remote: Compressing objects: 100% (11/11), done.
+remote: Total 37 (delta 26), reused 37 (delta 26), pack-reused 0
+Unpacking objects: 100% (37/37), done.
+From https://github.com/NickChadaev/pg_tools
+ * branch            FilterObj  -> FETCH_HEAD
+Merge made by the 'recursive' strategy.
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/FUNCTION/f_zzz_adr_area_type_show_tmp_data.sql |   9 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/FUNCTION/f_zzz_house_type_show_tmp_data.sql    |   3 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/FUNCTION/f_zzz_street_type_show_tmp_data.sql   |   8 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.err                          | 387 ++++++++++++++++++++++++++++++++++++++++++----------------------------------------
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.err.bak                      | 390 ++++++++++++++++++++++++++++++++++++++++++-----------------------------------------
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.log                          | 194 ++++++++++++++++++++++-------------------
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.log.bak                      | 176 +++++++++++++++++++-------------------
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.sql                          | 570 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.sql.bak                      |  42 ++++++---
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/stage_25_tmp_build.csv                         |   2 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/version.sql                                    |   2 +-
+ fias_loader/DBMS/xxx_all_types_build_patch_20231115.csv                           |  28 ++++++
+ fias_loader/DBMS/xxx_all_types_build_patch_20231115.out                           | 174 +++++++++++++++++++++++++++++++++++++
+ fias_loader/DBMS/xxx_all_types_build_patch_20231115.sql                           |  59 +++++++++++++
+ fias_loader/DBMS/xxx_all_types_build_patch_20231116.sql                           |  46 ++++++++++
+ fias_loader/TESTS/Y_BUILD/05/.~lock._TEST_update_level_0.xlsx#                    |   1 +
+ fias_loader/TESTS/Y_BUILD/05/.~lock._TEST_xxx_adr_area_type.xlsx#                 |   1 +
+ fias_loader/TESTS/Y_BUILD/05/.~lock._TEST_xxx_adr_street_type.csv#                |   1 +
+ fias_loader/TESTS/Y_BUILD/05/_TEST_xxx_adr_area_type.csv                          | 234 ++++++++++++++++++++++++++++++--------------------
+ fias_loader/TESTS/Y_BUILD/05/_TEST_xxx_adr_area_type.xlsx                         | Bin 0 -> 14940 bytes
+ fias_loader/TESTS/Y_BUILD/05/_TEST_xxx_adr_street_type.csv                        | 104 ++++++++++++----------
+ fias_loader/TESTS/Y_BUILD/_TEST_02_twins.sql                                      |   4 +-
+ fias_loader/TESTS/remarks.txt                                                     |  71 ++++++++++++++-
+ 23 files changed, 1776 insertions(+), 730 deletions(-)
+ create mode 100644 fias_loader/DBMS/xxx_all_types_build_patch_20231115.csv
+ create mode 100644 fias_loader/DBMS/xxx_all_types_build_patch_20231115.out
+ create mode 100644 fias_loader/DBMS/xxx_all_types_build_patch_20231115.sql
+ create mode 100644 fias_loader/DBMS/xxx_all_types_build_patch_20231116.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/.~lock._TEST_update_level_0.xlsx#
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/.~lock._TEST_xxx_adr_area_type.xlsx#
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/.~lock._TEST_xxx_adr_street_type.csv#
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/_TEST_xxx_adr_area_type.xlsx
+----------------------------
+-- db_exchange -- офрмить в виде функции откат остановленного задания.
+
+Что происходит при работе, ПОТОКИ.
+   FIRST   -->  PARSE  <---- workers <--> EVENT_xx --> PROC --> <---- workers <--> EVENT_xx -->  LAST
+   
+Что я хочу ??
+
+08 Калмыкия                     --   ДОМА В GAPS
+09 Карачаево-Черкесская Респ    --   ДОМА В GAPS
+
+32 Белгород, почему происходят обновления ??
+34 Волгоград в списке домов поялись явнеы значения dt_data_del
+38 Иркутск 523 GAP_2 !!!!!!!
+
+Как постобработка домов сочетается с записями о двойниках
+46 Курская область, проверить post-обработку домов.
+42 Кемерово 252 GAP_2 !!!!!!!
+

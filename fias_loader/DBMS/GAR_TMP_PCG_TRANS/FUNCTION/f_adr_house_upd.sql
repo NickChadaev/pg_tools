@@ -95,6 +95,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_upd (
     --   2022-10-18 Вспомогательные таблицы..
     --   2022-11-21 - Преобразование типов ФИАС -> ЕС НСИ.
     --   2023-10-23 - Родитель не находится, запись помещается в GAP-таблицу. _data.check_kind := 2
+    --   2023-11-21 - Окончательный отказ от ФИАСовского уровня объектов.    
     -- -------------------------------------------------------------------------  
     --     p_schema_data    -- Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
     --    ,p_schema_etl     -- Схема эталон, обычно локальный сервер, копия p_schema_data 
@@ -155,38 +156,24 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_upd (
 	               (p_nm_guids_fias IS NOT NULL)) OR (p_nm_guids_fias IS NULL)
 	              )                     
        LOOP
-      
-         -- 2022-05-31
-         --              level_id |           level_name       
-         --             ----------+------------------------------------
-         --                     1 | Субъект РФ                               
-         --                     2 | Административный район                   
-         --                     3 | Муниципальный район                      
-         --                     4 | Сельское/городское поселение             
-         --                     5 | Город                                    
-         --                     6 | Населенный пункт                         
-         --                     7 | Элемент планировочной структуры          
-         --                     8 | Элемент улично-дорожной сети             
-         --                     9 | Земельный участок                        
+         -- 2023-11-21 Отказ от ФИАСовского уровня объектов.
          
-         IF (_data.parent_level_id IN (8, 9))  -- ??
-           THEN
-              _parent := gar_tmp_pcg_trans.f_adr_street_get (p_schema_etl, _data.nm_fias_guid_parent);
-              _id_area   := _parent.id_area;   
-              _id_street := _parent.id_street;    
-           
-           ELSE
-            _id_area   := (gar_tmp_pcg_trans.f_adr_area_get (p_schema_etl, _data.nm_fias_guid_parent)).id_area;   
-            _id_street := NULL;  
-           
+         _parent := gar_tmp_pcg_trans.f_adr_street_get (p_schema_etl, _data.nm_fias_guid_parent);
+         _id_area   := _parent.id_area;   
+         _id_street := _parent.id_street;    
+         
+         IF (_id_area IS NULL) 
+           THEN                                            -- _schema_name
+             _id_area   := (gar_tmp_pcg_trans.f_adr_area_get (p_schema_etl, _data.nm_fias_guid_parent)).id_area;   
+             _id_street := NULL;  
          END IF;
-         --
-         IF (_id_area IS NULL)        -- НЕ были загружены Ни улицы, Ни адресные объекты.
-           THEN                       -- 2022-05-31
+         --                               
+         IF (_id_area IS NULL)     -- НЕ были загружены Ни улицы, Ни адресные объекты.
+           THEN                    -- ??? Костыль 
                  _data.check_kind := 2;
                  CALL gar_tmp_pcg_trans.p_xxx_adr_house_gap_put (_data);
                  CONTINUE;  
-         END IF;         
+         END IF;
          
          _id_house_type_1 := NULL; 
          _nm_house_type_1 := NULL;

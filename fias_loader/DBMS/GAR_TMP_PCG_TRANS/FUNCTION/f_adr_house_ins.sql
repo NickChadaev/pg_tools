@@ -158,7 +158,6 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_ins (
              _id_street := NULL;  
          END IF;
          --  
-         --                               
          IF (_id_area IS NULL)     -- НЕ были загружены Ни улицы, Ни адресные объекты.
            THEN                    -- ??? Костыль 
                  _data.check_kind := 2;

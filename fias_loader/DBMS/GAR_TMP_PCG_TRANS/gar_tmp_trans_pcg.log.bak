@@ -1,90 +1,108 @@
-2023-11-15 16:44:18 ./
-127.0.0.1 5434 unsi_test_05 postgres stage_25_tmp_build.csv 
+2023-11-16 12:26:32 ./
+127.0.01 5434 unsi_test_01 postgres stage_25_tmp_build.csv 
 --------------------------------------------------------
-[16:44:18] ... Start process, Сборка процессингового пакета
-[16:44:18] ... -- Версия 4a01ce1/2023-11-15
-[16:44:18] ... -- drop_objects.sql
-[16:44:18] ... -- CreateViewGarTmp.sql
-[16:44:19] ... -- f_xxx_ob_seq_crt.sql  
-[16:44:19] ... -- f_xxx_replace_char.sql
-[16:44:19] ... -- f_xxx_adr_object_get_level.sql
-[16:44:19] ... -- p_adr_area_type_set.sql  
-[16:44:20] ... -- p_adr_street_type_set.sql
-[16:44:20] ... -- p_adr_house_type_set.sql 
-[16:44:20] ... -- p_adr_area_type_unload.sql
-[16:44:20] ... -- p_adr_street_type_unload.sql
-[16:44:20] ... -- p_adr_house_type_unload.sql
-[16:44:20] ... -- p_xxx_adr_house_gap_put.sql
-[16:44:21] ... -- p_xxx_adr_street_gap_put.sql
-[16:44:21] ... -- p_xxx_adr_area_gap_put.sql
-[16:44:21] ... -- f_xxx_adr_area_type_show_data.sql  
-[16:44:21] ... -- f_xxx_adr_area_type_set.sql        
-[16:44:21] ... -- f_xxx_adr_street_type_show_data.sql
-[16:44:21] ... -- f_xxx_street_type_set.sql          
-[16:44:21] ... -- f_xxx_house_type_show_data.sql     
-[16:44:21] ... -- f_xxx_house_type_set.sql           
-[16:44:22] ... -- f_xxx_adr_house_show_data.sql      
-[16:44:22] ... -- f_xxx_adr_house_set_data.sql       
-[16:44:22] ... -- f_adr_house_type_get.sql 
-[16:44:22] ... -- f_adr_street_type_get.sql
-[16:44:22] ... -- f_adr_area_type_get.sql  
-[16:44:22] ... -- f_zzz_adr_area_type_show_tmp_data.sql
-[16:44:22] ... -- f_zzz_street_type_show_tmp_data.sql  
-[16:44:22] ... -- f_zzz_house_type_show_tmp_data.sql   
-[16:44:23] ... -- f_xxx_obj_fias_0.sql
-[16:44:23] ... -- f_xxx_obj_fias_1.sql
-[16:44:23] ... -- f_xxx_obj_fias_2.sql
-[16:44:23] ... -- f_xxx_obj_fias_set_data.sql
-[16:44:23] ... -- f_adr_area_get.sql    
-[16:44:23] ... -- f_adr_area_get_m.sql  
-[16:44:23] ... -- f_adr_area_get_id.sql 
-[16:44:23] ... -- f_adr_street_get.sql  
-[16:44:23] ... -- f_adr_street_get_m.sql
-[16:44:24] ... -- f_adr_street_get_id.sql
-[16:44:24] ... -- f_adr_house_get.sql   
-[16:44:24] ... -- f_adr_house_get_m.sql 
-[16:44:24] ... -- f_adr_house_get_id.sql
-[16:44:24] ... -- f_adr_object_get.sql  
-[16:44:24] ... -- f_adr_object_get_m.sql
-[16:44:24] ... -- p_alt_tbl.sql
-[16:44:24] ... -- p_clear_tbl.sql
-[16:44:25] ... -- p_gar_fias_crt_idx.sql
-[16:44:25] ... -- fp_adr_area_del_twins_local.sql
-[16:44:25] ... -- fp_adr_area_check_twins_local.sql
-[16:44:25] ... -- fp_adr_street_del_twins_local.sql
-[16:44:25] ... -- fp_adr_street_check_twins_local.sql
-[16:44:25] ... -- fp_adr_house_del_twins_local_0.sql
-[16:44:25] ... -- fp_adr_house_check_twins_local.sql
-[16:44:25] ... -- p_adr_house_del_twins.sql УСТАРЕЛО, нужно для: "p_adr_house_ins", "fp_adr_house_upd"
-[16:44:25] ... -- f_adr_area_unload_get_data.sql  
-[16:44:26] ... -- f_adr_street_unload_get_data.sql
-[16:44:26] ... -- f_adr_house_unload_get_data.sql 
-[16:44:26] ... -- f_adr_object_unload_get_data.sql
-[16:44:26] ... -- p_adr_area_ins.sql     
-[16:44:26] ... -- p_adr_area_upd.sql     
-[16:44:26] ... -- p_adr_street_ins.sql   
-[16:44:26] ... -- p_adr_street_upd.sql   
-[16:44:26] ... -- p_adr_house_ins.sql    
-[16:44:27] ... -- fp_adr_house_upd.sql   
-[16:44:27] ... -- p_adr_area_unload.sql  
-[16:44:27] ... -- p_adr_area_upload.sql  
-[16:44:27] ... -- p_adr_street_unload.sql
-[16:44:27] ... -- p_adr_street_upload.sql
-[16:44:27] ... -- p_adr_house_unload.sql 
-[16:44:27] ... -- p_adr_house_upload.sql 
-[16:44:27] ... -- p_adr_object_ins.sql   
-[16:44:27] ... -- p_adr_object_upd.sql   
-[16:44:28] ... -- p_adr_object_unload.sql
-[16:44:28] ... -- p_adr_object_upload.sql
-[16:44:28] ... -- f_adr_area_ins.sql          
-[16:44:28] ... -- f_adr_area_upd.sql          
-[16:44:28] ... -- f_adr_street_ins.sql        
-[16:44:28] ... -- f_adr_street_upd.sql        
-[16:44:28] ... -- f_adr_house_ins.sql         
-[16:44:28] ... -- f_adr_house_upd.sql         
-[16:44:29] ... -- f_show_params_value_data.sql
-[16:44:29] ... -- f_set_params_value_data.sql 
-[16:44:29] ... -- f_xxx_adr_area_show_data.sql
-[16:44:29] ... -- f_xxx_adr_area_set_data.sql 
-[16:44:29] ... Stop process
+[12:26:32] ... Start process, Сборка процессингового пакета
+[12:26:32] ... -- Версия 704332c/2023-11-16pwd
+[12:26:35] ... -- drop_objects.sql
+[12:26:36] ... -- CreateViewGarTmp.sql
+[12:26:36] ... -- f_xxx_ob_seq_crt.sql  
+[12:26:36] ... -- f_xxx_replace_char.sql
+[12:26:36] ... -- f_xxx_adr_object_get_level.sql
+[12:26:36] ... -- p_adr_area_type_set.sql  
+[12:26:36] ... -- p_adr_street_type_set.sql
+[12:26:36] ... -- p_adr_house_type_set.sql 
+[12:26:37] ... -- p_adr_area_type_unload.sql
+[12:26:37] ... -- p_adr_street_type_unload.sql
+[12:26:37] ... [12:26:37]: Error, rc = 2
+[12:26:37] ...             psql -h 127.0.01 -p 5434 -f "./PROCEDURE/p_adr_street_type_unload.sql"  unsi_test_01  -U postgres 1>> process.out 2>> process.err
+--------------------------------------------------------
+2023-11-16 12:26:53 ./
+127.0.01 5434 unsi_test_01 postgres stage_25_tmp_build.csv 
+--------------------------------------------------------
+[12:26:53] ... Start process, Сборка процессингового пакета
+[12:26:53] ... -- Версия 704332c/2023-11-16
+[12:26:53] ... -- drop_objects.sql
+[12:26:53] ... -- CreateViewGarTmp.sql
+[12:26:54] ... -- f_xxx_ob_seq_crt.sql  
+[12:26:54] ... -- f_xxx_replace_char.sql
+[12:26:54] ... -- f_xxx_adr_object_get_level.sql
+[12:26:54] ... -- p_adr_area_type_set.sql  
+[12:26:54] ... -- p_adr_street_type_set.sql
+[12:26:54] ... -- p_adr_house_type_set.sql 
+[12:26:54] ... -- p_adr_area_type_unload.sql
+[12:26:54] ... -- p_adr_street_type_unload.sql
+[12:26:54] ... -- p_adr_house_type_unload.sql
+[12:26:55] ... -- p_xxx_adr_house_gap_put.sql
+[12:26:55] ... -- p_xxx_adr_street_gap_put.sql
+[12:26:55] ... -- p_xxx_adr_area_gap_put.sql
+[12:26:55] ... -- f_xxx_adr_area_type_show_data.sql  
+[12:26:55] ... -- f_xxx_adr_area_type_set.sql        
+[12:26:55] ... -- f_xxx_adr_street_type_show_data.sql
+[12:26:55] ... -- f_xxx_street_type_set.sql          
+[12:26:55] ... -- f_xxx_house_type_show_data.sql     
+[12:26:55] ... -- f_xxx_house_type_set.sql           
+[12:26:56] ... -- f_xxx_adr_house_show_data.sql      
+[12:26:56] ... -- f_xxx_adr_house_set_data.sql       
+[12:26:56] ... -- f_adr_house_type_get.sql 
+[12:26:56] ... -- f_adr_street_type_get.sql
+[12:26:56] ... -- f_adr_area_type_get.sql  
+[12:26:56] ... -- f_zzz_adr_area_type_show_tmp_data.sql
+[12:26:56] ... -- f_zzz_street_type_show_tmp_data.sql  
+[12:26:56] ... -- f_zzz_house_type_show_tmp_data.sql   
+[12:26:56] ... -- f_xxx_obj_fias_0.sql
+[12:26:57] ... -- f_xxx_obj_fias_1.sql
+[12:26:57] ... -- f_xxx_obj_fias_2.sql
+[12:26:57] ... -- f_xxx_obj_fias_set_data.sql
+[12:26:57] ... -- f_adr_area_get.sql    
+[12:26:57] ... -- f_adr_area_get_m.sql  
+[12:26:57] ... -- f_adr_area_get_id.sql 
+[12:26:57] ... -- f_adr_street_get.sql  
+[12:26:57] ... -- f_adr_street_get_m.sql
+[12:26:57] ... -- f_adr_street_get_id.sql
+[12:26:58] ... -- f_adr_house_get.sql   
+[12:26:58] ... -- f_adr_house_get_m.sql 
+[12:26:58] ... -- f_adr_house_get_id.sql
+[12:26:58] ... -- f_adr_object_get.sql  
+[12:26:58] ... -- f_adr_object_get_m.sql
+[12:26:58] ... -- p_alt_tbl.sql
+[12:26:58] ... -- p_clear_tbl.sql
+[12:26:58] ... -- p_gar_fias_crt_idx.sql
+[12:26:58] ... -- fp_adr_area_del_twins_local.sql
+[12:26:58] ... -- fp_adr_area_check_twins_local.sql
+[12:26:59] ... -- fp_adr_street_del_twins_local.sql
+[12:26:59] ... -- fp_adr_street_check_twins_local.sql
+[12:26:59] ... -- fp_adr_house_del_twins_local_0.sql
+[12:26:59] ... -- fp_adr_house_check_twins_local.sql
+[12:26:59] ... -- p_adr_house_del_twins.sql УСТАРЕЛО, нужно для: "p_adr_house_ins", "fp_adr_house_upd"
+[12:26:59] ... -- f_adr_area_unload_get_data.sql  
+[12:26:59] ... -- f_adr_street_unload_get_data.sql
+[12:26:59] ... -- f_adr_house_unload_get_data.sql 
+[12:27:00] ... -- f_adr_object_unload_get_data.sql
+[12:27:00] ... -- p_adr_area_ins.sql     
+[12:27:00] ... -- p_adr_area_upd.sql     
+[12:27:00] ... -- p_adr_street_ins.sql   
+[12:27:00] ... -- p_adr_street_upd.sql   
+[12:27:00] ... -- p_adr_house_ins.sql    
+[12:27:00] ... -- fp_adr_house_upd.sql   
+[12:27:00] ... -- p_adr_area_unload.sql  
+[12:27:00] ... -- p_adr_area_upload.sql  
+[12:27:00] ... -- p_adr_street_unload.sql
+[12:27:01] ... -- p_adr_street_upload.sql
+[12:27:01] ... -- p_adr_house_unload.sql 
+[12:27:01] ... -- p_adr_house_upload.sql 
+[12:27:01] ... -- p_adr_object_ins.sql   
+[12:27:01] ... -- p_adr_object_upd.sql   
+[12:27:01] ... -- p_adr_object_unload.sql
+[12:27:01] ... -- p_adr_object_upload.sql
+[12:27:01] ... -- f_adr_area_ins.sql          
+[12:27:01] ... -- f_adr_area_upd.sql          
+[12:27:02] ... -- f_adr_street_ins.sql        
+[12:27:02] ... -- f_adr_street_upd.sql        
+[12:27:02] ... -- f_adr_house_ins.sql         
+[12:27:02] ... -- f_adr_house_upd.sql         
+[12:27:02] ... -- f_show_params_value_data.sql
+[12:27:02] ... -- f_set_params_value_data.sql 
+[12:27:02] ... -- f_xxx_adr_area_show_data.sql
+[12:27:02] ... -- f_xxx_adr_area_set_data.sql 
+[12:27:02] ... Stop process
 --------------------------------------------------------

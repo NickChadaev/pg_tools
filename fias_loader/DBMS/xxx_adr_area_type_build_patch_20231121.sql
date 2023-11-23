@@ -1,6 +1,6 @@
---
---  2023-11-21  Два дополнительных типа, всё-таки они станут адресными объектами
---
+-- --------------------------------------------------------------------------------------------------
+--  2023-11-21  Два дополнительных типа, Объекты этого типа, всё-таки они станут адресными объектами
+-- --------------------------------------------------------------------------------------------------
 
 -- SELECT * FROM gar_tmp.adr_area_type ORDER BY id_area_type;
 -----------------------------------------------------------
@@ -25,7 +25,8 @@ VALUES (  143
    ,'Ферма'
    ,'ферма' 
    ,0
-);
+)
+ ON CONFLICT (id_area_type) DO NOTHING;
 --
 INSERT INTO gar_tmp.xxx_adr_area_type (
      fias_ids
@@ -59,7 +60,9 @@ INSERT INTO gar_tmp.xxx_adr_area_type (
     ,0
     ,gar_tmp_pcg_trans.f_xxx_replace_char('Ферма')
     ,TRUE
-);
+)
+ ON CONFLICT (fias_row_key) DO NOTHING;
+ 
 SELECT * FROM gar_tmp_pcg_trans.f_zzz_adr_area_type_show_tmp_data ('gar_tmp') WHERE (id_area_type IN (143,144));
 -- SELECT * FROM gar_fias.as_addr_obj_type WHERE (id IN (135,208));
 -- SELECT * FROM gar_fias.as_addr_obj_type WHERE (lower(type_name) IN ('животноводческая точка','ферма'));

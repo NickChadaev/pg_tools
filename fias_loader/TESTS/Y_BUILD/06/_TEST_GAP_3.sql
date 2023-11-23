@@ -158,5 +158,54 @@ SELECT * FROM gar_tmp.adr_area WHERE (nm_fias_guid = '36731b50-0051-4a08-82c1-bb
               LEFT OUTER JOIN gar_tmp.xxx_type_param_value p ON (h.id_house = p.object_id)              
               
             WHERE (f.id_obj IS NOT NULL) AND (f.type_object = 2) AND
-                  (h.parent_fias_guid = 'a35ffd78-10de-44ec-9db8-09923d14a4cd');
-                   
+                  (h.parent_fias_guid = '36731b50-0051-4a08-82c1-bb88e97e5b6f');
+--------------------------------------------------------------------------------
+SELECT * FROM gar_tmp.adr_house WHERE (nm_fias_guid IN (
+ 'e684c343-2ff3-426e-aba0-2880214b0815'
+,'c4eeb289-3b91-431d-8154-950bebe98f96'
+));
+SELECT * FROM gar_tmp.adr_area WHERE (id_area = 900005740);
+
+SELECT * FROM gar_tmp.adr_house WHERE (id_area = 900005737);
+------------------------------------------------------------
+--    4656303 |         114819 | cfa1ba2e-6deb-49bf-ac30-122e91784fbc | a35ffd78-10de-44ec-9db8-09923d14a4cd | Дорожный                  | 8           |            158 | Поселок                 | п
+--    4656471 |         114819 | 7edabe51-f4e8-4195-98cc-1601f94d85b6 | a35ffd78-10de-44ec-9db8-09923d14a4cd | Дорожный                  | 8           |            158 | Поселок                 | п
+--    4656937 |         114819 | e79a8177-2f23-47c8-9f00-33f6e34b7890 | a35ffd78-10de-44ec-9db8-09923d14a4cd | Дорожный                  | 8           |            158 | Поселок                 | п
+--    4657435 |         114819 | 0565f348-e8f1-4dd2-90fd-3d5af9163c8f | a35ffd78-10de-44ec-9db8-09923d14a4cd | Дорожный                  | 8           |            158 | Поселок                 | п
+--    4657735 |         114819 | 29da1601-29fb-4f5d-9b79-6b7ff1f8188b | a35ffd78-10de-44ec-9db8-09923d14a4cd | Дорожный                  | 8           |            158 | Поселок                 | п
+--    4658000 |         114819 | 5d16722e-5cf4-4da1-90fb-729eff4b5c35 | a35ffd78-10de-44ec-9db8-09923d14a4cd | Дорожный                  | 8           |            158 | Поселок                 | п
+--    4658336 |         114819 | 5fdd99e1-d66b-458d-8e4d-7e716753cc88 | a35ffd78-10de-44ec-9db8-09923d14a4cd | Дорожный                  | 8           |            158 | Поселок                 | п
+--    4658867 |         114819 | 17ad7d44-6fde-4f48-8113-893f0bbdab4b | a35ffd78-10de-44ec-9db8-09923d14a4cd | Дорожный                  | 8           |            158 | Поселок                 | п
+--    4659020 |         114819 | 12b2902e-e9b0-47bd-a096-b737a79e47f2 | a35ffd78-10de-44ec-9db8-09923d14a4cd | Дорожный                  | 8           |            158 | Поселок                 | п
+--    4659254 |         114819 | 49411ad6-d3bf-42fa-b332-c7cbaa54fa40 | a35ffd78-10de-44ec-9db8-09923d14a4cd | Дорожный                  | 8           |            158 | Поселок                 | п
+--    4659451 |         114819 | 2b9fede8-7810-48ca-bb09-e1d553c0c8e5 | a35ffd78-10de-44ec-9db8-09923d14a4cd | Дорожный                  | 8           |            158 | Поселок                 | п
+--    4659619 |         114819 | f47c4e8d-6b3e-4a85-9701-ed0e48de3bc3 | a35ffd78-10de-44ec-9db8-09923d14a4cd | Дорожный                  | 8           |            158 | Поселок                 | п
+--    4660037 |         114819 | 2f4375a9-6ac9-426d-be70-fd6bd8136506 | a35ffd78-10de-44ec-9db8-09923d14a4cd | Дорожный                  | 8           |            158 | Поселок                 | п
+--  
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+SELECT * FROM gar_tmp.adr_house WHERE (nm_fias_guid IN ('1c727afa-5eec-4427-990f-8ad594319c6d'));  
+
+SELECT * FROM gar_tmp.xxx_adr_area_type ORDER BY id_area_type;
+SELECT * FROM gar_tmp.adr_area_type ORDER BY id_area_type;
+SELECT * FROM unnsi.adr_area_type ORDER BY id_area_type;
+
+BEGIN;
+ INSERT INTO unnsi.adr_area_type (
+      id_area_type
+     ,nm_area_type
+     ,nm_area_type_short
+     ,pr_lead
+ )
+  VALUES (  143
+         ,'Животноводческая точка'
+         ,'жт'
+         ,0 
+)
+,(  144
+   ,'Ферма'
+   ,'ферма' 
+   ,0
+);
+ROLLBACK;
+COMMIT;
+                  

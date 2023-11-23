@@ -1522,3 +1522,73 @@ Merge made by the 'recursive' strategy.
   ----------------------------------------------
 {73,435,258,134,363}	18	Железнодорожная станция	Железнодорожная станция	ж/д_ст	ж/д_ст
   
+    На большом хосте.
+  
+ * branch            FilterObj  -> FETCH_HEAD
+Updating 8ac1959..f7a2ef9
+Fast-forward
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/FUNCTION/f_adr_house_ins.sql    |   1 -
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/FUNCTION/f_adr_house_upd.sql    |  41 ++++------
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.err           | 373 ++++++++++++++++++++++++++++++++++++++++++--------------------------------------------
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.err.bak       | 387 ++++++++++++++++++++++++++++++++++++++++++++++-------------------------------------------
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.log           | 194 +++++++++++++++++++++------------------------
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.log.bak       | 194 ++++++++++++++++++++++++---------------------
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.sql           | 592 ++++------------------------------------------------------------------------------------------------------------------------------------
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.sql.bak       | 570 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++---
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/stage_25_tmp_build.csv          |   2 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/version.sql                     |   2 +-
+ fias_loader/DBMS/process.err                                       |   0
+ fias_loader/DBMS/process.sql                                       | 170 ---------------------------------------
+ fias_loader/DBMS/{process.log => process_20231116_163501.log}      |   0
+ fias_loader/DBMS/{process.out => process_20231116_163501.out}      |   0
+ fias_loader/DBMS/xxx_adr_area_type_build_patch_20231121.out        |   8 ++
+ fias_loader/DBMS/xxx_adr_area_type_build_patch_20231121.sql        |  70 ++++++++++++++++
+ fias_loader/TESTS/Y_BUILD/05/.~lock._TEST_xxx_adr_area_type.xlsx#  |   2 +-
+ fias_loader/TESTS/Y_BUILD/05/.~lock._TEST_xxx_adr_street_type.csv# |   2 +-
+ fias_loader/TESTS/Y_BUILD/05/_TEST_xxx_adr_area_type.xlsx          | Bin 14974 -> 15011 bytes
+ fias_loader/TESTS/Y_BUILD/06/_TEST_GAP_2.sql                       | 223 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ fias_loader/TESTS/Y_BUILD/06/_TEST_GAP_3.sql                       | 162 +++++++++++++++++++++++++++++++++++++
+ fias_loader/TESTS/Y_BUILD/06/_TEST_GAP_4.sql                       | 105 ++++++++++++++++++++++++
+ fias_loader/TESTS/Y_BUILD/_TEST_00_skver.sql                       | 336 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ fias_loader/TESTS/Y_BUILD/_TEST_00_skver.xlsx                      | Bin 0 -> 24295 bytes
+ fias_loader/TESTS/remarks.txt                                      |  24 +++++-
+ 25 files changed, 2095 insertions(+), 1363 deletions(-)
+ delete mode 100644 fias_loader/DBMS/process.err
+ delete mode 100644 fias_loader/DBMS/process.sql
+ rename fias_loader/DBMS/{process.log => process_20231116_163501.log} (100%)
+ rename fias_loader/DBMS/{process.out => process_20231116_163501.out} (100%)
+ create mode 100644 fias_loader/DBMS/xxx_adr_area_type_build_patch_20231121.out
+ create mode 100644 fias_loader/DBMS/xxx_adr_area_type_build_patch_20231121.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/06/_TEST_GAP_2.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/06/_TEST_GAP_3.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/06/_TEST_GAP_4.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/_TEST_00_skver.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/_TEST_00_skver.xl
+ --
+ -- ++ Установить на unnsi_prd_test, c любой региональной БД кластера
+ --
+ INSERT INTO unnsi.adr_area_type (
+      id_area_type
+     ,nm_area_type
+     ,nm_area_type_short
+     ,pr_lead
+)
+VALUES (  143
+         ,'Животноводческая точка'
+         ,'жт'
+         ,0 
+)
+,(  144
+   ,'Ферма'
+   ,'ферма' 
+   ,0
+);
+
+
+2023-11-23   
+----------
+
+          1) Справочник adr_area_type
+          2) Накат patch + обновление процессингового пакета.
+          3) Анализ LOGs, посмотреть убитые ранее дома.
+          

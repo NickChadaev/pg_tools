@@ -395,7 +395,7 @@ CREATE VIEW uio.v_event_waits
 	 ORDER BY 2, 4;
 	
 	
-COMMENT ON VIEW uio.v_event_waits IS 'Состояние неактивных событий';
+COMMENT ON VIEW uio.v_event_waits IS 'Состояние неактивных событий (либо свершившееся, либо не наступившее';
 
 COMMENT ON COLUMN uio.v_event_waits.proc_name   IS 'Имя события';
 COMMENT ON COLUMN uio.v_event_waits.proc_descr  IS 'Описание';

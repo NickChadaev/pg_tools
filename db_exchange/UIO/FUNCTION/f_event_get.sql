@@ -123,7 +123,7 @@ AS
   END;  
  $$;   
 --
-COMMENT ON FUNCTION uio.f_event_get (text, text) IS  'МАКЕТ. Взять одно событие из очереди';
+COMMENT ON FUNCTION uio.f_event_get (text, text) IS  'Взять одно событие из очереди (предполагалась мигшрация на PGQ)';
 -- USE CASE                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
 --     SELECT * FROM  uio.f_event_get ('QP', 'TP');
 --     SELECT * FROM  uio.f_event_get ('QR', 'xx');

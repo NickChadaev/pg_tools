@@ -5,7 +5,7 @@
 --
 CREATE OR REPLACE VIEW uio.version
  AS
- SELECT '$Revision:34c67f9$ modified $RevDate:2023-05-24$'::text AS version; 
+ SELECT '$Revision:00de437$ modified $RevDate:2023-05-15$'::text AS version; 
                    
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

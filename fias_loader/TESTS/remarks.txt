@@ -1609,4 +1609,20 @@ VALUES (  143
      Не информативно, либо вводить специальный тип АДРЕСНАЯ ДОРОГА           
                 
                    
-          
+ 
+2023-11-24    По новой сборка.   
+----------
+[FilterObj 40f5f86] Сборка процессингового пакета
+ 15 files changed, 7105 insertions(+), 14 deletions(-)
+ create mode 100644 fias_loader/DBMS/xxx_adr_area_type_build_patch_20231123.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/.~lock._TEST_00_skver.xlsx#
+ create mode 100644 fias_loader/TESTS/Y_BUILD/47/process.err
+ create mode 100644 fias_loader/TESTS/Y_BUILD/47/process.out
+ create mode 100644 fias_loader/TESTS/Y_BUILD/47/stage_4.1.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/47/stage_4.2.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/47/stage_4.3.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/47/stage_4.4.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/47/stage_4.5.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/47/stage_4.6.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/_TEST_01_skver.sql
+ create mode 100644 fias_loader/TESTS/Y_BUILD/_TEST_12_skver.csv

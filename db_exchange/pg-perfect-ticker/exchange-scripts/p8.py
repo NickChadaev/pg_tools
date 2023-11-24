@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- 
 # PROJ: DataBase, service function.
-# FILE: load_mainCar.py
+# FILE: p8.py + load_mainCar.py
 # AUTH: NickChadaev (nick-ch58@yandex.ru)
 # DESC: pg-perfect-ticker's worker. 
 # HIST: 2023-03-08 - created

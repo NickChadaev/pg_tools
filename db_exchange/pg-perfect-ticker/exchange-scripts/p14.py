@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- 
 # PROJ: DataBase, service function.
-# FILE: p7.py + load_mainCar.py
+# FILE: p14.py + load_mainCar.py
 # AUTH: NickChadaev (nick-ch58@yandex.ru)
 # DESC: pg-perfect-ticker's worker. 
 # HIST: 2023-03-08 - created
+#    2023-11-24  20+10
 # NOTS: 
 # -------------------------------------------------------------------------------------------
 
@@ -15,7 +16,7 @@ from lib_pg_perfect_ticker import simple_db_pool
 import time
 import load_mainGar as LoadGar
 
-bPN = "p7_"
+bPN = "p14_"
 
 #------------------------------
 bLOG_NAME = "{0}process{1}.log"
@@ -33,7 +34,7 @@ EMP = ""
 
 QUEUE_PARSE = "QP"
 QUEUE_PROC  = "QR"
-QUEUE_CONT  = "QP7"
+QUEUE_CONT  = "QP14"
 
 QUEUE_CONSUMER = "cons_p0"
 

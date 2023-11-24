@@ -24,7 +24,7 @@
 #       1;0_COM/2_com_crt_tables.sql;;-- Creating the base tables; 
 #       1;0_COM/4_com_crt_errors.sql;;-- Creating the tables for errors;
 #-------------------------------------------------------------------------------
-X;;;Start process, Сборка процессингового пакета;
+X;;;Start process, Сборка Обменного пакета;
 #                        
 5;version.sql;;-- Версия 1caa085/2023-11-24; 
 5;2_uio_crt_views_1.sql;;-- 2_uio_crt_views_1.sql;

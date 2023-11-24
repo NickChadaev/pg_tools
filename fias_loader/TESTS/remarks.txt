@@ -1612,8 +1612,40 @@ VALUES (  143
  
 2023-11-24    По новой сборка.   
 ----------
-[FilterObj 40f5f86] Сборка процессингового пакета
- 15 files changed, 7105 insertions(+), 14 deletions(-)
+$>git pull origin FilterObj 
+remote: Enumerating objects: 60, done.
+remote: Counting objects: 100% (60/60), done.
+remote: Compressing objects: 100% (13/13), done.
+remote: Total 44 (delta 31), reused 43 (delta 30), pack-reused 0
+Unpacking objects: 100% (44/44), done.
+From https://github.com/NickChadaev/pg_tools
+ * branch            FilterObj  -> FETCH_HEAD
+Updating 6fee22b..a285790
+Fast-forward
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/FUNCTION/f_adr_street_ins.sql |   16 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/FUNCTION/f_adr_street_upd.sql |   18 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.err         |  362 ++++----
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.err.bak     |  373 ++++----
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.log         |  176 ++--
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.log.bak     |  194 ++--
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.sql         |   36 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.sql.bak     |  592 +------------
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/stage_25_tmp_build.csv        |    2 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/version.sql                   |    2 +-
+ fias_loader/DBMS/xxx_adr_area_type_build_patch_20231123.sql      |   66 ++
+ fias_loader/TESTS/Y_BUILD/.~lock._TEST_00_skver.xlsx#            |    1 +
+ fias_loader/TESTS/Y_BUILD/47/process.err                         |    0
+ fias_loader/TESTS/Y_BUILD/47/process.out                         | 6686 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ fias_loader/TESTS/Y_BUILD/47/stage_4.1.sql                       |   22 +
+ fias_loader/TESTS/Y_BUILD/47/stage_4.2.sql                       |   21 +
+ fias_loader/TESTS/Y_BUILD/47/stage_4.3.sql                       |   21 +
+ fias_loader/TESTS/Y_BUILD/47/stage_4.4.sql                       |   21 +
+ fias_loader/TESTS/Y_BUILD/47/stage_4.5.sql                       |   24 +
+ fias_loader/TESTS/Y_BUILD/47/stage_4.6.sql                       |   22 +
+ fias_loader/TESTS/Y_BUILD/_TEST_01_skver.sql                     |  171 ++++
+ fias_loader/TESTS/Y_BUILD/_TEST_12_skver.csv                     |    8 +
+ fias_loader/TESTS/remarks.txt                                    |   42 +-
+ 23 files changed, 7703 insertions(+), 1173 deletions(-)
  create mode 100644 fias_loader/DBMS/xxx_adr_area_type_build_patch_20231123.sql
  create mode 100644 fias_loader/TESTS/Y_BUILD/.~lock._TEST_00_skver.xlsx#
  create mode 100644 fias_loader/TESTS/Y_BUILD/47/process.err
@@ -1626,3 +1658,33 @@ VALUES (  143
  create mode 100644 fias_loader/TESTS/Y_BUILD/47/stage_4.6.sql
  create mode 100644 fias_loader/TESTS/Y_BUILD/_TEST_01_skver.sql
  create mode 100644 fias_loader/TESTS/Y_BUILD/_TEST_12_skver.csv
+
+ 
+Это то, что приехало на Big_2
+-----------------------------
+Что далее ??? 
+
+         -- Пакет для сборки DB-функционала "db_exchange:
+         
+         -- Схема  20+10 ??
+         
+         -- Быстрый буфферизуемый функционал записи (PSYCOPG + хранимки)
+            в парсере. 
+            
+         -- Убрать parsing не используемых XML-документов   
+         
+         -- Как формировать конфигурационный файл для pg-perfect-ticker ???
+         
+         -- Потроха pg-perfect-ticker (потроха Антонова М либо Ж) когда-то нужно выполнить
+            вскрытие и паталого-анатомическое заключение.
+
+------------------------------------------------------------------------------------            
+            db_exchange=# \dx
+                      Список установленных расширений
+      Имя      | Версия |   Схема    |               Описание               
+---------------+--------+------------+--------------------------------------
+ pgq           | 3.5    | pg_catalog | Generic queue for PostgreSQL
+ plpgsql       | 1.0    | pg_catalog | PL/pgSQL procedural language
+ plpgsql_check | 2.3    | public     | extended check for plpgsql functions
+(3 строки)
+

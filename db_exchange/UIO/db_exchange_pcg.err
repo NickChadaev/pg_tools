@@ -1,1 +1,1 @@
-psql:./FUNCTION/f_event_get.sql:124: ЗАМЕЧАНИЕ:  warning extra:00000:unused parameter "p_nm_consumer"
+psql:./FUNCTION/f_event_get.sql:149: ЗАМЕЧАНИЕ:  warning extra:00000:unused parameter "p_nm_consumer"

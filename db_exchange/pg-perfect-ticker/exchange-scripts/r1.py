@@ -64,7 +64,7 @@ CALL uio.p_event_ins (
 );
 """
 
-## con = psycopg2.connect("dbname=db_exchange user=postgres port=5433")
+### con = psycopg2.connect("dbname=db_exchange user=postgres port=5433")
 
 # Есть ли незаверщённый ранее процесс ( смотрю контекст).
 cur1 = con.cursor()

@@ -21,6 +21,7 @@ AS
  --  2023-03-06 Макет, живёт пока не выяснятся USE CASE  pgq.
  --  2023-04-28  Далее.
  --  2023-05-15  Topic 10+10
+ --  2023-11-23  Next  20+10
  -- =========================================================== 
   DECLARE
    
@@ -61,7 +62,18 @@ AS
    cP7 CONSTANT text = 'uio.event_p7';
    cP8 CONSTANT text = 'uio.event_p8';
    cP9 CONSTANT text = 'uio.event_p9';
-   
+   --
+   cP10 CONSTANT text = 'uio.event_p10';
+   cP11 CONSTANT text = 'uio.event_p11';
+   cP12 CONSTANT text = 'uio.event_p12';
+   cP13 CONSTANT text = 'uio.event_p13';
+   cP14 CONSTANT text = 'uio.event_p14';
+   cP15 CONSTANT text = 'uio.event_p15';
+   cP16 CONSTANT text = 'uio.event_p16';
+   cP17 CONSTANT text = 'uio.event_p17';
+   cP18 CONSTANT text = 'uio.event_p18';
+   cP19 CONSTANT text = 'uio.event_p19';
+   --   
    cR0 CONSTANT text = 'uio.event_r0';
    cR1 CONSTANT text = 'uio.event_r1';
    cR2 CONSTANT text = 'uio.event_r2';
@@ -95,6 +107,19 @@ AS
        WHEN 'QP8' THEN _exec = format (_select, cP8, cP8);            
        WHEN 'QP9' THEN _exec = format (_select, cP9, cP9);            
        
+      --   Next 2023-11-23 
+            
+       WHEN 'QP10' THEN _exec = format (_select, cP10, cP10);            
+       WHEN 'QP11' THEN _exec = format (_select, cP11, cP11);            
+       WHEN 'QP12' THEN _exec = format (_select, cP12, cP12);            
+       WHEN 'QP13' THEN _exec = format (_select, cP13, cP13);            
+       WHEN 'QP14' THEN _exec = format (_select, cP14, cP14);            
+       WHEN 'QP15' THEN _exec = format (_select, cP15, cP15);            
+       WHEN 'QP16' THEN _exec = format (_select, cP16, cP16);            
+       WHEN 'QP17' THEN _exec = format (_select, cP17, cP17);            
+       WHEN 'QP18' THEN _exec = format (_select, cP18, cP18);            
+       WHEN 'QP19' THEN _exec = format (_select, cP19, cP19);            
+       
        WHEN 'QR0' THEN _exec = format (_select, cR0, cR0);            
        WHEN 'QR1' THEN _exec = format (_select, cR1, cR1);            
        WHEN 'QR2' THEN _exec = format (_select, cR2, cR2);            
@@ -123,7 +148,7 @@ AS
   END;  
  $$;   
 --
-COMMENT ON FUNCTION uio.f_event_get (text, text) IS  'Взять одно событие из очереди (предполагалась мигшрация на PGQ)';
+COMMENT ON FUNCTION uio.f_event_get (text, text) IS  'Взять одно событие из очереди.';
 -- USE CASE                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
 --     SELECT * FROM  uio.f_event_get ('QP', 'TP');
 --     SELECT * FROM  uio.f_event_get ('QR', 'xx');

@@ -2,6 +2,7 @@
 /* DBMS name:  PostgreSQL 13                                                         */
 /* Created on: 27.10.2020 15:55:11 Всё по новой, от прежней UIO не остаётся ничего.  */
 /* 2023-05-13  10+10                                                                 */
+/* 2023-11-23  20+10                                                                 */
 /*===================================================================================*/
 
 DROP VIEW IF EXISTS uio.v_workers_context CASCADE; 
@@ -164,6 +165,166 @@ CREATE VIEW uio.v_workers_context
           , ev_extra4
           
 	FROM uio.event_p9	
+	
+    UNION 
+
+     SELECT 
+            'p10' AS proc_name
+          , 'parsing 10' AS proc_descr  
+          , ev_id
+          , ev_time
+          , ev_type
+          , ev_data
+          , ev_extra1
+          , ev_extra2
+          , ev_extra3
+          , ev_extra4
+          
+	FROM uio.event_p10	
+	
+    UNION 
+
+     SELECT 
+            'p11' AS proc_name
+          , 'parsing 11' AS proc_descr  
+          , ev_id
+          , ev_time
+          , ev_type
+          , ev_data
+          , ev_extra1
+          , ev_extra2
+          , ev_extra3
+          , ev_extra4
+          
+	FROM uio.event_p11
+	
+    UNION 
+
+     SELECT 
+            'p12' AS proc_name
+          , 'parsing 12' AS proc_descr  
+          , ev_id
+          , ev_time
+          , ev_type
+          , ev_data
+          , ev_extra1
+          , ev_extra2
+          , ev_extra3
+          , ev_extra4
+          
+	FROM uio.event_p12	
+
+    UNION 
+
+     SELECT 
+            'p13' AS proc_name
+          , 'parsing 13' AS proc_descr  
+          , ev_id
+          , ev_time
+          , ev_type
+          , ev_data
+          , ev_extra1
+          , ev_extra2
+          , ev_extra3
+          , ev_extra4
+          
+	FROM uio.event_p13	
+	
+    UNION 
+
+     SELECT 
+            'p14' AS proc_name
+          , 'parsing 14' AS proc_descr  
+          , ev_id
+          , ev_time
+          , ev_type
+          , ev_data
+          , ev_extra1
+          , ev_extra2
+          , ev_extra3
+          , ev_extra4
+          
+	FROM uio.event_p14	
+	
+    UNION 
+
+     SELECT 
+            'p15' AS proc_name
+          , 'parsing 15' AS proc_descr  
+          , ev_id
+          , ev_time
+          , ev_type
+          , ev_data
+          , ev_extra1
+          , ev_extra2
+          , ev_extra3
+          , ev_extra4
+          
+	FROM uio.event_p15	
+
+    UNION 
+
+     SELECT 
+            'p16' AS proc_name
+          , 'parsing 16' AS proc_descr  
+          , ev_id
+          , ev_time
+          , ev_type
+          , ev_data
+          , ev_extra1
+          , ev_extra2
+          , ev_extra3
+          , ev_extra4
+          
+	FROM uio.event_p16	
+	
+    UNION 
+
+     SELECT 
+            'p17' AS proc_name
+          , 'parsing 17' AS proc_descr  
+          , ev_id
+          , ev_time
+          , ev_type
+          , ev_data
+          , ev_extra1
+          , ev_extra2
+          , ev_extra3
+          , ev_extra4
+          
+	FROM uio.event_p17	
+	
+    UNION 
+
+     SELECT 
+            'p18' AS proc_name
+          , 'parsing 18' AS proc_descr  
+          , ev_id
+          , ev_time
+          , ev_type
+          , ev_data
+          , ev_extra1
+          , ev_extra2
+          , ev_extra3
+          , ev_extra4
+          
+	FROM uio.event_p18
+	
+    UNION 
+
+     SELECT 
+            'p19' AS proc_name
+          , 'parsing 19' AS proc_descr  
+          , ev_id
+          , ev_time
+          , ev_type
+          , ev_data
+          , ev_extra1
+          , ev_extra2
+          , ev_extra3
+          , ev_extra4
+          
+	FROM uio.event_p19	
 	
 	UNION 
 	

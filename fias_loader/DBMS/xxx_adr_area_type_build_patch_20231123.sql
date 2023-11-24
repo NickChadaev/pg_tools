@@ -61,6 +61,8 @@ INSERT INTO gar_tmp.xxx_adr_street_type (
 )
  ON CONFLICT (fias_row_key) DO NOTHING;
  
+
+SELECT * FROM gar_tmp_pcg_trans.f_zzz_adr_area_type_show_tmp_data ('gar_tmp') WHERE (id_area_type = 94);
 SELECT * FROM gar_tmp_pcg_trans.f_zzz_street_type_show_tmp_data ('gar_tmp') WHERE (id_street_type = 42);
 --
 

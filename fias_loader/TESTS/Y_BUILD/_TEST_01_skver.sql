@@ -169,3 +169,8 @@ SELECT * FROM gar_tmp.xxx_adr_area_type ORDER BY id_area_type;
 SELECT * FROM unnsi.adr_street_type WHERE (id_street_type = 42); --ORDER BY id_street_type;
 SELECT * FROM gar_tmp.xxx_adr_area_type ORDER BY id_area_type;
 SELECT * FROM gar_tmp.xxx_adr_street_type ORDER BY id_street_type;
+
+SELECT * FROM gar_fias.as_addr_obj_division WHERE (parent_id IN (160296443, 799331));
+-- -------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- 52069969|160296443|'a874ac55-c317-4b52-85b0-07a68db53370'|528139289|'Кольцевая автомобильная'|253|'дор.'|7|10|0|0|'2023-09-11'|'2023-09-11'|'2079-06-06'|t|t
+-- 968428|799331|'8af637fa-5c8b-4039-a7ba-d6e63bcc42b0'|2100856|'М-10 Россия'|253|'дор.'|7|10|0|0|'2019-07-31'|'2019-07-31'|'2079-06-06'|t|t

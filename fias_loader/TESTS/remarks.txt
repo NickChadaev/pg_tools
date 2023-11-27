@@ -1666,16 +1666,70 @@ Fast-forward
 
          ++ Пакет для сборки DB-функционала "db_exchange:
          
-         -- Схема  20+10 ??
+         ++ Схема  20+10 ??
          
          -- Быстрый буфферизуемый функционал записи (PSYCOPG + хранимки)
             в парсере. 
             
-         -- Убрать parsing не используемых XML-документов   
+         -+ Убрать parsing не используемых XML-документов                    (время) список определённый в коде load_mainGar.py  
+            ====================================================================================================================         
+                                                                                     ('s1' in aa[0]) stop-list
+                                                                              функция/метод
+             db_exchange/pg-perfect-ticker/load_mainGar.py:       self.f_out.write (self.mlc01.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name) + bNL)                                                                              
          
-         -- Как формировать конфигурационный файл для pg-perfect-ticker ???
+         AS_CHANGE_HISTORY_20231120_aa001810-99ff-463c-b8c8-680bbb085385.XML
+           /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2023_11_20/05/AS_CHANGE_HISTORY_20231120_aa001810-99ff-463c-b8c8-680bbb085385.XML         
+         >>> get_file_sign('/home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2023_11_20/05/AS_CHANGE_HISTORY_20231120_aa001810-99ff-463c-b8c8-680bbb085385.XML')
+             'ASCHANGEHISTORY' -- Паттерн запрета.
          
-         -- Потроха pg-perfect-ticker (потроха Антонова М либо Ж), 
+         >>> get_file_sign('AS_CHANGE_HISTORY_20231120_aa001810-99ff-463c-b8c8-680bbb085385.XML')
+              'ASCHANGEHISTORY
+              +
+         
+          Понять другое:    ЧЬИ ПАРАМЕТРЫ АГГРЕГИРУЕМ, А КАКИМИ МОЖНО ПРЕНЕБРЕЧЬ.
+            
+            as_apartments_params
+            as_carplaces_params
+            as_rooms_params
+
+            Естественно:
+                    -- as_apartments
+                    -- as_carplaces
+                    -- as_rooms
+            ===========================================================================
+         
+         -- Как формировать конфигурационный файл для pg-perfect-ticker ???  (возникали ошибки)
+           
+           load_mainGar_pt.py --Формирует задания для pg-perfect-ticker
+           
+           Опции команждной строки:
+           #          1       2        3         4           5          6   
+           sa = "<Host_IP> <Port> <DB_name> <User_name> <Yaml_file> <Version>"
+         
+           1 - 4 параметры описывают БД-обмена
+           5 - Глобальные и региональные параметры
+           6 - Как обычно, дата-версия.
+           
+       +  Дополнительная таблица:
+               event_l0 -- таблица с параметрами для процесса l0
+                   ev_type = l0   -- ????
+                   ev_data = массив строк, разделённый запятыми.  ????
+            
+       +    Функции INS_EVENT, GET_EVENT.
+         
+              'QL0'    cL0 CONSTANT text = 'uio.event_l0';
+                       cL0 CONSTANT text = 'uio.event_l0';
+                       
+           Накатить все обновления на Big_2.
+           =================================
+         
+           В конфигурационном файле "exchage_task.cfg" остается только путь к LOG "pg-perfect-ticker".
+           
+           
+                   
+         
+           ============================================================================
+         -- Потроха pg-perfect-ticker (потроха Антонова: М либо Ж), 
             когда-то нужно выполнить вскрытие и паталого-анатомическое заключение.
 
 ------------------------------------------------------------------------------------            
@@ -1690,3 +1744,5 @@ Fast-forward
 
 Обязательно усьтановить:
    -- psql -f gar_misc_pcg.sql -p 5434 -U postgres db_exchange 1>r.out 2>r.err
+   
+Пришло на Big_2

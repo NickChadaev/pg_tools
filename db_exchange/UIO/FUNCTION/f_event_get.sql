@@ -22,6 +22,7 @@ AS
  --  2023-04-28  Далее.
  --  2023-05-15  Topic 10+10
  --  2023-11-23  Next  20+10
+ --  2023-11-27  lAST WORKER
  -- =========================================================== 
   DECLARE
    
@@ -84,7 +85,10 @@ AS
    cR7 CONSTANT text = 'uio.event_r7';
    cR8 CONSTANT text = 'uio.event_r8';
    cR9 CONSTANT text = 'uio.event_r9';
-   
+   --
+   -- 2023-11-27
+   --
+   cL0 CONSTANT text = 'uio.event_l0';
    
   BEGIN
     CASE p_nm_queue
@@ -131,6 +135,9 @@ AS
        WHEN 'QR8' THEN _exec = format (_select, cR8, cR8);            
        WHEN 'QR9' THEN _exec = format (_select, cR9, cR9);            
 
+       -- 2023-11-27
+       
+       WHEN 'QL0' THEN _exec = format (_select, cL0, cL0);         
        
     END CASE;
    

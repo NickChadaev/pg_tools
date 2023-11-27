@@ -5,7 +5,7 @@
 --
 CREATE OR REPLACE VIEW uio.version
  AS
- SELECT '$Revision:34c67f9$ modified $RevDate:2023-05-24$'::text AS version; 
+ SELECT '$Revision:1caa085$ modified $RevDate:2023-05-24$'::text AS version; 
                    
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -13,6 +13,7 @@ CREATE OR REPLACE VIEW uio.version
 /* DBMS name:  PostgreSQL 13                                                         */
 /* Created on: 27.10.2020 15:55:11 Всё по новой, от прежней UIO не остаётся ничего.  */
 /* 2023-05-13  10+10                                                                 */
+/* 2023-11-23  20+10                                                                 */
 /*===================================================================================*/
 
 DROP VIEW IF EXISTS uio.v_workers_context CASCADE; 
@@ -175,6 +176,166 @@ CREATE VIEW uio.v_workers_context
           , ev_extra4
           
 	FROM uio.event_p9	
+	
+    UNION 
+
+     SELECT 
+            'p10' AS proc_name
+          , 'parsing 10' AS proc_descr  
+          , ev_id
+          , ev_time
+          , ev_type
+          , ev_data
+          , ev_extra1
+          , ev_extra2
+          , ev_extra3
+          , ev_extra4
+          
+	FROM uio.event_p10	
+	
+    UNION 
+
+     SELECT 
+            'p11' AS proc_name
+          , 'parsing 11' AS proc_descr  
+          , ev_id
+          , ev_time
+          , ev_type
+          , ev_data
+          , ev_extra1
+          , ev_extra2
+          , ev_extra3
+          , ev_extra4
+          
+	FROM uio.event_p11
+	
+    UNION 
+
+     SELECT 
+            'p12' AS proc_name
+          , 'parsing 12' AS proc_descr  
+          , ev_id
+          , ev_time
+          , ev_type
+          , ev_data
+          , ev_extra1
+          , ev_extra2
+          , ev_extra3
+          , ev_extra4
+          
+	FROM uio.event_p12	
+
+    UNION 
+
+     SELECT 
+            'p13' AS proc_name
+          , 'parsing 13' AS proc_descr  
+          , ev_id
+          , ev_time
+          , ev_type
+          , ev_data
+          , ev_extra1
+          , ev_extra2
+          , ev_extra3
+          , ev_extra4
+          
+	FROM uio.event_p13	
+	
+    UNION 
+
+     SELECT 
+            'p14' AS proc_name
+          , 'parsing 14' AS proc_descr  
+          , ev_id
+          , ev_time
+          , ev_type
+          , ev_data
+          , ev_extra1
+          , ev_extra2
+          , ev_extra3
+          , ev_extra4
+          
+	FROM uio.event_p14	
+	
+    UNION 
+
+     SELECT 
+            'p15' AS proc_name
+          , 'parsing 15' AS proc_descr  
+          , ev_id
+          , ev_time
+          , ev_type
+          , ev_data
+          , ev_extra1
+          , ev_extra2
+          , ev_extra3
+          , ev_extra4
+          
+	FROM uio.event_p15	
+
+    UNION 
+
+     SELECT 
+            'p16' AS proc_name
+          , 'parsing 16' AS proc_descr  
+          , ev_id
+          , ev_time
+          , ev_type
+          , ev_data
+          , ev_extra1
+          , ev_extra2
+          , ev_extra3
+          , ev_extra4
+          
+	FROM uio.event_p16	
+	
+    UNION 
+
+     SELECT 
+            'p17' AS proc_name
+          , 'parsing 17' AS proc_descr  
+          , ev_id
+          , ev_time
+          , ev_type
+          , ev_data
+          , ev_extra1
+          , ev_extra2
+          , ev_extra3
+          , ev_extra4
+          
+	FROM uio.event_p17	
+	
+    UNION 
+
+     SELECT 
+            'p18' AS proc_name
+          , 'parsing 18' AS proc_descr  
+          , ev_id
+          , ev_time
+          , ev_type
+          , ev_data
+          , ev_extra1
+          , ev_extra2
+          , ev_extra3
+          , ev_extra4
+          
+	FROM uio.event_p18
+	
+    UNION 
+
+     SELECT 
+            'p19' AS proc_name
+          , 'parsing 19' AS proc_descr  
+          , ev_id
+          , ev_time
+          , ev_type
+          , ev_data
+          , ev_extra1
+          , ev_extra2
+          , ev_extra3
+          , ev_extra4
+          
+	FROM uio.event_p19	
 	
 	UNION 
 	
@@ -446,6 +607,7 @@ AS
  --  2023-03-06 Макет, живёт пока не выяснятся USE CASE  pgq.
  --  2023-04-28  Далее.
  --  2023-05-15  Topic 10+10
+ --  2023-11-23  Next  20+10
  -- =========================================================== 
   DECLARE
    
@@ -486,7 +648,18 @@ AS
    cP7 CONSTANT text = 'uio.event_p7';
    cP8 CONSTANT text = 'uio.event_p8';
    cP9 CONSTANT text = 'uio.event_p9';
-   
+   --
+   cP10 CONSTANT text = 'uio.event_p10';
+   cP11 CONSTANT text = 'uio.event_p11';
+   cP12 CONSTANT text = 'uio.event_p12';
+   cP13 CONSTANT text = 'uio.event_p13';
+   cP14 CONSTANT text = 'uio.event_p14';
+   cP15 CONSTANT text = 'uio.event_p15';
+   cP16 CONSTANT text = 'uio.event_p16';
+   cP17 CONSTANT text = 'uio.event_p17';
+   cP18 CONSTANT text = 'uio.event_p18';
+   cP19 CONSTANT text = 'uio.event_p19';
+   --   
    cR0 CONSTANT text = 'uio.event_r0';
    cR1 CONSTANT text = 'uio.event_r1';
    cR2 CONSTANT text = 'uio.event_r2';
@@ -520,6 +693,19 @@ AS
        WHEN 'QP8' THEN _exec = format (_select, cP8, cP8);            
        WHEN 'QP9' THEN _exec = format (_select, cP9, cP9);            
        
+      --   Next 2023-11-23 
+            
+       WHEN 'QP10' THEN _exec = format (_select, cP10, cP10);            
+       WHEN 'QP11' THEN _exec = format (_select, cP11, cP11);            
+       WHEN 'QP12' THEN _exec = format (_select, cP12, cP12);            
+       WHEN 'QP13' THEN _exec = format (_select, cP13, cP13);            
+       WHEN 'QP14' THEN _exec = format (_select, cP14, cP14);            
+       WHEN 'QP15' THEN _exec = format (_select, cP15, cP15);            
+       WHEN 'QP16' THEN _exec = format (_select, cP16, cP16);            
+       WHEN 'QP17' THEN _exec = format (_select, cP17, cP17);            
+       WHEN 'QP18' THEN _exec = format (_select, cP18, cP18);            
+       WHEN 'QP19' THEN _exec = format (_select, cP19, cP19);            
+       
        WHEN 'QR0' THEN _exec = format (_select, cR0, cR0);            
        WHEN 'QR1' THEN _exec = format (_select, cR1, cR1);            
        WHEN 'QR2' THEN _exec = format (_select, cR2, cR2);            
@@ -548,7 +734,7 @@ AS
   END;  
  $$;   
 --
-COMMENT ON FUNCTION uio.f_event_get (text, text) IS  'Взять одно событие из очереди (предполагалась мигшрация на PGQ)';
+COMMENT ON FUNCTION uio.f_event_get (text, text) IS  'Взять одно событие из очереди.';
 -- USE CASE                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
 --     SELECT * FROM  uio.f_event_get ('QP', 'TP');
 --     SELECT * FROM  uio.f_event_get ('QR', 'xx');
@@ -626,6 +812,7 @@ AS
  --  2023-03-06 Макет, живёт пока не выяснятся USE CASE  pgq.
  --  2023-04-28  Далее.
  --  2023-05-15  Topic 10+10
+ --  2023-11-23  Topic 20+10 
  -- ===========================================================
   DECLARE
   
@@ -645,7 +832,20 @@ AS
     cP7 CONSTANT text = 'uio.event_p7';
     cP8 CONSTANT text = 'uio.event_p8';
     cP9 CONSTANT text = 'uio.event_p9';
-    
+    --
+    -- Next 2023-11-23
+    --
+    cP10 CONSTANT text = 'uio.event_p10';
+    cP11 CONSTANT text = 'uio.event_p11';
+    cP12 CONSTANT text = 'uio.event_p12';
+    cP13 CONSTANT text = 'uio.event_p13';
+    cP14 CONSTANT text = 'uio.event_p14';
+    cP15 CONSTANT text = 'uio.event_p15';
+    cP16 CONSTANT text = 'uio.event_p16';
+    cP17 CONSTANT text = 'uio.event_p17';
+    cP18 CONSTANT text = 'uio.event_p18';
+    cP19 CONSTANT text = 'uio.event_p19';
+    --
     cR0 CONSTANT text = 'uio.event_r0';
     cR1 CONSTANT text = 'uio.event_r1';
     cR2 CONSTANT text = 'uio.event_r2';
@@ -700,7 +900,20 @@ AS
       WHEN 'QP7' THEN _exec = format(_insert, cP7, p_ev_type, p_ev_data, p_ev_extra1, p_ev_extra2, p_ev_extra3, p_ev_extra4);            
       WHEN 'QP8' THEN _exec = format(_insert, cP8, p_ev_type, p_ev_data, p_ev_extra1, p_ev_extra2, p_ev_extra3, p_ev_extra4);            
       WHEN 'QP9' THEN _exec = format(_insert, cP9, p_ev_type, p_ev_data, p_ev_extra1, p_ev_extra2, p_ev_extra3, p_ev_extra4);            
-      
+      --
+      -- 2023-11-23
+      --
+      WHEN 'QP10' THEN _exec = format(_insert, cP10, p_ev_type, p_ev_data, p_ev_extra1, p_ev_extra2, p_ev_extra3, p_ev_extra4);            
+      WHEN 'QP11' THEN _exec = format(_insert, cP11, p_ev_type, p_ev_data, p_ev_extra1, p_ev_extra2, p_ev_extra3, p_ev_extra4);            
+      WHEN 'QP12' THEN _exec = format(_insert, cP12, p_ev_type, p_ev_data, p_ev_extra1, p_ev_extra2, p_ev_extra3, p_ev_extra4);            
+      WHEN 'QP13' THEN _exec = format(_insert, cP13, p_ev_type, p_ev_data, p_ev_extra1, p_ev_extra2, p_ev_extra3, p_ev_extra4);            
+      WHEN 'QP14' THEN _exec = format(_insert, cP14, p_ev_type, p_ev_data, p_ev_extra1, p_ev_extra2, p_ev_extra3, p_ev_extra4);            
+      WHEN 'QP15' THEN _exec = format(_insert, cP15, p_ev_type, p_ev_data, p_ev_extra1, p_ev_extra2, p_ev_extra3, p_ev_extra4);            
+      WHEN 'QP16' THEN _exec = format(_insert, cP16, p_ev_type, p_ev_data, p_ev_extra1, p_ev_extra2, p_ev_extra3, p_ev_extra4);            
+      WHEN 'QP17' THEN _exec = format(_insert, cP17, p_ev_type, p_ev_data, p_ev_extra1, p_ev_extra2, p_ev_extra3, p_ev_extra4);            
+      WHEN 'QP18' THEN _exec = format(_insert, cP18, p_ev_type, p_ev_data, p_ev_extra1, p_ev_extra2, p_ev_extra3, p_ev_extra4);            
+      WHEN 'QP19' THEN _exec = format(_insert, cP19, p_ev_type, p_ev_data, p_ev_extra1, p_ev_extra2, p_ev_extra3, p_ev_extra4);            
+      --
       WHEN 'QR0' THEN _exec = format(_insert, cR0, p_ev_type, p_ev_data, p_ev_extra1, p_ev_extra2, p_ev_extra3, p_ev_extra4);            
       WHEN 'QR1' THEN _exec = format(_insert, cR1, p_ev_type, p_ev_data, p_ev_extra1, p_ev_extra2, p_ev_extra3, p_ev_extra4);            
       WHEN 'QR2' THEN _exec = format(_insert, cR2, p_ev_type, p_ev_data, p_ev_extra1, p_ev_extra2, p_ev_extra3, p_ev_extra4);            
@@ -720,7 +933,7 @@ AS
  $$;   
 --
 COMMENT ON PROCEDURE uio.p_event_ins (text, text, text, text, text, text, text) 
-   IS  'МАКЕТ. Создать события в очередях';
+   IS  'Создать события в очередях';
 -- USE CASE                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
 --     CALL uio.p_event_ins ('QP', 'TP', 'DP', 'DP1', 'DP2', 'DP3', 'DP4');
 --     CALL uio.p_event_ins ('QR', 'TR', 'DR', 'DR1', 'DR2', 'DR3', 'DR4');

@@ -1746,3 +1746,15 @@ Fast-forward
    -- psql -f gar_misc_pcg.sql -p 5434 -U postgres db_exchange 1>r.out 2>r.err
    
 Пришло на Big_2
+
+Fast-forward
+ db_exchange/UIO/2_uio_crt_tables_3.sql       | 13 +++++++++++++
+ db_exchange/UIO/FUNCTION/f_event_get.sql     |  9 ++++++++-
+ db_exchange/UIO/PROCEDURE/p_event_ins.sql    |  9 ++++++++-
+ db_exchange/UIO/stage_25_db_exchange.csv     |  2 +-
+ db_exchange/UIO/version.sql                  |  2 +-
+ fias_loader/TESTS/Y_BUILD/_TEST_01_skver.sql |  7 ++++++-
+ fias_loader/TESTS/remarks.txt                | 64 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++----
+ 7 files changed, 97 insertions(+), 9 deletions(-)
+ create mode 100644 db_exchange/UIO/2_uio_crt_tables_3.sql
+$>

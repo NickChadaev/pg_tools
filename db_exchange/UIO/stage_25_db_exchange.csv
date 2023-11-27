@@ -26,7 +26,7 @@
 #-------------------------------------------------------------------------------
 X;;;Start process, Сборка Обменного пакета;
 #                        
-5;version.sql;;-- Версия 1caa085/2023-11-27; 
+5;version.sql;;-- Версия d6e39f0/2023-11-27; 
 5;2_uio_crt_views_1.sql;;-- 2_uio_crt_views_1.sql;
 #
 5;FUNCTION/f_event_get.sql;;-- f_event_get.sql;

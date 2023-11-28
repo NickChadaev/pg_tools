@@ -1,0 +1,525 @@
+global_params:
+    prefix: Y_BUILD       
+    path: /home/n.chadaev@abrr.local
+    exec_proc: stage_346.csv  
+    #
+    #  + 2023-11-27
+    #
+    yaml_stage_6: stage_6.yaml     # /home/n.chadaev@abrr.local
+    postproc_sh: post_proc_l.sh    # /home/n.chadaev@abrr.local + Y_BUILD
+    upd_path: tmp                  # /home/n.chadaev@abrr.local/
+    new_owner: n.chadaev
+    new_grp: 'domain users'
+
+hosts:
+       -                   
+           id_region: 2
+           name: 01
+           descr: Адыгея Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_01 user=postgres password=postgres
+           exec_parse: stage_gar_c_01.csv
+       -                   
+           id_region: 3
+           name: 03
+           descr: Бурятия Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_03 user=postgres password=postgres
+           exec_parse: stage_gar_c_03.csv
+       -                   
+           id_region: 4
+           name: 02
+           descr: Башкортостан Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_02 user=postgres password=postgres
+           exec_parse: stage_gar_c_02.csv
+       -                   
+           id_region: 5
+           name: 04
+           descr: Алтай Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_04 user=postgres password=postgres
+           exec_parse: stage_gar_c_04.csv
+       -                   
+           id_region: 6
+           name: 05
+           descr: Дагестан Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_05 user=postgres password=postgres
+           exec_parse: stage_gar_c_05.csv
+       -                   
+           id_region: 7
+           name: 06
+           descr: Ингушетия Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_06 user=postgres password=postgres
+           exec_parse: stage_gar_c_06.csv
+       -                   
+           id_region: 8
+           name: 07
+           descr: Кабардино-Балкарская Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_07 user=postgres password=postgres
+           exec_parse: stage_gar_c_07.csv
+       -                   
+           id_region: 9
+           name: 08
+           descr: Калмыкия Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_08 user=postgres password=postgres
+           exec_parse: stage_gar_c_08.csv
+       -                   
+           id_region: 10
+           name: 09
+           descr: Карачаево-Черкесская Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_09 user=postgres password=postgres
+           exec_parse: stage_gar_c_09.csv
+       -                   
+           id_region: 11
+           name: 10
+           descr: Карелия Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_10 user=postgres password=postgres
+           exec_parse: stage_gar_c_10.csv
+       -                   
+           id_region: 12
+           name: 11
+           descr: Коми Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_11 user=postgres password=postgres
+           exec_parse: stage_gar_c_11.csv
+       -                   
+           id_region: 13
+           name: 12
+           descr: Марий Эл Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_12 user=postgres password=postgres
+           exec_parse: stage_gar_c_12.csv
+       -                   
+           id_region: 14
+           name: 13
+           descr: Мордовия Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_13 user=postgres password=postgres
+           exec_parse: stage_gar_c_13.csv
+       -                   
+           id_region: 15
+           name: 14
+           descr: Саха /Якутия/ Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_14 user=postgres password=postgres
+           exec_parse: stage_gar_c_14.csv
+       -                   
+           id_region: 16
+           name: 15
+           descr: Северная Осетия - Алания Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_15 user=postgres password=postgres
+           exec_parse: stage_gar_c_15.csv
+       -                   
+           id_region: 17
+           name: 16
+           descr: Татарстан Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_16 user=postgres password=postgres
+           exec_parse: stage_gar_c_16.csv
+       -                   
+           id_region: 18
+           name: 17
+           descr: Тыва Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_17 user=postgres password=postgres
+           exec_parse: stage_gar_c_17.csv
+       -                   
+           id_region: 19
+           name: 18
+           descr: Удмуртская Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_18 user=postgres password=postgres
+           exec_parse: stage_gar_c_18.csv
+       -                   
+           id_region: 20
+           name: 19
+           descr: Хакасия Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_19 user=postgres password=postgres
+           exec_parse: stage_gar_c_19.csv
+       -                   
+           id_region: 21
+           name: 20
+           descr: Чеченская Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_20 user=postgres password=postgres
+           exec_parse: stage_gar_c_20.csv
+       -                   
+           id_region: 22
+           name: 21
+           descr: Чувашская Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_21 user=postgres password=postgres
+           exec_parse: stage_gar_c_21.csv
+       -                   
+           id_region: 23
+           name: 22
+           descr: Алтайский край
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_22 user=postgres password=postgres
+           exec_parse: stage_gar_c_22.csv
+       -                   
+           id_region: 24
+           name: 23
+           descr: Краснодарский край
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_23 user=postgres password=postgres
+           exec_parse: stage_gar_c_23.csv
+       -                   
+           id_region: 25
+           name: 24
+           descr: Красноярский край
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_24 user=postgres password=postgres
+           exec_parse: stage_gar_c_24.csv
+       -                   
+           id_region: 26
+           name: 25
+           descr: Приморский край
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_25 user=postgres password=postgres
+           exec_parse: stage_gar_c_25.csv
+       -                   
+           id_region: 27
+           name: 26
+           descr: Ставропольский край
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_26 user=postgres password=postgres
+           exec_parse: stage_gar_c_26.csv
+       -                   
+           id_region: 28
+           name: 27
+           descr: Хабаровский край
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_27 user=postgres password=postgres
+           exec_parse: stage_gar_c_27.csv
+       -                   
+           id_region: 29
+           name: 28
+           descr: Амурская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_28 user=postgres password=postgres
+           exec_parse: stage_gar_c_28.csv
+       -                   
+           id_region: 30
+           name: 29
+           descr: Архангельская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_29 user=postgres password=postgres
+           exec_parse: stage_gar_c_29.csv
+       -                   
+           id_region: 31
+           name: 30
+           descr: Астраханская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_30 user=postgres password=postgres
+           exec_parse: stage_gar_c_30.csv
+       -                   
+           id_region: 32
+           name: 31
+           descr: Белгородская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_31 user=postgres password=postgres
+           exec_parse: stage_gar_c_31.csv
+       -                   
+           id_region: 33
+           name: 32
+           descr: Брянская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_32 user=postgres password=postgres
+           exec_parse: stage_gar_c_32.csv
+       -                   
+           id_region: 34
+           name: 33
+           descr: Владимирская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_33 user=postgres password=postgres
+           exec_parse: stage_gar_c_33.csv
+       -                   
+           id_region: 35
+           name: 34
+           descr: Волгоградская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_34 user=postgres password=postgres
+           exec_parse: stage_gar_c_34.csv
+       -                   
+           id_region: 36
+           name: 36
+           descr: Воронежская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_36 user=postgres password=postgres
+           exec_parse: stage_gar_c_36.csv
+       -                   
+           id_region: 37
+           name: 38
+           descr: Иркутская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_38 user=postgres password=postgres
+           exec_parse: stage_gar_c_38.csv
+       -                   
+           id_region: 38
+           name: 39
+           descr: Калининградская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_39 user=postgres password=postgres
+           exec_parse: stage_gar_c_39.csv
+       -                   
+           id_region: 39
+           name: 40
+           descr: Калужская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_40 user=postgres password=postgres
+           exec_parse: stage_gar_c_40.csv
+       -                   
+           id_region: 40
+           name: 41
+           descr: Камчатский край
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_41 user=postgres password=postgres
+           exec_parse: stage_gar_c_41.csv
+       -                   
+           id_region: 41
+           name: 42
+           descr: Кемеровская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_42 user=postgres password=postgres
+           exec_parse: stage_gar_c_42.csv
+       -                   
+           id_region: 42
+           name: 43
+           descr: Кировская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_43 user=postgres password=postgres
+           exec_parse: stage_gar_c_43.csv
+       -                   
+           id_region: 43
+           name: 44
+           descr: Костромская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_44 user=postgres password=postgres
+           exec_parse: stage_gar_c_44.csv
+       -                   
+           id_region: 44
+           name: 45
+           descr: Курганская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_45 user=postgres password=postgres
+           exec_parse: stage_gar_c_45.csv
+       -                   
+           id_region: 45
+           name: 46
+           descr: Курская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_46 user=postgres password=postgres
+           exec_parse: stage_gar_c_46.csv
+       -                   
+           id_region: 46
+           name: 47
+           descr: Ленинградская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_47 user=postgres password=postgres
+           exec_parse: stage_gar_c_47.csv
+       -                   
+           id_region: 47
+           name: 35
+           descr: Вологодская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_35 user=postgres password=postgres
+           exec_parse: stage_gar_c_35.csv
+       -                   
+           id_region: 48
+           name: 48
+           descr: Липецкая обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_48 user=postgres password=postgres
+           exec_parse: stage_gar_c_48.csv
+       -                   
+           id_region: 49
+           name: 49
+           descr: Магаданская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_49 user=postgres password=postgres
+           exec_parse: stage_gar_c_49.csv
+       -                   
+           id_region: 50
+           name: 50
+           descr: Московская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_50 user=postgres password=postgres
+           exec_parse: stage_gar_c_50.csv
+       -                   
+           id_region: 51
+           name: 51
+           descr: Мурманская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_51 user=postgres password=postgres
+           exec_parse: stage_gar_c_51.csv
+       -                   
+           id_region: 52
+           name: 52
+           descr: Нижегородская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_52 user=postgres password=postgres
+           exec_parse: stage_gar_c_52.csv
+       -                   
+           id_region: 53
+           name: 53
+           descr: Новгородская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_53 user=postgres password=postgres
+           exec_parse: stage_gar_c_53.csv
+       -                   
+           id_region: 54
+           name: 54
+           descr: Новосибирская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_54 user=postgres password=postgres
+           exec_parse: stage_gar_c_54.csv
+       -                   
+           id_region: 55
+           name: 55
+           descr: Омская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_55 user=postgres password=postgres
+           exec_parse: stage_gar_c_55.csv
+       -                   
+           id_region: 56
+           name: 56
+           descr: Оренбургская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_56 user=postgres password=postgres
+           exec_parse: stage_gar_c_56.csv
+       -                   
+           id_region: 57
+           name: 57
+           descr: Орловская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_57 user=postgres password=postgres
+           exec_parse: stage_gar_c_57.csv
+       -                   
+           id_region: 58
+           name: 58
+           descr: Пензенская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_58 user=postgres password=postgres
+           exec_parse: stage_gar_c_58.csv
+       -                   
+           id_region: 59
+           name: 59
+           descr: Пермский край
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_59 user=postgres password=postgres
+           exec_parse: stage_gar_c_59.csv
+       -                   
+           id_region: 60
+           name: 60
+           descr: Псковская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_60 user=postgres password=postgres
+           exec_parse: stage_gar_c_60.csv
+       -                   
+           id_region: 61
+           name: 61
+           descr: Ростовская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_61 user=postgres password=postgres
+           exec_parse: stage_gar_c_61.csv
+       -                   
+           id_region: 62
+           name: 62
+           descr: Рязанская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_62 user=postgres password=postgres
+           exec_parse: stage_gar_c_62.csv
+       -                   
+           id_region: 63
+           name: 63
+           descr: Самарская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_63 user=postgres password=postgres
+           exec_parse: stage_gar_c_63.csv
+       -                   
+           id_region: 64
+           name: 37
+           descr: Ивановская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_37 user=postgres password=postgres
+           exec_parse: stage_gar_c_37.csv
+       -                   
+           id_region: 65
+           name: 64
+           descr: Саратовская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_64 user=postgres password=postgres
+           exec_parse: stage_gar_c_64.csv
+       -                   
+           id_region: 66
+           name: 65
+           descr: Сахалинская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_65 user=postgres password=postgres
+           exec_parse: stage_gar_c_65.csv
+       -                   
+           id_region: 67
+           name: 66
+           descr: Свердловская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_66 user=postgres password=postgres
+           exec_parse: stage_gar_c_66.csv
+       -                   
+           id_region: 68
+           name: 67
+           descr: Смоленская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_67 user=postgres password=postgres
+           exec_parse: stage_gar_c_67.csv
+       -                   
+           id_region: 69
+           name: 68
+           descr: Тамбовская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_68 user=postgres password=postgres
+           exec_parse: stage_gar_c_68.csv
+       -                   
+           id_region: 70
+           name: 69
+           descr: Тверская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_69 user=postgres password=postgres
+           exec_parse: stage_gar_c_69.csv
+       -                   
+           id_region: 71
+           name: 70
+           descr: Томская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_70 user=postgres password=postgres
+           exec_parse: stage_gar_c_70.csv
+       -                   
+           id_region: 72
+           name: 71
+           descr: Тульская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_71 user=postgres password=postgres
+           exec_parse: stage_gar_c_71.csv
+       -                   
+           id_region: 73
+           name: 72
+           descr: Тюменская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_72 user=postgres password=postgres
+           exec_parse: stage_gar_c_72.csv
+       -                   
+           id_region: 74
+           name: 73
+           descr: Ульяновская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_73 user=postgres password=postgres
+           exec_parse: stage_gar_c_73.csv
+       -                   
+           id_region: 75
+           name: 74
+           descr: Челябинская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_74 user=postgres password=postgres
+           exec_parse: stage_gar_c_74.csv
+       -                   
+           id_region: 76
+           name: 75
+           descr: Забайкальский край
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_75 user=postgres password=postgres
+           exec_parse: stage_gar_c_75.csv
+       -                   
+           id_region: 77
+           name: 76
+           descr: Ярославская обл.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_76 user=postgres password=postgres
+           exec_parse: stage_gar_c_76.csv
+       -                   
+           id_region: 78
+           name: 78
+           descr: Санкт-Петербург г.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_78 user=postgres password=postgres
+           exec_parse: stage_gar_c_78.csv
+       -                   
+           id_region: 79
+           name: 79
+           descr: Еврейская Аобл
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_79 user=postgres password=postgres
+           exec_parse: stage_gar_c_79.csv
+       -                   
+           id_region: 80
+           name: 83
+           descr: Ненецкий АО
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_83 user=postgres password=postgres
+           exec_parse: stage_gar_c_83.csv
+       -                   
+           id_region: 81
+           name: 86
+           descr: Ханты-Мансийский АО
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_86 user=postgres password=postgres
+           exec_parse: stage_gar_c_86.csv
+       -                   
+           id_region: 82
+           name: 89
+           descr: Ямало-Ненецкий АО
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_89 user=postgres password=postgres
+           exec_parse: stage_gar_c_89.csv
+       -                   
+           id_region: 83
+           name: 87
+           descr: Чукотский АО
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_87 user=postgres password=postgres
+           exec_parse: stage_gar_c_87.csv
+       -                   
+           id_region: 84
+           name: 91
+           descr: Крым Респ
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_91 user=postgres password=postgres
+           exec_parse: stage_gar_c_91.csv
+       -                   
+           id_region: 86
+           name: 77
+           descr: Москва г.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_77 user=postgres password=postgres
+           exec_parse: stage_gar_c_77.csv
+       -                   
+           id_region: 87
+           name: 92
+           descr: Севастополь г.
+           conninfo: host=127.0.0.1 port=5432 dbname=unsi_test_92 user=postgres password=postgres
+           exec_parse: stage_gar_c_92.csv
+        

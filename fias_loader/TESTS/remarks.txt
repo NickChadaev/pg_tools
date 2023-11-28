@@ -1725,8 +1725,7 @@ Fast-forward
          
            В конфигурационном файле "exchage_task.cfg" остается только путь к LOG "pg-perfect-ticker".
            
-           
-                   
+           !!!!!??????
          
            ============================================================================
          -- Потроха pg-perfect-ticker (потроха Антонова: М либо Ж), 
@@ -1747,14 +1746,39 @@ Fast-forward
    
 Пришло на Big_2
 
+$>git pull origin FilterObj 
+remote: Enumerating objects: 23, done.
+remote: Counting objects: 100% (23/23), done.
+remote: Compressing objects: 100% (3/3), done.
+remote: Total 12 (delta 9), reused 12 (delta 9), pack-reused 0
+Unpacking objects: 100% (12/12), done.
+From https://github.com/NickChadaev/pg_tools
+ * branch            FilterObj  -> FETCH_HEAD
+Updating d6e39f0..3365391
 Fast-forward
- db_exchange/UIO/2_uio_crt_tables_3.sql       | 13 +++++++++++++
- db_exchange/UIO/FUNCTION/f_event_get.sql     |  9 ++++++++-
- db_exchange/UIO/PROCEDURE/p_event_ins.sql    |  9 ++++++++-
- db_exchange/UIO/stage_25_db_exchange.csv     |  2 +-
- db_exchange/UIO/version.sql                  |  2 +-
- fias_loader/TESTS/Y_BUILD/_TEST_01_skver.sql |  7 ++++++-
- fias_loader/TESTS/remarks.txt                | 64 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++----
- 7 files changed, 97 insertions(+), 9 deletions(-)
- create mode 100644 db_exchange/UIO/2_uio_crt_tables_3.sql
+ db_exchange/UIO/db_exchange_pcg.err      |   2 +-
+ db_exchange/UIO/db_exchange_pcg.err.bak  |   2 +-
+ db_exchange/UIO/db_exchange_pcg.log      |  16 ++++++------
+ db_exchange/UIO/db_exchange_pcg.log.bak  |  16 ++++++------
+ db_exchange/UIO/db_exchange_pcg.sql      |  20 ++++++++++++---
+ db_exchange/UIO/db_exchange_pcg.sql.bak  | 225 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-----
+ db_exchange/UIO/stage_25_db_exchange.csv |   2 +-
+ db_exchange/UIO/version.sql              |   2 +-
+ fias_loader/TESTS/remarks.txt            |  12 +++++++++
+ 9 files changed, 268 insertions(+), 29 deletions(-)
+$>
+
+25606|'2023-11-28 12:30:58'|'last_0'|'2023-11-28T12:30:58.275676|2023-11-20|/home/n.chadaev@abrr.local/stage_6.yaml|/home/n.chadaev@abrr.local/Y_BUILD/post_proc_l.sh|/home/n.chadaev@abrr.local/tmp|n.chadaev|domain users'
+
+$>python3 l0.py 
+(4080,)
+(25948, datetime.datetime(2023, 11, 28, 16, 6, 56), 'last_0', '2023-11-28T16:06:56.202803|2023-11-20|/home/rootadmin/abr_upload/stage_6.yaml|/home/rootadmin/abr_upload/Y_BUILD/post_proc_l.sh|/home/rootadmin/abr_upload/tmp|n.chadaev|domain users', None, None, None, None)
+2023-11-28T16:06:56.202803
+2023-11-20
+/home/rootadmin/abr_upload/stage_6.yaml
+/home/rootadmin/abr_upload/Y_BUILD/post_proc_l.sh
+/home/rootadmin/abr_upload/tmp
+n.chadaev
+domain users
+/home/rootadmin/abr_upload/Y_BUILD/post_proc_l.sh /home/rootadmin/abr_upload/tmp up_prdl_20231120 'n.chadaev' 'domain users' 1>> /var/log/pg-perfect-ticker/exchange.log 2>> /var/log/pg-perfect-ticker/exchange.log
 $>

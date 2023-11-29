@@ -91,3 +91,43 @@
 [18:11:21] ...  -- Заполнение рабочей таблицы "gar_tmp.xxx_obj_fias"
 [18:11:41] ... Stop process
 --------------------------------------------------------
+2023-11-29 15:03:34 ./
+127.0.0.1 5434 unsi_test_05 postgres stage_gar_c_05.csv 2023-10-26
+--------------------------------------------------------
+[15:03:34] ... Start process
+[15:03:34] ...  -- Version
+[15:03:34] ...  -- Очистка от данных
+[15:03:37] ...  -- Убираем индексы
+[15:03:37] ...  -- Set UNLOGGED
+[15:03:42] ... /media/rootadmin/Transcend/FIAS_GAR_2023_10_26/AS_ADDHOUSE_TYPES_20231026_1b8ca463-4b89-4a94-96e9-2567cd8bae55.XML
+[15:03:43] ... /media/rootadmin/Transcend/FIAS_GAR_2023_10_26/AS_ADDR_OBJ_TYPES_20231026_f94d64d9-84f7-4717-8c8c-38f9f18a8f85.XML
+[15:03:43] ... /media/rootadmin/Transcend/FIAS_GAR_2023_10_26/AS_APARTMENT_TYPES_20231026_b7af29ce-b522-4733-8996-50a115c9ee6c.XML
+[15:03:43] ... /media/rootadmin/Transcend/FIAS_GAR_2023_10_26/AS_HOUSE_TYPES_20231026_766c4e6c-f5bf-416c-b939-76e5d7169016.XML
+[15:03:43] ... /media/rootadmin/Transcend/FIAS_GAR_2023_10_26/AS_NORMATIVE_DOCS_KINDS_20231026_247eb17b-646d-4dba-9170-21f6e5572570.XML
+[15:03:43] ... /media/rootadmin/Transcend/FIAS_GAR_2023_10_26/AS_NORMATIVE_DOCS_TYPES_20231026_ec4bc25a-31a1-4ec8-805b-eacabe781aab.XML
+[15:03:43] ... /media/rootadmin/Transcend/FIAS_GAR_2023_10_26/AS_OBJECT_LEVELS_20231026_10c61fea-632f-4017-91ab-200ed516b142.XML
+[15:03:43] ... /media/rootadmin/Transcend/FIAS_GAR_2023_10_26/AS_OPERATION_TYPES_20231026_bf3006f0-f7c5-4e29-aadb-3671d5b3fe59.XML
+[15:03:43] ... /media/rootadmin/Transcend/FIAS_GAR_2023_10_26/AS_PARAM_TYPES_20231026_88d99e07-ce03-41e4-9288-f1ebfaa80c26.XML
+[15:03:43] ... /media/rootadmin/Transcend/FIAS_GAR_2023_10_26/AS_ROOM_TYPES_20231026_a8f37b4d-bd22-4f73-a8a8-f489efdc4f2b.XML
+[15:03:43] ... /media/rootadmin/Transcend/FIAS_GAR_2023_10_26/05/AS_ADDR_OBJ_20231026_051dfd3f-364b-4589-baf4-2b2b1d5b872a.XML
+[15:04:04] ... /media/rootadmin/Transcend/FIAS_GAR_2023_10_26/05/AS_ADDR_OBJ_DIVISION_20231026_11f1cad5-428b-426a-8feb-9175339fa477.XML
+[15:04:04] ... /media/rootadmin/Transcend/FIAS_GAR_2023_10_26/05/AS_ADDR_OBJ_PARAMS_20231026_05bf8997-20e3-4bf6-9a2e-5f1dba29847a.XML
+[15:06:05] ... /media/rootadmin/Transcend/FIAS_GAR_2023_10_26/05/AS_ADM_HIERARCHY_20231026_fa0d7242-fc74-42d2-b41d-f249d8f761d8.XML
+[15:14:10] ... /media/rootadmin/Transcend/FIAS_GAR_2023_10_26/05/AS_APARTMENTS_20231026_8d2c3c44-4a1b-49dc-93d4-0e6c407e2952.XML
+[15:14:10] ... /media/rootadmin/Transcend/FIAS_GAR_2023_10_26/05/AS_APARTMENTS_PARAMS_20231026_0dd33885-7abc-4122-8426-37e5c8c71142.XML
+[15:14:10] ... /media/rootadmin/Transcend/FIAS_GAR_2023_10_26/05/AS_CARPLACES_20231026_cf29c781-edb6-4b6a-947c-604aea3231a8.XML
+[15:14:10] ... /media/rootadmin/Transcend/FIAS_GAR_2023_10_26/05/AS_CARPLACES_PARAMS_20231026_759ba24c-fa2b-42c3-a742-fa660722bca6.XML
+[15:14:10] ... /media/rootadmin/Transcend/FIAS_GAR_2023_10_26/05/AS_CHANGE_HISTORY_20231026_ecef88b3-7aa0-4673-9d08-3a9710693c51.XML
+[15:14:10] ... /media/rootadmin/Transcend/FIAS_GAR_2023_10_26/05/AS_HOUSES_20231026_febe2aef-a504-4650-9718-0519ebfdd158.XML
+[15:23:57] ... /media/rootadmin/Transcend/FIAS_GAR_2023_10_26/05/AS_HOUSES_PARAMS_20231026_1888dcc0-f453-4786-984b-7856464df2c8.XML
+[16:09:14] ... /media/rootadmin/Transcend/FIAS_GAR_2023_10_26/05/AS_MUN_HIERARCHY_20231026_143fb5ef-cf40-44cf-a862-4d44aa816723.XML
+[16:09:14] ... /media/rootadmin/Transcend/FIAS_GAR_2023_10_26/05/AS_NORMATIVE_DOCS_20231026_b993420e-0876-4f6c-accd-654c78dfe8a4.XML
+[16:09:14] ... /media/rootadmin/Transcend/FIAS_GAR_2023_10_26/05/AS_REESTR_OBJECTS_20231026_a75d5586-6fc4-4773-9943-891a8f72cfca.XML
+[16:14:34] ... /media/rootadmin/Transcend/FIAS_GAR_2023_10_26/05/AS_ROOMS_20231026_93b26e68-31c1-403b-8740-9f7726470ffd.XML
+[16:14:34] ... /media/rootadmin/Transcend/FIAS_GAR_2023_10_26/05/AS_ROOMS_PARAMS_20231026_6602a5d3-67a9-4e33-9f2c-409c5e8129d8.XML
+[16:14:34] ... /media/rootadmin/Transcend/FIAS_GAR_2023_10_26/05/AS_STEADS_20231026_da4e0740-9e4a-481b-985a-e0d94a583391.XML
+[16:16:39] ... /media/rootadmin/Transcend/FIAS_GAR_2023_10_26/05/AS_STEADS_PARAMS_20231026_522f3cdf-1451-4b28-8919-305b16d3191c.XML
+[16:34:19] ...  -- Data finish
+[16:34:20] ...  -- Set LOGGED
+[16:35:49] ... Stop process
+--------------------------------------------------------

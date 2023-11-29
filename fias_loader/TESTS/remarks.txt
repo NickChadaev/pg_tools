@@ -1480,16 +1480,16 @@ Merge made by the 'recursive' strategy.
    
 Что я хочу ??
 
-08 Калмыкия                     --   ДОМА В GAPS
-09 Карачаево-Черкесская Респ    --   ДОМА В GAPS
+08 Калмыкия                     --   ДОМА В GAPS   2023-11-29 Нормально, ошибка заключалась в отсутствии необходимых родительских типов.
+09 Карачаево-Черкесская Респ    --   ДОМА В GAPS   2023-11-29 !!!!!!
 
 32 Белгород, почему происходят обновления ??
 34 Волгоград в списке домов поялись явные значения dt_data_del
-38 Иркутск 523 GAP_2 !!!!!!!
+38 Иркутск 523 GAP_2 !!!!!!!                                    2023-11-29 Осталось всего 4 записи в таблице GAP_2, но 11'670 обнвлений.
 
 Как постобработка домов сочетается с записями о двойниках
 46 Курская область, проверить post-обработку домов.
-42 Кемерово 252 GAP_2 !!!!!!!
+42 Кемерово 252 GAP_2 !!!!!!!                                   2023-11-29 259 записей в GAP_2 !!!!!!!!!!!
 47 Ленобласть GAP_2
 37 Иваново GAP_2
 59 Пермь GAP_2 56
@@ -1684,7 +1684,6 @@ Fast-forward
          
          >>> get_file_sign('AS_CHANGE_HISTORY_20231120_aa001810-99ff-463c-b8c8-680bbb085385.XML')
               'ASCHANGEHISTORY
-              +
          
           Понять другое:    ЧЬИ ПАРАМЕТРЫ АГГРЕГИРУЕМ, А КАКИМИ МОЖНО ПРЕНЕБРЕЧЬ.
             
@@ -1696,6 +1695,39 @@ Fast-forward
                     -- as_apartments
                     -- as_carplaces
                     -- as_rooms
+            ---------------------------------------------------------------------------        
+            2023-11-28/2023-11-29    Формирование паттернов запрета.
+
+            get_file_sign('AS_CHANGE_HISTORY_20231120_aa001810-99ff-463c-b8c8-680bbb085385.XML')
+            ASCHANGEHISTORY
+            --
+            get_file_sign('AS_NORMATIVE_DOCS_20231127_716bb9d5-4a13-491d-9ec9-56c94f50d397.XML')
+            ASNORMATIVEDOCS
+            --
+            get_file_sign('AS_MUN_HIERARCHY_20231127_ebaacf67-eee1-49cd-a05b-f072fd49981b.XML')
+            ASMUNHIERARCHY
+            --
+            get_file_sign('AS_ROOMS_20231127_732f8f64-48d5-407b-abb5-e7d266d97460.XML')            
+            ASROOMS
+            --
+            get_file_sign('AS_CARPLACES_20231127_a2e77e52-c241-44f0-ac50-51601091625f.XML')
+            ASCARPLACES
+            --
+            get_file_sign('AS_APARTMENTS_20231127_4b94da9d-4de3-4060-994b-aa67cd94f5d6.XML')
+            ASAPARTMENTS
+            --
+            --
+            get_file_sign('AS_APARTMENTS_PARAMS_20231127_b96fec89-6038-45f6-a38d-a01624d53f57.XML')
+            ASAPARTMENTSPARAMS
+            --
+            get_file_sign('AS_CARPLACES_PARAMS_20231127_74eb6880-5d57-4ef3-89b0-5fe15d5fad93.XML')
+            ASCARPLACESPARAMS
+            --
+            get_file_sign('AS_ROOMS_PARAMS_20231127_52d91241-351c-491d-a7cc-651a60b47cff.XML')
+            ASROOMSPARAMS
+            
+            
+            tSTOP_LIST = ('ASCHANGEHISTORY','ASNORMATIVEDOCS','ASMUNHIERARCHY','ASROOMS','ASCARPLACES','ASAPARTMENTS','ASAPARTMENTSPARAMS','ASCARPLACESPARAMS','ASROOMSPARAMS')
             ===========================================================================
          
          -- Как формировать конфигурационный файл для pg-perfect-ticker ???  (возникали ошибки)
@@ -1781,4 +1813,31 @@ $>python3 l0.py
 n.chadaev
 domain users
 /home/rootadmin/abr_upload/Y_BUILD/post_proc_l.sh /home/rootadmin/abr_upload/tmp up_prdl_20231120 'n.chadaev' 'domain users' 1>> /var/log/pg-perfect-ticker/exchange.log 2>> /var/log/pg-perfect-ticker/exchange.log
+$>
+
+Упало на Big-2
+--------------
+$>git pull origin FilterObj
+From https://github.com/NickChadaev/pg_tools
+ * branch            FilterObj  -> FETCH_HEAD
+Updating 3365391..ccb9b78
+Fast-forward
+ db_exchange/hosts_common_xxx_all_pt.yaml                                                      | 525 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ db_exchange/load_mainGar_pt.py                                                                | 204 ++++++++++++++++++++++++++++++++++++++++++
+ db_exchange/pg-perfect-ticker/exchange-scripts/l0.py                                          |  91 +++++++++++++------
+ db_exchange/pg-perfect-ticker/exchange-tasks.cfg                                              |   7 --
+ db_exchange/pg-perfect-ticker/lib_pg_perfect_ticker/__init__.pyc                              | Bin 0 -> 183 bytes
+ db_exchange/pg-perfect-ticker/lib_pg_perfect_ticker/__pycache__/__init__.cpython-36.pyc       | Bin 0 -> 179 bytes
+ db_exchange/pg-perfect-ticker/lib_pg_perfect_ticker/__pycache__/log.cpython-36.pyc            | Bin 0 -> 963 bytes
+ db_exchange/pg-perfect-ticker/lib_pg_perfect_ticker/__pycache__/simple_db_pool.cpython-36.pyc | Bin 0 -> 2087 bytes
+ db_exchange/pg-perfect-ticker/lib_pg_perfect_ticker/simple_db_pool.pyc                        | Bin 0 -> 3018 bytes
+ fias_loader/TESTS/remarks.txt                                                                 |  46 +++++++---
+ 10 files changed, 826 insertions(+), 47 deletions(-)
+ create mode 100644 db_exchange/hosts_common_xxx_all_pt.yaml
+ create mode 100755 db_exchange/load_mainGar_pt.py
+ create mode 100644 db_exchange/pg-perfect-ticker/lib_pg_perfect_ticker/__init__.pyc
+ create mode 100644 db_exchange/pg-perfect-ticker/lib_pg_perfect_ticker/__pycache__/__init__.cpython-36.pyc
+ create mode 100644 db_exchange/pg-perfect-ticker/lib_pg_perfect_ticker/__pycache__/log.cpython-36.pyc
+ create mode 100644 db_exchange/pg-perfect-ticker/lib_pg_perfect_ticker/__pycache__/simple_db_pool.cpython-36.pyc
+ create mode 100644 db_exchange/pg-perfect-ticker/lib_pg_perfect_ticker/simple_db_pool.pyc
 $>

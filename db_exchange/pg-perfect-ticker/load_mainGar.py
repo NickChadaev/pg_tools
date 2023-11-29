@@ -533,10 +533,11 @@ class make_load ( fd_log_s ):
                  list_names = self.load_list_names (l_words [1]) # 2021-11-28  
 
                  for file_name in list_names:
-                     self.write_log (file_name)  
 
                      file_sign = self.get_file_sign (file_name)
-                     if file_sign not in tSTOP_LIST:
+                     if file_sign not in tSTOP_LIST:             # 2023-11-28
+                         
+                         self.write_log (file_name)  
                          #
                          #  Common Part 
                          #

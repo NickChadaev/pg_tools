@@ -7,6 +7,7 @@
 # HIST: 2021-11-23 - created
 # NOTS: 2022-05-05 - "fserver_nmb", "fschema_name" was added. 
 #                    "fd_log", "fd0" - are external classes. 
+#       2023-11-28 - Stop List tuple was builded.
 # ----------------------------------------------------------------------------------------
 import sys
 import os
@@ -92,7 +93,10 @@ bAS_ROOMS_PARAMS      = "ASROOMSPARAMS"
 bAS_STEADS            = "ASSTEADS"
 bAS_STEADS_PARAMS     = "ASSTEADSPARAMS"
 
-VERSION_STR = "  Version 0.7.1 Build 2023-02-15"
+tSTOP_LIST = ('ASCHANGEHISTORY','ASNORMATIVEDOCS','ASMUNHIERARCHY','ASROOMS','ASCARPLACES',\
+    'ASAPARTMENTS','ASAPARTMENTSPARAMS','ASCARPLACESPARAMS','ASROOMSPARAMS')
+
+VERSION_STR = "  Version 0.7.2 Build 2023-11-28"
 
 GET_DT = "SELECT now()::TIMESTAMP without time zone FROM current_timestamp;"
 
@@ -510,101 +514,103 @@ class make_load ( fd_log_s ):
 
                  for file_name in list_names:
                      self.write_log (file_name)  
+                     
                      file_sign = self.get_file_sign (file_name)
-                     #
-                     #  Common Part 
-                     #
-                     if (file_sign == bAS_ADDHOUSE_TYPES):
-                         rc = self.mlc01.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)
-
-                     elif (file_sign == bAS_ADDR_OBJ_TYPES):
-                         rc = self.mlc02.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)
-                   
-                     elif (file_sign == bAS_APARTMENT_TYPES):
-                         rc = self.mlc03.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)
+                     if file_sign not in tSTOP_LIST:                     
+                         #
+                         #  Common Part 
+                         #
+                         if (file_sign == bAS_ADDHOUSE_TYPES):
+                             rc = self.mlc01.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)
                          
-                     elif (file_sign == bAS_HOUSE_TYPES):
-                         rc = self.mlc04.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)
+                         elif (file_sign == bAS_ADDR_OBJ_TYPES):
+                             rc = self.mlc02.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)
                          
-                     elif (file_sign == bAS_NORMATIVE_DOCS_KINDS):
-                         rc = self.mlc05.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)
+                         elif (file_sign == bAS_APARTMENT_TYPES):
+                             rc = self.mlc03.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)
+                             
+                         elif (file_sign == bAS_HOUSE_TYPES):
+                             rc = self.mlc04.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)
+                             
+                         elif (file_sign == bAS_NORMATIVE_DOCS_KINDS):
+                             rc = self.mlc05.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)
+                             
+                         elif (file_sign == bAS_NORMATIVE_DOCS_TYPES):
+                             rc = self.mlc06.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)
+                             
+                         elif (file_sign == bAS_OBJECT_LEVELS):
+                             rc = self.mlc07.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)
+                             
+                         elif (file_sign == bAS_OPERATION_TYPES):
+                             rc = self.mlc08.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)
+                             
+                         elif (file_sign == bAS_PARAM_TYPES):
+                             rc = self.mlc09.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)
+                             
+                         elif (file_sign == bAS_ROOM_TYPES):
+                             rc = self.mlc10.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)
+                         #
+                         # Region part
+                         #
+                         elif (file_sign == bAS_ADDR_OBJ):
+                             rc = self.mlr01.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name) 
+                             
+                         elif (file_sign == bAS_ADDR_OBJ_DIVISION):
+                             rc = self.mlr02.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)                           
+                             
+                         elif (file_sign == bAS_ADDR_OBJ_PARAMS):
+                             rc = self.mlr03.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)  
+                             
+                         elif (file_sign == bAS_ADM_HIERARCHY):
+                             rc = self.mlr04.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)
+                             
+                         elif (file_sign == bAS_APARTMENTS):
+                             rc = self.mlr05.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)
+                             
+                         elif (file_sign == bAS_APARTMENTS_PARAMS):
+                             rc = self.mlr06.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)
+                             
+                         elif (file_sign == bAS_CARPLACES):
+                             rc = self.mlr07.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name) 
+                             
+                         elif (file_sign == bAS_CARPLACES_PARAMS):
+                             rc = self.mlr08.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name) 
+                             
+                         elif (file_sign == bAS_CHANGE_HISTORY):
+                             rc = self.mlr09.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)    
+                             
+                         elif (file_sign == bAS_HOUSES):
+                             rc = self.mlr10.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)
+                             
+                         elif (file_sign == bAS_HOUSES_PARAMS):
+                             rc = self.mlr11.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)
+                             
+                         elif (file_sign == bAS_MUN_HIERARCHY):
+                             rc = self.mlr12.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)
+                             
+                         elif (file_sign == bAS_NORMATIVE_DOCS):
+                             rc = self.mlr13.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)  
+                            
+                         elif (file_sign == bAS_REESTR_OBJECTS):
+                             rc = self.mlr14.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)   
+                            
+                         elif (file_sign == bAS_ROOMS):
+                             rc = self.mlr15.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)  
+                             
+                         elif (file_sign == bAS_ROOMS_PARAMS):
+                             rc = self.mlr16.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)  
+                             
+                         elif (file_sign == bAS_STEADS):
+                             rc = self.mlr17.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name) 
+                             
+                         else:  #  bAS_STEADS_PARAMS  
+                             rc = self.mlr18.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)  
                          
-                     elif (file_sign == bAS_NORMATIVE_DOCS_TYPES):
-                         rc = self.mlc06.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)
-                         
-                     elif (file_sign == bAS_OBJECT_LEVELS):
-                         rc = self.mlc07.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)
-                         
-                     elif (file_sign == bAS_OPERATION_TYPES):
-                         rc = self.mlc08.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)
-                         
-                     elif (file_sign == bAS_PARAM_TYPES):
-                         rc = self.mlc09.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)
-                         
-                     elif (file_sign == bAS_ROOM_TYPES):
-                         rc = self.mlc10.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)
-                     #
-                     # Region part
-                     #
-                     elif (file_sign == bAS_ADDR_OBJ):
-                         rc = self.mlr01.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name) 
-                         
-                     elif (file_sign == bAS_ADDR_OBJ_DIVISION):
-                         rc = self.mlr02.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)                           
-                         
-                     elif (file_sign == bAS_ADDR_OBJ_PARAMS):
-                         rc = self.mlr03.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)  
-                         
-                     elif (file_sign == bAS_ADM_HIERARCHY):
-                         rc = self.mlr04.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)
-                         
-                     elif (file_sign == bAS_APARTMENTS):
-                         rc = self.mlr05.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)
-                         
-                     elif (file_sign == bAS_APARTMENTS_PARAMS):
-                         rc = self.mlr06.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)
-                         
-                     elif (file_sign == bAS_CARPLACES):
-                         rc = self.mlr07.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name) 
-                         
-                     elif (file_sign == bAS_CARPLACES_PARAMS):
-                         rc = self.mlr08.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name) 
-                         
-                     elif (file_sign == bAS_CHANGE_HISTORY):
-                         rc = self.mlr09.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)    
-                         
-                     elif (file_sign == bAS_HOUSES):
-                         rc = self.mlr10.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)
-                         
-                     elif (file_sign == bAS_HOUSES_PARAMS):
-                         rc = self.mlr11.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)
-                         
-                     elif (file_sign == bAS_MUN_HIERARCHY):
-                         rc = self.mlr12.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)
-                         
-                     elif (file_sign == bAS_NORMATIVE_DOCS):
-                         rc = self.mlr13.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)  
-                        
-                     elif (file_sign == bAS_REESTR_OBJECTS):
-                         rc = self.mlr14.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)   
-                        
-                     elif (file_sign == bAS_ROOMS):
-                         rc = self.mlr15.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)  
-                         
-                     elif (file_sign == bAS_ROOMS_PARAMS):
-                         rc = self.mlr16.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)  
-                         
-                     elif (file_sign == bAS_STEADS):
-                         rc = self.mlr17.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name) 
-                         
-                     else:  #  bAS_STEADS_PARAMS  
-                         rc = self.mlr18.ToDo (p_host_ip, p_port, l_db_name, p_user_name, file_name)  
-
-                     if rc < 0:     #  Fatal error, break process
-                         self.write_log_err ( rc, EMP )
-                         break
-                         
-                     rc1 = self.save_file_info (p_host_ip, p_port, l_db_name, p_user_name, file_name)
+                         if rc < 0:     #  Fatal error, break process
+                             self.write_log_err ( rc, EMP )
+                             break
+                             
+                         rc1 = self.save_file_info (p_host_ip, p_port, l_db_name, p_user_name, file_name)
 
     self.close_log()
     self.close_sql_log()  # 2022-02-27

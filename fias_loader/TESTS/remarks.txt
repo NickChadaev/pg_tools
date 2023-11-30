@@ -1841,3 +1841,23 @@ Fast-forward
  create mode 100644 db_exchange/pg-perfect-ticker/lib_pg_perfect_ticker/__pycache__/simple_db_pool.cpython-36.pyc
  create mode 100644 db_exchange/pg-perfect-ticker/lib_pg_perfect_ticker/simple_db_pool.pyc
 $>
+
+
+2023-11-30 --
+-------------
+  На Big_2  Новые версии  load_mainGar.py
+            Новый конфигурационный файл pg-lib_pg_perfect_ticker
+            Исправить запускалку
+--    
+hosts_common_xxx_all_pt.yaml
+
+$>load_mainGar_pt.py
+  Version 0.1.0 Build 2023-11-27
+  Usage: /usr/local/bin/load_mainGar_pt.py <Host_IP> <Port> <DB_name> <User_name> <Yaml_file> <Version>
+---
+  
+  Что творилось с 17 регионом
+  
+  Сохранить рабочие каталоги с logs
+  
+----------

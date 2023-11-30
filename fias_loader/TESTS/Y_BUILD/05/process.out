@@ -10503,3 +10503,17 @@ CALL
 (1 строка)
 
 CALL
+ save_gar_version 
+------------------
+               79
+(1 строка)
+
+CALL
+CALL
+CALL
+ set_gar_dt_create 
+-------------------
+                79
+(1 строка)
+
+CALL

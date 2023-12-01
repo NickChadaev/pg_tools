@@ -42,7 +42,7 @@ load_mainGar_pt.py 127.0.0.1 5433 db_exchange postgres hosts_common_xxx_all_pt.y
 if [ $? -ne 0 ] 
   then
         rm process.sql 
-	echo 4.Ошибка при формировании заданий для очередей (подготовка запуска процессов).
+	echo 4.Ошибка при формировании заданий для очередей \(подготовка запуска процессов\).
 	exit 4
 fi
 

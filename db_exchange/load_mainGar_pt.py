@@ -185,7 +185,7 @@ if __name__ == '__main__':
          #       1          2       3         4           5          6   
         sa = " <Host_IP> <Port> <DB_name> <User_name> <Yaml_file> <Version>"
         
-        if ((len( sys.argv ) - 1) < 2):
+        if ((len( sys.argv ) - 1) < 6):
             print VERSION_STR 
             print "  Usage: " + str ( sys.argv [0] ) + sa
             sys.exit( 1 )

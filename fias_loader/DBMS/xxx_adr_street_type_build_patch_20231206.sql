@@ -3,6 +3,18 @@
 -- ----------------------------------------------------------------------
 --  1) Справочник adr_street_type  -- Пропущённый тип (Маринчук, е... тебя да за ногу, да об забор)
 -- --------------------------------------------------------------------------------------------------
+-- BEGIN;
+--   INSERT INTO unnsi.adr_street_type(
+--       id_street_type, nm_street_type, nm_street_type_short, dt_data_del)
+--       VALUES ((SELECT max(id_street_type) + 1 FROM unnsi.adr_street_type)
+--             , 'Съезд'
+--             , 'сзд.'
+--             , NULL
+--   );
+--   SELECT * FROM unnsi.adr_street_type ORDER BY id_street_type;
+-- ROLLBACK;
+-- -- COMMIT;
+
 BEGIN;
   INSERT INTO gar_tmp.adr_street_type(
       id_street_type, nm_street_type, nm_street_type_short, dt_data_del)

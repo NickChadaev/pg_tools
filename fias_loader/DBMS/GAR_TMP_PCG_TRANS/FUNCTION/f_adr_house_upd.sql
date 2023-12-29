@@ -93,9 +93,14 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_upd (
     -- -----------------------------------------------------------------------------------
     --   2022-05-31 Уточняю определение родительского объекта и правила вычисления типов.    
     --   2022-10-18 Вспомогательные таблицы..
+<<<<<<< HEAD
     --   2022-11-21 - Преобразование типов ФИАС -> ЕС НСИ.
     --   2023-10-23 - Родитель не находится, запись помещается в GAP-таблицу. _data.check_kind := 2
     --   2023-11-21 - Окончательный отказ от ФИАСовского уровня объектов.    
+=======
+    --   2022-11-21 - Преобразование типов ФИАС -> ЕС НСИ.      
+    --   2023-10-23 - Родитель не находится, запись помещается в GAP-таблицу. _data.check_kind := 2    
+>>>>>>> dc26befa26195012ea353cc0ec482b37e1952329
     -- -------------------------------------------------------------------------  
     --     p_schema_data    -- Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
     --    ,p_schema_etl     -- Схема эталон, обычно локальный сервер, копия p_schema_data 
@@ -158,6 +163,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_upd (
        LOOP
          -- 2023-11-21 Отказ от ФИАСовского уровня объектов.
          
+<<<<<<< HEAD
          _parent := gar_tmp_pcg_trans.f_adr_street_get (p_schema_etl, _data.nm_fias_guid_parent);
          _id_area   := _parent.id_area;   
          _id_street := _parent.id_street;    
@@ -175,6 +181,27 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_upd (
                  CONTINUE;  
          END IF;
          
+=======
+         IF (_data.parent_level_id IN (8, 9))  -- ??
+           THEN
+              _parent := gar_tmp_pcg_trans.f_adr_street_get (p_schema_etl, _data.nm_fias_guid_parent);
+              _id_area   := _parent.id_area;   
+              _id_street := _parent.id_street;    
+           
+           ELSE
+            _id_area   := (gar_tmp_pcg_trans.f_adr_area_get (p_schema_etl, _data.nm_fias_guid_parent)).id_area;   
+            _id_street := NULL;  
+           
+         END IF;
+         --
+         IF (_id_area IS NULL)        -- НЕ были загружены Ни улицы, Ни адресные объекты.
+           THEN                       -- 2022-05-31
+                 _data.check_kind := 2;
+                 CALL gar_tmp_pcg_trans.p_xxx_adr_house_gap_put (_data);
+                 CONTINUE;  
+         END IF;           
+         --
+>>>>>>> dc26befa26195012ea353cc0ec482b37e1952329
          _id_house_type_1 := NULL; 
          _nm_house_type_1 := NULL;
          --

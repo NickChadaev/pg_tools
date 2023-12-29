@@ -457,6 +457,7 @@ CONTEXT:  SQL-оператор: "INSERT INTO gar_tmp.xxx_adr_area AS z (
   
   -- Индексное покрытие над GAR_FIAS -- ЧАСТИЧНАЯ РЕВИЗИЯ. 
 
+<<<<<<< HEAD
   -- l0.py отработал нормально, просто у него длительное время сна. 
 
   
@@ -1921,3 +1922,166 @@ GAP_2
 47          |            190 | Съезд            | сзд.   
 
 190|'8'|'Съезд'|'сзд.'|'Съезд'|'2015-11-05'|'2015-11-05'|'2018-11-09'|t
+=======
+  -- l0.py отработал нормально, просто у него длительное время сна.
+  
+2023-10-24
+----------
+ МИНИМАЛЬНЫЙ ОБЪЁМ ДОРАБОТОК, НЕОБХОДИМЫЙ ДЛЯ ВЫПУСКА НОВОГО РЕЛИЗА.
+ 
+++  1) f_xxx_adr_area_show()  -изменить определение окна
+-?  2) load -- двойники.      -изменить определение окна.
+         gar_fias_pcg_load."_NEW_f_adr_area_show_data" (uuid, date, bigint); -- ???
+-- --------------------------------------------------------------------------------
+++  3) f_adr_area/street/home/ ins/upd   -- вместо CONTINUE,  обращение к GAP-функции.
+++  4) GAP-функции,  убрать UPDATE для исключения ON CONFLICT.  DO NOTING.
+    
+ВЫПУСКАТЬ НА master.  FilterObj -- остаётся опытной платформой.
+                      steads    -- до лучших времён.
+                      
+                      
+2023-10-25
+----------
+   -- Отлаживаю на 05 функции обновления, дополнения, 
+   -- Потом "активные предшественники.
+   
+-- ==========================================================
+    Старые значения.
+-- ==========================================================
+unsi_test_05=# select count(1) from gar_tmp.adr_house_aux;
+ count 
+-------
+   236
+
+unsi_test_05=# select count(1) from gar_tmp.adr_street_aux;
+ count 
+-------
+     2
+
+unsi_test_05=# select count(1) from gar_tmp.adr_area_aux;
+ count 
+-------
+     3
+--
+-- ==========================================================
+--     
+unsi_test_05=# select count(1) from gar_tmp.xxx_adr_area;
+ 26531
+
+unsi_test_05=# select count(1) from gar_tmp.xxx_adr_house;
+ 618197
+ 
+unsi_test_05=# select count(1) from gar_tmp.xxx_obj_fias;
+ 644675
+ 
+unsi_test_05=# delete from gar_tmp.xxx_obj_fias;
+DELETE 644675
+unsi_test_05=# delete from gar_tmp.xxx_adr_house;
+DELETE 618197
+unsi_test_05=# delete from gar_tmp.xxx_adr_area;
+DELETE 26531
+unsi_test_05=# 
+--
+unsi_test_05=# \conninfo
+Вы подключены к базе данных "unsi_test_05" как пользователь "postgres" через сокет в "/var/run/postgresql", порт "5434".
+-=-
+unsi_test_05=# delete from gar_tmp.adr_area_aux;
+DELETE 3
+unsi_test_05=# delete from gar_tmp.adr_street_aux;
+DELETE 2
+unsi_test_05=# delete from gar_tmp.adr_house_aux;
+DELETE 236
+--
+select gar_tmp_pcg_trans.f_xxx_adr_area_set_data ();
+ f_xxx_adr_area_set_data 
+-------------------------
+                   26536
+--                   
+unsi_test_05=# select gar_tmp_pcg_trans.f_xxx_adr_house_set_data();
+ f_xxx_adr_house_set_data 
+--------------------------
+                   618197
+
+select gar_tmp_pcg_trans.f_xxx_obj_fias_set_data ('gar_tmp', 'gar_tmp', 'gar_tmp');
+--
+ f_xxx_obj_fias_set_data 
+-------------------------
+                    2086
+                   24450
+                  618159
+
+Замечания  МЕСТНОСТИ И ПОСЁЛКИ, ОТГНЕСЁННЫЕ К 8 УРОВН.Ю НЕОБХОДИМО ИСПРАВЛЯТЬ.
+           ИНАЧЕ ТЕРЯЮТСЯ ДАННЫЕ.
+           -----------------------------------------------
+           Хьарша  | 5   |  150 | Местность   | местность 
+           
+это то-же этап предобработки.
+
+
+++  ПОТЕРЯ UUID.
+
+Второй тест:
+------------
+ unsi_test_50 | 14 GB | Московская обл.. 2023-10-05
+ ---------------------------------------------------
+ 
+ Утром выгляну в окно, В пасмурную рань, 
+ И решу - пора давно Посадить герань. 
+ Прогоню тоску свою, Прикажу - отстань! 
+ Добросовестно полью Милую герань. 
+ Осень сказки говорит... Дождик, перестань! 
+ Алой шапкою горит На окне герань.
+ =======================================================
+ -- ==========================================================
+    Старые значения.
+-- ==========================================================
+unsi_test_50=# select count(1) from gar_tmp.adr_house_aux;
+ count 
+-------
+     0
+
+unsi_test_50=# select count(1) from gar_tmp.adr_street_aux;
+ count 
+-------
+     0
+
+unsi_test_50=# select count(1) from gar_tmp.adr_area_aux;
+ count 
+-------
+     0
+--
+-- ==========================================================
+--     
+unsi_test_50=# select count(1) from gar_tmp.xxx_adr_area;
+ 0
+
+unsi_test_50=# select count(1) from gar_tmp.xxx_adr_house;
+0
+ 
+unsi_test_50=# select count(1) from gar_tmp.xxx_obj_fias;
+0
+ 
+select gar_tmp_pcg_trans.f_xxx_adr_area_set_data ();
+ f_xxx_adr_area_set_data 
+-------------------------
+                   71967
+--                   
+unsi_test_50=# select gar_tmp_pcg_trans.f_xxx_adr_house_set_data();
+ f_xxx_adr_house_set_data 
+--------------------------
+                 1805125
+
+select gar_tmp_pcg_trans.f_xxx_obj_fias_set_data ('gar_tmp', 'gar_tmp', 'gar_tmp');
+--
+ f_xxx_obj_fias_set_data 
+-------------------------
+                   28077
+                   43890
+                 1802127
+
+t44.out -- 868767 | Звенигородская | Звенигородская | 204 | ул  и 8-й уровень и попало в GAP !!!!
+
+Список типов ФИАС, который необходимо переместится на уровень, отличный от 8
+                  
+ 
+>>>>>>> dc26befa26195012ea353cc0ec482b37e1952329

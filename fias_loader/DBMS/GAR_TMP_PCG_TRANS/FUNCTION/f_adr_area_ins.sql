@@ -90,10 +90,11 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_ins (
 	        ORDER BY x.tree_d 
      
        LOOP
-           -- Код страны
-           -- часовой пояс
-           -- Полное имя       Это всё забираем у родителя  (полная инфа о родителе.
+          -- Код страны
+          -- часовой пояс
+          -- Полное имя       Это всё забираем у родителя  (полная инфа о родителе.
           
+<<<<<<< HEAD
            -- Тип, вычисляется на локальных данных.
            -- Nick 2022-11-21/2022-12-05
            _id_area_type := NULL;
@@ -124,7 +125,39 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_ins (
            END IF;
            --
            _parent := gar_tmp_pcg_trans.f_adr_area_get (p_schema_etl, _data.nm_fias_guid_parent);
+=======
+          -- Тип, вычисляется на локальных данных.
+          -- Nick 2022-11-21/2022-12-05
+          _id_area_type := NULL;
+          _area_type_short_name := NULL;
+          
+          IF (EXISTS (SELECT 1 FROM gar_tmp.xxx_adr_area_type 
+                                 WHERE (_data.id_area_type = ANY (fias_ids))
+                     )
+              ) 
+            THEN  
+               SELECT id_area_type, nm_area_type_short 
+                         INTO _id_area_type, _area_type_short_name
+               FROM gar_tmp_pcg_trans.f_adr_type_get (p_schema_etl, _data.id_area_type);
+               
+            ELSIF (_data.id_area_type IS NOT NULL) 
+                THEN
+                     CALL gar_tmp_pcg_trans.p_xxx_adr_area_gap_put (_data);
+          END IF;           
+          --
+          -- 2023-10-23
+          IF ((_id_area_type IS NULL) OR (_area_type_short_name IS NULL) OR
+                         (_data.nm_area IS NULL) 
+          )
+            THEN
+                 _data.check_kind := 2;
+                  CALL gar_tmp_pcg_trans.p_xxx_adr_area_gap_put (_data);
+                  CONTINUE; -- 2022-11-21/2022-12-05
+          END IF;
+>>>>>>> dc26befa26195012ea353cc0ec482b37e1952329
           -- 
+          _parent := gar_tmp_pcg_trans.f_adr_area_get (p_schema_etl, _data.nm_fias_guid_parent);
+          --
           -- 2022-12-27 Такая ситуация может возникнуть крайне редко.
           -- 2023-10-23 Но возникает, последствия не хорошие, теряются "дети".
           --
@@ -136,8 +169,13 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_ins (
                   _data.check_kind := 2;
                    CALL gar_tmp_pcg_trans.p_xxx_adr_area_gap_put (_data);            
                    CONTINUE; 
+<<<<<<< HEAD
           END IF;              
                        
+=======
+          END IF;             
+          -- 
+>>>>>>> dc26befa26195012ea353cc0ec482b37e1952329
           _id_area := nextval('gar_tmp.obj_seq'); 
           CALL gar_tmp_pcg_trans.p_adr_area_ins (
                   p_schema_name       := p_schema_data                    --  text  

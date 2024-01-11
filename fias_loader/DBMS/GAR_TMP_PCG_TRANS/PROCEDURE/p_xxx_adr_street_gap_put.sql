@@ -7,8 +7,7 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_xxx_adr_street_gap_put (
     LANGUAGE plpgsql SECURITY DEFINER
     AS $$
     -- -------------------------------------------------------------------------------
-    --  2022-12-03  Создание/Обновление записи в Улицы не прошедшие входной контроль 
-    --  2023-10-24               ON CONFLICT (nm_fias_guid) DO NOTHING ;
+    --  2022-12-03  Создание/Обновление записи в Улицы не прошедшие входной контроль
     -- -------------------------------------------------------------------------------
     BEGIN
    
@@ -50,7 +49,26 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_xxx_adr_street_gap_put (
                               ,COALESCE (p_data.curr_date, current_date)
                               ,COALESCE (p_data.check_kind, '0')
                       )
-                         ON CONFLICT (nm_fias_guid) DO NOTHING ;
+             ON CONFLICT (nm_fias_guid) DO UPDATE
+                SET
+                      id_street         = excluded.id_street        
+                     ,nm_street         = excluded.nm_street        
+                     ,nm_street_full    = excluded.nm_street_full   
+                     ,id_street_type    = excluded.id_street_type   
+                     ,nm_street_type    = excluded.nm_street_type   
+                     ,id_area           = excluded.id_area          
+                     ,nm_fias_guid_area = excluded.nm_fias_guid_area
+                     ,kd_kladr          = excluded.kd_kladr         
+                     ,tree_d            = excluded.tree_d           
+                     ,level_d           = excluded.level_d          
+                     ,obj_level         = excluded.obj_level        
+                     ,level_name        = excluded.level_name       
+                     ,oper_type_id      = excluded.oper_type_id     
+                     ,oper_type_name    = excluded.oper_type_name   
+                     ,curr_date         = COALESCE (excluded.curr_date, current_date)          
+                     ,check_kind        = COALESCE (excluded.check_kind, '0')     
+                
+                  WHERE (gar_tmp.xxx_adr_street_gap.nm_fias_guid =  excluded.nm_fias_guid);
     
     END;
   $$;

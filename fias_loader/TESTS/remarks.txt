@@ -1921,3 +1921,108 @@ GAP_2
 47          |            190 | Съезд            | сзд.   
 
 190|'8'|'Съезд'|'сзд.'|'Съезд'|'2015-11-05'|'2015-11-05'|'2018-11-09'|t
+
+
+
+2024-01-11
+----------
+Разребаю последствия слияния !!!!!!
+-----------------------------------
+erge made by the 'recursive' strategy.
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/FUNCTION/f_adr_area_ins.sql            |    44 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/FUNCTION/f_adr_area_upd.sql            |    13 +
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/FUNCTION/f_adr_house_ins.sql           |    13 +
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/FUNCTION/f_adr_house_upd.sql           |    27 +
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/FUNCTION/f_adr_street_ins.sql          |    22 +
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/FUNCTION/f_adr_street_upd.sql          |    22 +
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/FUNCTION/f_xxx_adr_area_show_data.sql  |    13 +
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/PROCEDURE/p_xxx_adr_area_gap_put.sql   |    25 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/PROCEDURE/p_xxx_adr_house_gap_put.sql  |    36 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/PROCEDURE/p_xxx_adr_street_gap_put.sql |    24 +-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.err                  |   247 +++
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.err.bak              |   215 +++
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.log                  |    91 +
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.log.bak              |    91 +
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.sql                  |   243 ++-
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.sql.bak              |    22 +
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/stage_25_tmp_build.csv                 |     4 +
+ fias_loader/DBMS/GAR_TMP_PCG_TRANS/version.sql                            |     4 +
+ fias_loader/TESTS/X0_crt_view.sql                                         |   339 ++++
+ fias_loader/TESTS/Y_BUILD/05/.~lock._TEST_xxx_adr_area_type.xlsx#         |     1 -
+ fias_loader/TESTS/Y_BUILD/05/.~lock._TEST_xxx_adr_street_type.csv#        |     1 -
+ fias_loader/TESTS/Y_BUILD/05/_TEST_xxx_adr_area_type.xlsx                 |   Bin 15011 -> 15373 bytes
+ fias_loader/TESTS/Y_BUILD/05/_TEST_xxx_adr_street_type.csv                |   114 +-
+ fias_loader/TESTS/Y_BUILD/05/l.err                                        |   342 ++++
+ fias_loader/TESTS/Y_BUILD/05/l.out                                        |   295 ++++
+ fias_loader/TESTS/Y_BUILD/05/stage_4.1.sql                                |    13 +-
+ fias_loader/TESTS/Y_BUILD/05/stage_4.2.sql                                |    10 +
+ fias_loader/TESTS/Y_BUILD/05/stage_4.3.sql                                |     9 +-
+ fias_loader/TESTS/Y_BUILD/05/stage_4.4.sql                                |    10 +
+ fias_loader/TESTS/Y_BUILD/05/stage_4.5.sql                                |     9 +
+ fias_loader/TESTS/Y_BUILD/05/stage_4.6.sql                                |    14 +-
+ fias_loader/TESTS/Y_BUILD/05/t411.err                                     |     0
+ fias_loader/TESTS/Y_BUILD/05/t411.out                                     |    94 ++
+ fias_loader/TESTS/Y_BUILD/05/t421.err                                     |     0
+ fias_loader/TESTS/Y_BUILD/05/t421.out                                     |    88 +
+ fias_loader/TESTS/Y_BUILD/05/t431.err                                     |     0
+ fias_loader/TESTS/Y_BUILD/05/t431.out                                     |   214 +++
+ fias_loader/TESTS/Y_BUILD/05/t441.err                                     |     0
+ fias_loader/TESTS/Y_BUILD/05/t441.out                                     |   379 +++++
+ fias_loader/TESTS/Y_BUILD/05/t451.err                                     |     0
+ fias_loader/TESTS/Y_BUILD/05/t451.out                                     |   864 ++++++++++
+ fias_loader/TESTS/Y_BUILD/05/t461.err                                     |     0
+ fias_loader/TESTS/Y_BUILD/05/t461.out                                     |  1582 +++++++++++++++++
+ fias_loader/TESTS/Y_BUILD/50/stage_4.1.sql                                |    13 +
+ fias_loader/TESTS/Y_BUILD/50/stage_4.2.sql                                |    11 +
+ fias_loader/TESTS/Y_BUILD/50/stage_4.3.sql                                |    10 +
+ fias_loader/TESTS/Y_BUILD/50/stage_4.4.sql                                |    10 +
+ fias_loader/TESTS/Y_BUILD/50/stage_4.5.sql                                |    12 +
+ fias_loader/TESTS/Y_BUILD/50/stage_4.6.sql                                |    15 +
+ fias_loader/TESTS/Y_BUILD/50/t41.err                                      |     0
+ fias_loader/TESTS/Y_BUILD/50/t41.out                                      |    51 +
+ fias_loader/TESTS/Y_BUILD/50/t42.err                                      |     0
+ fias_loader/TESTS/Y_BUILD/50/t42.out                                      |    56 +
+ fias_loader/TESTS/Y_BUILD/50/t43.err                                      |     0
+ fias_loader/TESTS/Y_BUILD/50/t43.out                                      |   238 +++
+ fias_loader/TESTS/Y_BUILD/50/t44.err                                      |     0
+ fias_loader/TESTS/Y_BUILD/50/t44.out                                      |   253 +++
+ fias_loader/TESTS/Y_BUILD/50/t45.err                                      |     0
+ fias_loader/TESTS/Y_BUILD/50/t45.out                                      |  1814 ++++++++++++++++++++
+ fias_loader/TESTS/Y_BUILD/50/t46.err                                      |     0
+ fias_loader/TESTS/Y_BUILD/50/t46.out                                      | 11758 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ fias_loader/TESTS/remarks.txt                                             |   164 ++
+ 62 files changed, 19715 insertions(+), 224 deletions(-)
+ create mode 100644 fias_loader/TESTS/X0_crt_view.sql
+ delete mode 100644 fias_loader/TESTS/Y_BUILD/05/.~lock._TEST_xxx_adr_area_type.xlsx#
+ delete mode 100644 fias_loader/TESTS/Y_BUILD/05/.~lock._TEST_xxx_adr_street_type.csv#
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/l.err
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/l.out
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/t411.err
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/t411.out
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/t421.err
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/t421.out
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/t431.err
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/t431.out
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/t441.err
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/t441.out
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/t451.err
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/t451.out
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/t461.err
+ create mode 100644 fias_loader/TESTS/Y_BUILD/05/t461.out
+ create mode 100644 fias_loader/TESTS/Y_BUILD/50/t41.err
+ create mode 100644 fias_loader/TESTS/Y_BUILD/50/t41.out
+ create mode 100644 fias_loader/TESTS/Y_BUILD/50/t42.err
+ create mode 100644 fias_loader/TESTS/Y_BUILD/50/t42.out
+ create mode 100644 fias_loader/TESTS/Y_BUILD/50/t43.err
+ create mode 100644 fias_loader/TESTS/Y_BUILD/50/t43.out
+ create mode 100644 fias_loader/TESTS/Y_BUILD/50/t44.err
+ create mode 100644 fias_loader/TESTS/Y_BUILD/50/t44.out
+ create mode 100644 fias_loader/TESTS/Y_BUILD/50/t45.err
+ create mode 100644 fias_loader/TESTS/Y_BUILD/50/t45.out
+ create mode 100644 fias_loader/TESTS/Y_BUILD/50/t46.err
+ create mode 100644 fias_loader/TESTS/Y_BUILD/50/t46.out
+$>
+
+Итоги  Merge request не создаём (непонимаю)
+всё в командной строке и помнить о наличии двух
+репозиториев.

@@ -8,7 +8,6 @@ BEGIN;
 \timing
  --
  SELECT * FROM gar_tmp_pcg_trans.f_adr_area_upd ('gar_tmp', 'gar_tmp', 'gar_tmp');  
-<<<<<<< HEAD
  SELECT * FROM gar_tmp.adr_area_hist  WHERE (id_region = 0) AND (date_create >= (now() - INTERVAL '1 DAY'))
             ORDER BY date_create DESC;
 --
@@ -17,15 +16,6 @@ SELECT x.op_sign, a.* FROM gar_tmp.adr_area a
   
 SELECT * FROM gar_tmp.xxx_adr_area_gap; 
 SELECT * FROM gar_fias.twin_addr_objects WHERE (obj_level IN(0,1,2));
-=======
- SELECT * FROM gar_tmp.adr_area_hist WHERE (id_region = 0) AND (date_create >= (now() - INTERVAL '1 DAY'))
-         ORDER BY date_create DESC;
- --
- SELECT x.*, a.* FROM gar_tmp.adr_area_aux x
-    INNER JOIN gar_tmp.adr_area a ON (x.id_area = a.id_area);
->>>>>>> dc26befa26195012ea353cc0ec482b37e1952329
 
- SELECT * FROM gar_tmp.xxx_adr_area_gap;
-  
 -- ROLLBACK;
 COMMIT;

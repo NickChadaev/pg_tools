@@ -35,11 +35,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_show_data (
     --   Ошибка проявилась на 50 регионе (Московская обл).
     --
     --  2023-10-20 Окно определяется строго по ID типа, а не по его имени.
-<<<<<<< HEAD
     --  2023-11-09 Отказ от разделения объектов по уровням ФИАС, .. ногу сломает.
     --   0 - адресные объекты, 1-  элементы дорожной структуры
-=======
->>>>>>> dc26befa26195012ea353cc0ec482b37e1952329
     -- --------------------------------------------------------------------------------------
     
     WITH RECURSIVE aa1 (
@@ -236,11 +233,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_show_data (
                    ,aa1.level_d
 
                   , max(aa1.change_id) OVER (PARTITION BY aa1.id_addr_parent 
-<<<<<<< HEAD
                                             ,aa1.addr_obj_type_id           -- 2023-10-20
-=======
-                                            ,aa1.addr_obj_type_id  
->>>>>>> dc26befa26195012ea353cc0ec482b37e1952329
                                             ,UPPER(aa1.nm_addr_obj) 
                     ) AS rn
                   
@@ -395,14 +388,8 @@ COMMENT ON FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_show_data (date, bigint, bi
 IS 'Функция подготавливает исходные данные для таблицы-прототипа "gar_tmp.xxx_adr_area"';
 ----------------------------------------------------------------------------------
 -- USE CASE:
-<<<<<<< HEAD
 --    SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data () WHERE (fias_guid = '6a5b8826-dc74-4694-bbba-776daa464be1') OR (id_addr_obj = 75729); -- 1184
 --    SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data () WHERE (id_addr_obj IN (77511, 78550)); -- 1184
-=======
---    SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data () WHERE (nm_addr_obj ilike '%ленина%'); -- 1184
---    SELECT  count (1)  FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data () WHERE (id_addr_obj IN (77511, 78550)); -- 1184
---   26515 / 26520
->>>>>>> dc26befa26195012ea353cc0ec482b37e1952329
 --    SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data () ORDER BY obj_level DESC;
 --  SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data () WHERE (obj_level <> 8) ORDER BY obj_level DESC;  --2082
 --  SELECT aa.* FROM gar_tmp.xxx_adr_area aa WHERE (aa.obj_level <> 8)  ORDER BY tree_d   -- 2076    6 ??

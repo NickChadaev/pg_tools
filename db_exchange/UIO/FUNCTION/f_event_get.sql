@@ -17,13 +17,14 @@ CREATE OR REPLACE FUNCTION uio.f_event_get (
 
 AS 
  $$
- -- ===========================================================
+ -- ==============================================================
  --  2023-03-06 Макет, живёт пока не выяснятся USE CASE  pgq.
  --  2023-04-28  Далее.
  --  2023-05-15  Topic 10+10
  --  2023-11-23  Next  20+10
  --  2023-11-27  lAST WORKER
- -- =========================================================== 
+ --  2023-12-23  Some trubles. Обжегшись на воде, дуем на молоко.
+ -- ============================================================== 
   DECLARE
    
    _exec text;
@@ -45,9 +46,24 @@ AS
           ), z20 AS (
                      DELETE FROM %s AS x USING z10
                          WHERE (x.ev_id = z10.ev_id)
-                     RETURNING *                
+                     RETURNING   x.ev_id
+                                ,x.ev_time 
+                                ,x.ev_type  
+                                ,x.ev_data 
+                                ,x.ev_extra1 
+                                ,x.ev_extra2 
+                                ,x.ev_extra3 
+                                ,x.ev_extra4
                    )
-                      SELECT * FROM z20; 
+                      SELECT  z20.ev_id
+                             ,z20.ev_time 
+                             ,z20.ev_type  
+                             ,z20.ev_data 
+                             ,z20.ev_extra1 
+                             ,z20.ev_extra2 
+                             ,z20.ev_extra3 
+                             ,z20.ev_extra4
+                      FROM z20; 
    $_$;
    
    cPARSE CONSTANT text = 'uio.event_parse';

@@ -11,11 +11,18 @@ BEGIN;
  SELECT * FROM gar_tmp.adr_street_hist WHERE (id_region = 0) AND (date_create >= (now() - INTERVAL '1 DAY'))
         ORDER BY date_create;
 
+<<<<<<< HEAD
 SELECT x.op_sign, s.* FROM gar_tmp.adr_street s 
   INNER JOIN gar_tmp.adr_street_aux x ON (x.id_street = s.id_street);
   
 SELECT * FROM gar_tmp.xxx_adr_street_gap;  
 SELECT * FROM gar_fias.twin_addr_objects WHERE (obj_level IN(0,1,2));
+=======
+ SELECT x.*, a.* FROM gar_tmp.adr_street_aux x
+    INNER JOIN gar_tmp.adr_street a ON (x.id_street = a.id_street);
+
+ SELECT * FROM gar_tmp.xxx_adr_street_gap;
+>>>>>>> dc26befa26195012ea353cc0ec482b37e1952329
   
 -- ROLLBACK;  -- 249
-COMMIT;
+ COMMIT;

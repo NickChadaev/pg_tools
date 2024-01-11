@@ -5,7 +5,11 @@
 --
 CREATE OR REPLACE VIEW gar_tmp_pcg_trans.version
  AS
+<<<<<<< HEAD
  SELECT '$Revision:d640503$ modified $RevDate:2023-11-24$'::text AS version; 
+=======
+ SELECT '$Revision:37fed66$ modified $RevDate:2023-10-24$'::text AS version; 
+>>>>>>> dc26befa26195012ea353cc0ec482b37e1952329
                                                            
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -651,6 +655,7 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_xxx_adr_house_gap_put (
     AS $$
     -- ------------------------------------------------------------------------------
     --  2022-12-03  Создание/Обновление записи в Дома не прошедшие входной контроль
+    --  2023-10-24      ON CONFLICT (nm_fias_guid) DO NOTHING ;
     -- ------------------------------------------------------------------------------
     BEGIN
     
@@ -721,40 +726,7 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_xxx_adr_house_gap_put (
                                 ,COALESCE (p_data.curr_date, current_date)
                                 ,COALESCE (p_data.check_kind, '0')
                       )
-             ON CONFLICT (nm_fias_guid) DO UPDATE
-                SET
-                       id_house              = excluded.id_house
-                      ,id_addr_parent        = excluded.id_addr_parent
-                      ,nm_fias_guid_parent   = excluded.nm_fias_guid_parent
-                      ,nm_parent_obj         = excluded.nm_parent_obj
-                      ,region_code           = excluded.region_code
-                      ,parent_type_id        = excluded.parent_type_id
-                      ,parent_type_name      = excluded.parent_type_name
-                      ,parent_type_shortname = excluded.parent_type_shortname
-                      ,parent_level_id       = excluded.parent_level_id
-                      ,parent_level_name     = excluded.parent_level_name
-                      ,parent_short_name     = excluded.parent_short_name
-                      ,house_num             = excluded.house_num
-                      ,add_num1              = excluded.add_num1
-                      ,add_num2              = excluded.add_num2
-                      ,house_type            = excluded.house_type
-                      ,house_type_name       = excluded.house_type_name
-                      ,house_type_shortname  = excluded.house_type_shortname
-                      ,add_type1             = excluded.add_type1
-                      ,add_type1_name        = excluded.add_type1_name
-                      ,add_type1_shortname   = excluded.add_type1_shortname
-                      ,add_type2             = excluded.add_type2
-                      ,add_type2_name        = excluded.add_type2_name
-                      ,add_type2_shortname   = excluded.add_type2_shortname
-                      ,nm_zipcode            = excluded.nm_zipcode
-                      ,kd_oktmo              = excluded.kd_oktmo
-                      ,kd_okato              = excluded.kd_okato
-                      ,oper_type_id          = excluded.oper_type_id
-                      ,oper_type_name        = excluded.oper_type_name
-                      ,curr_date             = COALESCE (excluded.curr_date, current_date)
-                      ,check_kind            = COALESCE (excluded.check_kind, '0')
-                
-                  WHERE (gar_tmp.xxx_adr_house_gap.nm_fias_guid =  excluded.nm_fias_guid);
+                          ON CONFLICT (nm_fias_guid) DO NOTHING ;
     
     END;
   $$;
@@ -785,7 +757,8 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_xxx_adr_street_gap_put (
     LANGUAGE plpgsql SECURITY DEFINER
     AS $$
     -- -------------------------------------------------------------------------------
-    --  2022-12-03  Создание/Обновление записи в Улицы не прошедшие входной контроль
+    --  2022-12-03  Создание/Обновление записи в Улицы не прошедшие входной контроль 
+    --  2023-10-24               ON CONFLICT (nm_fias_guid) DO NOTHING ;
     -- -------------------------------------------------------------------------------
     BEGIN
    
@@ -827,26 +800,7 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_xxx_adr_street_gap_put (
                               ,COALESCE (p_data.curr_date, current_date)
                               ,COALESCE (p_data.check_kind, '0')
                       )
-             ON CONFLICT (nm_fias_guid) DO UPDATE
-                SET
-                      id_street         = excluded.id_street        
-                     ,nm_street         = excluded.nm_street        
-                     ,nm_street_full    = excluded.nm_street_full   
-                     ,id_street_type    = excluded.id_street_type   
-                     ,nm_street_type    = excluded.nm_street_type   
-                     ,id_area           = excluded.id_area          
-                     ,nm_fias_guid_area = excluded.nm_fias_guid_area
-                     ,kd_kladr          = excluded.kd_kladr         
-                     ,tree_d            = excluded.tree_d           
-                     ,level_d           = excluded.level_d          
-                     ,obj_level         = excluded.obj_level        
-                     ,level_name        = excluded.level_name       
-                     ,oper_type_id      = excluded.oper_type_id     
-                     ,oper_type_name    = excluded.oper_type_name   
-                     ,curr_date         = COALESCE (excluded.curr_date, current_date)          
-                     ,check_kind        = COALESCE (excluded.check_kind, '0')     
-                
-                  WHERE (gar_tmp.xxx_adr_street_gap.nm_fias_guid =  excluded.nm_fias_guid);
+                         ON CONFLICT (nm_fias_guid) DO NOTHING ;
     
     END;
   $$;
@@ -878,6 +832,7 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_xxx_adr_area_gap_put (
     AS $$
     -- ------------------------------------------------------------------------------------------
     --  2022-12-03  Создание/Обновление записи в Адресные объекты не прошедшие входной контроль
+    --  2023-10-24   ON CONFLICT (nm_fias_guid) DO NOTHING 
     -- ------------------------------------------------------------------------------------------
     BEGIN
       INSERT INTO gar_tmp.xxx_adr_area_gap (
@@ -924,29 +879,7 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_xxx_adr_area_gap_put (
                               ,COALESCE (p_data.curr_date, current_date)
                               ,COALESCE (p_data.check_kind, '0')
                       )
-             ON CONFLICT (nm_fias_guid) DO UPDATE
-                SET
-                      id_area             = excluded.id_area            
-                     ,nm_area             = excluded.nm_area            
-                     ,nm_area_full        = excluded.nm_area_full       
-                     ,id_area_type        = excluded.id_area_type       
-                     ,nm_area_type        = excluded.nm_area_type       
-                     ,id_area_parent      = excluded.id_area_parent     
-                     ,nm_fias_guid_parent = excluded.nm_fias_guid_parent
-                     ,kd_oktmo            = excluded.kd_oktmo           
-                     ,kd_okato            = excluded.kd_okato           
-                     ,nm_zipcode          = excluded.nm_zipcode         
-                     ,kd_kladr            = excluded.kd_kladr           
-                     ,tree_d              = excluded.tree_d             
-                     ,level_d             = excluded.level_d            
-                     ,obj_level           = excluded.obj_level          
-                     ,level_name          = excluded.level_name         
-                     ,oper_type_id        = excluded.oper_type_id       
-                     ,oper_type_name      = excluded.oper_type_name     
-                     ,curr_date           = COALESCE (excluded.curr_date, current_date)          
-                     ,check_kind          = COALESCE (excluded.check_kind, '0')         
-                
-                  WHERE (gar_tmp.xxx_adr_area_gap.nm_fias_guid =  excluded.nm_fias_guid);
+             ON CONFLICT (nm_fias_guid) DO NOTHING ;
     
     END;
   $$;
@@ -10730,10 +10663,11 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_ins (
 	        ORDER BY x.tree_d 
      
        LOOP
-           -- Код страны
-           -- часовой пояс
-           -- Полное имя       Это всё забираем у родителя  (полная инфа о родителе.
+          -- Код страны
+          -- часовой пояс
+          -- Полное имя       Это всё забираем у родителя  (полная инфа о родителе.
           
+<<<<<<< HEAD
            -- Тип, вычисляется на локальных данных.
            -- Nick 2022-11-21/2022-12-05
            _id_area_type := NULL;
@@ -10764,7 +10698,39 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_ins (
            END IF;
            --
            _parent := gar_tmp_pcg_trans.f_adr_area_get (p_schema_etl, _data.nm_fias_guid_parent);
+=======
+          -- Тип, вычисляется на локальных данных.
+          -- Nick 2022-11-21/2022-12-05
+          _id_area_type := NULL;
+          _area_type_short_name := NULL;
+          
+          IF (EXISTS (SELECT 1 FROM gar_tmp.xxx_adr_area_type 
+                                 WHERE (_data.id_area_type = ANY (fias_ids))
+                     )
+              ) 
+            THEN  
+               SELECT id_area_type, nm_area_type_short 
+                         INTO _id_area_type, _area_type_short_name
+               FROM gar_tmp_pcg_trans.f_adr_type_get (p_schema_etl, _data.id_area_type);
+               
+            ELSIF (_data.id_area_type IS NOT NULL) 
+                THEN
+                     CALL gar_tmp_pcg_trans.p_xxx_adr_area_gap_put (_data);
+          END IF;           
+          --
+          -- 2023-10-23
+          IF ((_id_area_type IS NULL) OR (_area_type_short_name IS NULL) OR
+                         (_data.nm_area IS NULL) 
+          )
+            THEN
+                 _data.check_kind := 2;
+                  CALL gar_tmp_pcg_trans.p_xxx_adr_area_gap_put (_data);
+                  CONTINUE; -- 2022-11-21/2022-12-05
+          END IF;
+>>>>>>> dc26befa26195012ea353cc0ec482b37e1952329
           -- 
+          _parent := gar_tmp_pcg_trans.f_adr_area_get (p_schema_etl, _data.nm_fias_guid_parent);
+          --
           -- 2022-12-27 Такая ситуация может возникнуть крайне редко.
           -- 2023-10-23 Но возникает, последствия не хорошие, теряются "дети".
           --
@@ -10776,8 +10742,13 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_ins (
                   _data.check_kind := 2;
                    CALL gar_tmp_pcg_trans.p_xxx_adr_area_gap_put (_data);            
                    CONTINUE; 
+<<<<<<< HEAD
           END IF;              
                        
+=======
+          END IF;             
+          -- 
+>>>>>>> dc26befa26195012ea353cc0ec482b37e1952329
           _id_area := nextval('gar_tmp.obj_seq'); 
           CALL gar_tmp_pcg_trans.p_adr_area_ins (
                   p_schema_name       := p_schema_data                    --  text  
@@ -10866,7 +10837,11 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_upd (
     --  2022-10-19 - Вспомогательные таблицы.
     --  2022-11-21 - Преобразование типов ФИАС -> ЕС НСИ.      
     --  2023-10-23 - Родитель не находится, запись помещается в GAP-таблицу.
+<<<<<<< HEAD
     --               _data.check_kind := 2    
+=======
+    --               _data.check_kind := 2        
+>>>>>>> dc26befa26195012ea353cc0ec482b37e1952329
     -- ---------------------------------------------------------------------------------
     --     p_schema_data   -- Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
     --    ,p_schema_etl    -- Схема эталон, обычно локальный сервер, копия p_schema_data 
@@ -10942,8 +10917,13 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_upd (
                   _data.check_kind := 2;
                    CALL gar_tmp_pcg_trans.p_xxx_adr_area_gap_put (_data);
                    CONTINUE; -- 2022-11-21/2022-12-05
+<<<<<<< HEAD
            END IF;
            
+=======
+           END IF;           
+           --         
+>>>>>>> dc26befa26195012ea353cc0ec482b37e1952329
           _parent := gar_tmp_pcg_trans.f_adr_area_get (p_schema_etl, _data.nm_fias_guid_parent);
           -- 
           -- 2022-12-27 Такая ситуация может возникнуть крайне редко.
@@ -10957,8 +10937,12 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_upd (
                   _data.check_kind := 2;
                    CALL gar_tmp_pcg_trans.p_xxx_adr_area_gap_put (_data);            
                    CONTINUE; 
+<<<<<<< HEAD
           END IF;              
           
+=======
+          END IF; 
+>>>>>>> dc26befa26195012ea353cc0ec482b37e1952329
           CALL gar_tmp_pcg_trans.p_adr_area_upd (
                   p_schema_name       := p_schema_data                    --  text  
                  ,p_schema_h          := p_schema_hist   
@@ -11054,7 +11038,11 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_ins (
     --  2022-10-18 - Вспомогательные таблицы.
     --  2022-11-21 - Преобразование типов ФИАС -> ЕС НСИ. 
     --  2023-10-23 - Родитель не находится, запись помещается в GAP-таблицу.
+<<<<<<< HEAD
     --               _data.check_kind := 2    
+=======
+    --               _data.check_kind := 2        
+>>>>>>> dc26befa26195012ea353cc0ec482b37e1952329
     -- --------------------------------------------------------------------------------
     --   p_schema_data   -- Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
     --   p_schema_etl    -- Схема эталон, обычно локальный сервер, копия p_schema_data 
@@ -11115,8 +11103,14 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_ins (
             ELSIF (_data.id_street_type IS NOT NULL) 
                 THEN
                      CALL gar_tmp_pcg_trans.p_xxx_adr_street_gap_put(_data);
+<<<<<<< HEAD
           END IF; 
           
+=======
+          END IF;           
+          -- Nick 2022-11-21/2022-12-05   
+
+>>>>>>> dc26befa26195012ea353cc0ec482b37e1952329
           -- 2023-10-23
           IF ((_id_street_type IS NULL) OR (_street_type_short_name IS NULL)  
               )
@@ -11126,22 +11120,34 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_ins (
                    CONTINUE; -- 2022-11-21/2022-12-05
           END IF;
           
+<<<<<<< HEAD
           -- 2023-11-23
           _id_area := (gar_tmp_pcg_trans.f_adr_area_get (p_schema_etl, _data.nm_fias_guid_area)).id_area;
           IF (_id_area IS NULL)
             THEN
               _id_area := (gar_tmp_pcg_trans.f_adr_street_get (p_schema_etl, _data.nm_fias_guid_area)).id_area;
           END IF;
+=======
+          _parent := gar_tmp_pcg_trans.f_adr_area_get (p_schema_etl, _data.nm_fias_guid_area);
+>>>>>>> dc26befa26195012ea353cc0ec482b37e1952329
           
           -- 2022-12-27 Такая ситуация может возникнуть крайне редко.
           -- 2023-10-23 Но возникает, последствия нехорошие, теряются "дети".
           --
+<<<<<<< HEAD
           IF (_id_area IS NULL) OR (_data.nm_street IS NULL)
+=======
+          IF (_parent.id_area IS NULL) OR (_data.nm_street IS NULL)
+>>>>>>> dc26befa26195012ea353cc0ec482b37e1952329
             THEN
                   _data.check_kind := 2;
                    CALL gar_tmp_pcg_trans.p_xxx_adr_street_gap_put (_data);            
                    CONTINUE; 
+<<<<<<< HEAD
           END IF;           
+=======
+          END IF;            
+>>>>>>> dc26befa26195012ea353cc0ec482b37e1952329
           
           _id_street := nextval(' gar_tmp.obj_seq');                           
 
@@ -11230,7 +11236,11 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_upd (
     --  2022-10-18 - Вспомогательные таблицы.
     --  2022-11-21 - Преобразование типов ФИАС -> ЕС НСИ.  
     --  2023-10-23 - Родитель не находится, запись помещается в GAP-таблицу.
+<<<<<<< HEAD
     --               _data.check_kind := 2    
+=======
+    --               _data.check_kind := 2        
+>>>>>>> dc26befa26195012ea353cc0ec482b37e1952329
     -- --------------------------------------------------------------------------
     --  p_schema_data   -- Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
     --  p_schema_etl    -- Схема эталон, обычно локальный сервер, копия p_schema_data 
@@ -11292,7 +11302,11 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_upd (
                 THEN
                      CALL gar_tmp_pcg_trans.p_xxx_adr_street_gap_put(_data);
           END IF;           
+<<<<<<< HEAD
 --
+=======
+ 
+>>>>>>> dc26befa26195012ea353cc0ec482b37e1952329
           -- 2023-10-23
           IF ((_id_street_type IS NULL) OR (_street_type_short_name IS NULL)  
               )
@@ -11300,6 +11314,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_upd (
                   _data.check_kind := 2;
                    CALL gar_tmp_pcg_trans.p_xxx_adr_street_gap_put (_data);
                    CONTINUE; -- 2022-11-21/2022-12-05
+<<<<<<< HEAD
           END IF;          
           --    
           -- 2023-11-23
@@ -11308,16 +11323,29 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_upd (
             THEN
               _id_area := (gar_tmp_pcg_trans.f_adr_street_get (p_schema_etl, _data.nm_fias_guid_area)).id_area;
           END IF;
+=======
+          END IF;            
+         
+          _parent := gar_tmp_pcg_trans.f_adr_area_get (p_schema_etl, _data.nm_fias_guid_area);
+>>>>>>> dc26befa26195012ea353cc0ec482b37e1952329
           -- 
           -- 2022-12-27 Такая ситуация может возникнуть крайне редко.
           -- 2023-10-23 Но возникает, последствия не хорошие, теряются "дети".
           --
+<<<<<<< HEAD
           IF (_id_area IS NULL) OR (_data.nm_street IS NULL)
+=======
+          IF (_parent.id_area IS NULL) OR (_data.nm_street IS NULL)
+>>>>>>> dc26befa26195012ea353cc0ec482b37e1952329
             THEN
                   _data.check_kind := 2;
                    CALL gar_tmp_pcg_trans.p_xxx_adr_street_gap_put (_data);            
                    CONTINUE; 
+<<<<<<< HEAD
           END IF;             
+=======
+          END IF;
+>>>>>>> dc26befa26195012ea353cc0ec482b37e1952329
           
           CALL gar_tmp_pcg_trans.p_adr_street_upd (
               p_schema_name       := p_schema_data                    --  text  
@@ -11454,7 +11482,11 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_ins (
     -- ----------------------------------------------------------------------------------------
     --   2022-05-31 - Уточняю определение родительского объекта и правила вычисления типов.   
     --   2022-10-18 - Вспомогательные таблицы.
+<<<<<<< HEAD
     --   2022-11-21 - Преобразование типов ФИАС -> ЕС НСИ.  
+=======
+    --   2022-11-21 - Преобразование типов ФИАС -> ЕС НСИ.
+>>>>>>> dc26befa26195012ea353cc0ec482b37e1952329
     --   2023-10-23 - Родитель не находится, запись помещается в GAP-таблицу. _data.check_kind := 2
     -- ----------------------------------------------------------------------------------------
     --     p_schema_data   -- Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
@@ -11522,7 +11554,11 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_ins (
              _id_area   := (gar_tmp_pcg_trans.f_adr_area_get (p_schema_etl, _data.nm_fias_guid_parent)).id_area;   
              _id_street := NULL;  
          END IF;
+<<<<<<< HEAD
          --  
+=======
+         --
+>>>>>>> dc26befa26195012ea353cc0ec482b37e1952329
          IF (_id_area IS NULL)     -- НЕ были загружены Ни улицы, Ни адресные объекты.
            THEN                    -- ??? Костыль 
                  _data.check_kind := 2;
@@ -11555,8 +11591,13 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_ins (
                  _data.check_kind := 2;
                  CALL gar_tmp_pcg_trans.p_xxx_adr_house_gap_put (_data);
                  CONTINUE;  
+<<<<<<< HEAD
          END IF;
          --
+=======
+         END IF;         
+         
+>>>>>>> dc26befa26195012ea353cc0ec482b37e1952329
          _nm_house_full := '';
          _nm_house_full := _nm_house_full || _nm_house_type_1 || ' ' || _data.house_num || ' ';
          
@@ -11817,9 +11858,14 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_upd (
     -- -----------------------------------------------------------------------------------
     --   2022-05-31 Уточняю определение родительского объекта и правила вычисления типов.    
     --   2022-10-18 Вспомогательные таблицы..
+<<<<<<< HEAD
     --   2022-11-21 - Преобразование типов ФИАС -> ЕС НСИ.
     --   2023-10-23 - Родитель не находится, запись помещается в GAP-таблицу. _data.check_kind := 2
     --   2023-11-21 - Окончательный отказ от ФИАСовского уровня объектов.    
+=======
+    --   2022-11-21 - Преобразование типов ФИАС -> ЕС НСИ.      
+    --   2023-10-23 - Родитель не находится, запись помещается в GAP-таблицу. _data.check_kind := 2    
+>>>>>>> dc26befa26195012ea353cc0ec482b37e1952329
     -- -------------------------------------------------------------------------  
     --     p_schema_data    -- Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
     --    ,p_schema_etl     -- Схема эталон, обычно локальный сервер, копия p_schema_data 
@@ -11882,6 +11928,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_upd (
        LOOP
          -- 2023-11-21 Отказ от ФИАСовского уровня объектов.
          
+<<<<<<< HEAD
          _parent := gar_tmp_pcg_trans.f_adr_street_get (p_schema_etl, _data.nm_fias_guid_parent);
          _id_area   := _parent.id_area;   
          _id_street := _parent.id_street;    
@@ -11899,6 +11946,27 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_upd (
                  CONTINUE;  
          END IF;
          
+=======
+         IF (_data.parent_level_id IN (8, 9))  -- ??
+           THEN
+              _parent := gar_tmp_pcg_trans.f_adr_street_get (p_schema_etl, _data.nm_fias_guid_parent);
+              _id_area   := _parent.id_area;   
+              _id_street := _parent.id_street;    
+           
+           ELSE
+            _id_area   := (gar_tmp_pcg_trans.f_adr_area_get (p_schema_etl, _data.nm_fias_guid_parent)).id_area;   
+            _id_street := NULL;  
+           
+         END IF;
+         --
+         IF (_id_area IS NULL)        -- НЕ были загружены Ни улицы, Ни адресные объекты.
+           THEN                       -- 2022-05-31
+                 _data.check_kind := 2;
+                 CALL gar_tmp_pcg_trans.p_xxx_adr_house_gap_put (_data);
+                 CONTINUE;  
+         END IF;           
+         --
+>>>>>>> dc26befa26195012ea353cc0ec482b37e1952329
          _id_house_type_1 := NULL; 
          _nm_house_type_1 := NULL;
          --
@@ -12280,8 +12348,11 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_show_data (
     --   Ошибка проявилась на 50 регионе (Московская обл).
     --
     --  2023-10-20 Окно определяется строго по ID типа, а не по его имени.
+<<<<<<< HEAD
     --  2023-11-09 Отказ от разделения объектов по уровням ФИАС, .. ногу сломает.
     --   0 - адресные объекты, 1-  элементы дорожной структуры
+=======
+>>>>>>> dc26befa26195012ea353cc0ec482b37e1952329
     -- --------------------------------------------------------------------------------------
     
     WITH RECURSIVE aa1 (
@@ -12478,7 +12549,11 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_show_data (
                    ,aa1.level_d
 
                   , max(aa1.change_id) OVER (PARTITION BY aa1.id_addr_parent 
+<<<<<<< HEAD
                                             ,aa1.addr_obj_type_id           -- 2023-10-20
+=======
+                                            ,aa1.addr_obj_type_id  
+>>>>>>> dc26befa26195012ea353cc0ec482b37e1952329
                                             ,UPPER(aa1.nm_addr_obj) 
                     ) AS rn
                   
@@ -12633,8 +12708,14 @@ COMMENT ON FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_show_data (date, bigint, bi
 IS 'Функция подготавливает исходные данные для таблицы-прототипа "gar_tmp.xxx_adr_area"';
 ----------------------------------------------------------------------------------
 -- USE CASE:
+<<<<<<< HEAD
 --    SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data () WHERE (fias_guid = '6a5b8826-dc74-4694-bbba-776daa464be1') OR (id_addr_obj = 75729); -- 1184
 --    SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data () WHERE (id_addr_obj IN (77511, 78550)); -- 1184
+=======
+--    SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data () WHERE (nm_addr_obj ilike '%ленина%'); -- 1184
+--    SELECT  count (1)  FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data () WHERE (id_addr_obj IN (77511, 78550)); -- 1184
+--   26515 / 26520
+>>>>>>> dc26befa26195012ea353cc0ec482b37e1952329
 --    SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data () ORDER BY obj_level DESC;
 --  SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data () WHERE (obj_level <> 8) ORDER BY obj_level DESC;  --2082
 --  SELECT aa.* FROM gar_tmp.xxx_adr_area aa WHERE (aa.obj_level <> 8)  ORDER BY tree_d   -- 2076    6 ??

@@ -57,6 +57,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_house_upd (
     --  2022-05-31 COALESCE только для NOT NULL полей.    
     -- ------------------------------------------------------------------------------------
     --  2022-10-18 Вспомогательные таблицы..
+    --  2024-01-18 Ревизия кода.
     -- -------------------------------------------------------------------------------     
     
     DECLARE
@@ -177,21 +178,21 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.fp_adr_house_upd (
        THEN  
           IF 
              -- 2022-05-31
-             ((_rr.id_area         IS DISTINCT FROM p_id_area) AND (p_id_area IS NOT NULL)) OR
-             ((_rr.id_street       IS DISTINCT FROM p_id_street)      ) OR -- AND (p_id_street       IS NOT NULL)
-             ((_rr.id_house_type_1 IS DISTINCT FROM p_id_house_type_1)) OR -- AND (p_id_house_type_1 IS NOT NULL)
-             ((_rr.id_house_type_2 IS DISTINCT FROM p_id_house_type_2)) OR -- AND (p_id_house_type_2 IS NOT NULL)
-             ((_rr.id_house_type_3 IS DISTINCT FROM p_id_house_type_3)) OR -- AND (p_id_house_type_3 IS NOT NULL)
+             ((_rr.id_area        IS DISTINCT FROM p_id_area) AND (p_id_area IS NOT NULL)) OR
+             (_rr.id_street       IS DISTINCT FROM p_id_street)       OR -- AND (p_id_street       IS NOT NULL)
+             (_rr.id_house_type_1 IS DISTINCT FROM p_id_house_type_1) OR -- AND (p_id_house_type_1 IS NOT NULL)
+             (_rr.id_house_type_2 IS DISTINCT FROM p_id_house_type_2) OR -- AND (p_id_house_type_2 IS NOT NULL)
+             (_rr.id_house_type_3 IS DISTINCT FROM p_id_house_type_3) OR -- AND (p_id_house_type_3 IS NOT NULL)
              --  2022-01-27
-             ((_rr.nm_house_1 IS DISTINCT FROM p_nm_house_1)) OR           --  AND (p_nm_house_1 IS NOT NULL)
-             ((_rr.nm_house_2 IS DISTINCT FROM p_nm_house_2)) OR           --  AND (p_nm_house_2 IS NOT NULL)
-             ((_rr.nm_house_3 IS DISTINCT FROM p_nm_house_3)) OR           --  AND (p_nm_house_3 IS NOT NULL)
+             (_rr.nm_house_1 IS DISTINCT FROM p_nm_house_1) OR  --  AND (p_nm_house_1 IS NOT NULL)
+             (_rr.nm_house_2 IS DISTINCT FROM p_nm_house_2) OR  --  AND (p_nm_house_2 IS NOT NULL)
+             (_rr.nm_house_3 IS DISTINCT FROM p_nm_house_3) OR  --  AND (p_nm_house_3 IS NOT NULL)
              --
              ((_rr.nm_fias_guid IS DISTINCT FROM p_nm_fias_guid) AND (p_nm_fias_guid IS NOT NULL)) OR
              --  2022-01-27                      
              ((upper(_rr.nm_house_full) IS DISTINCT FROM upper(p_nm_house_full)) AND (p_nm_house_full IS NOT NULL)) OR                  
-             ((_rr.nm_zipcode      IS DISTINCT FROM p_nm_zipcode)) OR -- AND (p_nm_zipcode    IS NOT NULL)
-             ((_rr.kd_oktmo        IS DISTINCT FROM p_kd_oktmo)  )    -- AND (p_kd_oktmo      IS NOT NULL)
+             (_rr.nm_zipcode      IS DISTINCT FROM p_nm_zipcode) OR -- AND (p_nm_zipcode    IS NOT NULL)
+             (_rr.kd_oktmo        IS DISTINCT FROM p_kd_oktmo)    -- AND (p_kd_oktmo      IS NOT NULL)
              -- 2022-05-31
                 
             THEN --> UPDATE

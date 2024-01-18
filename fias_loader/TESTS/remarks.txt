@@ -77,3 +77,11 @@
     
   Обновления сществующей версии.
   
+  
+2024-01-18   Принудительное обновление почтового кода -- только для адресных объектов.
+----------      без использования сохранняющей конструкции COALESCE.
+
+	изменено:      fias_loader/DBMS/GAR_TMP_PCG_TRANS/FUNCTION/fp_adr_house_upd.sql  Ревизия кода
+	изменено:      fias_loader/DBMS/GAR_TMP_PCG_TRANS/PROCEDURE/p_adr_area_ins.sql
+	изменено:      fias_loader/DBMS/GAR_TMP_PCG_TRANS/PROCEDURE/p_adr_area_upd.sql
+	изменено:      fias_loader/TESTS/remarks.txt

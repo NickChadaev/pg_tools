@@ -30,14 +30,13 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_upd (
 )
     LANGUAGE plpgsql SECURITY DEFINER
     AS $$
-    -- -------------------------------------------------------------------------------
-    --    2021-12-14  Создание/Обновление записи в ОТДАЛЁННОМ справочнике  
-    --                   адресных пространств
-    --    2021-12-21  p_oper_type_id = 20. Изменение. 
-    --                  Проверяем на наличие нарушителей уникальности  
-    --    2022-02-01  Расширенная обработка нарушения уникальности по второму индексу
-    --    2022-02-10  Управление созданием истории.
-    --    2022-02-21  Опция ONLY 
+    -- ---------------------------------------------------------------------------------------
+    --   2021-12-14  Создание/Обновление записи в ОТДАЛЁННОМ справочнике адресных пространств
+    --   2021-12-21  p_oper_type_id = 20. Изменение. 
+    --                 Проверяем на наличие нарушителей уникальности  
+    --   2022-02-01  Расширенная обработка нарушения уникальности по второму индексу
+    --   2022-02-10  Управление созданием истории.
+    --   2022-02-21  Опция ONLY 
     -- -------------------------------------------------------------------------------
     --   2022-05-19 "Cause belli" - квартет "id_area", upper("nm_house_full",
     --  "id_street", "id_house_type_1" не обеспечивает уникальность кортежа,
@@ -57,7 +56,9 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_upd (
     --   2022-11-07 Увеличено количество защищённых (от обновления NULL) столбцов
     --   2023-03-15 Но для таких столбцов: "p_kd_oktmo", "p_kd_okato", "p_nm_zipcode"
     --    "p_kd_kladr" процесс обновления могут запустить только NOT NULL значения.
-    -- -------------------------------------------------------------------------------     
+    -- -------------------------------------------------------------------------------
+    --   2024-01-18 Отказ от COALESCE при выполнении обновления "nm_zipcode".
+    -- ---------------------------------------------------------------------------------------
     DECLARE
       _exec text;
       
@@ -122,7 +123,7 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_upd (
                 ,id_data_etalon = %L::bigint
                  --
                 ,kd_okato   = COALESCE (%L, kd_okato)::varchar(11)         -- 2022-11-07                      
-                ,nm_zipcode = COALESCE (%L, nm_zipcode)::varchar(20)                           
+                ,nm_zipcode = %L::varchar(20)                              -- 2024-01-18                        
                 ,kd_kladr   = COALESCE (%L, kd_kladr)::varchar(15)                
                 ,vl_addr_latitude  = %L::numeric                               
                 ,vl_addr_longitude = %L::numeric                               
@@ -149,8 +150,8 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_upd (
        THEN
         IF 
           ((_rr.id_country     IS DISTINCT FROM p_id_country)     AND (p_id_country IS NOT NULL)) OR                 
-          ((_rr.id_area_parent IS DISTINCT FROM p_id_area_parent)) OR  --  AND (p_id_area_parent IS NOT NULL)                
-          ((_rr.id_area_type   IS DISTINCT FROM p_id_area_type))   OR  --  AND (p_id_area_type   IS NOT NULL)  
+          (_rr.id_area_parent  IS DISTINCT FROM p_id_area_parent) OR  --  AND (p_id_area_parent IS NOT NULL)                
+          (_rr.id_area_type    IS DISTINCT FROM p_id_area_type)   OR  --  AND (p_id_area_type   IS NOT NULL)  
           ((upper(_rr.nm_area) IS DISTINCT FROM upper(p_nm_area)) AND (p_nm_area IS NOT NULL)) OR      
           -- 2022-01-28 
           ((_rr.nm_fias_guid   IS DISTINCT FROM p_nm_fias_guid) AND (p_nm_fias_guid  IS NOT NULL)) OR 
@@ -158,8 +159,8 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_area_upd (
           
           ((_rr.kd_oktmo   IS DISTINCT FROM p_kd_oktmo  ) AND (p_kd_oktmo   IS NOT NULL)) OR -- 2023-03-15: В ОБНОВЛЕНИИ  
           ((_rr.kd_okato   IS DISTINCT FROM p_kd_okato  ) AND (p_kd_okato   IS NOT NULL)) OR -- принимают участие только 
-          ((_rr.nm_zipcode IS DISTINCT FROM p_nm_zipcode) AND (p_nm_zipcode IS NOT NULL)) OR -- значиые величины.  
-          ((_rr.kd_kladr   IS DISTINCT FROM p_kd_kladr  ) AND (p_kd_kladr   IS NOT NULL))    -- 
+          (_rr.nm_zipcode  IS DISTINCT FROM p_nm_zipcode) OR                                 -- 2024-01-18 А этот нет.-- AND (p_nm_zipcode IS NOT NULL)
+          ((_rr.kd_kladr   IS DISTINCT FROM p_kd_kladr  ) AND (p_kd_kladr   IS NOT NULL))    -- значимые величины
          
         THEN
            IF p_sw

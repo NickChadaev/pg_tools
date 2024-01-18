@@ -26,12 +26,13 @@
 #-------------------------------------------------------------------------------
 X;;;Start process, Сборка процессингового пакета;
 #                        
-5;version.sql;;-- Версия 37fed66/2023-10-24; 
+5;version.sql;;-- Версия d640503/2023-11-24; 
 5;drop_objects.sql;;-- drop_objects.sql;
 5;../GAR_TMP/CreateViewGarTmp.sql;;-- CreateViewGarTmp.sql;
 #
 5;FUNCTION/f_xxx_ob_seq_crt.sql  ;;-- f_xxx_ob_seq_crt.sql  ;
 5;FUNCTION/f_xxx_replace_char.sql;;-- f_xxx_replace_char.sql;
+5;FUNCTION/f_xxx_adr_object_get_level.sql;;-- f_xxx_adr_object_get_level.sql;
 #
 5;PROCEDURE/p_adr_area_type_set.sql  ;;-- p_adr_area_type_set.sql  ;
 5;PROCEDURE/p_adr_street_type_set.sql;;-- p_adr_street_type_set.sql;

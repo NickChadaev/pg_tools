@@ -26,9 +26,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_obj_fias_show_data_0 (
 		        ,aa.tree_d
 		        ,aa.level_d
                 
-             FROM gar_tmp.xxx_adr_area aa  
-                    WHERE (aa.obj_level <> 8)  -- 2023-10-04 ..  Х ....тень была
-		        ORDER BY tree_d
+             FROM gar_tmp.xxx_adr_area aa WHERE (aa.obj_level = 0)  -- 2023-11-09 ..  Х ....тень была
+		          ORDER BY tree_d
       )
                 INSERT INTO %I
                        SELECT 
@@ -60,6 +59,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_obj_fias_show_data_0 (
     -- --------------------------------------------------------------------------
     -- 2022-12-13 Условие выбора (aa.obj_level < 8)
     -- 2023-10-04 Меняю условие выбора: (aa.obj_level <> 8)
+    -- 2023-11-09 Отказ от разделения объектов по уровням ФИАС, .. ногу сломает.
+    --   0 - адресные объекты, 1-  элементы дорожной структуры    
     -- --------------------------------------------------------------------------
     CREATE TEMP TABLE IF NOT EXISTS __adr_area_fias (LIKE gar_tmp.xxx_obj_fias)
         ON COMMIT DROP;

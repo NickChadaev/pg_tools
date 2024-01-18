@@ -8,7 +8,6 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_xxx_adr_area_gap_put (
     AS $$
     -- ------------------------------------------------------------------------------------------
     --  2022-12-03  Создание/Обновление записи в Адресные объекты не прошедшие входной контроль
-    --  2023-10-24   ON CONFLICT (nm_fias_guid) DO NOTHING 
     -- ------------------------------------------------------------------------------------------
     BEGIN
       INSERT INTO gar_tmp.xxx_adr_area_gap (
@@ -55,7 +54,29 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_xxx_adr_area_gap_put (
                               ,COALESCE (p_data.curr_date, current_date)
                               ,COALESCE (p_data.check_kind, '0')
                       )
-             ON CONFLICT (nm_fias_guid) DO NOTHING ;
+             ON CONFLICT (nm_fias_guid) DO UPDATE
+                SET
+                      id_area             = excluded.id_area            
+                     ,nm_area             = excluded.nm_area            
+                     ,nm_area_full        = excluded.nm_area_full       
+                     ,id_area_type        = excluded.id_area_type       
+                     ,nm_area_type        = excluded.nm_area_type       
+                     ,id_area_parent      = excluded.id_area_parent     
+                     ,nm_fias_guid_parent = excluded.nm_fias_guid_parent
+                     ,kd_oktmo            = excluded.kd_oktmo           
+                     ,kd_okato            = excluded.kd_okato           
+                     ,nm_zipcode          = excluded.nm_zipcode         
+                     ,kd_kladr            = excluded.kd_kladr           
+                     ,tree_d              = excluded.tree_d             
+                     ,level_d             = excluded.level_d            
+                     ,obj_level           = excluded.obj_level          
+                     ,level_name          = excluded.level_name         
+                     ,oper_type_id        = excluded.oper_type_id       
+                     ,oper_type_name      = excluded.oper_type_name     
+                     ,curr_date           = COALESCE (excluded.curr_date, current_date)          
+                     ,check_kind          = COALESCE (excluded.check_kind, '0')         
+                
+                  WHERE (gar_tmp.xxx_adr_area_gap.nm_fias_guid =  excluded.nm_fias_guid);
     
     END;
   $$;

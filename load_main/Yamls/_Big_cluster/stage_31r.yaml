@@ -1,7 +1,7 @@
 #
 #  2022-03-11 - Stage_3. Новая реализация, только управление процессами, вызовы функций 
 #                             в коде "stage_3_proc.py".
-#  Version 0.3.0 Build 2022-12-06. 
+#  Version 0.3.1 Build 2022-11-13. 
 #
 control_params:
     stage_3_I: True
@@ -46,16 +46,23 @@ gar_fias_set_gap:
     descr: Заполнение таблицы с активными предшественниками
     params_adr_area:                       
         p_skip: False
+        p_date: DATE(current_date)
+        p_obj_level: 16
+        p_qty: 1
+        
     params_adr_house:                       
         p_skip: True
 #
 gar_fias_update_children:  
     descr: Обработка таблицы с активными предшественниками, переподчинение и деактивация
-    param_adr_area:
+    param_adr_area_update:
         p_skip: False
-        p_date_1: DATE(current_date)    # НЕ ИСПОЛЬЗУЕТСЯ.
-        p_obj_level: [6,7,8] 
-        p_date_2: DATE(current_date)  # Дата, на которую выбираются данные !!!
+#        
+gar_fias_addr_obj_select_twins:
+    descr: Повторное/Контрольное отображение дубликатов
+    param_select_twin:
+        p_skip: False
+        p_qty: 1           
 #  
 # stage_3_0
 #
@@ -78,7 +85,7 @@ gar_tmp_clear_tbl:
     descr: Очистка данных во временной схеме.
     params:                       
         p_skip: False
-        p_sw: [1,2] 
+        p_sw: [1,2,7] 
 #    
 gar_tmp_switch_indexies:   
     descr: Смена индексного покрытия в отдалённых таблицах
@@ -149,7 +156,7 @@ dict_upgrading:
            descr_1: Промежуточный справочник типов адресных пространств 
            p_skip_1: True   
            p_stop_list_1: []
-           p_add_query_1: UPDATE gar_tmp.xxx_adr_area_type SET fias_ids = fias_ids || 340::bigint WHERE (id_area_type = 51); 
+           p_add_query_1: 
            p_control_query_1: SELECT * FROM gar_tmp.xxx_adr_area_type ORDER BY 2;
            #                  
            descr_2: Промежуточный справочник типов улиц

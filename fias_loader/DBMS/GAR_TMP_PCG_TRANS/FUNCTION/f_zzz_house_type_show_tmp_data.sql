@@ -9,6 +9,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_zzz_house_type_show_tmp_data (
   $$
     -- ---------------------------------------------------------------
     --  2022-11-14 Nick Промежуточный набор данных.
+    --  2023-11-15 Модификация, гармонизация справочников (устраняются пересечения)    
     -- ----------------------------------------------------------------
     DECLARE
        _exec   text;
@@ -31,7 +32,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_zzz_house_type_show_tmp_data (
                   
             FROM gar_tmp.xxx_adr_house_type x
             
-             LEFT JOIN %I.adr_house_type t 
+             RIGHT JOIN %I.adr_house_type t -- 2023-11-15 LEFT
                    ON (x.fias_row_key = gar_tmp_pcg_trans.f_xxx_replace_char (t.nm_house_type))
              ORDER BY t.id_house_type;       
        $_$;

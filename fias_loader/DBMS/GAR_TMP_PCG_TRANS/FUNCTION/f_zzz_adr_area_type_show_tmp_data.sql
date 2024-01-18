@@ -7,9 +7,10 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_zzz_adr_area_type_show_tmp_data (
     LANGUAGE plpgsql
  AS
   $$
-    -- ---------------------------------------------------------------
+    -- -----------------------------------------------------------------------------
     --  2022-11-14 Nick Промежуточный набор данных.
-    -- ----------------------------------------------------------------
+    --  2023-11-15 Модификация, гармонизация справочников (устраняются пересечения)
+    -- -----------------------------------------------------------------------------
     DECLARE
        _exec   text;
        _select text = $_$  
@@ -31,7 +32,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_zzz_adr_area_type_show_tmp_data (
                   
             FROM gar_tmp.xxx_adr_area_type x 
             
-             LEFT JOIN %I.adr_area_type t
+             RIGHT JOIN %I.adr_area_type t  -- 2023-11-15  LEFT
                    ON (x.fias_row_key = gar_tmp_pcg_trans.f_xxx_replace_char (t.nm_area_type))
              ORDER BY t.id_area_type;       
        $_$;
@@ -56,4 +57,4 @@ IS 'Функция отображает "тип adr_area" из промежут�
 -- USE CASE:
 --           SELECT * FROM gar_tmp_pcg_trans.f_zzz_adr_area_type_show_tmp_data ('gar_tmp'); 
 --           SELECT * FROM gar_tmp_pcg_trans.f_zzz_adr_area_type_show_tmp_data ('unnsi'); 
---
+--           SELECT * FROM gar_tmp_pcg_trans.f_zzz_adr_area_type_show_tmp_data ('gar_tmp') WHERE (id_area_type_tmp IS NULL);

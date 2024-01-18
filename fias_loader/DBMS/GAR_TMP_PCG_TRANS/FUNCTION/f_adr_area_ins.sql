@@ -90,41 +90,41 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_ins (
 	        ORDER BY x.tree_d 
      
        LOOP
-          -- Код страны
-          -- часовой пояс
-          -- Полное имя       Это всё забираем у родителя  (полная инфа о родителе.
+           -- Код страны
+           -- часовой пояс
+           -- Полное имя       Это всё забираем у родителя  (полная инфа о родителе.
           
-          -- Тип, вычисляется на локальных данных.
-          -- Nick 2022-11-21/2022-12-05
-          _id_area_type := NULL;
-          _area_type_short_name := NULL;
-          
-          IF (EXISTS (SELECT 1 FROM gar_tmp.xxx_adr_area_type 
-                                 WHERE (_data.id_area_type = ANY (fias_ids))
-                     )
-              ) 
-            THEN  
-               SELECT id_area_type, nm_area_type_short 
-                         INTO _id_area_type, _area_type_short_name
-               FROM gar_tmp_pcg_trans.f_adr_type_get (p_schema_etl, _data.id_area_type);
-               
-            ELSIF (_data.id_area_type IS NOT NULL) 
-                THEN
-                     CALL gar_tmp_pcg_trans.p_xxx_adr_area_gap_put (_data);
-          END IF;           
-          --
-          -- 2023-10-23
-          IF ((_id_area_type IS NULL) OR (_area_type_short_name IS NULL) OR
-                         (_data.nm_area IS NULL) 
-          )
-            THEN
-                 _data.check_kind := 2;
-                  CALL gar_tmp_pcg_trans.p_xxx_adr_area_gap_put (_data);
-                  CONTINUE; -- 2022-11-21/2022-12-05
-          END IF;
+           -- Тип, вычисляется на локальных данных.
+           -- Nick 2022-11-21/2022-12-05
+           _id_area_type := NULL;
+           _area_type_short_name := NULL;
+           
+           IF (EXISTS (SELECT 1 FROM gar_tmp.xxx_adr_area_type 
+                                  WHERE (_data.id_area_type = ANY (fias_ids))
+                      )
+               ) 
+             THEN  
+                SELECT id_area_type, nm_area_type_short 
+                          INTO _id_area_type, _area_type_short_name
+                FROM gar_tmp_pcg_trans.f_adr_type_get (p_schema_etl, _data.id_area_type);
+                
+             ELSIF (_data.id_area_type IS NOT NULL) 
+                 THEN
+                      CALL gar_tmp_pcg_trans.p_xxx_adr_area_gap_put (_data);
+           END IF;           
+           
+           -- 2023-10-23
+           IF ((_id_area_type IS NULL) OR (_area_type_short_name IS NULL) OR
+                          (_data.nm_area IS NULL) 
+           )
+             THEN
+                  _data.check_kind := 2;
+                   CALL gar_tmp_pcg_trans.p_xxx_adr_area_gap_put (_data);
+                   CONTINUE; -- 2022-11-21/2022-12-05
+           END IF;
+           --
+           _parent := gar_tmp_pcg_trans.f_adr_area_get (p_schema_etl, _data.nm_fias_guid_parent);
           -- 
-          _parent := gar_tmp_pcg_trans.f_adr_area_get (p_schema_etl, _data.nm_fias_guid_parent);
-          --
           -- 2022-12-27 Такая ситуация может возникнуть крайне редко.
           -- 2023-10-23 Но возникает, последствия не хорошие, теряются "дети".
           --
@@ -136,8 +136,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_ins (
                   _data.check_kind := 2;
                    CALL gar_tmp_pcg_trans.p_xxx_adr_area_gap_put (_data);            
                    CONTINUE; 
-          END IF;             
-          -- 
+          END IF;              
+                       
           _id_area := nextval('gar_tmp.obj_seq'); 
           CALL gar_tmp_pcg_trans.p_adr_area_ins (
                   p_schema_name       := p_schema_data                    --  text  
@@ -156,14 +156,11 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_ins (
                  ,p_pr_detailed       := COALESCE (_parent.pr_detailed, 0)::smallint  -- NOT NULL 
                  ,p_kd_oktmo          := _data.kd_oktmo      ::varchar(11)            --    NULL
                  ,p_nm_fias_guid      := _data.nm_fias_guid  ::uuid                   --    NULL
-                 ,p_id_data_etalon    := NULL                ::bigint                 --    NULL
                  ,p_kd_okato          := _data.kd_okato  ::varchar(11)                --    NULL
                  ,p_nm_zipcode        := _data.nm_zipcode::varchar(20)                --    NULL
                  ,p_kd_kladr          := _data.kd_kladr  ::varchar(15)                --    NULL
                  ,p_vl_addr_latitude  := NULL::numeric                                --    NULL
                  ,p_vl_addr_longitude := NULL::numeric                                --    NULL  
-                  --
-                 ,p_sw                := p_sw_hist
           );
              
           _r_ins := _r_ins + 1; 

@@ -31,10 +31,27 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_get (
            
    BEGIN
     -- --------------------------------------------------------------------------
-    --     2021-12-15/2022-02-21  Nick.
+    --  2021-12-15/2022-02-21  Nick.
+    --  2023-11-10 Дополнительный поиск в таблице "gar_fias.twin_addr_objects".    
     -- --------------------------------------------------------------------------
      _exec := format (_select, p_schema, p_nm_fias_guid);  
      EXECUTE _exec INTO rr;
+     
+     IF (rr.id_street IS NULL) 
+       THEN
+        --
+        -- Хрен во всю морду, пробуем искать в таблице двойников.
+        --
+        _exec := format (  _select
+                         , p_schema
+                         , (SELECT t.fias_guid_new FROM gar_fias.twin_addr_objects t 
+                                       INNER JOIN gar_fias.as_addr_obj s ON (t.fias_guid_new = s.object_guid)
+                            WHERE ((s.end_date > current_date) AND (t.fias_guid_old = p_nm_fias_guid))
+                           )
+         );  
+        EXECUTE _exec INTO rr;
+     END IF;     
+     
      RETURN;
 
    END;                   
@@ -51,6 +68,12 @@ IS 'Получить запись из таблицы адресов улиц. �
 -- ЗАМЕЧАНИЕ:  Hint: Don't use dynamic SQL and record type together, when you would check function.
 --
 --  USE CASE:
---       SELECT gar_tmp_pcg_trans.f_adr_street_get ('unsi', '431a03d5-d746-4dd7-9f4e-d5cd97f9930f');
---       SELECT gar_tmp_pcg_trans.f_adr_street_get ('unsi', 'db723758-0e6a-4a0b-aac2-79f77a4bc11e');
+--       SELECT gar_tmp_pcg_trans.f_adr_street_get ('gar_tmp', '58c40740-cac6-4c29-9f9b-6eac05b53717'::uuid);
+--                         '(600002108,11357,Гаражная,38,"Гаражная ул.",7daa96c1-5e22-4f5a-a111-06cd36e229a9,,,,,)'
+--
+--       SELECT gar_tmp_pcg_trans.f_adr_street_get ('gar_tmp', '7daa96c1-5e22-4f5a-a111-06cd36e229a9'::uuid);
+--                         '(600002108,11357,Гаражная,38,"Гаражная ул.",7daa96c1-5e22-4f5a-a111-06cd36e229a9,,,,,)'
+-- ----------------------------------------------------------------------------------------------------------------
+--       SELECT gar_tmp_pcg_trans.f_adr_street_get ('gar_tmp', '9438c367-3465-4db9-b04a-c04532550dc0'::uuid);
+--  '(10673,125,Молодежная,38,"Молодежная ул.",59d2af07-eb1f-4065-ab90-6b6c38c59840,,,,,)'
     

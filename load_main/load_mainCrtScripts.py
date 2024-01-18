@@ -12,7 +12,7 @@ import string
 import datetime
 import psycopg2    
 
-VERSION_STR_0 = "  Version 0.4.3 Build 2023-04-12"
+VERSION_STR_0 = "  Version 0.4.4 Build 2023-11-13"
 VERSION_STR_1 = "  ------------------------------"
 
 #            1            2           3           4          5         6          7 
@@ -122,7 +122,7 @@ COMMENT ON DATABASE {0}
 
 class m_stage_parse ():
     """
-     Сценарий, управляющий parsing XML-файлов
+     Сценарий, управляющий parsing XML-файлов 2023-11-13  Удаление Индексов.
     """
     def __init__ (self, p_path):
 
@@ -131,6 +131,7 @@ class m_stage_parse ():
         self.stage_body_p = """X;;;Start process;
 0;SELECT gar_version_pcg_support.save_gar_version (i_nm_garfias_version := '{1}'::date,i_kd_download_type := FALSE ::boolean,i_dt_download := now()::timestamp without time zone,i_arc_path := '{2}{3}'::text);; -- Version;
 0;CALL gar_fias_pcg_load.del_gar_all();; -- Очистка от данных;
+0;CALL gar_tmp_pcg_trans.p_gar_fias_crt_idx(FALSE);; -- Убираем индексы;
 0;CALL gar_fias_pcg_load.p_alt_tbl (FALSE);; -- Set UNLOGGED;
 #
 2;{4}{5};; -- Common XML-file;

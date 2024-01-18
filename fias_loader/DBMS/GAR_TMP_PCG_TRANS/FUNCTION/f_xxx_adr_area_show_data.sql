@@ -35,6 +35,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_show_data (
     --   Ошибка проявилась на 50 регионе (Московская обл).
     --
     --  2023-10-20 Окно определяется строго по ID типа, а не по его имени.
+    --  2023-11-09 Отказ от разделения объектов по уровням ФИАС, .. ногу сломает.
+    --   0 - адресные объекты, 1-  элементы дорожной структуры
     -- --------------------------------------------------------------------------------------
     
     WITH RECURSIVE aa1 (
@@ -161,7 +163,6 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_show_data (
               
             WHERE (h2.is_active)    
      )
-        
       , bb1 (   
                 id_addr_obj       
                ,id_addr_parent 
@@ -232,7 +233,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_show_data (
                    ,aa1.level_d
 
                   , max(aa1.change_id) OVER (PARTITION BY aa1.id_addr_parent 
-                                            ,aa1.addr_obj_type_id  
+                                            ,aa1.addr_obj_type_id           -- 2023-10-20
                                             ,UPPER(aa1.nm_addr_obj) 
                     ) AS rn
                   
@@ -240,7 +241,40 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_show_data (
             
 		   ORDER BY aa1.tree_d
           )
-           SELECT DISTINCT ON (bb1.id_addr_obj) -- 2023-10-11
+          
+      , dd1 (   
+                id_addr_obj       
+               ,id_addr_parent 
+               --
+               ,fias_guid        
+               ,parent_fias_guid 
+               --   
+               ,nm_addr_obj   
+               ,addr_obj_type_id  
+               ,addr_obj_type   
+               --
+               ,obj_level
+               ,level_name
+               --
+               ,region_code  -- 2021-12-01
+               ,area_code    
+               ,city_code    
+               ,place_code   
+               ,plan_code    
+               ,street_code    
+               --
+               ,oper_type_id
+               ,oper_type_name               
+               --
+               ,start_date 
+               ,end_date    
+               --
+               ,tree_d            
+               ,level_d
+               ---
+      )
+       AS (
+           SELECT DISTINCT ON (bb1.id_addr_obj)                             -- 2023-10-11
                     bb1.id_addr_obj       
                    ,bb1.id_addr_parent 
                    --
@@ -303,8 +337,49 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_show_data (
                    ,bb1.end_date              
                     --               
                    ,bb1.tree_d            
-                   ,bb1.level_d           
-           FROM bb1 WHERE (bb1.change_id = bb1.rn);   
+                   ,bb1.level_d  
+                   
+           FROM bb1 WHERE (bb1.change_id = bb1.rn)
+          )
+           SELECT 
+                dd1.id_addr_obj       
+               ,dd1.id_addr_parent 
+               --
+               ,dd1.fias_guid        
+               ,dd1.parent_fias_guid 
+               --   
+               ,dd1.nm_addr_obj   
+               ,dd1.addr_obj_type_id  
+               ,dd1.addr_obj_type   
+               --
+               ,nt.new_level  --dd1.obj_level
+               ,nt.new_level_descr -- dd1.level_name
+               --
+               ,dd1.region_code  -- 2021-12-01
+               ,dd1.area_code    
+               ,dd1.city_code    
+               ,dd1.place_code   
+               ,dd1.plan_code    
+               ,dd1.street_code    
+               --
+               ,dd1.oper_type_id
+               ,dd1.oper_type_name               
+               --
+               ,dd1.start_date 
+               ,dd1.end_date    
+               --
+               ,dd1.tree_d            
+               ,dd1.level_d  
+               
+           FROM dd1    
+               
+           JOIN LATERAL 
+                (SELECT z.new_level, z.new_level_descr 
+                    FROM gar_tmp_pcg_trans.f_xxx_adr_object_get_level (dd1.addr_obj_type_id) z
+           ) nt ON TRUE;
+
+          -- ORDER BY dd1.tree_d;      
+           
   $$;
  
 ALTER FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_show_data (date, bigint, bigint[]) OWNER TO postgres;  
@@ -313,9 +388,8 @@ COMMENT ON FUNCTION gar_tmp_pcg_trans.f_xxx_adr_area_show_data (date, bigint, bi
 IS 'Функция подготавливает исходные данные для таблицы-прототипа "gar_tmp.xxx_adr_area"';
 ----------------------------------------------------------------------------------
 -- USE CASE:
---    SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data () WHERE (nm_addr_obj ilike '%ленина%'); -- 1184
---    SELECT  count (1)  FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data () WHERE (id_addr_obj IN (77511, 78550)); -- 1184
---   26515 / 26520
+--    SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data () WHERE (fias_guid = '6a5b8826-dc74-4694-bbba-776daa464be1') OR (id_addr_obj = 75729); -- 1184
+--    SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data () WHERE (id_addr_obj IN (77511, 78550)); -- 1184
 --    SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data () ORDER BY obj_level DESC;
 --  SELECT * FROM gar_tmp_pcg_trans.f_xxx_adr_area_show_data () WHERE (obj_level <> 8) ORDER BY obj_level DESC;  --2082
 --  SELECT aa.* FROM gar_tmp.xxx_adr_area aa WHERE (aa.obj_level <> 8)  ORDER BY tree_d   -- 2076    6 ??

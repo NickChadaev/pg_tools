@@ -41,6 +41,7 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_ins (
     --  2022-05-31 COALESCE только для NOT NULL полей.    
     -- -------------------------------------------------------------------------
     --   2022-10-18 Вспомогательные таблицы..
+    --   2023-10-23 Сохраняется оригинальный UUID при обработке дубля.    
     -- -------------------------------------------------------------------------    
     
     DECLARE
@@ -171,7 +172,7 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_ins (
                                  ,_rr.nm_street_full   
                                  ,_rr.nm_fias_guid   
                                  ,now()          -- dt_data_del
-                                 ,_rr.id_street  -- p_id_data_etalon   
+                                 ,p_id_street   -- p_id_data_etalon   
                                  ,_rr.kd_kladr         
                                  ,_rr.vl_addr_latitude 
                                  ,_rr.vl_addr_longitude
@@ -201,8 +202,18 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_street_ins (
                 INSERT INTO gar_tmp.adr_street_aux (id_street, op_sign)
                   VALUES (_rr.id_street, UPD_OP)
                     ON CONFLICT (id_street) DO UPDATE SET op_sign = UPD_OP
-                        WHERE (gar_tmp.adr_street_aux.id_street = excluded.id_street);                
-            
+                        WHERE (gar_tmp.adr_street_aux.id_street = excluded.id_street);  
+                --
+                IF NOT (p_nm_fias_guid = _rr.nm_fias_guid)
+                  THEN
+                        CALL gar_fias_pcg_load.p_twin_addr_obj_put (
+                           p_fias_guid_new  := p_nm_fias_guid
+                          ,p_fias_guid_old  := _rr.nm_fias_guid
+                          ,p_obj_level      := 1::bigint
+                          ,p_date_create    := current_date
+                        );                       
+                END IF;
+                      
             END IF; -- _rr.id_street IS NOT NULL
  		  END;  -- unique_violation
     END;

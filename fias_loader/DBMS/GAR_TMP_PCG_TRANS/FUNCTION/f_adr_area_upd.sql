@@ -24,7 +24,6 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_upd (
      --
      --  2021-12-20
      --
-     _schema_name  text;
      _id_area      bigint;
      --
      -- 2022-10-18
@@ -37,7 +36,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_upd (
     --  2022-10-19 - Вспомогательные таблицы.
     --  2022-11-21 - Преобразование типов ФИАС -> ЕС НСИ.      
     --  2023-10-23 - Родитель не находится, запись помещается в GAP-таблицу.
-    --               _data.check_kind := 2        
+    --               _data.check_kind := 2    
     -- ---------------------------------------------------------------------------------
     --     p_schema_data   -- Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
     --    ,p_schema_etl    -- Схема эталон, обычно локальный сервер, копия p_schema_data 
@@ -113,8 +112,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_upd (
                   _data.check_kind := 2;
                    CALL gar_tmp_pcg_trans.p_xxx_adr_area_gap_put (_data);
                    CONTINUE; -- 2022-11-21/2022-12-05
-           END IF;           
-           --         
+           END IF;
+           
           _parent := gar_tmp_pcg_trans.f_adr_area_get (p_schema_etl, _data.nm_fias_guid_parent);
           -- 
           -- 2022-12-27 Такая ситуация может возникнуть крайне редко.
@@ -128,7 +127,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_area_upd (
                   _data.check_kind := 2;
                    CALL gar_tmp_pcg_trans.p_xxx_adr_area_gap_put (_data);            
                    CONTINUE; 
-          END IF; 
+          END IF;              
+          
           CALL gar_tmp_pcg_trans.p_adr_area_upd (
                   p_schema_name       := p_schema_data                    --  text  
                  ,p_schema_h          := p_schema_hist   

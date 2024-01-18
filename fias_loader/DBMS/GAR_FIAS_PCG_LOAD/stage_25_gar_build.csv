@@ -26,13 +26,16 @@
 #-------------------------------------------------------------------------------
 X;;;Start process, Сборка gar-пакета;
 #
-5;version.sql;;-- Версия 0b2d846/2022-12-29;
+5;version.sql;;-- Версия 18c681c$/2023-11-13;
 #
-5;FUNCTION/f_adr_area_show_data.sql    ;;-- f_adr_area_show_data.sql;
+5;PROCEDURE/p_twin_addr_objects_put.sql;;-- p_twin_addr_objects_put.sql;
+5;FUNCTION/f_addr_obj_agg.sql          ;;-- f_addr_obj_agg.sql;
+#
+5;FUNCTION/f_addr_area_show_data.sql    ;;-- f_addr_area_show_data.sql;
 5;FUNCTION/f_addr_obj_update_parent.sql;;-- f_addr_obj_update_parent.sql;
-5;FUNCTION/f_adr_area_set_data.sql     ;;-- f_adr_area_set_data.sql;
+5;FUNCTION/f_addr_area_set_data.sql     ;;-- f_addr_area_set_data.sql;
 5;FUNCTION/f_addr_obj_get_parents.sql  ;;-- f_addr_obj_get_parents.sql;
-5;FUNCTION/f_adr_area_get_twins.sql    ;;-- f_adr_area_get_twins.sql;
+5;FUNCTION/f_addr_area_get_twins.sql    ;;-- f_addr_area_get_twins.sql;
 5;FUNCTION/f_addr_obj_update_children.sql;;-- f_addr_obj_update_children.sql;
 #
 5;PROCEDURE/p_alt_tbl.sql  ;;-- p_alt_tbl.sql  ;

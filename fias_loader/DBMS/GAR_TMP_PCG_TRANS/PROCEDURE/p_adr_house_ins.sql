@@ -292,6 +292,16 @@ CREATE OR REPLACE PROCEDURE gar_tmp_pcg_trans.p_adr_house_ins (
                VALUES (_rr.id_house, UPD_OP)
                   ON CONFLICT (id_house) DO UPDATE SET op_sign = UPD_OP
                       WHERE (gar_tmp.adr_house_aux.id_house = excluded.id_house);
+                      
+               IF NOT (p_nm_fias_guid = _rr.nm_fias_guid)
+                THEN
+                    CALL gar_fias_pcg_load.p_twin_addr_obj_put (
+                       p_fias_guid_new  := p_nm_fias_guid
+                      ,p_fias_guid_old  := _rr.nm_fias_guid
+                      ,p_obj_level      := 2::bigint
+                      ,p_date_create    := current_date
+                    );                       
+              END IF;
               --
               IF p_sw
                 THEN

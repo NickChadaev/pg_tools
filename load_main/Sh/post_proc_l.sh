@@ -2,6 +2,7 @@
 # ----------------------------------------------------------------- 
 #  2023-06-30 Nick. Постобработка, финальная стадия
 #  2023-07-11 Модификация для процессов с правами root
+#  2023-07-16 "$4 -  group"  Заменен на константу
 # ----------------------------------------------------------------- 
 if [ $# -ne 4 ]
   then
@@ -19,7 +20,7 @@ WD=$(pwd)
 PATH_L=$1
 DIR_L=$2
 OWNER_L=$3
-GROUP_L=$4
+## GROUP_L=$4
 
 cd $PATH_L
 
@@ -30,7 +31,7 @@ if [ $? -ne 0 ]
         exit 1
 fi
 
-sudo chgrp -R $GROUP_L $DIR_L
+sudo chgrp -R 'domain users' $DIR_L
 if [ $? -ne 0 ] 
   then
         echo 2.Ошибка при изменении Группы каталога
@@ -58,7 +59,7 @@ if [ $? -ne 0 ]
         exit 5
 fi
 
-chgrp -R $GROUP_L $DIR_L.tar.gz*
+chgrp -R 'domain users' $DIR_L.tar.gz*
 if [ $? -ne 0 ] 
   then
         echo 6.Ошибка при изменении Группы архива
@@ -79,7 +80,7 @@ if [ $? -ne 0 ]
         exit 8
 fi
 
-chgrp -R $GROUP_L $TD/$DIR_L.tar.gz*
+chgrp -R 'domain users' $TD/$DIR_L.tar.gz*
 if [ $? -ne 0 ] 
   then
         echo 9.Ошибка при изменении Группы ахива

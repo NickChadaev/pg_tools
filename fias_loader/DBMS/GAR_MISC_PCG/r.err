@@ -1,0 +1,2 @@
+psql:gar_misc_pcg.sql:67: ЗАМЕЧАНИЕ:  функция public.f_check_uuids(text) не существует, пропускается
+psql:gar_misc_pcg.sql:95: ЗАМЕЧАНИЕ:  функция public.plpgsql_show_dependency_tb_1(regprocedure,regclass) не существует, пропускается

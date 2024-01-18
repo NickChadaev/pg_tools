@@ -89,7 +89,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_ins (
     -- ----------------------------------------------------------------------------------------
     --   2022-05-31 - Уточняю определение родительского объекта и правила вычисления типов.   
     --   2022-10-18 - Вспомогательные таблицы.
-    --   2022-11-21 - Преобразование типов ФИАС -> ЕС НСИ.
+    --   2022-11-21 - Преобразование типов ФИАС -> ЕС НСИ.  
     --   2023-10-23 - Родитель не находится, запись помещается в GAP-таблицу. _data.check_kind := 2
     -- ----------------------------------------------------------------------------------------
     --     p_schema_data   -- Обновляемая схема  с данными ОТДАЛЁННЫЙ СЕРВЕР
@@ -157,7 +157,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_ins (
              _id_area   := (gar_tmp_pcg_trans.f_adr_area_get (p_schema_etl, _data.nm_fias_guid_parent)).id_area;   
              _id_street := NULL;  
          END IF;
-         --
+         --  
          IF (_id_area IS NULL)     -- НЕ были загружены Ни улицы, Ни адресные объекты.
            THEN                    -- ??? Костыль 
                  _data.check_kind := 2;
@@ -190,8 +190,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_ins (
                  _data.check_kind := 2;
                  CALL gar_tmp_pcg_trans.p_xxx_adr_house_gap_put (_data);
                  CONTINUE;  
-         END IF;         
-         
+         END IF;
+         --
          _nm_house_full := '';
          _nm_house_full := _nm_house_full || _nm_house_type_1 || ' ' || _data.house_num || ' ';
          
@@ -344,8 +344,6 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_house_ins (
    END;                   
   $$;
  
--- ALTER FUNCTION gar_tmp_pcg_trans.f_adr_house_ins (text, text, text, uuid[], boolean, boolean) OWNER TO postgres;  
-
 COMMENT ON FUNCTION gar_tmp_pcg_trans.f_adr_house_ins (text, text, text, uuid[], boolean, boolean) 
 IS 'Дополнение адресных свойств домов';
 ----------------------------------------------------------------------------------

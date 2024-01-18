@@ -85,3 +85,6 @@
 	изменено:      fias_loader/DBMS/GAR_TMP_PCG_TRANS/PROCEDURE/p_adr_area_ins.sql
 	изменено:      fias_loader/DBMS/GAR_TMP_PCG_TRANS/PROCEDURE/p_adr_area_upd.sql
 	изменено:      fias_loader/TESTS/remarks.txt
+
+	
+	cc20c38

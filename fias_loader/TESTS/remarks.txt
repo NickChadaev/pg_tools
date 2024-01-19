@@ -87,4 +87,138 @@
 	изменено:      fias_loader/TESTS/remarks.txt
 
 	
-	cc20c38
+2024-01-19  
+----------
+'$Revision:cc20c38$ modified $RevDate:2024-01-18$'  -- Новый процессинговый пакет
+'$Revision:d640503$ modified $RevDate:2023-11-24$'  -- На бою.
+'$Revision:d640503$ modified $RevDate:2023-11-24$'  -- Master. 
+
+Копия сделана, перед обработкой новый пакет накатывается на "master".
+
+
+Задачи:
+ -- автоматизация процесса распаковки
+ -- ошибка  в Load_mainGar.py
+ -- pgq -- её место
+ ёё
+ 2024-01-12    Вот это интересно, закончилась память
+----------
+
+2024-01-12 05:56:47 home/n.chadaev@abrr.local
+127.0.0.1 5432 unsi_test_50 postgres /home/n.chadaev@abrr.local/Y_BUILD/50/stage_gar_c_50.csv 2024-01-05
+--------------------------------------------------------
+[05:56:47] ... Московская обл., id_region: 50, Execute: /home/n.chadaev@abrr.local/Y_BUILD/50/stage_gar_c_50.csv, process_id:1795
+[05:56:47] ... Start process
+[05:56:47] ...  -- Version
+[05:56:47] ...  -- Очистка от данных
+[05:56:48] ...  -- Убираем индексы
+[05:56:48] ...  -- Set UNLOGGED
+[05:56:48] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2024_01_05/AS_APARTMENT_TYPES_20240109_4b188aaf-e0ba-4f9a-843a-4ad1e10dc009.XML
+[05:56:48] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2024_01_05/AS_ADDR_OBJ_TYPES_20240109_f797ca88-bc66-4c81-b71a-f701dc64c7d4.XML
+[05:56:48] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2024_01_05/AS_ROOM_TYPES_20240109_c32c1156-f083-4df9-ad77-2e50153a4418.XML
+[05:56:48] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2024_01_05/AS_OPERATION_TYPES_20240109_46c979be-0d76-4a8d-acfc-74ea196c8496.XML
+[05:56:48] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2024_01_05/AS_PARAM_TYPES_20240109_2b0f406f-d5fd-4866-a2e4-8d3c1e53de26.XML
+[05:56:48] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2024_01_05/AS_HOUSE_TYPES_20240109_266325e5-8bcc-42ae-b628-3e9b38068ebe.XML
+[05:56:48] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2024_01_05/AS_ADDHOUSE_TYPES_20240109_727511e3-5264-4bf4-a6e2-5ae4eb5cf33c.XML
+[05:56:48] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2024_01_05/AS_OBJECT_LEVELS_20240109_ed14af72-56c5-4cc3-aa5e-e06883a2e010.XML
+[05:56:48] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2024_01_05/AS_NORMATIVE_DOCS_TYPES_20240109_036152b1-7e7f-4ea5-9a5c-d695ba8fad4d.XML
+[05:56:48] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2024_01_05/AS_NORMATIVE_DOCS_KINDS_20240109_b8314ff1-c1a9-4cbb-a350-7b3898d9be57.XML
+[05:56:48] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2024_01_05/50/AS_REESTR_OBJECTS_20240109_5f851d23-5d3a-46cc-9b69-8a2676ec6bd8.XML
+[06:16:11] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2024_01_05/50/AS_ADDR_OBJ_20240109_cccce1c1-f856-4614-b6d5-a636727d8efd.XML
+[06:16:57] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2024_01_05/50/AS_HOUSES_20240109_c515f22a-157c-43e4-ad99-6a47e997beca.XML
+[06:37:47] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2024_01_05/50/AS_STEADS_20240109_072de6bd-10c4-4c3e-ad99-c5a0d0aae08e.XML
+[06:39:58] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2024_01_05/50/AS_ADM_HIERARCHY_20240109_833680b7-d7f6-4955-9483-676686394cde.XML
+[07:43:39] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2024_01_05/50/AS_ADDR_OBJ_DIVISION_20240109_d60612c7-4955-4193-9ea5-311bc2d451c9.XML
+[07:43:39] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2024_01_05/50/AS_ADDR_OBJ_PARAMS_20240109_30eb4847-f40c-4972-bfa9-02ec5e36a696.XML
+[07:48:20] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2024_01_05/50/AS_STEADS_PARAMS_20240109_1c836e1d-986b-489e-a626-35aad13a8b84.XML
+[08:07:27] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2024_01_05/50/AS_HOUSES_PARAMS_20240109_8a3e887d-4808-42b7-8808-1f5d3cbb1c13.XML
+[09:29:31] ...  -- Data finish
+[09:29:31] ...  -- Set LOGGED
+[09:30:37] ... [09:30:37]: Error, rc = 256
+[09:30:37] ...             psql -h 127.0.0.1 -p 5432 -c "CALL gar_fias_pcg_load.p_alt_tbl (TRUE)"  unsi_test_50  -U postgres 1>> /home/n.chadaev@abrr.local/Y_BUILD/50/p13_process_20240112_055647.out 2>> /home/n.chadaev@abrr.local/Y_BUILD/50/p13_process_20240112_055647.err
+--------------------------------------------------------
+
+-------------------------------------------------------------------------------------------------
+ЗАМЕЧАНИЕ:  индекс "ie2_as_addr_obj" не существует, пропускается
+ЗАМЕЧАНИЕ:  индекс "ie1_gap_adr_area" не существует, пропускается
+ЗАМЕЧАНИЕ:  индекс "ie2_gap_adr_area" не существует, пропускается
+ЗАМЕЧАНИЕ:  индекс "ie3_as_addr_obj" не существует, пропускается
+ЗАМЕЧАНИЕ:  индекс "ie4_as_addr_obj" не существует, пропускается
+ЗАМЕЧАНИЕ:  индекс "ie2_as_adm_hierarchy" не существует, пропускается
+ЗАМЕЧАНИЕ:  индекс "ie3_as_adm_hierarchy" не существует, пропускается
+ОШИБКА:  не удалось увеличить файл "base/31060/4786599.2": На устройстве не осталось свободного места
+HINT:  Проверьте, есть ли место на диске.
+CONTEXT:  SQL-оператор: "ALTER TABLE  gar_fias.as_houses_params SET LOGGED"
+функция PL/pgSQL gar_fias_pcg_load.p_alt_tbl(boolean), строка 25, оператор SQL-оператор
+
+
+А обработки rc не было, что прискорбно и неправильно.  ХА-ХА-ХА
+
+2;/home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2024_01_05/50;; -- Region XML-file;  # Московская обл.
+#
+0;SELECT gar_version_pcg_support.set_gar_dt_create ('2024-01-05'::date, now()::timestamp without time zone);; -- Data finish;
+0;CALL gar_fias_pcg_load.p_alt_tbl (TRUE);; -- Set LOGGED;  # in 4 min 30 secs.
+#                                ПРОВЕРИТЬ !!!!!!!!!!!!!!!!!
+X;;;Stop process;
+
+-- ===============================================
+ -- автоматизация процесса распаковки
+ -- максимальное предусловие -- утилита wget успрешно отработала. 
+      -- этапы
+          -- оценка дступного места                          МИНИМАЛЬНОДОПУСТИТМОЕ СВОБОДНОЕ МЕСТО.
+              удаляются гнаиболее старые ZIP-файлы.
+              Если нет места, выполнение прекращается.
+              
+          -- удаление старой папки с данными                 Гарантии  (формат имени папки)
+                                                             ЕЩЁ РАЗ МИНИМАЛЬНО ДОПУСТИМОЕ СВОБОДНОЕ МЕНСТО.
+                                                             
+          -- Установка нового имени архива.                  Предусловие, шаблон/формат имени должен быть задан.
+          
+          -- Заппуск процесса раскрытия архива               Гарантии 
+                                                             ЕЩЁ РАЗ МИНИМАЛЬНО ДОПУСТИМОЕ СВОБОДНОЕП МЕСТО         
+                                                             
+          -- Подготовкеа и  запуск микросервисов.
+          
+Python, sys, os
+---------------
+
+-- ===============================================
+ --  Назначение процесса:
+ --     распаковка архива ZIP, полученного с сайта ГАР-ФИАС,
+        распаковка сопоровождается создание каталога с данными.
+        
+        Выполняется оценка доступоно дискового пространства.
+        
+        Предусловие 0 -- утилита wget успешно отработала, с сайта ГАР-ФИАС
+        получен ар[ив с данными "gar_xml"
+        
+        Предусловие 1 -- размер свободного дискового простанства соcтавляет  99 Gb
+        Триггер к предусловию 1  "Циклическое удаление устаревших ZIP-файлов,
+        формат имени которых "gar_xml_MM_DD". Где MM- номер месяца, DD - номер дня в месяце.
+        Процесс завершается по удалению всех ZIP-файлов.
+        
+        Проверка Предусловия 1  процесс завершается если размер свободного диского пространства меньше 99 Gb
+        
+        Вторая часть процесса.
+        Создание новой папки с данными, формат имени
+        "FIAS_GAR_YYYY_MM_DD"
+        
+        
+        Триггер ко второй части процесса. Удаление папки, чьё имя соответсвует формату, но
+        дата создания является более ранней.
+        
+        Предусловие 2  -- размер свободного дисквого пространства соствляет 999
+         Предусловие выполняется -
+         Триггер - запуск процесса распаковки-         
+        
+       Предусловие 3 - размер свободного дискового пространства составляет 99 Gb
+       
+             
+        Подготовкеа и  запуск микросервисов.
+          
+Python, sys, os
+---------------
+
+
+          
+                                                             

@@ -27,7 +27,7 @@
 X;;;Start process,Обновление;
 #
 1;../A_FIAS_LOADER/GAR_TMP_PCG_TRANS/gar_tmp_trans_pcg.sql;;-- gar_tmp_trans_pcg.sql;
-1;../A_FIAS_LOADER/xxx_adr_area_type_build_patch_20231006.sql;;-- xxx_adr_area_type_build_patch_20231006.sql;
+### 1;../A_FIAS_LOADER/xxx_adr_area_type_build_patch_20231006.sql;;-- xxx_adr_area_type_build_patch_20231006.sql;
 #
 ### 1;../../A_FIAS_LOADER/GAR_LINK/gar_link_pcg.sql;;-- gar_link_pcg.sql;
 ### 1;../A_FIAS_LOADER/GAR_EXPORT_VERSION/gar_export_logging_pcg.sql;;-- gar_export_logging_pcg;     

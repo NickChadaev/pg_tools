@@ -10,4 +10,4 @@ CREATE DATABASE unsi_test_01
     CONNECTION LIMIT = -1;
 
 COMMENT ON DATABASE unsi_test_01
-    IS 'Адыгея Респ. 223-09-25';
+    IS 'Адыгея Респ. 2024-01-18';

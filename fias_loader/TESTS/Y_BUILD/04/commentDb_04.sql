@@ -1,2 +1,2 @@
 COMMENT ON DATABASE unsi_test_04
-    IS 'Алтай Респ. 223-09-25';
+    IS 'Алтай Респ. 2024-01-18';

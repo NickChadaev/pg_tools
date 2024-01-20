@@ -10,4 +10,4 @@ CREATE DATABASE unsi_test_05
     CONNECTION LIMIT = -1;
 
 COMMENT ON DATABASE unsi_test_05
-    IS 'Дагестан Респ. 223-09-25';
+    IS 'Дагестан Респ. 2024-01-18';

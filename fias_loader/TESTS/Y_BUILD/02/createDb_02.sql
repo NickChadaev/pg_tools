@@ -10,4 +10,4 @@ CREATE DATABASE unsi_test_02
     CONNECTION LIMIT = -1;
 
 COMMENT ON DATABASE unsi_test_02
-    IS 'Башкортостан Респ. 223-09-25';
+    IS 'Башкортостан Респ. 2024-01-18';

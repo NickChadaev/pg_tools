@@ -1,0 +1,32 @@
+2024-01-19 20:43:42 home/n.chadaev@abrr.local
+127.0.0.1 5432 unsi_test_46 postgres /home/n.chadaev@abrr.local/Y_BUILD/46/stage_gar_c_46.csv 2024-01-18
+--------------------------------------------------------
+[20:43:42] ... Курская обл., id_region: 45, Execute: /home/n.chadaev@abrr.local/Y_BUILD/46/stage_gar_c_46.csv, process_id:12176
+[20:43:42] ... Start process
+[20:43:42] ...  -- Version
+[20:43:42] ...  -- Очистка от данных
+[20:43:42] ...  -- Убираем индексы
+[20:43:42] ...  -- Set UNLOGGED
+[20:43:42] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2024_01_18/AS_APARTMENT_TYPES_20240118_f8d369ca-3735-4889-9440-13b09b5a09ee.XML
+[20:43:42] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2024_01_18/AS_ADDR_OBJ_TYPES_20240118_ad936b9c-83c8-4c9c-a680-f2c1872a16d8.XML
+[20:43:43] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2024_01_18/AS_ROOM_TYPES_20240118_ab2e89b5-3972-4a17-affb-50ac1bf01b6f.XML
+[20:43:43] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2024_01_18/AS_OPERATION_TYPES_20240118_8099b0c6-f53e-461c-9aa8-6e0d21948728.XML
+[20:43:43] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2024_01_18/AS_PARAM_TYPES_20240118_edd06cf3-2e15-49f2-ac89-da60361adce4.XML
+[20:43:43] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2024_01_18/AS_HOUSE_TYPES_20240118_2a672f80-1bbf-4b0a-8b1f-5008c1094ad2.XML
+[20:43:43] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2024_01_18/AS_ADDHOUSE_TYPES_20240118_72c7b024-2ef4-4529-bbea-9ca562663d94.XML
+[20:43:43] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2024_01_18/AS_OBJECT_LEVELS_20240118_df82ed4f-bf2a-4091-9cd1-585e2adf0bfd.XML
+[20:43:43] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2024_01_18/AS_NORMATIVE_DOCS_TYPES_20240118_a5d7cd71-6e82-4828-9dd3-89a4dc341c6e.XML
+[20:43:43] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2024_01_18/AS_NORMATIVE_DOCS_KINDS_20240118_1ee013bd-db68-40cd-9f92-3dc1e120cd9b.XML
+[20:43:43] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2024_01_18/46/AS_REESTR_OBJECTS_20240118_5395f797-d744-448c-b030-f3d11e55d8e8.XML
+[21:04:35] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2024_01_18/46/AS_ADDR_OBJ_20240118_f0764c52-33d9-4da1-be91-d77129bb2e86.XML
+[21:04:59] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2024_01_18/46/AS_HOUSES_20240118_26befeba-ad05-40ad-b137-8e8a5f8eb5fe.XML
+[21:23:07] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2024_01_18/46/AS_STEADS_20240118_c819e022-b2e9-42ac-920b-7fef89d5b7de.XML
+[21:26:29] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2024_01_18/46/AS_ADM_HIERARCHY_20240118_4c99c7b8-39b7-43ed-b343-5de3797a53a1.XML
+[21:48:59] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2024_01_18/46/AS_ADDR_OBJ_DIVISION_20240118_1b856b4f-ed46-4c82-97cf-9578c81a1067.XML
+[21:48:59] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2024_01_18/46/AS_ADDR_OBJ_PARAMS_20240118_08695b10-f37d-4474-9b06-29f219f2d2cf.XML
+[21:53:23] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2024_01_18/46/AS_STEADS_PARAMS_20240118_1664dfb6-15e8-4910-a659-8b52cbf8c756.XML
+[22:39:16] ... /home/n.chadaev@abrr.local/7_DATA/FIAS_GAR_2024_01_18/46/AS_HOUSES_PARAMS_20240118_c0f91def-5b9a-43bb-9f85-b6a95b6654f3.XML
+[00:53:44] ...  -- Data finish
+[00:53:44] ...  -- Set LOGGED
+[00:54:02] ... Stop process
+--------------------------------------------------------

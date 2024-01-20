@@ -15,3 +15,16 @@ SELECT count(1) FROM  gar_tmp.adr_area a; -- 11217
 SELECT a.* FROM  gar_tmp.adr_area a ORDER BY id_area DESC;
 SELECT a.* FROM  gar_tmp.adr_area a WHERE (a.id_area = 400153774);
 SELECT h.* FROM  gar_tmp.adr_house h WHERE (h.id_area = 400153774); bnnn
+------------------------
+
+------------------------------------------------
+--
+--  Источник корректных ZIP-code  452749
+--
+WITH xx AS (
+            SELECT object_id, value, end_date FROM gar_fias.as_houses_params
+              WHERE (type_id = 5) AND (value = '452749') AND (end_date <= current_date)        
+     )
+     SELECT DISTINCT p.value FROM gar_fias.as_houses_params p
+          JOIN xx ON (xx.object_id = p.object_id)
+     WHERE (p.type_id = 5) AND (p.end_date > current_date);

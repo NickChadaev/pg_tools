@@ -26,8 +26,8 @@
 #-------------------------------------------------------------------------------
 X;;;Start process;
 #
-0;SELECT gar_link.f_server_crt ('unnsi_prd_et', '127.0.0.1', 'unnsi_prd_et', 5432, 'postgres', 'postgres', '');;-- gar_link.f_server_crt();
-0;SELECT gar_link.f_schema_import ('unnsi_prd_et', 'unnsi', 'unsi', 'ЭТАЛОН от 2022-12-15');;-- gar_link.f_schema_import;	
+0;SELECT gar_link.f_server_crt ('unnsi_prd_et_s', '127.0.0.1', 'unnsi_prd_et', 5432, 'postgres', 'postgres', '');;-- gar_link.f_server_crt();
+0;SELECT gar_link.f_schema_import ('unnsi_prd_et_s', 'unnsi', 'unsi', 'ЭТАЛОН от 2022-12-15');;-- gar_link.f_schema_import();	
 0;SELECT gar_link.f_server_is();;-- gar_link.f_server_is();
 0;SELECT * FROM gar_link.v_servers_active;;-- gar_link.v_servers_active;
 #

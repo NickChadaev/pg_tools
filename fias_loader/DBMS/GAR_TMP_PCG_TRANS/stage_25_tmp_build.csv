@@ -26,7 +26,7 @@
 #-------------------------------------------------------------------------------
 X;;;Start process, Сборка процессингового пакета;
 #                        
-5;version.sql;;-- Версия d640503/2023-11-24; 
+5;version.sql;;-- Версия 48c8c1c/2024-01-24; 
 5;drop_objects.sql;;-- drop_objects.sql;
 5;../GAR_TMP/CreateViewGarTmp.sql;;-- CreateViewGarTmp.sql;
 #
@@ -131,6 +131,12 @@ X;;;Start process, Сборка процессингового пакета;
 5;FUNCTION/f_set_params_value_data.sql ;;-- f_set_params_value_data.sql ;
 5;FUNCTION/f_xxx_adr_area_show_data.sql;;-- f_xxx_adr_area_show_data.sql;
 5;FUNCTION/f_xxx_adr_area_set_data.sql ;;-- f_xxx_adr_area_set_data.sql ;
+#
+# 2024-01-24   Сервисные процедуры
+#
+5;PROCEDURE/p_adr_area_upd_single.sql  ;;-- p_adr_area_upd_single.sql  ;
+5;PROCEDURE/p_adr_street_upd_single.sql;;-- p_adr_street_upd_single.sql;
+5;PROCEDURE/p_adr_house_upd_single.sql ;;-- p_adr_house_upd_single.sql ;
 #
 X;;;Stop process;
 #-------------------------------------------------------------------------------

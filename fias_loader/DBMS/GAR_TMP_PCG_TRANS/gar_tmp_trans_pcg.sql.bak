@@ -5,7 +5,7 @@
 --
 CREATE OR REPLACE VIEW gar_tmp_pcg_trans.version
  AS
- SELECT '$Revision:fe31532$ modified $RevDate:2023-11-22$'::text AS version; 
+ SELECT '$Revision:d640503$ modified $RevDate:2023-11-24$'::text AS version; 
                                                            
 
 -- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -11032,14 +11032,15 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_ins (
      _r_ins   integer := 0;  
      
      _data   gar_tmp.xxx_adr_street_proc_t;  
-     _parent gar_tmp.adr_area_t;
+     --_parent gar_tmp.adr_area_t;   -- 2023-11-23 unuse it
      
      _id_street_type          bigint;
      _street_type_short_name  text;     
      --
      --  2021-12-20
      --
-     _id_street   bigint;     
+     _id_area    bigint;  
+     _id_street  bigint;     
 
      -- 2022-10-18
      --
@@ -11125,12 +11126,17 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_ins (
                    CONTINUE; -- 2022-11-21/2022-12-05
           END IF;
           
-          _parent := gar_tmp_pcg_trans.f_adr_area_get (p_schema_etl, _data.nm_fias_guid_area);
+          -- 2023-11-23
+          _id_area := (gar_tmp_pcg_trans.f_adr_area_get (p_schema_etl, _data.nm_fias_guid_area)).id_area;
+          IF (_id_area IS NULL)
+            THEN
+              _id_area := (gar_tmp_pcg_trans.f_adr_street_get (p_schema_etl, _data.nm_fias_guid_area)).id_area;
+          END IF;
           
           -- 2022-12-27 Такая ситуация может возникнуть крайне редко.
           -- 2023-10-23 Но возникает, последствия нехорошие, теряются "дети".
           --
-          IF (_parent.id_area IS NULL) OR (_data.nm_street IS NULL)
+          IF (_id_area IS NULL) OR (_data.nm_street IS NULL)
             THEN
                   _data.check_kind := 2;
                    CALL gar_tmp_pcg_trans.p_xxx_adr_street_gap_put (_data);            
@@ -11144,7 +11150,7 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_ins (
              ,p_schema_h          := p_schema_hist     
               --
              ,p_id_street         :=  _id_street                     -- bigint       -- NOT NULL 
-             ,p_id_area           :=  _parent.id_area                -- bigint       -- NOT NULL 
+             ,p_id_area           :=  _id_area                       -- bigint       -- NOT NULL 
              ,p_nm_street         :=  _data.nm_street::varchar(120)                -- NOT NULL 
              ,p_id_street_type    :=  _id_street_type::integer                     --  NULL 
              ,p_nm_street_full    :=  COALESCE ((_data.nm_street || ' ' || _street_type_short_name)
@@ -11204,14 +11210,15 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_upd (
      _r_upd   integer := 0;  
      
      _data   gar_tmp.xxx_adr_street_proc_t;  
-     _parent gar_tmp.adr_area_t;
+     -- _parent gar_tmp.adr_area_t;  unused
      
      _id_street_type          bigint;
      _street_type_short_name  text;     
      --
      --  2021-12-20
      --
-     _id_street   bigint;
+     _id_area    bigint;
+     _id_street  bigint;
      --
      -- 2022-10-18
      --
@@ -11295,12 +11302,17 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_upd (
                    CONTINUE; -- 2022-11-21/2022-12-05
           END IF;          
           --    
-          _parent := gar_tmp_pcg_trans.f_adr_area_get (p_schema_etl, _data.nm_fias_guid_area);
+          -- 2023-11-23
+          _id_area := (gar_tmp_pcg_trans.f_adr_area_get (p_schema_etl, _data.nm_fias_guid_area)).id_area;
+          IF (_id_area IS NULL)
+            THEN
+              _id_area := (gar_tmp_pcg_trans.f_adr_street_get (p_schema_etl, _data.nm_fias_guid_area)).id_area;
+          END IF;
           -- 
           -- 2022-12-27 Такая ситуация может возникнуть крайне редко.
           -- 2023-10-23 Но возникает, последствия не хорошие, теряются "дети".
           --
-          IF (_parent.id_area IS NULL) OR (_data.nm_street IS NULL)
+          IF (_id_area IS NULL) OR (_data.nm_street IS NULL)
             THEN
                   _data.check_kind := 2;
                    CALL gar_tmp_pcg_trans.p_xxx_adr_street_gap_put (_data);            
@@ -11311,8 +11323,8 @@ CREATE OR REPLACE FUNCTION gar_tmp_pcg_trans.f_adr_street_upd (
               p_schema_name       := p_schema_data                    --  text  
              ,p_schema_h          := p_schema_hist   
               --
-             ,p_id_street         :=  _id_street   -- bigint                      -- NOT NULL 
-             ,p_id_area           :=  _parent.id_area                -- bigint    -- NOT NULL 
+             ,p_id_street         :=  _id_street   -- bigint    -- NOT NULL 
+             ,p_id_area           :=  _id_area     -- bigint    -- NOT NULL 
              ,p_nm_street         :=  _data.nm_street::varchar(120)               -- NOT NULL 
              ,p_id_street_type    :=  _id_street_type::integer                    --  NULL 
              ,p_nm_street_full    :=  (_data.nm_street || ' ' || _street_type_short_name)::varchar(255)  -- NOT NULL  

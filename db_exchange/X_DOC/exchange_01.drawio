@@ -1,0 +1,193 @@
+<mxfile host="Electron" modified="2024-01-25T12:24:47.376Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.2.1 Chrome/112.0.5615.87 Electron/24.1.2 Safari/537.36" etag="Pd72pz8LqvCRIda-Auk5" version="21.2.1" type="device">
+  <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
+    <mxGraphModel dx="1434" dy="879" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-2" value="" style="rounded=0;html=1;jettySize=auto;orthogonalLoop=1;fontSize=11;endArrow=block;endFill=0;endSize=8;strokeWidth=1;shadow=0;labelBackgroundColor=none;edgeStyle=orthogonalEdgeStyle;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="WIyWlLk6GJQsqaUBKTNV-3" target="WIyWlLk6GJQsqaUBKTNV-6" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-3" value="Утилита&amp;nbsp; wget успешно отработала. Получен zip-архив с новыми данными." style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;fillColor=#d5e8d4;strokeColor=#82b366;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="160" y="30" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-4" value="&amp;gt;= 99Gb" style="rounded=0;html=1;jettySize=auto;orthogonalLoop=1;fontSize=11;endArrow=block;endFill=0;endSize=8;strokeWidth=1;shadow=0;labelBackgroundColor=none;edgeStyle=orthogonalEdgeStyle;" parent="WIyWlLk6GJQsqaUBKTNV-1" edge="1">
+          <mxGeometry x="-0.2" y="30" relative="1" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="220" y="270" as="sourcePoint" />
+            <mxPoint x="220" y="320" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-6" value="Оценка доступного &lt;br&gt;дискового пространства&lt;br&gt;1" style="rhombus;whiteSpace=wrap;html=1;shadow=0;fontFamily=Helvetica;fontSize=12;align=center;strokeWidth=1;spacing=6;spacingTop=-4;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="130" y="150" width="180" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-8" value="." style="rounded=0;html=1;jettySize=auto;orthogonalLoop=1;fontSize=11;endArrow=block;endFill=0;endSize=8;strokeWidth=1;shadow=0;labelBackgroundColor=none;edgeStyle=orthogonalEdgeStyle;" parent="WIyWlLk6GJQsqaUBKTNV-1" edge="1">
+          <mxGeometry x="0.3333" y="20" relative="1" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="220" y="400" as="sourcePoint" />
+            <mxPoint x="220" y="450" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LrvSSu8f_5QhtQiGMJQV-0" value="Размер свободного дискового пространства должен составлять 99 Gb" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="641" y="28" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="LrvSSu8f_5QhtQiGMJQV-1" value="&lt;b&gt;Требование 0&lt;/b&gt;" style="text;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="660" y="3" width="100" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="LrvSSu8f_5QhtQiGMJQV-27" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="640" y="63" as="targetPoint" />
+            <mxPoint x="640" y="70" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LrvSSu8f_5QhtQiGMJQV-28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="LrvSSu8f_5QhtQiGMJQV-3" target="LrvSSu8f_5QhtQiGMJQV-0">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="LrvSSu8f_5QhtQiGMJQV-3" value="" style="line;strokeWidth=1;html=1;dashed=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="281" y="58" width="329" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="LrvSSu8f_5QhtQiGMJQV-4" value="&lt;b&gt;Предусловие 0&lt;br&gt;&lt;br&gt;&lt;/b&gt;" style="text;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="175" y="6" width="100" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="LrvSSu8f_5QhtQiGMJQV-6" value="Очистка дискового пространства от ZIP-файлов&lt;br&gt;1" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="408" y="171" width="166" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="LrvSSu8f_5QhtQiGMJQV-7" value="Оценка доступного &lt;br&gt;дискового пространства" style="rhombus;whiteSpace=wrap;html=1;shadow=0;fontFamily=Helvetica;fontSize=12;align=center;strokeWidth=1;spacing=6;spacingTop=-4;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="403" y="301" width="180" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="LrvSSu8f_5QhtQiGMJQV-8" value="Повторная проверка по завершению процесса" style="rounded=0;html=1;jettySize=auto;orthogonalLoop=1;fontSize=11;endArrow=block;endFill=0;endSize=8;strokeWidth=1;shadow=0;labelBackgroundColor=none;edgeStyle=orthogonalEdgeStyle;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" target="LrvSSu8f_5QhtQiGMJQV-7">
+          <mxGeometry x="-0.2" y="30" relative="1" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="492" y="253" as="sourcePoint" />
+            <mxPoint x="492" y="303" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LrvSSu8f_5QhtQiGMJQV-9" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;strokeColor=none;fillStyle=solid;fillColor=#fbfbfb;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="664" y="354" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="LrvSSu8f_5QhtQiGMJQV-10" value="Очистка дискового пространства от ZIP-файлов&amp;nbsp;&lt;br&gt;2" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="130" y="320" width="170" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="LrvSSu8f_5QhtQiGMJQV-11" value="" style="endArrow=none;dashed=1;html=1;rounded=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="LrvSSu8f_5QhtQiGMJQV-6">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="670" y="370" as="sourcePoint" />
+            <mxPoint x="640" y="63" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LrvSSu8f_5QhtQiGMJQV-14" value="" style="ellipse;shape=doubleEllipse;whiteSpace=wrap;html=1;aspect=fixed;strokeColor=none;gradientColor=none;fillColor=#100f0f;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="711" y="342.5" width="37" height="37" as="geometry" />
+        </mxCell>
+        <mxCell id="LrvSSu8f_5QhtQiGMJQV-15" value="&amp;lt; 99Gb" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;jettySize=auto;orthogonalLoop=1;fontSize=11;endArrow=block;endFill=0;endSize=8;strokeWidth=1;shadow=0;labelBackgroundColor=none;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry y="10" relative="1" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="586" y="360" as="sourcePoint" />
+            <mxPoint x="710" y="360" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LrvSSu8f_5QhtQiGMJQV-16" value="&amp;gt;=99Gb" style="rounded=0;html=1;jettySize=auto;orthogonalLoop=1;fontSize=11;endArrow=block;endFill=0;endSize=8;strokeWidth=1;shadow=0;labelBackgroundColor=none;edgeStyle=orthogonalEdgeStyle;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="-0.04" y="10" relative="1" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="398" y="360" as="sourcePoint" />
+            <mxPoint x="298" y="360" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="378" y="360" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LrvSSu8f_5QhtQiGMJQV-17" value="" style="endArrow=none;dashed=1;html=1;rounded=0;exitX=0.85;exitY=0.325;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="LrvSSu8f_5QhtQiGMJQV-7">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="590" y="340" as="sourcePoint" />
+            <mxPoint x="640" y="70" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LrvSSu8f_5QhtQiGMJQV-18" value="Размер свободного дискового пространства должен составлять 450 Gb" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="644" y="518" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="LrvSSu8f_5QhtQiGMJQV-19" value="&lt;b&gt;Требование 1&lt;/b&gt;" style="text;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="660" y="495" width="100" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="LrvSSu8f_5QhtQiGMJQV-20" value="Оценка доступного &lt;br&gt;дискового пространства &lt;br&gt;2" style="rhombus;whiteSpace=wrap;html=1;shadow=0;fontFamily=Helvetica;fontSize=12;align=center;strokeWidth=1;spacing=6;spacingTop=-4;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="130" y="450" width="180" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="LrvSSu8f_5QhtQiGMJQV-22" value="&amp;lt; 99Gb" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;jettySize=auto;orthogonalLoop=1;fontSize=11;endArrow=block;endFill=0;endSize=8;strokeWidth=1;shadow=0;labelBackgroundColor=none;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry y="10" relative="1" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="310" y="209.5" as="sourcePoint" />
+            <mxPoint x="408" y="209.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LrvSSu8f_5QhtQiGMJQV-23" value="Очистка дискового пространства от старых каталогов с данными" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="410" y="469" width="170" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="LrvSSu8f_5QhtQiGMJQV-24" value="&amp;lt; 450Gb" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;jettySize=auto;orthogonalLoop=1;fontSize=11;endArrow=block;endFill=0;endSize=8;strokeWidth=1;shadow=0;labelBackgroundColor=none;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry y="10" relative="1" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="310" y="509.5" as="sourcePoint" />
+            <mxPoint x="408" y="509.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LrvSSu8f_5QhtQiGMJQV-26" value="Оценка доступного &lt;br&gt;дискового пространства" style="rhombus;whiteSpace=wrap;html=1;shadow=0;fontFamily=Helvetica;fontSize=12;align=center;strokeWidth=1;spacing=6;spacingTop=-4;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="408" y="628" width="180" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="LrvSSu8f_5QhtQiGMJQV-29" value="Распаковка архива" style="ellipse;whiteSpace=wrap;html=1;direction=west;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="138" y="655" width="164" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="LrvSSu8f_5QhtQiGMJQV-30" value="&amp;gt;= 450 Gb" style="rounded=0;html=1;jettySize=auto;orthogonalLoop=1;fontSize=11;endArrow=block;endFill=0;endSize=8;strokeWidth=1;shadow=0;labelBackgroundColor=none;edgeStyle=orthogonalEdgeStyle;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" target="LrvSSu8f_5QhtQiGMJQV-29">
+          <mxGeometry x="0.12" y="29" relative="1" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="221" y="572" as="sourcePoint" />
+            <mxPoint x="221" y="622" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LrvSSu8f_5QhtQiGMJQV-32" value="&lt;span style=&quot;color: rgb(0, 0, 0); font-family: Helvetica; font-size: 11px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(251, 251, 251); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;&quot;&gt;Повторная проверка по завершению процесса&lt;/span&gt;" style="rounded=0;html=1;jettySize=auto;orthogonalLoop=1;fontSize=11;endArrow=block;endFill=0;endSize=8;strokeWidth=1;shadow=0;labelBackgroundColor=none;edgeStyle=orthogonalEdgeStyle;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" target="LrvSSu8f_5QhtQiGMJQV-26">
+          <mxGeometry x="0.3333" y="20" relative="1" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="498" y="546" as="sourcePoint" />
+            <mxPoint x="498" y="596" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LrvSSu8f_5QhtQiGMJQV-33" value="" style="ellipse;shape=doubleEllipse;whiteSpace=wrap;html=1;aspect=fixed;strokeColor=none;gradientColor=none;fillColor=#100f0f;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="711" y="669.5" width="37" height="37" as="geometry" />
+        </mxCell>
+        <mxCell id="LrvSSu8f_5QhtQiGMJQV-34" value="&amp;lt; 450Gb" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;jettySize=auto;orthogonalLoop=1;fontSize=11;endArrow=block;endFill=0;endSize=8;strokeWidth=1;shadow=0;labelBackgroundColor=none;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry y="10" relative="1" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="588" y="687.5" as="sourcePoint" />
+            <mxPoint x="712" y="687.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LrvSSu8f_5QhtQiGMJQV-35" value="" style="endArrow=none;dashed=1;html=1;rounded=0;exitX=1;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="LrvSSu8f_5QhtQiGMJQV-26">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="591" y="599" as="sourcePoint" />
+            <mxPoint x="641" y="549" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LrvSSu8f_5QhtQiGMJQV-37" value="" style="endArrow=none;dashed=1;html=1;rounded=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="LrvSSu8f_5QhtQiGMJQV-23">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="594" y="598" as="sourcePoint" />
+            <mxPoint x="644" y="548" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LrvSSu8f_5QhtQiGMJQV-38" value="&amp;gt;=459Gb" style="rounded=0;html=1;jettySize=auto;orthogonalLoop=1;fontSize=11;endArrow=block;endFill=0;endSize=8;strokeWidth=1;shadow=0;labelBackgroundColor=none;edgeStyle=orthogonalEdgeStyle;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="-0.04" y="10" relative="1" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="403" y="687.5" as="sourcePoint" />
+            <mxPoint x="303" y="687.5" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="383" y="687.5" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LrvSSu8f_5QhtQiGMJQV-39" value="Запуск микросервисов" style="ellipse;whiteSpace=wrap;html=1;direction=west;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="138" y="783" width="164" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="LrvSSu8f_5QhtQiGMJQV-40" value="." style="rounded=0;html=1;jettySize=auto;orthogonalLoop=1;fontSize=11;endArrow=block;endFill=0;endSize=8;strokeWidth=1;shadow=0;labelBackgroundColor=none;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="0.3333" y="20" relative="1" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="221" y="734" as="sourcePoint" />
+            <mxPoint x="221" y="784" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

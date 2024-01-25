@@ -1,0 +1,151 @@
+<mxfile host="Electron" modified="2023-12-11T14:21:49.750Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.2.1 Chrome/112.0.5615.87 Electron/24.1.2 Safari/537.36" etag="wWRfB0ljejwcSqZGNM1w" version="21.2.1" type="device" pages="2">
+  <diagram name="Page-1" id="52a04d89-c75d-2922-d76d-85b35f80e030">
+    <mxGraphModel dx="1195" dy="733" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="none" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="TjxAIH2vPGF4o4DeTwbO-31" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;curved=1;" edge="1" parent="1" source="21ea969265ad0168-30" target="TjxAIH2vPGF4o4DeTwbO-25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="21ea969265ad0168-30" value="Queue_proc" style="html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=2;fontFamily=Verdana;fontSize=12;align=center;shape=mxgraph.ios7ui.horLines;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
+          <mxGeometry x="756" y="321" width="135" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="1fdf3b25b50cf41e-27" style="edgeStyle=entityRelationEdgeStyle;html=1;labelBackgroundColor=none;startFill=0;startSize=8;endFill=1;endSize=8;fontFamily=Verdana;fontSize=12;exitX=1.037;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=-0.014;entryY=0.038;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="TjxAIH2vPGF4o4DeTwbO-1" target="1fdf3b25b50cf41e-2" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="471" y="361" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1fdf3b25b50cf41e-38" style="edgeStyle=orthogonalEdgeStyle;html=1;labelBackgroundColor=none;startFill=0;startSize=8;endFill=1;endSize=8;fontFamily=Verdana;fontSize=12;curved=1;" parent="1" source="1fdf3b25b50cf41e-1" target="21ea969265ad0168-30" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="TjxAIH2vPGF4o4DeTwbO-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.659;entryY=1.06;entryDx=0;entryDy=0;entryPerimeter=0;dashed=1;" edge="1" parent="1" source="1fdf3b25b50cf41e-1" target="TjxAIH2vPGF4o4DeTwbO-2">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="571" y="291" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="TjxAIH2vPGF4o4DeTwbO-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;dashed=1;" edge="1" parent="1" source="1fdf3b25b50cf41e-1" target="TjxAIH2vPGF4o4DeTwbO-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1fdf3b25b50cf41e-1" value="Parsing" style="swimlane;html=1;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#e0e0e0;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;swimlaneFillColor=#ffffff;align=center;rounded=1;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=12" parent="1" vertex="1">
+          <mxGeometry x="481" y="345" width="140" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="1fdf3b25b50cf41e-2" value="процесс 1" style="text;html=1;strokeColor=#d6b656;fillColor=#fff2cc;spacingLeft=4;spacingRight=4;whiteSpace=wrap;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;align=center;" parent="1fdf3b25b50cf41e-1" vertex="1">
+          <mxGeometry y="26" width="140" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="1fdf3b25b50cf41e-18" value="Pull request" style="text;html=1;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;whiteSpace=wrap;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;align=center;" parent="1" vertex="1">
+          <mxGeometry x="331" y="319" width="140" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="TjxAIH2vPGF4o4DeTwbO-1" value="Queue_parce" style="html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=2;fontFamily=Verdana;fontSize=12;align=center;shape=mxgraph.ios7ui.horLines;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="183" y="322" width="135" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="TjxAIH2vPGF4o4DeTwbO-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;" edge="1" parent="1" source="TjxAIH2vPGF4o4DeTwbO-2">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="521" y="341" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="549" y="301" />
+              <mxPoint x="531" y="301" />
+              <mxPoint x="531" y="331" />
+              <mxPoint x="521" y="331" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="TjxAIH2vPGF4o4DeTwbO-2" value="In-flight Event" style="html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=2;fontFamily=Verdana;fontSize=12;align=center;shape=mxgraph.ios7ui.horLines;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="481" y="231" width="135" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="TjxAIH2vPGF4o4DeTwbO-4" value="Push request" style="text;html=1;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;whiteSpace=wrap;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;align=center;" vertex="1" parent="1">
+          <mxGeometry x="640" y="321" width="140" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="TjxAIH2vPGF4o4DeTwbO-9" value="Parsing" style="swimlane;html=1;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#e0e0e0;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;swimlaneFillColor=#ffffff;align=center;rounded=1;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=12" vertex="1" parent="1">
+          <mxGeometry x="481" y="433" width="140" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="TjxAIH2vPGF4o4DeTwbO-10" value="процесс 1.1&lt;br&gt;" style="text;html=1;strokeColor=#82b366;fillColor=#d5e8d4;spacingLeft=4;spacingRight=4;whiteSpace=wrap;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;align=center;" vertex="1" parent="TjxAIH2vPGF4o4DeTwbO-9">
+          <mxGeometry y="26" width="140" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="TjxAIH2vPGF4o4DeTwbO-14" style="edgeStyle=entityRelationEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="TjxAIH2vPGF4o4DeTwbO-13" target="TjxAIH2vPGF4o4DeTwbO-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="TjxAIH2vPGF4o4DeTwbO-13" value="XML-documents" style="html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=2;fontFamily=Verdana;fontSize=12;align=center;shape=mxgraph.ios7ui.horLines;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="188" y="437" width="135" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="TjxAIH2vPGF4o4DeTwbO-15" value="Database" style="html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=2;fontFamily=Verdana;fontSize=12;align=center;shape=mxgraph.ios7ui.horLines;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="571" y="621" width="140" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="TjxAIH2vPGF4o4DeTwbO-17" value="Load and Parse" style="text;html=1;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;whiteSpace=wrap;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;align=center;" vertex="1" parent="1">
+          <mxGeometry x="329" y="435" width="140" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="TjxAIH2vPGF4o4DeTwbO-20" value="Insert/Update" style="text;html=1;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;whiteSpace=wrap;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;align=center;" vertex="1" parent="1">
+          <mxGeometry x="431" y="525" width="131" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="TjxAIH2vPGF4o4DeTwbO-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;curved=1;" edge="1" parent="1" source="TjxAIH2vPGF4o4DeTwbO-10" target="TjxAIH2vPGF4o4DeTwbO-15">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="501" y="520" />
+              <mxPoint x="549" y="520" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="TjxAIH2vPGF4o4DeTwbO-25" value="Processing" style="swimlane;html=1;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#e0e0e0;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;swimlaneFillColor=#ffffff;align=center;rounded=1;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=12" vertex="1" parent="1">
+          <mxGeometry x="807" y="434" width="140" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="TjxAIH2vPGF4o4DeTwbO-26" value="процесс 2&lt;br&gt;" style="text;html=1;strokeColor=#d6b656;fillColor=#fff2cc;spacingLeft=4;spacingRight=4;whiteSpace=wrap;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;align=center;" vertex="1" parent="TjxAIH2vPGF4o4DeTwbO-25">
+          <mxGeometry y="26" width="140" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="TjxAIH2vPGF4o4DeTwbO-29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="951" y="452" as="targetPoint" />
+            <mxPoint x="1041" y="452" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="TjxAIH2vPGF4o4DeTwbO-28" value="In-flight Event" style="html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=2;fontFamily=Verdana;fontSize=12;align=center;shape=mxgraph.ios7ui.horLines;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="1041" y="436" width="135" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="TjxAIH2vPGF4o4DeTwbO-30" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.74;entryDx=0;entryDy=0;entryPerimeter=0;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="947" y="468" as="sourcePoint" />
+            <mxPoint x="1041" y="468" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="TjxAIH2vPGF4o4DeTwbO-32" value="Processing" style="swimlane;html=1;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#e0e0e0;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;swimlaneFillColor=#ffffff;align=center;rounded=1;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=12" vertex="1" parent="1">
+          <mxGeometry x="809" y="525" width="140" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="TjxAIH2vPGF4o4DeTwbO-33" value="процесс 2.1" style="text;html=1;strokeColor=#82b366;fillColor=#d5e8d4;spacingLeft=4;spacingRight=4;whiteSpace=wrap;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;align=center;" vertex="1" parent="TjxAIH2vPGF4o4DeTwbO-32">
+          <mxGeometry y="26" width="140" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="TjxAIH2vPGF4o4DeTwbO-35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;" edge="1" parent="1" source="TjxAIH2vPGF4o4DeTwbO-26" target="TjxAIH2vPGF4o4DeTwbO-32">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="879" y="521" />
+              <mxPoint x="879" y="521" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="TjxAIH2vPGF4o4DeTwbO-36" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;curved=1;" edge="1" parent="1" source="TjxAIH2vPGF4o4DeTwbO-33" target="TjxAIH2vPGF4o4DeTwbO-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="TjxAIH2vPGF4o4DeTwbO-37" value="Insert/Update" style="text;html=1;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;whiteSpace=wrap;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;align=center;" vertex="1" parent="1">
+          <mxGeometry x="656" y="541" width="131" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="TjxAIH2vPGF4o4DeTwbO-38" value="SQL-files&lt;br&gt;(optional)" style="html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=2;fontFamily=Verdana;fontSize=12;align=center;shape=mxgraph.ios7ui.horLines;" vertex="1" parent="1">
+          <mxGeometry x="1037" y="624" width="135" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="TjxAIH2vPGF4o4DeTwbO-39" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;curved=1;dashed=1;" edge="1" parent="1" source="TjxAIH2vPGF4o4DeTwbO-33" target="TjxAIH2vPGF4o4DeTwbO-38">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="TjxAIH2vPGF4o4DeTwbO-40" value="&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;Взаимодействие микросервисов. &lt;br&gt;На примере одной пары &quot;Процесс 1&quot; -&amp;nbsp; Parsing, &quot;Процесс 2&quot; -&amp;nbsp; Processing" style="text;whiteSpace=wrap;html=1;fontSize=15;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="414" y="116" width="559" height="62" as="geometry" />
+        </mxCell>
+        <mxCell id="crpn4ZeB6W0QFP1mz9ZF-1" value="Pull request" style="text;html=1;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;whiteSpace=wrap;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;align=center;" vertex="1" parent="1">
+          <mxGeometry x="827" y="379" width="140" height="26" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="CjqTcoJP1oiXxQW4xym2" name="Страница 2">
+    <mxGraphModel dx="1434" dy="879" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

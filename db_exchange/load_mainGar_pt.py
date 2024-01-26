@@ -20,7 +20,7 @@ import time
 import yaml
 from yaml.loader import SafeLoader
 
-VERSION_STR = "  Version 0.1.0 Build 2023-11-27"
+VERSION_STR = "  Version 0.2.0 Build 2024-01-25"
 
 YAML_NOT_OPENED_0 = "... Yaml file not opened: '"
 YAML_NOT_OPENED_1 = "'."
@@ -29,6 +29,12 @@ S_DELIM = "="     # Nick 2022-03-09
 bUL     = "_"
 SPACE_0 = " "
 EMP     = ""
+bDL     = "|"
+
+QUEUE_FIRST = "QF"
+QUEUE_PARSE = "QP"
+QUEUE_PROC  = "QR"
+
 # -----------------------------------
 
 INSERT_EVENT = """
@@ -51,7 +57,8 @@ class make_load_pt ():
     <Host_IP> <Port> <DB_name> <User_name> <Yaml_file> <Version>
     
  """
- def __init__ ( self, p_host_ip, p_port, p_db_name, p_user_name, p_host_yaml, p_version_date ):
+ def __init__ ( self, p_host_ip, p_port, p_db_name, p_user_name, p_host_yaml, p_version_date,\
+     p_mode ):
 
      yaml_file_name = string.strip (p_host_yaml)
      try:
@@ -72,6 +79,7 @@ class make_load_pt ():
      self.conn = psycopg2.connect(s_lp)
      self.conn.autocommit = True
      self.curs = self.conn.cursor()
+     self.mode = int(p_mode)
      
  def to_do_pt (self):
      
@@ -119,9 +127,9 @@ class make_load_pt ():
      print self.date_proc
      last_type = "last_0"
 
-     self.curs.execute (INSERT_EVENT,("QL0", last_type, (str(self.date_proc)+ "|" +\
-         str(self.version_date) + "|" + yaml_stage_6 + "|" + postproc_sh + "|" + upd_path +\
-             "|" + new_owner + "|" + new_grp), "", "", "", ""))
+     self.curs.execute (INSERT_EVENT,("QL0", last_type, (str(self.date_proc)+ bDL +\
+         str(self.version_date) + bDL + yaml_stage_6 + bDL + postproc_sh + bDL + upd_path +\
+             bDL + new_owner + bDL + new_grp), EMP, EMP, EMP, EMP))
                                                                                
      for host in self.yaml_data ['hosts']:
          
@@ -159,20 +167,30 @@ class make_load_pt ():
              + ", Execute: " + batch_proc_name + ", process_id:" + str (os.getpid ())
                 
          dev_parse = string.replace(str((host_ip, port, db_name, user_name, batch_parse_name,\
-             path, self.version_date, fserver_nmb, schemas, id_region)), "'", "")         
+             path, self.version_date, fserver_nmb, schemas, id_region)), "'", EMP)         
 
          dev_proc = string.replace(str((host_ip, port, db_name, user_name, batch_proc_name,\
-             path, self.version_date, fserver_nmb, schemas, id_region)), "'", "")         
+             path, self.version_date, fserver_nmb, schemas, id_region)), "'", EMP)         
 
          parse_type = "parse_" + h_name
          proc_type  = "proc_" + h_name
 
-         self.curs.execute (INSERT_EVENT,("QF", proc_type, first_str_proc, \
-             "", "", "", ""))         
+         self.curs.execute (INSERT_EVENT,(QUEUE_FIRST, proc_type, first_str_proc, \
+             EMP, EMP, EMP, EMP))         
          
-         self.curs.execute (INSERT_EVENT,("QP", (parse_type + "|" + proc_type),\
-             (dev_parse + "|" + log_pref), first_str_parse, (dev_proc + "|" + log_pref),\
-                 first_str_proc, ""))
+         # Parsing & Processing
+         if (self.mode == 0):
+             self.curs.execute (INSERT_EVENT,(QUEUE_PARSE, (parse_type + bDL + proc_type),\
+                 (dev_parse + bDL + log_pref), first_str_parse, (dev_proc + bDL + log_pref),\
+                     first_str_proc, EMP))
+             
+         # Only processing    
+         elif (self.mode == 1):
+             # Новость
+             self.curs.execute (INSERT_EVENT,(QUEUE_PROC, proc_type, dev_proc,\
+                 first_str_proc, log_pref, EMP, EMP))
+         else:
+             pass
          
      return rc
  
@@ -182,16 +200,17 @@ if __name__ == '__main__':
         """
              Main entrypoint for the class
         """
-         #       1          2       3         4           5          6   
-        sa = " <Host_IP> <Port> <DB_name> <User_name> <Yaml_file> <Version>"
+         #       1          2       3         4           5          6         7
+        sa = " <Host_IP> <Port> <DB_name> <User_name> <Yaml_file> <Version> <Mode>"
         
-        if ((len( sys.argv ) - 1) < 6):
+        if ((len( sys.argv ) - 1) < 7):
             print VERSION_STR 
             print "  Usage: " + str ( sys.argv [0] ) + sa
             sys.exit( 1 )
         
         rc = 0
-        ml = make_load_pt (sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4],sys.argv[5], sys.argv[6])
+        ml = make_load_pt (sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4],sys.argv[5],\
+            sys.argv[6], sys.argv[7])
         rc = ml.to_do_pt ()
         
         sys.exit (rc)

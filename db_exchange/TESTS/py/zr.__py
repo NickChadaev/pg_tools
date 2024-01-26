@@ -1,0 +1,55 @@
+#------------------------------
+bLOG_NAME = "{0}process{1}.log"
+bOUT_NAME = "{0}process{1}.out"
+bERR_NAME = "{0}process{1}.err"
+bSQL_NAME = "{0}process{1}.sql"
+#------------------------------
+
+import load_mainGar as LoadGar
+
+if (event [0]):
+    # Формирую контекст.
+    cur1.execute (INSERT_EVENT, (QUEUE_CONT, event[2], event[3], event[4], event[5], event[6], event[7]))      
+    con.commit()
+        
+    ev_id   = event[0]
+    ev_time = event[1]
+    #--
+    ev_type = event[2]                 # ev_type
+    ev_data = event[3]
+    first_mess_proc = event[4]         #  ev_extra1
+    log_pref_proc = event[5]           #  ev_extra2
+    
+    #print (ev_id)     
+    #print (ev_type)
+    
+    dp = ((ev_data.replace(bLBR, EMP)).replace(bRBR,EMP)).split(bCM)
+  
+    host_ip         = dp[0].strip()
+    port            = dp[1].strip()                      
+    db_name         = dp[2].strip()
+    user_name       = dp[3].strip()
+    batch_file_name = dp[4].strip()
+    path            = dp[5].strip()   
+    version_date    = dp[6].strip()
+    fserver_nmb     = dp[7].strip()
+    schemas         = dp[8].strip()
+    id_region       = dp[9].strip()
+    
+    rc = 0
+    proc_mr = log_pref_proc + PATH_DELIMITER + bPN
+    ml = LoadGar.make_load (host_ip, port, db_name, user_name, False, proc_mr) #### !!!!
+    rc = ml.to_do (host_ip, port, db_name, user_name, batch_file_name,\
+        bLOG_NAME, bOUT_NAME, bERR_NAME, bSQL_NAME, path, version_date,\
+                p_fserver_nmb = fserver_nmb, p_schemas = schemas, p_id_region = id_region,\
+                    p_first_message = first_mess_proc)   
+    if (rc == 0):
+        # Убираю контекст.
+        cur1.execute (NEXT_EVENTS, (QUEUE_CONT, QUEUE_CONSUMER))
+        event_с = cur1.fetchone()           
+
+        # Финал
+        cur3 = con.cursor()
+        cur3.execute (INSERT_EVENT,(QUEUE_LAST, ev_type, first_mess_proc, bPN.strip(bU), EMP, EMP, EMP)) 
+        
+        con.commit()

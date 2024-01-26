@@ -1,0 +1,71 @@
+total_params:
+    template_cfg_path: /home/rootadmin/db_exchange2/X/X_TESTS/cfg/    # Конфигурационный файл для сервисов. Как определитm Pattern ??
+    template_py_path:  /home/rootadmin/db_exchange2/X/X_TESTS/py/     # Py-workers.
+    template_sql_path: /home/rootadmin/db_exchange2/X/X_TESTS/sql/    # Sql-scropts.
+    #
+    #  Результаты генерации conf-файлов, py, sql скриптов находятся там-же
+    #  в подкаталогах "_RES"
+    #
+    cfg_file_name: exchange-tasks.cfg # Имя созданного конфигурационого файла.
+    script_path: exchange-scripts     # Общий каталог для всех workers (используется только в теле конф. файла)
+    all_disabled: False               # Ощий переключатель активности  (используется только в теле конф. файла)
+    #
+    #   DB-table template ????
+    #
+    sql_script_worker: x_uio_crt_tables.__sql
+    sql_script_body: z_uio_crt_tables.__sql
+    sql_table_parent: pgq.event_template     #  Может быть свободая таблица
+
+db_con_list:                        # По крайней мере должно быть одно соединение 
+       -
+           con_name: exchange_db_con
+
+thread_pool_list:                   # 
+       -  
+           thread_name: fg_thr_pool_t
+           max_workers: 2
+       -           
+           thread_name: bg_thr_pool_p
+           max_workers: 20
+       -    
+           thread_name: bg_thr_pool_r
+           max_workers: 10        
+   
+tasks:
+       -
+           is_sql: True  
+           is_template: False
+           task_name: set_tick
+           thread_name: fg_thr_pool_t
+           task_timer: 1
+           task_body: SELECT pgq.ticker();
+       -
+           is_sql: False       
+           is_template: True           
+           task_prefix: p
+           depend_prefix: r
+           thread_name: bg_thr_pool_p
+           task_mult: 100
+           task_worker: xp.__py
+           task_body: zp.__py
+       -                   
+           is_sql: False
+           is_template: True  
+           task_prefix: r
+           thread_name: bg_thr_pool_r
+           task_mult: 500
+           task_worker: xr.__py
+           task_body: zr.__py
+       -                   
+           is_sql: False
+           is_template: False
+           task_name: l0
+           task_timer: 3600.0
+           thread_name: fg_thr_pool_t
+           sql_worker: _RES/2_uio_crt_tables_3.sql
+           script_args:
+                        -
+                            arg_value: 85
+                        -
+                            arg_value: /var/log/pg-perfect-ticker/exchange.log
+

@@ -38,7 +38,7 @@ rm process.sql
 
 # 2023-06-16/2023-11-28
 
-load_mainGar_pt.py 127.0.0.1 5433 db_exchange postgres hosts_common_xxx_all_pt.yaml $3
+load_mainGar_pt.py 127.0.0.1 5433 db_exchange postgres hosts_common_xxx_all_pt.yaml $3 0
 if [ $? -ne 0 ] 
   then
         rm process.sql 
@@ -46,7 +46,7 @@ if [ $? -ne 0 ]
 	exit 4
 fi
 
-sudo service pg-perfect-ticker@exchange start
+sudo service pg-perfect-ticker@exchange restart
 if [ $? -ne 0 ] 
   then
 	echo 5.Ошибка при запуске сервиса.

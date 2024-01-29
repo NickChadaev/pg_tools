@@ -46,7 +46,7 @@ if [ $? -ne 0 ]
 	exit 4
 fi
 
-sudo service pg-perfect-ticker@exchange restart
+sudo service pg-perfect-ticker@exchange start
 if [ $? -ne 0 ] 
   then
 	echo 5.Ошибка при запуске сервиса.

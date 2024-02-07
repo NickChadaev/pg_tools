@@ -1,0 +1,71 @@
+#-------------------------------------------------------------------------------
+# 2009-04-21/2020-05-10 Nick (nick-ch58@yandex.ru).
+#-------------------------------------------------------------------------------
+# The structure of bathc-file. It consists:
+#    0 - Type action 
+#    1 - SQL-command/The SQL-file name/The <1*.conf> file name
+#    2 - DB name 
+#    3 - The text of message
+#    The DB-name may be ommited. But if it is present, the it 
+#    cancels the name specified in the parameter list.
+#-------------------------------------------------------------------------------
+# Type action is: 0 - Direct performing SQL-command
+#                 1 - Perform SQL-command from SQL-file
+#                 2 - Direct loading into DB
+#                 3 - Deferred loading into DB
+#                 4 - Direct unloading from DB
+#                 5 - Defrred unloading from DB
+#                 X - Message for user (The fields ##1,2 - are empty )
+#-------------------------------------------------------------------------------
+# For example: 
+#       0;DROP DATABASE IF EXISTS db_k2;;Remove old DB; 
+#       1;1_crt_domain.sql;db_k2;Creating domains; 
+#       X;;;Schema COM; 
+#       1;0_COM/2_com_crt_tables.sql;;-- Creating the base tables; 
+#       1;0_COM/4_com_crt_errors.sql;;-- Creating the tables for errors;
+#-------------------------------------------------------------------------------
+X;;;Start process, Сборка функционального пакета;
+#
+5;version_atol.sql;;-- Ветка "all_prov", Версия: 5a571ff/2023-08-22;          
+#
+5;FUNCTION/ATOL/f_xxx_replace_char.sql;;-- f_xxx_replace_char.sql;
+5;FUNCTION/ATOL/f_get_notification_url.sql;;-- f_get_notification_url.sql;
+#
+5;FUNCTION/ATOL/fsc_receive_payments_operators_crt_3.sql;;-- fsc_receive_payments_operators_crt_3.sql;
+5;FUNCTION/ATOL/fsc_paying_agent_crt_3.sql;;-- fsc_paying_agent_crt_3.sql;
+5;FUNCTION/ATOL/fsc_money_transfer_operator_crt_3.sql;;-- fsc_money_transfer_operator_crt_3.sql;
+5;FUNCTION/ATOL/fsc_mark_quantity_crt_2.sql;;-- fsc_mark_quantity_crt_2.sql;
+5;FUNCTION/ATOL/fsc_mark_code_crt_2.sql;;-- fsc_mark_code_crt_2.sql;  
+5;FUNCTION/ATOL/fsc_agent_info_crt_2.sql;;-- fsc_agent_info_crt_2.sql;
+5;FUNCTION/ATOL/fsc_supplier_info_2.sql;;-- fsc_supplier_info_2.sql;
+5;FUNCTION/ATOL/fsc_vat_crt_2.sql;;-- fsc_vat_crt_2.sql;
+5;FUNCTION/ATOL/fsc_sectoral_item_props_crt_2.sql;;-- fsc_sectoral_item_props_crt_2.sql;
+5;FUNCTION/ATOL/fsc_vats_crt_1.sql;;-- fsc_vats_crt_1.sql;
+5;FUNCTION/ATOL/fsc_sectoral_check_props_1.sql;;-- fsc_sectoral_check_props_1.sql;
+5;FUNCTION/ATOL/fsc_payments_crt_1.sql;;-- fsc_payments_crt_1.sql;
+5;FUNCTION/ATOL/fsc_operating_check_props_crt_1.sql;;-- fsc_operating_check_props_crt_1.sql;  
+5;FUNCTION/ATOL/fsc_items_crt_1.sql;;-- fsc_items_crt_1.sql;
+5;FUNCTION/ATOL/fsc_company_crt_1.sql;;-- fsc_company_crt_1.sql;
+5;FUNCTION/ATOL/fsc_client_crt_1.sql;;-- fsc_client_crt_1.sql;
+5;FUNCTION/ATOL/fsc_additional_user_props_crt_1.sql;;-- fsc_additional_user_props_crt_1.sql;
+#
+5;FUNCTION/ATOL/fsc_correction_info_crt_1.sql;;-- fsc_correction_info_crt_1.sql;
+5;FUNCTION/ATOL/fsc_receipt_crt_0.sql;;-- fsc_receipt_crt_0.sql;
+5;FUNCTION/ATOL/fsc_correction_crt_0.sql;;-- fsc_correction_crt_0.sql;
+#
+## 5;FUNCTION/ATOL/fsc_order_crt.sql;;-- fsc_order_crt.sql;
+5;FUNCTION/ATOL/fsc_order_crt_NEXT.sql;;-- fsc_order_crt_NEXT.sql;
+5;FUNCTION/ATOL/fsc_orders_load.sql;;-- fsc_orders_load.sql;
+5;FUNCTION/ATOL/fsc_orders_load_on_line.sql;;-- fsc_orders_load_on_line.sql;
+5;FUNCTION/ATOL/fsc_range_part_crt.sql;;-- fsc_range_part_crt.sql;
+5;FUNCTION/ATOL/fsc_receipt_status_upd.sql;;-- fsc_receipt_status_upd.sql;
+5;FUNCTION/ATOL/fsc_receipt_upd.sql;;-- fsc_receipt_upd.sql;
+#
+X;;;Stop process;
+#-------------------------------------------------------------------------------
+#  Пример вызова
+# load_mainGar.py 127.0.0.1 5434 xxx_test postgres stage_2_link_build.csv ../ '2021-09-27'
+
+
+
+

@@ -1,0 +1,110 @@
+## 5;FUNCTION/ATOL/fsc_order_crt.sql;;-- fsc_order_crt.sql;
+5;FUNCTION/ATOL/fsc_order_crt_NEXT.sql;;-- fsc_order_crt_NEXT.sql;
+5;FUNCTION/ATOL/fsc_orders_load.sql;;-- fsc_orders_load.sql;
+5;FUNCTION/ATOL/fsc_orders_load_on_line.sql;;-- fsc_orders_load_on_line.sql;
+
+5;FUNCTION/ATOL/fsc_range_part_crt.sql;;-- fsc_range_part_crt.sql;
+
+5;FUNCTION/ATOL/fsc_receipt_status_upd.sql;;-- fsc_receipt_status_upd.sql;
+5;FUNCTION/ATOL/fsc_receipt_upd.sql;;-- fsc_receipt_upd.sql;
+#
+#==========================================================================================================
+
+"fsc_receipt_upd.sql" -  обновление статуса чека.
+-------------------------------------------------
+--    Получили ответ от сервера фискализации, массив JSON, обрабатываем только чеки 
+--     со статусом  = 'done' ('Успешно'). Статусы чека в БД и на сервере фискализации разнятся.
+-- --------------------------------------------------------------------------------------------------------------
+--             CREATE TYPE public.status_t AS ENUM ('done', 'fail', 'wait');
+--             COMMENT ON TYPE public.status_t  IS 'Перечень состояний чека (АТОЛ)';
+-- --------------------------------------------------------------------------------------------------------------
+-- Статус чека в БД  Описание
+--   0        Запрос на фискализацию. Чек добавлен в БД, ожидает отправки на FISC-server
+--   1        Чек отправлен на фискализацию
+--   2        Чек успешно фискализирован
+--   3        Чек ожидает свободной кассы, очередь переполнена
+--   4        Чек с ошибкой (фискализация не будет выполнена)
+--   5        Ошибка кассы (попытка фискализации будет выполнена повторно)
+--   6        Ошибка сервиса (попытка фискализации может быть выполнена повторно)
+-- ----------------------------------------------------------------------------------------------------------
+#==========================================================================================================
+
+fsc_receipt_pcg.fsc_receipt_status_upd
+   (     
+              p_old_rcp_status  integer                        -- Старый статус чека
+            , p_new_rcp_status  integer                        -- Новый статус чека  
+            , p_id_fsc_provider integer                        -- Фискальный провайдер. 
+              --
+            , p_ids_receipt    bigint []                   -- массив ID чеков 
+            , p_min_dt_create  timestamp(0) with time zone -- минимальная дата создания
+            , p_max_dt_create  timestamp(0) with time zone -- максимальная дата создания
+            , p_limit          integer                     -- ограничение на количество.
+            , OUT fsc_orders json
+        )
+'Смена статуса чека, перемещение из секции в секцию. Формирует МАССИВ JSON';	
+
+#
+#==========================================================================================================
+
+
+fsc_range_part_crt.sql  -- создание партиций второго уровня, запускается по расписанию, в конце года.
+
+
+#
+#==========================================================================================================
+
+
+fsc_orders_load_on_line.sql
+fsc_receipt_pcg.fsc_orders_load (
+       p_source_data  json -- Исходные данные, формируем в приложении.      
+ )
+Чек полностью формируется в приложении, далее загружается в секцию №0
+
+#
+#==========================================================================================================
+
+fsc_receipt_pcg.fsc_orders_load.sql --загрузка чека  из платёжных реестров.
+CREATE OR REPLACE FUNCTION fsc_receipt_pcg.fsc_orders_load (
+       p_reestr_type integer = 0 -- Тип реестра с исходными данными
+      
+      --диапазон, внутри которого фильтруются даты
+      ,p_min_date  timestamp(0) without time zone = (now() - interval '1 day')
+      ,p_max_date  timestamp(0) without time zone = (now() + interval '1 day') 
+      --
+      -- Дополнительные атрибуты
+     ,p_agent_type   agent_info_t = 'bank_paying_agent'
+      -- Оплата
+     ,p_paying_agent_operation  text = 'Платёж'
+ )
+
+#=================================================================================================
+fsc_order_crt_NEXT.sql; - формирование запроса на фискализацию
+
+CREATE OR REPLACE FUNCTION fsc_receipt_pcg.fsc_order_crt (
+     
+       p_timestamp        timestamp   -- Дата и время документа
+     , p_external_id      text        -- Внешний идентификатор документа 
+     , p_operation        operation_t -- Тип выполняемой операции
+     , p_correction_info  json        -- Информация о типе коррекции ОПЦИОНАЛЬНО МОЖЕТ БЫТЬ "NULL"
+     
+     -- ----------------------------------------------------------------
+     
+     , p_client                 json -- Покупатель / клиент 
+     , p_company                json -- Компания
+     , p_items                  json -- Товары, услуги
+     , p_payments               json -- Оплаты
+     , p_total                  numeric (10,2) -- Итоговая сумма чека в рублях
+     
+     , p_vats                   json  DEFAULT NULL -- Атрибуты налогов на чек
+     , p_cashier                text  DEFAULT NULL -- ФИО кассира
+     , p_cashier_inn            text  DEFAULT NULL -- ИНН кассира
+     , p_additional_check_props text  DEFAULT NULL -- Дополнительный реквизит чека
+     , p_additional_user_props  json  DEFAULT NULL -- Дополнительный реквизит пользователя
+     , p_operating_check_props  json  DEFAULT NULL -- Операционныц реквизит чека
+     , p_sectoral_check_props   json  DEFAULT NULL -- Отраслевой реквизит кассового чека
+     
+     -- ----------------------------------------------------------------
+     
+     , p_ism_optional boolean DEFAULT NULL -- Регистрация в случае недоступности проверки кода маркировки
+     , p_callback_url text    DEFAULT NULL -- Адрес ответа, (используем после обработки чека)
+ )

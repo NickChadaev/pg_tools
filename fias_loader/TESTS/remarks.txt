@@ -2052,3 +2052,6 @@ SELECT gar_link.f_server_crt ('unnsi_prd_et', '10.196.35.165', 'unnsi_prd_et', 5
 -----------------------------------------
              
 SELECT gar_link.f_schema_import ('unnsi_prd_et', 'unnsi', 'unsi', 'ЭТАЛОН от 2022-12-15');
+
+
+fBVTBXPx47F$

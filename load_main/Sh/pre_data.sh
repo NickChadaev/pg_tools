@@ -40,12 +40,12 @@ fi
 cd $1
 r_scan_zip.py ../$Z 
 if [ $? -ne 0 ] 
-  then
-	echo 5.Ошибка при распаковке архива
-	exit 5
+ then
+    echo 5.Ошибка при распаковке архива
+    exit 5
 fi
 
-cd ../../
+cd ../..
 
 echo 9.Выполнен процесс
 echo

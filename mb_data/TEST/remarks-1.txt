@@ -1,0 +1,49 @@
+Вот, что работает на локальном "домашнем" стенде.
+
+
+2024-02-15 16:08:25,870 INFO metabase.core :: System info:
+ {"file.encoding" "UTF-8",
+ "java.runtime.name" "OpenJDK Runtime Environment",
+ "java.runtime.version" "11.0.19+7-post-Ubuntu-0ubuntu118.04.1",
+ "java.vendor" "Ubuntu",
+ "java.vendor.url" "https://ubuntu.com/",
+ "java.version" "11.0.19",
+ "java.vm.name" "OpenJDK 64-Bit Server VM",
+ "java.vm.version" "11.0.19+7-post-Ubuntu-0ubuntu118.04.1",
+ "os.name" "Linux",
+ "os.version" "5.4.0-150-generic",
+ "user.language" "ru",
+ "user.timezone" "Europe/Moscow"}
+ 
+Хост   10.196.35.165  --  Обработка адресных данных    CentOs  7.x
+
+$>java -version                                             СТАРАЯ ВЕРСИЯ
+openjdk version "1.8.0_402"
+OpenJDK Runtime Environment (build 1.8.0_402-b06)
+OpenJDK 64-Bit Server VM (build 25.402-b06, mixed mode)
+$>
+
+Запускаем metabase на этом хосте.
+
+$>java -jar metabase.jar
+
+Exception in thread "main" java.lang.UnsupportedClassVersionError: jakarta/servlet/http/HttpServletRequest has been compiled by a more recent 
+   version of the Java Runtime (class file version 55.0), 
+   this version of the Java Runtime only recognizes class file versions up to 52.0
+
+Встроенный web-server Jetty развалился из-за старой версии Java
+
+Надо обновить.
+
+
+Далее:
+ 
+$>docker -v
+Docker version 20.10.21, build 20.10.21-0ubuntu1~18.04.3
+$>
+
+$>docker-compose -v                                          ПОКА ПРОБЛЕМЫ С ЗАПУСКОМ, НО ДУМАЮ, ЧТО
+docker-compose version 1.17.1, build unknow                  ОНИ РАЗРЕШАТСЯ
+
+Под CentOS Docker'a нет
+

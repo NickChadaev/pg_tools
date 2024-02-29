@@ -1,0 +1,309 @@
+
+
+2024-02-27
+----------
+
+Задачи
+
+  Схема идентификации в существующем варианте metabase:
+  
+  -- Адрес почты    -- пользователь.  аутентификация
+  -- пароль
+  
+  
+  -- БД
+        -- алиас
+        -- IP
+        -- port
+        -- пользователь
+        -- пароль
+        -- одна либо все схемы.
+        -- SSL - это потом.
+        
+        
+Что сейчас имеем ??
+
+    login  xlarik                    xlarik_357@list.ru
+    passwd xlarik357
+    
+    unsi_test_10 -- источник
+    
+         источник   unsi_test_10   алиас  unsi_test_10_0   схема    gar_fias
+                                   алиас  unsi_test_10_1   схема    gar_tmp
+                                   алиас  unsi_test_10_2   схема    gar_version
+                                   алиас  unsi_test_10_3   схема    unnsi
+                               
+Право для роли на connect к определённой базе.  
+(connects может быть много и к различным БД)
+                               
+                               
+Вопросы:
+                                   
+    Пользовательские настройки сети в docker
+    Несколько IP на хосте
+    Postgres в docker, как я увижду его ???
+    
+    
+$>sudo ip a s
+[sudo] пароль для rootadmin: 
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: enp8s0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc fq_codel state DOWN group default qlen 1000
+    link/ether 3c:97:0e:64:b0:df brd ff:ff:ff:ff:ff:ff
+
+3: wlp2s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP group default qlen 1000
+    link/ether 60:36:dd:55:a0:eb brd ff:ff:ff:ff:ff:ff
+    inet 192.168.1.68/24 brd 192.168.1.255 scope global dynamic noprefixroute wlp2s0
+       valid_lft 14555sec preferred_lft 14555sec
+    inet6 fe80::ccb5:3b78:ebab:dca6/64 scope link noprefixroute 
+       valid_lft forever preferred_lft forever
+       
+4: wwp0s26u1u1i6: <BROADCAST,MULTICAST,NOARP> mtu 1500 qdisc noop state DOWN group default qlen 1000
+    link/ether fe:78:67:ba:34:54 brd ff:ff:ff:ff:ff:ff
+    
+5: docker0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default 
+    link/ether 02:42:9a:b6:ab:a6 brd ff:ff:ff:ff:ff:ff
+    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::42:9aff:feb6:aba6/64 scope link 
+       valid_lft forever preferred_lft forever
+       
+8: veth4a53e9c@if7: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue master docker0 state UP group default 
+    link/ether 5a:c5:71:f2:a9:03 brd ff:ff:ff:ff:ff:ff link-netnsid 0
+    inet6 fe80::58c5:71ff:fef2:a903/64 scope link 
+       valid_lft forever preferred_lft forever
+       
+10: veth723875c@if9: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue master docker0 state UP group default 
+    link/ether e6:3e:d2:ef:2f:dd brd ff:ff:ff:ff:ff:ff link-netnsid 1
+    inet6 fe80::e43e:d2ff:feef:2fdd/64 scope link 
+       valid_lft forever preferred_lft forever
+       
+12: veth42ec1c5@if11: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue master docker0 state UP group default 
+    link/ether 02:33:9c:b6:80:4f brd ff:ff:ff:ff:ff:ff link-netnsid 2
+    inet6 fe80::33:9cff:feb6:804f/64 scope link 
+       valid_lft forever preferred_lft forever
+       
+13: tun0: <POINTOPOINT,MULTICAST,NOARP,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UNKNOWN group default qlen 100
+    link/none 
+    inet 172.30.2.245/22 brd 172.30.3.255 scope global tun0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::a9cf:9c8:d198:cdb/64 scope link stable-privacy 
+       valid_lft forever preferred_lft forever
+$>
+    
+    
+    Postgres-docker-container - что получится ????
+
+    
+2024-02-28
+---------
+
+sudo docker run -d --rm -e POSTGRES_PASSWORD=postgres1 -e POSTGRES_USER=postgres -e POSTGRES_DB=test_0 -p 5432:5432 -v /tmp/pg_doc:/var/lib/postgresql/data postgres:13
+
+$>sudo docker run -d --rm -e POSTGRES_PASSWORD=postgres1 -e POSTGRES_USER=postgres -e POSTGRES_DB=test_0 -p 5432:5432 -v /tmp/pg_doc:/var/lib/postgresql/data postgres:13
+[sudo] пароль для rootadmin: 
+Unable to find image 'postgres:13' locally
+13: Pulling from library/postgres
+e1caac4eb9d2: Pull complete 
+6096a7babc4d: Pull complete 
+664f4704934f: Pull complete 
+de889e486709: Pull complete 
+f108a1b79a51: Pull complete 
+517668ac1eb2: Pull complete 
+42acbdd37ae0: Pull complete 
+3cba3b5ccdc1: Pull complete 
+41e05afac7a3: Pull complete 
+91bb3e565915: Pull complete 
+a46b4886ff6a: Pull complete 
+28d509a56ae9: Pull complete 
+48bddc8137c3: Pull complete 
+b08e3b310533: Pull complete 
+Digest: sha256:de6e68b64658163fd41ae50089e34c40919a55eb0e55e91be5f1bf8a58cd3560
+Status: Downloaded newer image for postgres:13
+1ae5772a05e8065c2ecc606336143b9195a3280316cc19face5c98146e12033a
+docker: Error response from daemon: driver failed programming external connectivity on endpoint confident_bohr (8c09facb9f778f8096d1d6c646b5a498c3d2c91c8b96d87be6b3bb5a8c3bbdf5): Error starting userland proxy: listen tcp4 0.0.0.0:5432: bind: address already in use.
+$>
+
+
+sudo docker run -d --rm -e POSTGRES_PASSWORD=postgres1 -e POSTGRES_USER=postgres -e POSTGRES_DB=test_0 -p 5436:5432 -v /tmp/pg_doc:/var/lib/postgresql/data postgres:13
+$>sudo docker ps -a
+CONTAINER ID   IMAGE               COMMAND                  CREATED          STATUS          PORTS                                       NAMES
+3a3f924a3499   postgres:13         "docker-entrypoint.s…"   19 seconds ago   Up 15 seconds   0.0.0.0:5436->5432/tcp, :::5436->5432/tcp   eloquent_dhawan
+7caefa2107f8   metabase/metabase   "/app/run_metabase.sh"   24 hours ago     Up 24 hours     0.0.0.0:3003->3000/tcp, :::3003->3000/tcp   metabase_3
+a0547696c31b   metabase/metabase   "/app/run_metabase.sh"   25 hours ago     Up 25 hours     0.0.0.0:3002->3000/tcp, :::3002->3000/tcp   metabase_2
+f40562bae6d2   metabase/metabase   "/app/run_metabase.sh"   25 hours ago     Up 25 hours     0.0.0.0:3001->3000/tcp, :::3001->3000/tcp   metabase_1
+d933ea949bea   metabase/metabase   "/app/run_metabase.sh"   26 hours ago     Up 26 hours                                                 metabase_0
+$>
+
+
+sudo docker inspect 3a3f924a3499 --  "IPAddress": "172.17.0.5",
+
+
+$>sudo docker exec -i 3a3f924a3499 service postgresql status
+$>sudo docker exec -i 3a3f924a3499 service postgresql restart
+No PostgreSQL clusters exist; see "man pg_createcluster" ... (warning).
+
+
+sudo docker stop 3a3f924a3499
+Далее:
+   
+# TYPE  DATABASE        USER            ADDRESS                 METHOD
+
+# "local" is for Unix domain socket connections only
+local   all             all                                     trust
+# IPv4 local connections:
+### host    all             all              127.0.0.1/32            trust
+host    all             all              0.0.0.0/0            trust
+# IPv6 local connections:
+host    all             all             ::1/128                 trust
+# Allow replication connections from localhost, by a user with the
+# replication privilege.
+local   replication     all                                     trust
+host    replication     all             127.0.0.1/32            trust
+host    replication     all             ::1/128                 trust
+
+### host all all all md5
+
+sudo docker run -d --rm -e POSTGRES_PASSWORD=postgres1 -e POSTGRES_USER=postgres -e POSTGRES_DB=test_0 -p 5436:5432 -v /tmp/pg_doc:/var/lib/postgresql/data postgres:13
+$>sudo docker run -d --rm -e POSTGRES_PASSWORD=postgres1 -e POSTGRES_USER=postgres -e POSTGRES_DB=test_0 -p 5436:5432 -v /tmp/pg_doc:/var/lib/postgresql/data postgres:13
+692f8956cfd7609979a3485827b817c138553ee4d053f9b9bb7d7a2a9fa46462
+$>sudo docker ps -a
+CONTAINER ID   IMAGE               COMMAND                  CREATED         STATUS         PORTS                                       NAMES
+692f8956cfd7   postgres:13         "docker-entrypoint.s…"   6 seconds ago   Up 3 seconds   0.0.0.0:5436->5432/tcp, :::5436->5432/tcp   zen_ellis
+7caefa2107f8   metabase/metabase   "/app/run_metabase.sh"   27 hours ago    Up 27 hours    0.0.0.0:3003->3000/tcp, :::3003->3000/tcp   metabase_3
+a0547696c31b   metabase/metabase   "/app/run_metabase.sh"   28 hours ago    Up 28 hours    0.0.0.0:3002->3000/tcp, :::3002->3000/tcp   metabase_2
+f40562bae6d2   metabase/metabase   "/app/run_metabase.sh"   29 hours ago    Up 29 hours    0.0.0.0:3001->3000/tcp, :::3001->3000/tcp   metabase_1
+d933ea949bea   metabase/metabase   "/app/run_metabase.sh"   29 hours ago    Up 29 hours                                                metabase_0
+$>
+
+"IPAddress": "172.17.0.5",
+
+$>psql -h 172.17.0.5 -p 5436 -U postgres 
+psql: ошибка: подключиться к серверу "172.17.0.5", порту 5436 не удалось: В соединении отказано
+	Сервер действительно работает по данному адресу и принимает TCP-соединения?
+$>psql -h 172.17.0.5 -p 5432 -U postgres 
+psql (13.11 (Ubuntu 13.11-1.pgdg18.04+1), сервер 13.14 (Debian 13.14-1.pgdg120+2))
+Введите "help", чтобы получить справку.
+
+postgres=# 
+
+
+                                                                       Список баз данных
+    Имя    | Владелец | Кодировка | LC_COLLATE |  LC_CTYPE  |     Права доступа     | Размер  | Табл. пространство |                  Описание                  
+-----------+----------+-----------+------------+------------+-----------------------+---------+--------------------+--------------------------------------------
+ postgres  | postgres | UTF8      | en_US.utf8 | en_US.utf8 |                       | 7909 kB | pg_default         | default administrative connection database
+ template0 | postgres | UTF8      | en_US.utf8 | en_US.utf8 | =c/postgres          +| 7761 kB | pg_default         | unmodifiable empty database
+           |          |           |            |            | postgres=CTc/postgres |         |                    | 
+ template1 | postgres | UTF8      | en_US.utf8 | en_US.utf8 | =c/postgres          +| 7761 kB | pg_default         | default template for new databases
+           |          |           |            |            | postgres=CTc/postgres |         |                    | 
+ test_0    | postgres | UTF8      | en_US.utf8 | en_US.utf8 |                       | 7761 kB | pg_default         | 
+(4 строки)
+
+УСТАНОВИТЬ ЛОКАЛЬ  !!!!!!
+
+
+Теперь "test_1"
+
+
+postgres=# CREATE DATABASE test_1
+postgres-#   WITH OWNER = postgres
+postgres-#        ENCODING = 'UTF8'
+postgres-#        TABLESPACE = pg_default
+postgres-#        LC_COLLATE = 'ru_RU.UTF8'
+postgres-#        LC_CTYPE = 'ru_RU.UTF8'
+postgres-#        CONNECTION LIMIT = -1;
+ERROR:  invalid locale name: "ru_RU.UTF8"
+postgres=# \l+
+postgres=# 
+postgres=# 
+postgres=# CREATE DATABASE test_1
+postgres-#   WITH OWNER = postgres
+postgres-#        ENCODING = 'UTF8'
+postgres-#        TABLESPACE = pg_default
+postgres-#        LC_COLLATE = 'ru_RU.utf8'
+postgres-#        LC_CTYPE = 'ru_RU.utf8'
+postgres-#        CONNECTION LIMIT = -1;
+ERROR:  invalid locale name: "ru_RU.utf8"
+postgres=# 
+
+$>sudo docker exec 692f8956cfd7 locale -a
+C
+C.utf8
+en_US.utf8
+POSIX
+$>
+
+
+test_0=# create extension plpgsql_check;
+ERROR:  could not open extension control file "/usr/share/postgresql/13/extension/plpgsql_check.control": No such file or directory
+test_0=# 
+
+Как я добавлял локали в postgres под CentOS ????
+
+Postgres в контейнере, на данный момент, ещё тот кот в мешке.
+Работаешь с контейнером, а руки трясутся, словно с бабы трусы снимаешь.
+
+Выплыла проблема с локалью ru_RU  вспоминать, как ставил её на CentOS
+
+remarks-H-41.txt
+
+Если же при выводе команды
+locale -a | grep ru
+
+нет русской локали то ее необходимо сделать. 
+Команда для этого выглядит так:
+localedef -i ru_RU -f UTF-8 ru_RU.UTF-8
+
+Что она делает. Она берет из папки /usr/share/i18n/locales/ файл ru_RU (это файл с русской локалью) и из папки /usr/share/i18n/charmaps файл UTF-8.gz (это символьная карта для юникода) и на основе этиф файлов генерит нужную нам локаль ru_RU.UTF-8
+После этого действия у нас в системе появляется нужная нам локаль, а дальше делаем все так как описано на абзац выше.
+Добавлю только что файлы находящиеся в папке usr/share/i18n/ принадлежат glibc-common-2.x.x и если вы их не наблюдаете там, то необходимо разбираться с самим glibc-common.
+-
+
+$>sudo docker exec 692f8956cfd7 ls -lat /usr/share/i18n
+[sudo] пароль для rootadmin: 
+total 40
+drwxr-xr-x 1 root root  4096 Feb 21 22:50 ..
+drwxr-xr-x 4 root root  4096 Feb 21 22:50 .
+drwxr-xr-x 2 root root 12288 Feb 21 22:50 charmaps   -- ru_RU
+drwxr-xr-x 2 root root 12288 Feb 21 22:50 locales
+-rw-r--r-- 1 root root  8163 Jan 23 20:57 SUPPORTED
+
+
+$>sudo docker exec 692f8956cfd7 localedef -i ru_RU -f UTF-8 ru_RU.UTF-8
+-----------------------------------------------------------------------
+
+$>sudo docker exec 692f8956cfd7 locale -a
+C
+C.utf8
+en_US.utf8
+POSIX
+ru_RU.utf8
+$>
+
+CREATE DATABASE test_1
+  WITH OWNER = postgres
+       ENCODING = 'UTF8'
+       TABLESPACE = pg_default
+       LC_COLLATE = 'ru_RU.utf8'
+       LC_CTYPE = 'ru_RU.utf8'
+       CONNECTION LIMIT = -1;
+       
+кЛАСТЕР СНОСИТЬ.
+
+-------------------------------
+
+2024-02-29
+----------
+
+--  Базы адресный хост, 5433 порт
+--  Роли + база (+ схема)
+--  Структура
+--  Загрузка
+
+--  В контейнерах только metabase. 
+--  Postgres в контейнерах -- это вторая очередь.
+--  Docker-compose -- третья

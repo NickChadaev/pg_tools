@@ -2055,3 +2055,47 @@ SELECT gar_link.f_schema_import ('unnsi_prd_et', 'unnsi', 'unsi', 'ЭТАЛОН 
 
 
 fBVTBXPx47F$
+
+-- ============================================================================================
+
+Olga Aktiranova, [12.02.2024 13:05]
+Так
+
+Olga Aktiranova, [12.02.2024 13:05]
+Я сейчас на планерке
+
+Olga Aktiranova, [12.02.2024 13:05]
+Но от Филимонова
+
+Olga Aktiranova, [12.02.2024 13:05]
+https://gitlab.abr-region.ru/a.chupin/kktadapter/-/tree/main/src/main/java/ru/abrr
+
+Olga Aktiranova, [12.02.2024 13:05]
+CheckNewReceiptScheduler.checkReceipt
+StateReceiptScheduler.checkReceipt
+Controller
+
+Olga Aktiranova, [12.02.2024 13:06]
+Один шедулер к потокам на отправку
+Второй на опрос по ожиданию
+
+Olga Aktiranova, [12.02.2024 13:06]
+У нас нет здесь ни Кафки, не Рэббита
+
+Olga Aktiranova, [12.02.2024 13:06]
+Все делает просто приложение
+
+Olga Aktiranova, [12.02.2024 13:06]
+Асинхронная реализация
+
+Olga Aktiranova, [12.02.2024 13:07]
+1 чек в 1 секунду на отправку
+Не больше 3-х запросов на 1 поток
+0,7 секунд ожидания по запросу (sleep в алгоритме)
+
+Olga Aktiranova, [12.02.2024 13:08]
+Примерно 86400 тысяч чеков в сутки получается
+
+Olga Aktiranova, [12.02.2024 13:09]
+У нас 3 потока - то есть три кассы у Организации МОE
+----------------------------------------------------

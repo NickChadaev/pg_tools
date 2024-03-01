@@ -1,11 +1,10 @@
 /*==============================================================*/
-/* DBMS name:      PostgreSQL 13.12                             */
+/* DBMS name:      PostgreSQL 13.12    2024-02-29               */
 /*==============================================================*/
 
 DROP DATABASE IF EXISTS mb_data_01;
 CREATE DATABASE mb_data_01
     WITH 
-    OWNER = mb_owner
     ENCODING = 'UTF8'
     LC_COLLATE = 'ru_RU.utf8'
     LC_CTYPE = 'ru_RU.utf8'
@@ -18,7 +17,6 @@ COMMENT ON DATABASE mb_data_01
 DROP DATABASE IF EXISTS mb_data_02; 
 CREATE DATABASE mb_data_02
     WITH 
-    OWNER = mb_owner
     ENCODING = 'UTF8'
     LC_COLLATE = 'ru_RU.utf8'
     LC_CTYPE = 'ru_RU.utf8'
@@ -31,7 +29,6 @@ COMMENT ON DATABASE mb_data_02
 DROP DATABASE IF EXISTS mb_data_03;
 CREATE DATABASE mb_data_03
     WITH 
-    OWNER = mb_owner
     ENCODING = 'UTF8'
     LC_COLLATE = 'ru_RU.utf8'
     LC_CTYPE = 'ru_RU.utf8'
@@ -44,7 +41,6 @@ COMMENT ON DATABASE mb_data_03
 DROP DATABASE IF EXISTS mb_data_04; 
 CREATE DATABASE mb_data_04
     WITH 
-    OWNER = mb_owner
     ENCODING = 'UTF8'
     LC_COLLATE = 'ru_RU.utf8'
     LC_CTYPE = 'ru_RU.utf8'
@@ -57,7 +53,6 @@ COMMENT ON DATABASE mb_data_04
 DROP DATABASE IF EXISTS mb_data_05; 
 CREATE DATABASE mb_data_05
     WITH 
-    OWNER = mb_owner
     ENCODING = 'UTF8'
     LC_COLLATE = 'ru_RU.utf8'
     LC_CTYPE = 'ru_RU.utf8'

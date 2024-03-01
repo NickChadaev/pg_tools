@@ -1,0 +1,31 @@
+hosts:
+       -                   
+           name: mb_data_01
+           descr: Данные для metabase, Регион 01
+           conninfo: host=10.196.35.165 port=5433 dbname=mb_data_01 user=postgres password=postgres1
+           params:
+               id_region: 01
+       -                   
+           name: mb_data_02
+           descr: Данные для metabase, Регион 02
+           conninfo: host=10.196.35.165 port=5433 dbname=mb_data_02 user=postgres password=postgres1
+           params:
+               id_region: 02
+       -                   
+           name: mb_data_03
+           descr: Данные для metabase, Регион 03
+           conninfo: host=10.196.35.165 port=5433 dbname=mb_data_03 user=postgres password=postgres1
+           params:
+               id_region: 03
+       -                   
+           name: mb_data_04
+           descr: Данные для metabase, Регион 04
+           conninfo: host=10.196.35.165 port=5433 dbname=mb_data_04 user=postgres password=postgres1
+           params:
+               id_region: 04
+       -                   
+           name: mb_data_05
+           descr: Данные для metabase, Регион 05
+           conninfo: host=10.196.35.165 port=5433 dbname=mb_data_05 user=postgres password=postgres1
+           params:
+               id_region: 05

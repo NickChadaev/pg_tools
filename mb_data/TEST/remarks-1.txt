@@ -47,3 +47,26 @@ docker-compose version 1.17.1, build unknow                  ОНИ РАЗРЕШ
 
 Под CentOS Docker'a нет
 
+
+
+2024-03-01
+----------
+
+--- Фукциональность metabse позволяет подключить  другую базу, на соседнем хосте. Значит владельцы баз должны быть различными.
+    Потом проверить коннекты, проверить set session authorisation.
+    
+    Отдельные скрипты по назначению прав на объекты ????
+    
+    GRANT ALL ON DATABASE mb_data_01 TO mb_owner_01, mb_reader_01;
+    REVOKE ALL ON DATABASE mb_data_01 FROM PUBLIC;
+    --------------------------------------------------------------
+postgres=# GRANT ALL ON DATABASE mb_data_01 TO mb_owner_01, mb_reader_01;
+GRANT
+postgres=# \q
+$>psql -U mb_reader_02 mb_data_01 -p 5433 -h 10.196.35.165 
+psql (13.11 (Ubuntu 13.11-1.pgdg18.04+1), сервер 13.9)
+Введите "help", чтобы получить справку.
+
+mb_data_01=> 
+-----------------------------------------------------------------------
+непонятно

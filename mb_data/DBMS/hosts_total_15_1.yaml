@@ -1,0 +1,31 @@
+hosts:
+       -                   
+           name: mb_data_01
+           descr: Данные для metabase, Регион 01
+           conninfo: host=10.196.35.165 port=5433 dbname=mb_data_01 user=mb_owner_01 password=
+           params:
+               id_region: 01
+       -                   
+           name: mb_data_02
+           descr: Данные для metabase, Регион 02
+           conninfo: host=10.196.35.165 port=5433 dbname=mb_data_02 user=mb_owner_02 password=
+           params:
+               id_region: 02
+       -                   
+           name: mb_data_03
+           descr: Данные для metabase, Регион 03
+           conninfo: host=10.196.35.165 port=5433 dbname=mb_data_03 user=mb_owner_03 password=
+           params:
+               id_region: 03
+       -                   
+           name: mb_data_04
+           descr: Данные для metabase, Регион 04
+           conninfo: host=10.196.35.165 port=5433 dbname=mb_data_04 user=mb_owner_04 password=
+           params:
+               id_region: 04
+       -                   
+           name: mb_data_05
+           descr: Данные для metabase, Регион 05
+           conninfo: host=10.196.35.165 port=5433 dbname=mb_data_05 user=mb_owner_05 password=
+           params:
+               id_region: 05

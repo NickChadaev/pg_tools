@@ -333,12 +333,77 @@ CREATE DATABASE test_1
             
    База        Пользователь          Пароль       Пользователь postgres  Пароль postgres  Порт для metabse   
    ----------  --------------------  -----------  ---------------------  ------ (trust)   -----------------
-   mb_data_01  mb_user_01@gmail.com  mbu_01X4Gev       mb_reader_01        mbu_01X4Gev       3001
-   mb_data_02  mb_user_02@gmail.com  mbu_02X4Gev       mb_reader_02        mbu_02X4Gev       3002
-   mb_data_03  mb_user_03@gmail.com  mbu_03X4Gev       mb_reader_03        mbu_03X4Gev       3003 
-   mb_data_04  mb_user_04@gmail.com  mbu_04X4Gev       mb_reader_04        mbu_04X4Gev       3004
-   mb_data_05  mb_user_05@gmail.com  mbu_05X4Gev       mb_reader_05        mbu_05X4Gev       3005 
++  mb_data_01  mb_user_01@gmail.com  mbu_01X4Gev       mb_reader_01        mbu_01X4Gev       3001   TEST_1
++  mb_data_02  mb_user_02@gmail.com  mbu_02X4Gev       mb_reader_02        mbu_02X4Gev       3002   TEST_2 !!!  Sign in to Metabase
++  mb_data_03  mb_user_03@gmail.com  mbu_03X4Gev       mb_reader_03        mbu_03X4Gev       3003   TEST_3
++  mb_data_04  mb_user_04@gmail.com  mbu_04X4Gev       mb_reader_04        mbu_04X4Gev       3004   TEST_4
++  mb_data_05  mb_user_05@gmail.com  mbu_05X4Gev       mb_reader_05        mbu_05X4Gev       3005   TEST_5
    
+   10.196.35.165  5433
    
-   
-   
+  12.7 Gb Памяти    Занято           
+  -------------- ---------            
+ --  sudo docker run -d -p 3001:3000 --name metabase_1 metabase/metabase  --???
+ --  sudo docker run -d -p 3002:3000 --name metabase_2 metabase/metabase
+ --  sudo docker run -d -p 3003:3000 --name metabase_3 metabase/metabase
+ 
+ --  sudo docker start  f40562bae6d2   Start one or more stopped containers
+ --  sudo docker start  a0547696c31b
+ --  sudo docker start  7caefa2107f8 
+ 
+ --  sudo docker run -d -p 3004:3000 --name metabase_4 metabase/metabase
+ --  sudo docker run -d -p 3005:3000 --name metabase_5 metabase/metabase
+ 
+ $>sudo docker run -d -p 3004:3000 --name metabase_4 metabase/metabase
+23e62c250323c9e6c3beb6355f4a18b8d7a041aed4f89992dc81b7f3c30f5ff0
+$>sudo docker run -d -p 3005:3000 --name metabase_5 metabase/metabase
+1f02e9d7df311b1ada7c1ebc1b38aa80db9757ad4dd0695a8e2dab0ff2f3a163
+$>
+
+
+$>sudo docker ps  -a
+CONTAINER ID   IMAGE               COMMAND                  CREATED         STATUS                      PORTS                                       NAMES
+1f02e9d7df31   metabase/metabase   "/app/run_metabase.sh"   4 minutes ago   Up 4 minutes                0.0.0.0:3005->3000/tcp, :::3005->3000/tcp   metabase_5
+23e62c250323   metabase/metabase   "/app/run_metabase.sh"   5 minutes ago   Up 4 minutes                0.0.0.0:3004->3000/tcp, :::3004->3000/tcp   metabase_4
+7caefa2107f8   metabase/metabase   "/app/run_metabase.sh"   6 days ago      Up 2 minutes                0.0.0.0:3003->3000/tcp, :::3003->3000/tcp   metabase_3
+a0547696c31b   metabase/metabase   "/app/run_metabase.sh"   6 days ago      Up 3 minutes                0.0.0.0:3002->3000/tcp, :::3002->3000/tcp   metabase_2
+f40562bae6d2   metabase/metabase   "/app/run_metabase.sh"   6 days ago      Up 4 minutes                0.0.0.0:3001->3000/tcp, :::3001->3000/tcp   metabase_1
+d933ea949bea   metabase/metabase   "/app/run_metabase.sh"   7 days ago      Exited (255) 25 hours ago                                               metabase_0
+
+14.8 Gb
+2.1 Gb  5 containers.
+
+-+ http://localhost:3005/
+-+ http://localhost:3004/ 
+-+ http://localhost:3003/ 
+
+-+ http://localhost:3002/     !!!  Sign in to Metabase      mail привязан к базе
+
+    login  larik                    larik_357@list.ru
+    passwd larik357
+    
+-- http://localhost:3001/ 
+
+    login  zlarik                    zlarik_357@list.ru
+    passwd zlarik357   eCXnU1isOppoWm
+    
+a0547696c31b   metabase/metabase   "/app/run_metabase.sh"   6 days ago      Up 3 minutes                0.0.0.0:3002->3000/tcp, :::3002->3000/tcp   metabase_2
+f40562bae6d2   metabase/metabase   "/app/run_metabase.sh"   6 days ago      Up 4 minutes                0.0.0.0:3001->3000/tcp, :::3001->3000/tcp   metabase_1
+    
+    
+$>sudo docker stop a0547696c31b f40562bae6d2
+a0547696c31b
+f40562bae6d2
+$>sudo docker rm -f a0547696c31b f40562bae6d2
+a0547696c31b
+f40562bae6d2
+$>
+    
+sudo docker run -d -p 3002:3000 --name metabase_2 metabase/metabase
+
+$>sudo docker run -d -p 3002:3000 --name metabase_2 metabase/metabase
+92d4aa2ae900567724467f57782471c209e2c51b09d40e637479e1690f12c8af
+$>sudo docker run -d -p 3001:3000 --name metabase_1 metabase/metabase
+c16da56cff978fbf3a53a608bce8f0deb145af4dc8e345cc01b9e610e03e9361
+$>
+

@@ -162,6 +162,7 @@ where dct_status.nm_status <> excluded.nm_status
 --
 --   70
 --
+
 insert into dict.dct_service_status (kd_status, kd_dict_entity, nm_status, nm_description,
                                           dt_change)
 SELECT * 

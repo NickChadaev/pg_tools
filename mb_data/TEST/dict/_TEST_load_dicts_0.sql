@@ -3,88 +3,116 @@ CREATE OR REPLACE FUNCTION dict.load_dict (
 RETURNS void AS
 $body$
 BEGIN
-
-insert into metamodel.m_entity_attribute (kd_entity, kd_attribute, nm_attribute, nm_attr_desc,
-                                          nm_title, kd_dict_entity, nm_column_name, pr_active, kd_attr_type)
+--
+-- 2024-03-06  Причём это ???
+--
+INSERT INTO metamodel.m_entity_attribute (kd_entity
+                                        , kd_attribute
+                                        , nm_attribute
+                                        , nm_attr_desc
+                                        , nm_title
+                                        , kd_dict_entity
+                                        , nm_column_name
+                                        , pr_active
+                                        , kd_attr_type  --comment
+                                        )
 SELECT * 
   FROM dblink ('ccrm',
-               $$select distinct
+               $$SELECT DISTINCT
                         mea.kd_entity,
                         mea.kd_attribute,
                         ma.nm_attribute,
                         ma.nm_attr_desc,
-                        case
-                          when mp.kd_entity in (select kd_entity from metamodel.m_entity where kd_entity_parent in (3000,4000))
-                            then replace(replace(ue.nm_title, '<b>', ''), '/b', '')
-                          else null
-                        end nm_title,
+                        CASE
+                          WHEN mp.kd_entity IN (SELECT kd_entity FROM metamodel.m_entity 
+                                                   WHERE kd_entity_parent in (3000,4000))
+                            THEN REPLACE(REPLACE(ue.nm_title, '<b>', ''), '/b', '')
+                          ELSE NULL
+                        END nm_title,
+                        
                         mea.kd_dict_entity,
                         mea.nm_column_name,
                         mea.pr_active,
                         ma.kd_attr_type
-                        from metamodel.m_entity_attribute mea
-                        join metamodel.m_attribute ma
-                          on mea.kd_attribute = ma.kd_attribute
-                        left join uiconf.ui_element_mm_prop mp
-                          on mea.kd_entity = mp.kd_entity
-                         and mea.kd_attribute = mp.kd_attribute
-                         and mp.id_element = (select max(id_element)
-                                                from uiconf.ui_element_mm_prop
-                                                where mp.kd_entity = kd_entity
-                                                 and mp.kd_attribute = kd_attribute)
-                        left join uiconf.ui_element ue
-                          on mp.id_element = ue.id_element$$) 
-  AS m_entity_attribute (kd_entity int4,
-                         kd_attribute int4,
-                         nm_attribute text,
-                         nm_attr_desc text,
-                         nm_title text,
-                         kd_dict_entity int4,
-                         nm_column_name text,
-                         pr_active boolean,
-                         kd_attr_type int4)                        
-on conflict (kd_entity, kd_attribute) do
-update set nm_attribute = excluded.nm_attribute,
-           nm_attr_desc = excluded.nm_attr_desc,
-           nm_title = excluded.nm_title,
+                        
+                        FROM metamodel.m_entity_attribute mea
+                           JOIN metamodel.m_attribute ma ON mea.kd_attribute = ma.kd_attribute
+                           
+                           LEFT JOIN uiconf.ui_element_mm_prop mp
+                             ON mea.kd_entity = mp.kd_entity
+                            AND mea.kd_attribute = mp.kd_attribute
+                            AND mp.id_element = (SELECT max(id_element)
+                                                   FROM uiconf.ui_element_mm_prop
+                                                   WHERE mp.kd_entity = kd_entity
+                                                    AND mp.kd_attribute = kd_attribute
+                                                )
+                           LEFT JOIN uiconf.ui_element ue ON mp.id_element = ue.id_element
+                    $$ -- 2974 ROWS
+                    
+    ) 
+     AS m_entity_attribute (kd_entity     int4,
+                            kd_attribute   int4,
+                            nm_attribute   text,
+                            nm_attr_desc   text,
+                            nm_title       text,
+                            kd_dict_entity int4,
+                            nm_column_name text,
+                            pr_active      boolean,
+                            kd_attr_type   int4
+                            )                        
+ON CONFLICT (kd_entity, kd_attribute) 
+DO
+UPDATE SET nm_attribute   = excluded.nm_attribute,
+           nm_attr_desc   = excluded.nm_attr_desc,
+           nm_title       = excluded.nm_title,
            kd_dict_entity = excluded.kd_dict_entity,
            nm_column_name = excluded.nm_column_name,
-           pr_active = excluded.pr_active,
-           kd_attr_type = excluded.kd_attr_type
-where m_entity_attribute.nm_attribute <> excluded.nm_attribute
-   or m_entity_attribute.nm_attr_desc is distinct from excluded.nm_attr_desc
-   or m_entity_attribute.nm_title is distinct from excluded.nm_title
-   or m_entity_attribute.kd_dict_entity is distinct from excluded.kd_dict_entity
-   or m_entity_attribute.nm_column_name <> excluded.nm_column_name
-   or m_entity_attribute.pr_active <> excluded.pr_active
-   or m_entity_attribute.kd_attr_type <> excluded.kd_attr_type; 
+           pr_active      = excluded.pr_active,
+           kd_attr_type   = excluded.kd_attr_type
+           
+WHERE m_entity_attribute.nm_attribute <> excluded.nm_attribute   -- ?? IS DISTINCT
+   OR m_entity_attribute.nm_attr_desc   IS DISTINCT FROM excluded.nm_attr_desc
+   OR m_entity_attribute.nm_title       IS DISTINCT FROM excluded.nm_title
+   OR m_entity_attribute.kd_dict_entity IS DISTINCT FROM excluded.kd_dict_entity
+   OR m_entity_attribute.nm_column_name <> excluded.nm_column_name
+   OR m_entity_attribute.pr_active      <> excluded.pr_active
+   OR m_entity_attribute.kd_attr_type   <> excluded.kd_attr_type; 
+-- 
+--
+--
  
-insert into dict.dct_dict (id_dict, id_dict_parent, kd_dict_entity, pr_delete,
-                                nm_dict, nm_dict_full)
+INSERT INTO dict.dct_dict (id_dict, id_dict_parent, kd_dict_entity, pr_delete,
+                                nm_dict, nm_dict_full
+                                )
 SELECT * 
   FROM dblink ('ccrm',
-               $$select id_dict,
+               $$SELECT id_dict,
                         id_dict_parent,
                         kd_dict_entity,
                         pr_delete,
                         nm_dict,
                         nm_dict_full
-                   from dict.d_dict$$) 
+                   FROM dict.d_dict
+                   $$) 
   AS dct_dict (id_dict bigint,
                          id_dict_parent bigint,
                          kd_dict_entity int4,
                          pr_delete boolean,
                          nm_dict text,
                          nm_dict_full text)                      
-on conflict (id_dict, kd_dict_entity) do
+ON conflict (id_dict, kd_dict_entity) 
+DO
 update set id_dict_parent = excluded.id_dict_parent,
-           nm_dict = excluded.nm_dict,
-           nm_dict_full = excluded.nm_dict_full,
-           pr_delete = excluded.pr_delete
+           nm_dict        = excluded.nm_dict,
+           nm_dict_full   = excluded.nm_dict_full,
+           pr_delete      = excluded.pr_delete
+           
 where dct_dict.id_dict_parent is distinct from excluded.id_dict_parent
    or dct_dict.nm_dict <> excluded.nm_dict
    or dct_dict.nm_dict_full is distinct from excluded.nm_dict_full
    or dct_dict.pr_delete <> excluded.pr_delete;
+    
+    
     
 insert into dict.dct_sys_entity (kd_sys_entity, nm_sys_entity, nm_description, nm_table_name)
 SELECT * 
@@ -93,7 +121,8 @@ SELECT *
                         nm_sys_entity, 
                         nm_description, 
                         nm_table_name
-                   from dict.d_sys_entity$$) 
+                   from dict.d_sys_entity
+                   $$) 
   AS dct_sys_entity (kd_sys_entity int4, 
                      nm_sys_entity text, 
                      nm_description text, 
@@ -105,6 +134,8 @@ update set nm_sys_entity = excluded.nm_sys_entity,
 where dct_sys_entity.nm_sys_entity <> excluded.nm_sys_entity
    or dct_sys_entity.nm_description is distinct from excluded.nm_description
    or dct_sys_entity.nm_table_name <> excluded.nm_table_name;
+      
+      
       
 insert into dict.dct_status (kd_status, nm_status, nm_description,
                                   kd_sys_entity, dt_change)
@@ -128,7 +159,9 @@ update set nm_status = excluded.nm_status,
 where dct_status.nm_status <> excluded.nm_status
    or dct_status.nm_description is distinct from excluded.nm_description
    or dct_status.dt_change <> excluded.dt_change;
-
+--
+--   70
+--
 insert into dict.dct_service_status (kd_status, kd_dict_entity, nm_status, nm_description,
                                           dt_change)
 SELECT * 

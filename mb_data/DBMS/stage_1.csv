@@ -22,6 +22,7 @@
 X;;;Start process;
 #
 1;_init/3_crt_sch.sql;;--_init/3_crt_sch.sql;
+1;_init/3_crt_sch_pcg.sql;;-- 3_crt_sch_pcg.sql;
 #
 X;;;Stop process;
 #-------------------------------------------------------------------------------

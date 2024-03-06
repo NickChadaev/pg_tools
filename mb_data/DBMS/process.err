@@ -1,0 +1,23 @@
+ЗАМЕЧАНИЕ:  удаление распространяется на ещё 2 объекта
+ПОДРОБНОСТИ:  удаление распространяется на объект сервер ccrm
+удаление распространяется на объект сопоставление для пользователя mb_owner_01 на сервере ccrm
+psql:./_init/3_crt_sch_pcg.sql:5: ЗАМЕЧАНИЕ:  схема "pcg_clientdb" не существует, пропускается
+psql:./_init/3_crt_sch_pcg.sql:10: ЗАМЕЧАНИЕ:  схема "pcg_contacts" не существует, пропускается
+psql:./_init/3_crt_sch_pcg.sql:15: ЗАМЕЧАНИЕ:  схема "pcg_metamodel" не существует, пропускается
+psql:./_init/3_crt_sch_pcg.sql:20: ЗАМЕЧАНИЕ:  схема "pcg_dict" не существует, пропускается
+psql:./_init/3_crt_sch_pcg.sql:5: ЗАМЕЧАНИЕ:  схема "pcg_clientdb" не существует, пропускается
+psql:./_init/3_crt_sch_pcg.sql:10: ЗАМЕЧАНИЕ:  схема "pcg_contacts" не существует, пропускается
+psql:./_init/3_crt_sch_pcg.sql:15: ЗАМЕЧАНИЕ:  схема "pcg_metamodel" не существует, пропускается
+psql:./_init/3_crt_sch_pcg.sql:20: ЗАМЕЧАНИЕ:  схема "pcg_dict" не существует, пропускается
+psql:./_init/3_crt_sch_pcg.sql:5: ЗАМЕЧАНИЕ:  схема "pcg_clientdb" не существует, пропускается
+psql:./_init/3_crt_sch_pcg.sql:10: ЗАМЕЧАНИЕ:  схема "pcg_contacts" не существует, пропускается
+psql:./_init/3_crt_sch_pcg.sql:15: ЗАМЕЧАНИЕ:  схема "pcg_metamodel" не существует, пропускается
+psql:./_init/3_crt_sch_pcg.sql:20: ЗАМЕЧАНИЕ:  схема "pcg_dict" не существует, пропускается
+psql:./_init/3_crt_sch_pcg.sql:5: ЗАМЕЧАНИЕ:  схема "pcg_clientdb" не существует, пропускается
+psql:./_init/3_crt_sch_pcg.sql:10: ЗАМЕЧАНИЕ:  схема "pcg_contacts" не существует, пропускается
+psql:./_init/3_crt_sch_pcg.sql:15: ЗАМЕЧАНИЕ:  схема "pcg_metamodel" не существует, пропускается
+psql:./_init/3_crt_sch_pcg.sql:20: ЗАМЕЧАНИЕ:  схема "pcg_dict" не существует, пропускается
+psql:./_init/3_crt_sch_pcg.sql:5: ЗАМЕЧАНИЕ:  схема "pcg_clientdb" не существует, пропускается
+psql:./_init/3_crt_sch_pcg.sql:10: ЗАМЕЧАНИЕ:  схема "pcg_contacts" не существует, пропускается
+psql:./_init/3_crt_sch_pcg.sql:15: ЗАМЕЧАНИЕ:  схема "pcg_metamodel" не существует, пропускается
+psql:./_init/3_crt_sch_pcg.sql:20: ЗАМЕЧАНИЕ:  схема "pcg_dict" не существует, пропускается

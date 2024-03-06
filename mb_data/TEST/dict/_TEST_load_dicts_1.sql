@@ -316,15 +316,19 @@ SELECT *
                           kd_parent_otd,
                           nm_otd,
                           id_facility
-                          from dict.otdel_mv$$) 
+                          from dict.otdel_mv
+               $$
+               ) 
   AS dct_otdels (kd_otd bigint,
-                 kd_otd_parent bigint,
+--                  kd_otd_parent bigint,
                  nm_otd text,
-                 id_facility int4)                      
+                 id_facility int4)    
+                 
 on conflict (kd_otd) do
 update set kd_otd_parent = excluded.kd_otd_parent,
            nm_otd = excluded.nm_otd,
            id_facility = excluded.id_facility
+           
 where dct_otdels.kd_otd_parent is distinct from excluded.kd_otd_parent
    or dct_otdels.nm_otd <> excluded.nm_otd
    or dct_otdels.id_facility <> excluded.id_facility;
@@ -337,3 +341,5 @@ CALLED ON NULL INPUT
 SECURITY INVOKER
 PARALLEL UNSAFE
 COST 100;
+
+

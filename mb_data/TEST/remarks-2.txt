@@ -407,3 +407,76 @@ $>sudo docker run -d -p 3001:3000 --name metabase_1 metabase/metabase
 c16da56cff978fbf3a53a608bce8f0deb145af4dc8e345cc01b9e610e03e9361
 $>
 
+$>sudo docker ps -a
+CONTAINER ID   IMAGE               COMMAND                  CREATED        STATUS                      PORTS                                       NAMES
+c16da56cff97   metabase/metabase   "/app/run_metabase.sh"   16 hours ago   Up 16 hours                 0.0.0.0:3001->3000/tcp, :::3001->3000/tcp   metabase_1
+92d4aa2ae900   metabase/metabase   "/app/run_metabase.sh"   16 hours ago   Up 5 seconds                0.0.0.0:3002->3000/tcp, :::3002->3000/tcp   metabase_2
+1f02e9d7df31   metabase/metabase   "/app/run_metabase.sh"   20 hours ago   Up 20 hours                 0.0.0.0:3005->3000/tcp, :::3005->3000/tcp   metabase_5
+23e62c250323   metabase/metabase   "/app/run_metabase.sh"   20 hours ago   Up 20 hours                 0.0.0.0:3004->3000/tcp, :::3004->3000/tcp   metabase_4
+7caefa2107f8   metabase/metabase   "/app/run_metabase.sh"   7 days ago     Up 20 hours                 0.0.0.0:3003->3000/tcp, :::3003->3000/tcp   metabase_3
+d933ea949bea   metabase/metabase   "/app/run_metabase.sh"   7 days ago     Exited (255) 45 hours ago                                               metabase_0
+$>
+
+
+2024-03-06
+----------
+
+ Что делаем ???
+ 
+   --  явное указание IP-адреса, в дополнение к "пробросу" порта. Это позволит держать 
+        "тонкого" клиента на отдельном хосте.  Как сделать, пока понимаю плохо.
+ 
+   -- загрузка:
+        Функции загрузки объединяют в себе целый набор обращений к db_link.
+        
+        Выделяю в тестовую структуру отдельную части, выполняю запрос на PP2
+        Например:
+                 -- dict.load_dict
+        
+mb_data_01=> CREATE SERVER ccrm
+    TYPE 'dblink_fdw'
+    FOREIGN DATA WRAPPER dblink_fdw
+    OPTIONS (hostaddr '10.196.35.45', dbname 'ccrm_pp');
+ОШИБКА:  нет доступа к обёртке сторонних данных dblink_fdw
+mb_data_01=> 
+        
+
+Ответить
+Переслать
+Удалить
+Это спам!
+Не прочитано
+Отключить рассылку
+Напомнить позже
+Метка
+В папку
+m
+Николай Чадаев
+nick-ch58@yandex.ru
+сегодня в 12:48
+Я
+Язык письма — Авто. Перевести на Русский?
+ 
+CREATE FOREIGN DATA WRAPPER dblink_fdw
+    VALIDATOR public.dblink_fdw_validator;
+ 
+ALTER FOREIGN DATA WRAPPER dblink_fdw
+    OWNER TO postgres;
+    
+ОШИБКА:  нет прав на изменение владельца обёртки сторонних данных "dblink_fdw"
+ПОДСКАЗКА:  Владельцем обёртки сторонних данных должен быть суперпользователь.
+
+CREATE SERVER ccrm
+    TYPE 'dblink_fdw'
+    FOREIGN DATA WRAPPER dblink_fdw
+    OPTIONS (hostaddr '10.196.35.45', dbname 'ccrm_pp');
+    
+
+CREATE SERVER ccrm
+    TYPE 'dblink_fdw'
+    FOREIGN DATA WRAPPER dblink_fdw
+    OPTIONS (hostaddr '10.196.35.45', dbname 'ccrm_pp');
+
+ALTER SERVER ccrm OWNER TO mb_owner_01;
+    
+        

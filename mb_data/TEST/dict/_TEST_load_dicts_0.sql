@@ -231,6 +231,8 @@ where dct_system.nm_description is distinct from excluded.nm_description
    or dct_system.pr_billing <> excluded.pr_billing
    or dct_system.pr_lk <> excluded.pr_lk;
 
+   
+   
 insert into dict.dct_crm_service (id_crm_service, nm_crm_service, id_dict_facility,
                                        kd_tp_client, kd_entity, pr_gro)
 SELECT * 

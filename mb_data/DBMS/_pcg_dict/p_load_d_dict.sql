@@ -23,12 +23,12 @@ $body$
                            nm_dict_full
                       FROM dict.d_dict
                       $$) 
-     AS dct_dict (id_dict bigint,
+     AS dct_dict (id_dict        bigint,
                   id_dict_parent bigint,
                   kd_dict_entity int4,
-                  pr_delete boolean,
-                  nm_dict text,
-                  nm_dict_full text
+                  pr_delete      boolean,
+                  nm_dict        text,
+                  nm_dict_full   text
      )                      
    ON conflict (id_dict, kd_dict_entity) 
    DO

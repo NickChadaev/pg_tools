@@ -478,5 +478,9 @@ CREATE SERVER ccrm
     OPTIONS (hostaddr '10.196.35.45', dbname 'ccrm_pp');
 
 ALTER SERVER ccrm OWNER TO mb_owner_01;
-    
-        
+
+---------------------------------------
+2024-03-11
+----------
+   Что делаем ??
+   

@@ -12,7 +12,21 @@ AS
     jsonb_to_recordset.nm_otd_full,
     jsonb_to_recordset.nm_otd_addr,
     jsonb_to_recordset.nm_otd_email
-   FROM jsonb_to_recordset(json.admin('AllOtdels'::character varying, NULL::character varying[], NULL::character varying[]) -> 'data'::text) jsonb_to_recordset(kd_otd integer, kd_parent_otd integer, id_facility integer, nm_otd character varying(200), nm_otd_full text, nm_otd_addr text, nm_otd_email character varying(200))
+    
+   FROM jsonb_to_recordset ( json.admin ('AllOtdels'::character varying
+                                        , NULL::character varying[]
+                                        , NULL::character varying[]
+                                        ) -> 'data'::text
+   ) 
+   
+   jsonb_to_recordset (kd_otd        integer
+                     , kd_parent_otd integer
+                     , id_facility   integer
+                     , nm_otd        character varying(200)
+                     , nm_otd_full   text
+                     , nm_otd_addr   text
+                     , nm_otd_email  character varying(200)
+   )
 WITH DATA;
 
 ALTER TABLE IF EXISTS dict.otdel_mv

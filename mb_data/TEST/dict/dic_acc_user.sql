@@ -19,7 +19,22 @@ AS
     jsonb_to_recordset.kd_otd,
     (ARRAY( SELECT jsonb_array_elements_text(jsonb_to_recordset.kd_otd_list) AS jsonb_array_elements_text))::integer[] AS kd_otd_list,
     jsonb_to_recordset.id_parent_usr
-   FROM jsonb_to_recordset(json.admin('AllUsers'::character varying, NULL::character varying[], NULL::character varying[]) -> 'data'::text) jsonb_to_recordset(acc_id_usr integer, nm_usr character varying(81), nm_last character varying(150), nm_first character varying(150), nm_middle character varying(150), nm_email character varying(100), id_facility integer, nm_tel character varying(200), nm_position character varying(100), nn_pers_num character varying(10), pr_access boolean, kd_otd integer, kd_otd_list jsonb, id_parent_usr integer)
+   FROM jsonb_to_recordset(json.admin('AllUsers'::character varying
+         , NULL::character varying[]
+         , NULL::character varying[]) -> 'data'::text) jsonb_to_recordset(acc_id_usr integer
+         , nm_usr   character varying(81)
+         , nm_last   character varying(150)
+         , nm_first  character varying(150)
+         , nm_middle character varying(150)
+         , nm_email     character varying(100)
+         , id_facility  integer
+         , nm_tel       character varying(200)
+         , nm_position  character varying(100)
+         , nn_pers_num  character varying(10)
+         , pr_access    boolean, kd_otd integer
+         , kd_otd_list   jsonb
+         , id_parent_usr integer
+    )
 WITH DATA;
 
 ALTER TABLE IF EXISTS dict.acc_user

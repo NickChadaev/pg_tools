@@ -8,7 +8,14 @@ AS
  SELECT t.id_org_object,
     t.kd_system,
     t.kd_otd
-   FROM jsonb_to_recordset(json.admin('BillingOtdMap'::character varying, NULL::character varying[], NULL::character varying[]) -> 'data'::text) t(id_org_object text, kd_system integer, kd_otd integer)
+   FROM jsonb_to_recordset(json.admin('BillingOtdMap'::character varying
+                   , NULL::character varying[]
+                   , NULL::character varying[]) -> 'data'::text) 
+                   
+                     t (id_org_object text
+                      , kd_system integer
+                      , kd_otd integer
+                     )
 WITH DATA;
 
 ALTER TABLE IF EXISTS dict.otdel_map_mv

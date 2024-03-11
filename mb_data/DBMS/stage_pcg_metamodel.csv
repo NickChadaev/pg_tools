@@ -26,20 +26,11 @@
 #-------------------------------------------------------------------------------
 X;;;Start process;
 #
-1;_pcg_dict/version.sql;;-- Версия 4b501d3/2024-03-07; 
-1;_pcg_dict/p_load_d_system.sql        ;;-- p_load_d_system.sql        ;
-1;_pcg_dict/p_load_d_service_status.sql;;-- p_load_d_service_status.sql;
-1;_pcg_dict/p_load_otdels.sql          ;;-- p_load_otdels.sql          ;
-1;_pcg_dict/p_load_acc_users.sql       ;;-- p_load_acc_users.sql       ;
-1;_pcg_dict/p_load_d_step_service.sql  ;;-- p_load_d_step_service.sql  ;
-1;_pcg_dict/p_load_d_tp_contact.sql    ;;-- p_load_d_tp_contact.sql    ;
-1;_pcg_dict/p_load_d_crm_service.sql   ;;-- p_load_d_crm_service.sql   ;
-1;_pcg_dict/p_load_d_tp_client.sql     ;;-- p_load_d_tp_client.sql     ;
-1;_pcg_dict/p_load_d_status.sql        ;;-- p_load_d_status.sql        ;
-1;_pcg_dict/p_load_d_dict.sql          ;;-- p_load_d_dict.sql          ;
-1;_pcg_dict/p_load_d_sys_entity.sql    ;;-- p_load_d_sys_entity.sql    ;
+1;_pcg_metamodel/version.sql;;-- Версия 4b501d3/2024-03-07; 
+1;_pcg_metamodel/p_load_mm_0.sql;;-- p_load_mm_0.sql;
 #
 X;;;Stop process;
 #-------------------------------------------------------------------------------
 #  Пример вызова
 # load_mainGar.py 127.0.0.1 5434 xxx_test postgres stage_2_ver_build.csv ../ '2021-09-27'
+

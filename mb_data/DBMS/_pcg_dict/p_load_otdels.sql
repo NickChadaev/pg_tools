@@ -1,25 +1,26 @@
 DROP PROCEDURE IF EXISTS pcg_dict.p_load_otdels();
-CREATE OR REPLACE PROCEDURE pcg_dict.p_load_otdels(
-)
+DROP PROCEDURE IF EXISTS pcg_dict.p_load_otdels(bigint);
+CREATE OR REPLACE PROCEDURE pcg_dict.p_load_otdels (p_id_facility bigint)
   LANGUAGE plpgsql
   SECURITY INVOKER
 AS
-$body$
- BEGIN   -- 2024-03-07  Непонятно.
+$$
+ DECLARE
+  _select text =  $_$  SELECT kd_otd, kd_parent_otd, nm_otd, id_facility
+                       FROM dict.otdel_mv WHERE (id_facility = %L)
+                  $_$;
+  _exec  text;
 
+ BEGIN    
+     _exec = format(_select, p_id_facility);     
+     
      INSERT INTO dict.dct_otdels (kd_otd
                                 , kd_otd_parent
                                 , nm_otd
                                 , id_facility
      )
      SELECT * 
-       FROM dblink ('ccrm',
-                    $$  SELECT kd_otd,
-                               kd_parent_otd,
-                               nm_otd,
-                               id_facility
-                               from dict.otdel_mv
-                   $$) 
+       FROM dblink ('ccrm',  _exec )
        AS dct_otdels (kd_otd        bigint,
                       kd_otd_parent bigint,
                       nm_otd        text,
@@ -35,7 +36,10 @@ $body$
         OR dct_otdels.id_facility <> excluded.id_facility;
 
 END;     
-$body$;                
+$$; 
+
+COMMENT ON PROCEDURE pcg_dict.p_load_otdels(bigint) 
+                        IS 'Загрузка справочника подразделений выбранной организации';
 
 -- USE CASE
 --            CALL pcg_dict.p_load_otdels();

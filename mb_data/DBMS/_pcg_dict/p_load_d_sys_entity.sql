@@ -13,7 +13,7 @@ $body$
     )
     SELECT * 
       FROM dblink ('ccrm',
-                   $$SELECT kd_sys_entity, 
+                   $$ SELECT kd_sys_entity, 
                             nm_sys_entity, 
                             nm_description, 
                             nm_table_name
@@ -35,7 +35,11 @@ $body$
        OR dct_sys_entity.nm_table_name <> excluded.nm_table_name;
                  
  END;     
-$body$;                
+$body$;      
 
--- USE CASE
+COMMENT ON PROCEDURE pcg_dict.p_load_d_sys_entity() IS
+ 'Реестр системных сущностей, которые НЕ ведутся метамоделью Смородины-Диалог';
+--   USE CASE
+--            SELECT * FROM dict.dct_sys_entity;
 --            CALL pcg_dict.p_load_d_sys_entity ();
+--            SELECT count(1) FROM dict.dct_sys_entity;

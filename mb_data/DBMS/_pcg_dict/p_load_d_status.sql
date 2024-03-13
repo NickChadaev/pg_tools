@@ -42,3 +42,6 @@ $body$;
 -- USE CASE
 --            CALL pcg_dict.p_load_d_status ();
 --            SELECT * FROM dict.dct_status;  -- 70
+--            SELECT count (1) FROM dict.dct_status;  -- 70
+
+COMMENT ON PROCEDURE pcg_dict.p_load_d_status() IS 'Заполнение таблицы "C_статус"';

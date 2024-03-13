@@ -46,8 +46,9 @@ $body$
        OR dct_system.pr_lk      <> excluded.pr_lk;
                               
  END;     
-$body$;                
+$body$;         
 
+COMMENT ON PROCEDURE pcg_dict.p_load_d_system() IS 'Загрузка таблицы "С_Системы"';
 -- USE CASE
 --            CALL pcg_dict.p_load_d_system();
 --            SELECT * FROM dict.dct_system;  --  50

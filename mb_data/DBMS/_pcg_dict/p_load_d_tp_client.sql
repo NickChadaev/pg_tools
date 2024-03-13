@@ -32,6 +32,7 @@ $body$
  END;     
 $body$;                
 
+COMMENT ON PROCEDURE pcg_dict.p_load_d_tp_client() IS 'Загрузка справочника типов клиеннтов';
 -- USE CASE
 --            CALL pcg_dict.p_load_d_tp_client();
 --            SELECT * FROM dict.dct_tp_client;  --  2

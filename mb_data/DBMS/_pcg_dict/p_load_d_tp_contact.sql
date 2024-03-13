@@ -16,7 +16,7 @@ $body$
                   $$ SELECT kd_tp_contact,
                            nm_tp_contact,
                            nm_description
-                      from dict_cm.d_tp_contact 
+                      FROM dict_cm.d_tp_contact 
                   $$
                  ) 
      AS dct_tp_contact (kd_tp_contact  int4,
@@ -31,7 +31,9 @@ $body$
       OR dct_tp_contact.nm_description IS DISTINCT FROM excluded.nm_description;
 
 END;     
-$body$;                
+$body$;  
+
+COMMENT ON PROCEDURE pcg_dict.p_load_d_tp_contact() IS 'Заполнение таблицы "Типы обращений"';
 
 -- USE CASE
 --            CALL pcg_dict.p_load_d_tp_contact();

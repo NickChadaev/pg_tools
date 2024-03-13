@@ -13,7 +13,7 @@ $body$
                     $$ SELECT bs.id_step,
                               bs.nm_step
                         FROM scenery.bp_step bs
-                      WHERE bs.kd_step_type = 2 
+                      WHERE bs.kd_step_type = 2 -- Шаг выполнения задачи пользователем.
                     $$
                 ) 
          AS dct_step_service (id_step uuid,
@@ -26,6 +26,9 @@ $body$
 
 END;     
 $body$;                
+
+COMMENT ON PROCEDURE pcg_dict.p_load_d_step_service() 
+     IS 'Заполнение таблицы "Шаг задачи процесса"';
 
 -- USE CASE
 --            CALL pcg_dict.p_load_d_step_service();

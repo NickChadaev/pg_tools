@@ -39,6 +39,10 @@ $body$
  END;     
 $body$;                
 
+COMMENT ON PROCEDURE pcg_dict.p_load_d_service_status() 
+IS 'Заполнение таблицы "Справочник статусов процессов"';
+
+
 -- USE CASE
 --            CALL pcg_dict.p_load_d_service_status();
 --            SELECT * FROM dict.dct_service_status;  -- 15       

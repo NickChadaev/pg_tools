@@ -1,31 +1,31 @@
 hosts:
        -                   
            name: mb_data_01
-           descr: Данные для metabase, Регион 01
+           descr: ООО "Газпром межрегионгаз Киров". Id=22 (metabase). 2024-02-29
            conninfo: host=10.196.35.165 port=5433 dbname=mb_data_01 user=mb_owner_01 password=
            params:
-               id_region: 01
+               id_region: 22
        -                   
            name: mb_data_02
-           descr: Данные для metabase, Регион 02
+           descr: Нижний Новгород ГРО ID=101 (metabase). 2024-02-29
            conninfo: host=10.196.35.165 port=5433 dbname=mb_data_02 user=mb_owner_02 password=
            params:
-               id_region: 02
+               id_region: 101
        -                   
            name: mb_data_03
-           descr: Данные для metabase, Регион 03
+           descr: Нижний Новгород РГК ID=1 (metabase). 2024-02-29
            conninfo: host=10.196.35.165 port=5433 dbname=mb_data_03 user=mb_owner_03 password=
            params:
-               id_region: 03
+               id_region: 1
        -                   
            name: mb_data_04
-           descr: Данные для metabase, Регион 04
+           descr: Данные для metabase. РЕЗЕРВ. 2024-02-29
            conninfo: host=10.196.35.165 port=5433 dbname=mb_data_04 user=mb_owner_04 password=
            params:
                id_region: 04
        -                   
            name: mb_data_05
-           descr: Данные для metabase, Регион 05
+           descr: Данные для metabase. РЕЗЕРВ. 2024-02-29
            conninfo: host=10.196.35.165 port=5433 dbname=mb_data_05 user=mb_owner_05 password=
            params:
                id_region: 05

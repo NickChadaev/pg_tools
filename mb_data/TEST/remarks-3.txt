@@ -33,3 +33,6 @@ mb_data_01=> SELECT count (1) FROM dict.dct_crm_service;
 -------
    462
 (1 строка)
+
+
+md_data ece7ca2

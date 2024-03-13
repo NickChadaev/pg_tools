@@ -26,7 +26,7 @@
 #-------------------------------------------------------------------------------
 X;;;Start process;
 #
-1;_pcg_dict/version.sql;;-- Версия 4b501d3/2024-03-07; 
+1;_pcg_dict/version.sql;;-- Версия ece7ca2/2024-03-13; 
 1;_pcg_dict/p_load_d_system.sql        ;;-- p_load_d_system.sql        ;
 1;_pcg_dict/p_load_d_service_status.sql;;-- p_load_d_service_status.sql;
 1;_pcg_dict/p_load_otdels.sql          ;;-- p_load_otdels.sql          ;

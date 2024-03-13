@@ -12,7 +12,7 @@ CREATE DATABASE mb_data_01
     CONNECTION LIMIT = -1;
 
 COMMENT ON DATABASE mb_data_01
-    IS 'Данные для metabase. Регион 01. 2024-02-29';
+    IS 'ООО "Газпром межрегионгаз Киров". Id=22 (metabase). 2024-02-29';
 
 DROP DATABASE IF EXISTS mb_data_02; 
 CREATE DATABASE mb_data_02
@@ -24,7 +24,7 @@ CREATE DATABASE mb_data_02
     CONNECTION LIMIT = -1;
 
 COMMENT ON DATABASE mb_data_02
-    IS 'Данные для metabase. Регион 02. 2024-02-29';
+    IS 'Нижний Новгород ГРО ID=101 (metabase). 2024-02-29';
 
 DROP DATABASE IF EXISTS mb_data_03;
 CREATE DATABASE mb_data_03
@@ -36,7 +36,7 @@ CREATE DATABASE mb_data_03
     CONNECTION LIMIT = -1;
 
 COMMENT ON DATABASE mb_data_03
-    IS 'Данные для metabase. Регион 03. 2024-02-29';
+    IS 'Нижний Новгород РГК ID=1 (metabase). 2024-02-29';
 
 DROP DATABASE IF EXISTS mb_data_04; 
 CREATE DATABASE mb_data_04
@@ -48,7 +48,7 @@ CREATE DATABASE mb_data_04
     CONNECTION LIMIT = -1;
 
 COMMENT ON DATABASE mb_data_04
-    IS 'Данные для metabase. Регион 04. 2024-02-29';
+    IS 'Данные для metabase. РЕЗЕРВ. 2024-02-29';
 
 DROP DATABASE IF EXISTS mb_data_05; 
 CREATE DATABASE mb_data_05
@@ -60,5 +60,6 @@ CREATE DATABASE mb_data_05
     CONNECTION LIMIT = -1;
 
 COMMENT ON DATABASE mb_data_05
-    IS 'Данные для metabase. Регион 05. 2024-02-29';
+    IS 'Данные для metabase. РЕЗЕРВ. 2024-02-29
+ ';
               

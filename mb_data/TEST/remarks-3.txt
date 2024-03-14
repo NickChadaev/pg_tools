@@ -34,5 +34,45 @@ mb_data_01=> SELECT count (1) FROM dict.dct_crm_service;
    462
 (1 строка)
 
+2024-03-14   _func.sql
+----------------------
 
-md_data ece7ca2
+\encoding UTF8
+begin;
+set search_path to contacts, public;
+
+\ir lock_rec.sql
+\ir upd_rec.sql
+\ir derive_period.sql
+
+\ir clients.sql
+\ir contact.sql                 --
+\ir services.sql
+\ir tasks.sql
+
+\ir load_contacts.sql
+
+end;
+
+-- --------------------------------------- Разживин Мудозвон
+
+\encoding UTF8
+begin;
+set search_path to contacts, public;
+
+\ir lock_rec.sql
+\ir upd_rec.sql
+\ir derive_period.sql
+
+\ir clients.sql
+\ir contact.sql
+\ir services.sql
+\ir tasks.sql
+
+\ir load_contacts.sql
+
+end;
+--
+--  Сукины дети
+--
+contacts.clients (

@@ -84,6 +84,7 @@ COMMENT ON PROCEDURE pcg_contacts.p_load_cm_comment (timestamp, timestamp, bigin
 --                   INNER JOIN dict.d_facility f ON (f.id_dict = u.id_facility)
 --                        WHERE ((c.dt_change >= '2023-01-14 00:00:00' AND  c.dt_change < '2024-03-14 00:00:00')
 --           
+
 --                                   OR
 --                               (dt_comment >= '2023-01-14 00:00:00' AND dt_comment < '2024-03-14 00:00:00')
 --                              )

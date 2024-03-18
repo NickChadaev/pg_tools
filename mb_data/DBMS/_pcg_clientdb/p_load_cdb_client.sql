@@ -69,7 +69,7 @@ $body$
   WHERE cdb_client.id_client_united     <> excluded.id_client_united
      OR cdb_client.id_client_united     IS DISTINCT FROM excluded.id_client_united
      OR cdb_client.id_client_jur_parent <> excluded.id_client_jur_parent
-     OR cdb_client.id_client_jur_parent IS DISTINCT FROM excluded.id_client_jur_parent
+     OR cdb_client.id_client_jur_parent is distinct from excluded.id_client_jur_parent
      OR cdb_client.pr_jur_contact_only  <> excluded.pr_jur_contact_only
      OR cdb_client.pr_delete            <> excluded.pr_delete
      OR cdb_client.data                 <> excluded.data;

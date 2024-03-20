@@ -9,7 +9,8 @@ CREATE TABLE contacts.cm_contact_service (
                       ,dt_change          timestamp
                       ,id_usr             integer
                       ,pr_initial_contact boolean
-  CONSTRAINT cm_contact_service_pkey PRIMARY KEY (id_contact, id_service)
+  
+  ,CONSTRAINT cm_contact_service_pkey PRIMARY KEY (id_contact, id_service)
 );
 
 COMMENT ON TABLE contacts.cm_contact_service

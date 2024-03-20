@@ -15,8 +15,7 @@ $$
                                           , id_usr
                                           , pr_initial_contact 
    )
-  SELECT * 
-    FROM dblink ('ccrm',
+  SELECT * FROM dblink ('ccrm',
           format ($_$ 
                     SELECT  ccs.id_contact 
                            ,ccs.id_service 
@@ -32,9 +31,17 @@ $$
                          
                       WHERE (ccs.dt_change >= %1L AND ccs.dt_change < %2L AND u.id_facility < %3L)
                    $_$, p_dt_start, p_dt_end, p_id_facility
-                   ); 
-                
- -- WHERE EXISTS (SELECT 1 FROM contacts.cm_service WHERE id_service = cm_contact_service.id_service)   ;                    
+          )
+    )
+      AS cm_contact_service ( id_contact         bigint 
+                             ,id_service         bigint 
+                             ,dt_change          timestamp 
+                             ,id_usr             integer 
+                             ,pr_initial_contact boolean
+         )    
+   --  Х  ... полная
+   --WHERE EXISTS 
+   --     (SELECT 1 FROM contacts.cm_service WHERE id_service = cm_contact_service.id_service)   ;                    
    ON conflict (id_contact, id_service) DO NOTHING;
   
  END;
@@ -45,7 +52,7 @@ COMMENT ON PROCEDURE pcg_contacts.p_load_cm_contact_services (timestamp, timesta
  
 -- USE CASE:
 --      CALL pcg_contacts.p_load_cm_contact_services ('2023-01-14', '2024-03-14', 22);
---      SELECT count (1) FROM contacts.cm_contact_service;   -- 18
+--      SELECT count (1) FROM contacts.cm_contact_service;   -- 2359
 --  -------------------------------------------------------------------------------------------
 --  id_contact | id_service |         dt_change          | id_usr  | pr_initial_contact 
 --  ------------+------------+----------------------------+---------+--------------------

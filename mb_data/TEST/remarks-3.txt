@@ -74,3 +74,37 @@ set search_path to contacts, public;
 \ir load_contacts.sql
 
 end;
+
+
+2024-03-21
+----------
+p_load_cm_comment()   <-> cm_comment  -- Комментарии к экземпляру сущности
+ 
+p_load_cm_contact()   <->  cm_contact -- Таблица для регистрации обращений (входящих и исходящих)
+p_load_cm_contact_1()
+ 
+p_load_cm_contact_services()    <-> cm_contact_service     -- Связанные с обращением процессы
+p_load_cm_contact_status_hist() <-> cm_contact_status_hist -- История изменения статуса обращения
+p_load_cm_services()            <-> cm_service             -- Процесс
+p_load_cm_services_add()        <-> cm_service_additional  -- Доп. сущности метамодели
+p_load_cm_service_journal()     <-> cm_service_journal     -- Журнал операций модуля Управление контактами
+p_load_cm_services_hist()       <-> cm_service_status_hist -- История изменения статуса процесса
+p_load_cm_tasks()               <-> cm_task                -- Задачи
+p_load_cm_tasks_hist()          <-> cm_task_status_hist    -- История изменения статуса задачи
+
+----------------------------------------------------------------------------------------------
+
+p_load_cm_comment             (p_dt_start timestamp, p_dt_end timestamp, p_id_facility bigint) -- Загрузка комментариев к экземпляру сущности
+p_load_cm_contact             (p_dt_start timestamp, p_dt_end timestamp, p_id_facility bigint) -- Загрузка зарегистрированных обращений
+p_load_cm_contact_1           (p_dt_start timestamp, p_dt_end timestamp, p_id_facility bigint) -- Отдельно добавляем атрибуты сообщений ЛК
+p_load_cm_contact_services    (p_dt_start timestamp, p_dt_end timestamp, p_id_facility bigint) -- Загрузка связанных с обращением процессов
+p_load_cm_contact_status_hist (p_dt_start timestamp, p_dt_end timestamp, p_id_facility bigint) -- Загрузка истории статуса обращения
+p_load_cm_service_journal     (p_dt_start timestamp, p_dt_end timestamp, p_id_facility bigint) -- Загрузка журнала операций модуля Управление контактами
+p_load_cm_services            (p_dt_start timestamp, p_dt_end timestamp, p_id_facility bigint) -- Загрузка данных по процессам
+p_load_cm_services_add        (p_dt_start timestamp, p_dt_end timestamp, p_id_facility bigint) -- Загрузка дополнительных сущностей МЕТАМОДЕЛИ
+p_load_cm_services_hist       (p_dt_start timestamp, p_dt_end timestamp, p_id_facility bigint) -- Загрузка история изменения статуса процесса
+p_load_cm_tasks               (p_dt_start timestamp, p_dt_end timestamp, p_id_facility bigint) -- Загрузка данных по задачам
+p_load_cm_tasks_hist          (p_dt_start timestamp, p_dt_end timestamp, p_id_facility bigint) -- Загрузка истории изменения статуса задачи
+
+----------------------------------------------------------------------------------------------
+

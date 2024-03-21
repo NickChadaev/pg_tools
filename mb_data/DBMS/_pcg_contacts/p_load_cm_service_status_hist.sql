@@ -40,7 +40,7 @@ $$
 $$;
 
 COMMENT ON PROCEDURE pcg_contacts.p_load_cm_services_hist (timestamp, timestamp, bigint)
-   IS 'Загрузка дополнительных сущностей МЕТАМОДЕЛИ';
+   IS 'Загрузка история изменения статуса процесса';
  
 -- USE CASE:
 --      CALL pcg_contacts.p_load_cm_services_hist ('2023-01-14', '2024-03-14', 22);

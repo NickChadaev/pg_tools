@@ -41,7 +41,7 @@ $$
 $$;
 
 COMMENT ON PROCEDURE pcg_contacts.p_load_cm_tasks_hist (timestamp, timestamp, bigint)
-   IS 'Загрузка исторических данных по задачам';
+   IS 'Загрузка истории изменения статуса задачи';
    
    -- USE CASE:
    --          CALL pcg_contacts.p_load_cm_tasks_hist ('2023-01-14', '2024-03-14', 22);

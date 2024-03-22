@@ -113,3 +113,6 @@ p_load_cm_tasks_hist          (p_dt_start timestamp, p_dt_end timestamp, p_id_fa
 INSERT или UPDATE в таблице "cdb_ls" нарушает ограничение внешнего ключа "cdb_ls_fk1"
 ПОДРОБНОСТИ:  Ключ (id_client)=(629412) отсутствует в таблице "cdb_client".
 КОНТЕКСТ:  SQL-оператор: "INSERT INTO clientdb.cdb_ls (id_ls   Xa-Xa-Xa !!!
+
+ОШИБКА:  INSERT или UPDATE в таблице "cdb_client_additional" нарушает ограничение внешнего ключа "cdb_client_additional_fk2"
+ПОДРОБНОСТИ:  Ключ (id_ls)=(711) отсутствует в таблице "cdb_ls".

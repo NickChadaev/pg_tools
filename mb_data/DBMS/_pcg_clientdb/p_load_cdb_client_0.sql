@@ -10,13 +10,12 @@ CREATE OR REPLACE PROCEDURE pcg_clientdb.clients (
 AS  
 $$
   -- ===================================================================== --
-  --    2024-03-21  Вариант №2  селекция по выбранным контактам. Контакт   --
-  --      регистрируется в определённом регионе (p_id_facility bigint).    --
+  --    2024-03-21  Вариант №1  селекция по пользователю создавшему запись --
   -- ===================================================================== --
   DECLARE
 
    _exec text = format ($_$ 
-           SELECT DISTINCT ON (cc.id_client)
+           SELECT 
                  cc.id_client
                 ,cc.id_client_united  
                 ,cc.id_client_jur_parent 
@@ -29,37 +28,35 @@ $$
                 ,jsonb_insert (cc.data, 
                    '{ADDR_FIZ, nm_fias_guid}', 
                      to_jsonb ((SELECT nm_fias_guid::text FROM unnsi.adr_house ah 
-                                WHERE id_house = cast(cc.data -> 'ADDR_FIZ' ->> 'id_addr' AS bigint)
+                                WHERE id_house = cast("data" -> 'ADDR_FIZ' ->> 'id_addr' AS bigint)
                                )
                               )
                 )
            FROM clientdb.cdb_client cc
+              JOIN dict.acc_user u ON (u.acc_id_usr = cc.id_usr)
            
-             INNER JOIN contacts.cm_contact cs ON (cs.id_entity = cc.id_client)       
-			 INNER JOIN dict.acc_user u ON (cs.id_usr_create = u.acc_id_usr )
-                             
-           WHERE ((cs.dt_change >= %1$L AND cs.dt_change < %2$L)
-                                     OR 
-                  (cs.dt_beg >= %1$L AND cs.dt_beg < %2$L)
-                 ) 
-                   AND
-                 (u.id_facility = %3$L)
-            $_$, 
-                 p_dt_start, p_dt_end, p_id_facility);
+                    WHERE ((dt_change >= %1$L AND  dt_change < %2$L) OR 
+                           (dt_reg >= %1$L AND dt_reg < %2$L)
+                          ) AND (u.id_facility = %3$L)
+           $_$, p_dt_start, p_dt_end, p_id_facility);
+  
   BEGIN
   
-   INSERT INTO clientdb.cdb_client (id_client
-                                  , id_client_united
-                                  , id_client_jur_parent
-                                  , kd_tp_client
-                                  , kd_system
-                                  , kd_process
-                                  , dt_reg
-                                  , pr_jur_contact_only
-                                  , pr_delete
-                                  , data
+  RAISE '%', _exec;
+  
+  INSERT INTO clientdb.cdb_client (id_client
+                                 , id_client_united
+                                 , id_client_jur_parent
+                                 , kd_tp_client
+                                 , kd_system
+                                 , kd_process
+                                 , dt_reg
+                                 , pr_jur_contact_only
+                                 , pr_delete
+                                 , data
    )
-   SELECT * FROM dblink ('ccrm', _exec ) 
+  SELECT * 
+    FROM dblink ('ccrm', _exec ) 
                             
     AS cdb_client ( id_client            bigint  
                    ,id_client_united     bigint  
@@ -84,7 +81,7 @@ $$
   WHERE cdb_client.id_client_united     <> excluded.id_client_united
      OR cdb_client.id_client_united     IS DISTINCT FROM excluded.id_client_united
      OR cdb_client.id_client_jur_parent <> excluded.id_client_jur_parent
-     OR cdb_client.id_client_jur_parent IS DISTINCT FROM excluded.id_client_jur_parent
+     OR cdb_client.id_client_jur_parent is distinct from excluded.id_client_jur_parent
      OR cdb_client.pr_jur_contact_only  <> excluded.pr_jur_contact_only
      OR cdb_client.pr_delete            <> excluded.pr_delete
      OR cdb_client.data                 <> excluded.data;
@@ -98,7 +95,6 @@ COMMENT ON PROCEDURE pcg_clientdb.clients  (timestamp, timestamp, bigint) IS
 -- USE CASE 
 --            CALL pcg_clientdb.clients ('2023-01-14', '2024-03-14', 22);
 --            SELECT * FROM clientdb.cdb_client;
---            SELECT count(1) FROM clientdb.cdb_client;
---            DELETE FROM clientdb.cdb_client;  --   
+--            DELETE FROM dict.dct_crm_service;  --   
 
    

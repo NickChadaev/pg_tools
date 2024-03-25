@@ -35,7 +35,6 @@ $$
                                            ,jsonb_array_elements(cj.vl_changes) ->> 'new' new_value 
                                            ,jsonb_array_elements(cj.vl_changes) ->> 'old' old_value
                                            
-               				          
                				          FROM clientdb.cdb_journal cj
                                       INNER JOIN dict.acc_user u ON (cj.id_usr = u.acc_id_usr )                                           
                                               WHERE (dt_change >= %1L AND dt_change < %2L) AND

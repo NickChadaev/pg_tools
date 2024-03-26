@@ -36,10 +36,16 @@ $$
           					     kd_status int4, 
           					     id_usr  integer
           					     )
-   WHERE EXISTS (SELECT FROM contacts.cm_contact
+   WHERE EXISTS (SELECT 1 FROM contacts.cm_contact
                  WHERE id_contact = cm_contact_status_hist.id_contact
-                 )                 
+   )                 
    ON CONFLICT (id_contact, dt_change) DO NOTHING;
+   
+  EXCEPTION           
+       WHEN OTHERS THEN 
+        BEGIN
+          RAISE 'PCG_CONTACTS.P_LOAD_CM_CONTACT_STATUS_HIST: % -- %', SQLSTATE, SQLERRM;
+        END; 
 
  END;
 $$;

@@ -121,6 +121,12 @@ $$
       OR cm_task.id_task_type IS DISTINCT FROM excluded.id_task_type
       OR cm_task.dt_status    IS DISTINCT FROM excluded.dt_status
       OR cm_task.id_step      IS DISTINCT FROM excluded.id_step;
+
+   EXCEPTION           
+       WHEN OTHERS THEN 
+        BEGIN
+             RAISE 'PCG_CONTACTS.P_LOAD_CM_TASKS: % -- %', SQLSTATE, SQLERRM;
+        END; 
    
  END;
 $$;

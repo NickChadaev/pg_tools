@@ -34,8 +34,17 @@ $$
            					     ,kd_status  int4  
            					     ,id_usr     integer
         )
-    WHERE EXISTS (SELECT 1 FROM contacts.cm_service WHERE id_service = cm_service_status_hist.id_service)                  
+    WHERE EXISTS (SELECT 1 FROM contacts.cm_service 
+                                WHERE id_service = cm_service_status_hist.id_service
+                 )                  
     ON CONFLICT (id_service, dt_change) DO NOTHING;
+   
+   EXCEPTION           
+       WHEN OTHERS THEN 
+        BEGIN
+          RAISE 'PCG_CONTACTS.P_LOAD_CM_SERVICES_HIST: % -- %', SQLSTATE, SQLERRM;
+        END; 
+    
  END;
 $$;
 

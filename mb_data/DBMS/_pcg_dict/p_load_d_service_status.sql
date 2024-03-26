@@ -4,7 +4,7 @@ CREATE OR REPLACE PROCEDURE pcg_dict.p_load_d_service_status (
   LANGUAGE plpgsql
   SECURITY INVOKER
 AS
-$body$
+$$
  BEGIN 
     INSERT INTO dict.dct_service_status (kd_status
                                        , kd_dict_entity
@@ -14,13 +14,14 @@ $body$
     )
     SELECT * 
       FROM dblink ('ccrm',
-                   $$ SELECT id_dict,
+                   $_$ SELECT id_dict,
                             kd_dict_entity,
                             nm_dict, 
                             nm_dict_full,
                             dt_change
                        FROM dict.d_service_status
-                    $$) 
+                   $_$
+        ) 
       AS dct_service_status ( kd_status      int4,
                               kd_dict_entity int8, 
                               nm_status      text, 
@@ -35,9 +36,14 @@ $body$
     WHERE dct_service_status.nm_status <> excluded.nm_status
        OR dct_service_status.nm_description IS DISTINCT FROM excluded.nm_description
        OR dct_service_status.dt_change <> excluded.dt_change;
-                        
+       
+  EXCEPTION           
+       WHEN OTHERS THEN 
+        BEGIN
+          RAISE 'PCG_DICT.P_LOAD_D_SERVICE_STATUS: % -- %', SQLSTATE, SQLERRM;
+        END;     
  END;     
-$body$;                
+$$;                
 
 COMMENT ON PROCEDURE pcg_dict.p_load_d_service_status() 
 IS 'Заполнение таблицы "Справочник статусов процессов"';

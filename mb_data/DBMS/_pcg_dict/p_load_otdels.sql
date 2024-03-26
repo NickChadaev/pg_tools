@@ -34,6 +34,12 @@ $$
      WHERE dct_otdels.kd_otd_parent IS DISTINCT FROM excluded.kd_otd_parent
         OR dct_otdels.nm_otd      <> excluded.nm_otd
         OR dct_otdels.id_facility <> excluded.id_facility;
+        
+  EXCEPTION           
+       WHEN OTHERS THEN 
+        BEGIN
+          RAISE 'PCG_DICT.P_LOAD_OTDELS: % -- %', SQLSTATE, SQLERRM;
+        END;             
 
 END;     
 $$; 

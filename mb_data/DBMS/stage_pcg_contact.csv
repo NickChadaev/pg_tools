@@ -26,11 +26,20 @@
 #-------------------------------------------------------------------------------
 X;;;Start process;
 #
-1;_pcg_metamodel/version.sql;;-- Версия ad4ccc8/2024-03-25; 
-1;_pcg_metamodel/p_load_mm_0.sql;;-- p_load_mm_0.sql;
+1;_pcg_contacts/version.sql;;-- Версия ad4ccc8/2024-03-25; 
+1;_pcg_contacts/p_load_cm_comment.sql            ;;-- p_load_cm_comment.sql            ;
+1;_pcg_contacts/p_load_cm_contact.sql            ;;-- p_load_cm_contact.sql            ;
+1;_pcg_contacts/p_load_cm_contact_1.sql          ;;-- p_load_cm_contact_1.sql          ;
+1;_pcg_contacts/p_load_cm_contact_service.sql    ;;-- p_load_cm_contact_service.sql    ;
+1;_pcg_contacts/p_load_cm_contact_status_hist.sql;;-- p_load_cm_contact_status_hist.sql;
+1;_pcg_contacts/p_load_cm_service.sql            ;;-- p_load_cm_service.sql            ;
+1;_pcg_contacts/p_load_cm_service_add.sql        ;;-- p_load_cm_service_add.sql        ;
+1;_pcg_contacts/p_load_cm_service_journal.sql    ;;-- p_load_cm_service_journal.sql    ;
+1;_pcg_contacts/p_load_cm_service_status_hist.sql;;-- p_load_cm_service_status_hist.sql;
+1;_pcg_contacts/p_load_cm_task.sql               ;;-- p_load_cm_task.sql               ;
+1;_pcg_contacts/p_load_cm_task_hist.sql          ;;-- p_load_cm_task_hist.sql          ;
 #
 X;;;Stop process;
 #-------------------------------------------------------------------------------
 #  Пример вызова
 # load_mainGar.py 127.0.0.1 5434 xxx_test postgres stage_2_ver_build.csv ../ '2021-09-27'
-

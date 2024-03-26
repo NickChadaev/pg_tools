@@ -1,10 +1,10 @@
-DROP PROCEDURE IF EXISTS pcg_metamodel.p_load_mm_0;
+DROP PROCEDURE IF EXISTS pcg_metamodel.p_load_mm_0 ();
 CREATE OR REPLACE PROCEDURE pcg_metamodel.p_load_mm_0 (
 )
   LANGUAGE plpgsql
   SECURITY INVOKER
 AS
-$body$
+$$
  BEGIN
   --
   -- 2024-03-06   
@@ -21,7 +21,7 @@ $body$
                                           )
   SELECT * 
     FROM dblink ('ccrm',
-                 $$SELECT DISTINCT
+                 $_$ SELECT DISTINCT
                           mea.kd_entity,
                           mea.kd_attribute,
                           ma.nm_attribute,
@@ -44,13 +44,13 @@ $body$
                              LEFT JOIN uiconf.ui_element_mm_prop mp
                                ON mea.kd_entity = mp.kd_entity
                               AND mea.kd_attribute = mp.kd_attribute
-                              AND mp.id_element = (SELECT max(id_element)
-                                                     FROM uiconf.ui_element_mm_prop
-                                                     WHERE mp.kd_entity = kd_entity
-                                                      AND mp.kd_attribute = kd_attribute
-                                                  )
+                              AND mp.id_element =
+                                 (SELECT max(id_element)
+                                    FROM uiconf.ui_element_mm_prop
+                                      WHERE mp.kd_entity = kd_entity AND mp.kd_attribute = kd_attribute
+                                 )
                              LEFT JOIN uiconf.ui_element ue ON mp.id_element = ue.id_element
-                      $$ -- 2974 ROWS
+                      $_$ -- 2974 ROWS
                       
       ) 
        AS m_entity_attribute (kd_entity     int4,
@@ -81,5 +81,13 @@ $body$
      OR m_entity_attribute.pr_active      <> excluded.pr_active
      OR m_entity_attribute.kd_attr_type   <> excluded.kd_attr_type; 
      
+  EXCEPTION           
+       WHEN OTHERS THEN 
+        BEGIN
+          RAISE 'PCG_METAMODEL.P_LOAD_MM_0: % -- %', SQLSTATE, SQLERRM;
+        END;       
+     
  END;     
-$body$;
+$$;
+
+COMMENT ON PROCEDURE pcg_metamodel.p_load_mm_0() IS 'Загрузка связей сущностей и атрибутов';

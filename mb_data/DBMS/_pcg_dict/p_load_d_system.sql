@@ -4,7 +4,7 @@ CREATE OR REPLACE PROCEDURE pcg_dict.p_load_d_system (
   LANGUAGE plpgsql
   SECURITY INVOKER
 AS
-$body$
+$$
  BEGIN 
 
     INSERT INTO dict.dct_system (kd_system
@@ -16,14 +16,14 @@ $body$
     )
     SELECT * 
       FROM dblink ('ccrm',
-                   $$ SELECT kd_system,
+                   $_$ SELECT kd_system,
                             nm_system,
                             nm_description,
                             pr_billing,
                             pr_lk,
                             kd_tp_client
                        FROM dict.d_system
-                    $$
+                    $_$
             ) 
       AS dct_system (kd_system      int4,
                      nm_system      text,
@@ -44,9 +44,15 @@ $body$
        OR dct_system.nm_system  <> excluded.nm_system
        OR dct_system.pr_billing <> excluded.pr_billing
        OR dct_system.pr_lk      <> excluded.pr_lk;
+       
+  EXCEPTION           
+       WHEN OTHERS THEN 
+        BEGIN
+          RAISE 'PCG_DICT.P_LOAD_D_SYSTEM: % -- %', SQLSTATE, SQLERRM;
+        END;       
                               
  END;     
-$body$;         
+$$;         
 
 COMMENT ON PROCEDURE pcg_dict.p_load_d_system() IS 'Загрузка таблицы "С_Системы"';
 -- USE CASE

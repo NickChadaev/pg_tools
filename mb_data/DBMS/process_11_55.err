@@ -1,0 +1,90 @@
+psql:./_pcg_dict/p_load_otdels.sql:1: ЗАМЕЧАНИЕ:  процедура pcg_dict.p_load_otdels() не существует, пропускается
+psql:./_pcg_dict/p_load_acc_users.sql:1: ЗАМЕЧАНИЕ:  процедура pcg_dict.p_load_acc_user() не существует, пропускается
+psql:./_pcg_dict/p_load_d_crm_service.sql:1: ЗАМЕЧАНИЕ:  процедура pcg_dict.p_load_d_crm_service() не существует, пропускается
+psql:./_pcg_dict/p_load_d_dict.sql:1: ЗАМЕЧАНИЕ:  процедура pcg_dict.p_load_d_dict() не существует, пропускается
+psql:./_pcg_dict/p_load_otdels.sql:1: ЗАМЕЧАНИЕ:  процедура pcg_dict.p_load_otdels() не существует, пропускается
+psql:./_pcg_dict/p_load_acc_users.sql:1: ЗАМЕЧАНИЕ:  процедура pcg_dict.p_load_acc_user() не существует, пропускается
+psql:./_pcg_dict/p_load_d_crm_service.sql:1: ЗАМЕЧАНИЕ:  процедура pcg_dict.p_load_d_crm_service() не существует, пропускается
+psql:./_pcg_dict/p_load_d_dict.sql:1: ЗАМЕЧАНИЕ:  процедура pcg_dict.p_load_d_dict() не существует, пропускается
+psql:./_pcg_dict/p_load_otdels.sql:1: ЗАМЕЧАНИЕ:  процедура pcg_dict.p_load_otdels() не существует, пропускается
+psql:./_pcg_dict/p_load_acc_users.sql:1: ЗАМЕЧАНИЕ:  процедура pcg_dict.p_load_acc_user() не существует, пропускается
+psql:./_pcg_dict/p_load_d_crm_service.sql:1: ЗАМЕЧАНИЕ:  процедура pcg_dict.p_load_d_crm_service() не существует, пропускается
+psql:./_pcg_dict/p_load_d_dict.sql:1: ЗАМЕЧАНИЕ:  процедура pcg_dict.p_load_d_dict() не существует, пропускается
+psql:./_pcg_dict/p_load_otdels.sql:2: ЗАМЕЧАНИЕ:  процедура pcg_dict.p_load_otdels(pg_catalog.int8) не существует, пропускается
+psql:./_pcg_dict/p_load_acc_users.sql:3: ЗАМЕЧАНИЕ:  процедура pcg_dict.p_load_acc_user(pg_catalog.int8) не существует, пропускается
+psql:./_pcg_dict/p_load_d_crm_service.sql:3: ЗАМЕЧАНИЕ:  процедура pcg_dict.p_load_d_crm_service(pg_catalog.int8) не существует, пропускается
+psql:./_pcg_dict/p_load_d_dict.sql:3: ЗАМЕЧАНИЕ:  процедура pcg_dict.p_load_d_dict(pg_catalog.int8,pg_catalog.int4) не существует, пропускается
+psql:./_pcg_dict/p_load_otdels.sql:2: ЗАМЕЧАНИЕ:  процедура pcg_dict.p_load_otdels(pg_catalog.int8) не существует, пропускается
+psql:./_pcg_dict/p_load_acc_users.sql:3: ЗАМЕЧАНИЕ:  процедура pcg_dict.p_load_acc_user(pg_catalog.int8) не существует, пропускается
+psql:./_pcg_dict/p_load_d_crm_service.sql:3: ЗАМЕЧАНИЕ:  процедура pcg_dict.p_load_d_crm_service(pg_catalog.int8) не существует, пропускается
+psql:./_pcg_dict/p_load_d_dict.sql:3: ЗАМЕЧАНИЕ:  процедура pcg_dict.p_load_d_dict(pg_catalog.int8,pg_catalog.int4) не существует, пропускается
+psql: ошибка: ./__pcg_clientdb/version.sql: Нет такого файла или каталога
+psql:./_pcg_clientdb/p_load_cdb_client.sql:1: ЗАМЕЧАНИЕ:  процедура pcg_clientdb.clients(pg_catalog.timestamp,pg_catalog.timestamp,pg_catalog.int8) не существует, пропускается
+psql:./_pcg_clientdb/p_load_cdb_client.sql:1: ЗАМЕЧАНИЕ:  процедура pcg_clientdb.clients(pg_catalog.timestamp,pg_catalog.timestamp,pg_catalog.int8) не существует, пропускается
+psql:./_pcg_clientdb/p_load_cdb_client.sql:1: ЗАМЕЧАНИЕ:  процедура pcg_clientdb.clients(pg_catalog.timestamp,pg_catalog.timestamp,pg_catalog.int8) не существует, пропускается
+psql:./_pcg_clientdb/p_load_cdb_client.sql:1: ЗАМЕЧАНИЕ:  процедура pcg_clientdb.clients(pg_catalog.timestamp,pg_catalog.timestamp,pg_catalog.int8) не существует, пропускается
+psql:./_pcg_clientdb/p_load_cdb_client.sql:3: ЗАМЕЧАНИЕ:  процедура pcg_clientdb.p_load_cbd_clients(pg_catalog.timestamp,pg_catalog.timestamp,pg_catalog.int8) не существует, пропускается
+psql:./_pcg_clientdb/p_load_cdb_client.sql:273: ОШИБКА:  процедура pcg_clientdb.p_load_cbd_clients(timestamp without time zone, timestamp without time zone, bigint) не существует
+psql:./_pcg_clientdb/p_load_cdb_client.sql:3: ЗАМЕЧАНИЕ:  процедура pcg_clientdb.p_load_cbd_clients(pg_catalog.timestamp,pg_catalog.timestamp,pg_catalog.int8) не существует, пропускается
+psql:./_pcg_clientdb/p_load_cdb_client.sql:273: ОШИБКА:  процедура pcg_clientdb.p_load_cbd_clients(timestamp without time zone, timestamp without time zone, bigint) не существует
+psql:./_pcg_clientdb/p_load_cdb_client.sql:3: ЗАМЕЧАНИЕ:  процедура pcg_clientdb.p_load_cbd_clients(pg_catalog.timestamp,pg_catalog.timestamp,pg_catalog.int8) не существует, пропускается
+psql:./_pcg_clientdb/p_load_cdb_client.sql:273: ОШИБКА:  процедура pcg_clientdb.p_load_cbd_clients(timestamp without time zone, timestamp without time zone, bigint) не существует
+psql:./_pcg_clientdb/p_load_cdb_client.sql:3: ЗАМЕЧАНИЕ:  процедура pcg_clientdb.p_load_cbd_clients(pg_catalog.timestamp,pg_catalog.timestamp,pg_catalog.int8) не существует, пропускается
+psql:./_pcg_clientdb/p_load_cdb_client.sql:273: ОШИБКА:  процедура pcg_clientdb.p_load_cbd_clients(timestamp without time zone, timestamp without time zone, bigint) не существует
+psql:./_pcg_clientdb/p_load_cdb_client.sql:3: ЗАМЕЧАНИЕ:  процедура pcg_clientdb.p_load_cbd_clients(pg_catalog.timestamp,pg_catalog.timestamp,pg_catalog.int8) не существует, пропускается
+psql:./_pcg_clientdb/p_load_cdb_client.sql:273: ОШИБКА:  процедура pcg_clientdb.p_load_cbd_clients(timestamp without time zone, timestamp without time zone, bigint) не существует
+psql:./_pcg_clientdb/p_load_cdb_client.sql:3: ЗАМЕЧАНИЕ:  процедура pcg_clientdb.p_load_cbd_clients(pg_catalog.timestamp,pg_catalog.timestamp,pg_catalog.int8) не существует, пропускается
+psql:./_pcg_clientdb/p_load_cdb_client.sql:3: ЗАМЕЧАНИЕ:  процедура pcg_clientdb.p_load_cbd_clients(pg_catalog.timestamp,pg_catalog.timestamp,pg_catalog.int8) не существует, пропускается
+psql:./_pcg_clientdb/p_load_cdb_client.sql:3: ЗАМЕЧАНИЕ:  процедура pcg_clientdb.p_load_cbd_clients(pg_catalog.timestamp,pg_catalog.timestamp,pg_catalog.int8) не существует, пропускается
+psql:./_pcg_clientdb/p_load_cdb_client.sql:3: ЗАМЕЧАНИЕ:  процедура pcg_clientdb.p_load_cbd_clients(pg_catalog.timestamp,pg_catalog.timestamp,pg_catalog.int8) не существует, пропускается
+psql:./_pcg_clientdb/p_load_cdb_client.sql:3: ЗАМЕЧАНИЕ:  процедура pcg_clientdb.p_load_cbd_clients(pg_catalog.timestamp,pg_catalog.timestamp,pg_catalog.int8) не существует, пропускается
+psql:./_pcg_metamodel/p_load_mm_0.sql:92: ОШИБКА:  ошибка синтаксиса (примерное положение: "END")
+СТРОКА 90:  END;     
+            ^
+psql:./_pcg_metamodel/p_load_mm_0.sql:94: ОШИБКА:  процедура pcg_metamodel.p_load_mm_0() не существует
+psql:./_pcg_metamodel/p_load_mm_0.sql:92: ОШИБКА:  ошибка синтаксиса (примерное положение: "END")
+СТРОКА 90:  END;     
+            ^
+psql:./_pcg_metamodel/p_load_mm_0.sql:94: ОШИБКА:  процедура pcg_metamodel.p_load_mm_0() не существует
+psql:./_pcg_metamodel/p_load_mm_0.sql:92: ОШИБКА:  ошибка синтаксиса (примерное положение: "END")
+СТРОКА 90:  END;     
+            ^
+psql:./_pcg_metamodel/p_load_mm_0.sql:94: ОШИБКА:  процедура pcg_metamodel.p_load_mm_0() не существует
+psql:./_pcg_metamodel/p_load_mm_0.sql:92: ОШИБКА:  ошибка синтаксиса (примерное положение: "END")
+СТРОКА 90:  END;     
+            ^
+psql:./_pcg_metamodel/p_load_mm_0.sql:94: ОШИБКА:  процедура pcg_metamodel.p_load_mm_0() не существует
+psql:./_pcg_metamodel/p_load_mm_0.sql:92: ОШИБКА:  ошибка синтаксиса (примерное положение: "END")
+СТРОКА 90:  END;     
+            ^
+psql:./_pcg_metamodel/p_load_mm_0.sql:94: ОШИБКА:  процедура pcg_metamodel.p_load_mm_0() не существует
+psql:./_pcg_metamodel/p_load_mm_0.sql:1: ЗАМЕЧАНИЕ:  процедура pcg_metamodel.p_load_mm_0() не существует, пропускается
+psql:./_pcg_metamodel/p_load_mm_0.sql:92: ОШИБКА:  ошибка синтаксиса (примерное положение: "END")
+СТРОКА 90:  END;     
+            ^
+psql:./_pcg_metamodel/p_load_mm_0.sql:94: ОШИБКА:  процедура pcg_metamodel.p_load_mm_0() не существует
+psql:./_pcg_metamodel/p_load_mm_0.sql:1: ЗАМЕЧАНИЕ:  процедура pcg_metamodel.p_load_mm_0() не существует, пропускается
+psql:./_pcg_metamodel/p_load_mm_0.sql:92: ОШИБКА:  ошибка синтаксиса (примерное положение: "END")
+СТРОКА 90:  END;     
+            ^
+psql:./_pcg_metamodel/p_load_mm_0.sql:94: ОШИБКА:  процедура pcg_metamodel.p_load_mm_0() не существует
+psql:./_pcg_metamodel/p_load_mm_0.sql:1: ЗАМЕЧАНИЕ:  процедура pcg_metamodel.p_load_mm_0() не существует, пропускается
+psql:./_pcg_metamodel/p_load_mm_0.sql:92: ОШИБКА:  ошибка синтаксиса (примерное положение: "END")
+СТРОКА 90:  END;     
+            ^
+psql:./_pcg_metamodel/p_load_mm_0.sql:94: ОШИБКА:  процедура pcg_metamodel.p_load_mm_0() не существует
+psql:./_pcg_metamodel/p_load_mm_0.sql:1: ЗАМЕЧАНИЕ:  процедура pcg_metamodel.p_load_mm_0() не существует, пропускается
+psql:./_pcg_metamodel/p_load_mm_0.sql:92: ОШИБКА:  ошибка синтаксиса (примерное положение: "END")
+СТРОКА 90:  END;     
+            ^
+psql:./_pcg_metamodel/p_load_mm_0.sql:94: ОШИБКА:  процедура pcg_metamodel.p_load_mm_0() не существует
+psql:./_pcg_metamodel/p_load_mm_0.sql:1: ЗАМЕЧАНИЕ:  процедура pcg_metamodel.p_load_mm_0() не существует, пропускается
+psql:./_pcg_metamodel/p_load_mm_0.sql:92: ОШИБКА:  ошибка синтаксиса (примерное положение: "END")
+СТРОКА 90:  END;     
+            ^
+psql:./_pcg_metamodel/p_load_mm_0.sql:94: ОШИБКА:  процедура pcg_metamodel.p_load_mm_0() не существует
+psql:./_pcg_metamodel/p_load_mm_0.sql:1: ЗАМЕЧАНИЕ:  процедура pcg_metamodel.p_load_mm_0() не существует, пропускается
+psql:./_pcg_metamodel/p_load_mm_0.sql:1: ЗАМЕЧАНИЕ:  процедура pcg_metamodel.p_load_mm_0() не существует, пропускается
+psql:./_pcg_metamodel/p_load_mm_0.sql:1: ЗАМЕЧАНИЕ:  процедура pcg_metamodel.p_load_mm_0() не существует, пропускается
+psql:./_pcg_metamodel/p_load_mm_0.sql:1: ЗАМЕЧАНИЕ:  процедура pcg_metamodel.p_load_mm_0() не существует, пропускается
+psql:./_pcg_metamodel/p_load_mm_0.sql:1: ЗАМЕЧАНИЕ:  процедура pcg_metamodel.p_load_mm_0() не существует, пропускается

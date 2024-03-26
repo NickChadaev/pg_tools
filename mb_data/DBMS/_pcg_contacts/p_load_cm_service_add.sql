@@ -58,6 +58,12 @@ $$
       OR cm_service_additional.dt_change <> excluded.dt_change
       OR cm_service_additional."data" IS DISTINCT FROM excluded."data";
 
+   EXCEPTION           
+       WHEN OTHERS THEN 
+        BEGIN
+          RAISE 'PCG_CONTACTS.P_LOAD_CM_SERVICES_ADD: % -- %', SQLSTATE, SQLERRM;
+        END; 
+      
  END;
 $$;
 

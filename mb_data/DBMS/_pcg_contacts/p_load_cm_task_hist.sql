@@ -36,6 +36,12 @@ $$
       )
     WHERE EXISTS (SELECT 1 FROM contacts.cm_task WHERE id_task = cm_task_status_hist.id_task)              
     ON CONFLICT (id_task, dt_change) DO NOTHING;
+    
+   EXCEPTION           
+       WHEN OTHERS THEN 
+        BEGIN
+             RAISE 'PCG_CONTACTS.P_LOAD_CM_TASKS_HIST: % -- %', SQLSTATE, SQLERRM;
+        END; 
   
  END;
 $$;

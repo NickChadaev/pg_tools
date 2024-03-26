@@ -89,6 +89,11 @@ $$
       OR cm_contact.kd_status <> excluded.kd_status
       OR cm_contact.id_reg         IS DISTINCT FROM excluded.id_reg;
 
+  EXCEPTION           
+       WHEN OTHERS THEN 
+        BEGIN
+          RAISE 'PCG_CONTACTS.P_LOAD_CM_CONTACT: % -- %', SQLSTATE, SQLERRM;
+        END; 
                                      
  END;     
 $$;                

@@ -26,15 +26,15 @@
 #-------------------------------------------------------------------------------
 X;;;Start process;
 #
-1;_pcg_dict/version.sql;;-- Версия ece7ca2/2024-03-13; 
+1;_pcg_dict/version.sql;;-- Версия ad4ccc8/2024-03-25; 
 1;_pcg_dict/p_load_d_system.sql        ;;-- p_load_d_system.sql        ;
 1;_pcg_dict/p_load_d_service_status.sql;;-- p_load_d_service_status.sql;
 1;_pcg_dict/p_load_otdels.sql          ;;-- p_load_otdels.sql          ;
 1;_pcg_dict/p_load_acc_users.sql       ;;-- p_load_acc_users.sql       ;
 1;_pcg_dict/p_load_d_step_service.sql  ;;-- p_load_d_step_service.sql  ;
 1;_pcg_dict/p_load_d_tp_contact.sql    ;;-- p_load_d_tp_contact.sql    ;
-1;_pcg_dict/p_load_d_crm_service.sql   ;;-- p_load_d_crm_service.sql   ;
 1;_pcg_dict/p_load_d_tp_client.sql     ;;-- p_load_d_tp_client.sql     ;
+1;_pcg_dict/p_load_d_crm_service.sql   ;;-- p_load_d_crm_service.sql   ;
 1;_pcg_dict/p_load_d_status.sql        ;;-- p_load_d_status.sql        ;
 1;_pcg_dict/p_load_d_dict.sql          ;;-- p_load_d_dict.sql          ;
 1;_pcg_dict/p_load_d_sys_entity.sql    ;;-- p_load_d_sys_entity.sql    ;

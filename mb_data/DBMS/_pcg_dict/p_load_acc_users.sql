@@ -47,7 +47,13 @@ $$
        or dct_users.pr_access   <> excluded.pr_access
        or dct_users.kd_otd      <> excluded.kd_otd
        or dct_users.kd_otd_list IS DISTINCT FROM excluded.kd_otd_list;
-
+        
+  EXCEPTION           
+       WHEN OTHERS THEN 
+        BEGIN
+          RAISE 'PCG_DICT.P_LOAD_ACC_USER: % -- %', SQLSTATE, SQLERRM;
+        END;  
+        
  END;     
 $$;                
 COMMENT ON PROCEDURE pcg_dict.p_load_acc_user(bigint) 

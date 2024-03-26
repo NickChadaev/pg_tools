@@ -4,7 +4,7 @@ CREATE OR REPLACE PROCEDURE pcg_dict.p_load_d_sys_entity (
   LANGUAGE plpgsql
   SECURITY INVOKER
 AS
-$body$
+$$
  BEGIN        
     INSERT INTO dict.dct_sys_entity (kd_sys_entity
                                    , nm_sys_entity
@@ -13,12 +13,12 @@ $body$
     )
     SELECT * 
       FROM dblink ('ccrm',
-                   $$ SELECT kd_sys_entity, 
+                   $_$ SELECT kd_sys_entity, 
                             nm_sys_entity, 
                             nm_description, 
                             nm_table_name
                        FROM dict.d_sys_entity
-                       $$
+                   $_$
     ) 
       AS dct_sys_entity (kd_sys_entity  int4, 
                          nm_sys_entity  text, 
@@ -33,12 +33,19 @@ $body$
     WHERE dct_sys_entity.nm_sys_entity <> excluded.nm_sys_entity
        OR dct_sys_entity.nm_description IS DISTINCT FROM excluded.nm_description
        OR dct_sys_entity.nm_table_name <> excluded.nm_table_name;
-                 
+             
+  EXCEPTION           
+       WHEN OTHERS THEN 
+        BEGIN
+          RAISE 'PCG_DICT.P_LOAD_D_SYS_ENTITY: % -- %', SQLSTATE, SQLERRM;
+        END;        
+             
  END;     
-$body$;      
+$$;      
 
 COMMENT ON PROCEDURE pcg_dict.p_load_d_sys_entity() IS
  'Реестр системных сущностей, которые НЕ ведутся метамоделью Смородины-Диалог';
+ 
 --   USE CASE
 --            SELECT * FROM dict.dct_sys_entity;
 --            CALL pcg_dict.p_load_d_sys_entity ();

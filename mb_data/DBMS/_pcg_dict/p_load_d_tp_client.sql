@@ -4,7 +4,7 @@ CREATE OR REPLACE PROCEDURE pcg_dict.p_load_d_tp_client (
   LANGUAGE plpgsql
   SECURITY INVOKER
 AS
-$body$
+$$
  BEGIN 
     INSERT INTO dict.dct_tp_client (kd_tp_client
                                   , nm_tp_client
@@ -12,11 +12,11 @@ $body$
     )
     SELECT * 
       FROM dblink ('ccrm',
-                   $$ SELECT kd_tp_client, 
+                   $_$ SELECT kd_tp_client, 
                              nm_tp_client, 
                              nm_abbreviation
                        FROM dict.d_tp_client
-                   $$
+                   $_$
                   ) 
       AS dct_tp_client (kd_tp_client    int4, 
                         nm_tp_client    text, 
@@ -28,9 +28,15 @@ $body$
     
     WHERE dct_tp_client.nm_tp_client <> excluded.nm_tp_client
        OR dct_tp_client.nm_abbreviation IS DISTINCT FROM excluded.nm_abbreviation;
+       
+  EXCEPTION           
+       WHEN OTHERS THEN 
+        BEGIN
+          RAISE 'PCG_DICT.P_LOAD_D_TP_CLIENT: % -- %', SQLSTATE, SQLERRM;
+        END;         
                                
  END;     
-$body$;                
+$$;                
 
 COMMENT ON PROCEDURE pcg_dict.p_load_d_tp_client() IS 'Загрузка справочника типов клиеннтов';
 -- USE CASE

@@ -59,6 +59,12 @@ $$
                
     WHERE dct_crm_service.nm_crm_service   <> excluded.nm_crm_service
        OR dct_crm_service.id_dict_facility <> excluded.id_dict_facility;
+       
+  EXCEPTION           
+       WHEN OTHERS THEN 
+        BEGIN
+          RAISE 'PCG_DICT.P_LOAD_D_CRM_SERVICE: % -- %', SQLSTATE, SQLERRM;
+        END;         
 
 END;     
 $$;                

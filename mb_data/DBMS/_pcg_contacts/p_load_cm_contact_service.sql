@@ -40,10 +40,16 @@ $$
                              ,pr_initial_contact boolean
          )    
    --  Х  ... полная
-   --WHERE EXISTS 
-   --     (SELECT 1 FROM contacts.cm_service WHERE id_service = cm_contact_service.id_service)   ;                    
+   WHERE EXISTS 
+            (SELECT 1 FROM contacts.cm_service WHERE id_service = cm_contact_service.id_service)                     
    ON conflict (id_contact, id_service) DO NOTHING;
-  
+   
+  EXCEPTION           
+       WHEN OTHERS THEN 
+        BEGIN
+          RAISE 'PCG_CONTACTS.P_LOAD_CM_CONTACT_SERVICES: % -- %', SQLSTATE, SQLERRM;
+        END; 
+
  END;
 $$;
 

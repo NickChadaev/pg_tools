@@ -67,7 +67,12 @@ $$
       OR dct_dict.nm_dict <> excluded.nm_dict
       OR dct_dict.nm_dict_full   IS DISTINCT FROM excluded.nm_dict_full
       OR dct_dict.pr_delete <> excluded.pr_delete;
-
+       
+  EXCEPTION           
+       WHEN OTHERS THEN 
+        BEGIN
+          RAISE 'PCG_DICT.P_LOAD_D_DICT: % -- %', SQLSTATE, SQLERRM;
+        END;         
  END;     
 $$;
 

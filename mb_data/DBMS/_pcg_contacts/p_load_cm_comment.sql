@@ -68,7 +68,12 @@ $$
       OR cm_comment.id_comment_parent <> excluded.id_comment_parent
       OR cm_comment.nm_comment <> excluded.nm_comment
       OR cm_comment.pr_del <> excluded.pr_del;
-  
+
+  EXCEPTION           
+       WHEN OTHERS THEN 
+        BEGIN
+          RAISE 'PCG_CONTACTS.P_LOAD_CM_COMMENT: % -- %', SQLSTATE, SQLERRM;
+        END;        
  END;
 $$;
  

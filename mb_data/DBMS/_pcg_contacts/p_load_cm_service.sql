@@ -88,8 +88,10 @@ $$
                     ,pr_ended             boolean
                     ,dt_complete          timestamp
                 )
-   WHERE id_usr_create NOT IN (SELECT unnest(vl_param) id_user FROM dict.dct_spec_params WHERE kd_param = 2)
-     and case 
+   WHERE id_usr_create NOT IN (
+                    SELECT unnest(vl_param) id_user FROM dict.dct_spec_params WHERE kd_param = 2
+    )
+     AND CASE 
            WHEN id_contact IS NOT NULL 
              THEN EXISTS (SELECT 1 FROM contacts.cm_contact WHERE id_contact = cm_service.id_contact) 
            ELSE TRUE
@@ -117,6 +119,12 @@ $$
       OR cm_service.kd_scenario_status   IS DISTINCT FROM excluded.kd_scenario_status
       OR cm_service.pr_ended        <> excluded.pr_ended
       OR cm_service.dt_complete          IS DISTINCT FROM excluded.dt_complete;
+   
+  EXCEPTION           
+       WHEN OTHERS THEN 
+        BEGIN
+          RAISE 'PCG_CONTACTS.P_LOAD_CM_SERVICES: % -- %', SQLSTATE, SQLERRM;
+        END; 
    
  END;
 $$;

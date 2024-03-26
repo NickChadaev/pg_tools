@@ -1,5 +1,7 @@
 DROP PROCEDURE IF EXISTS pcg_clientdb.clients (timestamp, timestamp, bigint);
-CREATE OR REPLACE PROCEDURE pcg_clientdb.clients (
+
+DROP PROCEDURE IF EXISTS pcg_clientdb.p_load_cbd_clients (timestamp, timestamp, bigint);
+CREATE OR REPLACE PROCEDURE pcg_clientdb.p_load_cbd_clients (
         p_dt_start    timestamp
        ,p_dt_end      timestamp
        ,p_id_facility bigint    
@@ -262,12 +264,12 @@ $$
     EXCEPTION           
        WHEN OTHERS THEN 
         BEGIN
-          RAISE WARNING 'CLIENTDB.CDB_CLIENT: % -- %', SQLSTATE, SQLERRM;
+          RAISE 'PCG_CLIENTDB.P_LOAD_CBD_CLIENTS: % -- %', SQLSTATE, SQLERRM;
         END;       
   END;     
 $$;                
 
-COMMENT ON PROCEDURE pcg_clientdb.clients  (timestamp, timestamp, bigint) IS
+COMMENT ON PROCEDURE pcg_clientdb.p_load_cbd_clients (timestamp, timestamp, bigint) IS
 'Загрузка данных по клиентам';
 
 -- USE CASE 

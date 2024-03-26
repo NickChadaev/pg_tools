@@ -64,10 +64,14 @@ $$
                           ,nm_ver_os  text
                         )
    )
-   UPDATE contacts.cm_contact cc
-      SET DATA = COALESCE (data, '{}'::jsonb) || ual.vl_data
-   FROM upd_attr_lk ual
-   WHERE (cc.id_contact = ual.id_contact);
+   UPDATE contacts.cm_contact cc SET DATA = COALESCE (data, '{}'::jsonb) || ual.vl_data
+   FROM upd_attr_lk ual WHERE (cc.id_contact = ual.id_contact);
+   
+  EXCEPTION           
+       WHEN OTHERS THEN 
+        BEGIN
+          RAISE 'PCG_CONTACTS.P_LOAD_CM_CONTACT_1: % -- %', SQLSTATE, SQLERRM;
+        END; 
 
  END;
 $$;

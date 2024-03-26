@@ -75,6 +75,12 @@ $$
                  WHERE id_service = cm_service_journal.id_service
    )                      
    ON conflict (dt_change, id_service, kd_attribute) DO NOTHING;
+   
+   EXCEPTION           
+       WHEN OTHERS THEN 
+        BEGIN
+          RAISE 'PCG_CONTACTS.P_LOAD_CM_SERVICE_JOURNAL: % -- %', SQLSTATE, SQLERRM;
+        END; 
      
  END;
 $$;

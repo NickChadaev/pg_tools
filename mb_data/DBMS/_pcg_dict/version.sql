@@ -3,5 +3,5 @@
 --
 CREATE OR REPLACE VIEW pcg_dict.version
  AS
- SELECT '$Revision:ece7ca2$ modified $RevDate:2024-03-13$'::text AS version; 
+ SELECT '$Revision:ad4ccc8$ modified $RevDate:2024-03-25$'::text AS version; 
                                                            

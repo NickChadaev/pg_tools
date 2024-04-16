@@ -8,6 +8,7 @@
 # NOTS: 2022-05-05 - "fserver_nmb", "fschema_name" was added. 
 #                    "fd_log", "fd0" - are external classes. 
 #       2023-11-28 - Stop List tuple was builded.
+#       2024-04-16 - Stop List tuple was rebuilded.  The commands 7, 8 was added.
 # ----------------------------------------------------------------------------------------
 import sys
 import os
@@ -93,10 +94,10 @@ bAS_ROOMS_PARAMS      = "ASROOMSPARAMS"
 bAS_STEADS            = "ASSTEADS"
 bAS_STEADS_PARAMS     = "ASSTEADSPARAMS"
 
-tSTOP_LIST = ('ASCHANGEHISTORY','ASNORMATIVEDOCS','ASMUNHIERARCHY','ASROOMS','ASCARPLACES',\
-    'ASAPARTMENTS','ASAPARTMENTSPARAMS','ASCARPLACESPARAMS','ASROOMSPARAMS')
+tSTOP_LIST = ('ASCHANGEHISTORY','ASNORMATIVEDOCS','ASROOMS','ASCARPLACES',\
+    'ASAPARTMENTS','ASAPARTMENTSPARAMS','ASCARPLACESPARAMS','ASROOMSPARAMS') # ,'ASMUNHIERARCHY'
 
-VERSION_STR = "  Version 0.7.2 Build 2023-11-28"
+VERSION_STR = "  Version 0.8.0 Build 2024-04-16"
 
 GET_DT = "SELECT now()::TIMESTAMP without time zone FROM current_timestamp;"
 
@@ -125,7 +126,10 @@ STAGE_3_YAML                   = "3"        #  2022-05-06
 STAGE_4_YAML                   = "4"        #  2022-05-06
 SEQUENCE_SQL_COMMANDS_WITH_LOG = "5"   
 STAGE_6_YAML                   = "6"        #  2022-08-11 
-_RESERVED4_                    = "7" 
+
+DIRECT_SQL_COMMAND_DB          = "7"
+SEQUENCE_SQL_COMMANDS_DB       = "8"
+
 MESSAGE                        = "X"
 
 # Version support move to batch-file
@@ -312,8 +316,13 @@ class make_load ( fd_log_s ):
 
         if len (l_words) >= 4:
             l_db_name = string.strip (l_words [2])
+            
+            # 2024-04-16
             if len (l_db_name) == 0:
                 l_db_name = p_db_name
+                l_db_name_sw = False
+            else:
+                l_db_name_sw = (l_db_name == p_db_name)
             
             if not (p_first_message is None):
                 self.write_log ((p_first_message).decode (bCP))
@@ -335,7 +344,22 @@ class make_load ( fd_log_s ):
                    self.write_log_err ( rc, fr_0.l_arg )
                    break
 
-            #------------------------------------------------------------------------------
+            #---------------------------------------------------------------------------------------
+            if l_words [0] == DIRECT_SQL_COMMAND_DB:  # Direct SQL-command  with switch   2024-04-16
+                
+                if l_db_name_sw:   # 2024-04-16
+                    
+                    self.write_log ((l_words [3]).decode (bCP))  # 2021-11-28             
+                    fr_0 = Fd0.fd_0 (0, p_host_ip, p_port, l_db_name, p_user_name, p_std_out, p_std_err)
+                    
+                    fr_0.f_create ((string.strip (l_words [1])))  # Nick 2018-02-03
+                    rc = fr_0.f_run()
+                    
+                    if rc <> 0:     #  Fatal error, break process
+                       self.write_log_err ( rc, fr_0.l_arg )
+                       break
+
+            #-----------------------------------------------------------------------------------------
             if l_words [0] == SEQUENCE_SQL_COMMANDS:  # Sequence of simple SQL-commands
                 
                 self.write_log ((l_words [3]).decode (bCP))  # 2021-11-28                     
@@ -347,6 +371,20 @@ class make_load ( fd_log_s ):
                 if rc <> 0:     #  Fatal error, break process
                    self.write_log_err ( rc, fr_1.l_arg )
                    break
+            #-------------------------------------------------------------------------------------------------------
+            if l_words [0] == SEQUENCE_SQL_COMMANDS_DB:  # Sequence of simple SQL-commands with switch    2024-04-16
+                
+                if l_db_name_sw:   # 2024-04-16
+                    
+                    self.write_log ((l_words [3]).decode (bCP))  # 2021-11-28                     
+                    fr_1 = Fd0.fd_0 ( 1, p_host_ip, p_port, l_db_name, p_user_name, p_std_out, p_std_err)
+                    
+                    fr_1.f_create (self.path + (string.strip (l_words [1])))  # Nick 2018-02-03
+                    rc = fr_1.f_run()
+                    
+                    if rc <> 0:     #  Fatal error, break process
+                       self.write_log_err ( rc, fr_1.l_arg )
+                       break
 
             #------------------------------------------------------------------------------
             if l_words [0] == SEQUENCE_SQL_COMMANDS_WITH_LOG:  # Sequence of simple SQL-commands with LOG
